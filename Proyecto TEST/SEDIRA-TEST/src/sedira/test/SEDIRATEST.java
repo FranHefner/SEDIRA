@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 
 /**
  *
- * @author Fran & Pablo
+ * @author Fran & Pablo 232
  */
 public class SEDIRATEST extends Application {
     
