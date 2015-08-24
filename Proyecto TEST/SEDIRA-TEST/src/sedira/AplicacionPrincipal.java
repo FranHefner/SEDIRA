@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package sedira.view;
+package sedira;
 
 
 import java.io.IOException;
@@ -16,6 +16,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+
+
 
 /**
  *
@@ -45,7 +47,7 @@ public class AplicacionPrincipal extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();*/         
    
-        Parent root = FXMLLoader.load(getClass().getResource("MenuPrincipal.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("vistas/MenuPrincipal.fxml"));
         
         Scene scene = new Scene(root);
         
