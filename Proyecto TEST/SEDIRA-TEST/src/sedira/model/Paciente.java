@@ -7,7 +7,7 @@ package sedira.model;
 
 /**
  *
- * @author Fran
+ * clase paciente test javadoc
  */
 public class Paciente {
     
