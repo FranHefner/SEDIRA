@@ -47,7 +47,8 @@ public class Paciente {
         this.sexo = sexo;
         this.enTratamiento = enTratamiento;
     }
-    
+    public Paciente ()
+    {}
     /**
     * Métodos GETters
     */

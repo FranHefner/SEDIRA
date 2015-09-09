@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import javafx.scene.image.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
@@ -7,7 +8,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="637.0" prefWidth="619.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane id="AnchorPane" prefHeight="637.0" prefWidth="619.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sedira.PacienteController">
    <children>
       <SplitPane dividerPositions="0.8740157480314961" layoutX="252.0" layoutY="100.0" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
@@ -18,36 +19,42 @@
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                            <children>
                               <TextField fx:id="txtCampoBusqueda" layoutX="222.0" layoutY="28.0" />
-                              <Button fx:id="btnBuscar" layoutX="389.0" layoutY="28.0" mnemonicParsing="false" text="Buscar" />
+                              <Button fx:id="btnBuscar" layoutX="389.0" layoutY="28.0" mnemonicParsing="false" onAction="#btnBuscar_click" text="Buscar" />
                            </children>
                         </AnchorPane>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="423.0" prefWidth="615.0">
                            <children>
-                              <TextField layoutX="144.0" layoutY="305.0" AnchorPane.topAnchor="305.0" />
-                              <TextField layoutX="144.0" layoutY="195.0" />
-                              <TextField layoutX="144.0" layoutY="230.0" />
-                              <TextField layoutX="144.0" layoutY="264.0" />
-                              <TextField layoutX="144.0" layoutY="346.0" />
-                              <Label layoutX="87.0" layoutY="234.0" text="Apellido" />
-                              <Label layoutX="87.0" layoutY="199.0" text="Nombre" />
-                              <Label layoutX="95.0" layoutY="268.0" text="Label" />
-                              <Label layoutX="95.0" layoutY="309.0" text="Label" />
-                              <TableView layoutX="48.0" layoutY="8.0" prefHeight="127.0" prefWidth="532.0">
+                              <TextField fx:id="txtFechaRegistro" layoutX="181.0" layoutY="349.0" AnchorPane.topAnchor="349.0" />
+                              <TextField fx:id="txtNombre" layoutX="181.0" layoutY="239.0" />
+                              <TextField fx:id="txtApellido" layoutX="181.0" layoutY="274.0" />
+                              <TextField layoutX="181.0" layoutY="308.0" />
+                              <Label layoutX="87.0" layoutY="279.0" text="Apellido:" AnchorPane.leftAnchor="87.0" />
+                              <Label layoutX="87.0" layoutY="244.0" text="Nombre:" AnchorPane.leftAnchor="87.0" />
+                              <Label layoutX="87.0" layoutY="172.0" text="Tipo Documento:" AnchorPane.leftAnchor="87.0" />
+                              <Label layoutX="87.0" layoutY="206.0" text="N° Documento:" AnchorPane.leftAnchor="87.0" />
+                              <TableView fx:id="griListaPacientes" layoutX="42.0" layoutY="25.0" prefHeight="127.0" prefWidth="532.0">
                                 <columns>
-                                  <TableColumn prefWidth="75.0" text="Tipo Doc" />
-                                    <TableColumn prefWidth="141.0" text="Numero Doc" />
+                                  <TableColumn fx:id="clTipoDoc" prefWidth="75.0" text="Tipo Doc" />
+                                    <TableColumn fx:id="clNumerOdOC" prefWidth="141.0" text="Numero Doc" />
                                   <TableColumn prefWidth="75.0" text="Nombre" />
                                     <TableColumn prefWidth="121.0" text="Apellido" />
                                 </columns>
                               </TableView>
-                              <ImageView fitHeight="79.0" fitWidth="79.0" layoutX="396.0" layoutY="236.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@descarga.jpg" />
-                                 </image>
-                              </ImageView>
-                              <TextField layoutX="144.0" layoutY="395.0" />
-                              <Button layoutX="188.0" layoutY="151.0" mnemonicParsing="false" text="Nuevo" />
-                              <Button layoutX="342.0" layoutY="151.0" mnemonicParsing="false" text="Editar" />
+                              <Button fx:id="btnNuevo" layoutX="211.0" layoutY="411.0" mnemonicParsing="false" text="Nuevo" />
+                              <Button fx:id="btnEditar" layoutX="333.0" layoutY="411.0" mnemonicParsing="false" text="Editar" />
+                              <Pane layoutX="378.0" layoutY="193.0" prefHeight="138.0" prefWidth="134.0" style="-fx-background-color: Black;">
+                                 <children>
+                                    <Label layoutX="39.0" layoutY="51.0" text="Foto" textFill="WHITE">
+                                       <font>
+                                          <Font size="29.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </Pane>
+                              <TextField fx:id="txtNumeroDoc" layoutX="181.0" layoutY="201.0" />
+                              <TextField fx:id="txtTipoDoc" layoutX="181.0" layoutY="167.0" />
+                              <Label layoutX="87.0" layoutY="354.0" text="Fecha de Registro:" AnchorPane.leftAnchor="87.0" />
+                              <Label layoutX="87.0" layoutY="313.0" text="N° Asociado:" AnchorPane.leftAnchor="87.0" />
                            </children>
                         </AnchorPane>
                     </items>

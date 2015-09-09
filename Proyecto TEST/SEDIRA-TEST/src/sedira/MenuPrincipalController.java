@@ -20,14 +20,14 @@ import javafx.stage.Stage;
 /**
  * FXML Controller class
  *
- * @author INVAP
+ * @author Fran
  */
 public class MenuPrincipalController implements Initializable {
     @FXML
     private MenuBar mnbPrincipal;
     @FXML
     private MenuItem mniPacienteAdministrar;
-
+ 
     /**
      * Initializes the controller class.
      */
@@ -35,6 +35,7 @@ public class MenuPrincipalController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
     }    
+    
     
      @FXML
     private void mniPacienteAdministrar_click() throws IOException
@@ -52,5 +53,7 @@ public class MenuPrincipalController implements Initializable {
         stage.setTitle("Administrar Pacientes");
         stage.show();   
     }
+    
+  
     
 }
