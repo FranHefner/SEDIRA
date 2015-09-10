@@ -24,6 +24,7 @@ import javafx.stage.Stage;
  */
 
 public class MenuPrincipalController implements Initializable {
+    
     @FXML
     private MenuBar mnbPrincipal;
     @FXML
@@ -42,14 +43,8 @@ public class MenuPrincipalController implements Initializable {
     private void mniPacienteAdministrar_click() throws IOException
     { 
         Stage stage = new Stage();
-      //  BorderPane pane = new BorderPane();
-       
-         Parent root = FXMLLoader.load(getClass().getResource("vistas/Paciente.fxml"));
-         
+        Parent root = FXMLLoader.load(getClass().getResource("vistas/Paciente.fxml"));
         Scene scene = new Scene(root);
-                
-      //  Scene scene = new Scene(root);
-                
         stage.setScene(scene);
         stage.setTitle("Administrar Pacientes");
         stage.show();   
@@ -58,14 +53,8 @@ public class MenuPrincipalController implements Initializable {
     private void mniIniciarCalculo_click() throws IOException
     { 
         Stage stage = new Stage();
-      //  BorderPane pane = new BorderPane();
-       
         Parent root = FXMLLoader.load(getClass().getResource("vistas/Calculo.fxml"));
-         
         Scene scene = new Scene(root);
-                
-      //  Scene scene = new Scene(root);
-                
         stage.setScene(scene);
         stage.setTitle("Calcular Dosis Administrada");
         stage.show();   

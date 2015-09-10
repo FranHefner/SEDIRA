@@ -20,7 +20,7 @@ import sedira.model.Paciente;
 /**
  * FXML Controller class
  *
- * @author INVAP
+ * @author Hefner Francisco, Quelin Pablo
  */
 public class PacienteController implements Initializable {
     @FXML
@@ -45,7 +45,7 @@ public class PacienteController implements Initializable {
     private TextField txtApellido;   
       
     /**
-     * Initializes the controller class.
+     * Inicializacion de la clase Controlador.
      */
     
     private ObservableList<Paciente> pacienteData = FXCollections.observableArrayList();
