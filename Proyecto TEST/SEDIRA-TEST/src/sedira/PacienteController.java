@@ -7,6 +7,8 @@ package sedira;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -45,9 +47,21 @@ public class PacienteController implements Initializable {
     /**
      * Initializes the controller class.
      */
+    
+    private ObservableList<Paciente> pacienteData = FXCollections.observableArrayList();
+    
+     public ObservableList<Paciente> getPacienteData() {
+        return pacienteData;
+    }
+
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        
+         
+
+         
     }   
     
      @FXML
