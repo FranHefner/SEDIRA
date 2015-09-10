@@ -71,7 +71,7 @@ public class PacienteController implements Initializable {
     @FXML
     private void btnBuscar2click() 
     {  
-    
+     //sad
     }
      
      
