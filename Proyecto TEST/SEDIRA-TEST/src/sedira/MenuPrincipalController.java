@@ -20,8 +20,9 @@ import javafx.stage.Stage;
 /**
  * FXML Controller class
  *
- * @author Fran
+ * @author Hefner Francisco, Quelin Pablo
  */
+
 public class MenuPrincipalController implements Initializable {
     @FXML
     private MenuBar mnbPrincipal;
@@ -51,6 +52,22 @@ public class MenuPrincipalController implements Initializable {
                 
         stage.setScene(scene);
         stage.setTitle("Administrar Pacientes");
+        stage.show();   
+    }
+    @FXML
+    private void mniIniciarCalculo_click() throws IOException
+    { 
+        Stage stage = new Stage();
+      //  BorderPane pane = new BorderPane();
+       
+        Parent root = FXMLLoader.load(getClass().getResource("vistas/Calculo.fxml"));
+         
+        Scene scene = new Scene(root);
+                
+      //  Scene scene = new Scene(root);
+                
+        stage.setScene(scene);
+        stage.setTitle("Calcular Dosis Administrada");
         stage.show();   
     }
     
