@@ -47,6 +47,18 @@ public class Paciente {
         this.sexo = sexo;
         this.enTratamiento = enTratamiento;
     }
+    
+    public Paciente (int idPaciente, int tipoDoc, long numeroDoc, String apellido, String nombre)
+    {
+        this.idPaciente = idPaciente;
+        this.tipoDoc = tipoDoc;
+        this.numeroDoc = numeroDoc;
+        this.apellido = apellido;
+        this.nombre = nombre;
+        
+    }
+    
+    
     public Paciente ()
     {}
     /**
