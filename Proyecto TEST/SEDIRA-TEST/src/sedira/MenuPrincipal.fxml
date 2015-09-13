@@ -12,30 +12,29 @@
         <menus>
           <Menu mnemonicParsing="false" text="Inicio">
             <items>
-                  <MenuItem fx:id="mniIniciarCalculo" mnemonicParsing="false" onAction="#mniIniciarCalculo_click" text="Iniciar cálculo" />
               <MenuItem mnemonicParsing="false" text="Close" />
             </items>
           </Menu>
+            <Menu mnemonicParsing="false" text="Dosis">
+              <items>
+                  <MenuItem fx:id="mniIniciarCalculo" mnemonicParsing="false" onAction="#mniIniciarCalculo_click" text="Iniciar cálculo" />
+              </items>
+            </Menu>
           <Menu mnemonicParsing="false" text="Pacientes">
             <items>
               <MenuItem fx:id="mniPacienteAdministrar" mnemonicParsing="false" onAction="#mniPacienteAdministrar_click" text="Administrar" />
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" text="Help">
+            <Menu mnemonicParsing="false" text="Phantoms">
+              <items>
+                <MenuItem mnemonicParsing="false" text="Administrar Phantoms" />
+              </items>
+            </Menu>
+          <Menu mnemonicParsing="false" text="Ayuda">
             <items>
               <MenuItem mnemonicParsing="false" text="About" />
             </items>
           </Menu>
-            <Menu mnemonicParsing="false" text="Unspecified Menu">
-              <items>
-                <MenuItem mnemonicParsing="false" text="Action 1" />
-              </items>
-            </Menu>
-            <Menu mnemonicParsing="false" text="Unspecified Menu">
-              <items>
-                <MenuItem mnemonicParsing="false" text="Action 1" />
-              </items>
-            </Menu>
         </menus>
       </MenuBar>
       <BorderPane layoutX="138.0" layoutY="25.0" prefHeight="375.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0" />
