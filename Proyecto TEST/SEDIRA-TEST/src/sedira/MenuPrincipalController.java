@@ -43,7 +43,7 @@ public class MenuPrincipalController implements Initializable {
     private void mniPacienteAdministrar_click() throws IOException
     { 
         Stage stage = new Stage();
-        Parent root = FXMLLoader.load(getClass().getResource("vistas/Paciente.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("Paciente.fxml"));
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.setTitle("Administrar Pacientes");
@@ -53,7 +53,7 @@ public class MenuPrincipalController implements Initializable {
     private void mniIniciarCalculo_click() throws IOException
     { 
         Stage stage = new Stage();
-        Parent root = FXMLLoader.load(getClass().getResource("vistas/Calculo.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("Calculo.fxml"));
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.setTitle("Calcular Dosis Administrada");
