@@ -27,37 +27,9 @@ public class CalculoController {
     @FXML
     private Tab tabCalcular;
     @FXML
-    private AnchorPane tabAnchorPanePaciente;
-    @FXML
-    private TableView<Paciente> tablaPaciente;
-    @FXML
-    private TableColumn  idPaciente;
-    @FXML
-    private TableColumn numeroDocPaciente;
-    @FXML
-    private TableColumn<Paciente, String> nombrePaciente;
-    @FXML
-    private TableColumn<Paciente, String> ApellidoPaciente;
-    @FXML
-    private TextField txtFldTipoDocPaciente;
-    @FXML
-    private TextField txtFldDocPaciente;
-    @FXML
-    private TextField txtFldNombrePaciente;
-    @FXML
-    private TextField txtFldApellidoPaciente;
-    @FXML
-    private TextField txtFldBuscar;
-    @FXML
-    private TextField txtFldNroAsociado;
-    @FXML
-    private TextField txtFldFechaRegistro;
+    private AnchorPane  pnlPaciente;
        
     
     
-    @FXML
-     private void MostrarMenuPaciente() {
-         
-     }
        
 }

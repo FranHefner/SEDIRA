@@ -1,4 +1,4 @@
-/*
+    /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -7,6 +7,7 @@ package sedira.model;
 
 import java.sql.Blob;
 import java.util.Date;
+import javafx.beans.property.SimpleStringProperty;
 
 /**
  * Clase Paciente, describe a un paciente dentro del sistema del calculo SEDIRA; 
@@ -29,6 +30,7 @@ public class Paciente {
     private String sexo;
     private boolean enTratamiento; 
 
+   
      /**
     * Contructor con parametros
     */
@@ -48,15 +50,7 @@ public class Paciente {
         this.enTratamiento = enTratamiento;
     }
     
-    public Paciente (int idPaciente, int tipoDoc, long numeroDoc, String apellido, String nombre)
-    {
-        this.idPaciente = idPaciente;
-        this.tipoDoc = tipoDoc;
-        this.numeroDoc = numeroDoc;
-        this.apellido = apellido;
-        this.nombre = nombre;
-        
-    }
+  
     
     
     public Paciente ()
@@ -69,12 +63,13 @@ public class Paciente {
     }
 
     public int getTipoDoc() {
-        return tipoDoc;
+        return  tipoDoc;
     }
-
-    public long getNumeroDoc() {
+ 
+      public long getNumeroDoc() {
         return numeroDoc;
     }
+    
 
     public String getApellido() {
         return apellido;
