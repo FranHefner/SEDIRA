@@ -50,7 +50,7 @@
                               </Pane>
                               <TextField fx:id="txtNumeroDoc" editable="false" layoutX="237.0" layoutY="249.0" />
                               <TextField fx:id="txtTipoDoc" editable="false" layoutX="237.0" layoutY="215.0" />
-                              <Pane fx:id="grbBotones" layoutX="174.0" layoutY="388.0" prefHeight="72.0" prefWidth="373.0">
+                              <Pane fx:id="grbBotones" layoutX="152.0" layoutY="413.0" prefHeight="72.0" prefWidth="373.0">
                                  <children>
                                     <Button fx:id="btnNuevo" layoutX="46.0" layoutY="24.0" mnemonicParsing="false" onAction="#btnNuevo_click" text="Nuevo" />
                                     <Button fx:id="btnEditar" layoutX="151.0" layoutY="24.0" mnemonicParsing="false" onAction="#btnEditar_click" text="Editar" />
