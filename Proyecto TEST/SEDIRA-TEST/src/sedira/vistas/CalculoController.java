@@ -1,5 +1,5 @@
 
-package sedira;
+package sedira.vistas;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Tab;
