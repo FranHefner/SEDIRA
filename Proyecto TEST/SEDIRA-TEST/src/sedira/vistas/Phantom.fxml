@@ -6,8 +6,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<AnchorPane id="AnchorPane" maxHeight="639.0" maxWidth="700.0" minHeight="637.0" minWidth="700.0" prefHeight="639.0" prefWidth="700.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="sedira.PhantomController">
+<AnchorPane id="AnchorPane" maxHeight="639.0" maxWidth="700.0" minHeight="637.0" minWidth="700.0" prefHeight="639.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sedira.PhantomController">
    <children>
       <SplitPane dividerPositions="0.18524332810047095" layoutX="120.0" layoutY="29.0" orientation="VERTICAL" prefHeight="639.0" prefWidth="700.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
@@ -21,7 +20,7 @@
                <children>
                   <AnchorPane layoutX="14.0" layoutY="14.0" prefHeight="372.0" prefWidth="207.0">
                      <children>
-                        <TableView layoutX="4.0" layoutY="37.0" prefHeight="372.0" prefWidth="207.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <TableView layoutX="4.0" layoutY="37.0" prefHeight="402.0" prefWidth="207.0" AnchorPane.bottomAnchor="-30.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <columns>
                             <TableColumn prefWidth="75.0" text="Organo" />
                             <TableColumn prefWidth="75.0" text="Masa (grs)" />
@@ -32,15 +31,36 @@
                         </TableView>
                      </children>
                   </AnchorPane>
-                  <Label layoutX="234.0" layoutY="17.0" prefHeight="14.0" prefWidth="61.0" text="Phantom:" />
-                  <Label layoutX="234.0" layoutY="50.0" text="Altura: " />
-                  <Label layoutX="234.0" layoutY="91.0" text="Superficie del cuerpo:" />
-                  <TextField layoutX="362.0" layoutY="9.0" prefHeight="29.0" prefWidth="173.0" />
-                  <TextField layoutX="362.0" layoutY="42.0" prefHeight="29.0" prefWidth="173.0" />
-                  <TextField layoutX="362.0" layoutY="78.0" prefHeight="29.0" prefWidth="173.0" />
-                  <Button layoutX="203.0" layoutY="430.0" mnemonicParsing="false" text="Nuevo" />
-                  <Button layoutX="287.0" layoutY="430.0" mnemonicParsing="false" text="Editar" />
-                  <Button layoutX="380.0" layoutY="430.0" mnemonicParsing="false" text="Aceptar" />
+                  <Button layoutX="243.0" layoutY="441.0" mnemonicParsing="false" prefHeight="22.0" prefWidth="55.0" text="Nuevo" />
+                  <Button layoutX="331.0" layoutY="441.0" mnemonicParsing="false" prefHeight="22.0" prefWidth="55.0" text="Editar" />
+                  <Button layoutX="420.0" layoutY="441.0" mnemonicParsing="false" prefHeight="22.0" prefWidth="61.0" text="Aceptar" />
+                  <TitledPane animated="false" collapsible="false" layoutX="243.0" layoutY="14.0" prefHeight="185.0" prefWidth="434.0" text="Caracteristicas del Phantom:">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <Label layoutX="43.0" layoutY="43.0" prefHeight="14.0" prefWidth="61.0" text="Phantom:" />
+                              <Label layoutX="43.0" layoutY="79.0" text="Altura: " />
+                              <Label layoutX="43.0" layoutY="114.0" text="Superficie del cuerpo:" />
+                              <TextField layoutX="171.0" layoutY="35.0" prefHeight="29.0" prefWidth="173.0" />
+                              <TextField layoutX="171.0" layoutY="68.0" prefHeight="29.0" prefWidth="173.0" />
+                              <TextField layoutX="171.0" layoutY="101.0" prefHeight="29.0" prefWidth="173.0" />
+                           </children>
+                        </AnchorPane>
+                    </content>
+                  </TitledPane>
+                  <TitledPane animated="false" collapsible="false" layoutX="243.0" layoutY="288.0" prefHeight="129.0" prefWidth="310.0" text="Caracteristicas del órgano:">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <Label layoutX="41.0" layoutY="32.0" text="Organo:" />
+                              <Label layoutX="41.0" layoutY="68.0" text="Masa (grs):" />
+                              <TextField layoutX="113.0" layoutY="21.0" prefHeight="29.0" prefWidth="179.0" />
+                              <TextField layoutX="113.0" layoutY="57.0" prefHeight="29.0" prefWidth="178.0" />
+                           </children>
+                        </AnchorPane>
+                    </content>
+                  </TitledPane>
+                  <Label layoutX="243.0" layoutY="214.0" text="Seleccione el organo desde la tabla izquierda." />
                </children>
             </AnchorPane>
         </items>
