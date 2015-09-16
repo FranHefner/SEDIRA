@@ -28,8 +28,7 @@ public class CalculoController {
     private Tab tabCalcular;
     @FXML
     private AnchorPane  pnlPaciente;
-       
-    
+   
     
        
 }

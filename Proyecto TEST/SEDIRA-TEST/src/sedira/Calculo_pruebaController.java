@@ -64,6 +64,11 @@ public class Calculo_pruebaController implements Initializable {
             e.printStackTrace();
         }
         
-    }    
+    }   
+    @FXML
+    public void btnSiguiente (){
+        tabPhantom.setDisable(true);
+        
+    }
     
 }

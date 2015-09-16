@@ -59,7 +59,7 @@ public class MenuPrincipalController implements Initializable {
     private void mniIniciarCalculo_click() throws IOException
     { 
         Stage stage = new Stage();
-        Parent root = FXMLLoader.load(getClass().getResource("Calculo.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("Calculo_prueba.fxml"));
         Scene scene = new Scene(root);        
         stage.setMaxWidth(700);        
         stage.setMaxHeight(600);

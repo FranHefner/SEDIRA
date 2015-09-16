@@ -27,7 +27,7 @@
                   </AnchorPane>
                </content>
           </Tab>
-          <Tab fx:id="tabPhantom" disable="true" text="Phantom">
+          <Tab fx:id="tabPhantom" text="Phantom">
                <content>
                   <AnchorPane prefHeight="200.0" prefWidth="200.0" />
                </content></Tab>
@@ -46,7 +46,7 @@
       <HBox layoutX="113.0" layoutY="464.0" spacing="20.0" AnchorPane.bottomAnchor="8.0" AnchorPane.rightAnchor="150.0">
          <children>
             <Button disable="true" layoutX="113.0" layoutY="464.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="58.0" text="Atras" />
-            <Button layoutX="183.0" layoutY="464.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="61.0" text="Siguiente" />
+            <Button layoutX="183.0" layoutY="464.0" mnemonicParsing="false" onAction="#btnSiguiente" prefHeight="25.0" prefWidth="61.0" text="Siguiente" />
             <Button layoutX="248.0" layoutY="464.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="58.0" text="Cancelar" />
          </children>
       </HBox>
