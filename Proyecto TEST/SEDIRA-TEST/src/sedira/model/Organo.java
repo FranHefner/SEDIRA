@@ -10,7 +10,7 @@ package sedira.model;
  * @author Hefner Francisco, Quelin Pablo
 
  */
-class Organo {
+public class Organo {
     private String nombreOrgano; 
     private int organMass; // masa de un organo en particular. 
     private int totalMass; // masa total del cuerpo. 

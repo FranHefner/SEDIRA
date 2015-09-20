@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.chart.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="589.0" prefWidth="642.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sedira.vistas.ProgresoPacienteController">
+   <children>
+      <SplitPane dividerPositions="0.6958105646630237" layoutX="22.0" layoutY="159.0" orientation="VERTICAL" prefHeight="278.0" prefWidth="651.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+               <children>
+                  <LineChart prefHeight="122.0" prefWidth="627.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <xAxis>
+                      <CategoryAxis label="Fechas" prefHeight="21.0" prefWidth="485.0" side="BOTTOM" />
+                    </xAxis>
+                    <yAxis>
+                      <NumberAxis label="Progreso Paciente" lowerBound="-50.0" side="LEFT" upperBound="90.0" />
+                    </yAxis>
+                  </LineChart>
+               </children>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+               <children>
+                  <ImageView fitHeight="176.0" fitWidth="147.0" layoutX="478.0" layoutY="1.0" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <image>
+                        <Image url="@FotoProgreso.png" />
+                     </image></ImageView>
+                  <Label layoutX="100.0" layoutY="78.0" text="Peso" />
+                  <Label layoutX="100.0" layoutY="104.0" prefHeight="7.0" prefWidth="80.0" text="Estado General" />
+                  <TableView layoutX="332.0" layoutY="-3.0" prefHeight="176.0" prefWidth="161.0" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <columns>
+                      <TableColumn prefWidth="75.0" text="Descripción" />
+                      <TableColumn prefWidth="85.0" text="Valor" />
+                    </columns>
+                  </TableView>
+                  <TextArea layoutX="36.0" layoutY="14.0" prefHeight="58.0" prefWidth="255.0" text="Juntar viusualizacion de progreso &#10;con informacion del historial del calculo ??" />
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+   </children>
+</AnchorPane>

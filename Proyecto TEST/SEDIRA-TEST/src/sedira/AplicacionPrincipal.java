@@ -36,7 +36,7 @@ public class AplicacionPrincipal extends Application {
     public void start(Stage primaryStage) throws IOException {
         
        
-        Parent root = FXMLLoader.load(getClass().getResource("MenuPrincipal.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("vistas/MenuPrincipal.fxml"));
         
         //Se le pasa el root node
         Scene scene = new Scene(root);

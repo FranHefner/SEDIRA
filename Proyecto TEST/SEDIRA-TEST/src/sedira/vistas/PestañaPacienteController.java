@@ -11,11 +11,10 @@ import javafx.fxml.Initializable;
 
 /**
  * FXML Controller class
- *  Clase controlador de Phantom.FXML
- * @author Hefner Francisco, Quelin Pablo
- * 
+ *
+ * @author Fran
  */
-public class PhantomController implements Initializable {
+public class PestañaPacienteController implements Initializable {
 
     /**
      * Initializes the controller class.

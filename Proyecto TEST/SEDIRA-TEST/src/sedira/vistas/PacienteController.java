@@ -5,19 +5,29 @@
  */
 package sedira.vistas;
 
+import java.io.IOException;
 import java.net.URL;
+import java.sql.Blob;
+import java.util.Date;
 import java.util.ResourceBundle;
 import javafx.beans.property.IntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
 import sedira.model.Paciente;
-import sedira.model.PacienteGrilla;
+import sedira.ConsultasDB;
+
 
 /**
  * FXML Controller class
@@ -26,23 +36,15 @@ import sedira.model.PacienteGrilla;
  */
 public class PacienteController implements Initializable {
     @FXML
-    private TextField txtCampoBusqueda;
+    private TableView<Paciente> griListaPacientes;
     @FXML
-    private Button btnBuscar;
+    private TableColumn<Paciente, Integer> clTipoDoc;
     @FXML
-    private TableView<PacienteGrilla> griListaPacientes;
+    private TableColumn<Paciente, Integer> clNumeroDoc;
     @FXML
-    private TableColumn<PacienteGrilla, Integer> clTipoDoc;
+    private TableColumn<Paciente, String> clNombre;
     @FXML
-    private TableColumn<PacienteGrilla, Integer> clNumeroDoc;
-    @FXML
-    private TableColumn<PacienteGrilla, String> clNombre;
-    @FXML
-    private TableColumn<PacienteGrilla, String> clApellido;
-    @FXML
-    private Button btnNuevo;
-    @FXML
-    private Button btnEditar;
+    private TableColumn<Paciente, String> clApellido;
     @FXML
     private TextField txtIdPaciente;
     @FXML
@@ -53,18 +55,23 @@ public class PacienteController implements Initializable {
     private TextField txtApellido; 
     @FXML
     private TextField txtTipoDoc; 
-     @FXML
-    private TextField txtNumeroAsociado; 
-    
-    private PacienteGrilla PacienteActual;
+    @FXML
+    private TextField txtCampoBusqueda;    
+    @FXML 
+    private ImageView imgPaciente;
+    @FXML 
+    private ComboBox cbTipoDoc;
+            
+            
+    private Paciente PacienteActual;
       
     /**
      * Inicializacion de la clase Controlador.
      */
     
-    private ObservableList<PacienteGrilla> pacienteData = FXCollections.observableArrayList();
+    private ObservableList<Paciente> pacienteData = FXCollections.observableArrayList();
     
-     public ObservableList<PacienteGrilla> getPacienteData() {
+     public ObservableList<Paciente> getPacienteData() {
         return pacienteData;
     }
 
@@ -80,37 +87,38 @@ public class PacienteController implements Initializable {
           
           griListaPacientes.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> SeleccionPaciente(newValue));
+      imgPaciente.setId("FotoPaciente.jpg");
       
+     
+       
             
      }   
-    
-     @FXML
+    @FXML
      private void btnBuscar_click() 
     {         
          // Paciente PacienteTEST = new Paciente(1,1,34000000,"ApellidoTest", "NombreTest", '2015-09-09',"asd",1234,"asd",4411,,"m",true);
             
         //  public Paciente(int idPaciente, int tipoDoc, long numeroDoc, String apellido, String nombre, Date fechaNacimiento, String direccion, long numeroAsociado, String email, String telefono, Blob foto, String sexo, boolean enTratamiento) {
-    
+      
+        if (this.txtCampoBusqueda.getText().isEmpty())
+        {
+        
+        }
             if (griListaPacientes.getItems().size() > 5 )
             {
              
             }else
             {
-           //    final ObservableList<PacienteGrilla> pacienteData = FXCollections.observableArrayList(
-              pacienteData.add(  new PacienteGrilla(1, 1, 34000001,"Fran", "Hefner"));
-              pacienteData.add(  new PacienteGrilla(2, 1, 34000002,"Pablo", "Quelin"));
-              pacienteData.add(  new PacienteGrilla(3, 1, 34000003,"Roberto", "Salibar"));
-              pacienteData.add(  new PacienteGrilla(4, 2, 34000004,"Pablo", "Argañaras"));
-              pacienteData.add(  new PacienteGrilla(5, 2, 34000005,"Pepe", "Perez"));
-            //   );                            
+              pacienteData =  ConsultasDB.ListaPacientes();
+                                      
             }
                        
         griListaPacientes.setItems(pacienteData);
     
       
     }
-    @FXML
-    private void SeleccionPaciente(PacienteGrilla PacienteActual) 
+     @FXML
+    private void SeleccionPaciente(Paciente PacienteActual) 
     {  
     
         if (PacienteActual != null) {
@@ -120,7 +128,7 @@ public class PacienteController implements Initializable {
             txtNombre.setText(String.valueOf( PacienteActual.getNombre().getValue() ) );
             txtApellido.setText(String.valueOf(PacienteActual.getApellido().getValue()));
             txtNumeroDoc.setText(String.valueOf(PacienteActual.getNumeroDoc().getValue()));
-            txtTipoDoc.setText(String.valueOf(PacienteActual.getTipoDoc().getValue()));
+         //   txtTipoDoc.setText(String.valueOf(PacienteActual.getTipoDoc().getValue()));
            // txtNumeroAsociado.setText(PacienteActual.getStreet());
   
         } else {
@@ -128,29 +136,27 @@ public class PacienteController implements Initializable {
             txtNombre.setText("");
             txtApellido.setText("");
             txtNumeroDoc.setText("");
-            txtTipoDoc.setText("");
+          //  txtTipoDoc.setText("");
       
         }
     }
-    
-     @FXML
+    @FXML
      private void btnNuevo_click() 
      {
             txtNombre.setText("");
             txtApellido.setText("");
             txtNumeroDoc.setText("");
-            txtTipoDoc.setText("");
+         //   txtTipoDoc.setText("");
             
             txtIdPaciente.setText( String.valueOf( griListaPacientes.getItems().size()+1 ));
             
             txtNombre.setEditable(true);
             txtApellido.setEditable(true);
             txtNumeroDoc.setEditable(true);
-            txtTipoDoc.setEditable(true);
+         //   txtTipoDoc.setEditable(true);
        
      }
-     
-      @FXML
+     @FXML
      private void btnAceptar_click() 
      {      
             
@@ -159,35 +165,59 @@ public class PacienteController implements Initializable {
                   PacienteActual.setApellido(txtApellido.getText());
                   PacienteActual.setNombre(txtNombre.getText());
                   PacienteActual.setNumeroDoc(Integer.valueOf(txtNumeroDoc.getText()));
-                  PacienteActual.setTipoDoc(Integer.valueOf( txtTipoDoc.getText() ));
+                 // PacienteActual.setTipoDoc(Integer.valueOf( txtTipoDoc.getText() ));
                   
                   txtNombre.setEditable(false);
                   txtApellido.setEditable(false);
                   txtNumeroDoc.setEditable(false);
-                  txtTipoDoc.setEditable(false);
+             //     txtTipoDoc.setEditable(false);
         }
         else           
         {
-            PacienteGrilla PacienteTemp =  new PacienteGrilla( Integer.valueOf( txtIdPaciente.getText()) , Integer.valueOf( txtTipoDoc.getText() ) , Integer.valueOf( txtNumeroDoc.getText() ),txtNombre.getText(), txtApellido.getText());
-            pacienteData.add(PacienteTemp);
+           //Paciente PacienteTemp =  new Paciente( Integer.valueOf( txtIdPaciente.getText()) , Integer.valueOf( txtTipoDoc.getText() ) , Integer.valueOf( txtNumeroDoc.getText() ),txtApellido.getText(), txtNombre.getText(),new );
+           
+            // Date fechaNacimiento, String direccion, long numeroAsociado, String email, String telefono, Blob foto, String sexo, boolean enTratamiento) {
+    
+         //   pacienteData.add(PacienteTemp);
             txtNombre.setEditable(false);
             txtApellido.setEditable(false);
             txtNumeroDoc.setEditable(false);
-            txtTipoDoc.setEditable(false);
+          //  txtTipoDoc.setEditable(false);
          }       
         
            
      }
-      @FXML
+     @FXML
      private void btnEditar_click() 
      {                            
             txtNombre.setEditable(true);
             txtApellido.setEditable(true);
             txtNumeroDoc.setEditable(true);
-            txtTipoDoc.setEditable(true);            
+         //   txtTipoDoc.setEditable(true);            
      }
      
-     
+    @FXML
+    private void btnHistorialSEDIRA_click() throws IOException
+    { 
+        Stage stage = new Stage();
+        Parent root = FXMLLoader.load(getClass().getResource("ProgresoPaciente.fxml"));
+        Scene scene = new Scene(root);
+              stage.setScene(scene);
+        
+        stage.setTitle("Progreso Paciente");
+        stage.show();   
+    }
+     @FXML
+    private void btnContacto_click() throws IOException
+    { 
+        Stage stage = new Stage();
+        Parent root = FXMLLoader.load(getClass().getResource("ContactoPaciente.fxml"));
+        Scene scene = new Scene(root);
+              stage.setScene(scene);
+        
+        stage.setTitle("Contacto Paciente");
+        stage.show();   
+    }
       
 
      

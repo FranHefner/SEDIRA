@@ -3,12 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package sedira;
+package sedira.model;
 
 /**
  *
  * @author Fran
  */
-public class DatosConsultas {
+public class ValorDescripcion {
+    
+       int Valor;
+       String Descripcion;
     
 }

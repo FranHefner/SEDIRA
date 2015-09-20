@@ -6,7 +6,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" maxHeight="639.0" maxWidth="700.0" minHeight="637.0" minWidth="700.0" prefHeight="639.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sedira.PhantomController">
+<AnchorPane id="AnchorPane" maxHeight="639.0" maxWidth="700.0" minHeight="637.0" minWidth="700.0" prefHeight="639.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sedira.vistas.PestañaPhantomController">
    <children>
       <SplitPane dividerPositions="0.18524332810047095" layoutX="120.0" layoutY="29.0" orientation="VERTICAL" prefHeight="639.0" prefWidth="700.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
@@ -48,7 +48,7 @@
                         </AnchorPane>
                     </content>
                   </TitledPane>
-                  <TitledPane animated="false" collapsible="false" layoutX="243.0" layoutY="288.0" prefHeight="129.0" prefWidth="310.0" text="Caracteristicas del órgano:">
+                  <TitledPane animated="false" collapsible="false" layoutX="258.0" layoutY="276.0" prefHeight="129.0" prefWidth="310.0" text="Caracteristicas del órgano:">
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>

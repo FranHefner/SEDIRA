@@ -7,7 +7,12 @@ package sedira.model;
 
 import java.sql.Blob;
 import java.util.Date;
+import java.util.List;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+import sedira.model.ProgresoPaciente;
 
 /**
  * Clase Paciente, describe a un paciente dentro del sistema del calculo SEDIRA; 
@@ -16,74 +21,81 @@ import javafx.beans.property.SimpleStringProperty;
  */
 public class Paciente {
     
-    private int idPaciente; 
-    private int tipoDoc; 
-    private long numeroDoc;
-    private String apellido;
-    private String nombre; 
+     
+    
+   
+    private  IntegerProperty idPaciente;
+    private  IntegerProperty tipoDoc;
+    private  IntegerProperty numeroDoc;
+    private  StringProperty apellido;
+    private  StringProperty nombre;
+  
     private Date fechaNacimiento; 
-    private String direccion; 
+    private StringProperty  direccion; 
     private long numeroAsociado;
-    private String email;
-    private String telefono; 
+    private StringProperty  email;
+    private StringProperty  telefono; 
     private Blob foto; 
-    private String sexo;
+    private StringProperty  sexo;
     private boolean enTratamiento; 
+    private ProgresoPaciente EstadoActual;
+   // private List<ProgresoPaciente> Progreso;
+    
 
+   
    
      /**
     * Contructor con parametros
     */
-    public Paciente(int idPaciente, int tipoDoc, long numeroDoc, String apellido, String nombre, Date fechaNacimiento, String direccion, long numeroAsociado, String email, String telefono, Blob foto, String sexo, boolean enTratamiento) {
-        this.idPaciente = idPaciente;
-        this.tipoDoc = tipoDoc;
-        this.numeroDoc = numeroDoc;
-        this.apellido = apellido;
-        this.nombre = nombre;
-        this.fechaNacimiento = fechaNacimiento;
-        this.direccion = direccion;
+    public Paciente(int idPaciente, int tipoDoc, long numeroDoc, String apellido, String nombre,/* Date fechaNacimiento, */String direccion, long numeroAsociado, String email, String telefono,/* Blob foto,*/ String sexo, boolean enTratamiento) {
+        this.idPaciente = new SimpleIntegerProperty(idPaciente);
+        this.tipoDoc = new SimpleIntegerProperty(tipoDoc);
+        this.numeroDoc = new SimpleIntegerProperty((int) numeroDoc);
+        this.apellido = new SimpleStringProperty(apellido);
+        this.nombre = new SimpleStringProperty(nombre);
+      //  this.fechaNacimiento = fechaNacimiento;
+        this.direccion = new SimpleStringProperty(direccion);
         this.numeroAsociado = numeroAsociado;
-        this.email = email;
-        this.telefono = telefono;
-        this.foto = foto;
-        this.sexo = sexo;
+        this.email = new SimpleStringProperty(email);
+        this.telefono = new SimpleStringProperty(telefono);
+    //    this.foto = foto;
+        this.sexo = new SimpleStringProperty(sexo);
         this.enTratamiento = enTratamiento;
     }
-    
+
+    public Paciente(int idPaciente, int tipoDoc, long numeroDoc, String apellido, String nombre) {
+        this.idPaciente = new SimpleIntegerProperty(idPaciente);
+        this.tipoDoc = new SimpleIntegerProperty(tipoDoc);
+        this.numeroDoc = new SimpleIntegerProperty((int) numeroDoc);
+        this.apellido = new SimpleStringProperty(apellido);
+        this.nombre = new SimpleStringProperty(nombre);
+    }
   
-    
-    
-    public Paciente ()
-    {}
+       
     /**
     * Métodos GETters
     */
-    public int getIdPaciente() {
+   public IntegerProperty getidPaciente() {
         return idPaciente;
     }
-
-    public int getTipoDoc() {
-        return  tipoDoc;
+      public IntegerProperty getTipoDoc() {
+        return tipoDoc;
     }
- 
-      public long getNumeroDoc() {
+    public IntegerProperty getNumeroDoc() {
         return numeroDoc;
     }
-    
-
-    public String getApellido() {
+    public StringProperty getApellido() {
         return apellido;
-    }
-
-    public String getNombre() {
+    }      
+    public StringProperty getNombre() {
         return nombre;
     }
-
+   
     public Date getFechaNacimiento() {
         return fechaNacimiento;
     }
 
-    public String getDireccion() {
+    public StringProperty getDireccion() {
         return direccion;
     }
 
@@ -91,11 +103,11 @@ public class Paciente {
         return numeroAsociado;
     }
 
-    public String getEmail() {
+    public StringProperty getEmail() {
         return email;
     }
 
-    public String getTelefono() {
+    public StringProperty getTelefono() {
         return telefono;
     }
 
@@ -103,7 +115,7 @@ public class Paciente {
         return foto;
     }
 
-    public String getSexo() {
+    public StringProperty getSexo() {
         return sexo;
     }
 
@@ -115,24 +127,21 @@ public class Paciente {
     * Métodos SETters
     */
     
-    public void setIdPaciente(int idPaciente) {
-        this.idPaciente = idPaciente;
+   public void setTipoDoc(Integer TipoDoc)
+    {
+         this.tipoDoc.setValue(TipoDoc);
     }
-
-    public void setTipoDoc(int tipoDoc) {
-        this.tipoDoc = tipoDoc;
+    public void setNumeroDoc(Integer NumeroDoc)
+    {
+         this.numeroDoc.setValue(NumeroDoc);
+    }        
+    public void setNombre(String Nombre)
+    {
+         this.nombre.setValue(Nombre);
     }
-
-    public void setNumeroDoc(long numeroDoc) {
-        this.numeroDoc = numeroDoc;
-    }
-
-    public void setApellido(String apellido) {
-        this.apellido = apellido;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+     public void setApellido(String Apellido)
+    {
+         this.apellido.setValue(Apellido);
     }
 
     public void setFechaNacimiento(Date fechaNacimiento) {
@@ -140,7 +149,7 @@ public class Paciente {
     }
 
     public void setDireccion(String direccion) {
-        this.direccion = direccion;
+        this.direccion.setValue(direccion);
     }
 
     public void setNumeroAsociado(long numeroAsociado) {
@@ -148,11 +157,11 @@ public class Paciente {
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        this.email.setValue(email);
     }
 
     public void setTelefono(String telefono) {
-        this.telefono = telefono;
+        this.telefono.setValue(telefono);
     }
 
     public void setFoto(Blob foto) {
@@ -160,7 +169,7 @@ public class Paciente {
     }
 
     public void setSexo(String sexo) {
-        this.sexo = sexo;
+        this.sexo.setValue(sexo);
     }
 
     public void setEnTratamiento(boolean enTratamiento) {
