@@ -18,8 +18,8 @@ public class DatosValidacionesCalculo {
         public static Calculo CalculoActual;
         public static Paciente PacienteActual;
         
-        // Al ser estaticos nos sirve para poder acceder de varios lados.
-        // Tambien si se modifica en un lado, se modifica en todos.
+     
+       
       
         
         

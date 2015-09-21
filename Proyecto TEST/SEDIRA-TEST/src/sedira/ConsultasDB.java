@@ -21,7 +21,7 @@ import sedira.model.Organo;
  */
 
 public class ConsultasDB {
-            
+       /* Agregar la administracion de la conexion con la base de datos */     
 
     /**
      * Metodo para obtener los datos basicos de los pacientes
@@ -57,9 +57,9 @@ public class ConsultasDB {
      */
     public static ArrayList<Organo> ObtenerOrganos()
     {
-        ArrayList<Organo> Organos = null ;
+        ArrayList<Organo> listaOrgano = null ;
 
-          return  Organos;        
+          return  listaOrgano;        
     }
      /**
      * Método para obtener la lista de Phantoms
@@ -67,9 +67,9 @@ public class ConsultasDB {
      */
     public static ArrayList<Phantom> ObtenerPhantoms()
     {
-        ArrayList<Phantom> Phantoms = null ;
+        ArrayList<Phantom> ListaPhantom = null ;
 
-          return  Phantoms;        
+          return  ListaPhantom;        
     }
     
     public static ArrayList<TipoDocumento> ObtenerTiposDoc()

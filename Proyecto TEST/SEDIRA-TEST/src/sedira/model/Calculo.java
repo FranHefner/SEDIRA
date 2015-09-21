@@ -19,7 +19,7 @@ public class Calculo {
     public static int IdPaciente;
     public static int IdPhantom;
     List <ValorDescripcion> DatosEntrada;
-    public static String Oberservacion;
-   
+    public static String observaciones;
+       
     
 }
