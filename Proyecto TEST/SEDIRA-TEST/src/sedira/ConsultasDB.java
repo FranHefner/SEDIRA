@@ -32,13 +32,28 @@ public class ConsultasDB {
          
          // Se usa un costructor de pacientes mas acotado para cargar la grilla.
             ObservableList<Paciente> pacienteData = FXCollections.observableArrayList();
-              pacienteData.add(  new Paciente(1, 1, 34000001,"Hefner","Fran"));
-              pacienteData.add(  new Paciente(2, 1, 34000002,"Quelin","Pablo"));
-              pacienteData.add(  new Paciente(3, 1, 34000003,"Salibar","Roberto"));
-              pacienteData.add(  new Paciente(4, 2, 34000004,"Argañaras","Pablo"));
-              pacienteData.add(  new Paciente(5, 2, 34000005,"Perez","Pepe"));
+              pacienteData.add(  new Paciente(1, "DNI", 34000001,"Hefner","Fran"));
+              pacienteData.add(  new Paciente(2, "DNI", 34000002,"Quelin","Pablo"));
+              pacienteData.add(  new Paciente(3, "DNI", 34000003,"Salibar","Roberto"));
+              pacienteData.add(  new Paciente(4, "DNI", 34000004,"Argañaras","Pablo"));
+              pacienteData.add(  new Paciente(5, "PAS", 34000005,"Perez","Pepe"));
             
             return pacienteData;
+     }
+      public static ObservableList<String> ListaTipoDocumento ()
+     {
+          ObservableList<TipoDocumento> TipoDocumentosData = FXCollections.observableArrayList();
+          TipoDocumentosData.add( new TipoDocumento(1,"DNI","Documento Nacional de Identidad"));
+          TipoDocumentosData.add( new TipoDocumento(2,"PAS","Pasaporte"));
+         
+          
+          ObservableList<String> TipoDocumentosDataString = FXCollections.observableArrayList();
+          TipoDocumentosDataString.add("DNI");
+          TipoDocumentosDataString.add("PAS");
+          
+          return TipoDocumentosDataString;
+          
+          
      }
      /**
       * Método para actualizar un paciente
@@ -85,6 +100,20 @@ public class ConsultasDB {
         return ListadoTipoDoc;
     }
     
-    
+    public static String ObtenerTipoDoc(int ID)
+    {
+        if (ID == 1 )
+        {
+            return "DNI";
+            
+        }
+        if (ID == 2 )
+        {
+            return "PAS";
+            
+        } 
+        return ("No encontrado");
+        
+    }
     
 }

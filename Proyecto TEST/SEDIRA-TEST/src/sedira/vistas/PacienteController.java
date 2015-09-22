@@ -11,8 +11,12 @@ import java.sql.Blob;
 import java.util.Date;
 import java.util.ResourceBundle;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -27,6 +31,7 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import sedira.model.Paciente;
 import sedira.ConsultasDB;
+import sedira.model.TipoDocumento;
 
 
 /**
@@ -38,7 +43,7 @@ public class PacienteController implements Initializable {
     @FXML
     private TableView<Paciente> griListaPacientes;
     @FXML
-    private TableColumn<Paciente, Integer> clTipoDoc;
+    private TableColumn<Paciente, String> clTipoDoc;
     @FXML
     private TableColumn<Paciente, Integer> clNumeroDoc;
     @FXML
@@ -70,11 +75,14 @@ public class PacienteController implements Initializable {
      */
     
     private ObservableList<Paciente> pacienteData = FXCollections.observableArrayList();
+    private ObservableList<String> DocumentosData = FXCollections.observableArrayList();
     
      public ObservableList<Paciente> getPacienteData() {
         return pacienteData;
-    }
-
+    }     
+    // public ObservableList<TipoDocumento> getDocumentosData() {
+    //    return DocumentosData;
+   // }
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -82,16 +90,19 @@ public class PacienteController implements Initializable {
         
          clNombre.setCellValueFactory(cellData -> cellData.getValue().getNombre());
          clApellido.setCellValueFactory(cellData -> cellData.getValue().getApellido());         
-         clTipoDoc.setCellValueFactory(cellData -> cellData.getValue().getTipoDoc().asObject());          
+         clTipoDoc.setCellValueFactory(cellData ->  cellData.getValue().getTipoDoc());          
          clNumeroDoc.setCellValueFactory(cellData -> cellData.getValue().getNumeroDoc().asObject());
           
           griListaPacientes.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> SeleccionPaciente(newValue));
-      imgPaciente.setId("FotoPaciente.jpg");
+
       
-     
+          
+       pacienteData =  ConsultasDB.ListaPacientes();
+      DocumentosData = ConsultasDB.ListaTipoDocumento();
+        cbTipoDoc.setItems(DocumentosData);
        
-            
+       
      }   
     @FXML
      private void btnBuscar_click() 
@@ -99,22 +110,38 @@ public class PacienteController implements Initializable {
          // Paciente PacienteTEST = new Paciente(1,1,34000000,"ApellidoTest", "NombreTest", '2015-09-09',"asd",1234,"asd",4411,,"m",true);
             
         //  public Paciente(int idPaciente, int tipoDoc, long numeroDoc, String apellido, String nombre, Date fechaNacimiento, String direccion, long numeroAsociado, String email, String telefono, Blob foto, String sexo, boolean enTratamiento) {
+               
+     // 1. Wrap the ObservableList in a FilteredList (initially display all data).
+        FilteredList<Paciente> filteredData = new FilteredList<>(pacienteData, p -> true);
+
+        // 2. Set the filter Predicate whenever the filter changes.
+        txtCampoBusqueda.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(Paciente -> {
+                // If filter text is empty, display all persons.
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+
+                // Compare first name and last name of every person with filter text.
+                String lowerCaseFilter = newValue.toLowerCase();
+
+                if (Paciente.getNombre().toString().toLowerCase().contains(lowerCaseFilter)) {
+                    return true; // Filter matches first name.
+                } else if (Paciente.getApellido().toString().toLowerCase().contains(lowerCaseFilter)) {
+                    return true; // Filter matches last name.
+                }
+                return false; // Does not match.
+            });
+        });
       
-        if (this.txtCampoBusqueda.getText().isEmpty())
-        {
-        
-        }
-            if (griListaPacientes.getItems().size() > 5 )
-            {
-             
-            }else
-            {
-              pacienteData =  ConsultasDB.ListaPacientes();
-                                      
-            }
-                       
-        griListaPacientes.setItems(pacienteData);
-    
+        // 3. Wrap the FilteredList in a SortedList. 
+        SortedList<Paciente> sortedData = new SortedList<>(filteredData);
+
+        // 4. Bind the SortedList comparator to the TableView comparator.
+        sortedData.comparatorProperty().bind(griListaPacientes.comparatorProperty());
+
+        // 5. Add sorted (and filtered) data to the table.
+        griListaPacientes.setItems(sortedData);
       
     }
      @FXML
@@ -128,7 +155,8 @@ public class PacienteController implements Initializable {
             txtNombre.setText(String.valueOf( PacienteActual.getNombre().getValue() ) );
             txtApellido.setText(String.valueOf(PacienteActual.getApellido().getValue()));
             txtNumeroDoc.setText(String.valueOf(PacienteActual.getNumeroDoc().getValue()));
-         //   txtTipoDoc.setText(String.valueOf(PacienteActual.getTipoDoc().getValue()));
+              cbTipoDoc.setValue(String.valueOf(PacienteActual.getTipoDoc().getValue())  );
+//   txtTipoDoc.setText(String.valueOf(PacienteActual.getTipoDoc().getValue()));
            // txtNumeroAsociado.setText(PacienteActual.getStreet());
   
         } else {
@@ -136,7 +164,7 @@ public class PacienteController implements Initializable {
             txtNombre.setText("");
             txtApellido.setText("");
             txtNumeroDoc.setText("");
-          //  txtTipoDoc.setText("");
+        
       
         }
     }
@@ -148,41 +176,43 @@ public class PacienteController implements Initializable {
             txtNumeroDoc.setText("");
          //   txtTipoDoc.setText("");
             
-            txtIdPaciente.setText( String.valueOf( griListaPacientes.getItems().size()+1 ));
+            txtIdPaciente.setText( String.valueOf( pacienteData.size() +1  ));
             
             txtNombre.setEditable(true);
             txtApellido.setEditable(true);
             txtNumeroDoc.setEditable(true);
          //   txtTipoDoc.setEditable(true);
+             cbTipoDoc.setDisable(false);
        
      }
      @FXML
      private void btnAceptar_click() 
      {      
             
-        if (Integer.valueOf( txtIdPaciente.getText()) <= griListaPacientes.getItems().size() )
+        if (Integer.valueOf( txtIdPaciente.getText()) <= pacienteData.size() )
         {
                   PacienteActual.setApellido(txtApellido.getText());
                   PacienteActual.setNombre(txtNombre.getText());
                   PacienteActual.setNumeroDoc(Integer.valueOf(txtNumeroDoc.getText()));
-                 // PacienteActual.setTipoDoc(Integer.valueOf( txtTipoDoc.getText() ));
+                  PacienteActual.setTipoDoc(cbTipoDoc.getValue().toString());
                   
                   txtNombre.setEditable(false);
                   txtApellido.setEditable(false);
                   txtNumeroDoc.setEditable(false);
              //     txtTipoDoc.setEditable(false);
+                  cbTipoDoc.setDisable(true);
         }
         else           
         {
-           //Paciente PacienteTemp =  new Paciente( Integer.valueOf( txtIdPaciente.getText()) , Integer.valueOf( txtTipoDoc.getText() ) , Integer.valueOf( txtNumeroDoc.getText() ),txtApellido.getText(), txtNombre.getText(),new );
-           
+       //    Paciente PacienteTemp =  new Paciente(Integer.valueOf( txtIdPaciente.getText()) , cbTipoDoc.getValue().toString() , Integer.valueOf( txtNumeroDoc.getText() ),txtApellido.getText(), txtNombre.getText(),new );
+          Paciente PacienteTemp = new Paciente(Integer.valueOf( txtIdPaciente.getText()),  cbTipoDoc.getValue().toString(), Integer.valueOf( txtNumeroDoc.getText() ),txtApellido.getText(),txtNombre.getText());
             // Date fechaNacimiento, String direccion, long numeroAsociado, String email, String telefono, Blob foto, String sexo, boolean enTratamiento) {
     
-         //   pacienteData.add(PacienteTemp);
+           pacienteData.add(PacienteTemp);
             txtNombre.setEditable(false);
             txtApellido.setEditable(false);
             txtNumeroDoc.setEditable(false);
-          //  txtTipoDoc.setEditable(false);
+            cbTipoDoc.setDisable(true);
          }       
         
            
@@ -193,7 +223,9 @@ public class PacienteController implements Initializable {
             txtNombre.setEditable(true);
             txtApellido.setEditable(true);
             txtNumeroDoc.setEditable(true);
-         //   txtTipoDoc.setEditable(true);            
+         //   txtTipoDoc.setEditable(true); 
+            cbTipoDoc.setDisable(false);
+            
      }
      
     @FXML

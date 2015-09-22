@@ -12,6 +12,7 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import sedira.ConsultasDB;
 import sedira.model.ProgresoPaciente;
 
 /**
@@ -25,7 +26,7 @@ public class Paciente {
     
    
     private  IntegerProperty idPaciente;
-    private  IntegerProperty tipoDoc;
+    private  StringProperty tipoDoc;
     private  IntegerProperty numeroDoc;
     private  StringProperty apellido;
     private  StringProperty nombre;
@@ -47,9 +48,9 @@ public class Paciente {
      /**
     * Contructor con parametros
     */
-    public Paciente(int idPaciente, int tipoDoc, long numeroDoc, String apellido, String nombre,/* Date fechaNacimiento, */String direccion, long numeroAsociado, String email, String telefono,/* Blob foto,*/ String sexo, boolean enTratamiento) {
+    public Paciente(int idPaciente, String tipoDoc, long numeroDoc, String apellido, String nombre,/* Date fechaNacimiento, */String direccion, long numeroAsociado, String email, String telefono,/* Blob foto,*/ String sexo, boolean enTratamiento) {
         this.idPaciente = new SimpleIntegerProperty(idPaciente);
-        this.tipoDoc = new SimpleIntegerProperty(tipoDoc);
+        this.tipoDoc = new SimpleStringProperty(tipoDoc);
         this.numeroDoc = new SimpleIntegerProperty((int) numeroDoc);
         this.apellido = new SimpleStringProperty(apellido);
         this.nombre = new SimpleStringProperty(nombre);
@@ -63,9 +64,9 @@ public class Paciente {
         this.enTratamiento = enTratamiento;
     }
 
-    public Paciente(int idPaciente, int tipoDoc, long numeroDoc, String apellido, String nombre) {
+    public Paciente(int idPaciente, String tipoDoc, long numeroDoc, String apellido, String nombre) {
         this.idPaciente = new SimpleIntegerProperty(idPaciente);
-        this.tipoDoc = new SimpleIntegerProperty(tipoDoc);
+        this.tipoDoc = new SimpleStringProperty(tipoDoc);
         this.numeroDoc = new SimpleIntegerProperty((int) numeroDoc);
         this.apellido = new SimpleStringProperty(apellido);
         this.nombre = new SimpleStringProperty(nombre);
@@ -78,12 +79,13 @@ public class Paciente {
    public IntegerProperty getidPaciente() {
         return idPaciente;
     }
-      public IntegerProperty getTipoDoc() {
+      public StringProperty getTipoDoc() {
         return tipoDoc;
     }
     public IntegerProperty getNumeroDoc() {
         return numeroDoc;
     }
+   
     public StringProperty getApellido() {
         return apellido;
     }      
@@ -127,7 +129,7 @@ public class Paciente {
     * Métodos SETters
     */
     
-   public void setTipoDoc(Integer TipoDoc)
+   public void setTipoDoc(String TipoDoc)
     {
          this.tipoDoc.setValue(TipoDoc);
     }
