@@ -6,13 +6,13 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="363.0" prefWidth="698.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sedira.vistas.PestañaPacienteController">
+<AnchorPane id="AnchorPane" prefHeight="470.0" prefWidth="698.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sedira.vistas.PestañaPacienteController">
    <children>
-      <SplitPane dividerPositions="0.22135416666666666" layoutY="25.0" orientation="VERTICAL" prefHeight="347.0" prefWidth="575.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <SplitPane dividerPositions="0.14102564102564102" layoutY="25.0" orientation="VERTICAL" prefHeight="347.0" prefWidth="575.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <items>
-            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="59.0" prefWidth="696.0">
                <children>
-                  <TextField layoutX="246.0" layoutY="21.0" prefHeight="36.0" prefWidth="205.0" promptText="Búsqueda ..." />
+                  <TextField layoutX="246.0" layoutY="14.0" prefHeight="36.0" prefWidth="205.0" promptText="Búsqueda ..." />
                </children>
             </AnchorPane>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="238.0" prefWidth="698.0">

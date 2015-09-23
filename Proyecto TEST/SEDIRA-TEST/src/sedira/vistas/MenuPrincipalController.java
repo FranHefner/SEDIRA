@@ -62,9 +62,9 @@ public class MenuPrincipalController implements Initializable {
         Parent root = FXMLLoader.load(getClass().getResource("Calculo.fxml"));
         Scene scene = new Scene(root);        
         stage.setMaxWidth(700);        
-        stage.setMaxHeight(600);
+        stage.setMaxHeight(681);
         stage.setMinWidth(700);        
-        stage.setMinHeight(600);
+        stage.setMinHeight(681);
         stage.setScene(scene);
         stage.setTitle("Calcular Dosis Administrada");
         stage.show();          
