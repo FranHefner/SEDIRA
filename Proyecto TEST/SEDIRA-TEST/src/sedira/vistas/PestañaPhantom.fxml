@@ -31,17 +31,20 @@
                         </TableView>
                      </children>
                   </AnchorPane>
-                  <Button layoutX="226.0" layoutY="359.0" mnemonicParsing="false" prefHeight="22.0" prefWidth="55.0" text="Nuevo" />
-                  <Button layoutX="309.0" layoutY="359.0" mnemonicParsing="false" prefHeight="22.0" prefWidth="55.0" text="Editar" />
-                  <Button layoutX="394.0" layoutY="359.0" mnemonicParsing="false" prefHeight="22.0" prefWidth="61.0" text="Aceptar" />
+                  <Button fx:id="btnNuevo" layoutX="226.0" layoutY="359.0" mnemonicParsing="false" prefHeight="22.0" prefWidth="55.0" text="Nuevo" />
+                  <Button fx:id="btnEditar" layoutX="309.0" layoutY="359.0" mnemonicParsing="false" prefHeight="22.0" prefWidth="55.0" text="Editar" />
+                  <Button fx:id="btnAceptar" layoutX="394.0" layoutY="359.0" mnemonicParsing="false" prefHeight="22.0" prefWidth="61.0" text="Aceptar" />
                   <TitledPane animated="false" collapsible="false" layoutX="371.0" layoutY="11.0" prefHeight="133.0" prefWidth="289.0" text="Caracteristicas del Phantom:">
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="104.0" prefWidth="247.0">
                            <children>
                               <Label layoutX="10.0" layoutY="16.0" prefHeight="14.0" prefWidth="61.0" text="Propiedad" />
                               <Label layoutX="10.0" layoutY="52.0" text="Valor" />
-                              <TextField layoutX="71.0" layoutY="10.0" prefHeight="29.0" prefWidth="142.0" promptText="Altura" />
-                              <TextField layoutX="71.0" layoutY="46.0" prefHeight="29.0" prefWidth="142.0" promptText="60" />
+                              <TextField layoutX="71.0" layoutY="8.0" prefHeight="29.0" prefWidth="142.0" />
+                              <TextField layoutX="71.0" layoutY="43.0" prefHeight="29.0" prefWidth="142.0" />
+                              <Label layoutX="10.0" layoutY="84.0" text="Unidad" />
+                              <ComboBox layoutX="72.0" layoutY="80.0" prefHeight="23.0" prefWidth="140.0" />
+                              <Button layoutX="224.0" layoutY="80.0" mnemonicParsing="false" text="..." />
                            </children>
                         </AnchorPane>
                     </content>
@@ -65,6 +68,7 @@
                      <columns>
                         <TableColumn prefWidth="75.0" text="Propiedad" />
                         <TableColumn prefWidth="75.0" text="Valor" />
+                        <TableColumn editable="false" prefWidth="75.0" text="Unidad" />
                      </columns>
                   </TableView>
                </children>
