@@ -15,6 +15,7 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -42,7 +43,6 @@ public class ProgresoPacienteController implements Initializable {
        final LineChart<String,Number> lineChart = 
                 new LineChart<String,Number>(xAxis,yAxis);
        
-       
                           
         XYChart.Series series1 = new XYChart.Series();
         series1.setName("Pepe Perez");
@@ -66,6 +66,7 @@ public class ProgresoPacienteController implements Initializable {
         series2.getData().add(new XYChart.Data("01/10/2015", 0));
         series2.getData().add(new XYChart.Data("05/10/2015", 5));
         series2.getData().add(new XYChart.Data("07/10/2015", 8));
+        
         
         
         

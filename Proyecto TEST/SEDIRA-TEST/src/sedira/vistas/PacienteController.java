@@ -193,6 +193,18 @@ public class PacienteController implements Initializable {
     private void btnHistorialSEDIRA_click() throws IOException
     { 
         Stage stage = new Stage();
+        Parent root = FXMLLoader.load(getClass().getResource("HistorialSEDIRA.fxml"));
+        Scene scene = new Scene(root);
+              stage.setScene(scene);
+        
+        stage.setTitle("Cálculos SEDIRA");
+        stage.show();   
+    }
+    
+     @FXML
+    private void btnMediciones_click() throws IOException
+    { 
+        Stage stage = new Stage();
         Parent root = FXMLLoader.load(getClass().getResource("ProgresoPaciente.fxml"));
         Scene scene = new Scene(root);
               stage.setScene(scene);
