@@ -12,7 +12,7 @@
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="59.0" prefWidth="698.0">
                <children>
-                  <ChoiceBox layoutX="261.0" layoutY="24.0" prefHeight="29.0" prefWidth="189.0" />
+                  <ChoiceBox fx:id="choicePhantom" layoutX="261.0" layoutY="24.0" prefHeight="29.0" prefWidth="189.0" />
                   <Label layoutX="289.0" layoutY="2.0" prefHeight="22.0" prefWidth="132.0" text="Seleccionar el Phantom:" />
                </children>
             </AnchorPane>
@@ -20,10 +20,10 @@
                <children>
                   <AnchorPane layoutX="56.0" layoutY="153.0" prefHeight="190.0" prefWidth="207.0">
                      <children>
-                        <TableView layoutX="4.0" layoutY="37.0" prefHeight="274.0" prefWidth="207.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <TableView fx:id="griOrgano" layoutX="4.0" layoutY="37.0" prefHeight="274.0" prefWidth="207.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <columns>
-                            <TableColumn prefWidth="75.0" text="Organo" />
-                            <TableColumn prefWidth="75.0" text="Masa (grs)" />
+                            <TableColumn fx:id="clOrganoNombre" prefWidth="75.0" text="Organo" />
+                            <TableColumn fx:id="clOrganoMasa" prefWidth="75.0" text="Masa (grs)" />
                           </columns>
                            <columnResizePolicy>
                               <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -40,10 +40,10 @@
                            <children>
                               <Label layoutX="10.0" layoutY="16.0" prefHeight="14.0" prefWidth="61.0" text="Propiedad" />
                               <Label layoutX="10.0" layoutY="52.0" text="Valor" />
-                              <TextField layoutX="71.0" layoutY="8.0" prefHeight="29.0" prefWidth="142.0" />
-                              <TextField layoutX="71.0" layoutY="43.0" prefHeight="29.0" prefWidth="142.0" />
+                              <TextField fx:id="txtPhantomPropiedad" layoutX="71.0" layoutY="8.0" prefHeight="29.0" prefWidth="142.0" />
+                              <TextField fx:id="txtPhantomValor" layoutX="71.0" layoutY="43.0" prefHeight="29.0" prefWidth="142.0" />
                               <Label layoutX="10.0" layoutY="84.0" text="Unidad" />
-                              <ComboBox layoutX="72.0" layoutY="80.0" prefHeight="23.0" prefWidth="140.0" />
+                              <ComboBox fx:id="cbUnidad" layoutX="72.0" layoutY="80.0" prefHeight="23.0" prefWidth="140.0" />
                               <Button layoutX="224.0" layoutY="80.0" mnemonicParsing="false" text="..." />
                            </children>
                         </AnchorPane>
@@ -55,20 +55,20 @@
                            <children>
                               <Label layoutX="14.0" layoutY="31.0" text="Organo:" />
                               <Label layoutX="14.0" layoutY="67.0" text="Masa (grs):" />
-                              <TextField layoutX="86.0" layoutY="20.0" prefHeight="29.0" prefWidth="142.0" />
-                              <TextField layoutX="86.0" layoutY="56.0" prefHeight="29.0" prefWidth="142.0" />
+                              <TextField fx:id="txtOrganoNombre" layoutX="86.0" layoutY="20.0" prefHeight="29.0" prefWidth="142.0" />
+                              <TextField fx:id="txtOrganoMasa" layoutX="86.0" layoutY="56.0" prefHeight="29.0" prefWidth="142.0" />
                            </children>
                         </AnchorPane>
                     </content>
                   </TitledPane>
-                  <TableView layoutX="371.0" layoutY="153.0" prefHeight="190.0" prefWidth="230.0">
+                  <TableView fx:id="griValorDescripcionPhantom" layoutX="371.0" layoutY="153.0" prefHeight="190.0" prefWidth="230.0">
                      <columnResizePolicy>
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                      </columnResizePolicy>
                      <columns>
-                        <TableColumn prefWidth="75.0" text="Propiedad" />
-                        <TableColumn prefWidth="75.0" text="Valor" />
-                        <TableColumn editable="false" prefWidth="75.0" text="Unidad" />
+                        <TableColumn fx:id="clVdDescripcion" prefWidth="75.0" text="Propiedad" />
+                        <TableColumn fx:id="clVdValor" prefWidth="75.0" text="Valor" />
+                        <TableColumn fx:id="clVdUnidad" editable="false" prefWidth="75.0" text="Unidad" />
                      </columns>
                   </TableView>
                </children>

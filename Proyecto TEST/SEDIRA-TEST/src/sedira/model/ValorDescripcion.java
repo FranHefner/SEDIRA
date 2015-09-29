@@ -6,12 +6,13 @@
 package sedira.model;
 
 /**
- *
- * @author Fran
- */
+ *Clase que describe a tablas de tipo Valor - Descripcion. Utilizado para mejorar la escalabilidad del proyecto. 
+ * @author Hefner Francisco, Quelin Pablo
+*/
 public class ValorDescripcion {
     
-       int Valor;
+       double Valor;
        String Descripcion;
+       String unidad;
     
 }
