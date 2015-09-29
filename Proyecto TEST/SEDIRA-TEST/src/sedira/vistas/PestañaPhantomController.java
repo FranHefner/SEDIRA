@@ -8,11 +8,12 @@ package sedira.vistas;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
+import sedira.ConsultasDB;
 
 /**
- * FXML Controller class
+ * Clase controladora del archivo FXML PestañaPhantom. 
  *
- * @author Fran
+ * @author Hefner Francisco, Quelin Pablo 
  */
 public class PestañaPhantomController implements Initializable {
 

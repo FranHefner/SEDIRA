@@ -40,6 +40,11 @@ public class ConsultasDB {
             
             return pacienteData;
      }
+     
+     /**
+      * Metodo que inicializa los tipos de documento. 
+      * @return Listado  de los tipos de Documento. 
+      */
       public static ObservableList<String> ListaTipoDocumento ()
      {
           ObservableList<TipoDocumento> TipoDocumentosData = FXCollections.observableArrayList();
@@ -56,6 +61,26 @@ public class ConsultasDB {
           
      }
      /**
+      * Metodo que inicializa un Phantom por defecto. Corresponde a los siguientes datos datos por el 
+      * modelo de Stabin MG y JA Siegel - 2003
+      *  
+      * @return Objeto Phantom, compuesto por atributos por defecto y 2 organos. 
+      */
+     public static Phantom initPhantom ()
+     {
+         Phantom phantom = new Phantom ("Adulto Masculino 78kg", 1.67, 18.000,null);
+         // Temporalmente se utiliza un contructor acotado de los organos que forman parte de un Phantom. 
+         // Un phantom esta compuesto de varios organos. Un organos puede formar parte de varios Phantoms. 
+            ObservableList<Organo> organosData = FXCollections.observableArrayList();
+                organosData.add(  new Organo ("Riñon",299,73700));
+                organosData.add(  new Organo ("Tiroide",20.9,73700));
+            
+            phantom.setOrgano(organosData); //Agrego la lista de organos al phantom recien creado.
+            
+            return phantom;
+     }
+     
+     /**
       * Método para actualizar un paciente
       * @param IdPaciente Identificación del paciente
       * @param PacienteActualizado Paciente para actualizar
@@ -66,7 +91,7 @@ public class ConsultasDB {
          
          return true;
      }
-   /**
+     /**
      * Método para obtener la lista de órganos
      * @return Lista de órganos
      */

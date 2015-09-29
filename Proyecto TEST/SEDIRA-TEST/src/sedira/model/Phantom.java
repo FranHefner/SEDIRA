@@ -15,18 +15,18 @@ import javafx.collections.ObservableList;
 public class Phantom {
     
     private String panthom;
-    private int height; //Altura en cm.
-    private int bodySurfaceArea; // Superficie del cuerpo en cm2
+    private double height; //Altura en cm.
+    private double bodySurfaceArea; // Superficie del cuerpo en cm2
     private ObservableList <Organo> organo;
 
     /**
      * Contructor de Clase Phantom. Un phantom contiene una lista de Organos
-     * @param panthom
-     * @param height
-     * @param bodySurfaceArea
-     * @param organo 
+     * @param panthom Nombre del Phantom
+     * @param height Altura
+     * @param bodySurfaceArea Superficie del cuerpo. Dada en cm2
+     * @param organo Lista de organos que componen un Phantom. 
      */
-    public Phantom(String panthom, int height, int bodySurfaceArea, ObservableList<Organo> organo) {
+    public Phantom(String panthom, double height, double bodySurfaceArea, ObservableList<Organo> organo) {
         this.panthom = panthom;
         this.height = height;
         this.bodySurfaceArea = bodySurfaceArea;
@@ -41,19 +41,19 @@ public class Phantom {
         this.panthom = panthom;
     }
 
-    public int getHeight() {
+    public double getHeight() {
         return height;
     }
 
-    public void setHeight(int height) {
+    public void setHeight(double height) {
         this.height = height;
     }
 
-    public int getBodySurfaceArea() {
+    public double getBodySurfaceArea() {
         return bodySurfaceArea;
     }
 
-    public void setBodySurfaceArea(int bodySurfaceArea) {
+    public void setBodySurfaceArea(double bodySurfaceArea) {
         this.bodySurfaceArea = bodySurfaceArea;
     }
 

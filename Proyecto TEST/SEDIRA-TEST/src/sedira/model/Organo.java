@@ -12,16 +12,16 @@ package sedira.model;
  */
 public class Organo {
     private String nombreOrgano; 
-    private int organMass; // masa de un organo en particular. 
-    private int totalMass; // masa total del cuerpo. 
+    private double organMass; // masa de un organo en particular. 
+    private double totalMass; // masa total del cuerpo. 
 
     /**
      * Constructor para los Organos. 
-     * @param nombreOrgano
-     * @param organMass
-     * @param totalMass 
+     * @param nombreOrgano Nombre descriptivo de un organo. Ejemplo: Riñon. 
+     * @param organMass Masa del organo en gramos, 
+     * @param totalMass Masa del total del cuerpo. Depende de la sumaroria de las masas de los organos corportales y estructura osea.
      */
-    public Organo(String nombreOrgano, int organMass, int totalMass) {
+    public Organo(String nombreOrgano, double organMass, double totalMass) {
         this.nombreOrgano = nombreOrgano;
         this.organMass = organMass;
         this.totalMass = totalMass;
@@ -35,19 +35,19 @@ public class Organo {
         this.nombreOrgano = nombreOrgano;
     }
 
-    public int getOrganMass() {
+    public double getOrganMass() {
         return organMass;
     }
 
-    public void setOrganMass(int organMass) {
+    public void setOrganMass(double organMass) {
         this.organMass = organMass;
     }
 
-    public int getTotalMass() {
+    public double getTotalMass() {
         return totalMass;
     }
 
-    public void setTotalMass(int totalMass) {
+    public void setTotalMass(double totalMass) {
         this.totalMass = totalMass;
     }
     
