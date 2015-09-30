@@ -15,6 +15,7 @@ import sedira.model.TipoDocumento;
 import sedira.model.Paciente;
 import sedira.model.Phantom;
 import sedira.model.Organo;
+import sedira.model.ValorDescripcion;
 /**
  * Clase de consultas y persistencia de datos.
  * @author Hefner Francisco, Quelin Pablo
@@ -64,20 +65,27 @@ public class ConsultasDB {
       * Metodo que inicializa un Phantom por defecto. Corresponde a los siguientes datos datos por el 
       * modelo de Stabin MG y JA Siegel - 2003
       *  
-      * @return Objeto Phantom, compuesto por atributos por defecto y 2 organos. 
+      * @return Objeto Phantom, compuesto arreglo de objetos tipo Valor-Descripcion y arreglo de Organos.  
       */
-     public static Phantom initPhantom ()
+     public static ObservableList <Phantom> listaPhantom ()
      {
-         Phantom phantom = new Phantom ("Adulto Masculino 78kg", 1.67, 18.000,null);
-         // Temporalmente se utiliza un contructor acotado de los organos que forman parte de un Phantom. 
-         // Un phantom esta compuesto de varios organos. Un organos puede formar parte de varios Phantoms. 
-            ObservableList<Organo> organosData = FXCollections.observableArrayList();
-                organosData.add(  new Organo ("Riñon",299,73700));
-                organosData.add(  new Organo ("Tiroide",20.9,73700));
-            
-            phantom.setOrgano(organosData); //Agrego la lista de organos al phantom recien creado.
-            
-            return phantom;
+        // Un phantom esta compuesto de varios organos. Un organos puede formar parte de varios Phantoms. 
+        // Temporalmente se utiliza un contructor acotado de los organos que forman parte de un Phantom.
+        ObservableList<Organo> organosData = FXCollections.observableArrayList();
+            organosData.add(  new Organo ("Riñon",299,73700));
+            organosData.add(  new Organo ("Tiroide",20.9,73700));
+        
+        ObservableList <ValorDescripcion> listaAtributoPhantom = FXCollections.observableArrayList(); 
+            listaAtributoPhantom.add(new ValorDescripcion("Altura",167,"cm"));
+            listaAtributoPhantom.add(new ValorDescripcion("Sup Cuerpo",18000,"cm2"));
+            listaAtributoPhantom.add(new ValorDescripcion("Peso total",73700,"grs"));
+       
+        ObservableList <Phantom> listaPhantom = FXCollections.observableArrayList();
+            listaPhantom.add(new Phantom ("Adulto Masculino 76kg",listaAtributoPhantom,organosData));
+            //listaPhantom.add(new Phantom ("Otro Phantom", 0000, 0000,null));
+         
+                       
+        return listaPhantom;
      }
      
      /**
@@ -95,12 +103,15 @@ public class ConsultasDB {
      * Método para obtener la lista de órganos
      * @return Lista de órganos
      */
-    public static ArrayList<Organo> ObtenerOrganos()
+    
+     public static ArrayList<Organo> ObtenerOrganos()
     {
         ArrayList<Organo> listaOrgano = null ;
 
           return  listaOrgano;        
     }
+   
+     
      /**
      * Método para obtener la lista de Phantoms
      * @return Lista de Phantoms

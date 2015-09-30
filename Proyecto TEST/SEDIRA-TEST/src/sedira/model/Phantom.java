@@ -5,6 +5,8 @@
  */
 package sedira.model;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
 
 /**
@@ -14,47 +16,40 @@ import javafx.collections.ObservableList;
  */
 public class Phantom {
     
-    private String panthom;
-    private double height; //Altura en cm.
-    private double bodySurfaceArea; // Superficie del cuerpo en cm2
+   private StringProperty phantom;
+    /*private double height; //Altura en cm.
+    private double bodySurfaceArea; // Superficie del cuerpo en cm2*/
+    private ObservableList <ValorDescripcion> propiedades; 
     private ObservableList <Organo> organo;
 
-    /**
-     * Contructor de Clase Phantom. Un phantom contiene una lista de Organos
-     * @param panthom Nombre del Phantom
-     * @param height Altura
-     * @param bodySurfaceArea Superficie del cuerpo. Dada en cm2
-     * @param organo Lista de organos que componen un Phantom. 
-     */
-    public Phantom(String panthom, double height, double bodySurfaceArea, ObservableList<Organo> organo) {
-        this.panthom = panthom;
-        this.height = height;
-        this.bodySurfaceArea = bodySurfaceArea;
+   /**
+    * Construcor de Phantoms, Contiend una lista de valor-descripcion. Para la mejor escalabilidad. 
+    * @param phantom
+    * @param propiedades
+    * @param organo 
+    */
+    public Phantom(String phantom, ObservableList<ValorDescripcion> propiedades, ObservableList<Organo> organo) {
+        this.phantom = new SimpleStringProperty (phantom);
+        this.propiedades = propiedades;
         this.organo = organo;
     }
 
-    public String getPanthom() {
-        return panthom;
+    public StringProperty getPhantom() {
+        return phantom;
     }
 
-    public void setPanthom(String panthom) {
-        this.panthom = panthom;
+    public void setPhantom(StringProperty phantom) {
+        this.phantom = phantom;
+    }
+   
+
+    
+    public ObservableList<ValorDescripcion> getPropiedades() {
+        return propiedades;
     }
 
-    public double getHeight() {
-        return height;
-    }
-
-    public void setHeight(double height) {
-        this.height = height;
-    }
-
-    public double getBodySurfaceArea() {
-        return bodySurfaceArea;
-    }
-
-    public void setBodySurfaceArea(double bodySurfaceArea) {
-        this.bodySurfaceArea = bodySurfaceArea;
+    public void setPropiedades(ObservableList<ValorDescripcion> propiedades) {
+        this.propiedades = propiedades;
     }
 
     public ObservableList<Organo> getOrgano() {
@@ -64,6 +59,9 @@ public class Phantom {
     public void setOrgano(ObservableList<Organo> organo) {
         this.organo = organo;
     }
+    
+
+   
     
        
     
