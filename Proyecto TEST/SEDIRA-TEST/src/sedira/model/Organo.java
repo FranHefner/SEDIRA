@@ -43,7 +43,7 @@ public class Organo {
     public DoubleProperty getOrganMass() {
         return organMass;
     }
-
+    
     public void setOrganMass(DoubleProperty organMass) {
         this.organMass = organMass;
     }

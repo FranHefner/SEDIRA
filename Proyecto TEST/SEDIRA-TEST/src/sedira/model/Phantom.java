@@ -42,8 +42,7 @@ public class Phantom {
         this.phantom = phantom;
     }
    
-
-    
+   
     public ObservableList<ValorDescripcion> getPropiedades() {
         return propiedades;
     }

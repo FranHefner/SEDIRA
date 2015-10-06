@@ -32,28 +32,36 @@ public class ValorDescripcion {
         this.unidad = new SimpleStringProperty (unidad);
     }
 
-    public StringProperty getDescripcion() {
-        return descripcion;
+    public String getDescripcion() {
+        return descripcion.get();
     }
 
     public void setDescripcion(StringProperty descripcion) {
         this.descripcion = descripcion;
     }
-
-    public DoubleProperty getValor() {
-        return valor;
+    public StringProperty  descripcionProperty (){
+        return descripcion;
+    }
+    public Double getValor() {
+        return valor.get();
     }
 
     public void setValor(DoubleProperty valor) {
         this.valor = valor;
     }
+    public DoubleProperty valorProperty (){
+        return valor;
+    }
 
-    public StringProperty getUnidad() {
-        return unidad;
+    public String getUnidad() {
+        return unidad.get();
     }
 
     public void setUnidad(StringProperty unidad) {
         this.unidad = unidad;
+    }
+    public StringProperty unidadProperty(){
+        return unidad; 
     }
 
    

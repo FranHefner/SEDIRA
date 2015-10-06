@@ -73,6 +73,8 @@ public class PestañaPhantomController implements Initializable {
         
     //Objeto de tipo Phantom auxiliar. 
         private Phantom phantomActual;
+    //Objeto de tipo ValorDescripcopn auxiliar. 
+        private ValorDescripcion phantomValorDescripcion;
     //Objeto de tipo Organo auxiliar. 
         private Organo organoActual;
     
@@ -90,33 +92,26 @@ public class PestañaPhantomController implements Initializable {
         // Limpieza de los detalles de organos. 
         showDetalleOrgano(null);
 
-        /**
-         * 
-         *listen para los cambios en la seleccion. Y mostrarlo en la Tabla de organos. 
-         * No iria showDetalleOrgano, Si no que iria El organoSeleccionado en el Choice Box, Posiblemente OrganoActual. 
-         * 
-         
+        //listener para los cambios en la seleccion. Y mostrarlo en la Tabla de Organo. 
         griOrgano.getSelectionModel().selectedItemProperty().addListener(
-               (observable, oldValue, newValue) -> showDetalleOrgano(newValue));
+               (observable, oldValue, newValue) -> seleccionOrgano(newValue));
         
-        * 
-        */
+       
         
        //Inicializo la tabla de Propiedad Valor, correspondiente a los Phantoms. 
-       clVdValor.setCellValueFactory(
-               cellData -> cellData.getValue().getValor().asObject());
+        clVdValor.setCellValueFactory(
+               cellData -> cellData.getValue().valorProperty().asObject());
         clVdDescripcion.setCellValueFactory(
-                cellData->cellData.getValue().getDescripcion());
+                cellData->cellData.getValue().descripcionProperty());
         clVdUnidad.setCellValueFactory(
-                cellData -> cellData.getValue().getUnidad());
+                cellData -> cellData.getValue().unidadProperty());
         // Limpieza de los detalles de Phantoms. 
         showDetallePhantom(null);
-        
-        
-        /** Mismo Problema que con los organos. 
-         *  griOrgano.getSelectionModel().selectedItemProperty().addListener(
-               (observable, oldValue, newValue) -> showDetallePhantom(newValue));
-         */
+       
+         //listener para los cambios en la seleccion. Y mostrarlo en la Tabla de Phantoms 
+          griValorDescripcionPhantom.getSelectionModel().selectedItemProperty().addListener(
+              (observable, oldValue, newValue) -> seleccionPhantom(newValue));
+         
        
         
         //Inicializo la lista de Phantoms para el ChoiceBox
@@ -146,7 +141,10 @@ public class PestañaPhantomController implements Initializable {
        
     
     }
-    
+    /**
+     * Muestra el detalle del Phantom en la tabla Phantoms 
+     * @param infoPhantom 
+     */
      @FXML
     private void showDetallePhantom(ObservableList<ValorDescripcion> infoPhantom) {
        //Aca se utiliza la tabla Descripcion - Valor. 
@@ -175,5 +173,40 @@ public class PestañaPhantomController implements Initializable {
                 }
             });
     }
-    
+    /**
+     * Completa los textField con el organo seleccionado de la tabla de Organos 
+     * @param organoActual 
+     */
+    @FXML 
+    private void seleccionOrgano (Organo organoActual){
+        if (organoActual != null) {
+            
+            this.organoActual = organoActual;
+            txtOrganoNombre.setText(String.valueOf( organoActual.getNombreOrgano().getValue() ) );
+            txtOrganoMasa.setText(String.valueOf( organoActual.getOrganMass().getValue() ) );
+             
+        } else {
+            txtOrganoNombre.setText("");
+            txtOrganoMasa.setText("");
+             
+        }
+    }
+    /**
+     * Completa los textfield con la informacion de los Items del Phantom seleccionado. 
+     * @param phantomValorDescripcion 
+     */
+    @FXML 
+    private void seleccionPhantom (ValorDescripcion phantomValorDescripcion){
+        
+        if (phantomValorDescripcion != null) {
+            this.phantomValorDescripcion = phantomValorDescripcion;
+            txtPhantomPropiedad.setText(phantomValorDescripcion.getDescripcion());
+            txtPhantomValor.setText(Double.toString(phantomValorDescripcion.getValor()));
+        
+        } else {
+            txtPhantomPropiedad.setText("");
+            txtPhantomValor.setText("");
+             
+        }
+    }
 }
