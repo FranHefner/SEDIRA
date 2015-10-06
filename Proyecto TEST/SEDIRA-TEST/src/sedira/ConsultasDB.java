@@ -71,18 +71,33 @@ public class ConsultasDB {
      {
         // Un phantom esta compuesto de varios organos. Un organos puede formar parte de varios Phantoms. 
         // Temporalmente se utiliza un contructor acotado de los organos que forman parte de un Phantom.
-        ObservableList<Organo> organosData = FXCollections.observableArrayList();
+        
+        //Ejemplo Organos Masculino
+         ObservableList<Organo> organosData = FXCollections.observableArrayList();
             organosData.add(  new Organo ("Riñon",299,73700));
             organosData.add(  new Organo ("Tiroide",20.9,73700));
+            
+        //Ejemplo Organos femenino
+        ObservableList<Organo> organosDataFem = FXCollections.observableArrayList();
+            organosDataFem.add(  new Organo ("Ovarios",19,56800));
+            organosDataFem.add(  new Organo ("Tiroide",17,56800));
+            organosDataFem.add(  new Organo ("Riñon",275,56800));
         
+        //Ejemplo Phantom masculino    
         ObservableList <ValorDescripcion> listaAtributoPhantom = FXCollections.observableArrayList(); 
             listaAtributoPhantom.add(new ValorDescripcion("Altura",167,"cm"));
             listaAtributoPhantom.add(new ValorDescripcion("Sup Cuerpo",18000,"cm2"));
             listaAtributoPhantom.add(new ValorDescripcion("Peso total",73700,"grs"));
+        
+        //Ejemplo Phantom Femenino
+        ObservableList <ValorDescripcion> listaAtributoPhantomFem = FXCollections.observableArrayList(); 
+            listaAtributoPhantomFem.add(new ValorDescripcion("Altura",0,"cm"));
+            listaAtributoPhantomFem.add(new ValorDescripcion("Sup Cuerpo",0,"cm2"));
+            listaAtributoPhantomFem.add(new ValorDescripcion("Peso total",56800,"grs"));
        
         ObservableList <Phantom> listaPhantom = FXCollections.observableArrayList();
             listaPhantom.add(new Phantom ("Adulto Masculino 76kg",listaAtributoPhantom,organosData));
-            //listaPhantom.add(new Phantom ("Otro Phantom", 0000, 0000,null));
+            listaPhantom.add(new Phantom ("Adulto Femenino 56.8kg", listaAtributoPhantomFem, organosDataFem));
          
                        
         return listaPhantom;

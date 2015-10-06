@@ -5,9 +5,9 @@
  */
 package sedira.vistas;
 
+
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -36,6 +36,8 @@ public class PestañaPhantomController implements Initializable {
     //declaración de los componentes de la interfaz. 
     @FXML
     private ChoiceBox choicePhantom;
+     @FXML
+    private Button btnUnidad;
     @FXML
     private TextField txtOrganoNombre;
     @FXML
@@ -112,14 +114,19 @@ public class PestañaPhantomController implements Initializable {
           griValorDescripcionPhantom.getSelectionModel().selectedItemProperty().addListener(
               (observable, oldValue, newValue) -> seleccionPhantom(newValue));
          
-       
-        
         //Inicializo la lista de Phantoms para el ChoiceBox
         initListaPhantom();
         choicePhantom.setTooltip(new Tooltip("Seleccione el Phantom"));
-    
-
-    } 
+        
+        btnUnidad.setDisable(true);
+        cbUnidad.setDisable(true);
+        txtPhantomPropiedad.setEditable(false);
+        txtPhantomValor.setEditable(false);
+        txtOrganoNombre.setEditable(false);
+        txtOrganoMasa.setEditable(false);
+        
+        
+    }   
     /**
      * Metodo que inicializa la lista de Phantoms dentro del ChoiceBox 
      */
