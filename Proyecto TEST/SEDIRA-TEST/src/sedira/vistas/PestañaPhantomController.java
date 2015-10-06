@@ -36,8 +36,20 @@ public class PestañaPhantomController implements Initializable {
     //declaración de los componentes de la interfaz. 
     @FXML
     private ChoiceBox choicePhantom;
-     @FXML
+    @FXML
     private Button btnUnidad;
+    @FXML
+    private Button btnAceptarOrgano;
+    @FXML
+    private Button btnEditarOrgano;
+    @FXML
+    private Button btnCancelarOrgano;
+    @FXML
+    private Button btnAceptarPhantom;
+    @FXML
+    private Button btnEditarPhantom;
+    @FXML
+    private Button btnCancelarPhantom;
     @FXML
     private TextField txtOrganoNombre;
     @FXML
@@ -46,8 +58,6 @@ public class PestañaPhantomController implements Initializable {
     private TextField txtPhantomPropiedad;
     @FXML
     private TextField txtPhantomValor;
-    @FXML
-    private TextField txtPhantomUnidad;
     @FXML
     private TableView <Organo> griOrgano;
     @FXML

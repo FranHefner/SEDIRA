@@ -70,16 +70,16 @@
                   </TableView>
                   <HBox alignment="TOP_CENTER" layoutX="56.0" layoutY="343.0" prefHeight="22.0" prefWidth="272.0" spacing="20.0">
                      <children>
-                        <Button layoutX="84.0" layoutY="343.0" mnemonicParsing="false" text="Aceptar" />
-                        <Button layoutX="158.0" layoutY="343.0" mnemonicParsing="false" text="Cancelar" />
-                        <Button layoutX="238.0" layoutY="343.0" mnemonicParsing="false" text="Editar" />
+                        <Button fx:id="btnAceptarOrgano" disable="true" layoutX="84.0" layoutY="343.0" mnemonicParsing="false" text="Aceptar" />
+                        <Button fx:id="btnCancelarOrgano" disable="true" layoutX="158.0" layoutY="343.0" mnemonicParsing="false" text="Cancelar" />
+                        <Button fx:id="btnEditarOrgano" disable="true" layoutX="238.0" layoutY="343.0" mnemonicParsing="false" text="Editar" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER" layoutX="371.0" layoutY="343.0" prefHeight="22.0" prefWidth="289.0" spacing="20.0">
                      <children>
-                        <Button layoutX="422.0" layoutY="343.0" mnemonicParsing="false" text="Aceptar" />
-                        <Button layoutX="483.0" layoutY="343.0" mnemonicParsing="false" text="Cancelar" />
-                        <Button layoutX="548.0" layoutY="343.0" mnemonicParsing="false" text="Editar" />
+                        <Button fx:id="btnAceptarPhantom" disable="true" layoutX="422.0" layoutY="343.0" mnemonicParsing="false" text="Aceptar" />
+                        <Button fx:id="btnCancelarPhantom" disable="true" layoutX="483.0" layoutY="343.0" mnemonicParsing="false" text="Cancelar" />
+                        <Button fx:id="btnEditarPhantom" disable="true" layoutX="548.0" layoutY="343.0" mnemonicParsing="false" text="Editar" />
                      </children>
                   </HBox>
                </children>
