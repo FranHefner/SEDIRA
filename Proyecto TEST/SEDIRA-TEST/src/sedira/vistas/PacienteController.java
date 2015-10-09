@@ -130,7 +130,7 @@ public class PacienteController implements Initializable {
             txtNombre.setText(String.valueOf( PacienteActual.getNombre().getValue() ) );
             txtApellido.setText(String.valueOf(PacienteActual.getApellido().getValue()));
             txtNumeroDoc.setText(String.valueOf(PacienteActual.getNumeroDoc().getValue()));
-              cbTipoDoc.setValue(String.valueOf(PacienteActual.getTipoDoc().getValue())  );
+            cbTipoDoc.setValue(String.valueOf(PacienteActual.getTipoDoc().getValue())  );
 
   
         } else {

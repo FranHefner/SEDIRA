@@ -33,7 +33,7 @@ public class Phantom {
         this.propiedades = propiedades;
         this.organo = organo;
     }
-
+    
     public StringProperty getPhantom() {
         return phantom;
     }

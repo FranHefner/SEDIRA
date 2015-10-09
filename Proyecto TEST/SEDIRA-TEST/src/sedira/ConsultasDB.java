@@ -71,7 +71,7 @@ public class ConsultasDB {
      {
         // Un phantom esta compuesto de varios organos. Un organos puede formar parte de varios Phantoms. 
         // Temporalmente se utiliza un contructor acotado de los organos que forman parte de un Phantom.
-        
+       
         //Ejemplo Organos Masculino
          ObservableList<Organo> organosData = FXCollections.observableArrayList();
             organosData.add(  new Organo ("Riñon",299,73700));
@@ -96,9 +96,9 @@ public class ConsultasDB {
             listaAtributoPhantomFem.add(new ValorDescripcion("Peso total",56800,"grs"));
        
         ObservableList <Phantom> listaPhantom = FXCollections.observableArrayList();
-            listaPhantom.add(new Phantom ("Adulto Masculino 76kg",listaAtributoPhantom,organosData));
-            listaPhantom.add(new Phantom ("Adulto Femenino 56.8kg", listaAtributoPhantomFem, organosDataFem));
-         
+          listaPhantom.add(new Phantom ("Adulto Masculino 76kg",listaAtributoPhantom,organosData));
+           listaPhantom.add(new Phantom ("Adulto Femenino 56.8kg", listaAtributoPhantomFem, organosDataFem));
+ 
                        
         return listaPhantom;
      }
@@ -119,11 +119,14 @@ public class ConsultasDB {
      * @return Lista de órganos
      */
     
-     public static ArrayList<Organo> ObtenerOrganos()
+     public static ObservableList<Organo> ObtenerOrganos()
     {
-        ArrayList<Organo> listaOrgano = null ;
+         //Ejemplo Organos femenino
+       ObservableList<Organo> organosData = FXCollections.observableArrayList();
+            organosData.add(  new Organo ("Riñon",299,73700));
+            organosData.add(  new Organo ("Tiroide",20.9,73700));
 
-          return  listaOrgano;        
+          return  organosData;    
     }
    
      

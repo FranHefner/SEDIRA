@@ -12,6 +12,7 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -19,6 +20,7 @@ import javafx.scene.control.TextField;
 import sedira.ConsultasDB;
 import sedira.FuncionesGenerales;
 import sedira.model.Organo;
+import sedira.model.Paciente;
 import sedira.model.ValorDescripcion;
 import sedira.model.Phantom;
 
@@ -26,7 +28,7 @@ import sedira.model.Phantom;
  * Clase controladora para el Administrador de Phantoms. 
  * @author Hefner Francisco, Quelin Pablo 
  */
-public class PhantomController {
+public class PhantomController  implements Initializable  {
   //Declaracion de los elementos de la interfaz grafica. 
     @FXML
     private TableView <Phantom> griPhantom;
@@ -34,6 +36,7 @@ public class PhantomController {
     private TableView <Organo> griOrgano;
     @FXML
     private TableColumn <Phantom, String> clPhantomNombre;
+                                         
     @FXML
     private TableColumn <Organo, String> clOrganoNombre;
     
@@ -67,14 +70,19 @@ public class PhantomController {
     private TextField txtCampoBusqueda;
     
     //Lista de Phantoms
-    public static  ObservableList <Phantom> listaPhantom = ConsultasDB.listaPhantom();
+    public static  ObservableList <Phantom> listaPhantom;
+    public static  ObservableList <Organo> listaOrganos;
+    public static ObservableList <ValorDescripcion> ListaPropiedadValor;
     
-       
-// Fin declaracion. 
     
+     public ObservableList<Phantom> getPhantomData() {
+        return listaPhantom;
+    }    
+           
     /**
      * Initializes the controller class.
      */
+    @Override   
     public void initialize(URL url, ResourceBundle rb) {
         
         // Inicializo la tabla de Organos
@@ -87,8 +95,8 @@ public class PhantomController {
         showDetalleOrgano(null);
 
         //listener para los cambios en la seleccion. Y mostrarlo en la Tabla de Organo. 
-        /*griOrgano.getSelectionModel().selectedItemProperty().addListener(
-               (observable, oldValue, newValue) -> seleccionOrgano(newValue));*/
+     //   griOrgano.getSelectionModel().selectedItemProperty().addListener(
+     //          (observable, oldValue, newValue) -> seleccionOrgano(newValue));
         
        
         
@@ -103,13 +111,29 @@ public class PhantomController {
         showDetallePhantom(null);
        
          //listener para los cambios en la seleccion. Y mostrarlo en la Tabla de Phantoms 
-          /*griValorDescripcionPhantom.getSelectionModel().selectedItemProperty().addListener(
-              (observable, oldValue, newValue) -> seleccionPhantom(newValue));*/
+        //  griValorDescripcionPhantom.getSelectionModel().selectedItemProperty().addListener(
+         //     (observable, oldValue, newValue) -> seleccionPhantom(newValue));
         
         //Inicializo la tabla de Phantom. 
         clPhantomNombre.setCellValueFactory(
                cellData -> cellData.getValue().getPhantom());
+        
+       // griPhantom.getSelectionModel().selectedItemProperty().addListener(
+         //       (observable, oldValue, newValue) -> SeleccionPaciente(newValue));      
          
+         clPhantomNombre.setCellValueFactory(cellData -> cellData.getValue().getPhantom());
+         griPhantom.getSelectionModel().selectedItemProperty().addListener(
+                (observable, oldValue, newValue) -> SeleccionPhantom(newValue));     
+            
+           
+         
+        /*  griPhantom.getSelectionModel().selectedItemProperty().addListener(
+                (observable, oldValue, newValue) -> SeleccionPaciente(newValue));  */    
+          
+       listaPhantom   = ConsultasDB.listaPhantom();
+          
+     
+        
     }   
      /**
      * Muestra el detalle de los Organos pertenecientes al Phantom encontrado en la busqueda. 
@@ -138,6 +162,25 @@ public class PhantomController {
     private void buscarPhantom(){
        griPhantom.setItems(FuncionesGenerales.FiltroListaPhantom(griPhantom, listaPhantom, txtCampoBusqueda));
     }
+
+   
+     private void SeleccionPhantom(Phantom PhantomActual) 
+    {  
     
+        if (PhantomActual != null)
+        {
+          
+         
+            listaOrganos =  PhantomActual.getOrgano();     
+            griOrgano.setItems(listaOrganos);
+            ListaPropiedadValor = PhantomActual.getPropiedades();
+            griValorDescripcionPhantom.setItems(ListaPropiedadValor);
+            
+        } else {
+        
+        
+      
+        }
+    }
    
 }
