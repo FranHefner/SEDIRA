@@ -70,5 +70,48 @@ public class FuncionesGenerales {
         return sortedData;
         
     }
+    /**
+     * Funcion que retorna una lista ordenada de los phantoms mendiante un criterio de busqueda. 
+     * @param griPhantom
+     * @param phantomData
+     * @param txtCampoBusqueda
+     * @return 
+     */
+    public static SortedList <Phantom> FiltroListaPhantom (TableView<Phantom> griPhantom ,ObservableList<Phantom> phantomData, TextField txtCampoBusqueda){
+    // 1. Wrap the ObservableList in a FilteredList (initially display all data).
+        FilteredList<Phantom> filteredData = new FilteredList<>(phantomData, p -> true);
+        
+        // 2. Set the filter Predicate whenever the filter changes.
+        txtCampoBusqueda.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(Phantom -> {
+                // Si no se filtra nada, mostrara todos los phantoms
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+
+                // Compare first name and last name of every person with filter text.
+                String lowerCaseFilter = newValue.toLowerCase();
+
+                if (Phantom.getPhantom().toString().toLowerCase().contains(lowerCaseFilter)) {
+                    return true; // Busca solo por el Nombre del Phantom. Pensar en agregar que busque por peso. 
+                } else {
+                    return false; // 
+                }
+            });
+        });
+        
+        // 3. Wrap the FilteredList in a SortedList. 
+        SortedList<Phantom> sortedData = new SortedList<>(filteredData);
+
+        // 4. Bind the SortedList comparator to the TableView comparator.
+        sortedData.comparatorProperty().bind(griPhantom.comparatorProperty());
+
+        // 5.Agrego la lista Ordenada y Filtrada a la tabla. 
+        //NO ANDA
+        return sortedData;
+        
+    }   
+        
+        
 }
   

@@ -7,6 +7,7 @@ package sedira.vistas;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
@@ -16,6 +17,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import sedira.ConsultasDB;
+import sedira.FuncionesGenerales;
 import sedira.model.Organo;
 import sedira.model.ValorDescripcion;
 import sedira.model.Phantom;
@@ -103,40 +105,11 @@ public class PhantomController {
          //listener para los cambios en la seleccion. Y mostrarlo en la Tabla de Phantoms 
           /*griValorDescripcionPhantom.getSelectionModel().selectedItemProperty().addListener(
               (observable, oldValue, newValue) -> seleccionPhantom(newValue));*/
+        
+        //Inicializo la tabla de Phantom. 
+        clPhantomNombre.setCellValueFactory(
+               cellData -> cellData.getValue().getPhantom());
          
-        //Inicializo la lista de Phantoms para el ChoiceBox
-        //initListaPhantom();
-        
-         // 1. Wrap the ObservableList in a FilteredList (initially display all data).
-        FilteredList<Phantom> filteredData = new FilteredList<>(listaPhantom, p -> true);
-        
-        // 2. Set the filter Predicate whenever the filter changes.
-        txtCampoBusqueda.textProperty().addListener((observable, oldValue, newValue) -> {
-            filteredData.setPredicate(Phantom -> {
-                // If filter text is empty, display all persons.
-                if (newValue == null || newValue.isEmpty()) {
-                    return true;
-                }
-
-                // Compare first name and last name of every person with filter text.
-                String lowerCaseFilter = newValue.toLowerCase();
-
-                if (Phantom.getPhantom().toString().toLowerCase().contains(lowerCaseFilter)) {
-                    return true; // Filter matches first name.
-                } else {
-                    return false; // Does not match.
-                }
-            });
-        });
-        
-        // 3. Wrap the FilteredList in a SortedList. 
-        SortedList<Phantom> sortedData = new SortedList<>(filteredData);
-
-        // 4. Bind the SortedList comparator to the TableView comparator.
-        sortedData.comparatorProperty().bind(griPhantom.comparatorProperty());
-
-        // 5. Add sorted (and filtered) data to the table.
-        griPhantom.setItems(listaPhantom);
     }   
      /**
      * Muestra el detalle de los Organos pertenecientes al Phantom encontrado en la busqueda. 
@@ -156,6 +129,14 @@ public class PhantomController {
        //Aca se utiliza la tabla Descripcion - Valor. 
         griValorDescripcionPhantom.setItems(infoPhantom);
       
+    }
+    
+    /**
+     * Al buscar el phantom , los muestra en la lista para su seleccion. 
+     */
+    @FXML
+    private void buscarPhantom(){
+       griPhantom.setItems(FuncionesGenerales.FiltroListaPhantom(griPhantom, listaPhantom, txtCampoBusqueda));
     }
     
    
