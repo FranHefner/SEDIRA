@@ -125,7 +125,10 @@ public class PestañaPhantomController implements Initializable {
         //Asigno la lista de los nombres de los Phantoms al ChoiceBox
          choicePhantom.setItems(listaStringPhantom);
     }
-    
+    /**
+     * Muestra el detalle de los Organos pertenecientes al Phantom encontrado en la busqueda. 
+     * @param organo 
+     */
     @FXML
     private void showDetalleOrgano(ObservableList<Organo> organo) {
         griOrgano.setItems(organo);
@@ -141,7 +144,7 @@ public class PestañaPhantomController implements Initializable {
        //Aca se utiliza la tabla Descripcion - Valor. 
         griValorDescripcionPhantom.setItems(infoPhantom);
       
-        }
+    }
     
     /**
      * Metodo que se activa al seleccionar un phantom. 

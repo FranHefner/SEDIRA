@@ -13,24 +13,16 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 /**
- * FXML Controller class
- *
+ * FXML Menu principal Controller class
+ *  Controlador para el comportamiento del menu principal
  * @author Hefner Francisco, Quelin Pablo
  */
 
 public class MenuPrincipalController implements Initializable {
     
-    @FXML
-    private MenuBar mnbPrincipal;
-    @FXML
-    private MenuItem mniPacienteAdministrar;
- 
     /**
      * Initializes the controller class.
      */
@@ -39,8 +31,11 @@ public class MenuPrincipalController implements Initializable {
         // TODO
     }    
     
-    
-     @FXML
+    /**
+     * Comportamiento para Item de menu, administrar paciente. 
+     * @throws IOException 
+     */
+    @FXML
     private void mniPacienteAdministrar_click() throws IOException
     { 
         Stage stage = new Stage();
@@ -55,6 +50,10 @@ public class MenuPrincipalController implements Initializable {
         stage.setTitle("Administrar Pacientes");
         stage.show();   
     }
+    /**
+     * Comportamiento para el Item de menu, Iniciar Calculo. 
+     * @throws IOException 
+     */
     @FXML
     private void mniIniciarCalculo_click() throws IOException
     { 
@@ -67,6 +66,22 @@ public class MenuPrincipalController implements Initializable {
         stage.setMinHeight(681);
         stage.setScene(scene);
         stage.setTitle("Calcular Dosis Administrada");
+        stage.show();          
+
+    }
+    /**
+     * Comportamiento para el Item de menu, Administrar Phantoms
+     * @throws IOException 
+     */
+    @FXML
+    private void mniPhantomAdministrar_click() throws IOException
+    { 
+        Stage stage = new Stage();
+        Parent root = FXMLLoader.load(getClass().getResource("Phantom.fxml"));
+        Scene scene = new Scene(root);        
+        
+        stage.setScene(scene);
+        stage.setTitle("Administrar Phantoms");
         stage.show();          
 
     }

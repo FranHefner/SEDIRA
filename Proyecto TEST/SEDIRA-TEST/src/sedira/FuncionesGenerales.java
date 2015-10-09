@@ -11,6 +11,8 @@ import javafx.collections.transformation.SortedList;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import sedira.model.Paciente;
+import sedira.model.Phantom;
+import sedira.model.ValorDescripcion;
 
 /**
  *
@@ -69,3 +71,4 @@ public class FuncionesGenerales {
         
     }
 }
+  

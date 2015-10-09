@@ -23,7 +23,7 @@ public class Phantom {
     private ObservableList <Organo> organo;
 
    /**
-    * Construcor de Phantoms, Contiend una lista de valor-descripcion. Para la mejor escalabilidad. 
+    * Constructor de Phantoms, Contiend una lista de valor-descripcion. Para la mejor escalabilidad. 
     * @param phantom
     * @param propiedades
     * @param organo 

@@ -7,16 +7,9 @@ package sedira.vistas;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Blob;
-import java.util.Date;
 import java.util.ResourceBundle;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.transformation.FilteredList;
-import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -33,7 +26,6 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import sedira.model.Paciente;
 import sedira.ConsultasDB;
-import sedira.model.TipoDocumento;
 import sedira.FuncionesGenerales;
 
 
