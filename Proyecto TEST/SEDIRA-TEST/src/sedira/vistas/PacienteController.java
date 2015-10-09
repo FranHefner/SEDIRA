@@ -23,11 +23,13 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import sedira.model.Paciente;
 import sedira.ConsultasDB;
@@ -60,8 +62,6 @@ public class PacienteController implements Initializable {
     @FXML
     private TextField txtApellido; 
     @FXML
-    private TextField txtTipoDoc; 
-    @FXML
     private TextField txtCampoBusqueda;    
     @FXML 
     private ImageView imgPaciente;
@@ -77,6 +77,26 @@ public class PacienteController implements Initializable {
     
     private ObservableList<Paciente> pacienteData = FXCollections.observableArrayList();
     private ObservableList<String> DocumentosData = FXCollections.observableArrayList();
+    @FXML
+    private Pane grbBotones;
+    @FXML
+    private Button btnNuevo;
+    @FXML
+    private Button btnEditar;
+    @FXML
+    private Button btnEditar1;
+    @FXML
+    private Button btnEditar11;
+    @FXML
+    private TextField txtFechaNacimiento;
+    @FXML
+    private Button btnHistorialSEDIRA;
+    @FXML
+    private Button btnContacto;
+    @FXML
+    private CheckBox chkTratamiento;
+    @FXML
+    private Button btnMediciones;
     
      public ObservableList<Paciente> getPacienteData() {
         return pacienteData;
@@ -108,7 +128,6 @@ public class PacienteController implements Initializable {
     {         
         griListaPacientes.setItems(FuncionesGenerales.FiltroListaPaciente(griListaPacientes, pacienteData, txtCampoBusqueda));
     }
-     @FXML
     private void SeleccionPaciente(Paciente PacienteActual) 
     {  
     

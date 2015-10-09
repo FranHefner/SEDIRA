@@ -17,6 +17,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.SplitPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -34,30 +35,9 @@ import sedira.model.ValorDescripcion;
 public class PestañaPhantomController implements Initializable {
        
     //declaración de los componentes de la interfaz. 
+    
     @FXML
     private ChoiceBox choicePhantom;
-    @FXML
-    private Button btnUnidad;
-    @FXML
-    private Button btnAceptarOrgano;
-    @FXML
-    private Button btnEditarOrgano;
-    @FXML
-    private Button btnCancelarOrgano;
-    @FXML
-    private Button btnAceptarPhantom;
-    @FXML
-    private Button btnEditarPhantom;
-    @FXML
-    private Button btnCancelarPhantom;
-    @FXML
-    private TextField txtOrganoNombre;
-    @FXML
-    private TextField txtOrganoMasa;
-    @FXML
-    private TextField txtPhantomPropiedad;
-    @FXML
-    private TextField txtPhantomValor;
     @FXML
     private TableView <Organo> griOrgano;
     @FXML
@@ -78,9 +58,9 @@ public class PestañaPhantomController implements Initializable {
     //Declaracion de variables
     
     //Lista de Phantoms
-    public static  ObservableList <Phantom> listaPhantom = ConsultasDB.listaPhantom();
+         public static  ObservableList <Phantom> listaPhantom = ConsultasDB.listaPhantom();
     //Lista de Organos
-    public static  ObservableList <Organo> listaOrgano = FXCollections.observableArrayList();
+         public static  ObservableList <Organo> listaOrgano = FXCollections.observableArrayList();
     
         
     //Objeto de tipo Phantom auxiliar. 
@@ -95,6 +75,7 @@ public class PestañaPhantomController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        
         // Inicializo la tabla de Organos
         clOrganoNombre.setCellValueFactory(
                 cellData -> cellData.getValue().getNombreOrgano());
@@ -105,8 +86,8 @@ public class PestañaPhantomController implements Initializable {
         showDetalleOrgano(null);
 
         //listener para los cambios en la seleccion. Y mostrarlo en la Tabla de Organo. 
-        griOrgano.getSelectionModel().selectedItemProperty().addListener(
-               (observable, oldValue, newValue) -> seleccionOrgano(newValue));
+        /*griOrgano.getSelectionModel().selectedItemProperty().addListener(
+               (observable, oldValue, newValue) -> seleccionOrgano(newValue));*/
         
        
         
@@ -121,20 +102,13 @@ public class PestañaPhantomController implements Initializable {
         showDetallePhantom(null);
        
          //listener para los cambios en la seleccion. Y mostrarlo en la Tabla de Phantoms 
-          griValorDescripcionPhantom.getSelectionModel().selectedItemProperty().addListener(
-              (observable, oldValue, newValue) -> seleccionPhantom(newValue));
+          /*griValorDescripcionPhantom.getSelectionModel().selectedItemProperty().addListener(
+              (observable, oldValue, newValue) -> seleccionPhantom(newValue));*/
          
         //Inicializo la lista de Phantoms para el ChoiceBox
         initListaPhantom();
         choicePhantom.setTooltip(new Tooltip("Seleccione el Phantom"));
-        
-        btnUnidad.setDisable(true);
-        cbUnidad.setDisable(true);
-        txtPhantomPropiedad.setEditable(false);
-        txtPhantomValor.setEditable(false);
-        txtOrganoNombre.setEditable(false);
-        txtOrganoMasa.setEditable(false);
-        
+                
         
     }   
     /**
@@ -194,7 +168,8 @@ public class PestañaPhantomController implements Initializable {
      * Completa los textField con el organo seleccionado de la tabla de Organos 
      * @param organoActual 
      */
-    @FXML 
+    
+    /*@FXML 
     private void seleccionOrgano (Organo organoActual){
         if (organoActual != null) {
             
@@ -212,7 +187,7 @@ public class PestañaPhantomController implements Initializable {
      * Completa los textfield con la informacion de los Items del Phantom seleccionado. 
      * @param phantomValorDescripcion 
      */
-    @FXML 
+    /*@FXML 
     private void seleccionPhantom (ValorDescripcion phantomValorDescripcion){
         
         if (phantomValorDescripcion != null) {
@@ -225,5 +200,5 @@ public class PestañaPhantomController implements Initializable {
             txtPhantomValor.setText("");
              
         }
-    }
+    }*/
 }
