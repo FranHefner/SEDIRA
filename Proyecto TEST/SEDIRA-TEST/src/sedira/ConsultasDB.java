@@ -67,7 +67,7 @@ public class ConsultasDB {
       *  
       * @return Objeto Phantom, compuesto arreglo de objetos tipo Valor-Descripcion y arreglo de Organos.  
       */
-     public static ObservableList <Phantom> listaPhantom ()
+     public static ObservableList <Phantom> ListaPhantom ()
      {
         // Un phantom esta compuesto de varios organos. Un organos puede formar parte de varios Phantoms. 
         // Temporalmente se utiliza un contructor acotado de los organos que forman parte de un Phantom.

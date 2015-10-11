@@ -58,7 +58,7 @@ public class PestañaPhantomController implements Initializable {
     //Declaracion de variables
     
     //Lista de Phantoms
-         public static  ObservableList <Phantom> listaPhantom = ConsultasDB.listaPhantom();
+         public static  ObservableList <Phantom> listaPhantom = ConsultasDB.ListaPhantom();
     //Lista de Organos
          public static  ObservableList <Organo> listaOrgano = FXCollections.observableArrayList();
     

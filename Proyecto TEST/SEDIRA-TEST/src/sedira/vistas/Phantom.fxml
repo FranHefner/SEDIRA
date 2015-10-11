@@ -18,7 +18,7 @@
                <children>
                   <TextField fx:id="txtCampoBusqueda" layoutX="9.0" layoutY="22.0" onKeyPressed="#buscarPhantom" prefHeight="33.0" prefWidth="271.0" promptText="Búsqueda ..." />
                   <Label layoutX="388.0" layoutY="-1.0" text="Seleccione el Phantom" />
-                  <TableView fx:id="griPhantom" layoutX="366.0" layoutY="16.0" prefHeight="200.0" prefWidth="200.0">
+                  <TableView fx:id="griPhantom" layoutX="366.0" layoutY="16.0" prefHeight="165.0" prefWidth="200.0">
                     <columns>
                       <TableColumn fx:id="clPhantomNombre" prefWidth="136.0" text="Phantom" />
                     </columns>
@@ -26,6 +26,8 @@
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                      </columnResizePolicy>
                   </TableView>
+                  <Button fx:id="btnNuevoPhantom" layoutX="636.0" layoutY="59.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="112.0" text="Nuevo Phantom" />
+                  <Button fx:id="btnEditarPhantom" disable="true" layoutX="636.0" layoutY="106.0" mnemonicParsing="false" onAction="#btnEditar_click" prefHeight="25.0" prefWidth="112.0" text="Editar Phantom" />
                </children>
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="364.0" prefWidth="750.0">
@@ -49,21 +51,19 @@
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                      </columnResizePolicy>
                   </TableView>
-                  <Button fx:id="btnNuevoPhantom" layoutX="625.0" layoutY="38.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="112.0" text="Nuevo Phantom" />
-                  <Button fx:id="btnEditarPhantom" layoutX="625.0" layoutY="85.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="112.0" text="Editar Phantom" />
                   <TitledPane animated="false" collapsible="false" layoutX="14.0" layoutY="245.0" prefHeight="257.0" prefWidth="569.0" text="Edición">
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="177.0" prefWidth="567.0">
                            <children>
-                              <TextField fx:id="txtPropiedad" layoutX="149.0" layoutY="31.0" prefHeight="33.0" prefWidth="250.0" />
-                              <TextField fx:id="txtValor" layoutX="149.0" layoutY="73.0" prefHeight="33.0" prefWidth="250.0" />
-                              <TextField fx:id="txtUnidad" layoutX="149.0" layoutY="118.0" prefHeight="33.0" prefWidth="250.0" />
+                              <TextField fx:id="txtPropiedad" disable="true" layoutX="149.0" layoutY="31.0" prefHeight="33.0" prefWidth="250.0" />
+                              <TextField fx:id="txtValor" disable="true" layoutX="149.0" layoutY="73.0" prefHeight="33.0" prefWidth="250.0" />
+                              <TextField fx:id="txtUnidad" disable="true" layoutX="149.0" layoutY="118.0" prefHeight="33.0" prefWidth="250.0" text="poner un dropdown" />
                               <Label layoutX="83.0" layoutY="39.0" text="Propiedad:" />
                               <Label layoutX="109.0" layoutY="81.0" text="Valor:" />
                               <Label layoutX="96.0" layoutY="126.0" text="Unidad:" />
-                              <Button fx:id="btnGuardarCambios" layoutX="432.0" layoutY="77.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="96.0" text="Guardar" />
-                              <Button fx:id="btnLimpiarValores" layoutX="432.0" layoutY="35.0" mnemonicParsing="false" text="Limpiar valores" />
-                              <TextField fx:id="txtNuevoNombrePhantom" editable="false" layoutX="270.0" layoutY="192.0" prefHeight="25.0" prefWidth="288.0" />
+                              <Button fx:id="btnGuardarCambios" disable="true" layoutX="432.0" layoutY="77.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="96.0" text="Guardar" />
+                              <Button fx:id="btnLimpiarValores" disable="true" layoutX="432.0" layoutY="35.0" mnemonicParsing="false" onAction="#btnLimpiarValores_click" text="Limpiar valores" />
+                              <TextField fx:id="txtNuevoNombrePhantom" editable="false" layoutX="270.0" layoutY="192.0" prefHeight="25.0" prefWidth="288.0" text="generado automaticamente " />
                               <Label layoutX="125.0" layoutY="196.0" text="Nuevo nombre Phantom" />
                            </children>
                         </AnchorPane>

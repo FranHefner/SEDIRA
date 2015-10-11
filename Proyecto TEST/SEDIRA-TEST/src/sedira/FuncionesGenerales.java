@@ -88,8 +88,6 @@ public class FuncionesGenerales {
                 if (newValue == null || newValue.isEmpty()) {
                     return true;
                 }
-
-                // Compare first name and last name of every person with filter text.
                 String lowerCaseFilter = newValue.toLowerCase();
 
                 if (Phantom.getPhantom().toString().toLowerCase().contains(lowerCaseFilter)) {
@@ -100,14 +98,11 @@ public class FuncionesGenerales {
             });
         });
         
-        // 3. Wrap the FilteredList in a SortedList. 
+        // 3. Warp la  FilteredList con la  SortedList. 
         SortedList<Phantom> sortedData = new SortedList<>(filteredData);
-
-        // 4. Bind the SortedList comparator to the TableView comparator.
+        // 4. Conecta el comparador de SortedList con el comparador de  TableView.
         sortedData.comparatorProperty().bind(griPhantom.comparatorProperty());
-
         // 5.Agrego la lista Ordenada y Filtrada a la tabla. 
-        //NO ANDA
         return sortedData;
         
     }   
