@@ -14,11 +14,11 @@ import javafx.scene.control.TextField;
 
 /**
  * FXML Controller class
- *
+ *  Clase controladora para el Abm de Phantoms. 
  * @author Hefner Francisco, Quelin Pablo
  */
 public class AbmPhantomController implements Initializable {
-    private String auxString;
+        
     @FXML
     private Button btnLimpiarValores;
     @FXML

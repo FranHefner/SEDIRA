@@ -8,16 +8,16 @@
 
 <AnchorPane id="AnchorPane" prefHeight="693.0" prefWidth="574.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sedira.vistas.AbmPhantomController">
    <children>
-      <TitledPane animated="false" collapsible="false" layoutX="14.0" layoutY="48.0" prefHeight="616.0" prefWidth="549.0" text="Edición de Phantom">
+      <TitledPane animated="false" collapsible="false" layoutX="14.0" layoutY="48.0" prefHeight="616.0" prefWidth="549.0" text="Edición de phantom">
          <content>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="590.0" prefWidth="295.0">
                <children>
                   <TextField fx:id="txtPropiedad" disable="true" layoutX="86.0" layoutY="14.0" prefHeight="33.0" prefWidth="250.0" />
                   <TextField fx:id="txtValor" disable="true" layoutX="86.0" layoutY="56.0" prefHeight="33.0" prefWidth="250.0" />
                   <TextField fx:id="txtUnidad" disable="true" layoutX="86.0" layoutY="101.0" prefHeight="33.0" prefWidth="250.0" text="poner un dropdown" />
-                  <Label layoutX="14.0" layoutY="21.0" text="Propiedad:" />
-                  <Label layoutX="40.0" layoutY="63.0" text="Valor:" />
-                  <Label layoutX="27.0" layoutY="108.0" text="Unidad:" />
+                  <Label layoutX="16.0" layoutY="28.0" text="Propiedad:" />
+                  <Label layoutX="43.0" layoutY="72.0" text="Valor:" />
+                  <Label layoutX="31.0" layoutY="109.0" text="Unidad:" />
                   <Button fx:id="btnAgregar" disable="true" layoutX="369.0" layoutY="60.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="96.0" text="Agregar" />
                   <Button fx:id="btnLimpiarValores" disable="true" layoutX="369.0" layoutY="18.0" mnemonicParsing="false" onAction="#btnLimpiarValores_click" text="Limpiar valores" />
                   <TableView fx:id="griValorDescripcionPhantom" layoutX="27.0" layoutY="149.0" prefHeight="358.0" prefWidth="480.0">

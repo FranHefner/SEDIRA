@@ -5,6 +5,8 @@
  */
 package sedira.model;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
@@ -15,24 +17,33 @@ import javafx.collections.ObservableList;
  * 
  */
 public class Phantom {
-    
-   private StringProperty phantomNombre;
-    /*private double height; //Altura en cm.
-    private double bodySurfaceArea; // Superficie del cuerpo en cm2*/
+    private IntegerProperty idPhantom;
+    private StringProperty phantomNombre;
     private ObservableList <ValorDescripcion> propiedades; 
     private ObservableList <Organo> organo;
 
    /**
-    * Constructor de Phantoms, Contiend una lista de valor-descripcion. Para la mejor escalabilidad. 
-    * @param phantom
+    * Constructor de Phantoms, Contiene una lista de valor-descripcion. Para la mejorar la escalabilidad. 
+    * @param phantomNombre
     * @param propiedades
     * @param organo 
+    * @param idPhantom identificador unico para el uso con Base de datos 
     */
-    public Phantom(String phantom, ObservableList<ValorDescripcion> propiedades, ObservableList<Organo> organo) {
-        this.phantomNombre = new SimpleStringProperty (phantom);
+    public Phantom(int idPhantom, String phantomNombre, ObservableList<ValorDescripcion> propiedades, ObservableList<Organo> organo) {
+        this.idPhantom = new SimpleIntegerProperty (idPhantom);
+        this.phantomNombre = new SimpleStringProperty (phantomNombre);
         this.propiedades = propiedades;
         this.organo = organo;
     }
+
+    public IntegerProperty getIdPhantom() {
+        return idPhantom;
+    }
+
+    public void setIdPhantom(IntegerProperty idPhantom) {
+        this.idPhantom = idPhantom;
+    }
+    
     
     public StringProperty getPhantomNombre() {
         return phantomNombre;

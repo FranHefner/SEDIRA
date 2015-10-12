@@ -95,12 +95,12 @@ public class ConsultasDB {
             listaAtributoPhantomFem.add(new ValorDescripcion("Sup Cuerpo",0,"cm2"));
             listaAtributoPhantomFem.add(new ValorDescripcion("Peso total",56800,"grs"));
        
-        ObservableList <Phantom> listaPhantom = FXCollections.observableArrayList();
-          listaPhantom.add(new Phantom ("Adulto Masculino 76kg",listaAtributoPhantom,organosData));
-           listaPhantom.add(new Phantom ("Adulto Femenino 56.8kg", listaAtributoPhantomFem, organosDataFem));
+        ObservableList <Phantom> phantomData = FXCollections.observableArrayList();
+          phantomData.add(new Phantom (0,"Adulto Masculino 76kg",listaAtributoPhantom,organosData));
+          phantomData.add(new Phantom (1,"Adulto Femenino 56.8kg", listaAtributoPhantomFem, organosDataFem));
  
                        
-        return listaPhantom;
+        return phantomData;
      }
      
      /**

@@ -189,6 +189,29 @@ public class PhantomController  implements Initializable  {
         stage.show(); 
     }
     
+    /**
+     * Metodo para el comportamiento al seleccionar un item de la lista de organos. 
+     */
+    @FXML
+    private void griSeleccionarOrgano(){
+        btnEditarOrganos.setDisable(false);
+    }
+    
+    /**
+     * Metodo para el comportamiento del boton Editar Organo. 
+     * @throws IOException 
+     */
+    @FXML
+    private void btnEditarOrgano_click () throws IOException{
+        Stage stage = new Stage();
+        Parent root = FXMLLoader.load(getClass().getResource("AbmOrgano.fxml"));
+        Scene scene = new Scene(root);
+              stage.setScene(scene);
+        
+        stage.setTitle("Editar Organos");
+        stage.show(); 
+    }
+    
     
    
 }
