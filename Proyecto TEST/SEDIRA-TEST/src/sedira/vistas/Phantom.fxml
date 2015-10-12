@@ -10,15 +10,14 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" maxHeight="748.0" maxWidth="972.0" minHeight="583.0" minWidth="662.0" prefHeight="714.0" prefWidth="789.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sedira.vistas.PhantomController">
+<AnchorPane id="AnchorPane" maxHeight="774.0" maxWidth="1038.0" minHeight="583.0" minWidth="662.0" prefHeight="774.0" prefWidth="897.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sedira.vistas.PhantomController">
    <children>
       <SplitPane dividerPositions="0.2752808988764045" layoutX="84.0" layoutY="81.0" orientation="VERTICAL" prefHeight="639.0" prefWidth="675.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="138.0" prefWidth="750.0">
                <children>
                   <TextField fx:id="txtCampoBusqueda" layoutX="9.0" layoutY="22.0" onKeyPressed="#buscarPhantom" prefHeight="33.0" prefWidth="271.0" promptText="Búsqueda ..." />
-                  <Label layoutX="388.0" layoutY="-1.0" text="Seleccione el Phantom" />
-                  <TableView fx:id="griPhantom" layoutX="366.0" layoutY="16.0" prefHeight="165.0" prefWidth="200.0">
+                  <TableView fx:id="griPhantom" layoutX="294.0" layoutY="24.0" prefHeight="165.0" prefWidth="200.0">
                     <columns>
                       <TableColumn fx:id="clPhantomNombre" prefWidth="136.0" text="Phantom" />
                     </columns>
@@ -26,45 +25,48 @@
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                      </columnResizePolicy>
                   </TableView>
-                  <Button fx:id="btnNuevoPhantom" layoutX="636.0" layoutY="59.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="112.0" text="Nuevo Phantom" />
-                  <Button fx:id="btnEditarPhantom" disable="true" layoutX="636.0" layoutY="106.0" mnemonicParsing="false" onAction="#btnEditar_click" prefHeight="25.0" prefWidth="112.0" text="Editar Phantom" />
                </children>
             </AnchorPane>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="364.0" prefWidth="750.0">
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="495.0" prefWidth="895.0">
                <children>
-                  <TableView fx:id="griOrgano" layoutX="350.0" layoutY="14.0" prefHeight="213.0" prefWidth="233.0">
-                    <columns>
-                      <TableColumn fx:id="clOrganoNombre" prefWidth="75.0" text="Órgano" />
-                      <TableColumn fx:id="clOrganoMasa" prefWidth="75.0" text="Masa (grs)" />
-                    </columns>
-                     <columnResizePolicy>
-                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                     </columnResizePolicy>
-                  </TableView>
-                  <TableView fx:id="griValorDescripcionPhantom" layoutX="14.0" layoutY="14.0" prefHeight="213.0" prefWidth="319.0">
-                    <columns>
-                      <TableColumn fx:id="clVdDescripcion" prefWidth="75.0" text="Propiedad" />
-                      <TableColumn fx:id="clVdValor" prefWidth="75.0" text="Valor" />
-                        <TableColumn fx:id="clVdUnidad" prefWidth="75.0" text="Unidad" />
-                    </columns>
-                     <columnResizePolicy>
-                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                     </columnResizePolicy>
-                  </TableView>
-                  <TitledPane animated="false" collapsible="false" layoutX="14.0" layoutY="245.0" prefHeight="257.0" prefWidth="569.0" text="Edición">
+                  <TitledPane animated="false" layoutX="14.0" layoutY="7.0" prefHeight="449.0" prefWidth="396.0" text="Información Phantom">
                     <content>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="177.0" prefWidth="567.0">
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="371.0" prefWidth="380.0">
                            <children>
-                              <TextField fx:id="txtPropiedad" disable="true" layoutX="149.0" layoutY="31.0" prefHeight="33.0" prefWidth="250.0" />
-                              <TextField fx:id="txtValor" disable="true" layoutX="149.0" layoutY="73.0" prefHeight="33.0" prefWidth="250.0" />
-                              <TextField fx:id="txtUnidad" disable="true" layoutX="149.0" layoutY="118.0" prefHeight="33.0" prefWidth="250.0" text="poner un dropdown" />
-                              <Label layoutX="83.0" layoutY="39.0" text="Propiedad:" />
-                              <Label layoutX="109.0" layoutY="81.0" text="Valor:" />
-                              <Label layoutX="96.0" layoutY="126.0" text="Unidad:" />
-                              <Button fx:id="btnGuardarCambios" disable="true" layoutX="432.0" layoutY="77.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="96.0" text="Guardar" />
-                              <Button fx:id="btnLimpiarValores" disable="true" layoutX="432.0" layoutY="35.0" mnemonicParsing="false" onAction="#btnLimpiarValores_click" text="Limpiar valores" />
-                              <TextField fx:id="txtNuevoNombrePhantom" editable="false" layoutX="270.0" layoutY="192.0" prefHeight="25.0" prefWidth="288.0" text="generado automaticamente " />
-                              <Label layoutX="125.0" layoutY="196.0" text="Nuevo nombre Phantom" />
+                              <TableView fx:id="griValorDescripcionPhantom" layoutX="7.0" layoutY="14.0" prefHeight="358.0" prefWidth="379.0">
+                                <columns>
+                                  <TableColumn fx:id="clVdDescripcion" prefWidth="75.0" text="Propiedad" />
+                                  <TableColumn fx:id="clVdValor" prefWidth="75.0" text="Valor" />
+                                    <TableColumn fx:id="clVdUnidad" prefWidth="75.0" text="Unidad" />
+                                </columns>
+                                 <columnResizePolicy>
+                                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                 </columnResizePolicy>
+                              </TableView>
+                              <HBox alignment="CENTER" layoutX="28.0" layoutY="384.0" prefHeight="25.0" prefWidth="337.0" spacing="20.0">
+                                 <children>
+                                    <Button fx:id="btnNuevoPhantom" layoutX="21.0" layoutY="246.0" mnemonicParsing="false" onAction="#btnNuevoPhantom_click" prefHeight="25.0" prefWidth="112.0" text="Nuevo Phantom" />
+                                    <Button fx:id="btnEditarPhantom" disable="true" layoutX="144.0" layoutY="246.0" mnemonicParsing="false" onAction="#btnEditar_click" prefHeight="25.0" prefWidth="112.0" text="Editar Phantom" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </AnchorPane>
+                    </content>
+                  </TitledPane>
+                  <TitledPane animated="false" layoutX="431.0" layoutY="7.0" prefHeight="449.0" prefWidth="396.0" text="Organos perteneciente al Phantom seleccionado">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <TableView fx:id="griOrgano" layoutX="6.0" layoutY="14.0" prefHeight="359.0" prefWidth="380.0">
+                                <columns>
+                                  <TableColumn fx:id="clOrganoNombre" prefWidth="75.0" text="Órgano" />
+                                  <TableColumn fx:id="clOrganoMasa" prefWidth="75.0" text="Masa (grs)" />
+                                </columns>
+                                 <columnResizePolicy>
+                                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                 </columnResizePolicy>
+                              </TableView>
+                              <Button fx:id="btnEditarOrganos" disable="true" layoutX="150.0" layoutY="378.0" mnemonicParsing="false" text="Editar Organos" />
                            </children>
                         </AnchorPane>
                     </content>

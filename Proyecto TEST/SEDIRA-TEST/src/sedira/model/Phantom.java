@@ -16,7 +16,7 @@ import javafx.collections.ObservableList;
  */
 public class Phantom {
     
-   private StringProperty phantom;
+   private StringProperty phantomNombre;
     /*private double height; //Altura en cm.
     private double bodySurfaceArea; // Superficie del cuerpo en cm2*/
     private ObservableList <ValorDescripcion> propiedades; 
@@ -29,17 +29,17 @@ public class Phantom {
     * @param organo 
     */
     public Phantom(String phantom, ObservableList<ValorDescripcion> propiedades, ObservableList<Organo> organo) {
-        this.phantom = new SimpleStringProperty (phantom);
+        this.phantomNombre = new SimpleStringProperty (phantom);
         this.propiedades = propiedades;
         this.organo = organo;
     }
     
-    public StringProperty getPhantom() {
-        return phantom;
+    public StringProperty getPhantomNombre() {
+        return phantomNombre;
     }
-
+    
     public void setPhantom(StringProperty phantom) {
-        this.phantom = phantom;
+        this.phantomNombre = phantom;
     }
    
    

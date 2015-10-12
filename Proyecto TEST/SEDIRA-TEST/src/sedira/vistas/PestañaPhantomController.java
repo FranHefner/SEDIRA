@@ -120,7 +120,7 @@ public class PestañaPhantomController implements Initializable {
         ObservableList <String> listaStringPhantom = FXCollections.observableArrayList();
                      
         for (Phantom listaPhantom1 : listaPhantom) {
-            listaStringPhantom.add(listaPhantom1.getPhantom().getValue());
+            listaStringPhantom.add(listaPhantom1.getPhantomNombre().getValue());
         }
         //Asigno la lista de los nombres de los Phantoms al ChoiceBox
          choicePhantom.setItems(listaStringPhantom);

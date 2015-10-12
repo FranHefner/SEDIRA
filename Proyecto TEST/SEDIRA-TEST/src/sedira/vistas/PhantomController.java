@@ -5,21 +5,25 @@
  */
 package sedira.vistas;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import sedira.ConsultasDB;
 import sedira.FuncionesGenerales;
 import sedira.model.Organo;
 import sedira.model.ValorDescripcion;
 import sedira.model.Phantom;
-
 /**
  * Clase controladora para el Administrador de Phantoms. 
  * @author Hefner Francisco, Quelin Pablo 
@@ -27,7 +31,7 @@ import sedira.model.Phantom;
 public class PhantomController  implements Initializable  {
   //Declaracion de los elementos de la interfaz grafica. 
     @FXML
-    private TableView <Phantom> griPhantom;
+    private  TableView <Phantom> griPhantom;
     @FXML
     private TableColumn <Phantom, String> clPhantomNombre;
     
@@ -53,17 +57,7 @@ public class PhantomController  implements Initializable  {
     @FXML
     private Button btnNuevoPhantom;
     @FXML
-    private Button btnLimpiarValores;
-    @FXML
-    private Button btnGuardarCambios;
-    @FXML
-    private TextField txtPropiedad;
-    @FXML
-    private TextField txtValor;
-    @FXML
-    private TextField txtUnidad;
-    @FXML
-    private TextField txtNuevoNombrePhantom;
+    private Button btnEditarOrganos;
     @FXML
     private TextField txtCampoBusqueda;
     
@@ -105,7 +99,7 @@ public class PhantomController  implements Initializable  {
         showDetallePhantom(null);
        
         //Inicializo la tabla de Phantom. 
-        clPhantomNombre.setCellValueFactory(cellData -> cellData.getValue().getPhantom());
+        clPhantomNombre.setCellValueFactory(cellData -> cellData.getValue().getPhantomNombre());
         //Listener para la seleccion del phantom en la lista de phantoms que trae la busqueda.
         griPhantom.getSelectionModel().selectedItemProperty().addListener(
             (observable, oldValue, newValue) -> SeleccionPhantom(newValue));     
@@ -169,20 +163,32 @@ public class PhantomController  implements Initializable  {
      * Metodo para el comportamiento del boton editar. 
      */
     @FXML
-    private void btnEditar_click (){
-        txtUnidad.setDisable(false);
-        txtPropiedad.setDisable(false);
-        txtValor.setDisable(false);
-        btnLimpiarValores.setDisable(false);
+    private void btnEditar_click () throws IOException{
+        // hay que pasarle el objeto asi ya autocompleta el detalle del phantom. 
+        Stage stage = new Stage();
+        Parent root = FXMLLoader.load(getClass().getResource("AbmPhantom.fxml"));
+        Scene scene = new Scene(root);
+              stage.setScene(scene);
+        
+        stage.setTitle("Editar Phantom");
+        stage.show(); 
     }
+    
     /**
-     * Metodo para el comportamiento del boton Limpiar Valores. Dentro del apartado Edicion. 
+     * Metodo para el comportamiento del boton NUEVO. 
      */
     @FXML
-    private void btnLimpiarValores_click(){
-    txtUnidad.setText("");
-    txtPropiedad.setText("");
-    txtValor.setText("");
+    private void btnNuevoPhantom_click () throws IOException{
+        
+        Stage stage = new Stage();
+        Parent root = FXMLLoader.load(getClass().getResource("AbmPhantom.fxml"));
+        Scene scene = new Scene(root);
+              stage.setScene(scene);
+        
+        stage.setTitle("Editar Phantom");
+        stage.show(); 
     }
+    
+    
    
 }
