@@ -18,12 +18,16 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+
 import sedira.ConsultasDB;
 import sedira.FuncionesGenerales;
 import sedira.model.Organo;
 import sedira.model.ValorDescripcion;
 import sedira.model.Phantom;
+import sedira.AplicacionPrincipal;
 /**
  * Clase controladora para el Administrador de Phantoms. 
  * @author Hefner Francisco, Quelin Pablo 
@@ -68,6 +72,9 @@ public class PhantomController  implements Initializable  {
     //Lista Observable para el manejo de phantoms
     public static ObservableList <ValorDescripcion> listaPropiedadValor;
     
+    private AplicacionPrincipal aplicacionPrincipal;
+    private Stage primaryStage;
+    
     
                
     /**
@@ -109,7 +116,9 @@ public class PhantomController  implements Initializable  {
           
      
         
-    }   
+    } 
+    
+    
      /**
      * Muestra el detalle de los Organos pertenecientes al Phantom encontrado en la busqueda. 
      * @param organo 
@@ -160,18 +169,29 @@ public class PhantomController  implements Initializable  {
         }
     }
     /**
-     * Metodo para el comportamiento del boton editar. 
+     * Metodo para el comportamiento del boton editar. Abre un dialogo para la edicion del Phantom. 
      */
     @FXML
-    private void btnEditar_click () throws IOException{
-        // hay que pasarle el objeto asi ya autocompleta el detalle del phantom. 
+    private void btnEditarPhantom_click (){
+        Phantom phantomSeleccionado = griPhantom.getSelectionModel().getSelectedItem();
+        if (phantomSeleccionado != null){
+            boolean guardarCambios = aplicacionPrincipal.mostrarPhantomEditDialog (phantomSeleccionado);
+            if (guardarCambios){
+                SeleccionPhantom(phantomSeleccionado);
+            }
+        }   else {
+            //No se selecciono nada
+            //CONTROL DE ERROR
+            }   
+                
+        /*// hay que pasarle el objeto asi ya autocompleta el detalle del phantom. 
         Stage stage = new Stage();
         Parent root = FXMLLoader.load(getClass().getResource("AbmPhantom.fxml"));
         Scene scene = new Scene(root);
               stage.setScene(scene);
         
         stage.setTitle("Editar Phantom");
-        stage.show(); 
+        stage.show(); */
     }
     
     /**
@@ -185,7 +205,7 @@ public class PhantomController  implements Initializable  {
         Scene scene = new Scene(root);
               stage.setScene(scene);
         
-        stage.setTitle("Editar Phantom");
+        stage.setTitle("Agregar Phantom");
         stage.show(); 
     }
     
