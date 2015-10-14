@@ -118,6 +118,43 @@ public class PhantomController  implements Initializable  {
         
     } 
     
+    /**
+     * Abre el formulario de AbmPhantom.FXml con los datos correspondientes al phantom seleccionado.
+     * Si el usuario presiona guardar datos, los cambios son guardados dentro del phantom y returna
+     * true. 
+     * @param phantom para ser editado
+     * @return true si el usuario clickea Guardar datos o retorna falso en caso contrario
+     */
+    public boolean mostrarPhantomEditDialog (Phantom phantom){
+        // cargo el nuevo FXML para crear un ventana tipo PopUp
+        try {
+        
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(PhantomController.class.getResource("AbmPhantom.fxml"));
+            AnchorPane page = (AnchorPane) loader.load();
+
+            // Creo el Stage para el Dialogo Editar. 
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Editar Phantom");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(primaryStage);
+            Scene scene = new Scene(page);
+            dialogStage.setScene(scene);
+
+                // Set the person into the controller.
+            AbmPhantomController controladorAbmPhantom = loader.getController();
+            controladorAbmPhantom.setDialogStage(dialogStage);
+            controladorAbmPhantom.setPhantom(phantom);
+
+            // Muestra el formulario y espera hasta que el usuario lo cierre. 
+            dialogStage.showAndWait();
+
+        return controladorAbmPhantom.isOkClicked();
+        } catch (IOException e) {
+            e.printStackTrace();
+                return false;
+            }
+        }
     
      /**
      * Muestra el detalle de los Organos pertenecientes al Phantom encontrado en la busqueda. 
@@ -173,27 +210,20 @@ public class PhantomController  implements Initializable  {
      */
     @FXML
     private void btnEditarPhantom_click (){
-        Phantom phantomSeleccionado = griPhantom.getSelectionModel().getSelectedItem();
-        if (phantomSeleccionado != null){
-            boolean guardarCambios = aplicacionPrincipal.mostrarPhantomEditDialog (phantomSeleccionado);
-            if (guardarCambios){
-                SeleccionPhantom(phantomSeleccionado);
-            }
-        }   else {
-            //No se selecciono nada
-            //CONTROL DE ERROR
-            }   
-                
-        /*// hay que pasarle el objeto asi ya autocompleta el detalle del phantom. 
-        Stage stage = new Stage();
-        Parent root = FXMLLoader.load(getClass().getResource("AbmPhantom.fxml"));
-        Scene scene = new Scene(root);
-              stage.setScene(scene);
-        
-        stage.setTitle("Editar Phantom");
-        stage.show(); */
-    }
+        Phantom selectedPhantom = griPhantom.getSelectionModel().getSelectedItem();
+		if (selectedPhantom != null) {
+			boolean okClicked = mostrarPhantomEditDialog(selectedPhantom);
+			if (okClicked) {
+				//showPersonDetails(selectedPhantom);
+			}
+
+		} else {
+			// Nothing selected.
+			
+		}
+	}
     
+   
     /**
      * Metodo para el comportamiento del boton NUEVO. 
      */
