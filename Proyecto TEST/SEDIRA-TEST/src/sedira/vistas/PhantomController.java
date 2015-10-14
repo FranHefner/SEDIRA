@@ -67,7 +67,7 @@ public class PhantomController  implements Initializable  {
     private TextField txtCampoBusqueda;
     
     //Lista Observable para el manejo de phantoms
-    public static ObservableList <Phantom> phantomData;
+    private ObservableList <Phantom> phantomData; 
     //Lista Observable para el manejo de organos
     public static ObservableList <Organo> organosData;
     //Lista Observable para el manejo de phantoms
@@ -93,7 +93,8 @@ public class PhantomController  implements Initializable  {
     public void initialize(URL url, ResourceBundle rb) {
         
         //Traigo los datos de los phantoms existentes. 
-        phantomData   = ConsultasDB.ListaPhantom();
+        phantomData   = ConsultasDB.iniciarPhantomsDefecto();
+        System.out.print(phantomData.size());
         // Inicializo la tabla de Organos
         clOrganoNombre.setCellValueFactory(
                 cellData -> cellData.getValue().getNombreOrgano());
@@ -135,16 +136,18 @@ public class PhantomController  implements Initializable  {
      * @return true si el usuario clickea Guardar datos o retorna falso en caso contrario
      */
     public boolean mostrarPhantomEditDialog (Phantom phantom){
-        // cargo el nuevo FXML para crear un ventana tipo PopUp
-        try {
         
+        // cargo el nuevo FXML para crear un ventana tipo PopUp
+
+        try {
+
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(PhantomController.class.getResource("AbmPhantom.fxml"));
             AnchorPane page = (AnchorPane) loader.load();
 
             // Creo el Stage para el Dialogo Editar. 
             Stage dialogStage = new Stage();
-            dialogStage.setTitle("Editar Phantom");
+            dialogStage.setTitle("Editar/Agregar Phantom");
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.initOwner(primaryStage);
             Scene scene = new Scene(page);
@@ -158,19 +161,22 @@ public class PhantomController  implements Initializable  {
             // Muestra el formulario y espera hasta que el usuario lo cierre. 
             dialogStage.showAndWait();
 
-        return controladorAbmPhantom.isOkClicked();
+            //Return
+            return controladorAbmPhantom.isGuardarDatosClicked();
         } catch (IOException e) {
             e.printStackTrace();
-                return false;
-            }
+            return false;
         }
+        
+        
+    }
     
      /**
      * Muestra el detalle de los Organos pertenecientes al Phantom encontrado en la busqueda. 
      * @param organo 
      */
     @FXML
-    private void showDetalleOrgano(ObservableList<Organo> organo) {
+    public void showDetalleOrgano(ObservableList<Organo> organo) {
         griOrgano.setItems(organo);
     }
     
@@ -179,7 +185,7 @@ public class PhantomController  implements Initializable  {
      * @param infoPhantom 
      */
      @FXML
-    private void showDetallePhantom(ObservableList<ValorDescripcion> infoPhantom) {
+    public void showDetallePhantom(ObservableList<ValorDescripcion> infoPhantom) {
        //Aca se utiliza la tabla Descripcion - Valor. 
         griValorDescripcionPhantom.setItems(infoPhantom);
       
@@ -189,7 +195,7 @@ public class PhantomController  implements Initializable  {
      * Al buscar el phantom , los muestra en la lista para su seleccion. 
      */
     @FXML
-    private void buscarPhantom(){
+    public void buscarPhantom(){
        griPhantom.setItems(FuncionesGenerales.FiltroListaPhantom(griPhantom, phantomData, txtCampoBusqueda));
     }
 
@@ -197,7 +203,7 @@ public class PhantomController  implements Initializable  {
      * Metodo que muestra los detalles del phantom seleccionado. 
      * @param phantomActual 
      */
-    private void SeleccionPhantom(Phantom phantomActual) 
+    public void SeleccionPhantom(Phantom phantomActual) 
     {  
         btnEditarPhantom.setDisable(false);
         
@@ -218,11 +224,11 @@ public class PhantomController  implements Initializable  {
      * Metodo para el comportamiento del boton editar. Abre un dialogo para la edicion del Phantom. 
      */
     @FXML
-    private void btnEditarPhantom_click (){
+    public void btnEditarPhantom_click (){
         Phantom selectedPhantom = griPhantom.getSelectionModel().getSelectedItem();
 		if (selectedPhantom != null) {
-			boolean okClicked = mostrarPhantomEditDialog(selectedPhantom);
-			if (okClicked) {
+			boolean guardarCambiosClicked = mostrarPhantomEditDialog(selectedPhantom);
+			if (guardarCambiosClicked) {
 				//showPersonDetails(selectedPhantom);
 			}
 
@@ -237,22 +243,20 @@ public class PhantomController  implements Initializable  {
      * Metodo para el comportamiento del boton NUEVO. 
      */
     @FXML
-    private void btnNuevoPhantom_click () throws IOException{
-        
-        Stage stage = new Stage();
-        Parent root = FXMLLoader.load(getClass().getResource("AbmPhantom.fxml"));
-        Scene scene = new Scene(root);
-              stage.setScene(scene);
-        
-        stage.setTitle("Agregar Phantom");
-        stage.show(); 
+    public void btnNuevoPhantom_click () {
+		Phantom tempPhantom = new Phantom(-1,"",null,null);
+		boolean guardarCambiosClicked = mostrarPhantomEditDialog(tempPhantom);
+		if (guardarCambiosClicked) {
+			ConsultasDB.phantomData = ConsultasDB.ObtenerPhantoms();
+                        ConsultasDB.AgregarPhantom(tempPhantom);
+		}
     }
     
     /**
      * Metodo para el comportamiento al seleccionar un item de la lista de organos. 
      */
     @FXML
-    private void griSeleccionarOrgano(){
+    public void griSeleccionarOrgano(){
         btnEditarOrganos.setDisable(false);
     }
     
@@ -261,7 +265,7 @@ public class PhantomController  implements Initializable  {
      * @throws IOException 
      */
     @FXML
-    private void btnEditarOrgano_click () throws IOException{
+    public void btnEditarOrgano_click () throws IOException{
         Stage stage = new Stage();
         Parent root = FXMLLoader.load(getClass().getResource("AbmOrgano.fxml"));
         Scene scene = new Scene(root);

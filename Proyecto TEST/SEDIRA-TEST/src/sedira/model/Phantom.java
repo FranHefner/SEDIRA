@@ -22,6 +22,9 @@ public class Phantom {
     private ObservableList <ValorDescripcion> propiedades; 
     private ObservableList <Organo> organo;
 
+    
+    
+    
    /**
     * Constructor de Phantoms, Contiene una lista de valor-descripcion. Para la mejorar la escalabilidad. 
     * @param phantomNombre
@@ -29,6 +32,7 @@ public class Phantom {
     * @param organo 
     * @param idPhantom identificador unico para el uso con Base de datos 
     */
+    
     public Phantom(int idPhantom, String phantomNombre, ObservableList<ValorDescripcion> propiedades, ObservableList<Organo> organo) {
         this.idPhantom = new SimpleIntegerProperty (idPhantom);
         this.phantomNombre = new SimpleStringProperty (phantomNombre);
@@ -52,7 +56,7 @@ public class Phantom {
         return phantomNombre.get();
     }
     
-    public void setPhantom(String phantomNombre) {
+    public void setPhantomNombre(String phantomNombre) {
         this.phantomNombre.set(phantomNombre);
     }
     

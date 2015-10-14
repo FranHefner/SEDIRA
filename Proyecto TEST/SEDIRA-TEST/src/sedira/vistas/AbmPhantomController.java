@@ -7,6 +7,8 @@ package sedira.vistas;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -14,6 +16,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import sedira.ConsultasDB;
 import sedira.model.Phantom;
 import sedira.model.ValorDescripcion;
 
@@ -46,42 +49,71 @@ public class AbmPhantomController implements Initializable {
     private TextField txtIdPhantom;
     
     @FXML
-    private TableView griValorDescripcionPhantom;
+    private TableView <ValorDescripcion>  griValorDescripcionPhantom;
     @FXML
-    private TableColumn clVdDescripcion;
+    private TableColumn <ValorDescripcion, Double> clVdValor;
     @FXML
-    private TableColumn clVdValor;
+    private TableColumn <ValorDescripcion, String> clVdDescripcion;
     @FXML
-    private TableColumn clVdUnidad;
+    private TableColumn <ValorDescripcion, String> clVdUnidad;
     
     
     //Objeto Phantom auxiliar. 
-    private Phantom phantom;
+    private  Phantom phantom;
     // Stage aux
     private Stage dialogStage;
     // boleano para controlar cuando el usuario clickea ok 
     private boolean guardarDatos = false;
+    //Lista Observable para el manejo de phantoms
+    ObservableList <ValorDescripcion> listaAtributoPhantom = FXCollections.observableArrayList(); 
+    
+    
     
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        //Inicializo la tabla de Propiedad Valor, correspondiente a los Phantoms. 
         
+        clVdValor.setCellValueFactory(
+               cellData -> cellData.getValue().valorProperty().asObject());
+        clVdDescripcion.setCellValueFactory(
+                cellData->cellData.getValue().descripcionProperty());
+        clVdUnidad.setCellValueFactory(
+                cellData -> cellData.getValue().unidadProperty());
         
-        
+       
+       // Listener para los cambios en la tabla de informacion de Phantoms 
+       griValorDescripcionPhantom.getSelectionModel().selectedItemProperty().addListener(
+				(observable, oldValue, newValue) -> mostrarDetalleSeleccion(newValue));
     }
-   
+    
+    
     /**
-     * metodo para el control del Boton Limpiar Valores. 
-     * limpia los datos agregados en los textFields del formulario. 
+     * Este metodo setea en los textFields la informacion que el usuario selecciona de la tabla de propiedades de phantoms. 
+     * @param valorDescripcion es el tipo de dato que almacena la tabla que muestra la informacion de las propiedades que 
+     * contiene un organo. 
      */
     @FXML
-    private void btnLimpiarValores_click(){
-    txtUnidad.setText("");
-    txtPropiedad.setText("");
-    txtValor.setText("");
+    public void mostrarDetalleSeleccion (ValorDescripcion valorDescripcion){
+        
+        btnQuitar.setDisable(false);
+        if (valorDescripcion != null){
+            txtPropiedad.setDisable(false);
+            txtValor.setDisable(false);
+            txtUnidad.setDisable(false);
+            txtPropiedad.setText(valorDescripcion.getDescripcion());
+            txtValor.setText(valorDescripcion.getValor().toString());
+            txtUnidad.setText(valorDescripcion.getUnidad());
+            
+        } else {
+            txtPropiedad.setText("");
+            txtValor.setText("");
+            txtUnidad.setText("");
+        }
     }
+    
     
     /**
      * Setea el Stage para este Formulario o Dialog. 
@@ -94,27 +126,140 @@ public class AbmPhantomController implements Initializable {
     
     /**
      * Setea el Phantom a editar dentro del Formulario de edicion. 
-     * @param phantom 
+     * Si el Phanton que viene por parametros tiene el id = -1, significa que el 
+     * usuario busca crear un nuevo Phantom. 
+     * @param phantom a editar. 
      */
     public void setPhantom (Phantom phantom){
         this.phantom = phantom;
         
-        txtNombrePhantom.setText(phantom.getPhantomNombre());
-        txtIdPhantom.setText(String.valueOf(phantom.getIdPhantom()));
+        if (phantom.getIdPhantom() != -1){         
+            //Atributos de nombre y id. 
+            txtNombrePhantom.setText(phantom.getPhantomNombre());
+            txtIdPhantom.setText(String.valueOf(phantom.getIdPhantom()));
+
+            //Completo las propiedades del phantom. 
+            griValorDescripcionPhantom.setItems(phantom.getPropiedades());
+            //Prendo los botones
+            btnLimpiarValores.setDisable(false);
+            btnAgregar.setDisable(false);
         
-        //Agregar el Contenido de la lista valor Descripcion. 
+        } else {
+            //Cambio Nombre en el formulario. 
+            this.dialogStage.setTitle("Agregar Phantom");
+            //Activo los TextField
+            txtNombrePhantom.setEditable(true);
+            txtPropiedad.setDisable(false);
+            txtValor.setDisable(false);
+            txtUnidad.setDisable(false);
+            
+            //Genero un Nuevo IdPhantom.
+            
+            txtIdPhantom.setText(String.valueOf(ConsultasDB.getNewIdPhantom()));
+            
+            //Prendo los botones. 
+            btnLimpiarValores.setDisable(false);
+            btnAgregar.setDisable(false);
+            //btnQuitar.setDisable(false);
+        }
+            
+            
+    }
+    /**
+     * Metodo llamado al momento de que el usuario presiona Guardar datos .
+     */
+    @FXML
+    public  void btnGuardarDatos() {
+       // TODO: VALIDACIONES.  
+        // HACER LA LLAMADA A CONSULTAS.DB GUARDARPHANTOM. 
+         
+        phantom.setIdPhantom(ConsultasDB.getNewIdPhantom());
+        phantom.setPhantomNombre(txtNombrePhantom.getText());
         
+        ConsultasDB.AgregarPhantom(phantom);
+        guardarDatos = true;
+        dialogStage.close();
+    }
+    /**
+     * Metodo que controla la agregacion de items valor descripcion a la tabla de info phantoms. 
+     */
+    @FXML
+    public  void btnAgregar() {
+       //objeto aux
+        ValorDescripcion propiedadValor = new ValorDescripcion(null,0,null); 
+       
+       //Completo los datos en el objeto aux con lo ingresado por el usuario. 
+       propiedadValor.setDescripcion(txtPropiedad.getText());
+       propiedadValor.setValor(Double.parseDouble(txtValor.getText()));
+       propiedadValor.setUnidad(txtUnidad.getText());
+       //Agrego el objeto a la lista de atributos de phantom
+       listaAtributoPhantom.add(propiedadValor);
+       //le asigno al phantom el objeto
+       phantom.setPropiedades(listaAtributoPhantom);
+       //lo muestro en la tabla
+       refrescarTablaPhantom(phantom.getPropiedades());
+       //Limpio los valores en los textField para el nuevo agregado
+       btnLimpiarValores_click();
+      
         
-//Demas atributos del Phantom. 
     }
     
+    /**
+     * Metodo que controla la eliminacion de items valor descripcion a la tabla de info phantoms. 
+     */
+    @FXML
+    public  void btnQuitar() {
+        int selectedIndex = griValorDescripcionPhantom.getSelectionModel().getSelectedIndex();
+            if (selectedIndex >= 0) {
+                    griValorDescripcionPhantom.getItems().remove(selectedIndex);
+            } else {
+                    // Nothing selected.
+                   /* Dialogs.create()
+                    .title("No Selection")
+                    .masthead("No Person Selected")
+                    .message("Please select a person in the table.")
+                    .showWarning();*/
+            }
+                 
+        
+    }
+    
+    /**
+     * Muestra el detalle del Phantom en la tabla Phantoms 
+     * @param infoPhantom 
+     */
+     @FXML
+    public void refrescarTablaPhantom(ObservableList<ValorDescripcion> infoPhantom) {
+       //Aca se utiliza la tabla Descripcion - Valor. 
+        griValorDescripcionPhantom.setItems(infoPhantom);
+      
+    }
     
     /**
      * Metodo que retorna si el usuario presiono el boton Guardar Datos. 
      * @return guardarDatos 
      */
-    public boolean isOkClicked(){
+    public boolean isGuardarDatosClicked(){
         return this.guardarDatos;
+    }
+    
+     /**
+     * Metodo que se llama al presionar el boton cancelar. 
+     */
+    @FXML
+    private void btnCancel_click() {
+        dialogStage.close();
+    }
+    
+    /**
+     * metodo para el control del Boton Limpiar Valores. 
+     * limpia los datos agregados en los textFields del formulario. 
+     */
+    @FXML
+    private void btnLimpiarValores_click(){
+    txtUnidad.setText("");
+    txtPropiedad.setText("");
+    txtValor.setText("");
     }
     
     

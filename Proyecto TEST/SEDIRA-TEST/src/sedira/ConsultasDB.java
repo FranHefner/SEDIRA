@@ -7,10 +7,8 @@ package sedira;
 
 
 import java.util.ArrayList;
-import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import sedira.model.Calculo;
 import sedira.model.TipoDocumento;
 import sedira.model.Paciente;
 import sedira.model.Phantom;
@@ -22,7 +20,8 @@ import sedira.model.ValorDescripcion;
  */
 
 public class ConsultasDB {
-       /* Agregar la administracion de la conexion con la base de datos */     
+    public static ObservableList <Phantom> phantomData = FXCollections.observableArrayList();   
+    /* Agregar la administracion de la conexion con la base de datos */     
 
     /**
      * Metodo para obtener los datos basicos de los pacientes
@@ -65,9 +64,9 @@ public class ConsultasDB {
       * Metodo que inicializa un Phantom por defecto. Corresponde a los siguientes datos datos por el 
       * modelo de Stabin MG y JA Siegel - 2003
       *  
-      * @return Objeto Phantom, compuesto arreglo de objetos tipo Valor-Descripcion y arreglo de Organos.  
+      * @return Objeto listaPhantom, compuesto arreglo de objetos tipo Phantom con  Valor-Descripcion y arreglo de Organos.  
       */
-     public static ObservableList <Phantom> ListaPhantom ()
+     public static ObservableList <Phantom> iniciarPhantomsDefecto ()
      {
         // Un phantom esta compuesto de varios organos. Un organos puede formar parte de varios Phantoms. 
         // Temporalmente se utiliza un contructor acotado de los organos que forman parte de un Phantom.
@@ -95,7 +94,7 @@ public class ConsultasDB {
             listaAtributoPhantomFem.add(new ValorDescripcion("Sup Cuerpo",0,"cm2"));
             listaAtributoPhantomFem.add(new ValorDescripcion("Peso total",56800,"grs"));
        
-        ObservableList <Phantom> phantomData = FXCollections.observableArrayList();
+        
           phantomData.add(new Phantom (0,"Adulto Masculino 76kg",listaAtributoPhantom,organosData));
           phantomData.add(new Phantom (1,"Adulto Femenino 56.8kg", listaAtributoPhantomFem, organosDataFem));
  
@@ -134,11 +133,16 @@ public class ConsultasDB {
      * Método para obtener la lista de Phantoms
      * @return Lista de Phantoms
      */
-    public static ArrayList<Phantom> ObtenerPhantoms()
+    public static ObservableList <Phantom> ObtenerPhantoms()
     {
-        ArrayList<Phantom> ListaPhantom = null ;
-
-          return  ListaPhantom;        
+        return  phantomData;        
+    }
+    /**
+     * Metodo que guarda un phantom creado/modificado en la lista de Phantoms inicial  
+     * @param phantom Objeto phantom a guardar en la lista de Phantoms ya creados. Base datos. 
+     */
+    public static void AgregarPhantom(Phantom phantom){
+          phantomData.add(phantom);
     }
     
     public static ArrayList<TipoDocumento> ObtenerTiposDoc()
@@ -169,5 +173,8 @@ public class ConsultasDB {
         return ("No encontrado");
         
     }
-    
+    public static int getNewIdPhantom (){
+        int newId = phantomData.size() + 1;
+        return newId;
+    }
 }

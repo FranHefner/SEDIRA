@@ -90,7 +90,7 @@ public class FuncionesGenerales {
                 }
                 String lowerCaseFilter = newValue.toLowerCase();
 
-                if (Phantom.getPhantomNombre().toString().toLowerCase().contains(lowerCaseFilter)) {
+                if (Phantom.getPhantomNombre().toLowerCase().contains(lowerCaseFilter)) {
                     return true; // Busca solo por el Nombre del Phantom. Pensar en agregar que busque por peso. 
                 } else {
                     return false; // 

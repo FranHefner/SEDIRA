@@ -19,13 +19,16 @@ public class ValorDescripcion {
        StringProperty descripcion;
        DoubleProperty valor;
        StringProperty unidad;
+     
+     
        
     /**
      * 
-     * @param descripcion
-     * @param valor
-     * @param unidad 
+     * @param descripcion define el nombre de un nuevo atributo.
+     * @param valor el valor que tomara ese nuevo atributo. 
+     * @param unidad se especifica la unidad. Debido a la pluralidad de elementos que existen.
      */
+      
     public ValorDescripcion(String descripcion, double valor, String unidad) {
         this.descripcion = new SimpleStringProperty (descripcion);
         this.valor = new SimpleDoubleProperty(valor);
@@ -36,8 +39,8 @@ public class ValorDescripcion {
         return descripcion.get();
     }
 
-    public void setDescripcion(StringProperty descripcion) {
-        this.descripcion = descripcion;
+    public void setDescripcion(String descripcion) {
+        this.descripcion.set(descripcion);
     }
     public StringProperty  descripcionProperty (){
         return descripcion;
@@ -46,8 +49,8 @@ public class ValorDescripcion {
         return valor.get();
     }
 
-    public void setValor(DoubleProperty valor) {
-        this.valor = valor;
+    public void setValor(Double valor) {
+        this.valor.set(valor);
     }
     public DoubleProperty valorProperty (){
         return valor;
@@ -57,8 +60,8 @@ public class ValorDescripcion {
         return unidad.get();
     }
 
-    public void setUnidad(StringProperty unidad) {
-        this.unidad = unidad;
+    public void setUnidad(String unidad) {
+        this.unidad.set(unidad);
     }
     public StringProperty unidadProperty(){
         return unidad; 

@@ -18,7 +18,7 @@
                   <Label layoutX="16.0" layoutY="28.0" text="Propiedad:" />
                   <Label layoutX="43.0" layoutY="72.0" text="Valor:" />
                   <Label layoutX="31.0" layoutY="109.0" text="Unidad:" />
-                  <Button fx:id="btnAgregar" disable="true" layoutX="369.0" layoutY="60.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="96.0" text="Agregar" />
+                  <Button fx:id="btnAgregar" disable="true" layoutX="369.0" layoutY="60.0" mnemonicParsing="false" onAction="#btnAgregar" prefHeight="25.0" prefWidth="96.0" text="Agregar" />
                   <Button fx:id="btnLimpiarValores" disable="true" layoutX="369.0" layoutY="18.0" mnemonicParsing="false" onAction="#btnLimpiarValores_click" prefHeight="25.0" prefWidth="95.0" text="Limpiar valores" />
                   <TableView fx:id="griValorDescripcionPhantom" layoutX="27.0" layoutY="149.0" prefHeight="358.0" prefWidth="480.0">
                      <columnResizePolicy>
@@ -30,11 +30,11 @@
                         <TableColumn fx:id="clVdUnidad" prefWidth="75.0" text="Unidad" />
                      </columns>
                   </TableView>
-                  <Button fx:id="btnQuitar" disable="true" layoutX="368.0" layoutY="104.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="Quitar" />
+                  <Button fx:id="btnQuitar" disable="true" layoutX="368.0" layoutY="104.0" mnemonicParsing="false" onAction="#btnQuitar" prefHeight="25.0" prefWidth="98.0" text="Quitar" />
                   <HBox alignment="TOP_CENTER" layoutX="28.0" layoutY="515.0" prefHeight="25.0" prefWidth="479.0" spacing="30.0">
                      <children>
-                        <Button fx:id="btnGuardarCambios" disable="true" layoutX="45.0" layoutY="526.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="118.0" text="Guardar cambios" />
-                        <Button fx:id="btnCancelar" layoutX="199.0" layoutY="526.0" mnemonicParsing="false" text="Cancelar" />
+                        <Button fx:id="btnGuardarCambios" layoutX="45.0" layoutY="526.0" mnemonicParsing="false" onAction="#btnGuardarDatos" prefHeight="25.0" prefWidth="118.0" text="Guardar cambios" />
+                        <Button fx:id="btnCancelar" layoutX="199.0" layoutY="526.0" mnemonicParsing="false" onAction="#btnCancel_click" text="Cancelar" />
                      </children>
                   </HBox>
                </children>
@@ -42,8 +42,8 @@
          </content>
       </TitledPane>
       <TextField fx:id="txtNombrePhantom" editable="false" layoutX="159.0" layoutY="14.0" prefHeight="25.0" prefWidth="396.0" />
-      <Label layoutX="45.0" layoutY="20.0" text="Nombre del Phantom:" />
-      <Label layoutX="99.0" layoutY="50.0" text="idPhantom:" />
+      <Label layoutX="37.0" layoutY="20.0" text="Nombre del Phantom:" />
+      <Label layoutX="91.0" layoutY="50.0" text="idPhantom:" />
       <TextField fx:id="txtIdPhantom" editable="false" layoutX="159.0" layoutY="46.0" prefHeight="22.0" prefWidth="107.0" />
    </children>
 </AnchorPane>
