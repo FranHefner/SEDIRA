@@ -6,11 +6,11 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="693.0" prefWidth="574.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sedira.vistas.AbmPhantomController">
+<AnchorPane id="AnchorPane" prefHeight="664.0" prefWidth="574.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sedira.vistas.AbmPhantomController">
    <children>
-      <TitledPane animated="false" collapsible="false" layoutX="14.0" layoutY="48.0" prefHeight="616.0" prefWidth="549.0" text="Edición de phantom">
+      <TitledPane animated="false" collapsible="false" layoutX="13.0" layoutY="80.0" prefHeight="570.0" prefWidth="549.0" text="Edición de phantom">
          <content>
-            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="590.0" prefWidth="295.0">
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="552.0" prefWidth="547.0">
                <children>
                   <TextField fx:id="txtPropiedad" disable="true" layoutX="86.0" layoutY="14.0" prefHeight="33.0" prefWidth="250.0" />
                   <TextField fx:id="txtValor" disable="true" layoutX="86.0" layoutY="56.0" prefHeight="33.0" prefWidth="250.0" />
@@ -19,7 +19,7 @@
                   <Label layoutX="43.0" layoutY="72.0" text="Valor:" />
                   <Label layoutX="31.0" layoutY="109.0" text="Unidad:" />
                   <Button fx:id="btnAgregar" disable="true" layoutX="369.0" layoutY="60.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="96.0" text="Agregar" />
-                  <Button fx:id="btnLimpiarValores" disable="true" layoutX="369.0" layoutY="18.0" mnemonicParsing="false" onAction="#btnLimpiarValores_click" text="Limpiar valores" />
+                  <Button fx:id="btnLimpiarValores" disable="true" layoutX="369.0" layoutY="18.0" mnemonicParsing="false" onAction="#btnLimpiarValores_click" prefHeight="25.0" prefWidth="95.0" text="Limpiar valores" />
                   <TableView fx:id="griValorDescripcionPhantom" layoutX="27.0" layoutY="149.0" prefHeight="358.0" prefWidth="480.0">
                      <columnResizePolicy>
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -31,7 +31,7 @@
                      </columns>
                   </TableView>
                   <Button fx:id="btnQuitar" disable="true" layoutX="368.0" layoutY="104.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="Quitar" />
-                  <HBox alignment="TOP_CENTER" layoutX="28.0" layoutY="526.0" prefHeight="25.0" prefWidth="479.0" spacing="30.0">
+                  <HBox alignment="TOP_CENTER" layoutX="28.0" layoutY="515.0" prefHeight="25.0" prefWidth="479.0" spacing="30.0">
                      <children>
                         <Button fx:id="btnGuardarCambios" disable="true" layoutX="45.0" layoutY="526.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="118.0" text="Guardar cambios" />
                         <Button fx:id="btnCancelar" layoutX="199.0" layoutY="526.0" mnemonicParsing="false" text="Cancelar" />
@@ -42,6 +42,8 @@
          </content>
       </TitledPane>
       <TextField fx:id="txtNombrePhantom" editable="false" layoutX="159.0" layoutY="14.0" prefHeight="25.0" prefWidth="396.0" />
-      <Label layoutX="14.0" layoutY="18.0" text="Nombre del Phantom:" />
+      <Label layoutX="45.0" layoutY="20.0" text="Nombre del Phantom:" />
+      <Label layoutX="99.0" layoutY="50.0" text="idPhantom:" />
+      <TextField fx:id="txtIdPhantom" editable="false" layoutX="159.0" layoutY="46.0" prefHeight="22.0" prefWidth="107.0" />
    </children>
 </AnchorPane>

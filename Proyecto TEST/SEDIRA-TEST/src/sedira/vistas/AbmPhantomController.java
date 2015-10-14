@@ -10,9 +10,12 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import sedira.model.Phantom;
+import sedira.model.ValorDescripcion;
 
 /**
  * FXML Controller class
@@ -39,6 +42,18 @@ public class AbmPhantomController implements Initializable {
     private TextField txtUnidad;
     @FXML
     private TextField txtNombrePhantom;
+    @FXML
+    private TextField txtIdPhantom;
+    
+    @FXML
+    private TableView griValorDescripcionPhantom;
+    @FXML
+    private TableColumn clVdDescripcion;
+    @FXML
+    private TableColumn clVdValor;
+    @FXML
+    private TableColumn clVdUnidad;
+    
     
     //Objeto Phantom auxiliar. 
     private Phantom phantom;
@@ -52,6 +67,8 @@ public class AbmPhantomController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        
+        
         
     }
    
@@ -82,9 +99,15 @@ public class AbmPhantomController implements Initializable {
     public void setPhantom (Phantom phantom){
         this.phantom = phantom;
         
-        txtNombrePhantom.setText(phantom.getPhantomNombre().toString());
-        //Demas atributos del Phantom. 
+        txtNombrePhantom.setText(phantom.getPhantomNombre());
+        txtIdPhantom.setText(String.valueOf(phantom.getIdPhantom()));
+        
+        //Agregar el Contenido de la lista valor Descripcion. 
+        
+        
+//Demas atributos del Phantom. 
     }
+    
     
     /**
      * Metodo que retorna si el usuario presiono el boton Guardar Datos. 

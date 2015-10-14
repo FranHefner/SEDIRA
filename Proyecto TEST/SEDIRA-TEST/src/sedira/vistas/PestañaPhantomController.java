@@ -14,13 +14,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.SplitPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import sedira.ConsultasDB;
 import sedira.model.Organo;
@@ -84,12 +81,7 @@ public class PestañaPhantomController implements Initializable {
        
         // Limpieza de los detalles de organos. 
         showDetalleOrgano(null);
-
-        //listener para los cambios en la seleccion. Y mostrarlo en la Tabla de Organo. 
-        /*griOrgano.getSelectionModel().selectedItemProperty().addListener(
-               (observable, oldValue, newValue) -> seleccionOrgano(newValue));*/
-        
-       
+  
         
        //Inicializo la tabla de Propiedad Valor, correspondiente a los Phantoms. 
         clVdValor.setCellValueFactory(
@@ -101,10 +93,6 @@ public class PestañaPhantomController implements Initializable {
         // Limpieza de los detalles de Phantoms. 
         showDetallePhantom(null);
        
-         //listener para los cambios en la seleccion. Y mostrarlo en la Tabla de Phantoms 
-          /*griValorDescripcionPhantom.getSelectionModel().selectedItemProperty().addListener(
-              (observable, oldValue, newValue) -> seleccionPhantom(newValue));*/
-         
         //Inicializo la lista de Phantoms para el ChoiceBox
         initListaPhantom();
         choicePhantom.setTooltip(new Tooltip("Seleccione el Phantom"));
@@ -120,11 +108,12 @@ public class PestañaPhantomController implements Initializable {
         ObservableList <String> listaStringPhantom = FXCollections.observableArrayList();
                      
         for (Phantom listaPhantom1 : listaPhantom) {
-            listaStringPhantom.add(listaPhantom1.getPhantomNombre().getValue());
+            listaStringPhantom.add(listaPhantom1.phantomNombreProperty().getValue());
         }
         //Asigno la lista de los nombres de los Phantoms al ChoiceBox
          choicePhantom.setItems(listaStringPhantom);
     }
+    
     /**
      * Muestra el detalle de los Organos pertenecientes al Phantom encontrado en la busqueda. 
      * @param organo 
@@ -133,7 +122,6 @@ public class PestañaPhantomController implements Initializable {
     private void showDetalleOrgano(ObservableList<Organo> organo) {
         griOrgano.setItems(organo);
        
-    
     }
     /**
      * Muestra el detalle del Phantom en la tabla Phantoms 
@@ -167,41 +155,5 @@ public class PestañaPhantomController implements Initializable {
                 }
             });
     }
-    /**
-     * Completa los textField con el organo seleccionado de la tabla de Organos 
-     * @param organoActual 
-     */
     
-    /*@FXML 
-    private void seleccionOrgano (Organo organoActual){
-        if (organoActual != null) {
-            
-            this.organoActual = organoActual;
-            txtOrganoNombre.setText(String.valueOf( organoActual.getNombreOrgano().getValue() ) );
-            txtOrganoMasa.setText(String.valueOf( organoActual.getOrganMass().getValue() ) );
-             
-        } else {
-            txtOrganoNombre.setText("");
-            txtOrganoMasa.setText("");
-             
-        }
-    }
-    /**
-     * Completa los textfield con la informacion de los Items del Phantom seleccionado. 
-     * @param phantomValorDescripcion 
-     */
-    /*@FXML 
-    private void seleccionPhantom (ValorDescripcion phantomValorDescripcion){
-        
-        if (phantomValorDescripcion != null) {
-            this.phantomValorDescripcion = phantomValorDescripcion;
-            txtPhantomPropiedad.setText(phantomValorDescripcion.getDescripcion());
-            txtPhantomValor.setText(Double.toString(phantomValorDescripcion.getValor()));
-        
-        } else {
-            txtPhantomPropiedad.setText("");
-            txtPhantomValor.setText("");
-             
-        }
-    }*/
 }

@@ -28,6 +28,7 @@ import sedira.model.Organo;
 import sedira.model.ValorDescripcion;
 import sedira.model.Phantom;
 import sedira.AplicacionPrincipal;
+
 /**
  * Clase controladora para el Administrador de Phantoms. 
  * @author Hefner Francisco, Quelin Pablo 
@@ -79,6 +80,14 @@ public class PhantomController  implements Initializable  {
                
     /**
      * Initializes the controller class.
+     * El método setCellValueFactory(...) que aplicamos sobre las columnas de la tabla 
+     * se usa para determinar qué atributos de la clase Phantom / Organo deben ser usados para 
+     * cada columna particular. La flecha -> indica que estamos usando una característica 
+     * de Java 8 denominada Lambdas. Otra opción sería utilizar un PropertyValueFactory, 
+     * pero entonces no ofrecería seguridad de tipo (type-safe).
+     * 
+     * El método initialize() es invocado automáticamente tras cargar el fxml.
+     * En ese momento, todos los atributos FXML deberían ya haber sido inicializados..
      */
     @Override   
     public void initialize(URL url, ResourceBundle rb) {
@@ -106,7 +115,7 @@ public class PhantomController  implements Initializable  {
         showDetallePhantom(null);
        
         //Inicializo la tabla de Phantom. 
-        clPhantomNombre.setCellValueFactory(cellData -> cellData.getValue().getPhantomNombre());
+        clPhantomNombre.setCellValueFactory(cellData -> cellData.getValue().phantomNombreProperty());
         //Listener para la seleccion del phantom en la lista de phantoms que trae la busqueda.
         griPhantom.getSelectionModel().selectedItemProperty().addListener(
             (observable, oldValue, newValue) -> SeleccionPhantom(newValue));     

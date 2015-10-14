@@ -36,23 +36,29 @@ public class Phantom {
         this.organo = organo;
     }
 
-    public IntegerProperty getIdPhantom() {
-        return idPhantom;
+    public int getIdPhantom() {
+        return idPhantom.get();
     }
 
-    public void setIdPhantom(IntegerProperty idPhantom) {
-        this.idPhantom = idPhantom;
+    public void setIdPhantom(int idPhantom) {
+        this.idPhantom.set(idPhantom);
     }
     
+    public IntegerProperty idPhantomProperty (){
+        return idPhantom;
+    }
+        
+    public String getPhantomNombre() {
+        return phantomNombre.get();
+    }
     
-    public StringProperty getPhantomNombre() {
+    public void setPhantom(String phantomNombre) {
+        this.phantomNombre.set(phantomNombre);
+    }
+    
+    public StringProperty phantomNombreProperty (){
         return phantomNombre;
     }
-    
-    public void setPhantom(StringProperty phantom) {
-        this.phantomNombre = phantom;
-    }
-   
    
     public ObservableList<ValorDescripcion> getPropiedades() {
         return propiedades;
