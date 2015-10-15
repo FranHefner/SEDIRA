@@ -226,16 +226,17 @@ public class PhantomController  implements Initializable  {
     @FXML
     public void btnEditarPhantom_click (){
         Phantom selectedPhantom = griPhantom.getSelectionModel().getSelectedItem();
-		if (selectedPhantom != null) {
-			boolean guardarCambiosClicked = mostrarPhantomEditDialog(selectedPhantom);
-			if (guardarCambiosClicked) {
-				//showPersonDetails(selectedPhantom);
-			}
+            
+        if (selectedPhantom != null) {
+                boolean guardarCambiosClicked = mostrarPhantomEditDialog(selectedPhantom);
+                if (guardarCambiosClicked) {
+                        //showPersonDetails(selectedPhantom);
+                }
 
-		} else {
-			// Nothing selected.
-			
-		}
+        } else {
+                // Nothing selected.
+
+        }
 	}
     
    

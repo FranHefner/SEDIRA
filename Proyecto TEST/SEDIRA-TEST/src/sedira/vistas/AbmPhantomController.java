@@ -132,9 +132,12 @@ public class AbmPhantomController implements Initializable {
      */
     public void setPhantom (Phantom phantom){
         this.phantom = phantom;
-        
+        txtPropiedad.setDisable(false);
+        txtValor.setDisable(false);
+        txtUnidad.setDisable(false);
         if (phantom.getIdPhantom() != -1){         
             //Atributos de nombre y id. 
+            
             txtNombrePhantom.setText(phantom.getPhantomNombre());
             txtIdPhantom.setText(String.valueOf(phantom.getIdPhantom()));
 
@@ -149,9 +152,8 @@ public class AbmPhantomController implements Initializable {
             this.dialogStage.setTitle("Agregar Phantom");
             //Activo los TextField
             txtNombrePhantom.setEditable(true);
-            txtPropiedad.setDisable(false);
-            txtValor.setDisable(false);
-            txtUnidad.setDisable(false);
+            
+            
             
             //Genero un Nuevo IdPhantom.
             
@@ -195,7 +197,12 @@ public class AbmPhantomController implements Initializable {
        //Agrego el objeto a la lista de atributos de phantom
        listaAtributoPhantom.add(propiedadValor);
        //le asigno al phantom el objeto
-       phantom.setPropiedades(listaAtributoPhantom);
+       if (phantom.getPropiedades() != null){
+           phantom.getPropiedades().add(propiedadValor);
+       } else {
+           phantom.setPropiedades(listaAtributoPhantom);
+       }
+       
        //lo muestro en la tabla
        refrescarTablaPhantom(phantom.getPropiedades());
        //Limpio los valores en los textField para el nuevo agregado
