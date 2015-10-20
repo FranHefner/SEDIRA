@@ -82,7 +82,7 @@ public class AbmPhantomController implements Initializable {
                 cellData->cellData.getValue().descripcionProperty());
         clVdUnidad.setCellValueFactory(
                 cellData -> cellData.getValue().unidadProperty());
-        
+        mostrarDetalleSeleccion(null);
        
        // Listener para los cambios en la tabla de informacion de Phantoms 
        griValorDescripcionPhantom.getSelectionModel().selectedItemProperty().addListener(

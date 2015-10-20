@@ -23,37 +23,47 @@ public class Organo {
     /**
      * 
      * @param nombreOrgano
-     * @param organMass
-     * @param totalMass 
+     * @param organMass masa/peso en gramos del organos. 
+     * @param totalMass sumatoria de las masas. Determina el peso total del Humano (Phantom)
      */
     public Organo(String nombreOrgano, double organMass, double totalMass) {
         this.nombreOrgano = new SimpleStringProperty(nombreOrgano);
         this.organMass = new SimpleDoubleProperty (organMass);
         this.totalMass = new SimpleDoubleProperty (totalMass);
     }
-
-    public StringProperty getNombreOrgano() {
+    
+//**********************************nombreOrgano GETters and SETters 
+    public String getNombreOrgano() {
+        return nombreOrgano.get();
+    }
+    public void setNombreOrgano(String nombreOrgano) {
+        this.nombreOrgano.set(nombreOrgano);
+    }
+    public StringProperty getNombreOrganoProperty (){
         return nombreOrgano;
     }
 
-    public void setNombreOrgano(StringProperty nombreOrgano) {
-        this.nombreOrgano = nombreOrgano;
+    //**********************************irganMass GETters and SETters 
+    public Double getOrganMass() {
+        return organMass.get();
     }
-
-    public DoubleProperty getOrganMass() {
+    
+    public void setOrganMass(Double organMass) {
+        this.organMass.set(organMass);
+    }
+    public DoubleProperty getOrganMassProperty(){
         return organMass;
     }
     
-    public void setOrganMass(DoubleProperty organMass) {
-        this.organMass = organMass;
+    //**********************************totalMass GETters and SETters 
+    public Double getTotalMass() {
+        return totalMass.get();
     }
-
-    public DoubleProperty getTotalMass() {
+    public void setTotalMass(Double totalMass) {
+        this.totalMass.set(totalMass);
+    }
+   public DoubleProperty getTotalMassProperty(){
         return totalMass;
-    }
-
-    public void setTotalMass(DoubleProperty totalMass) {
-        this.totalMass = totalMass;
     }
 
    

@@ -12,7 +12,6 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
@@ -95,11 +94,12 @@ public class PhantomController  implements Initializable  {
         //Traigo los datos de los phantoms existentes. 
         phantomData   = ConsultasDB.iniciarPhantomsDefecto();
         System.out.print(phantomData.size());
+        
         // Inicializo la tabla de Organos
         clOrganoNombre.setCellValueFactory(
-                cellData -> cellData.getValue().getNombreOrgano());
+                cellData -> cellData.getValue().getNombreOrganoProperty());
         clOrganoMasa.setCellValueFactory(
-                cellData -> cellData.getValue().getOrganMass().asString());
+                cellData -> cellData.getValue().getOrganMassProperty().asString());
        
         // Limpieza de los detalles de organos. 
         showDetalleOrgano(null);
@@ -153,7 +153,7 @@ public class PhantomController  implements Initializable  {
             Scene scene = new Scene(page);
             dialogStage.setScene(scene);
 
-                // Set the person into the controller.
+                // setea el Phantom dentro del controlador AbmPhantomController. .
             AbmPhantomController controladorAbmPhantom = loader.getController();
             controladorAbmPhantom.setDialogStage(dialogStage);
             controladorAbmPhantom.setPhantom(phantom);
@@ -169,6 +169,43 @@ public class PhantomController  implements Initializable  {
         }
         
         
+    }
+    
+    public boolean mostrarOrganoEditDialog (Phantom phantom){
+        
+        // cargo el nuevo FXML para crear un ventana tipo PopUp
+
+        try {
+
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(PhantomController.class.getResource("AbmOrgano.fxml"));
+            AnchorPane page = (AnchorPane) loader.load();
+
+            // Creo el Stage para el Dialogo Editar. 
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Editar/Agregar Phantom");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(primaryStage);
+            Scene scene = new Scene(page);
+            dialogStage.setScene(scene);
+
+                // Pone el organo en el controlador AbmOrganoController. 
+            AbmOrganoController controladorAbmOrgano = loader.getController();
+            controladorAbmOrgano.setDialogStage(dialogStage);
+            // le paso el Phantom porque los phantom son los que contienen organos. 
+            controladorAbmOrgano.setPhantom(phantom);
+
+            // Muestra el formulario y espera hasta que el usuario lo cierre. 
+            dialogStage.showAndWait();
+
+            //Return
+            return controladorAbmOrgano.isGuardarDatosClicked();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+        
+       
     }
     
      /**
@@ -206,7 +243,7 @@ public class PhantomController  implements Initializable  {
     public void SeleccionPhantom(Phantom phantomActual) 
     {  
         btnEditarPhantom.setDisable(false);
-        
+        btnEditarOrganos.setDisable(false);
         if (phantomActual != null)
         {
             organosData =  phantomActual.getOrgano();     
@@ -237,7 +274,7 @@ public class PhantomController  implements Initializable  {
                 // Nothing selected.
 
         }
-	}
+    }
     
    
     /**
@@ -266,14 +303,19 @@ public class PhantomController  implements Initializable  {
      * @throws IOException 
      */
     @FXML
-    public void btnEditarOrgano_click () throws IOException{
-        Stage stage = new Stage();
-        Parent root = FXMLLoader.load(getClass().getResource("AbmOrgano.fxml"));
-        Scene scene = new Scene(root);
-              stage.setScene(scene);
-        
-        stage.setTitle("Editar Organos");
-        stage.show(); 
+    public void btnEditarOrgano_click (){
+        Phantom selectedPhantom = griPhantom.getSelectionModel().getSelectedItem();
+            
+        if (selectedPhantom != null) {
+                boolean guardarCambiosClicked = mostrarOrganoEditDialog(selectedPhantom);
+                if (guardarCambiosClicked) {
+                        //showPersonDetails(selectedPhantom);
+                }
+
+        } else {
+                // Nothing selected.
+
+        }
     }
     
     

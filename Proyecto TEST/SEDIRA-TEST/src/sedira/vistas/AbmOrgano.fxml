@@ -21,10 +21,10 @@
                         <TableColumn fx:id="clOrganoNombre" prefWidth="75.0" text="Organo" />
                      </columns>
                   </TableView>
-                  <Label layoutX="21.0" layoutY="42.0" text="Nombre del órgano:" />
-                  <Label layoutX="10.0" layoutY="88.0" text="Peso del órgano (grs):" />
-                  <TextField fx:id="txtOrganoNombre" layoutX="131.0" layoutY="32.0" prefHeight="33.0" prefWidth="250.0" />
-                  <TextField fx:id="txtOrganoMasa" layoutX="132.0" layoutY="78.0" prefHeight="33.0" prefWidth="250.0" />
+                  <Label layoutX="21.0" layoutY="55.0" text="Nombre del órgano:" />
+                  <Label layoutX="10.0" layoutY="101.0" text="Peso del órgano (grs):" />
+                  <TextField fx:id="txtOrganoNombre" layoutX="131.0" layoutY="45.0" prefHeight="33.0" prefWidth="250.0" />
+                  <TextField fx:id="txtOrganoMasa" layoutX="132.0" layoutY="91.0" prefHeight="33.0" prefWidth="250.0" />
                   <VBox alignment="CENTER" layoutX="438.0" layoutY="8.0" spacing="15.0">
                      <children>
                         <Button fx:id="btnLimpiarValores" layoutX="438.0" layoutY="8.0" mnemonicParsing="false" text="Limpiar valores" />
@@ -38,6 +38,7 @@
                         <Button fx:id="btnCancelar" layoutX="253.0" layoutY="561.0" mnemonicParsing="false" text="Cancelar" />
                      </children>
                   </HBox>
+                  <Label fx:id="phantomInfo" layoutX="17.0" layoutY="6.0" prefHeight="17.0" prefWidth="395.0" />
                </children></AnchorPane>
         </content>
       </TitledPane>

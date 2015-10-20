@@ -75,9 +75,9 @@ public class PestañaPhantomController implements Initializable {
         
         // Inicializo la tabla de Organos
         clOrganoNombre.setCellValueFactory(
-                cellData -> cellData.getValue().getNombreOrgano());
+                cellData -> cellData.getValue().getNombreOrganoProperty());
         clOrganoMasa.setCellValueFactory(
-                cellData -> cellData.getValue().getOrganMass().asString());
+                cellData -> cellData.getValue().getOrganMassProperty().asString());
        
         // Limpieza de los detalles de organos. 
         showDetalleOrgano(null);
