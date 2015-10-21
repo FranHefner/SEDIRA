@@ -66,7 +66,7 @@ public class PhantomController  implements Initializable  {
     private TextField txtCampoBusqueda;
     
     //Lista Observable para el manejo de phantoms
-    private ObservableList <Phantom> phantomData; 
+    private ObservableList <Phantom> phantomData; // ConsultasDB.iniciarPhantomsDefecto();; 
     //Lista Observable para el manejo de organos
     public static ObservableList <Organo> organosData;
     //Lista Observable para el manejo de phantoms
@@ -92,7 +92,7 @@ public class PhantomController  implements Initializable  {
     public void initialize(URL url, ResourceBundle rb) {
         
         //Traigo los datos de los phantoms existentes. 
-        phantomData   = ConsultasDB.iniciarPhantomsDefecto();
+        phantomData   = ConsultasDB.ObtenerPhantoms();
         System.out.print(phantomData.size());
         
         // Inicializo la tabla de Organos
@@ -119,7 +119,7 @@ public class PhantomController  implements Initializable  {
         clPhantomNombre.setCellValueFactory(cellData -> cellData.getValue().phantomNombreProperty());
         //Listener para la seleccion del phantom en la lista de phantoms que trae la busqueda.
         griPhantom.getSelectionModel().selectedItemProperty().addListener(
-            (observable, oldValue, newValue) -> SeleccionPhantom(newValue));     
+            (observable, oldValue, newValue) -> seleccionPhantom(newValue));     
             
                 
        
@@ -147,7 +147,7 @@ public class PhantomController  implements Initializable  {
 
             // Creo el Stage para el Dialogo Editar. 
             Stage dialogStage = new Stage();
-            dialogStage.setTitle("Editar/Agregar Phantom");
+            dialogStage.setTitle("Editar Phantom");
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.initOwner(primaryStage);
             Scene scene = new Scene(page);
@@ -183,7 +183,7 @@ public class PhantomController  implements Initializable  {
 
             // Creo el Stage para el Dialogo Editar. 
             Stage dialogStage = new Stage();
-            dialogStage.setTitle("Editar/Agregar Phantom");
+            dialogStage.setTitle("Editar/Agregar Organo");
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.initOwner(primaryStage);
             Scene scene = new Scene(page);
@@ -204,6 +204,7 @@ public class PhantomController  implements Initializable  {
             e.printStackTrace();
             return false;
         }
+        
         
        
     }
@@ -240,7 +241,7 @@ public class PhantomController  implements Initializable  {
      * Metodo que muestra los detalles del phantom seleccionado. 
      * @param phantomActual 
      */
-    public void SeleccionPhantom(Phantom phantomActual) 
+    public void seleccionPhantom(Phantom phantomActual) 
     {  
         btnEditarPhantom.setDisable(false);
         btnEditarOrganos.setDisable(false);
@@ -250,7 +251,7 @@ public class PhantomController  implements Initializable  {
             griOrgano.setItems(organosData);
             listaPropiedadValor = phantomActual.getPropiedades();
             griValorDescripcionPhantom.setItems(listaPropiedadValor);
-            
+            System.out.print(griPhantom.getSelectionModel().getSelectedIndex());
         } else {
         
         
@@ -267,13 +268,17 @@ public class PhantomController  implements Initializable  {
         if (selectedPhantom != null) {
                 boolean guardarCambiosClicked = mostrarPhantomEditDialog(selectedPhantom);
                 if (guardarCambiosClicked) {
-                        //showPersonDetails(selectedPhantom);
+                        //seleccionPhantom(selectedPhantom);
                 }
 
         } else {
-                // Nothing selected.
+                // Nothing selected. TODO Control por la No seleccion. 
 
         }
+        //TODO. Actualizar la lista de atributos de phantom y de organos una vez cerrada 
+        // las ventanas de edicion y nuevo. 
+        
+       
     }
     
    

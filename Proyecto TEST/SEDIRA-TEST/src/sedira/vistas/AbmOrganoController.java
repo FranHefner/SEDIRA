@@ -7,6 +7,7 @@ package sedira.vistas;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -16,6 +17,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import sedira.ConsultasDB;
 import sedira.model.Organo;
 import sedira.model.Phantom;
 
@@ -54,7 +56,7 @@ public class AbmOrganoController implements Initializable {
     
     //******************** variables 
     //Objeto Organo auxiliar. 
-    private  Organo organo;
+    private ObservableList <Organo> organo = FXCollections.observableArrayList(); 
     //Objeto Phantom auxiliar. 
     private Phantom phantom;
     // Stage aux
@@ -69,7 +71,10 @@ public class AbmOrganoController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // Inicializo la tabla de Organos
+      //Inicializo los botones. 
+        btnLimpiarValores.setDisable(true);
+        btnQuitarOrgano.setDisable(true);
+        
       // Inicializo la tabla de Organos
         clOrganoNombre.setCellValueFactory(
                 cellData -> cellData.getValue().getNombreOrganoProperty());
@@ -91,25 +96,23 @@ public class AbmOrganoController implements Initializable {
         this.dialogStage = dialogStage;
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+    /**
+     * Setea el Phantom a editar. Se edita el phantom porque lo organos estan incluidos dentro de un phantom en particular.  
+     * @param phantom a editar. 
+     */
     public void setPhantom (Phantom phantom){
         this.phantom = phantom;
         String aux = "Órganos pertenecientes al Phantom: " + phantom.getPhantomNombre();
         phantomInfo.setText(aux);
-        //txtPropiedad.setDisable(false);
-       // txtValor.setDisable(false);
-       // txtUnidad.setDisable(false);
+        
         if (phantom.getIdPhantom() != -1){         
-            //Atributos de nombre y id. 
-            
-            //txtNombrePhantom.setText(phantom.getPhantomNombre());
-            //txtIdPhantom.setText(String.valueOf(phantom.getIdPhantom()));
-
-            //Completo los organos que corresponden al phantom. 
+            /**
+             * Obtiente el Phantom seleccionado en la busqueda del formulario phantom.fxml
+             */
             griOrgano.setItems(phantom.getOrgano());
             //Prendo los botones
             btnLimpiarValores.setDisable(false);
-            //btnAgregar.setDisable(false);
+            btnAgregarOrgano.setDisable(false);
         
         } else {
            
@@ -133,7 +136,7 @@ public class AbmOrganoController implements Initializable {
      */
     @FXML
     public void mostrarDetalleSeleccion (Organo organo){
-        
+        btnQuitarOrgano.setDisable(false);
         //btnQuitar.setDisable(false);
         if (organo != null){
           
@@ -146,7 +149,63 @@ public class AbmOrganoController implements Initializable {
            
         }
     }
+    /**
+     * Metodo que controla la agregacion de items valor descripcion a la tabla de info phantoms. 
+     */
+    @FXML
+    public  void btnAgregar() {
+       Organo organoAux = new Organo(null, -1,-1);    
+       //Completo los datos en el objeto organo  con lo ingresado por el usuario. 
+       organoAux.setNombreOrgano(txtOrganoNombre.getText());
+       organoAux.setOrganMass(Double.valueOf(txtOrganoMasa.getText()));
+       //Agrego el objeto a la lista de atributos de phantom
+       if (phantom.getOrgano()!= null){
+           //el phantom no posee una lista de organos
+           phantom.getOrgano().add(organoAux);
+       } else {
+           //el phanton no posee organos asignados. organo es una lista. 
+           organo.add(organoAux);
+           phantom.setOrgano(organo);
+       }
+       
+       //lo muestro en la tabla
+       refrescarTablaOrgano(phantom.getOrgano());
+       //Limpio los valores en los textField para el nuevo agregado
+       btnLimpiarValores_click();
+    }
     
+    /**
+     * Metodo que controla la eliminacion de items en la tabla de organos. 
+     */
+    @FXML
+    public  void btnQuitar() {
+        int selectedIndex = griOrgano.getSelectionModel().getSelectedIndex();
+            if (selectedIndex >= 0) {
+                    griOrgano.getItems().remove(selectedIndex);
+            } else { //TODO 
+                    // Nothing selected.
+                   /* Dialogs.create()
+                    .title("No Selection")
+                    .masthead("No Person Selected")
+                    .message("Please select a person in the table.")
+                    .showWarning();*/
+            }
+        
+                 
+        
+    }        
+
+    /**
+     * Metodo llamado al momento de que el usuario presiona Guardar datos .
+     */
+    @FXML
+    public  void btnGuardarDatos() {
+        // TODO: VALIDACIONES.  
+        // la llamada a la db se realiza desde PhantomController.  
+              
+        guardarDatos = true;
+        dialogStage.close();
+    }
      /**
      * Metodo que retorna si el usuario presiono el boton Guardar Datos. 
      * @return guardarDatos 
@@ -171,5 +230,15 @@ public class AbmOrganoController implements Initializable {
     private void btnLimpiarValores_click(){
     txtOrganoNombre.setText("");
     txtOrganoMasa.setText("");
+    }
+    /**
+     * Muestra el detalle del Phantom en la tabla Phantoms 
+     * @param infoPhantom 
+     */
+     @FXML
+    public void refrescarTablaOrgano(ObservableList<Organo> infoOrgano) {
+       //Aca se utiliza la tabla Descripcion - Valor. 
+        griOrgano.setItems(infoOrgano);
+      
     }
 }

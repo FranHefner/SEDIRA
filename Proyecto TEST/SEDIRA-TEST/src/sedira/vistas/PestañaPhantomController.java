@@ -55,7 +55,7 @@ public class PestañaPhantomController implements Initializable {
     //Declaracion de variables
     
     //Lista de Phantoms
-         public static  ObservableList <Phantom> listaPhantom = ConsultasDB.iniciarPhantomsDefecto();
+        // public static  ObservableList <Phantom> listaPhantom = ConsultasDB.iniciarPhantomsDefecto();
     //Lista de Organos
          public static  ObservableList <Organo> listaOrgano = FXCollections.observableArrayList();
     
@@ -107,7 +107,7 @@ public class PestañaPhantomController implements Initializable {
         //Lista auxliar para el manejo de los nombres de los phantoms. 
         ObservableList <String> listaStringPhantom = FXCollections.observableArrayList();
                      
-        for (Phantom listaPhantom1 : listaPhantom) {
+        for (Phantom listaPhantom1 : ConsultasDB.ObtenerPhantoms()) {
             listaStringPhantom.add(listaPhantom1.phantomNombreProperty().getValue());
         }
         //Asigno la lista de los nombres de los Phantoms al ChoiceBox
@@ -147,7 +147,7 @@ public class PestañaPhantomController implements Initializable {
                 public void changed (ObservableValue ov, Number value, Number newValue){
                     //Busco el Phantom por el Indice del ChoiceBox
                     int index = choicePhantom.getSelectionModel().getSelectedIndex();
-                    phantomActual = listaPhantom.get(index);
+                    phantomActual = ConsultasDB.ObtenerPhantoms().get(index);
                     //Completo tabla de Organos
                     showDetalleOrgano(phantomActual.getOrgano());
                     //Completo tabla de Info Phantoms

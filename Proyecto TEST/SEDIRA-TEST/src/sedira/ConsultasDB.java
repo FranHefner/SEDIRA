@@ -64,9 +64,8 @@ public class ConsultasDB {
       * Metodo que inicializa un Phantom por defecto. Corresponde a los siguientes datos datos por el 
       * modelo de Stabin MG y JA Siegel - 2003
       *  
-      * @return Objeto listaPhantom, compuesto arreglo de objetos tipo Phantom con  Valor-Descripcion y arreglo de Organos.  
       */
-     public static ObservableList <Phantom> iniciarPhantomsDefecto ()
+     public static void iniciarPhantomsDefecto () //public static ObservableList <Phantom> iniciarPhantomsDefecto ()
      {
         // Un phantom esta compuesto de varios organos. Un organos puede formar parte de varios Phantoms. 
         // Temporalmente se utiliza un contructor acotado de los organos que forman parte de un Phantom.
@@ -99,7 +98,7 @@ public class ConsultasDB {
           phantomData.add(new Phantom (1,"Adulto Femenino 56.8kg", listaAtributoPhantomFem, organosDataFem));
  
                        
-        return phantomData;
+        //return phantomData;
      }
      
      /**
@@ -122,8 +121,8 @@ public class ConsultasDB {
     {
          //Ejemplo Organos femenino
        ObservableList<Organo> organosData = FXCollections.observableArrayList();
-            organosData.add(  new Organo ("Riñon",299,73700));
-            organosData.add(  new Organo ("Tiroide",20.9,73700));
+       organosData.add(  new Organo ("Riñon",299,73700));
+       organosData.add(  new Organo ("Tiroide",20.9,73700));
 
           return  organosData;    
     }
@@ -142,7 +141,10 @@ public class ConsultasDB {
      * @param phantom Objeto phantom a guardar en la lista de Phantoms ya creados. Base datos. 
      */
     public static void AgregarPhantom(Phantom phantom){
-          phantomData.add(phantom);
+        
+        phantomData.add(phantom);
+        System.out.print(phantomData.size());
+                
     }
     
     public static ArrayList<TipoDocumento> ObtenerTiposDoc()

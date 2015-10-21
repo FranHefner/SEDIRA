@@ -65,7 +65,7 @@ public class AbmPhantomController implements Initializable {
     // boleano para controlar cuando el usuario clickea ok 
     private boolean guardarDatos = false;
     //Lista Observable para el manejo de phantoms
-    ObservableList <ValorDescripcion> listaAtributoPhantom = FXCollections.observableArrayList(); 
+    private ObservableList <ValorDescripcion> listaAtributoPhantom = FXCollections.observableArrayList(); 
     
     
     
@@ -173,12 +173,12 @@ public class AbmPhantomController implements Initializable {
     @FXML
     public  void btnGuardarDatos() {
        // TODO: VALIDACIONES.  
-        // HACER LA LLAMADA A CONSULTAS.DB GUARDARPHANTOM. 
+        // La llamada a la base de datos se realiza desde PhantomController. Editar/Nuevo 
          
         phantom.setIdPhantom(ConsultasDB.getNewIdPhantom());
         phantom.setPhantomNombre(txtNombrePhantom.getText());
         
-        ConsultasDB.AgregarPhantom(phantom);
+        
         guardarDatos = true;
         dialogStage.close();
     }
@@ -188,18 +188,20 @@ public class AbmPhantomController implements Initializable {
     @FXML
     public  void btnAgregar() {
        //objeto aux
-        ValorDescripcion propiedadValor = new ValorDescripcion(null,0,null); 
+        ValorDescripcion infoPhantomAux = new ValorDescripcion(null,0,null); 
        
        //Completo los datos en el objeto aux con lo ingresado por el usuario. 
-       propiedadValor.setDescripcion(txtPropiedad.getText());
-       propiedadValor.setValor(Double.parseDouble(txtValor.getText()));
-       propiedadValor.setUnidad(txtUnidad.getText());
-       //Agrego el objeto a la lista de atributos de phantom
-       listaAtributoPhantom.add(propiedadValor);
+       infoPhantomAux.setDescripcion(txtPropiedad.getText());
+       infoPhantomAux.setValor(Double.parseDouble(txtValor.getText()));
+       infoPhantomAux.setUnidad(txtUnidad.getText());
+       
        //le asigno al phantom el objeto
        if (phantom.getPropiedades() != null){
-           phantom.getPropiedades().add(propiedadValor);
+           phantom.getPropiedades().add(infoPhantomAux);
        } else {
+           //el phanton no posee atributos aun. 
+           //Agrego el objeto a la lista de atributos de phantom
+           listaAtributoPhantom.add(infoPhantomAux);
            phantom.setPropiedades(listaAtributoPhantom);
        }
        

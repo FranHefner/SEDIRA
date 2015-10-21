@@ -42,6 +42,7 @@ public class AplicacionPrincipal extends Application {
         
         primaryStage.setScene(scene);
         primaryStage.show();
+        ConsultasDB.iniciarPhantomsDefecto();
     
         
     }
