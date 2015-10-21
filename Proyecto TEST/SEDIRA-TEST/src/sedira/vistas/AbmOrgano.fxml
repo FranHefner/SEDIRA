@@ -17,8 +17,8 @@
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                      </columnResizePolicy>
                      <columns>
-                        <TableColumn fx:id="clOrganoMasa" prefWidth="75.0" text="Masa (grs)" />
                         <TableColumn fx:id="clOrganoNombre" prefWidth="75.0" text="Organo" />
+                        <TableColumn fx:id="clOrganoMasa" prefWidth="75.0" text="Masa (grs)" />
                      </columns>
                   </TableView>
                   <Label layoutX="21.0" layoutY="55.0" text="Nombre del órgano:" />
@@ -27,7 +27,7 @@
                   <TextField fx:id="txtOrganoMasa" layoutX="132.0" layoutY="91.0" prefHeight="33.0" prefWidth="250.0" />
                   <VBox alignment="CENTER" layoutX="438.0" layoutY="8.0" spacing="15.0">
                      <children>
-                        <Button fx:id="btnLimpiarValores" layoutX="438.0" layoutY="8.0" mnemonicParsing="false" onAction="#btnLimpiarValores_click" text="Limpiar valores" />
+                        <Button fx:id="btnLimpiarValores" layoutX="438.0" layoutY="8.0" mnemonicParsing="false" onAction="#btnLimpiarValores" text="Limpiar valores" />
                         <Button fx:id="btnAgregarOrgano" layoutX="438.0" layoutY="44.0" mnemonicParsing="false" onAction="#btnAgregar" prefHeight="25.0" prefWidth="93.0" text="Agregar" />
                         <Button fx:id="btnQuitarOrgano" layoutX="438.0" layoutY="83.0" mnemonicParsing="false" onAction="#btnQuitar" prefHeight="25.0" prefWidth="93.0" text="Quitar" />
                      </children>
@@ -35,7 +35,7 @@
                   <HBox alignment="CENTER" layoutX="13.0" layoutY="561.0" prefHeight="25.0" prefWidth="540.0" spacing="20.0">
                      <children>
                         <Button fx:id="btnGuardarCambios" layoutX="132.0" layoutY="561.0" mnemonicParsing="false" onAction="#btnGuardarDatos" text="Guardar cambios" />
-                        <Button fx:id="btnCancelar" layoutX="253.0" layoutY="561.0" mnemonicParsing="false" onAction="#btnCancel_click" text="Cancelar" />
+                        <Button fx:id="btnCancelar" layoutX="253.0" layoutY="561.0" mnemonicParsing="false" onAction="#btnCancel" text="Cancelar" />
                      </children>
                   </HBox>
                   <Label fx:id="phantomInfo" layoutX="17.0" layoutY="6.0" prefHeight="17.0" prefWidth="395.0" />

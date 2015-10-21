@@ -45,6 +45,11 @@
                               </AnchorPane>
                           </content>
                         </Tab>
+                        <Tab text="Radionúclido">
+                          <content>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                          </content>
+                        </Tab>
                         <Tab fx:id="tabCalcular" text="Cálculo">
                           <content>
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">

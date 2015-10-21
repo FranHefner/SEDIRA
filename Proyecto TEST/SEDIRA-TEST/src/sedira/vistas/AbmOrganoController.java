@@ -171,7 +171,7 @@ public class AbmOrganoController implements Initializable {
        //lo muestro en la tabla
        refrescarTablaOrgano(phantom.getOrgano());
        //Limpio los valores en los textField para el nuevo agregado
-       btnLimpiarValores_click();
+       btnLimpiarValores();
     }
     
     /**
@@ -182,6 +182,7 @@ public class AbmOrganoController implements Initializable {
         int selectedIndex = griOrgano.getSelectionModel().getSelectedIndex();
             if (selectedIndex >= 0) {
                     griOrgano.getItems().remove(selectedIndex);
+                    btnLimpiarValores();
             } else { //TODO 
                     // Nothing selected.
                    /* Dialogs.create()
@@ -218,7 +219,7 @@ public class AbmOrganoController implements Initializable {
      * Metodo que se llama al presionar el boton cancelar. 
      */
     @FXML
-    private void btnCancel_click() {
+    private void btnCancel() {
         dialogStage.close();
     }
     
@@ -227,9 +228,10 @@ public class AbmOrganoController implements Initializable {
      * limpia los datos agregados en los textFields del formulario. 
      */
     @FXML
-    private void btnLimpiarValores_click(){
+    private void btnLimpiarValores(){
     txtOrganoNombre.setText("");
     txtOrganoMasa.setText("");
+    
     }
     /**
      * Muestra el detalle del Phantom en la tabla Phantoms 

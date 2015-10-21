@@ -221,6 +221,7 @@ public class AbmPhantomController implements Initializable {
         int selectedIndex = griValorDescripcionPhantom.getSelectionModel().getSelectedIndex();
             if (selectedIndex >= 0) {
                     griValorDescripcionPhantom.getItems().remove(selectedIndex);
+                    
             } else {
                     // Nothing selected.
                    /* Dialogs.create()
