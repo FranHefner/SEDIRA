@@ -86,6 +86,23 @@ public class MenuPrincipalController implements Initializable {
 
     }
     
+    /**
+     * Comportamiento para el Item de menu, Administrar Radionuclidos
+     * @throws IOException 
+     */
+    @FXML
+    private void mniRadionuclidosAdministrar_click() throws IOException
+    { 
+        Stage stage = new Stage();
+        Parent root = FXMLLoader.load(getClass().getResource("Radionuclido.fxml"));
+        Scene scene = new Scene(root);        
+        
+        stage.setScene(scene);
+        stage.setTitle("Administrar Radionuclidos");
+        stage.show();          
+
+    }
+    
   
  
 }

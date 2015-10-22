@@ -13,6 +13,7 @@ import sedira.model.TipoDocumento;
 import sedira.model.Paciente;
 import sedira.model.Phantom;
 import sedira.model.Organo;
+import sedira.model.Radionuclido;
 import sedira.model.ValorDescripcion;
 /**
  * Clase de consultas y persistencia de datos.
@@ -20,7 +21,10 @@ import sedira.model.ValorDescripcion;
  */
 
 public class ConsultasDB {
-    public static ObservableList <Phantom> phantomData = FXCollections.observableArrayList();   
+    public static ObservableList <Phantom> phantomData = FXCollections.observableArrayList(); 
+    public static ObservableList <Radionuclido> radionuclidoData = FXCollections.observableArrayList();
+    
+      
     /* Agregar la administracion de la conexion con la base de datos */     
 
     /**
@@ -99,6 +103,26 @@ public class ConsultasDB {
  
                        
         //return phantomData;
+     }
+     /**
+      * Metodo que inicializa por defecto a un radionuclido. En este caso el Yodo-131. Datos obetenidos de Wikipedia. 
+      */
+     public static void iniciarRadionuclidosDefecto (){
+         ObservableList <ValorDescripcion> infoRadNuclido = FXCollections.observableArrayList(); 
+         infoRadNuclido.add( new ValorDescripcion ("Protones", 53, "unidadProton"));
+         infoRadNuclido.add( new ValorDescripcion ("Neutrones", 78, "unidadNeutron"));
+         infoRadNuclido.add( new ValorDescripcion ("Vida Media", 8.0197, "días"));
+         infoRadNuclido.add( new ValorDescripcion ("Masa atómica", 130.9061246, "u")); //Ojo la masa atomica se muestra como 130,9061246(12) . Posible error en los tipos de datos. 
+         infoRadNuclido.add( new ValorDescripcion ("Exceso de energía", 971, "KeV"));
+         //Creacion de un lista de radionuclidos, Cada radionuclido puede contener una listua de valores que lo describen. 
+         radionuclidoData.add(new Radionuclido (0,"Yodo-131",infoRadNuclido));
+     }
+     /**
+      * Metodo que retorna la lista de radionuclidos. 
+      * @return radionuclidoData. la lista de radionuclidos. 
+      */
+     public static ObservableList <Radionuclido> obtenerRadionuclidos (){
+         return radionuclidoData;
      }
      
      /**

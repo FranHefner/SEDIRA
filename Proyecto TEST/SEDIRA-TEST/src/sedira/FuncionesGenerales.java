@@ -12,11 +12,12 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import sedira.model.Paciente;
 import sedira.model.Phantom;
+import sedira.model.Radionuclido;
 import sedira.model.ValorDescripcion;
 
 /**
- *
- * @author INVAP
+ *  Funciones generales se trata de una encapsulacion de metodos y herramientas. 
+ * @author Hefner Francisco , Quelin Pablo
  */
 public class FuncionesGenerales {
     
@@ -102,6 +103,37 @@ public class FuncionesGenerales {
         SortedList<Phantom> sortedData = new SortedList<>(filteredData);
         // 4. Conecta el comparador de SortedList con el comparador de  TableView.
         sortedData.comparatorProperty().bind(griPhantom.comparatorProperty());
+        // 5.Agrego la lista Ordenada y Filtrada a la tabla. 
+        return sortedData;
+        
+    }   
+    
+    
+    public static SortedList <Radionuclido> FiltroListaRadNuclido(TableView <Radionuclido> griRadionuclido ,ObservableList<Radionuclido> radionuclidoData, TextField txtCampoBusqueda){
+    // 1. Wrap the ObservableList in a FilteredList (initially display all data).
+        FilteredList<Radionuclido> filteredData = new FilteredList<>(radionuclidoData, p -> true);
+        
+        // 2. Set the filter Predicate whenever the filter changes.
+        txtCampoBusqueda.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(Radionuclido -> {
+                // Si no se filtra nada, mostrara todos los phantoms
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+                String lowerCaseFilter = newValue.toLowerCase();
+
+                if (Radionuclido.getNombreRadNuclido().toLowerCase().contains(lowerCaseFilter)) {
+                    return true; // Busca solo por el Nombre del radionuclido. Pensar en agregar que busque por demas atributos. 
+                } else {
+                    return false; // 
+                }
+            });
+        });
+        
+        // 3. Warp la  FilteredList con la  SortedList. 
+        SortedList<Radionuclido> sortedData = new SortedList<>(filteredData);
+        // 4. Conecta el comparador de SortedList con el comparador de  TableView.
+        sortedData.comparatorProperty().bind(griRadionuclido.comparatorProperty());
         // 5.Agrego la lista Ordenada y Filtrada a la tabla. 
         return sortedData;
         

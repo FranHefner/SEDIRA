@@ -5,7 +5,6 @@
  */
 package sedira.vistas;
 
-import com.sun.javaws.Main;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -14,18 +13,13 @@ import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
-import javafx.scene.control.Label;
-import javafx.scene.control.Tooltip;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 
 
 /**
  * FXML Controller class
- *
- * @author Fran
+ *  Clase controladora del Progreso del paciente. 
+ * @author Hefner Francisco, Quelin Pablo. 
  */
 public class ProgresoPacienteController implements Initializable {
     @FXML 

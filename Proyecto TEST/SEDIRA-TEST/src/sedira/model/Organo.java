@@ -16,6 +16,8 @@ import javafx.beans.property.StringProperty;
 
  */
 public class Organo {
+    //implementar el idOrgano. 
+    //private IntegerProperty idOrgano;
     private StringProperty nombreOrgano; 
     private DoubleProperty organMass; // masa de un organo en particular. 
     private DoubleProperty totalMass; // masa total del cuerpo. 

@@ -30,6 +30,11 @@
                 <MenuItem fx:id="mniPhantomAdministrar" mnemonicParsing="false" onAction="#mniPhantomAdministrar_click" text="Administrar " />
               </items>
             </Menu>
+            <Menu mnemonicParsing="false" text="Radionúclidos">
+              <items>
+                <MenuItem mnemonicParsing="false" onAction="#mniRadionuclidosAdministrar_click" text="Administrar" />
+              </items>
+            </Menu>
           <Menu mnemonicParsing="false" text="Ayuda">
             <items>
               <MenuItem mnemonicParsing="false" text="About" />
