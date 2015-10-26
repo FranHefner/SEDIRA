@@ -5,15 +5,21 @@
  */
 package sedira.vistas;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import sedira.ConsultasDB;
 import sedira.FuncionesGenerales;
 import sedira.model.Radionuclido;
@@ -52,6 +58,8 @@ public class RadionuclidoController implements Initializable {
     private ObservableList <Radionuclido> radionuclidoData;
     //Lista Observable para el manejo de la informacion de los radionuclidos. 
     public static ObservableList <ValorDescripcion> infoRadNuclido;
+    // Stage auxiliar. 
+    private Stage primaryStage;
            
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -84,6 +92,7 @@ public class RadionuclidoController implements Initializable {
     public void buscarRadionuclido(){
        griRadionuclido.setItems(FuncionesGenerales.FiltroListaRadNuclido(griRadionuclido, radionuclidoData, txtCampoBusqueda));
     }
+    
     /**
      * Metodo que muestra el detalle de los radionuclidos en la tabla tipo Valor-Descripcion. 
      * @param infoRadionuclido lista de todos los atributos del radionuclido. 
@@ -109,10 +118,54 @@ public class RadionuclidoController implements Initializable {
             
         } else {
         
-        
-      
         }
     }
+    
+    public boolean mostrarOrganoRadionuclidoEditDialog (Radionuclido radionuclido){
+        // cargo el nuevo FXML para crear un ventana tipo PopUp
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(PhantomController.class.getResource("AbmRadionuclido.fxml"));
+            AnchorPane page = (AnchorPane) loader.load();
+
+            // Creo el Stage para el Dialogo Editar. 
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Nuevo Radionúclido");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(primaryStage);
+            Scene scene = new Scene(page);
+            dialogStage.setScene(scene);
+
+            // Pone el radionuclido en el controlador AbmRadionuclidoController. 
+            AbmRadionuclidoController controladorAbmRadNuclido = loader.getController();
+            controladorAbmRadNuclido.setDialogStage(dialogStage);
+            // le paso el Radionuclido 
+            controladorAbmRadNuclido.setRadionuclido(radionuclido);
+
+            // Muestra el formulario y espera hasta que el usuario lo cierre. 
+            dialogStage.showAndWait();
+
+            //Return
+            return controladorAbmRadNuclido.isGuardarDatosClicked();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }  
+        
+       
+    /**
+     * Metodo para el comportamiento del boton NUEVO. 
+     */
+    @FXML
+    public void btnNuevoRadionuclido () {
+		Radionuclido tempRadNuclido = new Radionuclido (-1,"",null);
+		boolean guardarCambiosClicked = mostrarOrganoRadionuclidoEditDialog(tempRadNuclido);
+		if (guardarCambiosClicked) {
+			ConsultasDB.radionuclidoData = ConsultasDB.obtenerRadionuclidos();
+                        ConsultasDB.agregarRadionuclido(tempRadNuclido);
+		}
+    } 
     
     
     

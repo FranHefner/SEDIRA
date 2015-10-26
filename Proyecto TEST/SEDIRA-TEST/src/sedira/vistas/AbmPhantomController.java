@@ -257,7 +257,7 @@ public class AbmPhantomController implements Initializable {
      * Metodo que se llama al presionar el boton cancelar. 
      */
     @FXML
-    private void btnCancel_click() {
+    public void btnCancel_click() {
         dialogStage.close();
     }
     
@@ -266,7 +266,7 @@ public class AbmPhantomController implements Initializable {
      * limpia los datos agregados en los textFields del formulario. 
      */
     @FXML
-    private void btnLimpiarValores_click(){
+    public void btnLimpiarValores_click(){
     txtUnidad.setText("");
     txtPropiedad.setText("");
     txtValor.setText("");

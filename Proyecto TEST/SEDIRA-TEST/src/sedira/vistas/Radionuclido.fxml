@@ -6,8 +6,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="705.0" prefWidth="556.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="sedira.vistas.RadionuclidoController">
+<AnchorPane id="AnchorPane" prefHeight="705.0" prefWidth="556.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sedira.vistas.RadionuclidoController">
    <children>
       <SplitPane dividerPositions="0.283072546230441" layoutX="157.0" layoutY="21.0" orientation="VERTICAL" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
@@ -47,7 +46,7 @@
                   </TitledPane>
                   <HBox alignment="TOP_CENTER" layoutX="85.0" layoutY="451.0" prefHeight="25.0" prefWidth="362.0" spacing="30.0">
                      <children>
-                        <Button fx:id="btnNuevo" layoutX="170.0" layoutY="451.0" mnemonicParsing="false" text="Nuevo " />
+                        <Button fx:id="btnNuevo" layoutX="170.0" layoutY="451.0" mnemonicParsing="false" onAction="#btnNuevoRadionuclido" text="Nuevo " />
                         <Button fx:id="btnEditar" layoutX="242.0" layoutY="451.0" mnemonicParsing="false" text="Editar" />
                      </children>
                   </HBox>

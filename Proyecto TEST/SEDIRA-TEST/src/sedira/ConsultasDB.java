@@ -104,6 +104,26 @@ public class ConsultasDB {
                        
         //return phantomData;
      }
+     
+     /**
+     * Método para obtener la lista de Phantoms
+     * @return Lista de Phantoms
+     */
+    public static ObservableList <Phantom> ObtenerPhantoms()
+    {
+        return  phantomData;        
+    }
+    /**
+     * Metodo que guarda un phantom creado/modificado en la lista de Phantoms inicial  
+     * @param phantom Objeto phantom a guardar en la lista de Phantoms ya creados. Base datos. 
+     */
+    public static void AgregarPhantom(Phantom phantom){
+        
+        phantomData.add(phantom);
+        System.out.print(phantomData.size());
+                
+    }
+    
      /**
       * Metodo que inicializa por defecto a un radionuclido. En este caso el Yodo-131. Datos obetenidos de Wikipedia. 
       */
@@ -124,6 +144,18 @@ public class ConsultasDB {
      public static ObservableList <Radionuclido> obtenerRadionuclidos (){
          return radionuclidoData;
      }
+     
+     /**
+     * Metodo que guarda un radionuclido creado/modificado en la lista de Radionuclido inicial  
+     * @param radionuclido Objeto radionuclido a guardar en la lista de radionuclidos ya creados. Base datos. 
+     */
+    public static void agregarRadionuclido(Radionuclido radionuclido){
+        
+        radionuclidoData.add(radionuclido);
+        System.out.print(phantomData.size());
+                
+    }
+    
      
      /**
       * Método para actualizar un paciente
@@ -152,24 +184,8 @@ public class ConsultasDB {
     }
    
      
-     /**
-     * Método para obtener la lista de Phantoms
-     * @return Lista de Phantoms
-     */
-    public static ObservableList <Phantom> ObtenerPhantoms()
-    {
-        return  phantomData;        
-    }
-    /**
-     * Metodo que guarda un phantom creado/modificado en la lista de Phantoms inicial  
-     * @param phantom Objeto phantom a guardar en la lista de Phantoms ya creados. Base datos. 
-     */
-    public static void AgregarPhantom(Phantom phantom){
-        
-        phantomData.add(phantom);
-        System.out.print(phantomData.size());
-                
-    }
+     
+    
     
     public static ArrayList<TipoDocumento> ObtenerTiposDoc()
     {
@@ -201,6 +217,11 @@ public class ConsultasDB {
     }
     public static int getNewIdPhantom (){
         int newId = phantomData.size() + 1;
+        return newId;
+    }
+    
+     public static int getNewIdRadNuclido (){
+        int newId = radionuclidoData.size() + 1;
         return newId;
     }
 }
