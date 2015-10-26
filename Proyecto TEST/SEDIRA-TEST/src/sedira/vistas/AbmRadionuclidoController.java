@@ -145,15 +145,23 @@ public class AbmRadionuclidoController implements Initializable {
             /**
              * Obtiente el Radionuclido seleccionado en la busqueda del formulario radionuclido.fxml
              */
-            txtIdRadNuclido.setText(String.valueOf(ConsultasDB.getNewIdRadNuclido()));
+            txtIdRadNuclido.setText(String.valueOf(radionuclido.getIdRadNuclido()));
+            txtRadNuclidoNombre.setText(radionuclido.getNombreRadNuclido());
             griInfoRadNuclido.setItems(radionuclido.getPropiedades());
             //Prendo los botones
             btnLimpiarValores.setDisable(false);
             btnAgregar.setDisable(false);
         
         } else {
+            //Genero un nuevo Id para el radionuclido. 
             txtIdRadNuclido.setText(String.valueOf(ConsultasDB.getNewIdRadNuclido()));
-           
+            //Cambio Nombre en el formulario. 
+            this.dialogStage.setTitle("Agregar Radionuclido");
+            
+            //Prendo los botones. 
+            btnLimpiarValores.setDisable(false);
+            btnAgregar.setDisable(false);
+            //btnQuitar.setDisable(false);
         }
     }
     

@@ -139,7 +139,7 @@ public class PestañaPhantomController implements Initializable {
      * Este llenara las tablas de organos y de informacion del phantom. 
      */
     @FXML
-    private void clicSeleccionarPhantom(){
+    private void seleccionarPhantom(){
         
         choicePhantom.getSelectionModel().selectedIndexProperty().addListener(new
             ChangeListener<Number>(){

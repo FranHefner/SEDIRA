@@ -22,8 +22,8 @@ import javafx.scene.layout.Pane;
 
 /**
  * FXML Controller class
- *
- * @author Fran
+ * Clase controladora para el proceso de Calculo. 
+ * @author Hefner Francisco, Quelin Pablo 
  */
 public class CalculoController implements Initializable {
     @FXML
@@ -45,11 +45,15 @@ public class CalculoController implements Initializable {
     @FXML
     private Tab tabOrganoTejido;
     @FXML
+    private Tab tabRadionuclido;
+    @FXML
     private Tab tabCalcular;
     @FXML 
     private Pane pnlPhantom;
     @FXML 
     private Pane pnlPaciente;
+    @FXML 
+    private Pane pnlRadionuclido;
 
     /**
      * Initializes the controller class.
@@ -67,6 +71,10 @@ public class CalculoController implements Initializable {
              Node NodoPaciente;
             NodoPaciente = (Node)FXMLLoader.load(getClass().getResource("PestañaPaciente.fxml"));
              pnlPaciente.getChildren().setAll(NodoPaciente);
+             
+             Node NodoRadionuclido;
+            NodoRadionuclido = (Node)FXMLLoader.load(getClass().getResource("PestañaRadionuclido.fxml"));
+             pnlRadionuclido.getChildren().setAll(NodoRadionuclido);
              
              
              

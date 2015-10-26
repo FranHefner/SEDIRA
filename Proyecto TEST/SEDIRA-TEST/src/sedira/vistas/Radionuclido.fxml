@@ -47,7 +47,7 @@
                   <HBox alignment="TOP_CENTER" layoutX="85.0" layoutY="451.0" prefHeight="25.0" prefWidth="362.0" spacing="30.0">
                      <children>
                         <Button fx:id="btnNuevo" layoutX="170.0" layoutY="451.0" mnemonicParsing="false" onAction="#btnNuevoRadionuclido" text="Nuevo " />
-                        <Button fx:id="btnEditar" layoutX="242.0" layoutY="451.0" mnemonicParsing="false" text="Editar" />
+                        <Button fx:id="btnEditar" layoutX="242.0" layoutY="451.0" mnemonicParsing="false" onAction="#btnEditarRadionuclido" text="Editar" />
                      </children>
                   </HBox>
                </children>

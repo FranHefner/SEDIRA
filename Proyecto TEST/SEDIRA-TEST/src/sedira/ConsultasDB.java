@@ -216,11 +216,13 @@ public class ConsultasDB {
         
     }
     public static int getNewIdPhantom (){
+        //Compara con el tamaño de la lista de Phantoms. Luego le suma 1. 
         int newId = phantomData.size() + 1;
         return newId;
     }
     
      public static int getNewIdRadNuclido (){
+        //Compara con el tamaño de la lista de Radionuclidos. Luego le suma 1. 
         int newId = radionuclidoData.size() + 1;
         return newId;
     }

@@ -79,7 +79,7 @@ public class RadionuclidoController implements Initializable {
 
         //Inicializo la tabla de radionuclido - Trae el resultado de la busqueda.  
         clNombreRadNuclido.setCellValueFactory(cellData -> cellData.getValue().getNombreRadNuclidoProperty());
-    
+        buscarRadionuclido();
         //Listener para la seleccion del phantom en la lista de phantoms que trae la busqueda.
         griRadionuclido.getSelectionModel().selectedItemProperty().addListener(
             (observable, oldValue, newValue) -> seleccionRadionuclido(newValue));         
@@ -121,7 +121,7 @@ public class RadionuclidoController implements Initializable {
         }
     }
     
-    public boolean mostrarOrganoRadionuclidoEditDialog (Radionuclido radionuclido){
+    public boolean mostrarRadionuclidoEditDialog (Radionuclido radionuclido){
         // cargo el nuevo FXML para crear un ventana tipo PopUp
         try {
             FXMLLoader loader = new FXMLLoader();
@@ -130,7 +130,7 @@ public class RadionuclidoController implements Initializable {
 
             // Creo el Stage para el Dialogo Editar. 
             Stage dialogStage = new Stage();
-            dialogStage.setTitle("Nuevo Radionúclido");
+            dialogStage.setTitle("Modificar Radionuclido existente");
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.initOwner(primaryStage);
             Scene scene = new Scene(page);
@@ -160,13 +160,35 @@ public class RadionuclidoController implements Initializable {
     @FXML
     public void btnNuevoRadionuclido () {
 		Radionuclido tempRadNuclido = new Radionuclido (-1,"",null);
-		boolean guardarCambiosClicked = mostrarOrganoRadionuclidoEditDialog(tempRadNuclido);
+		boolean guardarCambiosClicked = mostrarRadionuclidoEditDialog(tempRadNuclido);
 		if (guardarCambiosClicked) {
 			ConsultasDB.radionuclidoData = ConsultasDB.obtenerRadionuclidos();
                         ConsultasDB.agregarRadionuclido(tempRadNuclido);
 		}
     } 
     
+    /**
+     * Metodo para el comportamiento del boton editar. Abre un dialogo para la edicion del RadioNuclido. 
+     */
+    @FXML
+    public void btnEditarRadionuclido (){
+        Radionuclido selectedRadNuclido = griRadionuclido.getSelectionModel().getSelectedItem();
+            
+        if (selectedRadNuclido != null) {
+                boolean guardarCambiosClicked = mostrarRadionuclidoEditDialog(selectedRadNuclido);
+                if (guardarCambiosClicked) {
+                        //seleccionPhantom(selectedPhantom);
+                }
+
+        } else {
+                // Nothing selected. TODO Control por la No seleccion. 
+
+        }
+        //TODO. Actualizar la lista de atributos de phantom y de organos una vez cerrada 
+        // las ventanas de edicion y nuevo. 
+        
+       
+    }
     
     
 }

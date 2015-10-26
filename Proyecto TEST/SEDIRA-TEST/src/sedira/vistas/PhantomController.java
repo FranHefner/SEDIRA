@@ -118,6 +118,7 @@ public class PhantomController  implements Initializable  {
         //Inicializo la tabla de Phantom. 
         clPhantomNombre.setCellValueFactory(cellData -> cellData.getValue().phantomNombreProperty());
         //Listener para la seleccion del phantom en la lista de phantoms que trae la busqueda.
+        buscarPhantom();
         griPhantom.getSelectionModel().selectedItemProperty().addListener(
             (observable, oldValue, newValue) -> seleccionPhantom(newValue));     
             

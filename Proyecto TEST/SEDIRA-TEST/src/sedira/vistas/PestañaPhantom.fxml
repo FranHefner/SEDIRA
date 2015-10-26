@@ -12,7 +12,7 @@
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="59.0" prefWidth="698.0">
                <children>
-                  <ChoiceBox fx:id="choicePhantom" layoutX="19.0" layoutY="26.0" onMouseClicked="#clicSeleccionarPhantom" prefHeight="29.0" prefWidth="226.0" />
+                  <ChoiceBox fx:id="choicePhantom" layoutX="19.0" layoutY="26.0" onMouseClicked="#seleccionarPhantom" prefHeight="29.0" prefWidth="226.0" />
                   <Label layoutX="58.0" layoutY="5.0" prefHeight="22.0" prefWidth="132.0" text="Seleccionar el Phantom:" />
                   <TextArea layoutX="291.0" layoutY="2.0" prefHeight="77.0" prefWidth="371.0" text="Información:&#10;A continuación se muestran las caracteristicas del Phantom &#10;seleccionado.Para la edicion del mismo  debe realizarlo desde &#10;la herramienta de administracion de Phantoms. " />
                </children>
