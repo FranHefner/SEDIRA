@@ -54,21 +54,19 @@ public class PestañaPhantomController implements Initializable {
     
     //Declaracion de variables
     
-    //Lista de Phantoms
-        // public static  ObservableList <Phantom> listaPhantom = ConsultasDB.iniciarPhantomsDefecto();
     //Lista de Organos
          public static  ObservableList <Organo> listaOrgano = FXCollections.observableArrayList();
     
         
     //Objeto de tipo Phantom auxiliar. 
-        private Phantom phantomActual;
+        public static Phantom phantomActual;
     //Objeto de tipo ValorDescripcopn auxiliar. 
         private ValorDescripcion phantomValorDescripcion;
     //Objeto de tipo Organo auxiliar. 
         private Organo organoActual;
     
     /**
-     * Initializes the controller class.
+     * Inicializa la clase controladora.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -103,7 +101,7 @@ public class PestañaPhantomController implements Initializable {
      * Metodo que inicializa la lista de Phantoms dentro del ChoiceBox 
      */
      @FXML
-    private void initListaPhantom(){
+    public void initListaPhantom(){
         //Lista auxliar para el manejo de los nombres de los phantoms. 
         ObservableList <String> listaStringPhantom = FXCollections.observableArrayList();
                      
@@ -139,7 +137,7 @@ public class PestañaPhantomController implements Initializable {
      * Este llenara las tablas de organos y de informacion del phantom. 
      */
     @FXML
-    private void seleccionarPhantom(){
+    public void seleccionarPhantom(){
         
         choicePhantom.getSelectionModel().selectedIndexProperty().addListener(new
             ChangeListener<Number>(){

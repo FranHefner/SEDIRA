@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="214.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="sedira.vistas.PestañaOrganoTejidoController">
+   <children>
+      <ChoiceBox fx:id="choiceOrgano" layoutX="14.0" layoutY="31.0" prefHeight="22.0" prefWidth="235.0" />
+      <Label layoutX="14.0" layoutY="14.0" text="Seleccione el órgano objetivo " />
+      <TextField fx:id="phantomSeleccionado" editable="false" layoutX="288.0" layoutY="31.0" prefHeight="22.0" prefWidth="290.0" text="Phantom seleccionado" />
+      <TextField fx:id="idOrgano" layoutX="288.0" layoutY="79.0" prefHeight="22.0" prefWidth="102.0" text="id Organo" />
+      <TextField fx:id="nombreOrgano" layoutX="288.0" layoutY="124.0" prefHeight="22.0" prefWidth="290.0" />
+      <TextField fx:id="masaOrgano" layoutX="288.0" layoutY="169.0" prefHeight="22.0" prefWidth="127.0" />
+      <Label layoutX="237.0" layoutY="128.0" prefHeight="14.0" prefWidth="55.0" text="Nombre:" />
+      <Label layoutX="252.0" layoutY="173.0" text="Masa:" />
+   </children>
+</AnchorPane>
