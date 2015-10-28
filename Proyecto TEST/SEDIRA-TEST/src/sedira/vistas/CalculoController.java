@@ -54,6 +54,8 @@ public class CalculoController implements Initializable {
     private Pane pnlPaciente;
     @FXML 
     private Pane pnlRadionuclido;
+    @FXML 
+    private Pane pnlOrgano;
 
     /**
      * Initializes the controller class.
@@ -75,7 +77,10 @@ public class CalculoController implements Initializable {
              Node NodoRadionuclido;
             NodoRadionuclido = (Node)FXMLLoader.load(getClass().getResource("PestañaRadionuclido.fxml"));
              pnlRadionuclido.getChildren().setAll(NodoRadionuclido);
-             
+
+             Node NodoOrgano;
+            NodoOrgano = (Node)FXMLLoader.load(getClass().getResource("PestañaOrgano.fxml"));
+             pnlOrgano.getChildren().setAll(NodoOrgano);
              
              
         } catch (IOException ex) {

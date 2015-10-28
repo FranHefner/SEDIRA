@@ -20,7 +20,7 @@ import sedira.model.Phantom;
  *  Clase controladora para la interfaz de Organo/Tejido del calculo. 
  * @author Quelin Pablo, Hefner Francisco
  */
-public class PestañaOrganoTejidoController implements Initializable {
+public class PestañaOrganoController implements Initializable {
 
     @FXML
     private ChoiceBox choiceOrgano;
@@ -44,7 +44,7 @@ public class PestañaOrganoTejidoController implements Initializable {
         //de phantom, esto es porque los organos estan contenidos dentro de los Phantoms. 
         
         
-        initListaOrgano();
+        //initListaOrgano();
         
         
     }    
