@@ -50,6 +50,8 @@ public class AbmRadionuclidoController implements Initializable {
     
     @FXML
     private Button btnLimpiarValores;
+    @FXML   
+    private Button btnEditar;
     @FXML
     private Button btnAgregar;
     @FXML
@@ -89,17 +91,21 @@ public class AbmRadionuclidoController implements Initializable {
 				(observable, oldValue, newValue) -> mostrarDetalleSeleccion(newValue));
         // Limpieza de los detalles de Radionuclido. 
         showDetalleRadionuclido(null);
+        btnEditar.setDisable(true);
+        btnAgregar.setDisable(true);
+        btnQuitar.setDisable(true);
+        
         
     }
     
     /**
-     * Este metodo setea en los textFields la informacion que el usuario selecciona de la tabla de propiedades de phantoms. 
+     * Este metodo setea en los textFields la informacion que el usuario selecciona de la tabla de propiedades de radionuclidos. 
      * @param valorDescripcion es el tipo de dato que almacena la tabla que muestra la informacion de las propiedades que 
-     * contiene un organo. 
+     * contiene un radionuclido. 
      */
     @FXML
     public void mostrarDetalleSeleccion (ValorDescripcion valorDescripcion){
-        
+        btnEditar.setDisable(false);
         btnQuitar.setDisable(false);
         if (valorDescripcion != null){
             txtPropiedad.setDisable(false);
@@ -206,7 +212,7 @@ public class AbmRadionuclidoController implements Initializable {
        //Objeto aux ValorDescripcion.  
        ValorDescripcion radNuclidoPropiedades = new ValorDescripcion (null,0,null);    
        //Completo los datos en el objeto radionuclido  con lo ingresado por el usuario. 
-       radNuclidoPropiedades.setDescripcion(txtRadNuclidoNombre.getText());
+       radNuclidoPropiedades.setDescripcion(txtPropiedad.getText());
        radNuclidoPropiedades.setValor(Double.parseDouble(txtValor.getText()));
        radNuclidoPropiedades.setUnidad(txtUnidad.getText());
        
@@ -226,6 +232,29 @@ public class AbmRadionuclidoController implements Initializable {
        btnLimpiarValores_click();
     }
     
+    /**
+     * Metodo que controla la edicion de un item seleccionado en la tabla de propiedades del radionuclido. 
+     */
+    @FXML
+    public  void btnEditar() {
+       //Objeto aux ValorDescripcion.  
+       ValorDescripcion radNuclidoPropiedades = new ValorDescripcion (null,0,null);    
+       //Inicializo la lista de propiedades con la informacion del radionuclido
+       listaAtributoRadNuclido = radionuclido.getPropiedades();
+       
+       //obtengo el indice del elemento seleccionado. 
+       int index = griInfoRadNuclido.getSelectionModel().getSelectedIndex();
+       
+       radNuclidoPropiedades.setDescripcion(txtPropiedad.getText());
+       radNuclidoPropiedades.setValor(Double.parseDouble(txtValor.getText()));
+       radNuclidoPropiedades.setUnidad(txtUnidad.getText());
+       
+       listaAtributoRadNuclido.set(index, radNuclidoPropiedades);
+       //lo muestro en la tabla
+       refrescarTablaRadionuclido (radionuclido.getPropiedades());
+       //Limpio los valores en los textField para el nuevo agregado
+       btnLimpiarValores_click();
+    }
     /**
      * Metodo que controla la eliminacion de items valor descripcion a la tabla de info Radionuclido. 
      */
