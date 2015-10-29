@@ -7,12 +7,18 @@ package sedira.vistas;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
+import sedira.ConsultasDB;
+import sedira.FuncionesGenerales;
+import sedira.model.Organo;
 import sedira.model.Phantom;
 
 /**
@@ -25,28 +31,30 @@ public class PestañaOrganoController implements Initializable {
     @FXML
     private ChoiceBox choiceOrgano;
     @FXML
-    private TextField idOrgano;
+    private TextField txtIdOrgano;
     @FXML
-    private TextField nombreOrgano;
+    private TextField txtNombreOrgano;
     @FXML 
-    private TextField masaOrgano;
+    private TextField txtMasaOrgano;
     @FXML 
-    private TextField phantomSeleccionado;
+    private TextField txtPhantomSeleccionado;
     
+    private Organo organoActual;
+    int aux;
+     
     
-    private Phantom phantomAux = PestañaPhantomController.phantomActual;
+   
+    
     /**
      * Inicializa la clase controladora. 
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        //Se crea una phantom auxilicar con la informacion del phantom seleccionado en la pestaña 
-        //de phantom, esto es porque los organos estan contenidos dentro de los Phantoms. 
-        
-        
-        //initListaOrgano();
-        
-        
+      
+        /**
+         * OJO. metodo init y el metodo seleccion del choiceBox genera indexOfBounds. 
+         * 
+         */
     }    
     /**
      * Metodo que inicializa la lista de Organos dentro del ChoiceBox 
@@ -54,15 +62,48 @@ public class PestañaOrganoController implements Initializable {
      */
      @FXML
     public void initListaOrgano(){
-        //Lista auxliar para el manejo de los nombres de los Organos. 
-        ObservableList <String> listaOrganoString = FXCollections.observableArrayList();
-        
-        for (int i=0; i<phantomAux.getOrgano().size();i++){
-            listaOrganoString.add(phantomAux.getOrgano().get(i).getNombreOrgano());
-        }
-            
+        //basicamente el if es un controlador para que se inicialize solo 1 vez, 
+        //Esta inicializacion deberia estar en el calculo controller. 
+        if (aux == 0){
+            ObservableList <String> listaOrganoString = FXCollections.observableArrayList();
+
+            for (int i=0; i<FuncionesGenerales.phantomActual.getOrgano().size();i++){
+                listaOrganoString.add(FuncionesGenerales.phantomActual.getOrgano().get(i).getNombreOrgano());
+            }
+            choiceOrgano.setItems(listaOrganoString);
+            txtPhantomSeleccionado.setText(FuncionesGenerales.phantomActual.getPhantomNombre());
+            aux = 1;
+        }   
         //Asigno la lista de los nombres de los Phantoms al ChoiceBox
-         choiceOrgano.setItems(listaOrganoString);
+        
+        
+    }
+    
+    /**
+     * Metodo que se activa al seleccionar un phantom. 
+     * Este llenara las tablas de organos y de informacion del phantom. 
+     */
+    @FXML
+    public void seleccionarOrgano(){
+        
+        choiceOrgano.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>(){
+
+            public void changed (ObservableValue ov, Number value, Number newValue){
+                //Busco el Organo por el Indice del ChoiceBox
+                int index = choiceOrgano.getSelectionModel().getSelectedIndex();
+                organoActual = ConsultasDB.ObtenerOrganos().get(index);
+
+                //Completo tabla de Organos
+                showDetalleOrgano();
+
+            }
+        });
+    }
+    
+    @FXML
+    public void showDetalleOrgano( ){
+        txtNombreOrgano.setText(organoActual.getNombreOrgano());
+        txtMasaOrgano.setText(organoActual.getOrganMass().toString());
     }
     
     

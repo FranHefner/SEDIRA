@@ -20,7 +20,8 @@ import sedira.model.ValorDescripcion;
  * @author Hefner Francisco , Quelin Pablo
  */
 public class FuncionesGenerales {
-    
+    //Objeto de tipo Phantom auxiliar. 
+        public static Phantom phantomActual;
     
     
    /**
@@ -138,7 +139,9 @@ public class FuncionesGenerales {
         return sortedData;
         
     }   
-        
+    public static void setPhantomSeleccionado (Phantom phantomSeleccionado){
+        phantomActual = phantomSeleccionado;
+    }
         
 }
   

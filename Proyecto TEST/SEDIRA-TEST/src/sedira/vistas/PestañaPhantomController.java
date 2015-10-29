@@ -20,6 +20,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.Tooltip;
 import sedira.ConsultasDB;
+import sedira.FuncionesGenerales;
 import sedira.model.Organo;
 import sedira.model.Phantom;
 import sedira.model.ValorDescripcion;
@@ -58,8 +59,7 @@ public class PestañaPhantomController implements Initializable {
          public static  ObservableList <Organo> listaOrgano = FXCollections.observableArrayList();
     
         
-    //Objeto de tipo Phantom auxiliar. 
-        public static Phantom phantomActual;
+    
     //Objeto de tipo ValorDescripcopn auxiliar. 
         private ValorDescripcion phantomValorDescripcion;
     //Objeto de tipo Organo auxiliar. 
@@ -145,11 +145,11 @@ public class PestañaPhantomController implements Initializable {
                 public void changed (ObservableValue ov, Number value, Number newValue){
                     //Busco el Phantom por el Indice del ChoiceBox
                     int index = choicePhantom.getSelectionModel().getSelectedIndex();
-                    phantomActual = ConsultasDB.ObtenerPhantoms().get(index);
+                    FuncionesGenerales.phantomActual = ConsultasDB.ObtenerPhantoms().get(index);
                     //Completo tabla de Organos
-                    showDetalleOrgano(phantomActual.getOrgano());
+                    showDetalleOrgano(FuncionesGenerales.phantomActual.getOrgano());
                     //Completo tabla de Info Phantoms
-                    showDetallePhantom(phantomActual.getPropiedades());               
+                    showDetallePhantom(FuncionesGenerales.phantomActual.getPropiedades());  
                 }
             });
     }

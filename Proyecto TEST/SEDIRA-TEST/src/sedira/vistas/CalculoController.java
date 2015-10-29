@@ -56,7 +56,9 @@ public class CalculoController implements Initializable {
     private Pane pnlRadionuclido;
     @FXML 
     private Pane pnlOrgano;
-
+    private PestañaOrganoController organoController;
+    
+   
     /**
      * Initializes the controller class.
      */
@@ -86,10 +88,15 @@ public class CalculoController implements Initializable {
         } catch (IOException ex) {
             Logger.getLogger(CalculoController.class.getName()).log(Level.SEVERE, null, ex);
         }
-           
-            
+         
+    }   
     
-    
-    }    
+    /**
+     * Posiblemente dentro de este controlador estara el control de los objetos necesarios de pestaña para otra pestaña. 
+     */
+    public void setChoiceOrgano(){
+        //organoController.initListaOrgano();
+        
+    }
     
 }
