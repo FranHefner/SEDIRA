@@ -18,8 +18,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import sedira.ConsultasDB;
 import sedira.FuncionesGenerales;
+
 import sedira.model.Organo;
-import sedira.model.Phantom;
+
 
 /**
  * FXML Controller class
@@ -39,6 +40,7 @@ public class PestañaOrganoController implements Initializable {
     @FXML 
     private TextField txtPhantomSeleccionado;
     
+    // Declaracion de variables. 
     private Organo organoActual;
     int aux;
      
@@ -55,7 +57,8 @@ public class PestañaOrganoController implements Initializable {
          * OJO. metodo init y el metodo seleccion del choiceBox genera indexOfBounds. 
          * 
          */
-    }    
+    } 
+    
     /**
      * Metodo que inicializa la lista de Organos dentro del ChoiceBox 
      * la lista de organos se tomara a partir del phantom seleccionado.
@@ -85,7 +88,7 @@ public class PestañaOrganoController implements Initializable {
      */
     @FXML
     public void seleccionarOrgano(){
-        
+     
         choiceOrgano.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>(){
 
             public void changed (ObservableValue ov, Number value, Number newValue){
@@ -94,17 +97,34 @@ public class PestañaOrganoController implements Initializable {
                 organoActual = ConsultasDB.ObtenerOrganos().get(index);
 
                 //Completo tabla de Organos
-                showDetalleOrgano();
-
+                mostrarDetalleSeleccion(organoActual, txtNombreOrgano, txtMasaOrgano);
+             
             }
         });
     }
     
+     /**
+     * Este metodo setea en los textFields la informacion que el usuario selecciona de la tabla de organos. 
+     * @param organo es el organo seleccionado desde la tabla. 
+     * @param organoMasa Textfield a completar con la masa del organo.
+     * @param organoNombre Texfield a completar con el nombre del organo. 
+     */
     @FXML
-    public void showDetalleOrgano( ){
-        txtNombreOrgano.setText(organoActual.getNombreOrgano());
-        txtMasaOrgano.setText(organoActual.getOrganMass().toString());
+    public void mostrarDetalleSeleccion (Organo organo, TextField organoNombre, TextField organoMasa){
+        //btnQuitarOrgano.setDisable(false);
+        //btnQuitar.setDisable(false);
+        if (organo != null){
+          
+            organoNombre.setText(organo.getNombreOrgano());
+            organoMasa.setText(organo.getOrganMass().toString());
+            
+        } else {
+           organoNombre.setText("");
+           organoMasa.setText("");
+           
+        }
     }
     
+        
     
 }

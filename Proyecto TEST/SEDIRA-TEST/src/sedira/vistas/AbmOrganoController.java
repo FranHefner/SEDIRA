@@ -17,7 +17,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import sedira.ConsultasDB;
+import sedira.FuncionesGenerales;
+
 import sedira.model.Organo;
 import sedira.model.Phantom;
 
@@ -82,7 +83,7 @@ public class AbmOrganoController implements Initializable {
                 cellData -> cellData.getValue().getOrganMassProperty().asString());
        
         // Limpieza de los detalles de organos. 
-        showDetalleOrgano(null);
+        FuncionesGenerales.mostrarDetalleOrgano(null, griOrgano);
         
         //Listener para la seleccion del organo en la lista de organos que tiene un phantom. 
          griOrgano.getSelectionModel().selectedItemProperty().addListener(
@@ -120,16 +121,7 @@ public class AbmOrganoController implements Initializable {
             
             
     }
-    /**
-     * Muestra el detalle de los Organos pertenecientes al Phantom encontrado en la busqueda. 
-     * @param organo 
-     */
-    @FXML
-    private void showDetalleOrgano(ObservableList<Organo> organo) {
-        griOrgano.setItems(organo);
-       
-    }
-    
+        
     /**
      * Este metodo setea en los textFields la informacion que el usuario selecciona de la tabla de organos. 
      * @param organo es el organo seleccionado desde la tabla. 
@@ -169,7 +161,7 @@ public class AbmOrganoController implements Initializable {
        }
        
        //lo muestro en la tabla
-       refrescarTablaOrgano(phantom.getOrgano());
+       FuncionesGenerales.mostrarDetalleOrgano(phantom.getOrgano(),griOrgano);
        //Limpio los valores en los textField para el nuevo agregado
        btnLimpiarValores();
     }
@@ -233,14 +225,5 @@ public class AbmOrganoController implements Initializable {
     txtOrganoMasa.setText("");
     
     }
-    /**
-     * Muestra el detalle del Phantom en la tabla Phantoms 
-     * @param infoPhantom 
-     */
-     @FXML
-    public void refrescarTablaOrgano(ObservableList<Organo> infoOrgano) {
-       //Aca se utiliza la tabla Descripcion - Valor. 
-        griOrgano.setItems(infoOrgano);
-      
-    }
+   
 }

@@ -75,7 +75,7 @@ public class RadionuclidoController implements Initializable {
                 cellData -> cellData.getValue().unidadProperty());
 
         // Limpieza de los detalles de Radionuclido. 
-        showDetalleRadionuclido(null);
+        FuncionesGenerales.mostrarDetalleTablaValorDescripcion(null,griInfoRadNuclido);
 
         //Inicializo la tabla de radionuclido - Trae el resultado de la busqueda.  
         clNombreRadNuclido.setCellValueFactory(cellData -> cellData.getValue().getNombreRadNuclidoProperty());
@@ -93,17 +93,7 @@ public class RadionuclidoController implements Initializable {
        griRadionuclido.setItems(FuncionesGenerales.FiltroListaRadNuclido(griRadionuclido, radionuclidoData, txtCampoBusqueda));
     }
     
-    /**
-     * Metodo que muestra el detalle de los radionuclidos en la tabla tipo Valor-Descripcion. 
-     * @param infoRadionuclido lista de todos los atributos del radionuclido. 
-     */
-    @FXML
-    public void showDetalleRadionuclido(ObservableList<ValorDescripcion> infoRadionuclido) {
-       //Aca se utiliza la tabla Descripcion - Valor. 
-        griInfoRadNuclido.setItems(infoRadionuclido);
-      
-    }
-    
+        
     /**
      * Metodo que muestra los detalles del radionuclido seleccionado en la tabla de resultado de busqueda. 
      * @param radionuclidoActual radionuclido que se selecciona. 

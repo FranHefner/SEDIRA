@@ -8,8 +8,11 @@ package sedira;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
+import javafx.fxml.FXML;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+import sedira.model.Organo;
 import sedira.model.Paciente;
 import sedira.model.Phantom;
 import sedira.model.Radionuclido;
@@ -139,8 +142,25 @@ public class FuncionesGenerales {
         return sortedData;
         
     }   
-    public static void setPhantomSeleccionado (Phantom phantomSeleccionado){
-        phantomActual = phantomSeleccionado;
+  
+    /**
+     * Muestra el detalle en una tabla Propiedad Valor. 
+     * @param infoObjeto - Lista Observable con la del objeto que se insertara en la tabla 
+     * @param tabla  - TableView para detallar la informacion de infoObjeto 
+     */
+    public static void mostrarDetalleTablaValorDescripcion (ObservableList<ValorDescripcion> infoObjeto, TableView <ValorDescripcion> tabla){
+        tabla.setItems(infoObjeto);
+    }
+    
+      /**
+     * Muestra el detalle de los Organos pertenecientes al Phantom encontrado en la busqueda. 
+     * @param organo  Lista observable con la informacion de los organos que contiene un phantom. 
+     * @param tablaOrgano TableView para el detalle de los organos. 
+     */
+    @FXML
+    public static void mostrarDetalleOrgano(ObservableList<Organo> organo, TableView tablaOrgano) {
+        tablaOrgano.setItems(organo);
+       
     }
         
 }

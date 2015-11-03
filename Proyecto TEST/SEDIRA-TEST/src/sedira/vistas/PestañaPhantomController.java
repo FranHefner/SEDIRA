@@ -57,9 +57,6 @@ public class PestañaPhantomController implements Initializable {
     
     //Lista de Organos
          public static  ObservableList <Organo> listaOrgano = FXCollections.observableArrayList();
-    
-        
-    
     //Objeto de tipo ValorDescripcopn auxiliar. 
         private ValorDescripcion phantomValorDescripcion;
     //Objeto de tipo Organo auxiliar. 
@@ -78,7 +75,7 @@ public class PestañaPhantomController implements Initializable {
                 cellData -> cellData.getValue().getOrganMassProperty().asString());
        
         // Limpieza de los detalles de organos. 
-        showDetalleOrgano(null);
+        FuncionesGenerales.mostrarDetalleOrgano(null, griOrgano);
   
         
        //Inicializo la tabla de Propiedad Valor, correspondiente a los Phantoms. 
@@ -89,8 +86,8 @@ public class PestañaPhantomController implements Initializable {
         clVdUnidad.setCellValueFactory(
                 cellData -> cellData.getValue().unidadProperty());
         // Limpieza de los detalles de Phantoms. 
-        showDetallePhantom(null);
-       
+        FuncionesGenerales.mostrarDetalleTablaValorDescripcion(null,griValorDescripcionPhantom);
+        
         //Inicializo la lista de Phantoms para el ChoiceBox
         initListaPhantom();
         choicePhantom.setTooltip(new Tooltip("Seleccione el Phantom"));
@@ -111,27 +108,7 @@ public class PestañaPhantomController implements Initializable {
         //Asigno la lista de los nombres de los Phantoms al ChoiceBox
          choicePhantom.setItems(listaStringPhantom);
     }
-    
-    /**
-     * Muestra el detalle de los Organos pertenecientes al Phantom encontrado en la busqueda. 
-     * @param organo 
-     */
-    @FXML
-    private void showDetalleOrgano(ObservableList<Organo> organo) {
-        griOrgano.setItems(organo);
-       
-    }
-    /**
-     * Muestra el detalle del Phantom en la tabla Phantoms 
-     * @param infoPhantom 
-     */
-     @FXML
-    private void showDetallePhantom(ObservableList<ValorDescripcion> infoPhantom) {
-       //Aca se utiliza la tabla Descripcion - Valor. 
-        griValorDescripcionPhantom.setItems(infoPhantom);
       
-    }
-    
     /**
      * Metodo que se activa al seleccionar un phantom. 
      * Este llenara las tablas de organos y de informacion del phantom. 
@@ -147,9 +124,9 @@ public class PestañaPhantomController implements Initializable {
                     int index = choicePhantom.getSelectionModel().getSelectedIndex();
                     FuncionesGenerales.phantomActual = ConsultasDB.ObtenerPhantoms().get(index);
                     //Completo tabla de Organos
-                    showDetalleOrgano(FuncionesGenerales.phantomActual.getOrgano());
+                    FuncionesGenerales.mostrarDetalleOrgano(FuncionesGenerales.phantomActual.getOrgano(), griOrgano);
                     //Completo tabla de Info Phantoms
-                    showDetallePhantom(FuncionesGenerales.phantomActual.getPropiedades());  
+                    FuncionesGenerales.mostrarDetalleTablaValorDescripcion(FuncionesGenerales.phantomActual.getPropiedades(), griValorDescripcionPhantom);
                 }
             });
     }

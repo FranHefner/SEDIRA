@@ -17,6 +17,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import sedira.ConsultasDB;
+import sedira.FuncionesGenerales;
 import sedira.model.Phantom;
 import sedira.model.ValorDescripcion;
 
@@ -206,7 +207,8 @@ public class AbmPhantomController implements Initializable {
        }
        
        //lo muestro en la tabla
-       refrescarTablaPhantom(phantom.getPropiedades());
+       FuncionesGenerales.mostrarDetalleTablaValorDescripcion(phantom.getPropiedades(), griValorDescripcionPhantom);
+       //refrescarTablaPhantom(phantom.getPropiedades());
        //Limpio los valores en los textField para el nuevo agregado
        btnLimpiarValores_click();
       
@@ -234,17 +236,7 @@ public class AbmPhantomController implements Initializable {
         
     }
     
-    /**
-     * Muestra el detalle del Phantom en la tabla Phantoms 
-     * @param infoPhantom 
-     */
-     @FXML
-    public void refrescarTablaPhantom(ObservableList<ValorDescripcion> infoPhantom) {
-       //Aca se utiliza la tabla Descripcion - Valor. 
-        griValorDescripcionPhantom.setItems(infoPhantom);
-      
-    }
-    
+       
     /**
      * Metodo que retorna si el usuario presiono el boton Guardar Datos. 
      * @return guardarDatos 

@@ -28,6 +28,7 @@ import sedira.model.ValorDescripcion;
 import sedira.model.Phantom;
 import sedira.AplicacionPrincipal;
 
+
 /**
  * Clase controladora para el Administrador de Phantoms. 
  * @author Hefner Francisco, Quelin Pablo 
@@ -102,8 +103,7 @@ public class PhantomController  implements Initializable  {
                 cellData -> cellData.getValue().getOrganMassProperty().asString());
        
         // Limpieza de los detalles de organos. 
-        showDetalleOrgano(null);
-
+        FuncionesGenerales.mostrarDetalleOrgano(null, griOrgano);
               
        //Inicializo la tabla de Propiedad Valor, correspondiente a los Phantoms. 
         clVdValor.setCellValueFactory(
@@ -113,8 +113,8 @@ public class PhantomController  implements Initializable  {
         clVdUnidad.setCellValueFactory(
                 cellData -> cellData.getValue().unidadProperty());
         // Limpieza de los detalles de Phantoms. 
-        showDetallePhantom(null);
-       
+        FuncionesGenerales.mostrarDetalleTablaValorDescripcion(null,griValorDescripcionPhantom);
+        
         //Inicializo la tabla de Phantom. 
         clPhantomNombre.setCellValueFactory(cellData -> cellData.getValue().phantomNombreProperty());
         //Listener para la seleccion del phantom en la lista de phantoms que trae la busqueda.
@@ -209,27 +209,7 @@ public class PhantomController  implements Initializable  {
         
        
     }
-    
-     /**
-     * Muestra el detalle de los Organos pertenecientes al Phantom encontrado en la busqueda. 
-     * @param organo 
-     */
-    @FXML
-    public void showDetalleOrgano(ObservableList<Organo> organo) {
-        griOrgano.setItems(organo);
-    }
-    
-    /**
-     * Muestra el detalle del Phantom en la tabla Phantoms 
-     * @param infoPhantom 
-     */
-     @FXML
-    public void showDetallePhantom(ObservableList<ValorDescripcion> infoPhantom) {
-       //Aca se utiliza la tabla Descripcion - Valor. 
-        griValorDescripcionPhantom.setItems(infoPhantom);
-      
-    }
-    
+          
     /**
      * Al buscar el phantom , los muestra en la lista para su seleccion. 
      */

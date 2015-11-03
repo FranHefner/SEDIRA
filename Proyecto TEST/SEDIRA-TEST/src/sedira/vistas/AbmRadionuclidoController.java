@@ -17,6 +17,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import sedira.ConsultasDB;
+import sedira.FuncionesGenerales;
 import sedira.model.Radionuclido;
 import sedira.model.ValorDescripcion;
 
@@ -90,7 +91,7 @@ public class AbmRadionuclidoController implements Initializable {
        griInfoRadNuclido.getSelectionModel().selectedItemProperty().addListener(
 				(observable, oldValue, newValue) -> mostrarDetalleSeleccion(newValue));
         // Limpieza de los detalles de Radionuclido. 
-        showDetalleRadionuclido(null);
+        FuncionesGenerales.mostrarDetalleTablaValorDescripcion(null,griInfoRadNuclido);
         btnEditar.setDisable(true);
         btnAgregar.setDisable(true);
         btnQuitar.setDisable(true);
@@ -121,16 +122,7 @@ public class AbmRadionuclidoController implements Initializable {
             txtUnidad.setText("");
         }
     }
-    /**
-     * Metodo que muestra el detalle de los radionuclidos en la tabla tipo Valor-Descripcion. 
-     * @param infoRadionuclido lista de todos los atributos del radionuclido. 
-     */
-    @FXML
-    public void showDetalleRadionuclido(ObservableList<ValorDescripcion> infoRadionuclido) {
-       //Aca se utiliza la tabla Descripcion - Valor. 
-        griInfoRadNuclido.setItems(infoRadionuclido);
-      
-    }
+   
     /**
      * Setea el Stage para este Formulario o Dialog. 
      * @param dialogStage 
