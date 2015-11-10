@@ -25,7 +25,22 @@ import sedira.model.ValorDescripcion;
 public class FuncionesGenerales {
     //Objeto de tipo Phantom auxiliar. 
         public static Phantom phantomActual;
+        public static Radionuclido radionuclidoActual;
     
+    /**
+     * Metodo SetTer para el radionuclido actual. 
+     * @param radionuclido 
+     */
+    public static void setRadioNuclidoActual (Radionuclido radionuclido){
+        radionuclidoActual = radionuclido;
+    }
+    /**
+     * Metodo GetTer para el radionuclido Actual. 
+     * @return 
+     */
+    public static Radionuclido getRadioNuclidoActual (){
+        return radionuclidoActual;
+    }
     
    /**
     * Funcion que recibe una lista observable de pacientes, una TableView y retorna una lista 
@@ -162,6 +177,7 @@ public class FuncionesGenerales {
         tablaOrgano.setItems(organo);
        
     }
+   
         
 }
   

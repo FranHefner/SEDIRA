@@ -146,14 +146,22 @@ public class ConsultasDB {
      }
      
      /**
-     * Metodo que guarda un radionuclido creado/modificado en la lista de Radionuclido inicial  
+     * Metodo que guarda un radionuclido creado en la lista de Radionuclido inicial  
      * @param radionuclido Objeto radionuclido a guardar en la lista de radionuclidos ya creados. Base datos. 
      */
     public static void agregarRadionuclido(Radionuclido radionuclido){
         
         radionuclidoData.add(radionuclido);
-        System.out.print(phantomData.size());
+        //System.out.print(phantomData.size());
                 
+    }
+    /**
+     * Metodo que modifica un radionuclido ya almacenado. 
+     * @param radionuclido
+     * @param index 
+     */
+    public static void modificarRadionuclido (Radionuclido radionuclido, int index){
+        radionuclidoData.set(index, radionuclido);
     }
     
      

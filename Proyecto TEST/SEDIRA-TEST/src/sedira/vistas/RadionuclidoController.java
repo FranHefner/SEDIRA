@@ -8,6 +8,7 @@ package sedira.vistas;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -47,17 +48,23 @@ public class RadionuclidoController implements Initializable {
     private TableColumn <ValorDescripcion, String> clVdUnidad;
     
     @FXML
-    private Button btnEditar;
+    private Button btnModificarRadioNuclido;
     @FXML
-    private Button btnNuevo;
+    private Button btnAgregarRadionuclido;
+    @FXML
+    private Button btnAgregarItem;
+    @FXML
+    private Button btnEliminarItem;
+    @FXML
+    private Button btnEditarItem;
     @FXML
     private TextField txtCampoBusqueda;
     
     
     //Lista Observable para el manejo de phantoms
-    private ObservableList <Radionuclido> radionuclidoData;
+    private ObservableList <Radionuclido> radionuclidoData = FXCollections.observableArrayList();;
     //Lista Observable para el manejo de la informacion de los radionuclidos. 
-    public static ObservableList <ValorDescripcion> infoRadNuclido;
+    private ObservableList <ValorDescripcion> infoRadNuclido = FXCollections.observableArrayList();;
     // Stage auxiliar. 
     private Stage primaryStage;
            
@@ -100,7 +107,8 @@ public class RadionuclidoController implements Initializable {
      */
     public void seleccionRadionuclido(Radionuclido radionuclidoActual) 
     {  
-        btnEditar.setDisable(false);
+        FuncionesGenerales.setRadioNuclidoActual(radionuclidoActual);
+        //btnEditar.setDisable(false);
         if (radionuclidoActual != null)
         {
             infoRadNuclido = radionuclidoActual.getPropiedades();
@@ -111,7 +119,7 @@ public class RadionuclidoController implements Initializable {
         }
     }
     
-    public boolean mostrarRadionuclidoEditDialog (Radionuclido radionuclido){
+    public boolean mostrarRadionuclidoDialog (Radionuclido radionuclido){
         // cargo el nuevo FXML para crear un ventana tipo PopUp
         try {
             FXMLLoader loader = new FXMLLoader();
@@ -120,7 +128,39 @@ public class RadionuclidoController implements Initializable {
 
             // Creo el Stage para el Dialogo Editar. 
             Stage dialogStage = new Stage();
-            dialogStage.setTitle("Modificar Radionuclido existente");
+            dialogStage.setTitle("Modificar RadioNuclido");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(primaryStage);
+            Scene scene = new Scene(page);
+            dialogStage.setScene(scene);
+            
+            // Pone el radionuclido en el controlador AbmRadionuclidoController. 
+            AbmRadionuclidoController controladorAbmRadNuclido = loader.getController();
+            controladorAbmRadNuclido.setDialogStage(dialogStage);
+            // le paso el Item
+            controladorAbmRadNuclido.setRadionuclido(radionuclido);
+
+            // Muestra el formulario y espera hasta que el usuario lo cierre. 
+            dialogStage.showAndWait();
+
+            //Return
+            return controladorAbmRadNuclido.isGuardarDatosClicked();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }  
+    
+    public boolean mostrarItemRadionuclidoEditDialog (ValorDescripcion itemRadionuclido){
+        // cargo el nuevo FXML para crear un ventana tipo PopUp
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(PhantomController.class.getResource("AbmRadionuclido.fxml"));
+            AnchorPane page = (AnchorPane) loader.load();
+
+            // Creo el Stage para el Dialogo Editar. 
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Modificar items");
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.initOwner(primaryStage);
             Scene scene = new Scene(page);
@@ -129,8 +169,8 @@ public class RadionuclidoController implements Initializable {
             // Pone el radionuclido en el controlador AbmRadionuclidoController. 
             AbmRadionuclidoController controladorAbmRadNuclido = loader.getController();
             controladorAbmRadNuclido.setDialogStage(dialogStage);
-            // le paso el Radionuclido 
-            controladorAbmRadNuclido.setRadionuclido(radionuclido);
+            // le paso el Item
+            controladorAbmRadNuclido.setItemRadionuclido(itemRadionuclido);
 
             // Muestra el formulario y espera hasta que el usuario lo cierre. 
             dialogStage.showAndWait();
@@ -144,41 +184,89 @@ public class RadionuclidoController implements Initializable {
     }  
         
        
-    /**
-     * Metodo para el comportamiento del boton NUEVO. 
-     */
-    @FXML
-    public void btnNuevoRadionuclido () {
-		Radionuclido tempRadNuclido = new Radionuclido (-1,"",null);
-		boolean guardarCambiosClicked = mostrarRadionuclidoEditDialog(tempRadNuclido);
-		if (guardarCambiosClicked) {
-			ConsultasDB.radionuclidoData = ConsultasDB.obtenerRadionuclidos();
-                        ConsultasDB.agregarRadionuclido(tempRadNuclido);
-		}
-    } 
-    
+        
     /**
      * Metodo para el comportamiento del boton editar. Abre un dialogo para la edicion del RadioNuclido. 
      */
     @FXML
-    public void btnEditarRadionuclido (){
-        Radionuclido selectedRadNuclido = griRadionuclido.getSelectionModel().getSelectedItem();
-            
-        if (selectedRadNuclido != null) {
-                boolean guardarCambiosClicked = mostrarRadionuclidoEditDialog(selectedRadNuclido);
+    public void btnModificarItem (){
+        //Radionuclido selectedRadNuclido = griRadionuclido.getSelectionModel().getSelectedItem();
+        ValorDescripcion selectedItem = griInfoRadNuclido.getSelectionModel().getSelectedItem();
+        if (selectedItem != null) {
+                boolean guardarCambiosClicked = mostrarItemRadionuclidoEditDialog(selectedItem);
                 if (guardarCambiosClicked) {
                         //seleccionPhantom(selectedPhantom);
                 }
 
         } else {
                 // Nothing selected. TODO Control por la No seleccion. 
+            // Dialogs.
 
         }
-        //TODO. Actualizar la lista de atributos de phantom y de organos una vez cerrada 
-        // las ventanas de edicion y nuevo. 
-        
-       
     }
+   
+    /**
+     * Metodo que controla el comportamiento del boton Quitar Item. 
+     */
+    @FXML
+    public void btnEliminarItem (){
+         int selectedIndex = griInfoRadNuclido.getSelectionModel().getSelectedIndex();
+            if (selectedIndex >= 0) {
+                    griInfoRadNuclido.getItems().remove(selectedIndex);
+                    //Llamada BD
+            } else {
+                    // Nothing selected.
+                   /* Dialogs.create()
+                    .title("No Selection")
+                    .masthead("No Person Selected")
+                    .message("Please select a person in the table.")
+                    .showWarning();*/
+            }
+    }
+    
+    @FXML
+    public void btnAgregarItem (){
+         
+       Radionuclido auxRadionuclido = FuncionesGenerales.getRadioNuclidoActual();
+       ValorDescripcion itemRadionuclido = new ValorDescripcion (null,0,null); 
+       boolean guardarCambiosClicked = mostrarItemRadionuclidoEditDialog(itemRadionuclido);
+ 
+                    if (infoRadNuclido != null){
+                        infoRadNuclido.add(itemRadionuclido);
+                        auxRadionuclido.setPropiedades(infoRadNuclido);
+                        ConsultasDB.modificarRadionuclido(auxRadionuclido, griRadionuclido.getSelectionModel().getSelectedIndex());
+                    }
+                        
+                                      
+    }
+       
+    
+    /**
+     * Metodo para el comportamiento del boton Crear radioNuclido
+     * El radionuclido primero se crea sin elemento de tipo propiedad valor. 
+     */
+    @FXML
+    public void btnAgregarRadionuclido (){
+        Radionuclido tempRadNuclido = new Radionuclido (-1,"",null);
+		boolean guardarCambiosClicked = mostrarRadionuclidoDialog(tempRadNuclido);
+		if (guardarCambiosClicked) {
+			ConsultasDB.radionuclidoData = ConsultasDB.obtenerRadionuclidos();
+                        ConsultasDB.agregarRadionuclido(tempRadNuclido);
+        }
+    }
+    
+    @FXML 
+    public void btnModificarRadionuclido (){
+        Radionuclido radioNuclidoActual = FuncionesGenerales.getRadioNuclidoActual();
+        boolean guardarCambiosClicked = mostrarRadionuclidoDialog(radioNuclidoActual);
+		if (guardarCambiosClicked) {
+			ConsultasDB.radionuclidoData = ConsultasDB.obtenerRadionuclidos();
+                        ConsultasDB.modificarRadionuclido(radioNuclidoActual, griRadionuclido.getSelectionModel().getSelectedIndex());
+        
+        }
+    }
+       
+   
     
     
 }
