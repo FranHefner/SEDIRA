@@ -14,6 +14,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -89,7 +91,10 @@ public class RadionuclidoController implements Initializable {
         buscarRadionuclido();
         //Listener para la seleccion del phantom en la lista de phantoms que trae la busqueda.
         griRadionuclido.getSelectionModel().selectedItemProperty().addListener(
-            (observable, oldValue, newValue) -> seleccionRadionuclido(newValue));         
+            (observable, oldValue, newValue) -> seleccionRadionuclido(newValue)); 
+        
+        
+        
     }    
     
     /**
@@ -98,6 +103,7 @@ public class RadionuclidoController implements Initializable {
     @FXML
     public void buscarRadionuclido(){
        griRadionuclido.setItems(FuncionesGenerales.FiltroListaRadNuclido(griRadionuclido, radionuclidoData, txtCampoBusqueda));
+       
     }
     
         
@@ -107,15 +113,20 @@ public class RadionuclidoController implements Initializable {
      */
     public void seleccionRadionuclido(Radionuclido radionuclidoActual) 
     {  
+        
         FuncionesGenerales.setRadioNuclidoActual(radionuclidoActual);
         //btnEditar.setDisable(false);
         if (radionuclidoActual != null)
         {
             infoRadNuclido = radionuclidoActual.getPropiedades();
             griInfoRadNuclido.setItems(infoRadNuclido);
+            //Prendo botones.
+            //btnEliminarItem.setDisable(false);
+            btnAgregarItem.setDisable(false);
+            //btnEditarItem.setDisable(false);
             
         } else {
-        
+            //TODO Si no se selecciona un radionuclido desde la lista. 
         }
     }
     
@@ -183,8 +194,14 @@ public class RadionuclidoController implements Initializable {
         }
     }  
         
-       
+    public void getSelectedItemFromTabla(){
+        ValorDescripcion selectedItem = griInfoRadNuclido.getSelectionModel().getSelectedItem();
+        if (selectedItem != null) {
+            btnEliminarItem.setDisable(false);
+            btnEditarItem.setDisable(false);
+        }
         
+    }         
     /**
      * Metodo para el comportamiento del boton editar. Abre un dialogo para la edicion del RadioNuclido. 
      */
@@ -194,13 +211,19 @@ public class RadionuclidoController implements Initializable {
         ValorDescripcion selectedItem = griInfoRadNuclido.getSelectionModel().getSelectedItem();
         if (selectedItem != null) {
                 boolean guardarCambiosClicked = mostrarItemRadionuclidoEditDialog(selectedItem);
+                  
                 if (guardarCambiosClicked) {
-                        //seleccionPhantom(selectedPhantom);
+                        
                 }
 
         } else {
-                // Nothing selected. TODO Control por la No seleccion. 
-            // Dialogs.
+            // No se selecciono ningun item. 
+            /*Alert alert = new Alert(AlertType.WARNING);
+            alert.setTitle("Error!");
+            alert.setHeaderText("Error!");
+            alert.setContentText("Debe seleccionar un item para modificar");
+
+            alert.showAndWait();*/
 
         }
     }
@@ -213,14 +236,15 @@ public class RadionuclidoController implements Initializable {
          int selectedIndex = griInfoRadNuclido.getSelectionModel().getSelectedIndex();
             if (selectedIndex >= 0) {
                     griInfoRadNuclido.getItems().remove(selectedIndex);
-                    //Llamada BD
+                    //Llamada BD para la eliminacion. 
             } else {
-                    // Nothing selected.
-                   /* Dialogs.create()
-                    .title("No Selection")
-                    .masthead("No Person Selected")
-                    .message("Please select a person in the table.")
-                    .showWarning();*/
+                // No se selecciono ningun item. 
+                Alert alert = new Alert(AlertType.WARNING);
+                alert.setTitle("Error!");
+                alert.setHeaderText("Error!");
+                alert.setContentText("Debe seleccionar un item para eliminar");
+
+                alert.showAndWait();
             }
     }
     

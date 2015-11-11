@@ -6,14 +6,19 @@
 package sedira.vistas;
 
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import org.controlsfx.dialog.Dialogs;
 import sedira.ConsultasDB;
 import sedira.FuncionesGenerales;
 import sedira.model.Radionuclido;
@@ -132,22 +137,30 @@ public class AbmRadionuclidoController implements Initializable {
     @FXML
     public  void btnGuardarDatos() {
        // TODO: VALIDACIONES.  
-        // La llamada a la base de datos se realiza desde RadionuclidoController. Editar/Nuevo 
-        if ("Agregar Radionuclido".equals(this.dialogStage.getTitle()) ){ 
-            //Nuevo radionuclido, debe guardar el nombre y el id primero.
-            radionuclido.setIdRadNuclido(Integer.parseInt(txtIdRadNuclido.getText()));
-            radionuclido.setNombreRadNuclido(txtRadNuclidoNombre.getText());
-            radionuclido.setPropiedades(listaAtributoRadNuclido);
-        }else { 
-            //Modificacion del un radionuclido existente. 
-            
-            itemRadionuclido.setDescripcion(txtPropiedad.getText());
-            itemRadionuclido.setUnidad(txtUnidad.getText());
-            itemRadionuclido.setValor(Double.parseDouble(txtValor.getText()));
-        }
+        // La llamada a la base de datos se realiza desde RadionuclidoController. Editar/Nuevo
         
-        guardarDatos = true;
-        dialogStage.close();
+        if (validarDatosEntrada()){
+                //Validacion preguntando si esta seguro guardar cambios. 
+                if ("Agregar Radionuclido".equals(this.dialogStage.getTitle()) ){ 
+                    //Nuevo radionuclido, debe guardar el nombre y el id primero.
+                    radionuclido.setIdRadNuclido(Integer.parseInt(txtIdRadNuclido.getText()));
+                    radionuclido.setNombreRadNuclido(txtRadNuclidoNombre.getText());
+                    radionuclido.setPropiedades(listaAtributoRadNuclido);
+                }else { 
+                    //Modificacion del un radionuclido existente. 
+                    //Si se necesita opcion de modificar el nombre de un radionuclido. 
+                    //Comparar el nombre del dialogStage. Armar un CASE 
+
+                    itemRadionuclido.setDescripcion(txtPropiedad.getText());
+                    itemRadionuclido.setUnidad(txtUnidad.getText());
+                    itemRadionuclido.setValor(Double.parseDouble(txtValor.getText()));
+                }
+
+                guardarDatos = true;
+                
+                dialogStage.close();
+            }   
+           
     }
      
     
@@ -165,9 +178,20 @@ public class AbmRadionuclidoController implements Initializable {
      */
     @FXML
     private void btnCancel_click() {
-        dialogStage.close();
+        Alert alert = new Alert(AlertType.CONFIRMATION);
+        alert.setTitle("Cancelar edición");
+        alert.setHeaderText("Atención!");
+        alert.setContentText("Esta seguro de cancelar la edición del item de radionúclido. ");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK){
+            dialogStage.close();
+        } else {
+            
+}
+             
+       
     }
-    
     /**
      * metodo para el control del Boton Limpiar Valores. 
      * limpia los datos agregados en los textFields del formulario. 
@@ -179,6 +203,41 @@ public class AbmRadionuclidoController implements Initializable {
     txtValor.setText("");
     }
                 
+    public boolean validarDatosEntrada (){
+        String mensajeError = "";
+        if (txtPropiedad.getText() == null || txtPropiedad.getText().length() == 0){
+            mensajeError += "Nombre de Propiedad Invalido! \n";
+        }
+       
+        
+        if (txtValor.getText() == null || txtValor.getText().length() == 0 ){
+            mensajeError += "Valor invalido! \n";
+        } else {
+            if (Double.valueOf(txtValor.getText()) == 0.0){
+            mensajeError += "Adventencia - Valor = 0.0 \n";
+             } else {
+            //trato de parsear el valor como un double. 
+            try{
+                Double.parseDouble(txtValor.getText());
+            } catch (NumberFormatException e){
+                mensajeError+= "El atributo valor debe ser un número real!\n";
+            }
+        }
+        }
+        
+        // TODO validacion Unidad. 
+        if (mensajeError.length() == 0){
+            return true;
+        }else{
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Error!");
+            alert.setHeaderText("Existe un error en los siguientes campos:");
+            alert.setContentText(mensajeError);
 
+            alert.showAndWait();
+            return false;
+        }
+        
+    }
     
 }

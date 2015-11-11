@@ -35,7 +35,7 @@
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="397.0" prefWidth="526.0">
                            <children>
-                              <TableView fx:id="griInfoRadNuclido" layoutX="31.6" layoutY="25.6" prefHeight="366.0" prefWidth="395.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="22.0" AnchorPane.rightAnchor="111.0" AnchorPane.topAnchor="16.0">
+                              <TableView fx:id="griInfoRadNuclido" layoutX="31.6" layoutY="25.6" onMouseClicked="#getSelectedItemFromTabla" prefHeight="366.0" prefWidth="395.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="22.0" AnchorPane.rightAnchor="111.0" AnchorPane.topAnchor="16.0">
                                  <columns>
                                     <TableColumn fx:id="clVdDescripcion" prefWidth="75.0" text="Propiedad" />
                                     <TableColumn fx:id="clVdValor" prefWidth="75.0" text="Valor" />
@@ -47,9 +47,9 @@
                               </TableView>
                               <VBox layoutX="474.0" layoutY="181.0" spacing="20.0">
                                  <children>
-                                    <Button fx:id="btnAgregarItem" layoutX="451.0" layoutY="78.0" mnemonicParsing="false" onAction="#btnAgregarItem" prefHeight="25.0" prefWidth="94.0" text="Agregar Item" />
-                                    <Button fx:id="btnModificarItem" layoutX="451.0" layoutY="121.0" mnemonicParsing="false" onAction="#btnModificarItem" text="Modificar Item" />
-                                    <Button fx:id="btnEliminarItem" layoutX="451.0" layoutY="161.0" mnemonicParsing="false" onAction="#btnEliminarItem" prefHeight="25.0" prefWidth="93.0" text="Eliminar Item" />
+                                    <Button fx:id="btnAgregarItem" disable="true" layoutX="451.0" layoutY="78.0" mnemonicParsing="false" onAction="#btnAgregarItem" prefHeight="25.0" prefWidth="94.0" text="Agregar Item" />
+                                    <Button fx:id="btnEditarItem" disable="true" layoutX="451.0" layoutY="121.0" mnemonicParsing="false" onAction="#btnModificarItem" text="Modificar Item" />
+                                    <Button fx:id="btnEliminarItem" disable="true" layoutX="451.0" layoutY="161.0" mnemonicParsing="false" onAction="#btnEliminarItem" prefHeight="25.0" prefWidth="93.0" text="Eliminar Item" />
                                  </children>
                               </VBox>
                            </children>
