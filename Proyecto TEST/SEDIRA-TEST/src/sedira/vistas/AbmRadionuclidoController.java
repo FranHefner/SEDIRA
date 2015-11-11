@@ -138,30 +138,32 @@ public class AbmRadionuclidoController implements Initializable {
     public  void btnGuardarDatos() {
        // TODO: VALIDACIONES.  
         // La llamada a la base de datos se realiza desde RadionuclidoController. Editar/Nuevo
-        
-        if (validarDatosEntrada()){
-                //Validacion preguntando si esta seguro guardar cambios. 
-                if ("Agregar Radionuclido".equals(this.dialogStage.getTitle()) ){ 
-                    //Nuevo radionuclido, debe guardar el nombre y el id primero.
-                    radionuclido.setIdRadNuclido(Integer.parseInt(txtIdRadNuclido.getText()));
-                    radionuclido.setNombreRadNuclido(txtRadNuclidoNombre.getText());
-                    radionuclido.setPropiedades(listaAtributoRadNuclido);
-                }else { 
-                    //Modificacion del un radionuclido existente. 
-                    //Si se necesita opcion de modificar el nombre de un radionuclido. 
-                    //Comparar el nombre del dialogStage. Armar un CASE 
+            if (validarDatosEntrada()){
+                    //Validacion preguntando si esta seguro guardar cambios. 
+                    if ("Agregar Radionuclido".equals(this.dialogStage.getTitle()) ){ 
+                        //Nuevo radionuclido, debe guardar el nombre y el id primero.
+                        radionuclido.setIdRadNuclido(Integer.parseInt(txtIdRadNuclido.getText()));
+                        radionuclido.setNombreRadNuclido(txtRadNuclidoNombre.getText());
+                        radionuclido.setPropiedades(listaAtributoRadNuclido);
+                    }else { 
+                        //Modificacion del un radionuclido existente. 
+                        //Si se necesita opcion de modificar el nombre de un radionuclido. 
+                        //Comparar el nombre del dialogStage. Armar un CASE 
 
-                    itemRadionuclido.setDescripcion(txtPropiedad.getText());
-                    itemRadionuclido.setUnidad(txtUnidad.getText());
-                    itemRadionuclido.setValor(Double.parseDouble(txtValor.getText()));
-                }
+                        itemRadionuclido.setDescripcion(txtPropiedad.getText());
+                        itemRadionuclido.setUnidad(txtUnidad.getText());
+                        itemRadionuclido.setValor(Double.parseDouble(txtValor.getText()));
+                    }
+                    
 
-                guardarDatos = true;
+                    guardarDatos = true;
+
+                    dialogStage.close();
+            }
                 
-                dialogStage.close();
-            }   
-           
     }
+           
+    
      
     
       
@@ -205,27 +207,35 @@ public class AbmRadionuclidoController implements Initializable {
                 
     public boolean validarDatosEntrada (){
         String mensajeError = "";
-        if (txtPropiedad.getText() == null || txtPropiedad.getText().length() == 0){
-            mensajeError += "Nombre de Propiedad Invalido! \n";
-        }
-       
-        
-        if (txtValor.getText() == null || txtValor.getText().length() == 0 ){
-            mensajeError += "Valor invalido! \n";
-        } else {
-            if (Double.valueOf(txtValor.getText()) == 0.0){
-            mensajeError += "Adventencia - Valor = 0.0 \n";
-             } else {
-            //trato de parsear el valor como un double. 
-            try{
-                Double.parseDouble(txtValor.getText());
-            } catch (NumberFormatException e){
-                mensajeError+= "El atributo valor debe ser un número real!\n";
+        if ("Agregar Radionuclido".equals(this.dialogStage.getTitle())){
+            // Solo valido
+            if (txtRadNuclidoNombre.getText()== null || txtRadNuclidoNombre.getText().length() == 0){
+                mensajeError+= "Nombre del Radionuclido Invalido!";
             }
-        }
-        }
+        } else {
         
+            if (txtPropiedad.getText() == null || txtPropiedad.getText().length() == 0){
+                mensajeError += "Nombre de Propiedad Invalido! \n";
+            }
+
+
+            if (txtValor.getText() == null || txtValor.getText().length() == 0 ){
+                mensajeError += "Valor invalido! \n";
+            } else {
+                if (Double.valueOf(txtValor.getText()) == 0.0){
+                mensajeError += "Adventencia - Valor = 0.0 \n";
+                 } else {
+                //trato de parsear el valor como un double. 
+                try{
+                    Double.parseDouble(txtValor.getText());
+                } catch (NumberFormatException e){
+                    mensajeError+= "El atributo valor debe ser un número real!\n";
+                }
+                }   
+            }   
+        }
         // TODO validacion Unidad. 
+        // TODo validacion crearRadionuclido. 
         if (mensajeError.length() == 0){
             return true;
         }else{
