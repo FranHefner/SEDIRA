@@ -6,12 +6,15 @@
 package sedira.vistas;
 
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -35,10 +38,6 @@ public class AbmPhantomController implements Initializable {
     @FXML
     private Button btnCancelar;
     @FXML
-    private Button btnAgregar;
-    @FXML
-    private Button btnQuitar;
-    @FXML
     private TextField txtPropiedad;
     @FXML
     private TextField txtValor;
@@ -49,20 +48,13 @@ public class AbmPhantomController implements Initializable {
     @FXML
     private TextField txtIdPhantom;
     
-    @FXML
-    private TableView <ValorDescripcion>  griValorDescripcionPhantom;
-    @FXML
-    private TableColumn <ValorDescripcion, Double> clVdValor;
-    @FXML
-    private TableColumn <ValorDescripcion, String> clVdDescripcion;
-    @FXML
-    private TableColumn <ValorDescripcion, String> clVdUnidad;
-    
-    
+   
     //Objeto Phantom auxiliar. 
     private  Phantom phantom;
     // Stage aux
     private Stage dialogStage;
+    // Valor Descripcion aux para items de phantom 
+    private ValorDescripcion itemPhantom;
     // boleano para controlar cuando el usuario clickea ok 
     private boolean guardarDatos = false;
     //Lista Observable para el manejo de phantoms
@@ -77,45 +69,9 @@ public class AbmPhantomController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         //Inicializo la tabla de Propiedad Valor, correspondiente a los Phantoms. 
         
-        clVdValor.setCellValueFactory(
-               cellData -> cellData.getValue().valorProperty().asObject());
-        clVdDescripcion.setCellValueFactory(
-                cellData->cellData.getValue().descripcionProperty());
-        clVdUnidad.setCellValueFactory(
-                cellData -> cellData.getValue().unidadProperty());
-        mostrarDetalleSeleccion(null);
        
-       // Listener para los cambios en la tabla de informacion de Phantoms 
-       griValorDescripcionPhantom.getSelectionModel().selectedItemProperty().addListener(
-				(observable, oldValue, newValue) -> mostrarDetalleSeleccion(newValue));
     }
-    
-    
-    /**
-     * Este metodo setea en los textFields la informacion que el usuario selecciona de la tabla de propiedades de phantoms. 
-     * @param valorDescripcion es el tipo de dato que almacena la tabla que muestra la informacion de las propiedades que 
-     * contiene un organo. 
-     */
-    @FXML
-    public void mostrarDetalleSeleccion (ValorDescripcion valorDescripcion){
-        
-        btnQuitar.setDisable(false);
-        if (valorDescripcion != null){
-            txtPropiedad.setDisable(false);
-            txtValor.setDisable(false);
-            txtUnidad.setDisable(false);
-            txtPropiedad.setText(valorDescripcion.getDescripcion());
-            txtValor.setText(valorDescripcion.getValor().toString());
-            txtUnidad.setText(valorDescripcion.getUnidad());
-            
-        } else {
-            txtPropiedad.setText("");
-            txtValor.setText("");
-            txtUnidad.setText("");
-        }
-    }
-    
-    
+     
     /**
      * Setea el Stage para este Formulario o Dialog. 
      * @param dialogStage 
@@ -133,110 +89,81 @@ public class AbmPhantomController implements Initializable {
      */
     public void setPhantom (Phantom phantom){
         this.phantom = phantom;
-        txtPropiedad.setDisable(false);
-        txtValor.setDisable(false);
-        txtUnidad.setDisable(false);
+             
         if (phantom.getIdPhantom() != -1){         
             //Atributos de nombre y id. 
+            txtNombrePhantom.setEditable(true);
             
             txtNombrePhantom.setText(phantom.getPhantomNombre());
             txtIdPhantom.setText(String.valueOf(phantom.getIdPhantom()));
-
-            //Completo las propiedades del phantom. 
-            griValorDescripcionPhantom.setItems(phantom.getPropiedades());
             //Prendo los botones
-            btnLimpiarValores.setDisable(false);
-            btnAgregar.setDisable(false);
-        
+            txtPropiedad.setDisable(true);
+            txtValor.setDisable(true);
+            txtUnidad.setDisable(true);
+            
+            
         } else {
+            
+            //Genero un Nuevo IdPhantom.
+            txtIdPhantom.setText(String.valueOf(ConsultasDB.getNewIdPhantom()));
             //Cambio Nombre en el formulario. 
             this.dialogStage.setTitle("Agregar Phantom");
             //Activo los TextField
             txtNombrePhantom.setEditable(true);
-            
-            
-            
-            //Genero un Nuevo IdPhantom.
-            
-            txtIdPhantom.setText(String.valueOf(ConsultasDB.getNewIdPhantom()));
-            
+            txtPropiedad.setDisable(true);
+            txtValor.setDisable(true);
+            txtUnidad.setDisable(true);
+           
             //Prendo los botones. 
-            btnLimpiarValores.setDisable(false);
-            btnAgregar.setDisable(false);
-            //btnQuitar.setDisable(false);
+            
         }
             
             
     }
-    /**
+    
+    public void setItemPhantom (ValorDescripcion itemPhantom){
+        Phantom phantomActual = FuncionesGenerales.getPhantomActual();
+        this.itemPhantom = itemPhantom;
+        txtIdPhantom.setText(String.valueOf(phantomActual.getIdPhantom()));
+        txtNombrePhantom.setText(phantomActual.getPhantomNombre());
+        
+        txtPropiedad.setText(itemPhantom.getDescripcion());
+        txtValor.setText(itemPhantom.getValor().toString());
+        txtUnidad.setText(itemPhantom.getUnidad());
+    }
+    
+     /**
      * Metodo llamado al momento de que el usuario presiona Guardar datos .
      */
     @FXML
     public  void btnGuardarDatos() {
        // TODO: VALIDACIONES.  
-        // La llamada a la base de datos se realiza desde PhantomController. Editar/Nuevo 
-         
-        phantom.setIdPhantom(ConsultasDB.getNewIdPhantom());
-        phantom.setPhantomNombre(txtNombrePhantom.getText());
-        
-        
-        guardarDatos = true;
-        dialogStage.close();
-    }
-    /**
-     * Metodo que controla la agregacion de items valor descripcion a la tabla de info phantoms. 
-     */
-    @FXML
-    public  void btnAgregar() {
-       //objeto aux
-        ValorDescripcion infoPhantomAux = new ValorDescripcion(null,0,null); 
-       
-       //Completo los datos en el objeto aux con lo ingresado por el usuario. 
-       infoPhantomAux.setDescripcion(txtPropiedad.getText());
-       infoPhantomAux.setValor(Double.parseDouble(txtValor.getText()));
-       infoPhantomAux.setUnidad(txtUnidad.getText());
-       
-       //le asigno al phantom el objeto
-       if (phantom.getPropiedades() != null){
-           phantom.getPropiedades().add(infoPhantomAux);
-       } else {
-           //el phanton no posee atributos aun. 
-           //Agrego el objeto a la lista de atributos de phantom
-           listaAtributoPhantom.add(infoPhantomAux);
-           phantom.setPropiedades(listaAtributoPhantom);
-       }
-       
-       //lo muestro en la tabla
-       FuncionesGenerales.mostrarDetalleTablaValorDescripcion(phantom.getPropiedades(), griValorDescripcionPhantom);
-       //refrescarTablaPhantom(phantom.getPropiedades());
-       //Limpio los valores en los textField para el nuevo agregado
-       btnLimpiarValores_click();
-      
-        
-    }
-    
-    /**
-     * Metodo que controla la eliminacion de items valor descripcion a la tabla de info phantoms. 
-     */
-    @FXML
-    public  void btnQuitar() {
-        int selectedIndex = griValorDescripcionPhantom.getSelectionModel().getSelectedIndex();
-            if (selectedIndex >= 0) {
-                    griValorDescripcionPhantom.getItems().remove(selectedIndex);
+        // La llamada a la base de datos se realiza desde PhantomController. Editar/Nuevo
+            if (validarDatosEntrada()){
+                    //Validacion preguntando si esta seguro guardar cambios. 
+                    if ("Agregar Phantom".equals(this.dialogStage.getTitle()) ){ 
+                        //Nuevo Phantom, debe guardar el nombre y el id primero.
+                        phantom.setIdPhantom(Integer.parseInt(txtIdPhantom.getText()));
+                        phantom.setPhantomNombre(txtNombrePhantom.getText());
+                        phantom.setPropiedades(listaAtributoPhantom);
+                    }  else { 
+                        //Modificacion del un radionuclido existente. 
+                        //Si se necesita opcion de modificar el nombre de un radionuclido. 
+                        //Comparar el nombre del dialogStage. Armar un CASE 
+
+                        itemPhantom.setDescripcion(txtPropiedad.getText());
+                        itemPhantom.setUnidad(txtUnidad.getText());
+                        itemPhantom.setValor(Double.parseDouble(txtValor.getText()));
+                    }
                     
-            } else {
-                    // Nothing selected.
-                   /* Dialogs.create()
-                    .title("No Selection")
-                    .masthead("No Person Selected")
-                    .message("Please select a person in the table.")
-                    .showWarning();*/
+
+                    guardarDatos = true;
+
+                    dialogStage.close();
             }
-                 
-        
+                
     }
     
-       
     /**
      * Metodo que retorna si el usuario presiono el boton Guardar Datos. 
      * @return guardarDatos 
@@ -250,7 +177,17 @@ public class AbmPhantomController implements Initializable {
      */
     @FXML
     public void btnCancel_click() {
-        dialogStage.close();
+         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Cancelar edición");
+        alert.setHeaderText("Atención!");
+        alert.setContentText("Esta seguro de cancelar la edición del item de phantom. ");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK){
+            dialogStage.close();
+        } else {
+            
+        }
     }
     
     /**
@@ -264,6 +201,51 @@ public class AbmPhantomController implements Initializable {
     txtValor.setText("");
     }
     
+    
+     public boolean validarDatosEntrada (){
+        String mensajeError = "";
+        if ("Agregar Phantom".equals(this.dialogStage.getTitle())){
+            // Solo valido
+            if (txtNombrePhantom.getText()== null || txtNombrePhantom.getText().length() == 0){
+                mensajeError+= "Nombre del Phantom Invalido!";
+            }
+        } else {
+        
+            if (txtPropiedad.getText() == null || txtPropiedad.getText().length() == 0){
+                mensajeError += "Nombre de Propiedad Invalido! \n";
+            }
+
+
+            if (txtValor.getText() == null || txtValor.getText().length() == 0 ){
+                mensajeError += "Valor invalido! \n";
+            } else {
+                if (Double.valueOf(txtValor.getText()) == 0.0){
+                mensajeError += "Adventencia - Valor = 0.0 \n";
+                 } else {
+                //trato de parsear el valor como un double. 
+                try{
+                    Double.parseDouble(txtValor.getText());
+                } catch (NumberFormatException e){
+                    mensajeError+= "El atributo valor debe ser un número real!\n";
+                }
+                }   
+            }   
+        }
+        // TODO validacion Unidad. 
+         
+        if (mensajeError.length() == 0){
+            return true;
+        }else{
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error!");
+            alert.setHeaderText("Existe un error en los siguientes campos:");
+            alert.setContentText(mensajeError);
+
+            alert.showAndWait();
+            return false;
+        }
+        
+    }
     
     
     

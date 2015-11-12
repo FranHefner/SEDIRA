@@ -7,6 +7,7 @@ package sedira.vistas;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -17,6 +18,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -64,9 +66,9 @@ public class RadionuclidoController implements Initializable {
     
     
     //Lista Observable para el manejo de phantoms
-    private ObservableList <Radionuclido> radionuclidoData = FXCollections.observableArrayList();;
+    private ObservableList <Radionuclido> radionuclidoData = FXCollections.observableArrayList();
     //Lista Observable para el manejo de la informacion de los radionuclidos. 
-    private ObservableList <ValorDescripcion> infoRadNuclido = FXCollections.observableArrayList();;
+    private ObservableList <ValorDescripcion> infoRadNuclido = FXCollections.observableArrayList();
     // Stage auxiliar. 
     private Stage primaryStage;
            
@@ -115,15 +117,14 @@ public class RadionuclidoController implements Initializable {
     {  
         
         FuncionesGenerales.setRadioNuclidoActual(radionuclidoActual);
-        //btnEditar.setDisable(false);
         if (radionuclidoActual != null)
         {
             infoRadNuclido = radionuclidoActual.getPropiedades();
             griInfoRadNuclido.setItems(infoRadNuclido);
             //Prendo botones.
-            //btnEliminarItem.setDisable(false);
+            
             btnAgregarItem.setDisable(false);
-            //btnEditarItem.setDisable(false);
+            
             
         } else {
             //TODO Si no se selecciona un radionuclido desde la lista. 
@@ -218,12 +219,12 @@ public class RadionuclidoController implements Initializable {
 
         } else {
             // No se selecciono ningun item. 
-            /*Alert alert = new Alert(AlertType.WARNING);
+            Alert alert = new Alert(AlertType.WARNING);
             alert.setTitle("Error!");
             alert.setHeaderText("Error!");
-            alert.setContentText("Debe seleccionar un item para modificar");
+            alert.setContentText("No existe item para modificar");
 
-            alert.showAndWait();*/
+            alert.showAndWait();
 
         }
     }
@@ -234,9 +235,24 @@ public class RadionuclidoController implements Initializable {
     @FXML
     public void btnEliminarItem (){
          int selectedIndex = griInfoRadNuclido.getSelectionModel().getSelectedIndex();
+         String mensaje = griInfoRadNuclido.getSelectionModel().getSelectedItem().getDescripcion() + "  " +
+                           griInfoRadNuclido.getSelectionModel().getSelectedItem().getValor() + "  " + 
+                            griInfoRadNuclido.getSelectionModel().getSelectedItem().getUnidad();
             if (selectedIndex >= 0) {
-                    griInfoRadNuclido.getItems().remove(selectedIndex);
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Eliminar Item");
+                alert.setHeaderText("Atención!");
+                alert.setContentText("Esta seguro que desea eliminar el item seleccionado? \n"+mensaje);
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.get() == ButtonType.OK){
+                    griInfoRadNuclido.getItems().remove(selectedIndex);griInfoRadNuclido.getItems().remove(selectedIndex);
                     //Llamada BD para la eliminacion. 
+                    //Llamada BD para la eliminacion. 
+                    
+                } else {
+
+                }
+                
             } else {
                 // No se selecciono ningun item. 
                 Alert alert = new Alert(AlertType.WARNING);
@@ -247,19 +263,23 @@ public class RadionuclidoController implements Initializable {
                 alert.showAndWait();
             }
     }
-    
+     
+    /**
+     * Metodo que controla el comportamiento del boton modificar item.
+     */
     @FXML
     public void btnAgregarItem (){
          
        Radionuclido auxRadionuclido = FuncionesGenerales.getRadioNuclidoActual();
        ValorDescripcion itemRadionuclido = new ValorDescripcion (null,0,null); 
        boolean guardarCambiosClicked = mostrarItemRadionuclidoEditDialog(itemRadionuclido);
- 
-                    if (infoRadNuclido != null){
-                        infoRadNuclido.add(itemRadionuclido);
-                        auxRadionuclido.setPropiedades(infoRadNuclido);
-                        ConsultasDB.modificarRadionuclido(auxRadionuclido, griRadionuclido.getSelectionModel().getSelectedIndex());
-                    }
+                    
+        if (guardarCambiosClicked){
+            infoRadNuclido.add(itemRadionuclido);
+            auxRadionuclido.setPropiedades(infoRadNuclido);
+            ConsultasDB.modificarRadionuclido(auxRadionuclido, griRadionuclido.getSelectionModel().getSelectedIndex());
+
+        }
                         
                                       
     }

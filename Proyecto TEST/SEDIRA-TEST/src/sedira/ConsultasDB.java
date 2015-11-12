@@ -120,7 +120,7 @@ public class ConsultasDB {
     public static void AgregarPhantom(Phantom phantom){
         
         phantomData.add(phantom);
-        System.out.print(phantomData.size());
+        //System.out.print(phantomData.size());
                 
     }
     
@@ -157,11 +157,20 @@ public class ConsultasDB {
     }
     /**
      * Metodo que modifica un radionuclido ya almacenado. 
-     * @param radionuclido
-     * @param index 
+     * @param radionuclido a modificar
+     * @param index  indice del phantom a modificar. 
      */
     public static void modificarRadionuclido (Radionuclido radionuclido, int index){
         radionuclidoData.set(index, radionuclido);
+    }
+    /**
+     * Metodo que modifica un Phantom ya almacenado
+     * @param phantom a modificar
+     * @param index indice del phantom a modificar. 
+     */
+    public static void modificarPhantom (Phantom phantom, int index){
+        phantomData.set(index, phantom);
+        
     }
     
      

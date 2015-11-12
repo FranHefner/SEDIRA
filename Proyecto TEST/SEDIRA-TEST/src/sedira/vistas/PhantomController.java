@@ -7,13 +7,18 @@ package sedira.vistas;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -27,6 +32,7 @@ import sedira.model.Organo;
 import sedira.model.ValorDescripcion;
 import sedira.model.Phantom;
 import sedira.AplicacionPrincipal;
+import sedira.model.Radionuclido;
 
 
 /**
@@ -66,12 +72,25 @@ public class PhantomController  implements Initializable  {
     @FXML
     private TextField txtCampoBusqueda;
     
+    @FXML
+    private Button btnModificarItem;
+    @FXML
+    private Button btnAgregarItem;
+    @FXML
+    private Button btnEliminarItem;
+    @FXML
+    private Button btnAgregarOrgano;
+    @FXML
+    private Button btnEliminarOrgano;
+    @FXML
+    private Button btnModificarOrgano;
+       
     //Lista Observable para el manejo de phantoms
-    private ObservableList <Phantom> phantomData; // ConsultasDB.iniciarPhantomsDefecto();; 
+    private ObservableList <Phantom> phantomData = FXCollections.observableArrayList();
     //Lista Observable para el manejo de organos
-    public static ObservableList <Organo> organosData;
-    //Lista Observable para el manejo de phantoms
-    public static ObservableList <ValorDescripcion> listaPropiedadValor;
+    private ObservableList <Organo> organosData = FXCollections.observableArrayList();
+    //Lista Observable para el manejo de la informacion de los phantoms
+    private ObservableList <ValorDescripcion> listaPropiedadValor = FXCollections.observableArrayList();
     
     private AplicacionPrincipal aplicacionPrincipal;
     private Stage primaryStage;
@@ -171,7 +190,41 @@ public class PhantomController  implements Initializable  {
         
         
     }
-    
+    public boolean mostrarItemPhantomEditDialog (ValorDescripcion itemPhantom){
+        
+        // cargo el nuevo FXML para crear un ventana tipo PopUp
+
+        try {
+
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(PhantomController.class.getResource("AbmPhantom.fxml"));
+            AnchorPane page = (AnchorPane) loader.load();
+
+            // Creo el Stage para el Dialogo Editar. 
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Modificar items ");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(primaryStage);
+            Scene scene = new Scene(page);
+            dialogStage.setScene(scene);
+
+                // setea el Phantom dentro del controlador AbmPhantomController. .
+            AbmPhantomController controladorAbmPhantom = loader.getController();
+            controladorAbmPhantom.setDialogStage(dialogStage);
+            controladorAbmPhantom.setItemPhantom(itemPhantom);
+
+            // Muestra el formulario y espera hasta que el usuario lo cierre. 
+            dialogStage.showAndWait();
+
+            //Return
+            return controladorAbmPhantom.isGuardarDatosClicked();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+        
+        
+    }
     public boolean mostrarOrganoEditDialog (Phantom phantom){
         
         // cargo el nuevo FXML para crear un ventana tipo PopUp
@@ -209,6 +262,8 @@ public class PhantomController  implements Initializable  {
         
        
     }
+    
+    
           
     /**
      * Al buscar el phantom , los muestra en la lista para su seleccion. 
@@ -223,9 +278,10 @@ public class PhantomController  implements Initializable  {
      * @param phantomActual 
      */
     public void seleccionPhantom(Phantom phantomActual) 
-    {  
+    {   
+        FuncionesGenerales.setPhantomActual(phantomActual);
         btnEditarPhantom.setDisable(false);
-        btnEditarOrganos.setDisable(false);
+      
         if (phantomActual != null)
         {
             organosData =  phantomActual.getOrgano();     
@@ -234,7 +290,7 @@ public class PhantomController  implements Initializable  {
             griValorDescripcionPhantom.setItems(listaPropiedadValor);
             System.out.print(griPhantom.getSelectionModel().getSelectedIndex());
         } else {
-        
+         //Todo si no se selecciona ningun phantom de la lista
         
       
         }
@@ -268,42 +324,165 @@ public class PhantomController  implements Initializable  {
      */
     @FXML
     public void btnNuevoPhantom_click () {
-		Phantom tempPhantom = new Phantom(-1,"",null,null);
-		boolean guardarCambiosClicked = mostrarPhantomEditDialog(tempPhantom);
-		if (guardarCambiosClicked) {
-			ConsultasDB.phantomData = ConsultasDB.ObtenerPhantoms();
-                        ConsultasDB.AgregarPhantom(tempPhantom);
-		}
+        Phantom tempPhantom = new Phantom(-1,"",null,null);
+        boolean guardarCambiosClicked = mostrarPhantomEditDialog(tempPhantom);
+        if (guardarCambiosClicked) {
+                ConsultasDB.phantomData = ConsultasDB.ObtenerPhantoms();
+                ConsultasDB.AgregarPhantom(tempPhantom);
+        }
     }
     
     /**
-     * Metodo para el comportamiento al seleccionar un item de la lista de organos. 
+     * Metodo que controla el comportamiento del boton Agregar Organo.
      */
     @FXML
-    public void griSeleccionarOrgano(){
-        btnEditarOrganos.setDisable(false);
-    }
-    
-    /**
-     * Metodo para el comportamiento del boton Editar Organo. 
-     * @throws IOException 
-     */
-    @FXML
-    public void btnEditarOrgano_click (){
-        Phantom selectedPhantom = griPhantom.getSelectionModel().getSelectedItem();
-            
+    public void btnAgregarOrgano (){
+         
+       Phantom selectedPhantom = FuncionesGenerales.getPhantomActual();
         if (selectedPhantom != null) {
                 boolean guardarCambiosClicked = mostrarOrganoEditDialog(selectedPhantom);
                 if (guardarCambiosClicked) {
-                        //showPersonDetails(selectedPhantom);
+                   // ConsultasDB.modificarPhantom(selectedPhantom,griValorDescripcionPhantom.getSelectionModel().getSelectedIndex() );    
                 }
 
         } else {
                 // Nothing selected.
 
         }
+                                   
     }
     
+     /**
+     * Metodo que controla el comportamiento del boton Eliminar Organo.
+     */
+    @FXML
+    public void btnEliminarOrgano (){
+         int selectedIndex = griOrgano.getSelectionModel().getSelectedIndex();
+         String mensaje = griOrgano.getSelectionModel().getSelectedItem().getNombreOrgano()+ "  " +
+                           griOrgano.getSelectionModel().getSelectedItem().getOrganMass();
+            if (selectedIndex >= 0) {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Eliminar Item");
+                alert.setHeaderText("Atención!");
+                alert.setContentText("Esta seguro que desea eliminar el item seleccionado? \n"+mensaje);
+                
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.get() == ButtonType.OK){
+                    griOrgano.getItems().remove(selectedIndex);
+                    //Llamada BD para la eliminacion. 
+                    
+                } else {
+
+                }
+                    
+            } else {
+                // No se selecciono ningun item. 
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Error!");
+                alert.setHeaderText("Error!");
+                alert.setContentText("No hay items para eliminar");
+
+                alert.showAndWait();
+            }
+                                    
+    }
+    /**
+     * Metodo que controla el comportamiento del boton Quitar Item. 
+     */
+    @FXML
+    public void btnEliminarItem (){
+         int selectedIndex = griValorDescripcionPhantom.getSelectionModel().getSelectedIndex();
+         String mensaje = griValorDescripcionPhantom.getSelectionModel().getSelectedItem().getDescripcion() + "  " +
+                           griValorDescripcionPhantom.getSelectionModel().getSelectedItem().getValor() + "  " + 
+                            griValorDescripcionPhantom.getSelectionModel().getSelectedItem().getUnidad();
+            if (selectedIndex >= 0) {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Eliminar Item");
+                alert.setHeaderText("Atención!");
+                alert.setContentText("Esta seguro que desea eliminar el item seleccionado? \n"+mensaje);
+                
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.get() == ButtonType.OK){
+                    griValorDescripcionPhantom.getItems().remove(selectedIndex);
+                    //Llamada BD para la eliminacion. 
+                    
+                } else {
+
+                }
+                    
+            } else {
+                // No se selecciono ningun item. 
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Error!");
+                alert.setHeaderText("Error!");
+                alert.setContentText("No hay items para eliminar");
+
+                alert.showAndWait();
+            }
+    }
+    /**
+     * Metodo que controla el comportamiento del boton modificar item.
+     */
+    @FXML
+    public void btnAgregarItem (){
+         
+       Phantom auxPhantom = FuncionesGenerales.getPhantomActual();
+       ValorDescripcion itemPhantom = new ValorDescripcion (null,0,null); 
+       boolean guardarCambiosClicked = mostrarItemPhantomEditDialog(itemPhantom);
+                    
+        if (guardarCambiosClicked){
+            listaPropiedadValor.add(itemPhantom);
+            auxPhantom.setPropiedades(listaPropiedadValor);
+            ConsultasDB.modificarPhantom(auxPhantom,griValorDescripcionPhantom.getSelectionModel().getSelectedIndex() );
+        }
+                        
+                                      
+    }
+    /**
+     * Metodo para el comportamiento del boton editar. Abre un dialogo para la edicion del RadioNuclido. 
+     */
+    @FXML
+    public void btnModificarItem (){
+        //Radionuclido selectedRadNuclido = griRadionuclido.getSelectionModel().getSelectedItem();
+        ValorDescripcion selectedItem = griValorDescripcionPhantom.getSelectionModel().getSelectedItem();
+        if (selectedItem != null) {
+                boolean guardarCambiosClicked = mostrarItemPhantomEditDialog(selectedItem);
+                  
+                if (guardarCambiosClicked) {
+                        
+                }
+
+        } else {
+           // No se selecciono ningun item. 
+            Alert alert = new Alert(AlertType.WARNING);
+            alert.setTitle("Error!");
+            alert.setHeaderText("Error!");
+            alert.setContentText("No existe item para modificar");
+
+            alert.showAndWait();
+
+        }
+    }
+     
+    @FXML
+    public void getSelectedItemFromTabla(){
+        ValorDescripcion selectedItem = griValorDescripcionPhantom.getSelectionModel().getSelectedItem();
+        if (selectedItem != null) {
+            btnEliminarItem.setDisable(false);
+            btnModificarItem.setDisable(false);
+        }
+        
+    }   
     
+    @FXML
+    public void getSelectedItemFromTablaOrgano(){
+        Organo selectedItem = griOrgano.getSelectionModel().getSelectedItem();
+        if (selectedItem != null){
+            btnEliminarItem.setDisable(false);
+            btnModificarItem.setDisable(false);
+        }
+        
+    }     
+   
    
 }

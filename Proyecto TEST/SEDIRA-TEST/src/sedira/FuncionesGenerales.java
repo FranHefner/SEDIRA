@@ -41,6 +41,21 @@ public class FuncionesGenerales {
     public static Radionuclido getRadioNuclidoActual (){
         return radionuclidoActual;
     }
+    /**
+     * Metodo GetTer para phantomActual
+     * @return phantom actual
+     */
+    public static Phantom getPhantomActual() {
+        return phantomActual;
+    }
+    /**
+     * Metodo SetTer para phantomActual.
+     */
+    public static void setPhantomActual(Phantom phantom) {
+        phantomActual = phantom;
+    }
+    
+    
     
    /**
     * Funcion que recibe una lista observable de pacientes, una TableView y retorna una lista 
@@ -177,6 +192,7 @@ public class FuncionesGenerales {
         tablaOrgano.setItems(organo);
        
     }
+    
    
         
 }

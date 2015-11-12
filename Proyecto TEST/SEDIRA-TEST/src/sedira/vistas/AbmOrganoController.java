@@ -6,12 +6,15 @@
 package sedira.vistas;
 
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -36,19 +39,10 @@ public class AbmOrganoController implements Initializable {
     @FXML 
     private TextField txtOrganoMasa;
     
-    @FXML
-    private TableView <Organo> griOrgano;
-    @FXML
-    private TableColumn <Organo, String> clOrganoNombre;
-    @FXML
-    private TableColumn <Organo, String> clOrganoMasa;
     
     @FXML
     private Button btnLimpiarValores;
-    @FXML
-    private Button btnAgregarOrgano;
-    @FXML
-    private Button btnQuitarOrgano;
+    
     @FXML
     private Button btnGuardarCambios;
     @FXML
@@ -74,21 +68,7 @@ public class AbmOrganoController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
       //Inicializo los botones. 
-        btnLimpiarValores.setDisable(true);
-        btnQuitarOrgano.setDisable(true);
-        
-      // Inicializo la tabla de Organos
-        clOrganoNombre.setCellValueFactory(
-                cellData -> cellData.getValue().getNombreOrganoProperty());
-        clOrganoMasa.setCellValueFactory(
-                cellData -> cellData.getValue().getOrganMassProperty().asString());
        
-        // Limpieza de los detalles de organos. 
-        FuncionesGenerales.mostrarDetalleOrgano(null, griOrgano);
-        
-        //Listener para la seleccion del organo en la lista de organos que tiene un phantom. 
-         griOrgano.getSelectionModel().selectedItemProperty().addListener(
-            (observable, oldValue, newValue) -> mostrarDetalleSeleccion(newValue));     
     }  
     /**
      * Setea el Stage para este Formulario o Dialog. 
@@ -111,10 +91,10 @@ public class AbmOrganoController implements Initializable {
             /**
              * Obtiente el Phantom seleccionado en la busqueda del formulario phantom.fxml
              */
-            griOrgano.setItems(phantom.getOrgano());
+           
             //Prendo los botones
             btnLimpiarValores.setDisable(false);
-            btnAgregarOrgano.setDisable(false);
+          
         
         } else {
            
@@ -129,7 +109,7 @@ public class AbmOrganoController implements Initializable {
      */
     @FXML
     public void mostrarDetalleSeleccion (Organo organo){
-        btnQuitarOrgano.setDisable(false);
+       
         //btnQuitar.setDisable(false);
         if (organo != null){
           
@@ -161,44 +141,27 @@ public class AbmOrganoController implements Initializable {
            phantom.setOrgano(organo);
        }
        
-       //lo muestro en la tabla
-       FuncionesGenerales.mostrarDetalleOrgano(phantom.getOrgano(),griOrgano);
-       //Limpio los valores en los textField para el nuevo agregado
+      
        btnLimpiarValores();
     }
     
-    /**
-     * Metodo que controla la eliminacion de items en la tabla de organos. 
-     */
-    @FXML
-    public  void btnQuitar() {
-        int selectedIndex = griOrgano.getSelectionModel().getSelectedIndex();
-            if (selectedIndex >= 0) {
-                    griOrgano.getItems().remove(selectedIndex);
-                    btnLimpiarValores();
-            } else { //TODO 
-                    // Nothing selected.
-                   /* Dialogs.create()
-                    .title("No Selection")
-                    .masthead("No Person Selected")
-                    .message("Please select a person in the table.")
-                    .showWarning();*/
-            }
+          
         
-                 
-        
-    }        
+            
 
     /**
      * Metodo llamado al momento de que el usuario presiona Guardar datos .
      */
     @FXML
     public  void btnGuardarDatos() {
-        // TODO: VALIDACIONES.  
-        // la llamada a la db se realiza desde PhantomController.  
-              
-        guardarDatos = true;
-        dialogStage.close();
+       // TODO: VALIDACIONES.  
+        // La llamada a la base de datos se realiza desde PhantomController. Editar/Nuevo
+            if (validarDatosEntrada()){
+                
+                guardarDatos = true;
+                dialogStage.close();
+            }
+                
     }
      /**
      * Metodo que retorna si el usuario presiono el boton Guardar Datos. 
@@ -208,12 +171,22 @@ public class AbmOrganoController implements Initializable {
         return this.guardarDatos;
     }
     
-     /**
+    /**
      * Metodo que se llama al presionar el boton cancelar. 
      */
     @FXML
-    private void btnCancel() {
-        dialogStage.close();
+    public void btnCancel_click() {
+         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Cancelar edición");
+        alert.setHeaderText("Atención!");
+        alert.setContentText("Esta seguro de cancelar la edición del órgano? ");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK){
+            dialogStage.close();
+        } else {
+            
+        }
     }
     
     /**
@@ -226,5 +199,45 @@ public class AbmOrganoController implements Initializable {
     txtOrganoMasa.setText("");
     
     }
-   
+    /**
+     * Validacion de los datos de entrada para Organos. 
+     * @return 
+     */
+    public boolean validarDatosEntrada (){
+        String mensajeError = "";
+            if (txtOrganoNombre.getText()== null || txtOrganoNombre.getText().length() == 0){
+                mensajeError+= "Nombre del órgano Invalido!";
+            }
+        
+            if (txtOrganoMasa.getText() == null || txtOrganoMasa.getText().length() == 0 ){
+                mensajeError += "Valor invalido! \n";
+            } else {
+                if (Double.valueOf(txtOrganoMasa.getText()) == 0.0){
+                mensajeError += "Adventencia - Valor = 0.0 \n";
+                 } else {
+                //trato de parsear el valor como un double. 
+                try{
+                    Double.parseDouble(txtOrganoMasa.getText());
+                } catch (NumberFormatException e){
+                    mensajeError+= "El atributo valor debe ser un número real!\n";
+                    }
+                }   
+              
+        }
+        // TODO validacion Unidad. 
+         
+        if (mensajeError.length() == 0){
+            return true;
+        }else{
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error!");
+            alert.setHeaderText("Existe un error en los siguientes campos:");
+            alert.setContentText(mensajeError);
+
+            alert.showAndWait();
+            return false;
+        }
+        
+    }
+    
 }

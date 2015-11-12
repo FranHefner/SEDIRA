@@ -179,7 +179,8 @@ public class AbmRadionuclidoController implements Initializable {
      * Metodo que se llama al presionar el boton cancelar. 
      */
     @FXML
-    private void btnCancel_click() {
+    public void btnCancel_click() {
+        
         Alert alert = new Alert(AlertType.CONFIRMATION);
         alert.setTitle("Cancelar edición");
         alert.setHeaderText("Atención!");
@@ -190,7 +191,7 @@ public class AbmRadionuclidoController implements Initializable {
             dialogStage.close();
         } else {
             
-}
+        }
              
        
     }
@@ -199,7 +200,7 @@ public class AbmRadionuclidoController implements Initializable {
      * limpia los datos agregados en los textFields del formulario. 
      */
     @FXML
-    private void btnLimpiarValores_click(){
+    public void btnLimpiarValores_click(){
     txtUnidad.setText("");
     txtPropiedad.setText("");
     txtValor.setText("");
@@ -235,7 +236,7 @@ public class AbmRadionuclidoController implements Initializable {
             }   
         }
         // TODO validacion Unidad. 
-        // TODo validacion crearRadionuclido. 
+         
         if (mensajeError.length() == 0){
             return true;
         }else{
