@@ -26,7 +26,18 @@ public class FuncionesGenerales {
     //Objeto de tipo Phantom auxiliar. 
         public static Phantom phantomActual;
         public static Radionuclido radionuclidoActual;
+        public static int indice;
+
     
+    public static int getIndice() {
+        return indice;
+    }
+
+    public static void setIndice(int indice) {
+        FuncionesGenerales.indice = indice;
+    }
+    
+        
     /**
      * Metodo SetTer para el radionuclido actual. 
      * @param radionuclido 

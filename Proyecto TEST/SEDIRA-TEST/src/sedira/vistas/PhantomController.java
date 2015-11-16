@@ -14,6 +14,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -22,6 +23,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -190,6 +192,43 @@ public class PhantomController  implements Initializable  {
         
         
     }
+    
+    public boolean mostrarEditaNombreDialog (Phantom phantom){
+        
+        // cargo el nuevo FXML para crear un ventana tipo PopUp
+
+        try {
+
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(PhantomController.class.getResource("EditaNombre.fxml"));
+            AnchorPane page = (AnchorPane) loader.load();
+
+            // Creo el Stage para el Dialogo Editar. 
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Editar");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(primaryStage);
+            Scene scene = new Scene(page);
+            dialogStage.setScene(scene);
+
+                // Pone el organo en el controlador AbmOrganoController. 
+            EditaNombreController controlador = loader.getController();
+            controlador.setDialogStage(dialogStage);
+            // le paso el Phantom porque los phantom son los que contienen organos. 
+            //controladorAbmOrgano.setPhantom(phantom);
+
+            // Muestra el formulario y espera hasta que el usuario lo cierre. 
+            dialogStage.showAndWait();
+            //Return
+            return controlador.isGuardarDatosClicked();
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        } 
+        
+    }
+    
     public boolean mostrarItemPhantomEditDialog (ValorDescripcion itemPhantom){
         
         // cargo el nuevo FXML para crear un ventana tipo PopUp
@@ -225,6 +264,12 @@ public class PhantomController  implements Initializable  {
         
         
     }
+      
+    /**
+     * Muestra el Formulario para la edicion de un organo. 
+     * @param phantom
+     * @return 
+     */
     public boolean mostrarOrganoEditDialog (Phantom phantom){
         
         // cargo el nuevo FXML para crear un ventana tipo PopUp
@@ -280,6 +325,7 @@ public class PhantomController  implements Initializable  {
     public void seleccionPhantom(Phantom phantomActual) 
     {   
         FuncionesGenerales.setPhantomActual(phantomActual);
+        FuncionesGenerales.setIndice(griPhantom.getSelectionModel().getSelectedIndex());
         btnEditarPhantom.setDisable(false);
       
         if (phantomActual != null)
@@ -299,23 +345,15 @@ public class PhantomController  implements Initializable  {
      * Metodo para el comportamiento del boton editar. Abre un dialogo para la edicion del Phantom. 
      */
     @FXML
-    public void btnEditarPhantom_click (){
-        Phantom selectedPhantom = griPhantom.getSelectionModel().getSelectedItem();
-            
-        if (selectedPhantom != null) {
-                boolean guardarCambiosClicked = mostrarPhantomEditDialog(selectedPhantom);
-                if (guardarCambiosClicked) {
-                        //seleccionPhantom(selectedPhantom);
-                }
-
-        } else {
-                // Nothing selected. TODO Control por la No seleccion. 
-
+    public void btnEditarPhantom_click () throws IOException{
+        Phantom phantom = FuncionesGenerales.getPhantomActual();
+        int index = griPhantom.getSelectionModel().getSelectedIndex();
+        boolean guardarCambiosClicked = mostrarEditaNombreDialog(phantom);
+                    
+        if (guardarCambiosClicked){
+            ConsultasDB.modificarPhantom(phantom,index);
         }
-        //TODO. Actualizar la lista de atributos de phantom y de organos una vez cerrada 
-        // las ventanas de edicion y nuevo. 
-        
-       
+               
     }
     
    
