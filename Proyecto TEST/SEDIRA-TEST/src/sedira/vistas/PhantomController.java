@@ -215,7 +215,7 @@ public class PhantomController  implements Initializable  {
             EditaNombreController controlador = loader.getController();
             controlador.setDialogStage(dialogStage);
             // le paso el Phantom porque los phantom son los que contienen organos. 
-            //controladorAbmOrgano.setPhantom(phantom);
+            controlador.setPhantom(phantom);
 
             // Muestra el formulario y espera hasta que el usuario lo cierre. 
             dialogStage.showAndWait();
@@ -363,9 +363,11 @@ public class PhantomController  implements Initializable  {
     @FXML
     public void btnNuevoPhantom_click () {
         Phantom tempPhantom = new Phantom(-1,"",null,null);
-        boolean guardarCambiosClicked = mostrarPhantomEditDialog(tempPhantom);
+        boolean guardarCambiosClicked = mostrarEditaNombreDialog(tempPhantom);
         if (guardarCambiosClicked) {
-                ConsultasDB.phantomData = ConsultasDB.ObtenerPhantoms();
+                tempPhantom.setIdPhantom(ConsultasDB.getNewIdPhantom());
+                tempPhantom.setPropiedades(listaPropiedadValor);
+                tempPhantom.setOrgano(organosData);
                 ConsultasDB.AgregarPhantom(tempPhantom);
         }
     }

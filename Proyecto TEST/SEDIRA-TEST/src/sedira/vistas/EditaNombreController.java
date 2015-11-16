@@ -41,6 +41,7 @@ public class EditaNombreController implements Initializable {
     @FXML
     private Stage dialogStage;
     private boolean guardarDatos;
+    private Phantom phantom; 
     /**
      * Initializes the controller class.
      */
@@ -61,8 +62,6 @@ public class EditaNombreController implements Initializable {
      * Guarda el nombre del phantom editado. 
      */
     public void btnAceptar (){
-      Phantom phantom = FuncionesGenerales.getPhantomActual();
-      int index = FuncionesGenerales.getIndice();
       
       if (validarDatosEntrada()){  
          Alert alert = new Alert(AlertType.CONFIRMATION);
@@ -106,6 +105,24 @@ public class EditaNombreController implements Initializable {
      */
     public boolean isGuardarDatosClicked(){
         return this.guardarDatos;
+    }
+    public void setPhantom(Phantom phantom){
+        this.phantom = phantom;
+        
+        if (phantom.getIdPhantom() != -1){         
+           lblInformacion.setText("Editar phantom = " +phantom.getPhantomNombre());
+             
+        } else {
+            
+            //Genero un Nuevo IdPhantom.
+            lblInformacion.setText("Nuevo phantom con Id = "+ConsultasDB.getNewIdPhantom()+" ");
+            //Cambio Nombre en el formulario. 
+            this.dialogStage.setTitle("Agregar Phantom");
+            //Activo los TextField
+           
+            
+        }
+            
     }
     
     public boolean validarDatosEntrada (){

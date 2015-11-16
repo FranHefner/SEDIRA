@@ -25,7 +25,7 @@
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                      </columnResizePolicy>
                   </TableView>
-                  <Button fx:id="btnNuevoPhantom" disable="true" layoutX="157.0" layoutY="69.0" mnemonicParsing="false" onAction="#btnNuevoPhantom_click" prefHeight="25.0" prefWidth="112.0" text="Crear Phantom" />
+                  <Button fx:id="btnNuevoPhantom" layoutX="157.0" layoutY="69.0" mnemonicParsing="false" onAction="#btnNuevoPhantom_click" prefHeight="25.0" prefWidth="112.0" text="Crear Phantom" />
                   <Button fx:id="btnEditarPhantom" disable="true" layoutX="157.0" layoutY="108.0" mnemonicParsing="false" onAction="#btnEditarPhantom_click" prefHeight="25.0" prefWidth="112.0" text="Editar Phantom" />
                </children>
             </AnchorPane>
