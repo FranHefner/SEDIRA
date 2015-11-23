@@ -447,11 +447,13 @@ public class PhantomController  implements Initializable  {
      */
     @FXML
     public void btnEliminarOrgano (){
+         Organo selectedItem = griOrgano.getSelectionModel().getSelectedItem();
          int selectedIndex = griOrgano.getSelectionModel().getSelectedIndex();
          Phantom selectedPhantom = FuncionesGenerales.getPhantomActual();
-         String mensaje = griOrgano.getSelectionModel().getSelectedItem().getNombreOrgano()+ "  " +
+        
+            if (selectedItem != null) {
+                String mensaje = griOrgano.getSelectionModel().getSelectedItem().getNombreOrgano()+ "  " +
                            griOrgano.getSelectionModel().getSelectedItem().getOrganMass();
-            if (selectedIndex >= 0) {
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                 alert.setTitle("Eliminar Item");
                 alert.setHeaderText("Atención!");
@@ -482,12 +484,14 @@ public class PhantomController  implements Initializable  {
      */
     @FXML
     public void btnEliminarItem (){
-         Phantom selectedPhantom = FuncionesGenerales.getPhantomActual();
+        ValorDescripcion selectedItem = griValorDescripcionPhantom.getSelectionModel().getSelectedItem();
+        Phantom selectedPhantom = FuncionesGenerales.getPhantomActual();
          int selectedIndex = griValorDescripcionPhantom.getSelectionModel().getSelectedIndex();
-         String mensaje = griValorDescripcionPhantom.getSelectionModel().getSelectedItem().getDescripcion() + "  " +
+         
+            if (selectedItem != null) {
+                String mensaje = griValorDescripcionPhantom.getSelectionModel().getSelectedItem().getDescripcion() + "  " +
                            griValorDescripcionPhantom.getSelectionModel().getSelectedItem().getValor() + "  " + 
                             griValorDescripcionPhantom.getSelectionModel().getSelectedItem().getUnidad();
-            if (selectedIndex >= 0) {
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                 alert.setTitle("Eliminar Item");
                 alert.setHeaderText("Atención!");
@@ -520,13 +524,16 @@ public class PhantomController  implements Initializable  {
          
        Phantom auxPhantom = FuncionesGenerales.getPhantomActual();
        ValorDescripcion itemPhantom = new ValorDescripcion (null,0,null); 
-       boolean guardarCambiosClicked = mostrarItemPhantomEditDialog(itemPhantom);
-                    
+       ValorDescripcion selectedItem = griValorDescripcionPhantom.getSelectionModel().getSelectedItem();
+       if (selectedItem != null){
+        boolean guardarCambiosClicked = mostrarItemPhantomEditDialog(itemPhantom);
         if (guardarCambiosClicked){
             listaPropiedadValor.add(itemPhantom);
             auxPhantom.setPropiedades(listaPropiedadValor);
             ConsultasDB.modificarPhantom(auxPhantom,griPhantom.getSelectionModel().getSelectedIndex() );
         }
+       }
+       
                         
                                       
     }
@@ -544,16 +551,16 @@ public class PhantomController  implements Initializable  {
                      ConsultasDB.modificarPhantom(auxPhantom,griPhantom.getSelectionModel().getSelectedIndex() );
                 }
 
-                } else {
-                   // No se selecciono ningun item. 
-                    Alert alert = new Alert(AlertType.WARNING);
-                    alert.setTitle("Error!");
-                    alert.setHeaderText("Error!");
-                    alert.setContentText("No existe item para modificar");
+        } else {
+           // No se selecciono ningun item. 
+            Alert alert = new Alert(AlertType.WARNING);
+            alert.setTitle("Error!");
+            alert.setHeaderText("Error!");
+            alert.setContentText("No existen items para modificar");
 
-                    alert.showAndWait();
+            alert.showAndWait();
 
-                }
+        }
     }
     
     @FXML
@@ -566,6 +573,16 @@ public class PhantomController  implements Initializable  {
                 //Bd Modificar Phantom
                 ConsultasDB.modificarPhantom(auxPhantom,griPhantom.getSelectionModel().getSelectedIndex() );
             }
+        }
+        else {
+           // No se selecciono ningun item. 
+            Alert alert = new Alert(AlertType.WARNING);
+            alert.setTitle("Error!");
+            alert.setHeaderText("Error!");
+            alert.setContentText("No existen items para modificar");
+
+            alert.showAndWait();
+
         }
     }
     /**
