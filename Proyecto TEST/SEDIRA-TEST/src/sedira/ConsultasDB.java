@@ -123,6 +123,7 @@ public class ConsultasDB {
         //System.out.print(phantomData.size());
                 
     }
+   
     
      /**
       * Metodo que inicializa por defecto a un radionuclido. En este caso el Yodo-131. Datos obetenidos de Wikipedia. 

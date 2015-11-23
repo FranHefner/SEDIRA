@@ -18,6 +18,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import sedira.FuncionesGenerales;
 
 import sedira.model.Organo;
 import sedira.model.Phantom;
@@ -47,8 +48,10 @@ public class AbmOrganoController implements Initializable {
     private Label phantomInfo;
     
     //******************** variables 
-    //Objeto Organo auxiliar. 
-    private ObservableList <Organo> organo = FXCollections.observableArrayList(); 
+    //Objeto ListaOrgano auxiliar. 
+    private ObservableList <Organo> listaOrgano = FXCollections.observableArrayList(); 
+    //Objeto auxiliar de tipo Organo. 
+    private Organo organo;
     //Objeto Phantom auxiliar. 
     private Phantom phantom;
     // Stage aux
@@ -82,23 +85,17 @@ public class AbmOrganoController implements Initializable {
         this.phantom = phantom;
         String aux = "Órganos pertenecientes al Phantom: " + phantom.getPhantomNombre();
         phantomInfo.setText(aux);
-        
-        if (phantom.getIdPhantom() != -1){         
-            /**
-             * Obtiente el Phantom seleccionado en la busqueda del formulario phantom.fxml
-             */
            
-            //Prendo los botones
-            btnLimpiarValores.setDisable(false);
-          
-        
-        } else {
-           
-        }
-            
-            
     }
-        
+    /**
+     * Setea el organo seleccionado en la lista de organos de un phantom para la edicion. 
+     * @param organo 
+     */
+    public void setOrgano (Organo organo){
+        this.organo = organo;
+        txtOrganoNombre.setText(this.organo.getNombreOrgano());
+        txtOrganoMasa.setText(String.valueOf(this.organo.getOrganMass()));
+    }
     /**
      * Este metodo setea en los textFields la informacion que el usuario selecciona de la tabla de organos. 
      * @param organo es el organo seleccionado desde la tabla. 
@@ -118,43 +115,34 @@ public class AbmOrganoController implements Initializable {
            
         }
     }
-    /**
-     * Metodo que controla la agregacion de items valor descripcion a la tabla de info phantoms. 
-     */
-    @FXML
-    public  void btnAgregar() {
-       Organo organoAux = new Organo(null, -1,-1);    
-       //Completo los datos en el objeto organo  con lo ingresado por el usuario. 
-       organoAux.setNombreOrgano(txtOrganoNombre.getText());
-       organoAux.setOrganMass(Double.valueOf(txtOrganoMasa.getText()));
-       //Agrego el objeto a la lista de atributos de phantom
-       if (phantom.getOrgano()!= null){
-           //el phantom no posee una lista de organos
-           phantom.getOrgano().add(organoAux);
-       } else {
-           //el phanton no posee organos asignados. organo es una lista. 
-           organo.add(organoAux);
-           phantom.setOrgano(organo);
-       }
-       
-      
-       btnLimpiarValores();
-    }
-    
-          
-        
-            
-
+     
     /**
      * Metodo llamado al momento de que el usuario presiona Guardar datos .
+     * Guarda los datos cargados por el usuario en el phantom correspondiente. 
+     * Antes, valida que los datos sean correctos. 
      */
     @FXML
     public  void btnGuardarDatos() {
-       // TODO: VALIDACIONES.  
+        Organo organoAux = new Organo(null, -1,-1);    
+        phantom = FuncionesGenerales.getPhantomActual();
+         
         // La llamada a la base de datos se realiza desde PhantomController. Editar/Nuevo
             if (validarDatosEntrada()){
                 
+                if ("Agregar Organo".equals(this.dialogStage.getTitle())){
+                    //nuevo organo se debe guardar el nombre y el id primero. 
+                    //organoAux.setIdOrgano
+                    organoAux.setNombreOrgano(txtOrganoNombre.getText());
+                    organoAux.setOrganMass(Double.valueOf(txtOrganoMasa.getText()));
+                    //Agrego a la lista de organos el organo recien creado
+                    phantom.getOrgano().add(organoAux);
+                } else {
+                    // el organo ya existe, por lo tanto se edita. 
+                    organo.setNombreOrgano(txtOrganoNombre.getText());
+                    organo.setOrganMass(Double.valueOf(txtOrganoMasa.getText()));
+                }
                 guardarDatos = true;
+                
                 dialogStage.close();
             }
                 

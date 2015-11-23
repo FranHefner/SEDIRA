@@ -115,7 +115,7 @@ public class PhantomController  implements Initializable  {
         
         //Traigo los datos de los phantoms existentes. 
         phantomData   = ConsultasDB.ObtenerPhantoms();
-        System.out.print(phantomData.size());
+        //System.out.print(phantomData.size());
         
         // Inicializo la tabla de Organos
         clOrganoNombre.setCellValueFactory(
@@ -282,7 +282,7 @@ public class PhantomController  implements Initializable  {
 
             // Creo el Stage para el Dialogo Editar. 
             Stage dialogStage = new Stage();
-            dialogStage.setTitle("Editar/Agregar Organo");
+            dialogStage.setTitle("Agregar Organo");
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.initOwner(primaryStage);
             Scene scene = new Scene(page);
@@ -307,9 +307,47 @@ public class PhantomController  implements Initializable  {
         
        
     }
-    
-    
-          
+    /**
+     * Muestra el formulario para la edicion de un organo ya creado.  
+     * @param selectedOrgano
+     * @return 
+     */
+     public boolean mostrarItemOrganoEditDialog (Organo selectedOrgano){
+        
+        // cargo el nuevo FXML para crear un ventana tipo PopUp
+
+        try {
+
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(PhantomController.class.getResource("AbmOrgano.fxml"));
+            AnchorPane page = (AnchorPane) loader.load();
+
+            // Creo el Stage para el Dialogo Editar. 
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Editar Organo");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(primaryStage);
+            Scene scene = new Scene(page);
+            dialogStage.setScene(scene);
+
+                // Pone el organo en el controlador AbmOrganoController. 
+            AbmOrganoController controladorAbmOrgano = loader.getController();
+            controladorAbmOrgano.setDialogStage(dialogStage);
+            // El paramaetro para el controlador de organos sera un Organo. 
+            controladorAbmOrgano.setOrgano(selectedOrgano);
+
+            // Muestra el formulario y espera hasta que el usuario lo cierre. 
+            dialogStage.showAndWait();
+
+            //Return
+            return controladorAbmOrgano.isGuardarDatosClicked();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+      
+    }
+     
     /**
      * Al buscar el phantom , los muestra en la lista para su seleccion. 
      */
@@ -362,12 +400,24 @@ public class PhantomController  implements Initializable  {
      */
     @FXML
     public void btnNuevoPhantom_click () {
+        /**
+         * Este metodo crea una objeto de tipo Phantom Vacio. Luyego le asigna las propiedaes
+         * y los organos que en la primer instancia tambien estan vacios. 
+         * Las propiedades y los organose se agregan posteriormente con la utilizacion de los botones. 
+         * Agregar item y Agregar organo. 
+         * 
+         */
         Phantom tempPhantom = new Phantom(-1,"",null,null);
+        //Lista Observable para el manejo de la informacion de los phantoms
+        ObservableList <ValorDescripcion> propiedadesPhantom = FXCollections.observableArrayList();
+        //Lista Observable para el manejo de los organos de los phantoms
+        ObservableList <Organo> organosPhantom = FXCollections.observableArrayList();
+        
         boolean guardarCambiosClicked = mostrarEditaNombreDialog(tempPhantom);
         if (guardarCambiosClicked) {
                 tempPhantom.setIdPhantom(ConsultasDB.getNewIdPhantom());
-                tempPhantom.setPropiedades(listaPropiedadValor);
-                tempPhantom.setOrgano(organosData);
+                tempPhantom.setPropiedades(propiedadesPhantom);
+                tempPhantom.setOrgano(organosPhantom);
                 ConsultasDB.AgregarPhantom(tempPhantom);
         }
     }
@@ -382,7 +432,7 @@ public class PhantomController  implements Initializable  {
         if (selectedPhantom != null) {
                 boolean guardarCambiosClicked = mostrarOrganoEditDialog(selectedPhantom);
                 if (guardarCambiosClicked) {
-                   // ConsultasDB.modificarPhantom(selectedPhantom,griValorDescripcionPhantom.getSelectionModel().getSelectedIndex() );    
+                    ConsultasDB.modificarPhantom(selectedPhantom,griPhantom.getSelectionModel().getSelectedIndex() );    
                 }
 
         } else {
@@ -398,6 +448,7 @@ public class PhantomController  implements Initializable  {
     @FXML
     public void btnEliminarOrgano (){
          int selectedIndex = griOrgano.getSelectionModel().getSelectedIndex();
+         Phantom selectedPhantom = FuncionesGenerales.getPhantomActual();
          String mensaje = griOrgano.getSelectionModel().getSelectedItem().getNombreOrgano()+ "  " +
                            griOrgano.getSelectionModel().getSelectedItem().getOrganMass();
             if (selectedIndex >= 0) {
@@ -409,7 +460,7 @@ public class PhantomController  implements Initializable  {
                 Optional<ButtonType> result = alert.showAndWait();
                 if (result.get() == ButtonType.OK){
                     griOrgano.getItems().remove(selectedIndex);
-                    //Llamada BD para la eliminacion. 
+                     ConsultasDB.modificarPhantom(selectedPhantom,griPhantom.getSelectionModel().getSelectedIndex() );    
                     
                 } else {
 
@@ -431,6 +482,7 @@ public class PhantomController  implements Initializable  {
      */
     @FXML
     public void btnEliminarItem (){
+         Phantom selectedPhantom = FuncionesGenerales.getPhantomActual();
          int selectedIndex = griValorDescripcionPhantom.getSelectionModel().getSelectedIndex();
          String mensaje = griValorDescripcionPhantom.getSelectionModel().getSelectedItem().getDescripcion() + "  " +
                            griValorDescripcionPhantom.getSelectionModel().getSelectedItem().getValor() + "  " + 
@@ -445,7 +497,7 @@ public class PhantomController  implements Initializable  {
                 if (result.get() == ButtonType.OK){
                     griValorDescripcionPhantom.getItems().remove(selectedIndex);
                     //Llamada BD para la eliminacion. 
-                    
+                    ConsultasDB.modificarPhantom(selectedPhantom,griPhantom.getSelectionModel().getSelectedIndex() );    
                 } else {
 
                 }
@@ -473,53 +525,85 @@ public class PhantomController  implements Initializable  {
         if (guardarCambiosClicked){
             listaPropiedadValor.add(itemPhantom);
             auxPhantom.setPropiedades(listaPropiedadValor);
-            ConsultasDB.modificarPhantom(auxPhantom,griValorDescripcionPhantom.getSelectionModel().getSelectedIndex() );
+            ConsultasDB.modificarPhantom(auxPhantom,griPhantom.getSelectionModel().getSelectedIndex() );
         }
                         
                                       
     }
     /**
-     * Metodo para el comportamiento del boton editar. Abre un dialogo para la edicion del RadioNuclido. 
+     * Metodo para el comportamiento del boton editar. Abre un dialogo para la edicion de un atributo del Phantom. 
      */
     @FXML
     public void btnModificarItem (){
-        //Radionuclido selectedRadNuclido = griRadionuclido.getSelectionModel().getSelectedItem();
+        Phantom auxPhantom = FuncionesGenerales.getPhantomActual();
         ValorDescripcion selectedItem = griValorDescripcionPhantom.getSelectionModel().getSelectedItem();
         if (selectedItem != null) {
                 boolean guardarCambiosClicked = mostrarItemPhantomEditDialog(selectedItem);
                   
                 if (guardarCambiosClicked) {
-                        
+                     ConsultasDB.modificarPhantom(auxPhantom,griPhantom.getSelectionModel().getSelectedIndex() );
                 }
 
-        } else {
-           // No se selecciono ningun item. 
-            Alert alert = new Alert(AlertType.WARNING);
-            alert.setTitle("Error!");
-            alert.setHeaderText("Error!");
-            alert.setContentText("No existe item para modificar");
+                } else {
+                   // No se selecciono ningun item. 
+                    Alert alert = new Alert(AlertType.WARNING);
+                    alert.setTitle("Error!");
+                    alert.setHeaderText("Error!");
+                    alert.setContentText("No existe item para modificar");
 
-            alert.showAndWait();
+                    alert.showAndWait();
 
+                }
+    }
+    
+    @FXML
+    public void btnModificarOrgano (){
+        Phantom auxPhantom = FuncionesGenerales.getPhantomActual();
+        Organo selectedOrgano = griOrgano.getSelectionModel().getSelectedItem();
+        if (selectedOrgano != null){
+            boolean guardarCambiosClicked = mostrarItemOrganoEditDialog (selectedOrgano);
+            if (guardarCambiosClicked){
+                //Bd Modificar Phantom
+                ConsultasDB.modificarPhantom(auxPhantom,griPhantom.getSelectionModel().getSelectedIndex() );
+            }
         }
     }
-     
+    /**
+     * Metodo para el control de botones. 
+     */
+    @FXML
+    public void getSelectedPhantom(){
+        Phantom phantom = griPhantom.getSelectionModel().getSelectedItem();
+        if (phantom != null) {
+            btnAgregarItem.setDisable(false);
+            btnAgregarOrgano.setDisable(false);
+        }
+    }
+    /**
+     * Metodo para el control de los botones. 
+     */
     @FXML
     public void getSelectedItemFromTabla(){
+        
         ValorDescripcion selectedItem = griValorDescripcionPhantom.getSelectionModel().getSelectedItem();
         if (selectedItem != null) {
             btnEliminarItem.setDisable(false);
             btnModificarItem.setDisable(false);
-        }
-        
+        } 
+            
     }   
-    
+    /**
+     * Metodo para el control de los botones. 
+     */
     @FXML
     public void getSelectedItemFromTablaOrgano(){
         Organo selectedItem = griOrgano.getSelectionModel().getSelectedItem();
         if (selectedItem != null){
-            btnEliminarItem.setDisable(false);
-            btnModificarItem.setDisable(false);
+            btnEliminarOrgano.setDisable(false);
+            btnModificarOrgano.setDisable(false);
+        } else {
+            btnEliminarOrgano.setDisable(true);
+            btnModificarOrgano.setDisable(true);
         }
         
     }     

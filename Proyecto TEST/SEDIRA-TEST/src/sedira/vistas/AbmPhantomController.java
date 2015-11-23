@@ -147,8 +147,8 @@ public class AbmPhantomController implements Initializable {
                         phantom.setPhantomNombre(txtNombrePhantom.getText());
                         phantom.setPropiedades(listaAtributoPhantom);
                     }  else { 
-                        //Modificacion del un radionuclido existente. 
-                        //Si se necesita opcion de modificar el nombre de un radionuclido. 
+                        //Modificacion del un Phantom existente. 
+                        //Si se necesita opcion de modificar el nombre de un phantom. 
                         //Comparar el nombre del dialogStage. Armar un CASE 
 
                         itemPhantom.setDescripcion(txtPropiedad.getText());
