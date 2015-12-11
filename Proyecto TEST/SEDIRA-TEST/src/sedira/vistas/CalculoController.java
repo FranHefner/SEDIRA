@@ -104,8 +104,7 @@ public class CalculoController implements Initializable {
     
      @FXML
     private void btnSiguiente_click() throws IOException
-    { 
-        
+    {        
        
       System.out.print(tabPhantom.getId());
        System.out.print(tabOrganoTejido.getId());
