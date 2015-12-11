@@ -14,11 +14,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -64,9 +67,7 @@ public class CalculoController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-             
-    
-           
+                        
         try { 
              Node NodoPhantom;
             NodoPhantom = (Node)FXMLLoader.load(getClass().getResource("PestañaPhantom.fxml"));
@@ -97,6 +98,30 @@ public class CalculoController implements Initializable {
     public void setChoiceOrgano(){
         //organoController.initListaOrgano();
         
+    }
+    
+   
+    
+     @FXML
+    private void btnSiguiente_click() throws IOException
+    { 
+        
+       
+      System.out.print(tabPhantom.getId());
+       System.out.print(tabOrganoTejido.getId());
+      
+      // tabPhantom.getId();
+       
+    }
+     @FXML
+    private void btnAtras_click() throws IOException
+    { 
+       
+    }
+     @FXML
+     private void btnCancelar_click() throws IOException
+    { 
+       
     }
     
 }

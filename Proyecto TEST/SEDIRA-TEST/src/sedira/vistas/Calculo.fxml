@@ -18,7 +18,7 @@
                <children>
                   <TabPane fx:id="tabPaneCalculo" layoutY="51.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="222.0" prefWidth="601.0" tabClosingPolicy="UNAVAILABLE" tabMinHeight="30.0" tabMinWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <tabs>
-                      <Tab fx:id="tabPaciente" text="Paciente">
+                      <Tab id="1" fx:id="tabPaciente" text="Paciente">
                            <content>
                               <AnchorPane prefHeight="321.0" prefWidth="700.0">
                                  <children>
@@ -27,7 +27,7 @@
                               </AnchorPane>
                            </content>
                       </Tab>
-                      <Tab fx:id="tabPhantom" text="Phantom">
+                      <Tab id="2" fx:id="tabPhantom" disable="true" text="Phantom">
                            <content>
                               <AnchorPane prefHeight="200.0" prefWidth="200.0">
                                  <children>
@@ -36,7 +36,7 @@
                               </AnchorPane>
                            </content>
                         </Tab>
-                        <Tab fx:id="tabOrganoTejido" onSelectionChanged="#setChoiceOrgano" text="Organo / Tejido">
+                        <Tab id="3" fx:id="tabOrganoTejido" disable="true" onSelectionChanged="#setChoiceOrgano" text="Organo / Tejido">
                           <content>
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
@@ -45,7 +45,7 @@
                               </AnchorPane>
                           </content>
                         </Tab>
-                        <Tab text="Radionúclido">
+                        <Tab id="4" disable="true" text="Radionúclido">
                           <content>
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
@@ -53,7 +53,7 @@
                                  </children></AnchorPane>
                           </content>
                         </Tab>
-                        <Tab fx:id="tabCalcular" text="Cálculo">
+                        <Tab id="5" fx:id="tabCalcular" disable="true" text="Cálculo">
                           <content>
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
@@ -72,7 +72,7 @@
                   <Pane layoutX="119.0" prefHeight="52.0" prefWidth="444.0">
                      <children>
                         <Button layoutX="14.0" layoutY="8.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="117.0" text="Atras" />
-                        <Button layoutX="175.0" layoutY="8.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="117.0" text="Siguiente" />
+                        <Button layoutX="164.0" layoutY="8.0" mnemonicParsing="false" onMouseClicked="#btnSiguiente_click" prefHeight="36.0" prefWidth="117.0" text="Siguiente" />
                         <Button layoutX="313.0" layoutY="8.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="117.0" text="Cancelar" />
                      </children>
                   </Pane>

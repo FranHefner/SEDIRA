@@ -15,12 +15,29 @@ import sedira.model.Paciente;
 public class DatosValidacionesCalculo {
     
     
-        public static Calculo CalculoActual;
-        public static Paciente PacienteActual;
+        private Calculo CalculoActual;
+        private Paciente PacienteActual;
+       
+        
+        
+        private void LimpiarVariables()
+        {
+            
+        }
+        
+        public boolean setPaciente()
+        {
+            return true;
+        }
         
      
-       
-      
         
+       public void IniciarCalculo()
+       {
+           LimpiarVariables();
+           
+           
+       }
+                        
         
 }
