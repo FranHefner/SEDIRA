@@ -49,13 +49,13 @@ public class Paciente {
      /**
     * Contructor con parametros
     */
-    public Paciente(int idPaciente, String tipoDoc, long numeroDoc, String apellido, String nombre,/* Date fechaNacimiento, */String direccion, long numeroAsociado, String email, String telefono,/* Blob foto,*/ String sexo, boolean enTratamiento) {
+    public Paciente(int idPaciente, String tipoDoc, long numeroDoc, String apellido, String nombre, Date fechaNacimiento, String direccion, long numeroAsociado, String email, String telefono,/* Blob foto,*/ String sexo, boolean enTratamiento) {
         this.idPaciente = new SimpleIntegerProperty(idPaciente);
         this.tipoDoc = new SimpleStringProperty(tipoDoc);
         this.numeroDoc = new SimpleIntegerProperty((int) numeroDoc);
         this.apellido = new SimpleStringProperty(apellido);
         this.nombre = new SimpleStringProperty(nombre);
-      //  this.fechaNacimiento = fechaNacimiento;
+        this.fechaNacimiento = fechaNacimiento;
         this.direccion = new SimpleStringProperty(direccion);
         this.numeroAsociado = numeroAsociado;
         this.email = new SimpleStringProperty(email);
@@ -65,12 +65,13 @@ public class Paciente {
         this.enTratamiento = enTratamiento;
     }
 
-    public Paciente(int idPaciente, String tipoDoc, long numeroDoc, String apellido, String nombre) {
+    public Paciente(int idPaciente, String tipoDoc, long numeroDoc, String apellido, String nombre, Date FechaNacimiento ) {
         this.idPaciente = new SimpleIntegerProperty(idPaciente);
         this.tipoDoc = new SimpleStringProperty(tipoDoc);
         this.numeroDoc = new SimpleIntegerProperty((int) numeroDoc);
         this.apellido = new SimpleStringProperty(apellido);
         this.nombre = new SimpleStringProperty(nombre);
+        this.fechaNacimiento = FechaNacimiento;
     }
   
        
@@ -94,8 +95,22 @@ public class Paciente {
         return nombre;
     }
    
-    public Date getFechaNacimiento() {
+    public Date getFechaNacimientoDATE() {
+                      
+        if(fechaNacimiento== null)
+        {
+        return null;
+        }
         return fechaNacimiento;
+    }
+    
+    public String getFechaNacimientoString() {
+                        
+         if(fechaNacimiento== null)
+        {
+        return null;
+        }
+        return fechaNacimiento.toString();
     }
 
     public StringProperty getDireccion() {

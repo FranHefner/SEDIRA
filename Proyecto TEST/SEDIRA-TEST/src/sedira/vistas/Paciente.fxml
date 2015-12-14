@@ -64,7 +64,7 @@
                                        </image>
                                     </ImageView>
                                     <Button fx:id="btnMediciones" layoutX="315.0" layoutY="183.0" mnemonicParsing="false" onAction="#btnMediciones_click" prefHeight="25.0" prefWidth="133.0" text="Mediciones" />
-                                    <DatePicker layoutX="126.0" layoutY="214.0" prefHeight="25.0" prefWidth="149.0" />
+                                    <DatePicker fx:id="txtFechaNacimiento" layoutX="126.0" layoutY="214.0" prefHeight="25.0" prefWidth="149.0" />
                                  </children>
                               </Pane>
                            </children>

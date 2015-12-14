@@ -5,6 +5,13 @@
  */
 package sedira;
 
+import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
@@ -28,6 +35,10 @@ public class FuncionesGenerales {
         public static Radionuclido radionuclidoActual;
         public static int indice;
 
+        public static String pattern = "dd-MM-yyyy";
+         public static DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(pattern);
+
+    public static  SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
     
     public static int getIndice() {
         return indice;
@@ -203,8 +214,45 @@ public class FuncionesGenerales {
         tablaOrgano.setItems(organo);
        
     }
-    
    
+    
+    public static String DateLocalToString(LocalDate date) {
+         if (date != null) {
+             return dateFormatter.format(date);
+         } else {
+             return "";
+         }
+     }
+    
+    public static LocalDate StringToDateLocal(String string) {
+         if (string != null && !string.isEmpty()) {
+             return LocalDate.parse(string, dateFormatter);
+         } else {
+             return null;
+         }
+     }
+    
+    public static Date StringToDate(String Fecha) throws ParseException
+    {  
+
+       Date date = dateFormat.parse(Fecha);      
+       
+
+       return date;
+
+    }
+    public static LocalDate DateToLocalDate(Date Fecha)
+    {
+       
+        LocalDate date = Fecha.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+        return date;
+    }
+    
+    public static Date LocalDateToDate(LocalDate Fecha) {
+        Date date = Date.from(Fecha.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        return date;
+    }  
         
 }
   

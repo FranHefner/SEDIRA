@@ -6,9 +6,12 @@
 package sedira;
 
 
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.util.converter.DateTimeStringConverter;
 import sedira.model.TipoDocumento;
 import sedira.model.Paciente;
 import sedira.model.Phantom;
@@ -31,17 +34,22 @@ public class ConsultasDB {
      * Metodo para obtener los datos basicos de los pacientes
      * @return Lista de Pacientes
      */
-     public static ObservableList<Paciente> ListaPacientes ()
-     {
+     public static ObservableList<Paciente> ListaPacientes () 
+     { 
          
+            
+            
+          
+             
+        
          // Se usa un costructor de pacientes mas acotado para cargar la grilla.
             ObservableList<Paciente> pacienteData = FXCollections.observableArrayList();
-              pacienteData.add(  new Paciente(1, "DNI", 34000001,"Hefner","Fran"));
-              pacienteData.add(  new Paciente(2, "DNI", 34000002,"Quelin","Pablo"));
-              pacienteData.add(  new Paciente(3, "DNI", 34000003,"Salibar","Roberto"));
-              pacienteData.add(  new Paciente(4, "DNI", 34000004,"Argañaras","Pablo"));
-              pacienteData.add(  new Paciente(5, "PAS", 34000005,"Perez","Pepe"));
-            
+              pacienteData.add(  new Paciente(1, "DNI", 34000001,"Hefner","Fran",null));
+              pacienteData.add(  new Paciente(2, "DNI", 34000002,"Quelin","Pablo",null));
+              pacienteData.add(  new Paciente(3, "DNI", 34000003,"Salibar","Roberto",null));
+              pacienteData.add(  new Paciente(4, "DNI", 34000004,"Argañaras","Pablo",null));
+              pacienteData.add(  new Paciente(5, "PAS", 34000005,"Perez","Pepe",null));
+        
             return pacienteData;
      }
      

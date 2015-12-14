@@ -8,6 +8,10 @@ package sedira.vistas;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Date;
+import java.time.LocalDate;
+import java.time.Month;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -30,6 +34,7 @@ import sedira.model.Paciente;
 import sedira.ConsultasDB;
 import sedira.FuncionesGenerales;
 import sedira.ValidacionesGenerales;
+import javafx.scene.control.DatePicker;
 
 /**
  * FXML Controller class
@@ -62,7 +67,11 @@ public class PacienteController implements Initializable {
     private ImageView imgPaciente;
     @FXML
     private ComboBox cbTipoDoc;
+    
+    @FXML
+    private DatePicker txtFechaNacimiento;
 
+    
     private Paciente PacienteActual;
 
     /**
@@ -80,8 +89,6 @@ public class PacienteController implements Initializable {
     private Button btnEditar1;
     @FXML
     private Button btnEditar11;
-    @FXML
-    private TextField txtFechaNacimiento;
     @FXML
     private Button btnHistorialSEDIRA;
     @FXML
@@ -131,12 +138,20 @@ public class PacienteController implements Initializable {
             txtApellido.setText(String.valueOf(PacienteActual.getApellido().getValue()));
             txtNumeroDoc.setText(String.valueOf(PacienteActual.getNumeroDoc().getValue()));
             cbTipoDoc.setValue(String.valueOf(PacienteActual.getTipoDoc().getValue()));
-
+          
+          Date Fecha =  (Date) PacienteActual.getFechaNacimientoDATE();
+                  
+                  
+            txtFechaNacimiento.setValue(FuncionesGenerales.DateToLocalDate(Fecha));
+     
+                    
         } else {
             txtIdPaciente.setText("");
             txtNombre.setText("");
             txtApellido.setText("");
             txtNumeroDoc.setText("");
+            txtFechaNacimiento.setValue(null);
+          
 
         }
     }
@@ -153,6 +168,7 @@ public class PacienteController implements Initializable {
         txtApellido.setEditable(true);
         txtNumeroDoc.setEditable(true);
         cbTipoDoc.setDisable(false);
+        txtFechaNacimiento.setDisable(false);
 
     }
 
@@ -164,20 +180,23 @@ public class PacienteController implements Initializable {
             PacienteActual.setNombre(txtNombre.getText());
             PacienteActual.setNumeroDoc(Integer.valueOf(txtNumeroDoc.getText()));
             PacienteActual.setTipoDoc(cbTipoDoc.getValue().toString());
+            PacienteActual.setFechaNacimiento(Date.valueOf(txtFechaNacimiento.getValue() ) );
 
             txtNombre.setEditable(false);
             txtApellido.setEditable(false);
             txtNumeroDoc.setEditable(false);
             cbTipoDoc.setDisable(true);
+             txtFechaNacimiento.setDisable(true);
         } else {
             //  
-            Paciente PacienteTemp = new Paciente(Integer.valueOf(txtIdPaciente.getText()), cbTipoDoc.getValue().toString(), Integer.valueOf(txtNumeroDoc.getText()), txtApellido.getText(), txtNombre.getText());
+            Paciente PacienteTemp = new Paciente(Integer.valueOf(txtIdPaciente.getText()), cbTipoDoc.getValue().toString(), Integer.valueOf(txtNumeroDoc.getText()), txtApellido.getText(), txtNombre.getText(),FuncionesGenerales.LocalDateToDate(txtFechaNacimiento.getValue()));
 
             pacienteData.add(PacienteTemp);
             txtNombre.setEditable(false);
             txtApellido.setEditable(false);
             txtNumeroDoc.setEditable(false);
             cbTipoDoc.setDisable(true);
+             txtFechaNacimiento.setDisable(true);
         }
 
     }
@@ -189,6 +208,7 @@ public class PacienteController implements Initializable {
         txtNumeroDoc.setEditable(true);
         //   txtTipoDoc.setEditable(true); 
         cbTipoDoc.setDisable(false);
+         txtFechaNacimiento.setDisable(false);
 
     }
 
