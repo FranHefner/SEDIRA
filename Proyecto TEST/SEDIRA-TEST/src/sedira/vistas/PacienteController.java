@@ -181,7 +181,7 @@ public class PacienteController implements Initializable {
             PacienteActual.setNumeroDoc(Integer.valueOf(txtNumeroDoc.getText()));
             PacienteActual.setTipoDoc(cbTipoDoc.getValue().toString());
       //      PacienteActual.setFechaNacimiento(Date.valueOf(txtFechaNacimiento.getValue() ) );
-
+ 
             txtNombre.setEditable(false);
             txtApellido.setEditable(false);
             txtNumeroDoc.setEditable(false);
