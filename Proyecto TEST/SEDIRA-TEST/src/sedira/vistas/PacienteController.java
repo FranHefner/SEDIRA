@@ -180,13 +180,14 @@ public class PacienteController implements Initializable {
             PacienteActual.setNombre(txtNombre.getText());
             PacienteActual.setNumeroDoc(Integer.valueOf(txtNumeroDoc.getText()));
             PacienteActual.setTipoDoc(cbTipoDoc.getValue().toString());
-      //      PacienteActual.setFechaNacimiento(Date.valueOf(txtFechaNacimiento.getValue() ) );
- 
+     
             txtNombre.setEditable(false);
             txtApellido.setEditable(false);
             txtNumeroDoc.setEditable(false);
             cbTipoDoc.setDisable(true);
-             txtFechaNacimiento.setDisable(true);
+             txtFechaNacimiento.setDisable(true);             
+          //      PacienteActual.setFechaNacimiento(Date.valueOf(txtFechaNacimiento.getValue() ) ); 
+             
         } else {
             //  
             Paciente PacienteTemp = new Paciente(Integer.valueOf(txtIdPaciente.getText()), cbTipoDoc.getValue().toString(), Integer.valueOf(txtNumeroDoc.getText()), txtApellido.getText(), txtNombre.getText());

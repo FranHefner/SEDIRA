@@ -249,10 +249,10 @@ public class FuncionesGenerales {
         return date;
     }
     
-    public static Date LocalDateToDate(LocalDate Fecha) {
+  /*  public static Date LocalDateToDate(LocalDate Fecha) {
         Date date = Date.from(Fecha.atStartOfDay(ZoneId.systemDefault()).toInstant());
         return date;
-    }  
+    }  */
         
 }
   
