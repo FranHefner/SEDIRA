@@ -65,13 +65,13 @@ public class Paciente {
         this.enTratamiento = enTratamiento;
     }
 
-    public Paciente(int idPaciente, String tipoDoc, long numeroDoc, String apellido, String nombre, Date FechaNacimiento ) {
+    public Paciente(int idPaciente, String tipoDoc, long numeroDoc, String apellido, String nombre/*, Date FechaNacimiento */) {
         this.idPaciente = new SimpleIntegerProperty(idPaciente);
         this.tipoDoc = new SimpleStringProperty(tipoDoc);
         this.numeroDoc = new SimpleIntegerProperty((int) numeroDoc);
         this.apellido = new SimpleStringProperty(apellido);
         this.nombre = new SimpleStringProperty(nombre);
-        this.fechaNacimiento = FechaNacimiento;
+        //this.fechaNacimiento = FechaNacimiento;
     }
   
        

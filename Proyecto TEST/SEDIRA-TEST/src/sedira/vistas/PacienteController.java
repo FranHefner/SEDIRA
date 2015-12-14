@@ -139,10 +139,10 @@ public class PacienteController implements Initializable {
             txtNumeroDoc.setText(String.valueOf(PacienteActual.getNumeroDoc().getValue()));
             cbTipoDoc.setValue(String.valueOf(PacienteActual.getTipoDoc().getValue()));
           
-          Date Fecha =  (Date) PacienteActual.getFechaNacimientoDATE();
+        //  Date Fecha =  (Date) PacienteActual.getFechaNacimientoDATE();
                   
                   
-            txtFechaNacimiento.setValue(FuncionesGenerales.DateToLocalDate(Fecha));
+        //    txtFechaNacimiento.setValue(FuncionesGenerales.DateToLocalDate(Fecha));
      
                     
         } else {
@@ -150,7 +150,7 @@ public class PacienteController implements Initializable {
             txtNombre.setText("");
             txtApellido.setText("");
             txtNumeroDoc.setText("");
-            txtFechaNacimiento.setValue(null);
+           // txtFechaNacimiento.setValue(null);
           
 
         }
@@ -180,7 +180,7 @@ public class PacienteController implements Initializable {
             PacienteActual.setNombre(txtNombre.getText());
             PacienteActual.setNumeroDoc(Integer.valueOf(txtNumeroDoc.getText()));
             PacienteActual.setTipoDoc(cbTipoDoc.getValue().toString());
-            PacienteActual.setFechaNacimiento(Date.valueOf(txtFechaNacimiento.getValue() ) );
+      //      PacienteActual.setFechaNacimiento(Date.valueOf(txtFechaNacimiento.getValue() ) );
 
             txtNombre.setEditable(false);
             txtApellido.setEditable(false);
@@ -189,7 +189,7 @@ public class PacienteController implements Initializable {
              txtFechaNacimiento.setDisable(true);
         } else {
             //  
-            Paciente PacienteTemp = new Paciente(Integer.valueOf(txtIdPaciente.getText()), cbTipoDoc.getValue().toString(), Integer.valueOf(txtNumeroDoc.getText()), txtApellido.getText(), txtNombre.getText(),FuncionesGenerales.LocalDateToDate(txtFechaNacimiento.getValue()));
+            Paciente PacienteTemp = new Paciente(Integer.valueOf(txtIdPaciente.getText()), cbTipoDoc.getValue().toString(), Integer.valueOf(txtNumeroDoc.getText()), txtApellido.getText(), txtNombre.getText());
 
             pacienteData.add(PacienteTemp);
             txtNombre.setEditable(false);
