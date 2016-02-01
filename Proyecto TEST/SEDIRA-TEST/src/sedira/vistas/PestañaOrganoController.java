@@ -94,7 +94,7 @@ public class PestañaOrganoController implements Initializable {
             public void changed (ObservableValue ov, Number value, Number newValue){
                 //Busco el Organo por el Indice del ChoiceBox
                 int index = choiceOrgano.getSelectionModel().getSelectedIndex();
-                organoActual = ConsultasDB.ObtenerOrganos().get(index);
+                //organoActual = ConsultasDB.ObtenerOrganos().get(index);
 
                 //Completo tabla de Organos
                 mostrarDetalleSeleccion(organoActual, txtNombreOrgano, txtMasaOrgano);

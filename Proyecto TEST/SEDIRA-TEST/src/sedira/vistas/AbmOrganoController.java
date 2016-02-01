@@ -18,6 +18,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import sedira.ConsultasDB;
 import sedira.FuncionesGenerales;
 
 import sedira.model.Organo;
@@ -123,7 +124,9 @@ public class AbmOrganoController implements Initializable {
      */
     @FXML
     public  void btnGuardarDatos() {
-        Organo organoAux = new Organo(null, -1,-1);    
+        //implementer obtenerIdOrgano
+        int auxId = ConsultasDB.getNewIdOrgano();
+        Organo organoAux = new Organo(auxId,null, -1,-1);    
         phantom = FuncionesGenerales.getPhantomActual();
          
         // La llamada a la base de datos se realiza desde PhantomController. Editar/Nuevo

@@ -6,12 +6,9 @@
 package sedira;
 
 
-import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Date;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.util.converter.DateTimeStringConverter;
 import sedira.model.TipoDocumento;
 import sedira.model.Paciente;
 import sedira.model.Phantom;
@@ -26,8 +23,16 @@ import sedira.model.ValorDescripcion;
 public class ConsultasDB {
     public static ObservableList <Phantom> phantomData = FXCollections.observableArrayList(); 
     public static ObservableList <Radionuclido> radionuclidoData = FXCollections.observableArrayList();
+    public static ObservableList<Organo> organosDataMasc = FXCollections.observableArrayList();
+    public static ObservableList<Organo> organosDataFem = FXCollections.observableArrayList();
     
-      
+    
+    /* Variables globales para la utilizacion de los Id sin motor de base de datos*/
+    public static int phantomId = phantomData.size();
+    public static  int radNuclidoId = radionuclidoData.size();
+    public static int organoId = organosDataFem.size() + organosDataMasc.size(); 
+   
+    
     /* Agregar la administracion de la conexion con la base de datos */     
 
     /**
@@ -37,11 +42,6 @@ public class ConsultasDB {
      public static ObservableList<Paciente> ListaPacientes () 
      { 
          
-            
-            
-          
-             
-        
          // Se usa un costructor de pacientes mas acotado para cargar la grilla.
             ObservableList<Paciente> pacienteData = FXCollections.observableArrayList();
               pacienteData.add(  new Paciente(1, "DNI", 34000001,"Hefner","Fran"));
@@ -82,17 +82,18 @@ public class ConsultasDB {
         // Un phantom esta compuesto de varios organos. Un organos puede formar parte de varios Phantoms. 
         // Temporalmente se utiliza un contructor acotado de los organos que forman parte de un Phantom.
        
-        //Ejemplo Organos Masculino
-         ObservableList<Organo> organosData = FXCollections.observableArrayList();
-            organosData.add(  new Organo ("Riñon",299,73700));
-            organosData.add(  new Organo ("Tiroide",20.9,73700));
+        //Ejemplo Organos Masculino Id harcodeados
+        // ObservableList<Organo> organosData = FXCollections.observableArrayList();
+            organosDataMasc.add(  new Organo (0,"Riñon",299,73700));
+            organosDataMasc.add(  new Organo (1,"Tiroide",20.9,73700));
             
-        //Ejemplo Organos femenino
-        ObservableList<Organo> organosDataFem = FXCollections.observableArrayList();
-            organosDataFem.add(  new Organo ("Ovarios",19,56800));
-            organosDataFem.add(  new Organo ("Tiroide",17,56800));
-            organosDataFem.add(  new Organo ("Riñon",275,56800));
+        //Ejemplo Organos femenino Id harcodeados
+        //ObservableList<Organo> organosDataFem = FXCollections.observableArrayList();
+            organosDataFem.add(  new Organo (2,"Ovarios",19,56800));
+            organosDataFem.add(  new Organo (3,"Tiroide",17,56800));
+            organosDataFem.add(  new Organo (4,"Riñon",275,56800));
         
+         
         //Ejemplo Phantom masculino    
         ObservableList <ValorDescripcion> listaAtributoPhantom = FXCollections.observableArrayList(); 
             listaAtributoPhantom.add(new ValorDescripcion("Altura",167,"cm"));
@@ -106,7 +107,7 @@ public class ConsultasDB {
             listaAtributoPhantomFem.add(new ValorDescripcion("Peso total",56800,"grs"));
        
         
-          phantomData.add(new Phantom (0,"Adulto Masculino 76kg",listaAtributoPhantom,organosData));
+          phantomData.add(new Phantom (0,"Adulto Masculino 76kg",listaAtributoPhantom,organosDataMasc));
           phantomData.add(new Phantom (1,"Adulto Femenino 56.8kg", listaAtributoPhantomFem, organosDataFem));
  
                        
@@ -195,18 +196,24 @@ public class ConsultasDB {
          return true;
      }
      /**
-     * Método para obtener la lista de órganos
+     * Método para obtener la lista de órganos utilizados en Phantoms masculinos
      * @return Lista de órganos
      */
     
-     public static ObservableList<Organo> ObtenerOrganos()
+     public static ObservableList<Organo> ObtenerOrganosMasc()
     {
-         //Ejemplo Organos femenino
-       ObservableList<Organo> organosData = FXCollections.observableArrayList();
-       organosData.add(  new Organo ("Riñon",299,73700));
-       organosData.add(  new Organo ("Tiroide",20.9,73700));
-
-          return  organosData;    
+         //Ejemplo Organos Masculinos
+         return  organosDataMasc;    
+    }
+    /**
+    * Método para obtener la lista de órganos utilizados en Phantoms Femeninos
+    * @return Lista de órganos
+    */
+    
+     public static ObservableList<Organo> ObtenerOrganosFem()
+    {
+         //Ejemplo Organos Femeninos
+         return  organosDataFem;    
     }
    
      
@@ -242,14 +249,14 @@ public class ConsultasDB {
         
     }
     public static int getNewIdPhantom (){
-        //Compara con el tamaño de la lista de Phantoms. Luego le suma 1. 
-        int newId = phantomData.size() + 1;
-        return newId;
+        return phantomId +1;
     }
     
      public static int getNewIdRadNuclido (){
-        //Compara con el tamaño de la lista de Radionuclidos. Luego le suma 1. 
-        int newId = radionuclidoData.size() + 1;
-        return newId;
+        
+        return radNuclidoId + 1;
     }
+     public static int getNewIdOrgano(){
+         return organoId +1;
+              }
 }

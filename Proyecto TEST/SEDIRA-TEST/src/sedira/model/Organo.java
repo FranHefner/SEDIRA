@@ -6,7 +6,9 @@
 package sedira.model;
 
 import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -16,8 +18,8 @@ import javafx.beans.property.StringProperty;
 
  */
 public class Organo {
-    //implementar el idOrgano. 
-    //private IntegerProperty idOrgano;
+     
+    private IntegerProperty idOrgano;
     private StringProperty nombreOrgano; 
     private DoubleProperty organMass; // masa de un organo en particular. 
     private DoubleProperty totalMass; // masa total del cuerpo. 
@@ -28,13 +30,25 @@ public class Organo {
      * @param organMass masa/peso en gramos del organos. 
      * @param totalMass sumatoria de las masas. Determina el peso total del Humano (Phantom)
      */
-    public Organo(String nombreOrgano, double organMass, double totalMass) {
+    public Organo(int idOrgano, String nombreOrgano, double organMass, double totalMass) {
+        this.idOrgano = new SimpleIntegerProperty (idOrgano);
         this.nombreOrgano = new SimpleStringProperty(nombreOrgano);
         this.organMass = new SimpleDoubleProperty (organMass);
         this.totalMass = new SimpleDoubleProperty (totalMass);
     }
     
-//**********************************nombreOrgano GETters and SETters 
+    //**********************************idOrgano GETters and SETters 
+    public void setIdOrgano (int idOrgano){
+        this.idOrgano.set(idOrgano); 
+    }
+    public int getIdOrgano(){
+        return idOrgano.get();
+    }
+    public IntegerProperty getIdOrganoProperty(){
+        return idOrgano;
+    }
+    //**********************************nombreOrgano GETters and SETters 
+        
     public String getNombreOrgano() {
         return nombreOrgano.get();
     }
