@@ -95,9 +95,10 @@ public class PestañaOrganoController implements Initializable {
                 //Busco el Organo por el Indice del ChoiceBox
                 int index = choiceOrgano.getSelectionModel().getSelectedIndex();
                 //organoActual = ConsultasDB.ObtenerOrganos().get(index);
-
+                organoActual = FuncionesGenerales.phantomActual.getOrgano().get(index);
+                //Al seleccionar el organo, se debe guardar el id en datosValidacionesCalculo.setOrgano
                 //Completo tabla de Organos
-                mostrarDetalleSeleccion(organoActual, txtNombreOrgano, txtMasaOrgano);
+                mostrarDetalleSeleccion(organoActual, txtNombreOrgano, txtMasaOrgano, txtIdOrgano);
              
             }
         });
@@ -110,13 +111,14 @@ public class PestañaOrganoController implements Initializable {
      * @param organoNombre Texfield a completar con el nombre del organo. 
      */
     @FXML
-    public void mostrarDetalleSeleccion (Organo organo, TextField organoNombre, TextField organoMasa){
+    public void mostrarDetalleSeleccion (Organo organo, TextField organoNombre, TextField organoMasa, TextField organoId){
         //btnQuitarOrgano.setDisable(false);
         //btnQuitar.setDisable(false);
         if (organo != null){
-          
+            organoId.setText(String.valueOf(organo.getIdOrgano()));
             organoNombre.setText(organo.getNombreOrgano());
             organoMasa.setText(organo.getOrganMass().toString());
+            
             
         } else {
            organoNombre.setText("");

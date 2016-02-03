@@ -418,7 +418,7 @@ public class PhantomController  implements Initializable  {
                 tempPhantom.setIdPhantom(ConsultasDB.getNewIdPhantom());
                 tempPhantom.setPropiedades(propiedadesPhantom);
                 tempPhantom.setOrgano(organosPhantom);
-                ConsultasDB.AgregarPhantom(tempPhantom);
+                ConsultasDB.agregarPhantom(tempPhantom);
         }
     }
     

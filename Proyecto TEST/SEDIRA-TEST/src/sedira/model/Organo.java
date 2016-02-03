@@ -22,10 +22,10 @@ public class Organo {
     private IntegerProperty idOrgano;
     private StringProperty nombreOrgano; 
     private DoubleProperty organMass; // masa de un organo en particular. 
-    private DoubleProperty totalMass; // masa total del cuerpo. 
+    private DoubleProperty totalMass; // masa total del cuerpo. Sumatoria de todos los organos y tejidos 
 
     /**
-     * 
+     * @param idOrgano Identificador unico de la clase Organo. 
      * @param nombreOrgano
      * @param organMass masa/peso en gramos del organos. 
      * @param totalMass sumatoria de las masas. Determina el peso total del Humano (Phantom)

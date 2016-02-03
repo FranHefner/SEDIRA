@@ -23,14 +23,12 @@ import sedira.model.ValorDescripcion;
 public class ConsultasDB {
     public static ObservableList <Phantom> phantomData = FXCollections.observableArrayList(); 
     public static ObservableList <Radionuclido> radionuclidoData = FXCollections.observableArrayList();
-    public static ObservableList<Organo> organosDataMasc = FXCollections.observableArrayList();
-    public static ObservableList<Organo> organosDataFem = FXCollections.observableArrayList();
-    
+    public static ObservableList <Organo> organoData = FXCollections.observableArrayList();
     
     /* Variables globales para la utilizacion de los Id sin motor de base de datos*/
     public static int phantomId = phantomData.size();
     public static  int radNuclidoId = radionuclidoData.size();
-    public static int organoId = organosDataFem.size() + organosDataMasc.size(); 
+    public static int organoId =  organoData.size();
    
     
     /* Agregar la administracion de la conexion con la base de datos */     
@@ -79,16 +77,16 @@ public class ConsultasDB {
       */
      public static void iniciarPhantomsDefecto () //public static ObservableList <Phantom> iniciarPhantomsDefecto ()
      {
-        // Un phantom esta compuesto de varios organos. Un organos puede formar parte de varios Phantoms. 
+        // Un phantom esta compuesto de varios organos. 
         // Temporalmente se utiliza un contructor acotado de los organos que forman parte de un Phantom.
        
         //Ejemplo Organos Masculino Id harcodeados
-        // ObservableList<Organo> organosData = FXCollections.observableArrayList();
+        ObservableList<Organo> organosDataMasc = FXCollections.observableArrayList();
             organosDataMasc.add(  new Organo (0,"Riñon",299,73700));
             organosDataMasc.add(  new Organo (1,"Tiroide",20.9,73700));
             
         //Ejemplo Organos femenino Id harcodeados
-        //ObservableList<Organo> organosDataFem = FXCollections.observableArrayList();
+        ObservableList<Organo> organosDataFem = FXCollections.observableArrayList();
             organosDataFem.add(  new Organo (2,"Ovarios",19,56800));
             organosDataFem.add(  new Organo (3,"Tiroide",17,56800));
             organosDataFem.add(  new Organo (4,"Riñon",275,56800));
@@ -99,17 +97,20 @@ public class ConsultasDB {
             listaAtributoPhantom.add(new ValorDescripcion("Altura",167,"cm"));
             listaAtributoPhantom.add(new ValorDescripcion("Sup Cuerpo",18000,"cm2"));
             listaAtributoPhantom.add(new ValorDescripcion("Peso total",73700,"grs"));
+        phantomData.add(new Phantom (0,"Adulto Masculino 76kg",listaAtributoPhantom,organosDataMasc));
         
         //Ejemplo Phantom Femenino
         ObservableList <ValorDescripcion> listaAtributoPhantomFem = FXCollections.observableArrayList(); 
             listaAtributoPhantomFem.add(new ValorDescripcion("Altura",0,"cm"));
             listaAtributoPhantomFem.add(new ValorDescripcion("Sup Cuerpo",0,"cm2"));
             listaAtributoPhantomFem.add(new ValorDescripcion("Peso total",56800,"grs"));
-       
+        phantomData.add(new Phantom (1,"Adulto Femenino 56.8kg", listaAtributoPhantomFem, organosDataFem));
+      
+        // La separacion de los los organos fue necesarios para iniciar por defecto los phantoms. 
+        //Una vez implementada la base de datos no será necesario. 
         
-          phantomData.add(new Phantom (0,"Adulto Masculino 76kg",listaAtributoPhantom,organosDataMasc));
-          phantomData.add(new Phantom (1,"Adulto Femenino 56.8kg", listaAtributoPhantomFem, organosDataFem));
- 
+        organoData.addAll(organosDataMasc);
+        organoData.addAll(organosDataFem);
                        
         //return phantomData;
      }
@@ -126,7 +127,7 @@ public class ConsultasDB {
      * Metodo que guarda un phantom creado/modificado en la lista de Phantoms inicial  
      * @param phantom Objeto phantom a guardar en la lista de Phantoms ya creados. Base datos. 
      */
-    public static void AgregarPhantom(Phantom phantom){
+    public static void agregarPhantom(Phantom phantom){
         
         phantomData.add(phantom);
         //System.out.print(phantomData.size());
@@ -198,7 +199,7 @@ public class ConsultasDB {
      /**
      * Método para obtener la lista de órganos utilizados en Phantoms masculinos
      * @return Lista de órganos
-     */
+     
     
      public static ObservableList<Organo> ObtenerOrganosMasc()
     {
@@ -208,13 +209,13 @@ public class ConsultasDB {
     /**
     * Método para obtener la lista de órganos utilizados en Phantoms Femeninos
     * @return Lista de órganos
-    */
+    
     
      public static ObservableList<Organo> ObtenerOrganosFem()
     {
          //Ejemplo Organos Femeninos
          return  organosDataFem;    
-    }
+    }*/
    
      
      
@@ -249,14 +250,16 @@ public class ConsultasDB {
         
     }
     public static int getNewIdPhantom (){
-        return phantomId +1;
+        phantomId = phantomId+1;
+        return phantomId;
     }
     
      public static int getNewIdRadNuclido (){
-        
-        return radNuclidoId + 1;
+        radNuclidoId = radNuclidoId+1;
+        return radNuclidoId;
     }
      public static int getNewIdOrgano(){
-         return organoId +1;
-              }
+        organoId=organoId+1; 
+         return organoId;
+    }
 }

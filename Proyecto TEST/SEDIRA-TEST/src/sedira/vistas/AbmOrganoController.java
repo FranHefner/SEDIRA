@@ -36,7 +36,8 @@ public class AbmOrganoController implements Initializable {
     private TextField txtOrganoNombre;
     @FXML 
     private TextField txtOrganoMasa;
-    
+    @FXML 
+    private Label lblOrganoId;
     
     @FXML
     private Button btnLimpiarValores;
@@ -94,6 +95,7 @@ public class AbmOrganoController implements Initializable {
      */
     public void setOrgano (Organo organo){
         this.organo = organo;
+        lblOrganoId.setText("Id: " + String.valueOf(ConsultasDB.getNewIdOrgano()));
         txtOrganoNombre.setText(this.organo.getNombreOrgano());
         txtOrganoMasa.setText(String.valueOf(this.organo.getOrganMass()));
     }

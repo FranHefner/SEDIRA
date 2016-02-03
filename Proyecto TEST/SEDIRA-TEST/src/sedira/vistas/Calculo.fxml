@@ -27,7 +27,7 @@
                               </AnchorPane>
                            </content>
                       </Tab>
-                      <Tab id="2" fx:id="tabPhantom" disable="true" text="Phantom">
+                      <Tab id="2" fx:id="tabPhantom" text="Phantom">
                            <content>
                               <AnchorPane prefHeight="200.0" prefWidth="200.0">
                                  <children>
@@ -36,7 +36,7 @@
                               </AnchorPane>
                            </content>
                         </Tab>
-                        <Tab id="3" fx:id="tabOrganoTejido" disable="true" onSelectionChanged="#setChoiceOrgano" text="Organo / Tejido">
+                        <Tab id="3" fx:id="tabOrganoTejido" onSelectionChanged="#setChoiceOrgano" text="Organo / Tejido">
                           <content>
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
@@ -45,7 +45,7 @@
                               </AnchorPane>
                           </content>
                         </Tab>
-                        <Tab id="4" disable="true" text="Radionúclido">
+                        <Tab id="4" text="Radionúclido">
                           <content>
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
