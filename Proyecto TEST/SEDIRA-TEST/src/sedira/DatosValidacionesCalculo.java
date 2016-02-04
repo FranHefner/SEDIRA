@@ -7,6 +7,8 @@ package sedira;
 
 import sedira.model.Calculo;
 import sedira.model.Paciente;
+import sedira.model.Phantom;
+import sedira.model.Organo;
 
 /**
  *
@@ -17,6 +19,8 @@ public class DatosValidacionesCalculo {
     
         private Calculo CalculoActual;
         private Paciente PacienteActual;
+        private Phantom PhantomActual;
+        private Organo OrganoActual;
        
         
         
@@ -25,12 +29,21 @@ public class DatosValidacionesCalculo {
             
         }
         
-        public boolean setPaciente()
+        public boolean setPaciente(Paciente MiPaciente)
         {
             return true;
         }
         
-     
+      public boolean setPhantom(Phantom MiPhantom)
+      {
+          
+          return true;
+      }       
+      public boolean setOrgano(Organo MiOrgano)
+      {
+          
+          return true;
+      }  
         
        public void IniciarCalculo()
        {
