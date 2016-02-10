@@ -15,12 +15,14 @@ import sedira.model.Phantom;
 import sedira.model.Organo;
 import sedira.model.Radionuclido;
 import sedira.model.ValorDescripcion;
+import java.sql.*;
 /**
  * Clase de consultas y persistencia de datos.
  * @author Hefner Francisco, Quelin Pablo
  */
 
 public class ConsultasDB {
+    
     public static ObservableList <Phantom> phantomData = FXCollections.observableArrayList(); 
     public static ObservableList <Radionuclido> radionuclidoData = FXCollections.observableArrayList();
     public static ObservableList <Organo> organoData = FXCollections.observableArrayList();
@@ -31,7 +33,58 @@ public class ConsultasDB {
     public static int organoId =  organoData.size();
    
     
-    /* Agregar la administracion de la conexion con la base de datos */     
+    /* Conexion con la base de datos */ 
+    private Connection conexion;
+ 
+    
+            
+public Connection getConexion() {
+    return conexion;
+}    
+public void setConexion(Connection conexion) {
+        this.conexion = conexion;
+}    
+public class MySQLBD {    
+  private Connection conexion;
+}
+
+    
+    public void conectar() {
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            String BaseDeDatos = "jdbc:mysql://localhost/test?user=usuario&password=123";
+            setConexion(DriverManager.getConnection(BaseDeDatos));
+            if(getConexion() != null){
+                System.out.println("Conexion Exitosa!");
+            }else{
+                System.out.println("Conexion Fallida!");                
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+    }
+    
+    public boolean ejecutar(String sql) {
+        try {
+            Statement sentencia = getConexion().createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+            sentencia.executeUpdate(sql);
+            sentencia.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }        return true;
+    }
+    
+    /*********************************/
+    
+    
+    
+    
+    
+    
+    
+    
 
     /**
      * Metodo para obtener los datos basicos de los pacientes
