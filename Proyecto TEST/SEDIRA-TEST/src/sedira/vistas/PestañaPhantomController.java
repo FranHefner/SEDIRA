@@ -24,6 +24,7 @@ import sedira.FuncionesGenerales;
 import sedira.model.Organo;
 import sedira.model.Phantom;
 import sedira.model.ValorDescripcion;
+import sedira.DatosValidacionesCalculo;
 
 /**
  * Clase controladora del archivo FXML PestañaPhantom. 
@@ -90,8 +91,7 @@ public class PestañaPhantomController implements Initializable {
         
         //Inicializo la lista de Phantoms para el ChoiceBox
         initListaPhantom();
-        choicePhantom.setTooltip(new Tooltip("Seleccione el Phantom"));
-                
+        choicePhantom.setTooltip(new Tooltip("Seleccione el Phantom"));                
         
     }   
     /**
@@ -127,6 +127,10 @@ public class PestañaPhantomController implements Initializable {
                     FuncionesGenerales.mostrarDetalleOrgano(FuncionesGenerales.phantomActual.getOrgano(), griOrgano);
                     //Completo tabla de Info Phantoms
                     FuncionesGenerales.mostrarDetalleTablaValorDescripcion(FuncionesGenerales.phantomActual.getPropiedades(), griValorDescripcionPhantom);
+                  
+                  /* Seleccion Phantom en el cálculo */  
+                    DatosValidacionesCalculo.setPhantom(FuncionesGenerales.phantomActual);                            
+                   /*************/
                 }
             });
     }

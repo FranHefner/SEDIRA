@@ -18,18 +18,18 @@ import sedira.model.Radionuclido;
  */
 public class DatosValidacionesCalculo {
 
-    private Calculo CalculoActual;
-    private Paciente PacienteActual;
-    private Phantom PhantomActual;
-    private Organo OrganoActual;
-    private Radionuclido RadionuclidoActual;
+    private static Calculo CalculoActual;
+    private static Paciente PacienteActual;
+    private static Phantom PhantomActual;
+    private static Organo OrganoActual;
+    private static Radionuclido RadionuclidoActual;
 
-    private void limpiarVariables() {
-        this.CalculoActual = null;
-        this.PacienteActual = null;
-        this.PhantomActual = null;
-        this.OrganoActual = null;
-        this.RadionuclidoActual = null;
+    private static void limpiarVariables() {
+        CalculoActual = null;
+        PacienteActual = null;
+        PhantomActual = null;
+        OrganoActual = null;
+        RadionuclidoActual = null;
     }
 
     /* Validaciones por cada objeto antes de finalizar el proceso y llenar la entidad cálculo */
@@ -37,87 +37,126 @@ public class DatosValidacionesCalculo {
      2 - Que el paciente este en tratamiento
      3 - add..
      */
-    private boolean validarPaciente() {
+    private static boolean validarPaciente() {
 
         /*Ej: Aplicar hash MD5 al objeto y compararlo con ConsultasDB.Obtener(Paciente)*/
-        this.PhantomActual = null;
-        this.OrganoActual = null;
-        this.RadionuclidoActual = null;
-        this.CalculoActual = null;
+        PhantomActual = null;
+        OrganoActual = null;
+        RadionuclidoActual = null;
+        CalculoActual = null;
 
         return true;
     }
 
-    private boolean validarPhantom() {
+    private static boolean validarPhantom() {
 
-        this.OrganoActual = null;
-        this.RadionuclidoActual = null;
-        this.CalculoActual = null;
-
-        return true;
-    }
-
-    private boolean validarOrgano() {
-
-        this.RadionuclidoActual = null;
-        this.CalculoActual = null;
+        OrganoActual = null;
+        RadionuclidoActual = null;
+        CalculoActual = null;
 
         return true;
     }
 
-    private boolean validaradionuclidoActual() {
+    private static boolean validarOrgano() {
 
-        this.CalculoActual = null;
+        RadionuclidoActual = null;
+        CalculoActual = null;
 
         return true;
     }
 
-    public boolean setPaciente(Paciente miPaciente) {
-        this.PacienteActual = miPaciente;
+    private static boolean validaradionuclidoActual() {
+
+        CalculoActual = null;
+
+        return true;
+    }
+
+    public static boolean setPaciente(Paciente miPaciente) {
+        PacienteActual = miPaciente;
         return validarPaciente();
     }
 
-    public boolean setPhantom(Phantom miPhantom) {
-        this.PhantomActual = miPhantom;
+    public static boolean setPhantom(Phantom miPhantom) {
+        PhantomActual = miPhantom;
 
         return validarPhantom();
     }
 
-    public boolean setOrgano(Organo miOrgano) {
-        this.OrganoActual = miOrgano;
+    public static boolean setOrgano(Organo miOrgano) {
+        OrganoActual = miOrgano;
 
         return validarOrgano();
     }
 
-    public boolean setRadionuclido(Radionuclido miRadionuclido) {
-        this.RadionuclidoActual = miRadionuclido;
+    public static boolean setRadionuclido(Radionuclido miRadionuclido) {
+        RadionuclidoActual = miRadionuclido;
 
         return validaradionuclidoActual();
     }
 
-    public void IniciarCalculo() {
+    public static void IniciarCalculo() {
         limpiarVariables();
     }
 
-    public String EstadoActual() {
-        if (this.PacienteActual == null) {
-            return "Paciente";
-        } else {
-            if (this.PhantomActual == null) {
-                return "Phantom";
+    public static String EstadoActual(boolean adelante, String pestañaActual) {
+        /* Si adelante esta en falso, retorna el estado anterior al estado actual */
+
+        if (!adelante) {            
+            /* Si se selecciono algo en la pestaña actual se elimina */
+            switch (pestañaActual) {
+                case "Paciente":
+                    PacienteActual = null;                    
+                    break;
+                case "Phantom":
+                    PhantomActual = null;
+                    break;
+                case "Organo":
+                    OrganoActual = null;
+                    break;
+                case "RadioNuclido":
+                    RadionuclidoActual = null;
+                    break;                   
+                case "Completo":
+                    break;
+            }
+        }
+        /* Se valida el estado real del calculo */
+            if (PacienteActual == null) {
+                return "Paciente";
             } else {
-                if (this.OrganoActual == null) {
-                    return "Organo";
+                if (PhantomActual == null) {
+                    if (!adelante) {
+                        validarPaciente();
+                        return "Paciente";
+                    }
+                    return "Phantom";
+
                 } else {
-                    if (this.RadionuclidoActual == null) {
-                        return "RadioNuclido";
+                    if (OrganoActual == null) {
+                        if (!adelante) {
+                            validarPhantom();
+                            return "Phantom";
+                        }
+                        return "Organo";
                     } else {
-                        return "Completo";
+                        if (RadionuclidoActual == null) {
+                            if (!adelante) {
+                                validarOrgano();
+                                return "Organo";
+                            }
+                            return "RadioNuclido";
+                        } else {
+                            if (!adelante) {
+                                validaradionuclidoActual();
+                                return "RadioNuclido";
+                            }
+                            return "Completo";
+                        }
                     }
                 }
             }
+
         }
 
     }
-
-}

@@ -24,7 +24,7 @@ import javafx.stage.Stage;
 import sedira.ConsultasDB;
 import sedira.FuncionesGenerales;
 import sedira.model.Paciente;
-
+import sedira.DatosValidacionesCalculo;
 
 /**
  * FXML Controller class
@@ -91,6 +91,10 @@ public class PestañaPacienteController implements Initializable {
             btnHistorialSEDIRA.setDisable(false);
             txtObservaciones.setDisable(false);
             txtNombrePaciente.setDisable(false);
+            
+            DatosValidacionesCalculo.setPaciente(PacienteActual);
+            
+            
         } else {
             txtNombrePaciente.setText("");
             txtObservaciones.setText("");

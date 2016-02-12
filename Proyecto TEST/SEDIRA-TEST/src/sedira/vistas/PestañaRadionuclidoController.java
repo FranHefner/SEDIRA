@@ -20,7 +20,7 @@ import javafx.scene.control.Tooltip;
 import sedira.ConsultasDB;
 import sedira.model.Radionuclido;
 import sedira.model.ValorDescripcion;
-
+import sedira.DatosValidacionesCalculo;
 /**
  * FXML Controller class
  *  Clase controladora de la interfaz de Radionuclidos dentro del proceso de calculo. 
@@ -111,6 +111,7 @@ public class PestañaRadionuclidoController implements Initializable {
                     showDetalleRadionuclido(radionuclidoActual.getPropiedades());               
                 }
             });
+            DatosValidacionesCalculo.setRadionuclido(radionuclidoActual);
     }
     
 }

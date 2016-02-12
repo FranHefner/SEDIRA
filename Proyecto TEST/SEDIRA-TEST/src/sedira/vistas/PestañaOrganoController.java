@@ -18,6 +18,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import sedira.ConsultasDB;
 import sedira.FuncionesGenerales;
+import sedira.DatosValidacionesCalculo;
 
 import sedira.model.Organo;
 
@@ -99,6 +100,11 @@ public class PestañaOrganoController implements Initializable {
                 //Al seleccionar el organo, se debe guardar el id en datosValidacionesCalculo.setOrgano
                 //Completo tabla de Organos
                 mostrarDetalleSeleccion(organoActual, txtNombreOrgano, txtMasaOrgano, txtIdOrgano);
+                
+                /* Selección del organo para el cálculo */
+                
+                DatosValidacionesCalculo.setOrgano(organoActual);
+                /****/ 
              
             }
         });

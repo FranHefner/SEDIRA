@@ -72,20 +72,25 @@ public class CalculoController implements Initializable {
     private Button btnCancelar;
 
     private PestañaOrganoController organoController;
+    
+    public static String pestañaActual;
 
     /**
      * Initializes the controller class.
      */
-    DatosValidacionesCalculo NuevoCalculo = new DatosValidacionesCalculo();
-
-    SingleSelectionModel<Tab> listaTABS = tabPaneCalculo.getSelectionModel();
+    // DatosValidacionesCalculo NuevoCalculo = new DatosValidacionesCalculo();
+    SingleSelectionModel<Tab> listaTABS;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
         try {
-            /* SE INICIA EL CÁLCULO, Y SE CARGAN LAS PESTAÑAS */
-            NuevoCalculo.IniciarCalculo();
+            /* SE INICIA EL CÁLCULO, SE CARGAN LAS PESTAÑAS Y SE CARGA LA LISTA DE TABS */
+            // NuevoCalculo.IniciarCalculo();
+            DatosValidacionesCalculo.IniciarCalculo();
+            /**
+             * ***********************************
+             */
 
             Node NodoPhantom;
             NodoPhantom = (Node) FXMLLoader.load(getClass().getResource("PestañaPhantom.fxml"));
@@ -103,35 +108,47 @@ public class CalculoController implements Initializable {
             NodoOrgano = (Node) FXMLLoader.load(getClass().getResource("PestañaOrgano.fxml"));
             pnlOrgano.getChildren().setAll(NodoOrgano);
 
+            listaTABS = tabPaneCalculo.getSelectionModel();
+
         } catch (IOException ex) {
             Logger.getLogger(CalculoController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    public void SeleccionPestaña() {
-        String EstadoActual = NuevoCalculo.EstadoActual();
-
+    public void SeleccionPestaña(boolean adelante) {
+        //  String EstadoActual = NuevoCalculo.EstadoActual();
+        
+       
+        String EstadoActual = DatosValidacionesCalculo.EstadoActual(adelante,pestañaActual );
+               
         if (EstadoActual.equals("Paciente")) {
             tabPaciente.setDisable(false);
             listaTABS.select(tabPaciente);
+            pestañaActual = "Paciente";
+            
+           
 
             tabPhantom.setDisable(true);
             tabOrganoTejido.setDisable(true);
             tabRadionuclido.setDisable(true);
             tabCalcular.setDisable(true);
+
         }
         if (EstadoActual.equals("Phantom")) {
             tabPhantom.setDisable(false);
             listaTABS.select(tabPhantom);
+              pestañaActual = "Phantom";
 
             tabPaciente.setDisable(true);
             tabOrganoTejido.setDisable(true);
             tabRadionuclido.setDisable(true);
             tabCalcular.setDisable(true);
+                        
         }
         if (EstadoActual.equals("Organo")) {
             tabOrganoTejido.setDisable(false);
             listaTABS.select(tabOrganoTejido);
+              pestañaActual = "Organo";
 
             tabPaciente.setDisable(true);
             tabPhantom.setDisable(true);
@@ -141,6 +158,7 @@ public class CalculoController implements Initializable {
         if (EstadoActual.equals("RadioNuclido")) {
             tabRadionuclido.setDisable(false);
             listaTABS.select(tabRadionuclido);
+            pestañaActual = "RadioNuclido";
 
             tabPaciente.setDisable(true);
             tabPhantom.setDisable(true);
@@ -150,6 +168,7 @@ public class CalculoController implements Initializable {
         if (EstadoActual.equals("Completo")) {
             tabCalcular.setDisable(false);
             listaTABS.select(tabCalcular);
+             pestañaActual = "Completo";
 
             tabRadionuclido.setDisable(true);
             tabPaciente.setDisable(true);
@@ -157,16 +176,28 @@ public class CalculoController implements Initializable {
             tabOrganoTejido.setDisable(true);
         }
 
+        /* Logica de botones */
+        if (EstadoActual.equals("Paciente")) {
+            btnAtras.setDisable(true);
+            btnSiguiente.setDisable(false);
+
+        } else {
+            btnAtras.setDisable(false);
+            if (EstadoActual.equals("Completo")) {
+                btnSiguiente.setDisable(true);
+            }
+        }
+
     }
 
     @FXML
     private void btnSiguiente_click() throws IOException {
-        SeleccionPestaña();
+        SeleccionPestaña(true);
     }
 
     @FXML
     private void btnAtras_click() throws IOException {
-        SeleccionPestaña();
+        SeleccionPestaña(false);
     }
 
     @FXML
