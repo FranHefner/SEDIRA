@@ -107,11 +107,17 @@ public class PestañaRadionuclidoController implements Initializable {
                     int index = choiceRadionuclido.getSelectionModel().getSelectedIndex();
                     System.out.print(index);
                     radionuclidoActual = ConsultasDB.obtenerRadionuclidos().get(index);
+                    
+                    /*Asigna radionuclido al calculo */
+                    DatosValidacionesCalculo.setRadionuclido(radionuclidoActual);
+                    /*************************/
+                    
                     //Completo tabla de Info Radionuclidos
-                    showDetalleRadionuclido(radionuclidoActual.getPropiedades());               
+                    showDetalleRadionuclido(radionuclidoActual.getPropiedades());  
+                    
                 }
             });
-            DatosValidacionesCalculo.setRadionuclido(radionuclidoActual);
+            
     }
     
 }

@@ -90,7 +90,14 @@ public class DatosValidacionesCalculo {
     }
 
     public static boolean setRadionuclido(Radionuclido miRadionuclido) {
-        RadionuclidoActual = miRadionuclido;
+       
+        if (miRadionuclido != null )
+        {
+         RadionuclidoActual = miRadionuclido;
+        }
+        
+        
+       
 
         return validaradionuclidoActual();
     }
