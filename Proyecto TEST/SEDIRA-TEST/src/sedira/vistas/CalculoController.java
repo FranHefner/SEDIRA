@@ -92,21 +92,21 @@ public class CalculoController implements Initializable {
              * ***********************************
              */
 
-            Node NodoPhantom;
+         /*   Node NodoPhantom;
             NodoPhantom = (Node) FXMLLoader.load(getClass().getResource("PestañaPhantom.fxml"));
-            pnlPhantom.getChildren().setAll(NodoPhantom);
+            pnlPhantom.getChildren().setAll(NodoPhantom);*/
 
             Node NodoPaciente;
             NodoPaciente = (Node) FXMLLoader.load(getClass().getResource("PestañaPaciente.fxml"));
             pnlPaciente.getChildren().setAll(NodoPaciente);
 
-            Node NodoRadionuclido;
+         /*   Node NodoRadionuclido;
             NodoRadionuclido = (Node) FXMLLoader.load(getClass().getResource("PestañaRadionuclido.fxml"));
             pnlRadionuclido.getChildren().setAll(NodoRadionuclido);
-
-            Node NodoOrgano;
+*/
+        /*    Node NodoOrgano;
             NodoOrgano = (Node) FXMLLoader.load(getClass().getResource("PestañaOrgano.fxml"));
-            pnlOrgano.getChildren().setAll(NodoOrgano);
+            pnlOrgano.getChildren().setAll(NodoOrgano); */
 
             listaTABS = tabPaneCalculo.getSelectionModel();
 
@@ -115,7 +115,7 @@ public class CalculoController implements Initializable {
         }
     }
 
-    public void SeleccionPestaña(boolean adelante) {
+    public void SeleccionPestaña(boolean adelante) throws IOException {
         //  String EstadoActual = NuevoCalculo.EstadoActual();
         
        
@@ -138,11 +138,16 @@ public class CalculoController implements Initializable {
             tabPhantom.setDisable(false);
             listaTABS.select(tabPhantom);
               pestañaActual = "Phantom";
-
+              
             tabPaciente.setDisable(true);
             tabOrganoTejido.setDisable(true);
             tabRadionuclido.setDisable(true);
             tabCalcular.setDisable(true);
+            
+            Node NodoPhantom;
+            NodoPhantom = (Node) FXMLLoader.load(getClass().getResource("PestañaPhantom.fxml"));
+            pnlPhantom.getChildren().setAll(NodoPhantom);
+            
                         
         }
         if (EstadoActual.equals("Organo")) {
@@ -154,6 +159,11 @@ public class CalculoController implements Initializable {
             tabPhantom.setDisable(true);
             tabRadionuclido.setDisable(true);
             tabCalcular.setDisable(true);
+            
+             Node NodoOrgano;
+            NodoOrgano = (Node) FXMLLoader.load(getClass().getResource("PestañaOrgano.fxml"));
+            pnlOrgano.getChildren().setAll(NodoOrgano);
+            
         }
         if (EstadoActual.equals("RadioNuclido")) {
             tabRadionuclido.setDisable(false);
@@ -164,6 +174,11 @@ public class CalculoController implements Initializable {
             tabPhantom.setDisable(true);
             tabOrganoTejido.setDisable(true);
             tabCalcular.setDisable(true);
+            
+             Node NodoRadionuclido;
+            NodoRadionuclido = (Node) FXMLLoader.load(getClass().getResource("PestañaRadionuclido.fxml"));
+            pnlRadionuclido.getChildren().setAll(NodoRadionuclido);
+            
         }
         if (EstadoActual.equals("Completo")) {
             tabCalcular.setDisable(false);

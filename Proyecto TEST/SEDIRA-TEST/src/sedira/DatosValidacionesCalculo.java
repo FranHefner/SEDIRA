@@ -48,6 +48,7 @@ public class DatosValidacionesCalculo {
         return true;
     }
 
+   
     private static boolean validarPhantom() {
 
         OrganoActual = null;
@@ -100,6 +101,18 @@ public class DatosValidacionesCalculo {
        
 
         return validaradionuclidoActual();
+    }
+    
+    public static Phantom getPhantomActual()
+            
+    {
+        if (PhantomActual != null)
+        {
+            return PhantomActual;
+        }else
+        {
+            return null;
+        }
     }
 
     public static void IniciarCalculo() {
