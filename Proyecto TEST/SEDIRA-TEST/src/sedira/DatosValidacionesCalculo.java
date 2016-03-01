@@ -24,6 +24,8 @@ public class DatosValidacionesCalculo {
     private static Organo OrganoActual;
     private static Radionuclido RadionuclidoActual;
 
+    public static String TextoProgreso;
+
     private static void limpiarVariables() {
         CalculoActual = null;
         PacienteActual = null;
@@ -37,6 +39,33 @@ public class DatosValidacionesCalculo {
      2 - Que el paciente este en tratamiento
      3 - add..
      */
+    public static String GetTextoProgeso() {
+        TextoProgreso = "INFORMACION DEL PROCESO/SELECCION";
+     
+        if (PacienteActual == null) {
+
+        } else {
+            TextoProgreso = TextoProgreso + "\n" + "Paciente: " + getPacienteActual().getApellido().getValue() + ", " + getPacienteActual().getNombre().getValue();
+
+            if (PhantomActual != null) {
+                TextoProgreso = TextoProgreso + "\n" + "Phantom: " + getPhantomActual().getPhantomNombre();            
+
+                if (OrganoActual != null) {
+                    TextoProgreso = TextoProgreso + "\n" + "Organo: " + getOrganoActual().getNombreOrgano();
+               
+                    if (RadionuclidoActual  != null) {
+
+                        TextoProgreso = TextoProgreso + "\n" + "Radionuclido: " + getRadionuClidoActual().getNombreRadNuclido();
+
+                    }
+                }
+
+            }
+
+        }
+        return TextoProgreso;
+    }
+
     private static boolean validarPaciente() {
 
         /*Ej: Aplicar hash MD5 al objeto y compararlo con ConsultasDB.Obtener(Paciente)*/
@@ -48,7 +77,6 @@ public class DatosValidacionesCalculo {
         return true;
     }
 
-   
     private static boolean validarPhantom() {
 
         OrganoActual = null;
@@ -91,26 +119,42 @@ public class DatosValidacionesCalculo {
     }
 
     public static boolean setRadionuclido(Radionuclido miRadionuclido) {
-       
-        if (miRadionuclido != null )
-        {
-         RadionuclidoActual = miRadionuclido;
+
+        if (miRadionuclido != null) {
+            RadionuclidoActual = miRadionuclido;
         }
-        
-        
-       
 
         return validaradionuclidoActual();
     }
-    
-    public static Phantom getPhantomActual()
-            
-    {
-        if (PhantomActual != null)
-        {
+
+    public static Phantom getPhantomActual() {
+        if (PhantomActual != null) {
             return PhantomActual;
-        }else
-        {
+        } else {
+            return null;
+        }
+    }
+
+    public static Paciente getPacienteActual() {
+        if (PacienteActual != null) {
+            return PacienteActual;
+        } else {
+            return null;
+        }
+    }
+
+    public static Organo getOrganoActual() {
+        if (OrganoActual != null) {
+            return OrganoActual;
+        } else {
+            return null;
+        }
+    }
+
+    public static Radionuclido getRadionuClidoActual() {
+        if (RadionuclidoActual != null) {
+            return RadionuclidoActual;
+        } else {
             return null;
         }
     }
@@ -122,11 +166,11 @@ public class DatosValidacionesCalculo {
     public static String EstadoActual(boolean adelante, String pestañaActual) {
         /* Si adelante esta en falso, retorna el estado anterior al estado actual */
 
-        if (!adelante) {            
+        if (!adelante) {
             /* Si se selecciono algo en la pestaña actual se elimina */
             switch (pestañaActual) {
                 case "Paciente":
-                    PacienteActual = null;                    
+                    PacienteActual = null;
                     break;
                 case "Phantom":
                     PhantomActual = null;
@@ -136,47 +180,47 @@ public class DatosValidacionesCalculo {
                     break;
                 case "RadioNuclido":
                     RadionuclidoActual = null;
-                    break;                   
+                    break;
                 case "Completo":
                     break;
             }
         }
         /* Se valida el estado real del calculo */
-            if (PacienteActual == null) {
-                return "Paciente";
-            } else {
-                if (PhantomActual == null) {
-                    if (!adelante) {
-                        validarPaciente();
-                        return "Paciente";
-                    }
-                    return "Phantom";
+        if (PacienteActual == null) {
+            return "Paciente";
+        } else {
+            if (PhantomActual == null) {
+                if (!adelante) {
+                    validarPaciente();
+                    return "Paciente";
+                }
+                return "Phantom";
 
+            } else {
+                if (OrganoActual == null) {
+                    if (!adelante) {
+                        validarPhantom();
+                        return "Phantom";
+                    }
+                    return "Organo";
                 } else {
-                    if (OrganoActual == null) {
+                    if (RadionuclidoActual == null) {
                         if (!adelante) {
-                            validarPhantom();
-                            return "Phantom";
+                            validarOrgano();
+                            return "Organo";
                         }
-                        return "Organo";
+                        return "RadioNuclido";
                     } else {
-                        if (RadionuclidoActual == null) {
-                            if (!adelante) {
-                                validarOrgano();
-                                return "Organo";
-                            }
+                        if (!adelante) {
+                            validaradionuclidoActual();
                             return "RadioNuclido";
-                        } else {
-                            if (!adelante) {
-                                validaradionuclidoActual();
-                                return "RadioNuclido";
-                            }
-                            return "Completo";
                         }
+                        return "Completo";
                     }
                 }
             }
-
         }
 
     }
+
+}

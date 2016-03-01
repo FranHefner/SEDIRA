@@ -55,11 +55,7 @@
                         </Tab>
                         <Tab id="5" fx:id="tabCalcular" disable="true" text="Cálculo">
                           <content>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                 <children>
-                                    <Label layoutX="311.0" layoutY="115.0" text="CALCULO" />
-                                 </children>
-                              </AnchorPane>
+                            <AnchorPane fx:id="pnlCalculo" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                           </content>
                         </Tab>
                     </tabs>
@@ -68,7 +64,7 @@
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="146.0" prefWidth="698.0">
                <children>
-                  <TextArea layoutX="49.0" layoutY="56.0" prefHeight="66.0" prefWidth="600.0" style="-fx-background-color: black;" text="INFORMACION DEL PROCESO/SELECCION&#10;Paciente: Nombre Apellido&#10;Phantom: NombrePhantom&#10;Organo: NombreOrgano" />
+                  <TextArea fx:id="txtProceso" layoutX="49.0" layoutY="56.0" prefHeight="66.0" prefWidth="600.0" style="-fx-background-color: black;" />
                   <Pane layoutX="119.0" prefHeight="52.0" prefWidth="444.0">
                      <children>
                         <Button fx:id="btnAtras" disable="true" layoutX="14.0" layoutY="8.0" mnemonicParsing="false" onAction="#btnAtras_click" prefHeight="36.0" prefWidth="117.0" text="Atras" />

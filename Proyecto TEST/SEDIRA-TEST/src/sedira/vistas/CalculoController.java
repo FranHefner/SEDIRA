@@ -22,6 +22,8 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import sedira.DatosValidacionesCalculo;
@@ -64,8 +66,14 @@ public class CalculoController implements Initializable {
     private Pane pnlRadionuclido;
     @FXML
     private Pane pnlOrgano;
+     @FXML
+    private Pane pnlCalculo;
+    
     @FXML
     private Button btnSiguiente;
+    @FXML
+    private TextArea txtProceso;
+     
     @FXML
     private Button btnAtras;
     @FXML
@@ -74,6 +82,8 @@ public class CalculoController implements Initializable {
     private PestañaOrganoController organoController;
     
     public static String pestañaActual;
+    
+  
 
     /**
      * Initializes the controller class.
@@ -99,7 +109,10 @@ public class CalculoController implements Initializable {
             Node NodoPaciente;
             NodoPaciente = (Node) FXMLLoader.load(getClass().getResource("PestañaPaciente.fxml"));
             pnlPaciente.getChildren().setAll(NodoPaciente);
-
+            
+             txtProceso.setText("INFORMACION DEL PROCESO/SELECCION");
+             
+            DatosValidacionesCalculo.TextoProgreso = txtProceso.getText();
          /*   Node NodoRadionuclido;
             NodoRadionuclido = (Node) FXMLLoader.load(getClass().getResource("PestañaRadionuclido.fxml"));
             pnlRadionuclido.getChildren().setAll(NodoRadionuclido);
@@ -132,7 +145,9 @@ public class CalculoController implements Initializable {
             tabOrganoTejido.setDisable(true);
             tabRadionuclido.setDisable(true);
             tabCalcular.setDisable(true);
-
+            
+             txtProceso.setText( DatosValidacionesCalculo.GetTextoProgeso());
+            
         }
         if (EstadoActual.equals("Phantom")) {
             tabPhantom.setDisable(false);
@@ -148,7 +163,7 @@ public class CalculoController implements Initializable {
             NodoPhantom = (Node) FXMLLoader.load(getClass().getResource("PestañaPhantom.fxml"));
             pnlPhantom.getChildren().setAll(NodoPhantom);
             
-                        
+              txtProceso.setText( DatosValidacionesCalculo.GetTextoProgeso());
         }
         if (EstadoActual.equals("Organo")) {
             tabOrganoTejido.setDisable(false);
@@ -163,6 +178,8 @@ public class CalculoController implements Initializable {
              Node NodoOrgano;
             NodoOrgano = (Node) FXMLLoader.load(getClass().getResource("PestañaOrgano.fxml"));
             pnlOrgano.getChildren().setAll(NodoOrgano);
+            
+              txtProceso.setText( DatosValidacionesCalculo.GetTextoProgeso());
             
         }
         if (EstadoActual.equals("RadioNuclido")) {
@@ -179,6 +196,7 @@ public class CalculoController implements Initializable {
             NodoRadionuclido = (Node) FXMLLoader.load(getClass().getResource("PestañaRadionuclido.fxml"));
             pnlRadionuclido.getChildren().setAll(NodoRadionuclido);
             
+              txtProceso.setText( DatosValidacionesCalculo.GetTextoProgeso());
         }
         if (EstadoActual.equals("Completo")) {
             tabCalcular.setDisable(false);
@@ -189,6 +207,16 @@ public class CalculoController implements Initializable {
             tabPaciente.setDisable(true);
             tabPhantom.setDisable(true);
             tabOrganoTejido.setDisable(true);
+            
+               txtProceso.setText( DatosValidacionesCalculo.GetTextoProgeso());
+               
+              Node NodoCalculo;
+            NodoCalculo = (Node) FXMLLoader.load(getClass().getResource("PestañaCalculo.fxml"));
+            pnlCalculo.getChildren().setAll(NodoCalculo);
+            
+         
+            
+            
         }
 
         /* Logica de botones */
