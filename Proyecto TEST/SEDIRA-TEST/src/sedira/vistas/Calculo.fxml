@@ -10,9 +10,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="681.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sedira.vistas.CalculoController">
+<AnchorPane id="AnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="724.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sedira.vistas.CalculoController">
    <children>
-      <SplitPane dividerPositions="0.7731958762886598" layoutX="26.0" layoutY="19.0" orientation="VERTICAL" prefHeight="592.0" prefWidth="603.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <SplitPane dividerPositions="0.7188365650969529" layoutX="26.0" layoutY="19.0" orientation="VERTICAL" prefHeight="592.0" prefWidth="603.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="410.0" prefWidth="601.0">
                <children>
@@ -64,7 +64,7 @@
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="146.0" prefWidth="698.0">
                <children>
-                  <TextArea fx:id="txtProceso" layoutX="49.0" layoutY="56.0" prefHeight="66.0" prefWidth="600.0" style="-fx-background-color: black;" />
+                  <TextArea fx:id="txtProceso" layoutX="49.0" layoutY="56.0" prefHeight="94.0" prefWidth="600.0" style="-fx-background-color: black;" />
                   <Pane layoutX="119.0" prefHeight="52.0" prefWidth="444.0">
                      <children>
                         <Button fx:id="btnAtras" disable="true" layoutX="14.0" layoutY="8.0" mnemonicParsing="false" onAction="#btnAtras_click" prefHeight="36.0" prefWidth="117.0" text="Atras" />

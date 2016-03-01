@@ -212,8 +212,7 @@ public class CalculoController implements Initializable {
                
               Node NodoCalculo;
             NodoCalculo = (Node) FXMLLoader.load(getClass().getResource("PestañaCalculo.fxml"));
-            pnlCalculo.getChildren().setAll(NodoCalculo);
-            
+            pnlCalculo.getChildren().setAll(NodoCalculo);           
          
             
             
@@ -227,7 +226,10 @@ public class CalculoController implements Initializable {
         } else {
             btnAtras.setDisable(false);
             if (EstadoActual.equals("Completo")) {
-                btnSiguiente.setDisable(true);
+                 btnSiguiente.setText("Finalizar");
+            }else
+            {
+                btnSiguiente.setText("Siguiente");
             }
         }
 
