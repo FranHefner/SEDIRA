@@ -88,7 +88,7 @@ public class PacienteController implements Initializable {
     @FXML
     private Button btnEditar1;
     @FXML
-    private Button btnEditar11;
+    private Button btnCerrar;
     @FXML
     private Button btnHistorialSEDIRA;
     @FXML
@@ -211,6 +211,19 @@ public class PacienteController implements Initializable {
         cbTipoDoc.setDisable(false);
          txtFechaNacimiento.setDisable(false);
 
+    }
+    @FXML
+    private void btnCerrar_click() {
+      txtNombre.setEditable(false);
+        txtApellido.setEditable(false);
+        txtNumeroDoc.setEditable(false);
+        //   txtTipoDoc.setEditable(true); 
+        cbTipoDoc.setDisable(false);
+         txtFechaNacimiento.setDisable(false);
+         
+         Stage stage = (Stage) btnCerrar.getScene().getWindow();
+    
+    stage.close();
     }
 
     @FXML

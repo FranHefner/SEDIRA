@@ -38,7 +38,7 @@
                                     <Button fx:id="btnNuevo" layoutX="7.0" layoutY="24.0" mnemonicParsing="false" onAction="#btnNuevo_click" text="Nuevo" />
                                     <Button fx:id="btnEditar" layoutX="132.0" layoutY="24.0" mnemonicParsing="false" onAction="#btnEditar_click" text="Editar" />
                                     <Button fx:id="btnEditar1" layoutX="195.0" layoutY="24.0" mnemonicParsing="false" onAction="#btnAceptar_click" text="Aceptar" />
-                                    <Button fx:id="btnEditar11" layoutX="408.0" layoutY="24.0" mnemonicParsing="false" onAction="#btnAceptar_click" text="Cerrar" />
+                                    <Button fx:id="btnCerrar" layoutX="408.0" layoutY="24.0" mnemonicParsing="false" onAction="#btnCerrar_click" text="Cerrar" />
                                  </children>
                               </Pane>
                               <Pane layoutX="101.0" layoutY="159.0" prefHeight="284.0" prefWidth="501.0">
