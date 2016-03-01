@@ -247,7 +247,9 @@ public class CalculoController implements Initializable {
 
     @FXML
     private void btnCancelar_click() throws IOException {
-
+         Stage stage = (Stage) btnCancelar.getScene().getWindow();
+    
+    stage.close();
     }
 
 }
