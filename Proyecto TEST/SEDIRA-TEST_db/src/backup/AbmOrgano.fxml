@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="640.0" prefWidth="574.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sedira.vistas.AbmOrganoController">
+   <children>
+      <TitledPane animated="false" collapsible="false" layoutX="8.0" layoutY="9.0" prefHeight="618.0" prefWidth="559.0" text="Edición de órganos">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="602.0" prefWidth="557.0">
+               <children>
+                  <TableView fx:id="griOrgano" layoutX="14.0" layoutY="138.0" prefHeight="405.0" prefWidth="539.0">
+                     <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                     </columnResizePolicy>
+                     <columns>
+                        <TableColumn fx:id="clOrganoNombre" prefWidth="75.0" text="Organo" />
+                        <TableColumn fx:id="clOrganoMasa" prefWidth="75.0" text="Masa (grs)" />
+                     </columns>
+                  </TableView>
+                  <Label layoutX="21.0" layoutY="55.0" text="Nombre del órgano:" />
+                  <Label layoutX="10.0" layoutY="101.0" text="Peso del órgano (grs):" />
+                  <TextField fx:id="txtOrganoNombre" layoutX="131.0" layoutY="45.0" prefHeight="33.0" prefWidth="250.0" />
+                  <TextField fx:id="txtOrganoMasa" layoutX="132.0" layoutY="91.0" prefHeight="33.0" prefWidth="250.0" />
+                  <VBox alignment="CENTER" layoutX="438.0" layoutY="8.0" spacing="15.0">
+                     <children>
+                        <Button fx:id="btnLimpiarValores" layoutX="438.0" layoutY="8.0" mnemonicParsing="false" onAction="#btnLimpiarValores" text="Limpiar valores" />
+                        <Button fx:id="btnAgregarOrgano" layoutX="438.0" layoutY="44.0" mnemonicParsing="false" onAction="#btnAgregar" prefHeight="25.0" prefWidth="93.0" text="Agregar" />
+                        <Button fx:id="btnQuitarOrgano" layoutX="438.0" layoutY="83.0" mnemonicParsing="false" onAction="#btnQuitar" prefHeight="25.0" prefWidth="93.0" text="Quitar" />
+                     </children>
+                  </VBox>
+                  <HBox alignment="CENTER" layoutX="13.0" layoutY="561.0" prefHeight="25.0" prefWidth="540.0" spacing="20.0">
+                     <children>
+                        <Button fx:id="btnGuardarCambios" layoutX="132.0" layoutY="561.0" mnemonicParsing="false" onAction="#btnGuardarDatos" text="Guardar cambios" />
+                        <Button fx:id="btnCancelar" layoutX="253.0" layoutY="561.0" mnemonicParsing="false" onAction="#btnCancel" text="Cancelar" />
+                     </children>
+                  </HBox>
+                  <Label fx:id="phantomInfo" layoutX="17.0" layoutY="6.0" prefHeight="17.0" prefWidth="395.0" />
+               </children></AnchorPane>
+        </content>
+      </TitledPane>
+   </children>
+</AnchorPane>

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" maxHeight="774.0" maxWidth="1038.0" minHeight="583.0" minWidth="662.0" prefHeight="674.0" prefWidth="835.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sedira.vistas.PhantomController">
+   <children>
+      <SplitPane dividerPositions="0.2752808988764045" layoutX="84.0" layoutY="81.0" orientation="VERTICAL" prefHeight="639.0" prefWidth="675.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="138.0" prefWidth="750.0">
+               <children>
+                  <TextField fx:id="txtCampoBusqueda" layoutX="9.0" layoutY="22.0" onKeyPressed="#buscarPhantom" prefHeight="33.0" prefWidth="271.0" promptText="Búsqueda ..." />
+                  <TableView fx:id="griPhantom" layoutX="294.0" layoutY="24.0" onMouseClicked="#getSelectedPhantom" prefHeight="150.0" prefWidth="297.0">
+                    <columns>
+                      <TableColumn fx:id="clPhantomNombre" prefWidth="136.0" text="Phantom" />
+                    </columns>
+                     <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                     </columnResizePolicy>
+                  </TableView>
+                  <Button fx:id="btnNuevoPhantom" layoutX="157.0" layoutY="69.0" mnemonicParsing="false" onAction="#btnNuevoPhantom_click" prefHeight="25.0" prefWidth="112.0" text="Crear Phantom" />
+                  <Button fx:id="btnEditarPhantom" disable="true" layoutX="157.0" layoutY="108.0" mnemonicParsing="false" onAction="#btnEditarPhantom_click" prefHeight="25.0" prefWidth="112.0" text="Editar Phantom" />
+               </children>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="495.0" prefWidth="895.0">
+               <children>
+                  <TitledPane animated="false" collapsible="false" layoutX="14.0" layoutY="7.0" prefHeight="449.0" prefWidth="396.0" text="Información Phantom">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="371.0" prefWidth="380.0">
+                           <children>
+                              <TableView fx:id="griValorDescripcionPhantom" layoutX="7.0" layoutY="14.0" onMouseClicked="#getSelectedItemFromTabla" prefHeight="358.0" prefWidth="379.0">
+                                <columns>
+                                  <TableColumn fx:id="clVdDescripcion" prefWidth="75.0" text="Propiedad" />
+                                  <TableColumn fx:id="clVdValor" prefWidth="75.0" text="Valor" />
+                                    <TableColumn fx:id="clVdUnidad" prefWidth="75.0" text="Unidad" />
+                                </columns>
+                                 <columnResizePolicy>
+                                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                 </columnResizePolicy>
+                              </TableView>
+                              <HBox alignment="CENTER" layoutX="28.0" layoutY="384.0" prefHeight="25.0" prefWidth="337.0" spacing="20.0">
+                                 <children>
+                                    <Button fx:id="btnAgregarItem" disable="true" mnemonicParsing="false" onAction="#btnAgregarItem" text="Agregar Item" />
+                                    <Button fx:id="btnModificarItem" disable="true" mnemonicParsing="false" onAction="#btnModificarItem" text="Modificar Item" />
+                                    <Button fx:id="btnEliminarItem" disable="true" mnemonicParsing="false" onAction="#btnEliminarItem" text="Eliminar Item" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </AnchorPane>
+                    </content>
+                  </TitledPane>
+                  <TitledPane animated="false" collapsible="false" layoutX="431.0" layoutY="7.0" prefHeight="449.0" prefWidth="396.0" text="Organos perteneciente al Phantom seleccionado">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <TableView fx:id="griOrgano" layoutX="6.0" layoutY="14.0" onMouseClicked="#getSelectedItemFromTablaOrgano" prefHeight="359.0" prefWidth="380.0">
+                                <columns>
+                                  <TableColumn fx:id="clOrganoNombre" prefWidth="75.0" text="Órgano" />
+                                  <TableColumn fx:id="clOrganoMasa" prefWidth="75.0" text="Masa (grs)" />
+                                </columns>
+                                 <columnResizePolicy>
+                                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                 </columnResizePolicy>
+                              </TableView>
+                              <HBox layoutX="20.0" layoutY="384.0" spacing="20.0">
+                                 <children>
+                                    <Button fx:id="btnAgregarOrgano" disable="true" layoutX="82.0" layoutY="378.0" mnemonicParsing="false" onAction="#btnAgregarOrgano" text="Agregar Organo" />
+                                    <Button fx:id="btnModificarOrgano" disable="true" layoutX="150.0" layoutY="378.0" mnemonicParsing="false" onAction="#btnModificarOrgano" text="Modificar Organo" />
+                                    <Button fx:id="btnEliminarOrgano" disable="true" layoutX="268.0" layoutY="378.0" mnemonicParsing="false" onAction="#btnEliminarOrgano" text="Eliminar Organo" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </AnchorPane>
+                    </content>
+                  </TitledPane>
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+      <Label layoutX="4.0" text="Herramienta para administracion de Phantoms." />
+   </children>
+</AnchorPane>

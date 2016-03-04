@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sedira.vistas.PestañaPacienteController">
+   <children>
+      <SplitPane dividerPositions="0.14102564102564102" layoutY="25.0" orientation="VERTICAL" prefHeight="347.0" prefWidth="575.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <items>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="59.0" prefWidth="696.0">
+               <children>
+                  <TextField fx:id="txtBusqueda" layoutX="246.0" layoutY="14.0" onKeyPressed="#btnBuscar_click" prefHeight="36.0" prefWidth="205.0" promptText="Búsqueda ..." />
+               </children>
+            </AnchorPane>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="238.0" prefWidth="698.0">
+               <children>
+                  <TableView fx:id="griListaPacientes" layoutX="88.0" layoutY="14.0" prefHeight="127.0" prefWidth="501.0">
+                     <columns>
+                        <TableColumn fx:id="clTipoDoc" prefWidth="98.0" text="Tipo Doc" />
+                        <TableColumn fx:id="clNumeroDoc" prefWidth="152.0" text="Numero Doc" />
+                        <TableColumn fx:id="clNombre" prefWidth="113.0" text="Nombre" />
+                        <TableColumn fx:id="clApellido" prefWidth="159.0" text="Apellido" />
+                     </columns>
+                     <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                     </columnResizePolicy>
+                  </TableView>
+                  <Label layoutX="95.0" layoutY="178.0" text="Paciente" />
+                  <CheckBox allowIndeterminate="true" disable="true" layoutX="302.0" layoutY="178.0" mnemonicParsing="false" style="-fx-opacity: 1;" text="En tratamiento" />
+                  <TextField fx:id="txtNombrePaciente" disable="true" editable="false" layoutX="155.0" layoutY="166.0" prefHeight="36.0" prefWidth="140.0" />
+                  <Label layoutX="95.0" layoutY="217.0" text="Obervaciones" />
+                  <TextArea fx:id="txtObservaciones" disable="true" layoutX="95.0" layoutY="232.0" prefHeight="151.0" prefWidth="501.0" />
+                  <Button fx:id="btnHistorialSEDIRA" disable="true" layoutX="439.0" layoutY="175.0" mnemonicParsing="false" onAction="#btnHistorialSEDIRA_click" prefHeight="23.0" prefWidth="105.0" text="Historial SEDIRA" />
+               </children>
+            </AnchorPane>
+         </items>
+      </SplitPane>
+   </children>
+</AnchorPane>

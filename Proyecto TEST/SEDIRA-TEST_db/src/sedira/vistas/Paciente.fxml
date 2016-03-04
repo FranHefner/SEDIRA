@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" maxHeight="639.0" maxWidth="972.0" minHeight="637.0" minWidth="675.0" prefHeight="639.0" prefWidth="675.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sedira.vistas.PacienteController">
+   <children>
+      <SplitPane layoutX="252.0" layoutY="100.0" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="542.0" prefWidth="617.0">
+               <children>
+                  <SplitPane dividerPositions="0.1618181818181818" layoutX="13.0" layoutY="26.0" maxHeight="552.0" maxWidth="617.0" minHeight="552.0" minWidth="617.0" orientation="VERTICAL" prefHeight="552.0" prefWidth="617.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <items>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                           <children>
+                              <TextField fx:id="txtCampoBusqueda" layoutX="251.0" layoutY="38.0" onKeyPressed="#btnBuscar_click" prefHeight="33.0" prefWidth="213.0" promptText="Búsqueda ..." />
+                           </children>
+                        </AnchorPane>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="529.0" prefWidth="658.0">
+                           <children>
+                              <TableView fx:id="griListaPacientes" layoutX="101.0" layoutY="25.0" prefHeight="127.0" prefWidth="501.0">
+                                <columns>
+                                  <TableColumn fx:id="clTipoDoc" prefWidth="75.0" text="Tipo Doc" />
+                                    <TableColumn fx:id="clNumeroDoc" prefWidth="141.0" text="Numero Doc" />
+                                  <TableColumn fx:id="clNombre" prefWidth="132.0" text="Nombre" />
+                                    <TableColumn fx:id="clApellido" prefWidth="152.0" text="Apellido" />
+                                </columns>                                 
+                              </TableView>
+                              <Pane fx:id="grbBotones" layoutX="123.0" layoutY="443.0" prefHeight="72.0" prefWidth="524.0">
+                                 <children>
+                                    <Button fx:id="btnNuevo" layoutX="7.0" layoutY="24.0" mnemonicParsing="false" onAction="#btnNuevo_click" text="Nuevo" />
+                                    <Button fx:id="btnEditar" layoutX="132.0" layoutY="24.0" mnemonicParsing="false" onAction="#btnEditar_click" text="Editar" />
+                                    <Button fx:id="btnEditar1" layoutX="195.0" layoutY="24.0" mnemonicParsing="false" onAction="#btnAceptar_click" text="Aceptar" />
+                                    <Button fx:id="btnCerrar" layoutX="408.0" layoutY="24.0" mnemonicParsing="false" onAction="#btnCerrar_click" text="Cerrar" />
+                                 </children>
+                              </Pane>
+                              <Pane layoutX="101.0" layoutY="159.0" prefHeight="284.0" prefWidth="501.0">
+                                 <children>
+                                    <TextField fx:id="txtNombre" editable="false" layoutX="126.0" layoutY="137.0" onKeyReleased="#txtNombre_KeyPress" />
+                                    <TextField fx:id="txtApellido" editable="false" layoutX="126.0" layoutY="172.0" onKeyReleased="#txtApellido_KeyPress" />
+                                    <Label layoutX="17.0" layoutY="176.0" text="Apellido:" />
+                                    <Label layoutX="17.0" layoutY="141.0" text="Nombre:" />
+                                    <Label layoutX="17.0" layoutY="69.0" text="Tipo Documento:" />
+                                    <Label layoutX="17.0" layoutY="103.0" text="N° Documento:" />
+                                    <TextField fx:id="txtNumeroDoc" editable="false" layoutX="126.0" layoutY="99.0" onKeyReleased="#txtNumeroDoc_KeyPress" />
+                                    <Label layoutX="17.0" layoutY="36.0" text="ID Paciente" />
+                                    <TextField fx:id="txtIdPaciente" editable="false" layoutX="126.0" layoutY="32.0" prefHeight="25.0" prefWidth="40.0" />
+                                    <Label layoutX="16.0" layoutY="212.0" text="Fecha Nacimiento" />
+                                    <ComboBox fx:id="cbTipoDoc" disable="true" layoutX="126.0" layoutY="65.0" prefHeight="25.0" prefWidth="149.0" />
+                                    <Button fx:id="btnHistorialSEDIRA" layoutX="315.0" layoutY="151.0" mnemonicParsing="false" onAction="#btnHistorialSEDIRA_click" prefHeight="25.0" prefWidth="133.0" text="Historial SEDIRA" />
+                                    <Button fx:id="btnContacto" layoutX="315.0" layoutY="214.0" mnemonicParsing="false" onAction="#btnContacto_click" prefHeight="25.0" prefWidth="133.0" text="Contacto" />
+                                    <CheckBox fx:id="chkTratamiento" allowIndeterminate="true" layoutX="126.0" layoutY="243.0" mnemonicParsing="false" />
+                                    <Label layoutX="18.0" layoutY="243.0" text="En tratamiento" />
+                                    <ImageView fx:id="imgPaciente" fitHeight="116.0" fitWidth="160.0" layoutX="315.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@/sedira/FotoPaciente.jpg" />
+                                       </image>
+                                    </ImageView>
+                                    <Button fx:id="btnMediciones" layoutX="315.0" layoutY="183.0" mnemonicParsing="false" onAction="#btnMediciones_click" prefHeight="25.0" prefWidth="133.0" text="Mediciones" />
+                                    <DatePicker fx:id="txtFechaNacimiento" layoutX="126.0" layoutY="214.0" prefHeight="25.0" prefWidth="149.0" />
+                                 </children>
+                              </Pane>
+                           </children>
+                        </AnchorPane>
+                    </items>
+                  </SplitPane>
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+   </children>
+</AnchorPane>

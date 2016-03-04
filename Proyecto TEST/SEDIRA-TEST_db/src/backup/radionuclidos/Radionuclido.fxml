@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="705.0" prefWidth="586.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sedira.vistas.RadionuclidoController">
+   <children>
+      <SplitPane dividerPositions="0.283072546230441" layoutX="157.0" layoutY="21.0" orientation="VERTICAL" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+               <children>
+                  <TableView fx:id="griRadionuclido" layoutX="323.0" layoutY="25.0" prefHeight="164.0" prefWidth="187.0">
+                    <columns>
+                      <TableColumn fx:id="clNombreRadNuclido" prefWidth="75.0" text="Radionúclido" />
+                    </columns>
+                     <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                     </columnResizePolicy>
+                  </TableView>
+                  <Label layoutX="14.0" layoutY="6.0" prefHeight="17.0" prefWidth="254.0" text="Herramienta para la edición de Radionúclidos." />
+                  <TextField fx:id="txtCampoBusqueda" layoutX="11.0" layoutY="23.0" onKeyPressed="#buscarRadionuclido" prefHeight="33.0" prefWidth="271.0" promptText="Búsqueda ..." />
+               </children>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+               <children>
+                  <TitledPane animated="false" collapsible="false" layoutX="23.0" layoutY="14.0" prefHeight="423.0" prefWidth="479.0" text="Información del radionúclido">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="397.0" prefWidth="526.0">
+                           <children>
+                              <TableView fx:id="griInfoRadNuclido" layoutX="31.6" layoutY="25.6" prefHeight="366.0" prefWidth="395.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="22.0" AnchorPane.rightAnchor="111.0" AnchorPane.topAnchor="16.0">
+                                 <columns>
+                                    <TableColumn fx:id="clVdDescripcion" prefWidth="75.0" text="Propiedad" />
+                                    <TableColumn fx:id="clVdValor" prefWidth="75.0" text="Valor" />
+                                    <TableColumn fx:id="clVdUnidad" prefWidth="75.0" text="Unidad" />
+                                 </columns>
+                                 <columnResizePolicy>
+                                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                 </columnResizePolicy>
+                              </TableView>
+                              <VBox layoutX="418.0" layoutY="116.0" spacing="20.0">
+                                 <children>
+                                    <Button fx:id="btnAgregarItem" layoutX="451.0" layoutY="78.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="94.0" text="Agregar Item" />
+                                    <Button fx:id="btnModificarItem" layoutX="451.0" layoutY="121.0" mnemonicParsing="false" text="Modificar Item" />
+                                    <Button fx:id="btnEliminarItem" layoutX="451.0" layoutY="161.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="93.0" text="Eliminar Item" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </AnchorPane>
+                    </content>
+                  </TitledPane>
+                  <HBox alignment="TOP_CENTER" layoutX="85.0" layoutY="451.0" prefHeight="25.0" prefWidth="362.0" spacing="30.0">
+                     <children>
+                        <Button fx:id="btnNuevo" layoutX="170.0" layoutY="451.0" mnemonicParsing="false" onAction="#btnNuevoRadionuclido" text="Nuevo " />
+                        <Button fx:id="btnEditar" layoutX="242.0" layoutY="451.0" mnemonicParsing="false" onAction="#btnEditarRadionuclido" text="Editar" />
+                     </children>
+                  </HBox>
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+   </children>
+</AnchorPane>

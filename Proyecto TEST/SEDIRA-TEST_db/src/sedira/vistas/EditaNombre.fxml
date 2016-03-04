@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="173.0" prefWidth="407.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sedira.vistas.EditaNombreController">
+   <children>
+      <TextField fx:id="txtAtributo" layoutX="95.0" layoutY="80.0" prefHeight="25.0" prefWidth="289.0" />
+      <Label layoutX="34.0" layoutY="84.0" text="Atributo: " />
+      <Label fx:id="lblInformacion" layoutX="24.0" layoutY="41.0" text="Información: " />
+      <HBox alignment="TOP_CENTER" layoutX="-1.0" layoutY="138.0" prefHeight="25.0" prefWidth="407.0" spacing="20.0">
+         <children>
+            <Button fx:id="btnAceptar" layoutX="144.0" layoutY="138.0" mnemonicParsing="false" onAction="#btnAceptar" text="Aceptar" />
+            <Button fx:id="btnCancelar" layoutX="201.0" layoutY="138.0" mnemonicParsing="false" onAction="#btnCancelar" text="Cancelar" />
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>
