@@ -7,6 +7,7 @@ package sedira.vistas;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -120,12 +121,12 @@ public class RadionuclidoController implements Initializable {
         if (radionuclidoActual != null)
         {
             //infoRadNuclido = radionuclidoActual.getPropiedades(); // La coleccion de propiedades del RadNuclido
-            //hacer el select y la restriccion.
+            
             infoRadNuclido = RadionuclidoDAO.obtenerInfoRadNuclido(radionuclidoActual);
             //griInfoRadNuclido.setItems(infoRadNuclido);
             griInfoRadNuclido.setItems(infoRadNuclido);
             //Prendo botones.
-            System.out.print(radionuclidoActual.getNombreRadNuclido());
+            //System.out.print(radionuclidoActual.getNombreRadNuclido());
             btnAgregarItem.setDisable(false);
             
             
@@ -281,7 +282,7 @@ public class RadionuclidoController implements Initializable {
             infoRadNuclido.add(itemRadionuclido);
             auxRadionuclido.setPropiedades(infoRadNuclido);
             ConsultasDB.modificarRadionuclido(auxRadionuclido, griRadionuclido.getSelectionModel().getSelectedIndex());
-
+            
         }
                         
                                       
@@ -293,12 +294,15 @@ public class RadionuclidoController implements Initializable {
      * El radionuclido primero se crea sin elemento de tipo propiedad valor. 
      */
     @FXML
-    public void btnAgregarRadionuclido (){
+    public void btnAgregarRadionuclido () throws SQLException{
         Radionuclido tempRadNuclido = new Radionuclido (-1,"",null);
 		boolean guardarCambiosClicked = mostrarRadionuclidoDialog(tempRadNuclido);
 		if (guardarCambiosClicked) {
-			ConsultasDB.radionuclidoData = ConsultasDB.obtenerRadionuclidos();
-                        ConsultasDB.agregarRadionuclido(tempRadNuclido);
+			//ConsultasDB.radionuclidoData = ConsultasDB.obtenerRadionuclidos();
+                        
+                        RadionuclidoDAO.agregarRadionuclido(tempRadNuclido);
+                        radionuclidoData=RadionuclidoDAO.obtenerListaRadNuclido();
+                        griRadionuclido.setItems(radionuclidoData);
         }
     }
     
@@ -309,7 +313,7 @@ public class RadionuclidoController implements Initializable {
 		if (guardarCambiosClicked) {
 			ConsultasDB.radionuclidoData = ConsultasDB.obtenerRadionuclidos();
                         ConsultasDB.modificarRadionuclido(radioNuclidoActual, griRadionuclido.getSelectionModel().getSelectedIndex());
-        
+                        
         }
     }
        

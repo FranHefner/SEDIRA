@@ -7,6 +7,8 @@ package sedira.model;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javax.swing.JOptionPane;
@@ -80,7 +82,7 @@ public class RadionuclidoDAO {
                 //Completo el aux con la informacion obtenida de la BD
                 infoRadNuclido.setDescripcion(resultado.getString("descripcion"));
                 infoRadNuclido.setValor(Double.parseDouble(resultado.getString("valor")));
-                //infoRadNuclido.setUnidad(resultado.getString("unidad"));
+                infoRadNuclido.setUnidad(resultado.getString("unidad"));
                 
                 //agregro al arreglo de propiedades la nueva propiedad parseada               
                 infoRadNuclidoData.add(infoRadNuclido);
@@ -100,6 +102,27 @@ public class RadionuclidoDAO {
           
         return infoRadNuclidoData;
     }
+    /**
+     * Metodo para agregar un radionuclido nuevo. 
+     * Registra un nuevo radionuclido a la base de datos.
+     * @param radionuclido 
+     * @throws java.sql.SQLException 
+     */
+    public static void agregarRadionuclido (Radionuclido radionuclido) throws SQLException {
+        //Instancia de conexion
+        ConexionDB conexion= new ConexionDB();
+        int id;
+        try {
+            Statement consulta =  conexion.getConnection().createStatement();
+            consulta.executeUpdate("INSERT INTO radionuclido (nombre_radionuclido) VALUES ('"+radionuclido.getNombreRadNuclido()+"')");
+            
+            JOptionPane.showMessageDialog(null, "Se ha registrado Exitosamente","Información",JOptionPane.INFORMATION_MESSAGE);
+            System.out.println();
+        }catch  (SQLException e){
+            System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(null, "No se Registro el radionuclido");
+        }
+    }       
     
     
     
