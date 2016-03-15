@@ -18,8 +18,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import org.controlsfx.dialog.Dialogs;
-import sedira.ConsultasDB;
 import sedira.FuncionesGenerales;
 import sedira.model.Radionuclido;
 import sedira.model.ValorDescripcion;
@@ -108,10 +106,10 @@ public class AbmRadionuclidoController implements Initializable {
             //Prendo los botones
         
         } else {
-            //Genero un nuevo Id para el radionuclido. 
-            txtIdRadNuclido.setText(String.valueOf(ConsultasDB.getNewIdRadNuclido()));
+            
+            txtIdRadNuclido.setDisable(true);
             //Cambio Nombre en el formulario. 
-            this.dialogStage.setTitle("Agregar Radionuclido");
+            this.dialogStage.setTitle("Crear un Radionúclido");
             //apago los textFields.
             txtPropiedad.setDisable(true);
             txtValor.setDisable(true);
@@ -137,27 +135,25 @@ public class AbmRadionuclidoController implements Initializable {
     @FXML
     public  void btnGuardarDatos() {
        // TODO: VALIDACIONES.  
-        // La llamada a la base de datos se realiza desde RadionuclidoController. Editar/Nuevo
+      
             if (validarDatosEntrada()){
-                    //Validacion preguntando si esta seguro guardar cambios. 
-                    if ("Agregar Radionuclido".equals(this.dialogStage.getTitle()) ){ 
-                        //Nuevo radionuclido, debe guardar el nombre y el id primero.
-                        radionuclido.setIdRadNuclido(Integer.parseInt(txtIdRadNuclido.getText()));
-                        radionuclido.setNombreRadNuclido(txtRadNuclidoNombre.getText());
-                        radionuclido.setPropiedades(listaAtributoRadNuclido);
-                    }else { 
-                        //Modificacion del un radionuclido existente. 
-                        //Si se necesita opcion de modificar el nombre de un radionuclido. 
-                        //Comparar el nombre del dialogStage. Armar un CASE 
-
-                        itemRadionuclido.setDescripcion(txtPropiedad.getText());
-                        itemRadionuclido.setUnidad(txtUnidad.getText());
-                        itemRadionuclido.setValor(Double.parseDouble(txtValor.getText()));
-                    }
+                        switch (dialogStage.getTitle()){
+                            case "Crear un Radionúclido":
+//                                radionuclido.setIdRadNuclido(Integer.parseInt(txtIdRadNuclido.getText()));
+                                radionuclido.setNombreRadNuclido(txtRadNuclidoNombre.getText());
+                                radionuclido.setPropiedades(listaAtributoRadNuclido);
+                                break;
+                            case "Modificar nombre del Radionúclido":
+                                radionuclido.setNombreRadNuclido(txtRadNuclidoNombre.getText());
+                                break;
+                            case "Modificar Items":
+                                itemRadionuclido.setDescripcion(txtPropiedad.getText());
+                                itemRadionuclido.setUnidad(txtUnidad.getText());
+                                itemRadionuclido.setValor(Double.parseDouble(txtValor.getText()));
+                                break;
+                        } 
                     
-
                     guardarDatos = true;
-
                     dialogStage.close();
             }
                 
@@ -208,32 +204,40 @@ public class AbmRadionuclidoController implements Initializable {
                 
     public boolean validarDatosEntrada (){
         String mensajeError = "";
-        if ("Agregar Radionuclido".equals(this.dialogStage.getTitle())){
+        if ("Crear un Radionuclido".equals(this.dialogStage.getTitle())){
             // Solo valido
             if (txtRadNuclidoNombre.getText()== null || txtRadNuclidoNombre.getText().length() == 0){
                 mensajeError+= "Nombre del Radionuclido Invalido!";
             }
         } else {
-        
-            if (txtPropiedad.getText() == null || txtPropiedad.getText().length() == 0){
-                mensajeError += "Nombre de Propiedad Invalido! \n";
+            /*
+            Debido  a la utilizacion del mismo formulario para el abm de radionuclido. 
+            Cuando se modifica el nombre los campos de unidad, propiedad y valor estan desactivados. 
+            Por eso se pregunta si estan prendidos los textfields
+            */
+            if (txtPropiedad.isDisable()==false){
+                       
+                if (txtPropiedad.getText() == null || txtPropiedad.getText().length() == 0){
+                    mensajeError += "Nombre de Propiedad Invalido! \n";
+                }
             }
 
-
-            if (txtValor.getText() == null || txtValor.getText().length() == 0 ){
-                mensajeError += "Valor invalido! \n";
-            } else {
-                if (Double.valueOf(txtValor.getText()) == 0.0){
-                mensajeError += "Adventencia - Valor = 0.0 \n";
-                 } else {
-                //trato de parsear el valor como un double. 
-                try{
-                    Double.parseDouble(txtValor.getText());
-                } catch (NumberFormatException e){
-                    mensajeError+= "El atributo valor debe ser un número real!\n";
+            if (txtValor.isDisable()==false){
+                if (txtValor.getText() == null || txtValor.getText().length() == 0 ){
+                    mensajeError += "Valor invalido! \n";
+                } else {
+                    if (Double.valueOf(txtValor.getText()) == 0.0){
+                    mensajeError += "Adventencia - Valor = 0.0 \n";
+                     } else {
+                    //trato de parsear el valor como un double. 
+                    try{
+                        Double.parseDouble(txtValor.getText());
+                    } catch (NumberFormatException e){
+                        mensajeError+= "El atributo valor debe ser un número real!\n";
+                    }
+                    }   
                 }
-                }   
-            }   
+            }
         }
         // TODO validacion Unidad. 
          

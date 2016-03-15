@@ -99,6 +99,7 @@ public class RadionuclidoController implements Initializable {
         
         
         
+        
     }    
     
     /**
@@ -128,10 +129,12 @@ public class RadionuclidoController implements Initializable {
             //Prendo botones.
             //System.out.print(radionuclidoActual.getNombreRadNuclido());
             btnAgregarItem.setDisable(false);
+            btnModificarRadioNuclido.setDisable(false);
             
             
         } else {
-            //TODO Si no se selecciona un radionuclido desde la lista. 
+            btnAgregarItem.setDisable(true);
+            btnModificarRadioNuclido.setDisable(true);
         }
     }
     
@@ -144,7 +147,7 @@ public class RadionuclidoController implements Initializable {
 
             // Creo el Stage para el Dialogo Editar. 
             Stage dialogStage = new Stage();
-            dialogStage.setTitle("Modificar RadioNuclido");
+            dialogStage.setTitle("Modificar nombre del Radionúclido");
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.initOwner(primaryStage);
             Scene scene = new Scene(page);
@@ -176,7 +179,7 @@ public class RadionuclidoController implements Initializable {
 
             // Creo el Stage para el Dialogo Editar. 
             Stage dialogStage = new Stage();
-            dialogStage.setTitle("Modificar items");
+            dialogStage.setTitle("Modificar Items");
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.initOwner(primaryStage);
             Scene scene = new Scene(page);
@@ -303,6 +306,7 @@ public class RadionuclidoController implements Initializable {
                         RadionuclidoDAO.agregarRadionuclido(tempRadNuclido);
                         radionuclidoData=RadionuclidoDAO.obtenerListaRadNuclido();
                         griRadionuclido.setItems(radionuclidoData);
+                        btnModificarRadioNuclido.setDisable(true);
         }
     }
     
@@ -311,10 +315,15 @@ public class RadionuclidoController implements Initializable {
         Radionuclido radioNuclidoActual = FuncionesGenerales.getRadioNuclidoActual();
         boolean guardarCambiosClicked = mostrarRadionuclidoDialog(radioNuclidoActual);
 		if (guardarCambiosClicked) {
-			ConsultasDB.radionuclidoData = ConsultasDB.obtenerRadionuclidos();
-                        ConsultasDB.modificarRadionuclido(radioNuclidoActual, griRadionuclido.getSelectionModel().getSelectedIndex());
+                    //Guardar los nuevos valores del radionuclido. 
+                        RadionuclidoDAO.modificarRadionuclido(radioNuclidoActual);
+			radionuclidoData=RadionuclidoDAO.obtenerListaRadNuclido();
+                        griRadionuclido.setItems(radionuclidoData);
                         
-        }
+                        btnModificarRadioNuclido.setDisable(true);
+                        
+                  }
+               
     }
        
    

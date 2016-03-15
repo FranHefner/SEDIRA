@@ -211,7 +211,7 @@ public class PhantomController  implements Initializable  {
             Scene scene = new Scene(page);
             dialogStage.setScene(scene);
 
-                // Pone el organo en el controlador AbmOrganoController. 
+                // Pone el organo en el controlador EditaNombreController. 
             EditaNombreController controlador = loader.getController();
             controlador.setDialogStage(dialogStage);
             // le paso el Phantom porque los phantom son los que contienen organos. 
