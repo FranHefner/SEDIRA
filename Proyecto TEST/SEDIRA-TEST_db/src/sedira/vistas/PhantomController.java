@@ -523,7 +523,7 @@ public class PhantomController  implements Initializable  {
     public void btnAgregarItem (){
          
        Phantom auxPhantom = FuncionesGenerales.getPhantomActual();
-       ValorDescripcion itemPhantom = new ValorDescripcion (null,0,null); 
+       ValorDescripcion itemPhantom = new ValorDescripcion (-1,null,0,null); 
        ValorDescripcion selectedItem = griValorDescripcionPhantom.getSelectionModel().getSelectedItem();
        if (selectedItem != null){
         boolean guardarCambiosClicked = mostrarItemPhantomEditDialog(itemPhantom);

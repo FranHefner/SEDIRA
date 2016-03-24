@@ -95,16 +95,16 @@ public class ConsultasDB {
 
         //Ejemplo Phantom masculino    
         ObservableList<ValorDescripcion> listaAtributoPhantom = FXCollections.observableArrayList();
-        listaAtributoPhantom.add(new ValorDescripcion("Altura", 167, "cm"));
-        listaAtributoPhantom.add(new ValorDescripcion("Sup Cuerpo", 18000, "cm2"));
-        listaAtributoPhantom.add(new ValorDescripcion("Peso total", 73700, "grs"));
+       // listaAtributoPhantom.add(new ValorDescripcion("Altura", 167, "cm"));
+       // listaAtributoPhantom.add(new ValorDescripcion("Sup Cuerpo", 18000, "cm2"));
+       // listaAtributoPhantom.add(new ValorDescripcion("Peso total", 73700, "grs"));
         phantomData.add(new Phantom(0, "Adulto Masculino 76kg", listaAtributoPhantom, organosDataMasc));
 
         //Ejemplo Phantom Femenino
         ObservableList<ValorDescripcion> listaAtributoPhantomFem = FXCollections.observableArrayList();
-        listaAtributoPhantomFem.add(new ValorDescripcion("Altura", 0, "cm"));
-        listaAtributoPhantomFem.add(new ValorDescripcion("Sup Cuerpo", 0, "cm2"));
-        listaAtributoPhantomFem.add(new ValorDescripcion("Peso total", 56800, "grs"));
+        //listaAtributoPhantomFem.add(new ValorDescripcion("Altura", 0, "cm"));
+        //listaAtributoPhantomFem.add(new ValorDescripcion("Sup Cuerpo", 0, "cm2"));
+        //listaAtributoPhantomFem.add(new ValorDescripcion("Peso total", 56800, "grs"));
         phantomData.add(new Phantom(1, "Adulto Femenino 56.8kg", listaAtributoPhantomFem, organosDataFem));
 
         // La separacion de los los organos fue necesarios para iniciar por defecto los phantoms. 

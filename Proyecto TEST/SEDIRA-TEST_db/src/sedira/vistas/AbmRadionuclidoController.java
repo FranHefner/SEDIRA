@@ -122,8 +122,9 @@ public class AbmRadionuclidoController implements Initializable {
         Radionuclido radionuclidoActual = FuncionesGenerales.getRadioNuclidoActual();
         this.itemRadionuclido = itemRadionuclido;
         txtIdRadNuclido.setText(String.valueOf(radionuclidoActual.getIdRadNuclido()));
+        txtIdRadNuclido.setDisable(true);
         txtRadNuclidoNombre.setText(radionuclidoActual.getNombreRadNuclido());
-        
+        txtRadNuclidoNombre.setEditable(false);
         txtPropiedad.setText(itemRadionuclido.getDescripcion());
         txtValor.setText(itemRadionuclido.getValor().toString());
         txtUnidad.setText(itemRadionuclido.getUnidad());
@@ -236,6 +237,11 @@ public class AbmRadionuclidoController implements Initializable {
                         mensajeError+= "El atributo valor debe ser un número real!\n";
                     }
                     }   
+                }
+            }
+            if(txtUnidad.isDisable()==false){
+                if (txtUnidad.getText() == null || txtUnidad.getText().length() == 0){
+                    mensajeError += "Campo Unidad Invalido! \n";
                 }
             }
         }

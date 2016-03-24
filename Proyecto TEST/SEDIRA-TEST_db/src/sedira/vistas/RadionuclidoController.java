@@ -26,33 +26,35 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import sedira.ConsultasDB;
 import sedira.FuncionesGenerales;
 import sedira.model.Radionuclido;
 import sedira.model.RadionuclidoDAO;
 import sedira.model.ValorDescripcion;
+import sedira.model.ValorDescripcionDAO;
 
 /**
- * FXML Controller class
- * Clase controladora de la intefaz de  usuario Administrador de Radionúclidos. 
- * @author Quelin Pablo, Hefner Francisco. 
+ * FXML Controller class Clase controladora de la intefaz de usuario
+ * Administrador de Radionúclidos.
+ *
+ * @author Quelin Pablo, Hefner Francisco.
  */
 public class RadionuclidoController implements Initializable {
-    
-    @FXML 
-    private TableView <Radionuclido> griRadionuclido;
+
     @FXML
-    private TableColumn <Radionuclido, String> clNombreRadNuclido;
-    
+    private TableView<Radionuclido> griRadionuclido;
     @FXML
-    private TableView <ValorDescripcion> griInfoRadNuclido;
+    private TableColumn<Radionuclido, String> clNombreRadNuclido;
+
     @FXML
-    private TableColumn <ValorDescripcion, Double> clVdValor;
+    private TableView<ValorDescripcion> griInfoRadNuclido;
+
     @FXML
-    private TableColumn <ValorDescripcion, String> clVdDescripcion;
+    private TableColumn<ValorDescripcion, Double> clVdValor;
     @FXML
-    private TableColumn <ValorDescripcion, String> clVdUnidad;
-    
+    private TableColumn<ValorDescripcion, String> clVdDescripcion;
+    @FXML
+    private TableColumn<ValorDescripcion, String> clVdUnidad;
+
     @FXML
     private Button btnModificarRadioNuclido;
     @FXML
@@ -65,64 +67,61 @@ public class RadionuclidoController implements Initializable {
     private Button btnEditarItem;
     @FXML
     private TextField txtCampoBusqueda;
-    
-    
+
     //Lista Observable para el manejo de phantoms
-    private ObservableList <Radionuclido> radionuclidoData = FXCollections.observableArrayList();
-    //Lista Observable para el manejo de la informacion de los radionuclidos. 
-    private ObservableList <ValorDescripcion> infoRadNuclido = FXCollections.observableArrayList();
-    // Stage auxiliar. 
+    private ObservableList<Radionuclido> radionuclidoData = FXCollections.observableArrayList();
+    //Lista Observable para el manejo de la informacion de los radionuclidos.
+    private ObservableList<ValorDescripcion> infoRadNuclido = FXCollections.observableArrayList();
+    // Stage auxiliar.
     private Stage primaryStage;
-           
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        //obtengo el listado de los radionuclidos existentes. 
+        //obtengo el listado de los radionuclidos existentes.
         //Version Anterior // radionuclidoData = ConsultasDB.obtenerRadionuclidos();
         radionuclidoData = RadionuclidoDAO.obtenerListaRadNuclido();
-        //Inicializo la tabla de Propiedad Valor, correspondiente a la informacion de los radioNuclidos . 
+        //Inicializo la tabla de Propiedad Valor, correspondiente a la informacion de los radioNuclidos .
+
         clVdValor.setCellValueFactory(
-               cellData -> cellData.getValue().valorProperty().asObject());
+                cellData -> cellData.getValue().valorProperty().asObject());
         clVdDescripcion.setCellValueFactory(
-                cellData->cellData.getValue().descripcionProperty());
+                cellData -> cellData.getValue().descripcionProperty());
         clVdUnidad.setCellValueFactory(
                 cellData -> cellData.getValue().unidadProperty());
 
-        // Limpieza de los detalles de Radionuclido. 
-        FuncionesGenerales.mostrarDetalleTablaValorDescripcion(null,griInfoRadNuclido);
+        // Limpieza de los detalles de Radionuclido.
+        FuncionesGenerales.mostrarDetalleTablaValorDescripcion(null, griInfoRadNuclido);
 
-        //Inicializo la tabla de radionuclido - Trae el resultado de la busqueda.  
+        //Inicializo la tabla de radionuclido - Trae el resultado de la busqueda.
         clNombreRadNuclido.setCellValueFactory(cellData -> cellData.getValue().getNombreRadNuclidoProperty());
         buscarRadionuclido();
         //Listener para la seleccion del radionuclido en la lista de radionuclidos que trae la busqueda.
         griRadionuclido.getSelectionModel().selectedItemProperty().addListener(
-            (observable, oldValue, newValue) -> seleccionRadionuclido(newValue)); 
-        
-        
-        
-        
-    }    
-    
+                (observable, oldValue, newValue) -> seleccionRadionuclido(newValue));
+
+    }
+
     /**
-     * Al buscar el radionuclido , los muestra en la lista para su seleccion. 
+     * Al buscar el radionuclido , los muestra en la lista para su seleccion.
      */
     @FXML
-    public void buscarRadionuclido(){
-       griRadionuclido.setItems(FuncionesGenerales.FiltroListaRadNuclido(griRadionuclido, radionuclidoData, txtCampoBusqueda));
-       
+    public void buscarRadionuclido() {
+        griRadionuclido.setItems(FuncionesGenerales.FiltroListaRadNuclido(griRadionuclido, radionuclidoData, txtCampoBusqueda));
+
     }
-    
-        
+
     /**
-     * Metodo que muestra los detalles del radionuclido seleccionado en la tabla de resultado de busqueda. 
-     * @param radionuclidoActual radionuclido que se selecciona del grilla de radionuclidos. 
+     * Metodo que muestra los detalles del radionuclido seleccionado en la tabla
+     * de resultado de busqueda.
+     *
+     * @param radionuclidoActual radionuclido que se selecciona del grilla de
+     * radionuclidos.
      */
-    public void seleccionRadionuclido(Radionuclido radionuclidoActual) 
-    {  
+    public void seleccionRadionuclido(Radionuclido radionuclidoActual) {
         FuncionesGenerales.setRadioNuclidoActual(radionuclidoActual);
-        if (radionuclidoActual != null)
-        {
+        if (radionuclidoActual != null) {
             //infoRadNuclido = radionuclidoActual.getPropiedades(); // La coleccion de propiedades del RadNuclido
-            
+
             infoRadNuclido = RadionuclidoDAO.obtenerInfoRadNuclido(radionuclidoActual);
             //griInfoRadNuclido.setItems(infoRadNuclido);
             griInfoRadNuclido.setItems(infoRadNuclido);
@@ -130,36 +129,35 @@ public class RadionuclidoController implements Initializable {
             //System.out.print(radionuclidoActual.getNombreRadNuclido());
             btnAgregarItem.setDisable(false);
             btnModificarRadioNuclido.setDisable(false);
-            
-            
+
         } else {
             btnAgregarItem.setDisable(true);
             btnModificarRadioNuclido.setDisable(true);
         }
     }
-    
-    public boolean mostrarRadionuclidoDialog (Radionuclido radionuclido){
+
+    public boolean mostrarRadionuclidoDialog(Radionuclido radionuclido) {
         // cargo el nuevo FXML para crear un ventana tipo PopUp
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(PhantomController.class.getResource("AbmRadionuclido.fxml"));
             AnchorPane page = (AnchorPane) loader.load();
 
-            // Creo el Stage para el Dialogo Editar. 
+            // Creo el Stage para el Dialogo Editar.
             Stage dialogStage = new Stage();
             dialogStage.setTitle("Modificar nombre del Radionúclido");
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.initOwner(primaryStage);
             Scene scene = new Scene(page);
             dialogStage.setScene(scene);
-            
-            // Pone el radionuclido en el controlador AbmRadionuclidoController. 
+
+            // Pone el radionuclido en el controlador AbmRadionuclidoController.
             AbmRadionuclidoController controladorAbmRadNuclido = loader.getController();
             controladorAbmRadNuclido.setDialogStage(dialogStage);
             // le paso el Item
             controladorAbmRadNuclido.setRadionuclido(radionuclido);
 
-            // Muestra el formulario y espera hasta que el usuario lo cierre. 
+            // Muestra el formulario y espera hasta que el usuario lo cierre.
             dialogStage.showAndWait();
 
             //Return
@@ -168,16 +166,16 @@ public class RadionuclidoController implements Initializable {
             e.printStackTrace();
             return false;
         }
-    }  
-    
-    public boolean mostrarItemRadionuclidoEditDialog (ValorDescripcion itemRadionuclido){
+    }
+
+    public boolean mostrarItemRadionuclidoEditDialog(ValorDescripcion itemRadionuclido) {
         // cargo el nuevo FXML para crear un ventana tipo PopUp
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(PhantomController.class.getResource("AbmRadionuclido.fxml"));
             AnchorPane page = (AnchorPane) loader.load();
 
-            // Creo el Stage para el Dialogo Editar. 
+            // Creo el Stage para el Dialogo Editar.
             Stage dialogStage = new Stage();
             dialogStage.setTitle("Modificar Items");
             dialogStage.initModality(Modality.WINDOW_MODAL);
@@ -185,13 +183,13 @@ public class RadionuclidoController implements Initializable {
             Scene scene = new Scene(page);
             dialogStage.setScene(scene);
 
-            // Pone el radionuclido en el controlador AbmRadionuclidoController. 
+            // Pone el radionuclido en el controlador AbmRadionuclidoController.
             AbmRadionuclidoController controladorAbmRadNuclido = loader.getController();
             controladorAbmRadNuclido.setDialogStage(dialogStage);
             // le paso el Item
             controladorAbmRadNuclido.setItemRadionuclido(itemRadionuclido);
 
-            // Muestra el formulario y espera hasta que el usuario lo cierre. 
+            // Muestra el formulario y espera hasta que el usuario lo cierre.
             dialogStage.showAndWait();
 
             //Return
@@ -200,32 +198,51 @@ public class RadionuclidoController implements Initializable {
             e.printStackTrace();
             return false;
         }
-    }  
-        
-    public void getSelectedItemFromTabla(){
-        ValorDescripcion selectedItem = griInfoRadNuclido.getSelectionModel().getSelectedItem();
+    }
+
+    public void getSelectedItemFromTabla() {
+        ValorDescripcion selectedItem = new ValorDescripcion();
+        selectedItem = griInfoRadNuclido.getSelectionModel().getSelectedItem();
+
         if (selectedItem != null) {
             btnEliminarItem.setDisable(false);
             btnEditarItem.setDisable(false);
         }
-        
-    }         
+
+    }
+
     /**
-     * Metodo para el comportamiento del boton editar. Abre un dialogo para la edicion del RadioNuclido. 
+     * Metodo para el comportamiento del boton editar. Abre un dialogo para la
+     * edicion de un item del Radionuclido.
      */
     @FXML
-    public void btnModificarItem (){
-        //Radionuclido selectedRadNuclido = griRadionuclido.getSelectionModel().getSelectedItem();
+    public void btnModificarItem() {
+        //Objeto a editar.
         ValorDescripcion selectedItem = griInfoRadNuclido.getSelectionModel().getSelectedItem();
+        Radionuclido radionuclidoActual = FuncionesGenerales.getRadioNuclidoActual();
+        int idRadionuclido = FuncionesGenerales.getRadioNuclidoActual().getIdRadNuclido();
+        
         if (selectedItem != null) {
-                boolean guardarCambiosClicked = mostrarItemRadionuclidoEditDialog(selectedItem);
-                  
-                if (guardarCambiosClicked) {
-                        
-                }
+            boolean guardarCambiosClicked = mostrarItemRadionuclidoEditDialog(selectedItem);
+
+            if (guardarCambiosClicked) {
+                //False para Phantom,
+                //True para Radionuclido
+                ValorDescripcionDAO.modificarItem(selectedItem, idRadionuclido, false, true);
+                //actualizacion de la informacion del radionuclido.
+                infoRadNuclido = RadionuclidoDAO.obtenerInfoRadNuclido(radionuclidoActual);
+                //actualizacion de la tabla InfoRadNuclido.
+                griInfoRadNuclido.setItems(infoRadNuclido);
+                //Mensaje de confirmacion.
+                Alert alerta = new Alert(AlertType.INFORMATION);
+                alerta.setTitle("Confirmación");
+                alerta.setHeaderText(null);
+                alerta.setContentText("El ítem fué modificado.");
+                alerta.showAndWait();
+            }
 
         } else {
-            // No se selecciono ningun item. 
+            // No se selecciono ningun item.
             Alert alert = new Alert(AlertType.WARNING);
             alert.setTitle("Error!");
             alert.setHeaderText("Error!");
@@ -235,98 +252,157 @@ public class RadionuclidoController implements Initializable {
 
         }
     }
-   
+
     /**
-     * Metodo que controla el comportamiento del boton Quitar Item. 
+     * Metodo que controla el comportamiento del boton Quitar Item.
      */
     @FXML
-    public void btnEliminarItem (){
-         int selectedIndex = griInfoRadNuclido.getSelectionModel().getSelectedIndex();
-         String mensaje = griInfoRadNuclido.getSelectionModel().getSelectedItem().getDescripcion() + "  " +
-                           griInfoRadNuclido.getSelectionModel().getSelectedItem().getValor() + "  " + 
-                            griInfoRadNuclido.getSelectionModel().getSelectedItem().getUnidad();
-            if (selectedIndex >= 0) {
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setTitle("Eliminar Item");
-                alert.setHeaderText("Atención!");
-                alert.setContentText("Esta seguro que desea eliminar el item seleccionado? \n"+mensaje);
-                Optional<ButtonType> result = alert.showAndWait();
-                if (result.get() == ButtonType.OK){
-                    griInfoRadNuclido.getItems().remove(selectedIndex);griInfoRadNuclido.getItems().remove(selectedIndex);
-                    //Llamada BD para la eliminacion. 
-                    //Llamada BD para la eliminacion. 
-                    
-                } else {
+    public void btnEliminarItem() {
+        //Radionuclido seleccionado.
+        Radionuclido radionuclidoActual = FuncionesGenerales.getRadioNuclidoActual();
+        //Objeto a eliminar.
+        ValorDescripcion selectedItem = griInfoRadNuclido.getSelectionModel().getSelectedItem();
+      
+        
+        if (selectedItem!=null) {
+            //identificador del item a eliminar
+            int id = selectedItem.getId();
+            
+            String mensaje = griInfoRadNuclido.getSelectionModel().getSelectedItem().getDescripcion() + "  "
+                + griInfoRadNuclido.getSelectionModel().getSelectedItem().getValor() + "  "
+                + griInfoRadNuclido.getSelectionModel().getSelectedItem().getUnidad();
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Eliminar Item");
+            alert.setHeaderText("Atención!");
+            alert.setContentText("Esta seguro que desea eliminar el item seleccionado? \n" + mensaje);
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.OK) {
+                //llamada a la clase de acceso de datos para la eliminacion.
+                ValorDescripcionDAO.eliminarItem(id);
+                //actualizacion de la informacion del radionuclido.
+                infoRadNuclido = RadionuclidoDAO.obtenerInfoRadNuclido(radionuclidoActual);
+                //actualizacion de la tabla InfoRadNuclido.
+                griInfoRadNuclido.setItems(infoRadNuclido);
 
-                }
-                
+                //Mensaje de confirmacion.
+                Alert alerta = new Alert(AlertType.INFORMATION);
+                alerta.setTitle("Confirmación");
+                alerta.setHeaderText(null);
+                alerta.setContentText("El ítem - " + selectedItem.getDescripcion() + " - fué eliminado.");
+                alerta.showAndWait();
+
             } else {
-                // No se selecciono ningun item. 
-                Alert alert = new Alert(AlertType.WARNING);
-                alert.setTitle("Error!");
-                alert.setHeaderText("Error!");
-                alert.setContentText("Debe seleccionar un item para eliminar");
-
-                alert.showAndWait();
+                //Cancelacion de la eliminacion
+                //Mensaje de confirmacion.
+                Alert alerta = new Alert(AlertType.INFORMATION);
+                alerta.setTitle("Confirmación");
+                alerta.setHeaderText(null);
+                alerta.setContentText("Se cancelo la eliminación del ítem  - " + selectedItem.getDescripcion() + " ");
+                alerta.showAndWait();
             }
+
+        } else {
+            // No se selecciono ningun item.
+            Alert alert = new Alert(AlertType.WARNING);
+            alert.setTitle("Error!");
+            alert.setHeaderText("Error!");
+            alert.setContentText("Se debe seleccionar un item para eliminar");
+
+            alert.showAndWait();
+        }
     }
-     
+
     /**
      * Metodo que controla el comportamiento del boton modificar item.
      */
     @FXML
-    public void btnAgregarItem (){
-         
-       Radionuclido auxRadionuclido = FuncionesGenerales.getRadioNuclidoActual();
-       ValorDescripcion itemRadionuclido = new ValorDescripcion (null,0,null); 
-       boolean guardarCambiosClicked = mostrarItemRadionuclidoEditDialog(itemRadionuclido);
-                    
-        if (guardarCambiosClicked){
+    public void btnAgregarItem() throws SQLException {
+        //Creacion de objeto auxilizar de tipo Radionuclido.
+        Radionuclido radionuclidoActual = FuncionesGenerales.getRadioNuclidoActual();
+        //Creacion de objeto auxiliar de tipo ValorDescripcion.
+        ValorDescripcion itemRadionuclido = new ValorDescripcion(-1, null, 0, null);
+        // Llamada al formulario
+        boolean guardarCambiosClicked = mostrarItemRadionuclidoEditDialog(itemRadionuclido);
+        //Obtencion del id del radionuclido.
+        int idRadNuclido = radionuclidoActual.getIdRadNuclido();
+        if (guardarCambiosClicked) {
             infoRadNuclido.add(itemRadionuclido);
-            auxRadionuclido.setPropiedades(infoRadNuclido);
-            ConsultasDB.modificarRadionuclido(auxRadionuclido, griRadionuclido.getSelectionModel().getSelectedIndex());
-            
+            radionuclidoActual.setPropiedades(infoRadNuclido);
+            // Llamada a la Clase de Acceso de datos de ValorDescripcion.
+            // Parametros. Item auxiliar , identificador del radionuclido que hace la llamda a la funcion, False para Phantom, True para Radionuclido
+
+            ValorDescripcionDAO.agregarItem(itemRadionuclido, idRadNuclido, false, true);
+            //actualizacion de la informacion del radionuclido.
+            infoRadNuclido = RadionuclidoDAO.obtenerInfoRadNuclido(radionuclidoActual);
+            //actualizacion de la tabla InfoRadNuclido.
+            griInfoRadNuclido.setItems(infoRadNuclido);
+
+            //Mensaje de confirmacion.
+            Alert alerta = new Alert(AlertType.INFORMATION);
+            alerta.setTitle("Confirmación");
+            alerta.setHeaderText(null);
+            alerta.setContentText("El ítem - " + itemRadionuclido.getDescripcion() + " - fué agregado.");
+            alerta.showAndWait();
+
         }
-                        
-                                      
+
     }
-       
-    
+
     /**
-     * Metodo para el comportamiento del boton Crear radioNuclido
-     * El radionuclido primero se crea sin elemento de tipo propiedad valor. 
+     * Metodo para el comportamiento del boton Crear radioNuclido El
+     * radionuclido primero se crea sin elemento de tipo propiedad valor.
      */
     @FXML
-    public void btnAgregarRadionuclido () throws SQLException{
-        Radionuclido tempRadNuclido = new Radionuclido (-1,"",null);
-		boolean guardarCambiosClicked = mostrarRadionuclidoDialog(tempRadNuclido);
-		if (guardarCambiosClicked) {
-			//ConsultasDB.radionuclidoData = ConsultasDB.obtenerRadionuclidos();
-                        
-                        RadionuclidoDAO.agregarRadionuclido(tempRadNuclido);
-                        radionuclidoData=RadionuclidoDAO.obtenerListaRadNuclido();
-                        griRadionuclido.setItems(radionuclidoData);
-                        btnModificarRadioNuclido.setDisable(true);
+    public void btnAgregarRadionuclido() throws SQLException {
+        //Creacion de objeto Radionuclido auxiliar.
+        Radionuclido tempRadNuclido = new Radionuclido(-1, "", null);
+        boolean guardarCambiosClicked = mostrarRadionuclidoDialog(tempRadNuclido);
+        if (guardarCambiosClicked) {
+            //Llamada a la Clase de acceso a datos de Radionuclido
+            RadionuclidoDAO.agregarRadionuclido(tempRadNuclido);
+            radionuclidoData = RadionuclidoDAO.obtenerListaRadNuclido();
+            //Actualiza el GridView de Radionuclidos.
+            griRadionuclido.setItems(radionuclidoData);
+            btnModificarRadioNuclido.setDisable(true);
+            
+            //Mensaje de confirmacion.
+            Alert alerta = new Alert(AlertType.INFORMATION);
+            alerta.setTitle("Confirmación");
+            alerta.setHeaderText(null);
+            alerta.setContentText("El radionúclido -"+tempRadNuclido.getNombreRadNuclido()+"- fué agregado.");
+            alerta.showAndWait();
         }
     }
-    
-    @FXML 
-    public void btnModificarRadionuclido (){
+
+    /**
+     * Metodo que modifica el nombre del radionuclido.
+     */
+    @FXML
+    public void btnModificarRadionuclido() {
+        //Radionuclido a editar.
         Radionuclido radioNuclidoActual = FuncionesGenerales.getRadioNuclidoActual();
         boolean guardarCambiosClicked = mostrarRadionuclidoDialog(radioNuclidoActual);
-		if (guardarCambiosClicked) {
-                    //Guardar los nuevos valores del radionuclido. 
-                        RadionuclidoDAO.modificarRadionuclido(radioNuclidoActual);
-			radionuclidoData=RadionuclidoDAO.obtenerListaRadNuclido();
-                        griRadionuclido.setItems(radionuclidoData);
-                        
-                        btnModificarRadioNuclido.setDisable(true);
-                        
-                  }
-               
+        if (guardarCambiosClicked) {
+
+            //Llamada a la Clase de acceso a datos de Radionuclido
+            RadionuclidoDAO.modificarNombreRadionuclido(radioNuclidoActual);
+            radionuclidoData = RadionuclidoDAO.obtenerListaRadNuclido();
+            //Actualiza el GridView de Radionuclidos.
+            griRadionuclido.setItems(radionuclidoData);
+            
+            btnModificarRadioNuclido.setDisable(true);
+            //Mensaje de confirmacion.
+            Alert alerta = new Alert(AlertType.INFORMATION);
+            alerta.setTitle("Confirmación");
+            alerta.setHeaderText(null);
+            alerta.setContentText("El radionúclido fué modificado.");
+            alerta.showAndWait();
+
+        }
+
     }
-       
-   
+
+
     
     
 }
