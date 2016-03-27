@@ -120,17 +120,16 @@ public class RadionuclidoController implements Initializable {
     public void seleccionRadionuclido(Radionuclido radionuclidoActual) {
         FuncionesGenerales.setRadioNuclidoActual(radionuclidoActual);
         if (radionuclidoActual != null) {
-            //infoRadNuclido = radionuclidoActual.getPropiedades(); // La coleccion de propiedades del RadNuclido
-
+            //Obtengo de la Base de datos la lista de propiedades 
             infoRadNuclido = RadionuclidoDAO.obtenerInfoRadNuclido(radionuclidoActual);
             //griInfoRadNuclido.setItems(infoRadNuclido);
             griInfoRadNuclido.setItems(infoRadNuclido);
             //Prendo botones.
-            //System.out.print(radionuclidoActual.getNombreRadNuclido());
             btnAgregarItem.setDisable(false);
             btnModificarRadioNuclido.setDisable(false);
 
         } else {
+            //Apago botones.
             btnAgregarItem.setDisable(true);
             btnModificarRadioNuclido.setDisable(true);
         }

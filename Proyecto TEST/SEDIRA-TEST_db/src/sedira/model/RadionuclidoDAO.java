@@ -100,7 +100,7 @@ public class RadionuclidoDAO {
             conexion.desconectar();
             
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "no se pudo consultar la informacion del radionuclido /n" + e);
+            JOptionPane.showMessageDialog(null, "no se pudo consultar la información del radionúclido /n" + e);
             System.out.print(e);
         }
         

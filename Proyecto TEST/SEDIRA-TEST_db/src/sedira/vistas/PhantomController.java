@@ -14,7 +14,6 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -23,7 +22,6 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -34,7 +32,7 @@ import sedira.model.Organo;
 import sedira.model.ValorDescripcion;
 import sedira.model.Phantom;
 import sedira.AplicacionPrincipal;
-import sedira.model.Radionuclido;
+import sedira.model.PhantomDAO;
 
 
 /**
@@ -100,7 +98,7 @@ public class PhantomController  implements Initializable  {
     
                
     /**
-     * Initializes the controller class.
+     * Initializes la clase controlador.
      * El método setCellValueFactory(...) que aplicamos sobre las columnas de la tabla 
      * se usa para determinar qué atributos de la clase Phantom / Organo deben ser usados para 
      * cada columna particular. La flecha -> indica que estamos usando una característica 
@@ -114,9 +112,7 @@ public class PhantomController  implements Initializable  {
     public void initialize(URL url, ResourceBundle rb) {
         
         //Traigo los datos de los phantoms existentes. 
-        phantomData   = ConsultasDB.ObtenerPhantoms();
-        //System.out.print(phantomData.size());
-        
+        phantomData   = PhantomDAO.obtenerListaPhantom();
         // Inicializo la tabla de Organos
         clOrganoNombre.setCellValueFactory(
                 cellData -> cellData.getValue().getNombreOrganoProperty());
@@ -360,23 +356,21 @@ public class PhantomController  implements Initializable  {
      * Metodo que muestra los detalles del phantom seleccionado. 
      * @param phantomActual 
      */
-    public void seleccionPhantom(Phantom phantomActual) 
-    {   
+    public void seleccionPhantom(Phantom phantomActual) {
         FuncionesGenerales.setPhantomActual(phantomActual);
-        FuncionesGenerales.setIndice(griPhantom.getSelectionModel().getSelectedIndex());
-        btnEditarPhantom.setDisable(false);
-      
-        if (phantomActual != null)
-        {
-            organosData =  phantomActual.getOrgano();     
-            griOrgano.setItems(organosData);
-            listaPropiedadValor = phantomActual.getPropiedades();
+        if (phantomActual != null) {
+            //organosData =  phantomActual.getOrgano(); LLAMAR A ORGANOSDAO
+            //organosData = OrganosDAO.obtenerOrgano(phantomActual);
+            //griOrgano.setItems(organosData);
+            listaPropiedadValor = PhantomDAO.obtenerInfoPhantom(phantomActual);
             griValorDescripcionPhantom.setItems(listaPropiedadValor);
-            System.out.print(griPhantom.getSelectionModel().getSelectedIndex());
+            //Prendo el boton de Editar phantom
+            btnEditarPhantom.setDisable(false);
         } else {
-         //Todo si no se selecciona ningun phantom de la lista
-        
-      
+            //Todo si no se selecciona ningun phantom de la lista
+            //Apago los botones.
+            btnEditarPhantom.setDisable(true);
+            
         }
     }
     /**
@@ -399,26 +393,37 @@ public class PhantomController  implements Initializable  {
      * Metodo para el comportamiento del boton NUEVO. 
      */
     @FXML
-    public void btnNuevoPhantom_click () {
+    public void btnNuevoPhantom_click() {
         /**
-         * Este metodo crea una objeto de tipo Phantom Vacio. Luyego le asigna las propiedaes
-         * y los organos que en la primer instancia tambien estan vacios. 
-         * Las propiedades y los organose se agregan posteriormente con la utilizacion de los botones. 
-         * Agregar item y Agregar organo. 
-         * 
+         * Este metodo crea una objeto de tipo Phantom Vacio. Luego le asigna
+         * las propiedades y los organos que en la primer instancia tambien
+         * estan vacios. Las propiedades y los organos se agregan posteriormente
+         * con la utilizacion de los botones. Agregar item y Agregar organo.
+         *
          */
-        Phantom tempPhantom = new Phantom(-1,"",null,null);
+        Phantom tempPhantom = new Phantom(-1, "", null, null);
         //Lista Observable para el manejo de la informacion de los phantoms
-        ObservableList <ValorDescripcion> propiedadesPhantom = FXCollections.observableArrayList();
+        ObservableList<ValorDescripcion> propiedadesPhantom = FXCollections.observableArrayList();
         //Lista Observable para el manejo de los organos de los phantoms
-        ObservableList <Organo> organosPhantom = FXCollections.observableArrayList();
-        
+        ObservableList<Organo> organosPhantom = FXCollections.observableArrayList();
+
         boolean guardarCambiosClicked = mostrarEditaNombreDialog(tempPhantom);
         if (guardarCambiosClicked) {
-                tempPhantom.setIdPhantom(ConsultasDB.getNewIdPhantom());
-                tempPhantom.setPropiedades(propiedadesPhantom);
-                tempPhantom.setOrgano(organosPhantom);
-                ConsultasDB.agregarPhantom(tempPhantom);
+            //tempPhantom.setIdPhantom(ConsultasDB.getNewIdPhantom());
+            tempPhantom.setPropiedades(propiedadesPhantom);
+            tempPhantom.setOrgano(organosPhantom);
+            //ConsultasDB.agregarPhantom(tempPhantom);
+            PhantomDAO.agregarPhantom(tempPhantom);
+            //Actualizo el GridView de Phantoms.
+            phantomData = PhantomDAO.obtenerListaPhantom();
+            griPhantom.setItems(phantomData);
+
+            //Mensaje de confirmacion.
+            Alert alerta = new Alert(AlertType.INFORMATION);
+            alerta.setTitle("Confirmación");
+            alerta.setHeaderText(null);
+            alerta.setContentText("El phantom -" + tempPhantom.getPhantomNombre() + "- fué agregado.");
+            alerta.showAndWait();
         }
     }
     
