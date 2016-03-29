@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
 import javax.swing.JOptionPane;
 
 /**
@@ -105,9 +106,9 @@ public class PhantomDAO {
                 Statement consulta = conexion.getConnection().createStatement();
                 consulta.executeUpdate("INSERT INTO phantoms (nombre_phantom) VALUES ('" + nombrePhantom+ "')");
                 
-                System.out.println();
             } else {
-                JOptionPane.showMessageDialog(null, "El phantom " + nombrePhantom + " ya existe!", "Información", JOptionPane.INFORMATION_MESSAGE);
+                
+                //JOptionPane.showMessageDialog(null, "El phantom " + nombrePhantom + " ya existe!", "Información", JOptionPane.INFORMATION_MESSAGE);
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -122,7 +123,7 @@ public class PhantomDAO {
         
     }
     
-    private static boolean buscaNombre(String nombrePhantom) throws SQLException {
+    public static boolean buscaNombre(String nombrePhantom) throws SQLException {
         //Instancia de conexion
         ConexionDB conexion = new ConexionDB();
 

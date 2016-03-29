@@ -275,6 +275,7 @@ public class RadionuclidoController implements Initializable {
             alert.setHeaderText("Atención!");
             alert.setContentText("Esta seguro que desea eliminar el item seleccionado? \n" + mensaje);
             Optional<ButtonType> result = alert.showAndWait();
+            
             if (result.get() == ButtonType.OK) {
                 //llamada a la clase de acceso de datos para la eliminacion.
                 ValorDescripcionDAO.eliminarItem(id);
@@ -357,19 +358,19 @@ public class RadionuclidoController implements Initializable {
         Radionuclido tempRadNuclido = new Radionuclido(-1, "", null);
         boolean guardarCambiosClicked = mostrarRadionuclidoDialog(tempRadNuclido);
         if (guardarCambiosClicked) {
-            //Llamada a la Clase de acceso a datos de Radionuclido
             RadionuclidoDAO.agregarRadionuclido(tempRadNuclido);
             radionuclidoData = RadionuclidoDAO.obtenerListaRadNuclido();
             //Actualiza el GridView de Radionuclidos.
             griRadionuclido.setItems(radionuclidoData);
             btnModificarRadioNuclido.setDisable(true);
             
-            //Mensaje de confirmacion.
+            // Mensaje de confirmacion
             Alert alerta = new Alert(AlertType.INFORMATION);
             alerta.setTitle("Confirmación");
             alerta.setHeaderText(null);
-            alerta.setContentText("El radionúclido -"+tempRadNuclido.getNombreRadNuclido()+"- fué agregado.");
+            alerta.setContentText("El radionúclido fué agregado.");
             alerta.showAndWait();
+           
         }
     }
 
@@ -388,9 +389,10 @@ public class RadionuclidoController implements Initializable {
             radionuclidoData = RadionuclidoDAO.obtenerListaRadNuclido();
             //Actualiza el GridView de Radionuclidos.
             griRadionuclido.setItems(radionuclidoData);
-            
+            //Comportamiento de botones.
             btnModificarRadioNuclido.setDisable(true);
-            //Mensaje de confirmacion.
+            
+            // Mensaje de confirmacion
             Alert alerta = new Alert(AlertType.INFORMATION);
             alerta.setTitle("Confirmación");
             alerta.setHeaderText(null);

@@ -153,10 +153,9 @@ public class PhantomController  implements Initializable  {
      * @param phantom para ser editado
      * @return true si el usuario clickea Guardar datos o retorna falso en caso contrario
      */
-    public boolean mostrarPhantomEditDialog (Phantom phantom){
-        
-        // cargo el nuevo FXML para crear un ventana tipo PopUp
+    public boolean mostrarPhantomEditDialog(Phantom phantom) {
 
+        // cargo el nuevo FXML para crear un ventana tipo PopUp
         try {
 
             FXMLLoader loader = new FXMLLoader();
@@ -165,13 +164,13 @@ public class PhantomController  implements Initializable  {
 
             // Creo el Stage para el Dialogo Editar. 
             Stage dialogStage = new Stage();
-            dialogStage.setTitle("Editar Phantom");
+            dialogStage.setTitle("Modificar nombre del Phantom");
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.initOwner(primaryStage);
             Scene scene = new Scene(page);
             dialogStage.setScene(scene);
 
-                // setea el Phantom dentro del controlador AbmPhantomController. .
+            // setea el Phantom dentro del controlador AbmPhantomController. .
             AbmPhantomController controladorAbmPhantom = loader.getController();
             controladorAbmPhantom.setDialogStage(dialogStage);
             controladorAbmPhantom.setPhantom(phantom);
@@ -185,46 +184,15 @@ public class PhantomController  implements Initializable  {
             e.printStackTrace();
             return false;
         }
-        
-        
+
     }
     
-    public boolean mostrarEditaNombreDialog (Phantom phantom){
-        
-        // cargo el nuevo FXML para crear un ventana tipo PopUp
-
-        try {
-
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(PhantomController.class.getResource("EditaNombre.fxml"));
-            AnchorPane page = (AnchorPane) loader.load();
-
-            // Creo el Stage para el Dialogo Editar. 
-            Stage dialogStage = new Stage();
-            dialogStage.setTitle("Editar");
-            dialogStage.initModality(Modality.WINDOW_MODAL);
-            dialogStage.initOwner(primaryStage);
-            Scene scene = new Scene(page);
-            dialogStage.setScene(scene);
-
-                // Pone el organo en el controlador EditaNombreController. 
-            EditaNombreController controlador = loader.getController();
-            controlador.setDialogStage(dialogStage);
-            // le paso el Phantom porque los phantom son los que contienen organos. 
-            controlador.setPhantom(phantom);
-
-            // Muestra el formulario y espera hasta que el usuario lo cierre. 
-            dialogStage.showAndWait();
-            //Return
-            return controlador.isGuardarDatosClicked();
-            
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        } 
-        
-    }
-    
+    /**
+     * Metodo que Muestra el Formulario de edicion de los items de un phantom.
+     * @param itemPhantom
+     * @return True si guardaron los datos. 
+     *          false si los datos no pudieron ser guardados. 
+     */    
     public boolean mostrarItemPhantomEditDialog (ValorDescripcion itemPhantom){
         
         // cargo el nuevo FXML para crear un ventana tipo PopUp
@@ -380,7 +348,7 @@ public class PhantomController  implements Initializable  {
     public void btnEditarPhantom_click () throws IOException{
         Phantom phantom = FuncionesGenerales.getPhantomActual();
         int index = griPhantom.getSelectionModel().getSelectedIndex();
-        boolean guardarCambiosClicked = mostrarEditaNombreDialog(phantom);
+        boolean guardarCambiosClicked = mostrarPhantomEditDialog(phantom);
                     
         if (guardarCambiosClicked){
             ConsultasDB.modificarPhantom(phantom,index);
@@ -407,7 +375,8 @@ public class PhantomController  implements Initializable  {
         //Lista Observable para el manejo de los organos de los phantoms
         ObservableList<Organo> organosPhantom = FXCollections.observableArrayList();
 
-        boolean guardarCambiosClicked = mostrarEditaNombreDialog(tempPhantom);
+        boolean guardarCambiosClicked = mostrarPhantomEditDialog(tempPhantom);
+        String nombrePhantom = tempPhantom.getPhantomNombre();
         if (guardarCambiosClicked) {
             //tempPhantom.setIdPhantom(ConsultasDB.getNewIdPhantom());
             tempPhantom.setPropiedades(propiedadesPhantom);
@@ -417,13 +386,14 @@ public class PhantomController  implements Initializable  {
             //Actualizo el GridView de Phantoms.
             phantomData = PhantomDAO.obtenerListaPhantom();
             griPhantom.setItems(phantomData);
-
-            //Mensaje de confirmacion.
-            Alert alerta = new Alert(AlertType.INFORMATION);
+            
+            Alert alerta = new Alert(Alert.AlertType.INFORMATION);
             alerta.setTitle("Confirmación");
             alerta.setHeaderText(null);
-            alerta.setContentText("El phantom -" + tempPhantom.getPhantomNombre() + "- fué agregado.");
+            alerta.setContentText("El phantom fué "+nombrePhantom+" agregado.");
             alerta.showAndWait();
+
+           
         }
     }
     

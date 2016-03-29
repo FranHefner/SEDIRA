@@ -113,6 +113,7 @@ public class RadionuclidoDAO {
      * ya ingresado en la base de datos
      *
      * @param radionuclido
+     * @return boolean Si se agrego el radionúclido. 
      * @throws java.sql.SQLException
      */
     public static void agregarRadionuclido(Radionuclido radionuclido) throws SQLException {
@@ -124,14 +125,15 @@ public class RadionuclidoDAO {
             if (buscaNombre(radionuclido.getNombreRadNuclido())) {
                 Statement consulta = conexion.getConnection().createStatement();
                 consulta.executeUpdate("INSERT INTO radionuclidos (nombre_radionuclido) VALUES ('" + radionuclido.getNombreRadNuclido() + "')");
-                //JOptionPane.showMessageDialog(null, "El radionúclido "+nombreRadNuclido+ " ha sido agregado!","Información",JOptionPane.INFORMATION_MESSAGE);
-                System.out.println();
+                
             } else {
+                
                 //JOptionPane.showMessageDialog(null, "El radionúclido " + nombreRadNuclido + " ya existe!", "Información", JOptionPane.INFORMATION_MESSAGE);
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             JOptionPane.showMessageDialog(null, "Ocurrio un error en la creación");
+            
         }
     }
     
@@ -157,6 +159,13 @@ public class RadionuclidoDAO {
                 consulta.executeUpdate();
                 consulta.close();
                 
+                //Mensaje de confirmacion.
+                Alert alerta = new Alert(AlertType.INFORMATION);
+                alerta.setTitle("Confirmación");
+                alerta.setHeaderText(null);
+                alerta.setContentText("El radionúclido fué modificado.");
+                alerta.showAndWait();
+                
             } else {
                 Alert alert = new Alert(AlertType.ERROR);
                 alert.setTitle("Error!");
@@ -179,7 +188,7 @@ public class RadionuclidoDAO {
      * @param nombreRadionuclido
      * @return
      */
-    private static boolean buscaNombre(String nombreRadionuclido) throws SQLException {
+    public static boolean buscaNombre(String nombreRadionuclido) throws SQLException {
         //Instancia de conexion
         ConexionDB conexion = new ConexionDB();
 
@@ -205,6 +214,7 @@ public class RadionuclidoDAO {
             return false;
         }
     }
+   
     
     
 }

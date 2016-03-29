@@ -6,6 +6,7 @@
 package sedira.vistas;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -20,6 +21,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import sedira.FuncionesGenerales;
 import sedira.model.Radionuclido;
+import sedira.model.RadionuclidoDAO;
 import sedira.model.ValorDescripcion;
 
 /**
@@ -118,6 +120,10 @@ public class AbmRadionuclidoController implements Initializable {
             
         }
     }
+    /**
+     * 
+     * @param itemRadionuclido 
+     */
     public void setItemRadionuclido (ValorDescripcion itemRadionuclido){
         Radionuclido radionuclidoActual = FuncionesGenerales.getRadioNuclidoActual();
         this.itemRadionuclido = itemRadionuclido;
@@ -134,13 +140,13 @@ public class AbmRadionuclidoController implements Initializable {
      * Metodo llamado al momento de que el usuario presiona Guardar datos .
      */
     @FXML
-    public  void btnGuardarDatos() {
+    public  void btnGuardarDatos() throws SQLException {
        // TODO: VALIDACIONES.  
       
             if (validarDatosEntrada()){
                         switch (dialogStage.getTitle()){
                             case "Crear un Radionúclido":
-//                                radionuclido.setIdRadNuclido(Integer.parseInt(txtIdRadNuclido.getText()));
+
                                 radionuclido.setNombreRadNuclido(txtRadNuclidoNombre.getText());
                                 radionuclido.setPropiedades(listaAtributoRadNuclido);
                                 break;
@@ -153,17 +159,14 @@ public class AbmRadionuclidoController implements Initializable {
                                 itemRadionuclido.setValor(Double.parseDouble(txtValor.getText()));
                                 break;
                         } 
-                    
+                    //Si las validaciones son correctas se guardan los datos
                     guardarDatos = true;
                     dialogStage.close();
+                    
             }
                 
     }
            
-    
-     
-    
-      
     /**
      * Metodo que retorna si el usuario presiono el boton Guardar Datos. 
      * @return guardarDatos 
@@ -177,38 +180,55 @@ public class AbmRadionuclidoController implements Initializable {
      */
     @FXML
     public void btnCancel_click() {
-        
         Alert alert = new Alert(AlertType.CONFIRMATION);
-        alert.setTitle("Cancelar edición");
-        alert.setHeaderText("Atención!");
-        alert.setContentText("Esta seguro de cancelar la edición del item de radionúclido. ");
+        switch (dialogStage.getTitle()) {
+            case "Crear un Radionúclido":
 
+                alert.setTitle("Cancelar creación");
+                alert.setHeaderText("Atención!");
+                alert.setContentText("Está seguro de cancelar la creación del radionúclido? ");
+                break;
+            case "Modificar nombre del Radionúclido":
+
+                alert.setTitle("Cancelar modificación del radionúclido");
+                alert.setHeaderText("Atención!");
+                alert.setContentText("Está seguro de cancelar la modificación del radionúclido? ");
+                break;
+            case "Modificar Items":
+                alert.setTitle("Cancelar modificación del radionúclido");
+                alert.setHeaderText("Atención!");
+                alert.setContentText("Está seguro de cancelar la modificación del radionúclido? ");
+                break;
+        }
         Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == ButtonType.OK){
+        if (result.get() == ButtonType.OK) {
             dialogStage.close();
         } else {
-            
+
         }
-             
-       
+
     }
     /**
-     * metodo para el control del Boton Limpiar Valores. 
-     * limpia los datos agregados en los textFields del formulario. 
+     * metodo para el control del Boton Limpiar Valores. limpia los datos
+     * agregados en los textFields del formulario.
      */
     @FXML
-    public void btnLimpiarValores_click(){
-    txtUnidad.setText("");
-    txtPropiedad.setText("");
-    txtValor.setText("");
+    public void btnLimpiarValores_click() {
+        txtUnidad.setText("");
+        txtPropiedad.setText("");
+        txtValor.setText("");
     }
                 
-    public boolean validarDatosEntrada (){
+    public boolean validarDatosEntrada () throws SQLException{
         String mensajeError = "";
-        if ("Crear un Radionuclido".equals(this.dialogStage.getTitle())){
+        String nombreRadNuclido = txtRadNuclidoNombre.getText();
+        if ("Crear un Radionúclido".equals(this.dialogStage.getTitle())){
             // Solo valido
             if (txtRadNuclidoNombre.getText()== null || txtRadNuclidoNombre.getText().length() == 0){
                 mensajeError+= "Nombre del Radionuclido Invalido!";
+            }
+            if (RadionuclidoDAO.buscaNombre(nombreRadNuclido)==false){
+                mensajeError+= "El nombre del radionúclido ya existe!";
             }
         } else {
             /*

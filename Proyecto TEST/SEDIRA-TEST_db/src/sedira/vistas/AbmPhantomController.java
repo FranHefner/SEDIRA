@@ -6,6 +6,7 @@
 package sedira.vistas;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -13,6 +14,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
@@ -22,6 +24,8 @@ import javafx.stage.Stage;
 import sedira.ConsultasDB;
 import sedira.FuncionesGenerales;
 import sedira.model.Phantom;
+import sedira.model.PhantomDAO;
+import sedira.model.RadionuclidoDAO;
 import sedira.model.ValorDescripcion;
 
 /**
@@ -91,25 +95,29 @@ public class AbmPhantomController implements Initializable {
         this.phantom = phantom;
              
         if (phantom.getIdPhantom() != -1){         
+             /**
+             * Obtiente el Phantom seleccionado en la busqueda del formulario phantom.fxml
+             */
             //Atributos de nombre y id. 
             txtNombrePhantom.setEditable(true);
-            
             txtNombrePhantom.setText(phantom.getPhantomNombre());
             txtIdPhantom.setText(String.valueOf(phantom.getIdPhantom()));
-            //Prendo los botones
+            txtIdPhantom.setEditable(false);
+            txtIdPhantom.setDisable(true);
+           
             txtPropiedad.setDisable(true);
             txtValor.setDisable(true);
             txtUnidad.setDisable(true);
+            //Comportamiento de botones. 
             
             
         } else {
-            
-            //Genero un Nuevo IdPhantom.
-            txtIdPhantom.setText(String.valueOf(ConsultasDB.getNewIdPhantom()));
+                     
             //Cambio Nombre en el formulario. 
-            this.dialogStage.setTitle("Agregar Phantom");
-            //Activo los TextField
+            this.dialogStage.setTitle("Crear un Phantom");
+            //Apago los TextField
             txtNombrePhantom.setEditable(true);
+            txtIdPhantom.setDisable(true);
             txtPropiedad.setDisable(true);
             txtValor.setDisable(true);
             txtUnidad.setDisable(true);
@@ -120,7 +128,10 @@ public class AbmPhantomController implements Initializable {
             
             
     }
-    
+    /**
+     * 
+     * @param itemPhantom 
+     */
     public void setItemPhantom (ValorDescripcion itemPhantom){
         Phantom phantomActual = FuncionesGenerales.getPhantomActual();
         this.itemPhantom = itemPhantom;
@@ -136,30 +147,28 @@ public class AbmPhantomController implements Initializable {
      * Metodo llamado al momento de que el usuario presiona Guardar datos .
      */
     @FXML
-    public  void btnGuardarDatos() {
+    public  void btnGuardarDatos() throws SQLException {
        // TODO: VALIDACIONES.  
         // La llamada a la base de datos se realiza desde PhantomController. Editar/Nuevo
             if (validarDatosEntrada()){
-                    //Validacion preguntando si esta seguro guardar cambios. 
-                    if ("Agregar Phantom".equals(this.dialogStage.getTitle()) ){ 
-                        //Nuevo Phantom, debe guardar el nombre y el id primero.
-                        phantom.setIdPhantom(Integer.parseInt(txtIdPhantom.getText()));
+                //Validacion preguntando si esta seguro guardar cambios.
+                switch (dialogStage.getTitle()) {
+                    case "Crear un Phantom":
                         phantom.setPhantomNombre(txtNombrePhantom.getText());
                         phantom.setPropiedades(listaAtributoPhantom);
-                    }  else { 
-                        //Modificacion del un Phantom existente. 
-                        //Si se necesita opcion de modificar el nombre de un phantom. 
-                        //Comparar el nombre del dialogStage. Armar un CASE 
-
+                        break;
+                    case "Modificar nombre del Phantom":
+                        phantom.setPhantomNombre(txtNombrePhantom.getText());
+                        break;
+                    case "Modificar Items":
                         itemPhantom.setDescripcion(txtPropiedad.getText());
                         itemPhantom.setUnidad(txtUnidad.getText());
                         itemPhantom.setValor(Double.parseDouble(txtValor.getText()));
-                    }
-                    
-
-                    guardarDatos = true;
-
-                    dialogStage.close();
+                        break;
+                }
+                    // Si las validaciones son correctas se guardan los datos. 
+                   guardarDatos = true;
+                   dialogStage.close();
             }
                 
     }
@@ -172,46 +181,65 @@ public class AbmPhantomController implements Initializable {
         return this.guardarDatos;
     }
     
-     /**
-     * Metodo que se llama al presionar el boton cancelar. 
+    /**
+     * Metodo que se llama al presionar el boton cancelar.
      */
     @FXML
     public void btnCancel_click() {
-         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Cancelar edición");
-        alert.setHeaderText("Atención!");
-        alert.setContentText("Esta seguro de cancelar la edición del item de phantom. ");
+        Alert alert = new Alert(AlertType.CONFIRMATION);
+        switch (dialogStage.getTitle()) {
+            case "Crear un Phantom":
 
+                alert.setTitle("Cancelar creación");
+                alert.setHeaderText("Atención!");
+                alert.setContentText("Está seguro de cancelar la creación del phantom ? ");
+                break;
+            case "Modificar nombre del Phantom":
+
+                alert.setTitle("Cancelar modificación");
+                alert.setHeaderText("Atención!");
+                alert.setContentText("Está seguro de cancelar la modificación del phantom? ");
+                break;
+            case "Modificar Items":
+                alert.setTitle("Cancelar modificación");
+                alert.setHeaderText("Atención!");
+                alert.setContentText("Está seguro de cancelar la modificación del phantom?");
+                break;
+        }
         Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == ButtonType.OK){
+        if (result.get() == ButtonType.OK) {
             dialogStage.close();
         } else {
-            
+
         }
     }
-    
+
     /**
-     * metodo para el control del Boton Limpiar Valores. 
-     * limpia los datos agregados en los textFields del formulario. 
+     * metodo para el control del Boton Limpiar Valores. limpia los datos
+     * agregados en los textFields del formulario.
      */
     @FXML
-    public void btnLimpiarValores_click(){
-    txtUnidad.setText("");
-    txtPropiedad.setText("");
-    txtValor.setText("");
+    public void btnLimpiarValores_click() {
+        txtUnidad.setText("");
+        txtPropiedad.setText("");
+        txtValor.setText("");
     }
+
     
-    
-     public boolean validarDatosEntrada (){
+    public boolean validarDatosEntrada() throws SQLException {
         String mensajeError = "";
-        if ("Agregar Phantom".equals(this.dialogStage.getTitle())){
+        String nombrePhantom = txtNombrePhantom.getText();
+        if ("Crear un Phantom".equals(this.dialogStage.getTitle())) {
             // Solo valido
-            if (txtNombrePhantom.getText()== null || txtNombrePhantom.getText().length() == 0){
-                mensajeError+= "Nombre del Phantom Invalido!";
+            if (txtNombrePhantom.getText() == null || txtNombrePhantom.getText().length() == 0) {
+                mensajeError += "Nombre del Phantom Invalido!";
+            }
+            if (PhantomDAO.buscaNombre(nombrePhantom)==false){
+                mensajeError+= "El nombre del phantom ya existe!";
             }
         } else {
-        
-            if (txtPropiedad.getText() == null || txtPropiedad.getText().length() == 0){
+
+            if (txtPropiedad.getText() == null || txtPropiedad.getText().length() == 0) {
                 mensajeError += "Nombre de Propiedad Invalido! \n";
             }
 
