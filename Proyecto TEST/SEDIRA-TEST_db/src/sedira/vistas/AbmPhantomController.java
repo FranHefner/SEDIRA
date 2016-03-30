@@ -137,7 +137,6 @@ public class AbmPhantomController implements Initializable {
         this.itemPhantom = itemPhantom;
         txtIdPhantom.setText(String.valueOf(phantomActual.getIdPhantom()));
         txtNombrePhantom.setText(phantomActual.getPhantomNombre());
-        
         txtPropiedad.setText(itemPhantom.getDescripcion());
         txtValor.setText(itemPhantom.getValor().toString());
         txtUnidad.setText(itemPhantom.getUnidad());
@@ -163,6 +162,7 @@ public class AbmPhantomController implements Initializable {
                     case "Modificar Items":
                         itemPhantom.setDescripcion(txtPropiedad.getText());
                         itemPhantom.setUnidad(txtUnidad.getText());
+                        System.out.print(itemPhantom.getUnidad());
                         itemPhantom.setValor(Double.parseDouble(txtValor.getText()));
                         break;
                 }

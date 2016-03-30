@@ -7,6 +7,7 @@ package sedira.vistas;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -33,6 +34,8 @@ import sedira.model.ValorDescripcion;
 import sedira.model.Phantom;
 import sedira.AplicacionPrincipal;
 import sedira.model.PhantomDAO;
+import sedira.model.RadionuclidoDAO;
+import sedira.model.ValorDescripcionDAO;
 
 
 /**
@@ -90,7 +93,7 @@ public class PhantomController  implements Initializable  {
     //Lista Observable para el manejo de organos
     private ObservableList <Organo> organosData = FXCollections.observableArrayList();
     //Lista Observable para el manejo de la informacion de los phantoms
-    private ObservableList <ValorDescripcion> listaPropiedadValor = FXCollections.observableArrayList();
+    private ObservableList <ValorDescripcion> infoPhantom = FXCollections.observableArrayList();
     
     private AplicacionPrincipal aplicacionPrincipal;
     private Stage primaryStage;
@@ -205,7 +208,7 @@ public class PhantomController  implements Initializable  {
 
             // Creo el Stage para el Dialogo Editar. 
             Stage dialogStage = new Stage();
-            dialogStage.setTitle("Modificar items ");
+            dialogStage.setTitle("Modificar Items");
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.initOwner(primaryStage);
             Scene scene = new Scene(page);
@@ -330,8 +333,8 @@ public class PhantomController  implements Initializable  {
             //organosData =  phantomActual.getOrgano(); LLAMAR A ORGANOSDAO
             //organosData = OrganosDAO.obtenerOrgano(phantomActual);
             //griOrgano.setItems(organosData);
-            listaPropiedadValor = PhantomDAO.obtenerInfoPhantom(phantomActual);
-            griValorDescripcionPhantom.setItems(listaPropiedadValor);
+            infoPhantom = PhantomDAO.obtenerInfoPhantom(phantomActual);
+            griValorDescripcionPhantom.setItems(infoPhantom);
             //Prendo el boton de Editar phantom
             btnEditarPhantom.setDisable(false);
         } else {
@@ -495,23 +498,36 @@ public class PhantomController  implements Initializable  {
      * Metodo que controla el comportamiento del boton modificar item.
      */
     @FXML
-    public void btnAgregarItem (){
-         
-       Phantom auxPhantom = FuncionesGenerales.getPhantomActual();
-       ValorDescripcion itemPhantom = new ValorDescripcion (-1,null,0,null); 
-       ValorDescripcion selectedItem = griValorDescripcionPhantom.getSelectionModel().getSelectedItem();
-       if (selectedItem != null){
+    public void btnAgregarItem() throws SQLException {
+        //obejeto auxiliar de tipo Phantom. Phantom actual seleccionado en el GriPhamtom
+        Phantom auxPhantom = FuncionesGenerales.getPhantomActual();
+        //Creacion de objeto auxiliar de tipo ValorDescripcion.
+        ValorDescripcion itemPhantom = new ValorDescripcion(-1, null, 0, null);
+        //Llamada al formulario
         boolean guardarCambiosClicked = mostrarItemPhantomEditDialog(itemPhantom);
-        if (guardarCambiosClicked){
-            listaPropiedadValor.add(itemPhantom);
-            auxPhantom.setPropiedades(listaPropiedadValor);
-            ConsultasDB.modificarPhantom(auxPhantom,griPhantom.getSelectionModel().getSelectedIndex() );
+        // identificador del phantom al cual se agregara el item. 
+        int idPhantom = auxPhantom.getIdPhantom();
+        if (guardarCambiosClicked) {
+            infoPhantom.add(itemPhantom);
+            auxPhantom.setPropiedades(infoPhantom);
+            // Llamada a la Clase de Acceso de datos de ValorDescripcion.
+            // Parametros. Item auxiliar , identificador del phantom que hace la llamada a la funcion, False para radionuclido, false para Radionuclido
+            ValorDescripcionDAO.agregarItem(itemPhantom, idPhantom, true, false);
+            
+             //actualizacion de la informacion del radionuclido.
+            infoPhantom = PhantomDAO.obtenerInfoPhantom(auxPhantom);
+            //actualizacion de la tabla ValorDescripcionPhantom.
+            griValorDescripcionPhantom.setItems(infoPhantom);
+
+            //Mensaje de confirmacion.
+            Alert alerta = new Alert(AlertType.INFORMATION);
+            alerta.setTitle("Confirmación");
+            alerta.setHeaderText(null);
+            alerta.setContentText("El ítem - " + itemPhantom.getDescripcion() + " - fué agregado.");
+            alerta.showAndWait();
         }
        }
-       
-                        
-                                      
-    }
+   
     /**
      * Metodo para el comportamiento del boton editar. Abre un dialogo para la edicion de un atributo del Phantom. 
      */

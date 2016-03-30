@@ -30,7 +30,8 @@ public class ValorDescripcionDAO {
     public static void agregarItem(ValorDescripcion vd, int id, boolean phantom, boolean radionuclido) throws SQLException {
         //Instancia de conexion
         ConexionDB conexion = new ConexionDB();
-
+        String unidad = vd.getUnidad();
+        System.out.print(vd.getDescripcion());
         try {
             PreparedStatement consulta = conexion.getConnection().prepareStatement(
                     "INSERT INTO valordescripcion (descripcion, valor, unidad, id_radionuclido,id_phantom) "
