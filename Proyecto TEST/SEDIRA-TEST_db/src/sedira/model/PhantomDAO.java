@@ -148,5 +148,46 @@ public class PhantomDAO {
             return false;
         }
     }
-    
+    public static ObservableList<Organo> obtenerInfoOrgano(Phantom phantomSeleccionado) {
+        //Creo una lista auxiliar de tipo organo
+        ObservableList<Organo> organoPhantomData = FXCollections.observableArrayList();
+        //Instancia de conexion
+        ConexionDB conexion = new ConexionDB();
+        //objeto auxiliar
+        int idPhantom = phantomSeleccionado.getIdPhantom();
+        try {
+            PreparedStatement consulta = conexion.getConnection().prepareStatement(
+                    "SELECT * FROM phantoms "
+                    + "INNER JOIN organos "
+                    + "ON phantoms.id_phantom = organos.id_phantom "
+                    + "WHERE phantoms.id_phantom =" + idPhantom + ";"
+            );
+            ResultSet resultado = consulta.executeQuery();
+            while (resultado.next()) {
+                //Ojeto Aux de tipo ValorDescripcion.
+                Organo organoPhantom = new Organo(-1, "", 0.0, 0.0);
+
+                //Completo el aux con la informacion obtenida de la BD
+                organoPhantom.setIdOrgano(Integer.parseInt(resultado.getString("id_organo")));
+                organoPhantom.setNombreOrgano(resultado.getString("nombre_organo"));
+                organoPhantom.setOrganMass(Double.parseDouble(resultado.getString("masa_organo")));
+                organoPhantom.setTotalMass(Double.parseDouble(resultado.getString("masa_total")));
+
+                //agregro al arreglo de propiedades la nueva propiedad parseada
+                organoPhantomData.add(organoPhantom);
+                //agrego al phantom seleccionado la lista de propiedades
+                phantomSeleccionado.setOrgano(organoPhantomData);
+            }
+            resultado.close();
+            consulta.close();
+            conexion.desconectar();
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "no se pudo consultar los organos del phantom /n" + e);
+            System.out.print(e);
+        }
+
+        return organoPhantomData;
+    }
+
 }

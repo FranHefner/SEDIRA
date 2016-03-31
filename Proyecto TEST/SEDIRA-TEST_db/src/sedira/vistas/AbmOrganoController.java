@@ -95,7 +95,7 @@ public class AbmOrganoController implements Initializable {
      */
     public void setOrgano (Organo organo){
         this.organo = organo;
-        lblOrganoId.setText("Id: " + String.valueOf(ConsultasDB.getNewIdOrgano()));
+       // lblOrganoId.setText("Id: " + String.valueOf(ConsultasDB.getNewIdOrgano()));
         txtOrganoNombre.setText(this.organo.getNombreOrgano());
         txtOrganoMasa.setText(String.valueOf(this.organo.getOrganMass()));
     }
@@ -127,8 +127,8 @@ public class AbmOrganoController implements Initializable {
     @FXML
     public  void btnGuardarDatos() {
         //implementer obtenerIdOrgano
-        int auxId = ConsultasDB.getNewIdOrgano();
-        Organo organoAux = new Organo(auxId,null, -1,-1);    
+        //int auxId = ConsultasDB.getNewIdOrgano();
+        //Organo organoAux = new Organo(auxId,null, -1,-1);    
         phantom = FuncionesGenerales.getPhantomActual();
          
         // La llamada a la base de datos se realiza desde PhantomController. Editar/Nuevo
@@ -137,10 +137,10 @@ public class AbmOrganoController implements Initializable {
                 if ("Agregar Organo".equals(this.dialogStage.getTitle())){
                     //nuevo organo se debe guardar el nombre y el id primero. 
                     //organoAux.setIdOrgano
-                    organoAux.setNombreOrgano(txtOrganoNombre.getText());
-                    organoAux.setOrganMass(Double.valueOf(txtOrganoMasa.getText()));
+                    organo.setNombreOrgano(txtOrganoNombre.getText());
+                    organo.setOrganMass(Double.valueOf(txtOrganoMasa.getText()));
                     //Agrego a la lista de organos el organo recien creado
-                    phantom.getOrgano().add(organoAux);
+                    //phantom.getOrgano().add(organoAux);
                 } else {
                     // el organo ya existe, por lo tanto se edita. 
                     organo.setNombreOrgano(txtOrganoNombre.getText());

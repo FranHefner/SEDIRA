@@ -33,8 +33,8 @@ import sedira.model.Organo;
 import sedira.model.ValorDescripcion;
 import sedira.model.Phantom;
 import sedira.AplicacionPrincipal;
+import sedira.model.OrganoDAO;
 import sedira.model.PhantomDAO;
-import sedira.model.RadionuclidoDAO;
 import sedira.model.ValorDescripcionDAO;
 
 
@@ -116,6 +116,7 @@ public class PhantomController  implements Initializable  {
         
         //Traigo los datos de los phantoms existentes. 
         phantomData   = PhantomDAO.obtenerListaPhantom();
+        
         // Inicializo la tabla de Organos
         clOrganoNombre.setCellValueFactory(
                 cellData -> cellData.getValue().getNombreOrganoProperty());
@@ -234,10 +235,11 @@ public class PhantomController  implements Initializable  {
       
     /**
      * Muestra el Formulario para la edicion de un organo. 
+     * @param organo
      * @param phantom
      * @return 
      */
-    public boolean mostrarOrganoEditDialog (Phantom phantom){
+    public boolean mostrarOrganoEditDialog (Organo organo, Phantom phantom){
         
         // cargo el nuevo FXML para crear un ventana tipo PopUp
 
@@ -255,12 +257,12 @@ public class PhantomController  implements Initializable  {
             Scene scene = new Scene(page);
             dialogStage.setScene(scene);
 
-                // Pone el organo en el controlador AbmOrganoController. 
+            // Pone el organo en el controlador AbmOrganoController. 
             AbmOrganoController controladorAbmOrgano = loader.getController();
             controladorAbmOrgano.setDialogStage(dialogStage);
             // le paso el Phantom porque los phantom son los que contienen organos. 
             controladorAbmOrgano.setPhantom(phantom);
-
+            controladorAbmOrgano.setOrgano(organo);
             // Muestra el formulario y espera hasta que el usuario lo cierre. 
             dialogStage.showAndWait();
 
@@ -328,12 +330,16 @@ public class PhantomController  implements Initializable  {
      * @param phantomActual 
      */
     public void seleccionPhantom(Phantom phantomActual) {
+        //Se setea el phantom seleccionado como el PhantomActual. 
         FuncionesGenerales.setPhantomActual(phantomActual);
         if (phantomActual != null) {
-            //organosData =  phantomActual.getOrgano(); LLAMAR A ORGANOSDAO
-            //organosData = OrganosDAO.obtenerOrgano(phantomActual);
-            //griOrgano.setItems(organosData);
+            //Completo la lista de organos. 
+            organosData = PhantomDAO.obtenerInfoOrgano(phantomActual);
+            //Completo la grilla de los organos. 
+            griOrgano.setItems(organosData);
+            //Completo la lista de items para el phantom
             infoPhantom = PhantomDAO.obtenerInfoPhantom(phantomActual);
+            //Completo la grilla de los items del phantom
             griValorDescripcionPhantom.setItems(infoPhantom);
             //Prendo el boton de Editar phantom
             btnEditarPhantom.setDisable(false);
@@ -341,7 +347,7 @@ public class PhantomController  implements Initializable  {
             //Todo si no se selecciona ningun phantom de la lista
             //Apago los botones.
             btnEditarPhantom.setDisable(true);
-            
+
         }
     }
     /**
@@ -404,20 +410,38 @@ public class PhantomController  implements Initializable  {
      * Metodo que controla el comportamiento del boton Agregar Organo.
      */
     @FXML
-    public void btnAgregarOrgano (){
-         
-       Phantom selectedPhantom = FuncionesGenerales.getPhantomActual();
+    public void btnAgregarOrgano() {
+        //objeto auxiliar de tipo Phantom. Phantom actual seleccionado en el GriPhamtom
+        Phantom selectedPhantom = FuncionesGenerales.getPhantomActual();
+        //Objeto nuevo de tipo Organo 
+        Organo organo = new Organo(-1, "", 0.0, 0.0);
+        // identificador del phantom al cual se agregara el item. 
+        int idPhantom = selectedPhantom.getIdPhantom();
         if (selectedPhantom != null) {
-                boolean guardarCambiosClicked = mostrarOrganoEditDialog(selectedPhantom);
-                if (guardarCambiosClicked) {
-                    ConsultasDB.modificarPhantom(selectedPhantom,griPhantom.getSelectionModel().getSelectedIndex() );    
-                }
+
+            boolean guardarCambiosClicked = mostrarOrganoEditDialog(organo, selectedPhantom);
+                //El objeto phantom ya tiene la nueva lista de organos. 
+
+            organosData = selectedPhantom.getOrgano();
+            if (guardarCambiosClicked) {
+                //Agrego el nuevo organo a la lista de organos. 
+                organosData.add(organo);
+                //Agrego la lista de organos al phantom
+                selectedPhantom.setOrgano(organosData);
+                // Llamada a la clase accesode datos de organo
+                OrganoDAO.agregarOrgano(organo, idPhantom);
+                    //ConsultasDB.modificarPhantom(selectedPhantom,griPhantom.getSelectionModel().getSelectedIndex() );  
+                //Actualizacion de la informacion de organos
+                organosData = PhantomDAO.obtenerInfoOrgano(selectedPhantom);
+                griOrgano.setItems(organosData);
+
+            }
 
         } else {
-                // Nothing selected.
+            // Nothing selected.
 
         }
-                                   
+
     }
     
      /**
@@ -461,45 +485,65 @@ public class PhantomController  implements Initializable  {
      * Metodo que controla el comportamiento del boton Quitar Item. 
      */
     @FXML
-    public void btnEliminarItem (){
+    public void btnEliminarItem() {
         ValorDescripcion selectedItem = griValorDescripcionPhantom.getSelectionModel().getSelectedItem();
         Phantom selectedPhantom = FuncionesGenerales.getPhantomActual();
-         int selectedIndex = griValorDescripcionPhantom.getSelectionModel().getSelectedIndex();
-         
-            if (selectedItem != null) {
-                String mensaje = griValorDescripcionPhantom.getSelectionModel().getSelectedItem().getDescripcion() + "  " +
-                           griValorDescripcionPhantom.getSelectionModel().getSelectedItem().getValor() + "  " + 
-                            griValorDescripcionPhantom.getSelectionModel().getSelectedItem().getUnidad();
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setTitle("Eliminar Item");
-                alert.setHeaderText("Atención!");
-                alert.setContentText("Esta seguro que desea eliminar el item seleccionado? \n"+mensaje);
-                
-                Optional<ButtonType> result = alert.showAndWait();
-                if (result.get() == ButtonType.OK){
-                    griValorDescripcionPhantom.getItems().remove(selectedIndex);
-                    //Llamada BD para la eliminacion. 
-                    ConsultasDB.modificarPhantom(selectedPhantom,griPhantom.getSelectionModel().getSelectedIndex() );    
-                } else {
+        int selectedIndex = griValorDescripcionPhantom.getSelectionModel().getSelectedIndex();
+       
+        if (selectedItem != null) {
+            int idItem = selectedItem.getId();
+            String mensaje = griValorDescripcionPhantom.getSelectionModel().getSelectedItem().getDescripcion() + "  "
+                    + griValorDescripcionPhantom.getSelectionModel().getSelectedItem().getValor() + "  "
+                    + griValorDescripcionPhantom.getSelectionModel().getSelectedItem().getUnidad();
 
-                }
-                    
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Eliminar Item");
+            alert.setHeaderText("Atención!");
+            alert.setContentText("Esta seguro que desea eliminar el item seleccionado? \n" + mensaje);
+
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.OK) {
+                griValorDescripcionPhantom.getItems().remove(selectedIndex);
+                //Llamada BD para la eliminacion. 
+                ValorDescripcionDAO.eliminarItem(idItem);
+                //actualizacion de la informacion del phantom.
+                infoPhantom = PhantomDAO.obtenerInfoPhantom(selectedPhantom);
+                //actualizacion de la tabla ValorDescripcionPhantom.
+                griValorDescripcionPhantom.setItems(infoPhantom);
+
+                //Mensaje de confirmacion.
+                Alert alerta = new Alert(AlertType.INFORMATION);
+                alerta.setTitle("Confirmación");
+                alerta.setHeaderText(null);
+                alerta.setContentText("El ítem - " + selectedItem.getDescripcion() + " - fué eliminado.");
+                alerta.showAndWait();
+
             } else {
-                // No se selecciono ningun item. 
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("Error!");
-                alert.setHeaderText("Error!");
-                alert.setContentText("No hay items para eliminar");
-
-                alert.showAndWait();
+                //Cancelacion de la eliminacion
+                //Mensaje de confirmacion.
+                Alert alerta = new Alert(AlertType.INFORMATION);
+                alerta.setTitle("Confirmación");
+                alerta.setHeaderText(null);
+                alerta.setContentText("Se cancelo la eliminación del ítem  - " + selectedItem.getDescripcion() + " ");
+                alerta.showAndWait();
             }
+
+        } else {
+            // No se selecciono ningun item. 
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Error!");
+            alert.setHeaderText("Error!");
+            alert.setContentText("No hay items para eliminar");
+
+            alert.showAndWait();
+        }
     }
     /**
      * Metodo que controla el comportamiento del boton modificar item.
      */
     @FXML
     public void btnAgregarItem() throws SQLException {
-        //obejeto auxiliar de tipo Phantom. Phantom actual seleccionado en el GriPhamtom
+        //objeto auxiliar de tipo Phantom. Phantom actual seleccionado en el GriPhamtom
         Phantom auxPhantom = FuncionesGenerales.getPhantomActual();
         //Creacion de objeto auxiliar de tipo ValorDescripcion.
         ValorDescripcion itemPhantom = new ValorDescripcion(-1, null, 0, null);
@@ -514,7 +558,7 @@ public class PhantomController  implements Initializable  {
             // Parametros. Item auxiliar , identificador del phantom que hace la llamada a la funcion, False para radionuclido, false para Radionuclido
             ValorDescripcionDAO.agregarItem(itemPhantom, idPhantom, true, false);
             
-             //actualizacion de la informacion del radionuclido.
+             //actualizacion de la informacion del phantom.
             infoPhantom = PhantomDAO.obtenerInfoPhantom(auxPhantom);
             //actualizacion de la tabla ValorDescripcionPhantom.
             griValorDescripcionPhantom.setItems(infoPhantom);
@@ -533,14 +577,32 @@ public class PhantomController  implements Initializable  {
      */
     @FXML
     public void btnModificarItem (){
-        Phantom auxPhantom = FuncionesGenerales.getPhantomActual();
+        //Objeto phantom que contiene el atributo
+        Phantom phantomActual = FuncionesGenerales.getPhantomActual();
+        // id del phantom a editar  
+        int idPhantom = phantomActual.getIdPhantom();
+        //Atributo a editar
         ValorDescripcion selectedItem = griValorDescripcionPhantom.getSelectionModel().getSelectedItem();
+        
         if (selectedItem != null) {
-                boolean guardarCambiosClicked = mostrarItemPhantomEditDialog(selectedItem);
-                  
-                if (guardarCambiosClicked) {
-                     ConsultasDB.modificarPhantom(auxPhantom,griPhantom.getSelectionModel().getSelectedIndex() );
-                }
+            boolean guardarCambiosClicked = mostrarItemPhantomEditDialog(selectedItem);
+
+            if (guardarCambiosClicked) {
+                //True para Phantom,
+                //Flase para Radionuclido
+                ValorDescripcionDAO.modificarItem(selectedItem, idPhantom, true, false);
+                //Actualizacion de la informacion del radionuclido
+                infoPhantom = PhantomDAO.obtenerInfoPhantom(phantomActual);
+                griValorDescripcionPhantom.setItems(infoPhantom);
+                
+                //Mensaje de confirmacion.
+                Alert alerta = new Alert(AlertType.INFORMATION);
+                alerta.setTitle("Confirmación");
+                alerta.setHeaderText(null);
+                alerta.setContentText("El ítem fué modificado.");
+                alerta.showAndWait();
+                
+            }
 
         } else {
            // No se selecciono ningun item. 
