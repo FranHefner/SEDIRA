@@ -19,7 +19,10 @@ import javax.swing.JOptionPane;
  * @author Quelin Pablo, Hefner Francisco
  */
 public class PhantomDAO {
-
+/**
+ * Metodo que retora la lista completa de phantoms de la base de datos 
+ * @return phantomData
+ */
     public static ObservableList<Phantom> obtenerListaPhantom() {
         //Creo una lista auxiliar
         ObservableList<Phantom> phantomData = FXCollections.observableArrayList();
@@ -51,7 +54,12 @@ public class PhantomDAO {
 
         return phantomData;
     }
-    
+    /**
+     * Metodo que retorna la informacion completa de tipo valor descripcion
+     * que contiene un phantom.
+     * @param phantomSeleccionado
+     * @return 
+     */
     public static ObservableList<ValorDescripcion> obtenerInfoPhantom(Phantom phantomSeleccionado) {
         //Creo una lista auxiliar
         ObservableList<ValorDescripcion> infoPhantomData = FXCollections.observableArrayList();
@@ -95,7 +103,10 @@ public class PhantomDAO {
     }
     
     
-    
+    /**
+     * Metodo que agrega un Phantom a la base da datos 
+     * @param phantom que se insertara en la base de datos 
+     */
     public static void agregarPhantom (Phantom phantom){
         //Instancia de conexion
         ConexionDB conexion = new ConexionDB();
@@ -105,9 +116,17 @@ public class PhantomDAO {
             if (buscaNombre(nombrePhantom)) {
                 Statement consulta = conexion.getConnection().createStatement();
                 consulta.executeUpdate("INSERT INTO phantoms (nombre_phantom) VALUES ('" + nombrePhantom+ "')");
-                
+                consulta.close();
+                conexion.desconectar();
+            //Mensaje de confirmacion
+            Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+            alerta.setTitle("Confirmación");
+            alerta.setHeaderText(null);
+            alerta.setContentText("El phantom fué "+nombrePhantom+" agregado.");
+            alerta.showAndWait();
+            
             } else {
-                
+                //Las validaciones se encuentran en ABMphantomController 
                 //JOptionPane.showMessageDialog(null, "El phantom " + nombrePhantom + " ya existe!", "Información", JOptionPane.INFORMATION_MESSAGE);
             }
         } catch (SQLException e) {
@@ -116,7 +135,44 @@ public class PhantomDAO {
         }
         
     }
-    public static void modificarPhantom(){
+    /**
+     * Metodo que modifica el nombre de un phantom existente. 
+     * @param phantom 
+     */
+    public static void modificarNombrePhantom(Phantom phantom){
+        //Instancia de conexion
+        ConexionDB conexion = new ConexionDB();
+        String nombrePhantom = phantom.getPhantomNombre();
+        int id=phantom.getIdPhantom();
+        try {
+            //Antes de insertar corrobora que no exista el nombre
+            if (buscaNombre(nombrePhantom)) {
+                PreparedStatement consulta = conexion.getConnection().prepareStatement(
+                "UPDATE phantoms SET nombre_phantom = ?"
+                        + "WHERE id_phantom=?");
+                
+                consulta.setString(1, nombrePhantom);
+                consulta.setInt(2, id);
+                //Ejecuto la consulta
+                consulta.executeUpdate();
+                consulta.close();
+                conexion.desconectar();
+                
+            //Mensaje de confirmacion
+            Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+            alerta.setTitle("Confirmación");
+            alerta.setHeaderText(null);
+            alerta.setContentText("El phantom fué modificado");
+            alerta.showAndWait();
+            
+            } else {
+                //Las validaciones se encuentran en ABMphantomController 
+                //JOptionPane.showMessageDialog(null, "El phantom " + nombrePhantom + " ya existe!", "Información", JOptionPane.INFORMATION_MESSAGE);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(null, "Ocurrio un error en la creación");
+        }
         
     }
     public static void eliminarPhantom(){
@@ -135,7 +191,7 @@ public class PhantomDAO {
             ResultSet resultado = consulta.executeQuery();
             if (resultado.next()) {
                 consulta.close();
-                
+                conexion.desconectar();
                 return false;
             } else {
                 //Si no hay coincidencias. o sea, la cantidad de tuplas es 0 entonces EL nombre no existe

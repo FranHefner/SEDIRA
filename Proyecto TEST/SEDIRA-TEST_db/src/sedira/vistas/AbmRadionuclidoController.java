@@ -23,6 +23,7 @@ import sedira.FuncionesGenerales;
 import sedira.model.Radionuclido;
 import sedira.model.RadionuclidoDAO;
 import sedira.model.ValorDescripcion;
+import sedira.model.ValorDescripcionDAO;
 
 /**
  * FXML Controller class
@@ -222,7 +223,7 @@ public class AbmRadionuclidoController implements Initializable {
     public boolean validarDatosEntrada () throws SQLException{
         String mensajeError = "";
         String nombreRadNuclido = txtRadNuclidoNombre.getText();
-        if ("Crear un Radionúclido".equals(this.dialogStage.getTitle())){
+        if ("Crear un Radionúclido".equals(this.dialogStage.getTitle())||"Modificar nombre del Radionúclido".equals(this.dialogStage.getTitle())){
             // Solo valido
             if (txtRadNuclidoNombre.getText()== null || txtRadNuclidoNombre.getText().length() == 0){
                 mensajeError+= "Nombre del Radionuclido Invalido!";
@@ -230,6 +231,7 @@ public class AbmRadionuclidoController implements Initializable {
             if (RadionuclidoDAO.buscaNombre(nombreRadNuclido)==false){
                 mensajeError+= "El nombre del radionúclido ya existe!";
             }
+         
         } else {
             /*
             Debido  a la utilizacion del mismo formulario para el abm de radionuclido. 
@@ -241,6 +243,10 @@ public class AbmRadionuclidoController implements Initializable {
                 if (txtPropiedad.getText() == null || txtPropiedad.getText().length() == 0){
                     mensajeError += "Nombre de Propiedad Invalido! \n";
                 }
+                if (ValorDescripcionDAO.buscaNombre(txtPropiedad.getText())==false){
+                    mensajeError += "El nombre de la propiedad que desea insertar ya existe\n";
+                }
+                    
             }
 
             if (txtValor.isDisable()==false){
@@ -261,7 +267,7 @@ public class AbmRadionuclidoController implements Initializable {
             }
             if(txtUnidad.isDisable()==false){
                 if (txtUnidad.getText() == null || txtUnidad.getText().length() == 0){
-                    mensajeError += "Campo Unidad Invalido! \n";
+                    mensajeError += "El campo Unidad Invalido! \n";
                 }
             }
         }
@@ -272,7 +278,7 @@ public class AbmRadionuclidoController implements Initializable {
         }else{
             Alert alert = new Alert(AlertType.ERROR);
             alert.setTitle("Error!");
-            alert.setHeaderText("Existe un error en los siguientes campos:");
+            alert.setHeaderText("Error al guardar el radionúclido");
             alert.setContentText(mensajeError);
 
             alert.showAndWait();

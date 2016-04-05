@@ -6,7 +6,9 @@
 package sedira.model;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import javafx.scene.control.Alert;
 import javax.swing.JOptionPane;
 
 /**
@@ -52,8 +54,16 @@ public class ValorDescripcionDAO {
 
             consulta.executeUpdate(); //Ejecucion de la consulta
             consulta.close();
+            conexion.desconectar();
             // JOptionPane.showMessageDialog(null, "La propiedad "+vd.getDescripcion()+ " fué agregada con éxito!","Información",JOptionPane.INFORMATION_MESSAGE);
-
+            
+            // Mensaje de confirmacion
+            Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+            alerta.setTitle("Confirmación");
+            alerta.setHeaderText(null);
+            alerta.setContentText("El item -"+vd.getDescripcion() +"- fué agregado.");
+            alerta.showAndWait();
+            
         } catch (SQLException e) {
             System.out.println("Ocurrió un error en la inserción de la propiedad " + e.getMessage());
             JOptionPane.showMessageDialog(null, "Ocurrió un error en la inserción de la propiedad " + e.getMessage(), "Información", JOptionPane.INFORMATION_MESSAGE);
@@ -75,33 +85,42 @@ public class ValorDescripcionDAO {
         //Identificador del item a modificar.
         int itemId = vd.getId();
         try {
+            if (buscaNombre(vd.getDescripcion())) {
+                PreparedStatement consulta = conexion.getConnection().prepareStatement(
+                        "UPDATE valordescripcion SET descripcion = ?"
+                        + ",valor = ?"
+                        + ",unidad = ?"
+                        + ",id_radionuclido = ?"
+                        + ",id_phantom = ? "
+                        + "WHERE id_valordescripcion = ?");
+                consulta.setString(1, vd.getDescripcion());
+                consulta.setDouble(2, vd.getValor());
+                consulta.setString(3, vd.getUnidad());
 
-            PreparedStatement consulta = conexion.getConnection().prepareStatement(
-                    "UPDATE valordescripcion SET descripcion = ?"
-                    + ",valor = ?"
-                    + ",unidad = ?"
-                    + ",id_radionuclido = ?"
-                    + ",id_phantom = ? "
-                    + "WHERE id_valordescripcion = ?");
-            consulta.setString(1, vd.getDescripcion());
-            consulta.setDouble(2, vd.getValor());
-            consulta.setString(3, vd.getUnidad());
+                if (phantom) { //Modifica item a un phantom
+                    consulta.setNull(4, java.sql.Types.NULL);
+                    consulta.setInt(5, id);
+                    consulta.setInt(6, itemId);
+                }
+                if (radionuclido) { //Modifica item a un radionuclido
+                    consulta.setInt(4, id);
+                    consulta.setNull(5, java.sql.Types.NULL);
+                    consulta.setInt(6, itemId);
 
-            if (phantom) { //Modifica item a un phantom
-                consulta.setNull(4, java.sql.Types.NULL);
-                consulta.setInt(5, id);
-                consulta.setInt(6, itemId);
+                }
+
+                consulta.executeUpdate(); //Ejecucion de la consulta
+                consulta.close();
+                conexion.desconectar();
+
+                // Mensaje de confirmacion
+                Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+                alerta.setTitle("Confirmación");
+                alerta.setHeaderText(null);
+                alerta.setContentText("El ítem -"+vd.getDescripcion() +"- fué modificado.");
+                alerta.showAndWait();
+                // JOptionPane.showMessageDialog(null, "La propiedad " + vd.getDescripcion() + " fué agregada con éxito!", "Información", JOptionPane.INFORMATION_MESSAGE); 
             }
-            if (radionuclido) { //Modifica item a un radionuclido
-                consulta.setInt(4, id);
-                consulta.setNull(5, java.sql.Types.NULL);
-                consulta.setInt(6, itemId);
-
-            }
-
-            consulta.executeUpdate(); //Ejecucion de la consulta
-            consulta.close();
-           // JOptionPane.showMessageDialog(null, "La propiedad " + vd.getDescripcion() + " fué agregada con éxito!", "Información", JOptionPane.INFORMATION_MESSAGE);
 
         } catch (SQLException e) {
             System.out.println("Ocurrió un error en la modificación de la propiedad \n" + e.getMessage());
@@ -113,7 +132,6 @@ public class ValorDescripcionDAO {
      * Metodo que elimina un item de una tabla de tipo ValorDescripcion.
      *
      * @param id identificador del item a eliminar.
-     * @return true si pudo eliminar o false si fallo la eliminacion.
      */
     public static void eliminarItem(int id) {
         //Instancia de conexion
@@ -127,10 +145,59 @@ public class ValorDescripcionDAO {
             //System.out.print(id);
             consulta.executeUpdate(); //Ejecucion de la consulta.
             consulta.close();
+            conexion.desconectar();
+            
+            
+            // Mensaje de confirmacion
+            Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+            alerta.setTitle("Confirmación");
+            alerta.setHeaderText(null);
+            alerta.setContentText("El ítem fué eliminado. ");
+            alerta.showAndWait();
 
         } catch (SQLException e) {
             System.out.println("Ocurrió un error al eliminar el item \n" + e.getMessage());
             JOptionPane.showMessageDialog(null, "Ocurrió un error al eliminar el item \n" + e.getMessage(), "Información", JOptionPane.INFORMATION_MESSAGE);
         }
     }
+    
+    /**
+     * Metodo que busca si una propiedad ya existe.
+     *
+     * @param propiedad
+     * @return True si no hay coincidencias. False si el nombre existe. 
+     * @throws java.sql.SQLException 
+     */
+    public static boolean buscaNombre(String propiedad) throws SQLException {
+        //Instancia de conexion
+        ConexionDB conexion = new ConexionDB();
+
+        try {
+            PreparedStatement consulta = conexion.getConnection().prepareStatement(
+                    "SELECT descripcion FROM valordescripcion WHERE descripcion = ?");
+            consulta.setString(1, propiedad);
+
+            ResultSet resultado = consulta.executeQuery();
+            if (resultado.next()) {
+                consulta.close();
+                //JOptionPane.showMessageDialog(null, "El radionúclido que desea insertar ya existe","Información",JOptionPane.INFORMATION_MESSAGE);
+                //System.out.println();
+                resultado.close();
+                conexion.desconectar();
+                
+                return false;
+            } else {
+                //Si no hay coincidencias. o sea, la cantidad de tuplas es 0 entonces EL nombre no existe
+                return true;
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(null, "Ocurrio un error! " + e);
+            return false;
+        }
+    }
+   
+    
+    
 }

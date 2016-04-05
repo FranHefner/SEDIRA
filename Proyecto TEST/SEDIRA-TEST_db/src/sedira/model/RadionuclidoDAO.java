@@ -125,10 +125,20 @@ public class RadionuclidoDAO {
             if (buscaNombre(radionuclido.getNombreRadNuclido())) {
                 Statement consulta = conexion.getConnection().createStatement();
                 consulta.executeUpdate("INSERT INTO radionuclidos (nombre_radionuclido) VALUES ('" + radionuclido.getNombreRadNuclido() + "')");
-                
+                consulta.close();
+                conexion.desconectar();
+
+                // Mensaje de confirmacion
+                Alert alerta = new Alert(AlertType.INFORMATION);
+                alerta.setTitle("Confirmación");
+                alerta.setHeaderText(null);
+                alerta.setContentText("El radionúclido - "+nombreRadNuclido+" - fué agregado.");
+                alerta.showAndWait();
             } else {
-                
-                //JOptionPane.showMessageDialog(null, "El radionúclido " + nombreRadNuclido + " ya existe!", "Información", JOptionPane.INFORMATION_MESSAGE);
+                 /**
+                  * Mensaje por error esta detallado en el metodo validarDatosEntrada. ABMRadionuclidos
+                  */
+           
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -150,7 +160,7 @@ public class RadionuclidoDAO {
             if (buscaNombre(radionuclido.getNombreRadNuclido())) {
                 PreparedStatement consulta = conexion.getConnection().prepareStatement(
                         "UPDATE radionuclidos SET nombre_radionuclido = ? WHERE id_radionuclido = ?");
-                JOptionPane.showMessageDialog(null, "El radionúclido ha sido modificado!", "Información", JOptionPane.INFORMATION_MESSAGE);
+                //JOptionPane.showMessageDialog(null, "El radionúclido ha sido modificado!", "Información", JOptionPane.INFORMATION_MESSAGE);
                 
                 //Seteo las variables para la consulta.
                 consulta.setString(1, nombreRadionuclido);
@@ -167,13 +177,9 @@ public class RadionuclidoDAO {
                 alerta.showAndWait();
                 
             } else {
-                Alert alert = new Alert(AlertType.ERROR);
-                alert.setTitle("Error!");
-                alert.setHeaderText("Existe un error en la modificación del radionuclido  "+nombreRadionuclido);
-                alert.setContentText("El nombre que intenta insertar ya existe!");
-                alert.showAndWait();
-               // JOptionPane.showMessageDialog(null, "El radionúclido " + nombreRadionuclido + " ya existe!", "Información", JOptionPane.INFORMATION_MESSAGE);
-                //System.out.println();
+             /**
+                  * Mensaje por error esta detallado en el metodo validarDatosEntrada. ABMRadionuclidos
+                  */
             }
             
         } catch (SQLException e) {
@@ -186,7 +192,7 @@ public class RadionuclidoDAO {
      * Metodo que busca valida si un radionuclido ya existe.
      *
      * @param nombreRadionuclido
-     * @return
+     * @return True si no hay coincidencias. False si el nombre existe. 
      */
     public static boolean buscaNombre(String nombreRadionuclido) throws SQLException {
         //Instancia de conexion
@@ -202,6 +208,8 @@ public class RadionuclidoDAO {
                 consulta.close();
                 //JOptionPane.showMessageDialog(null, "El radionúclido que desea insertar ya existe","Información",JOptionPane.INFORMATION_MESSAGE);
                 //System.out.println();
+                resultado.close();
+                conexion.desconectar();
                 return false;
             } else {
                 //Si no hay coincidencias. o sea, la cantidad de tuplas es 0 entonces EL nombre no existe

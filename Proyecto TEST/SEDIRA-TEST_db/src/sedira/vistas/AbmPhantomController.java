@@ -229,7 +229,7 @@ public class AbmPhantomController implements Initializable {
     public boolean validarDatosEntrada() throws SQLException {
         String mensajeError = "";
         String nombrePhantom = txtNombrePhantom.getText();
-        if ("Crear un Phantom".equals(this.dialogStage.getTitle())) {
+        if ("Crear un Phantom".equals(this.dialogStage.getTitle())||"Modificar nombre del Phantom".equals(this.dialogStage.getTitle())) {
             // Solo valido
             if (txtNombrePhantom.getText() == null || txtNombrePhantom.getText().length() == 0) {
                 mensajeError += "Nombre del Phantom Invalido!";

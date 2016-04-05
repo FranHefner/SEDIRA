@@ -232,12 +232,7 @@ public class RadionuclidoController implements Initializable {
                 infoRadNuclido = RadionuclidoDAO.obtenerInfoRadNuclido(radionuclidoActual);
                 //actualizacion de la tabla InfoRadNuclido.
                 griInfoRadNuclido.setItems(infoRadNuclido);
-                //Mensaje de confirmacion.
-                Alert alerta = new Alert(AlertType.INFORMATION);
-                alerta.setTitle("Confirmación");
-                alerta.setHeaderText(null);
-                alerta.setContentText("El ítem fué modificado.");
-                alerta.showAndWait();
+                
             }
 
         } else {
@@ -284,13 +279,7 @@ public class RadionuclidoController implements Initializable {
                 //actualizacion de la tabla InfoRadNuclido.
                 griInfoRadNuclido.setItems(infoRadNuclido);
 
-                //Mensaje de confirmacion.
-                Alert alerta = new Alert(AlertType.INFORMATION);
-                alerta.setTitle("Confirmación");
-                alerta.setHeaderText(null);
-                alerta.setContentText("El ítem - " + selectedItem.getDescripcion() + " - fué eliminado.");
-                alerta.showAndWait();
-
+                
             } else {
                 //Cancelacion de la eliminacion
                 //Mensaje de confirmacion.
@@ -337,13 +326,6 @@ public class RadionuclidoController implements Initializable {
             //actualizacion de la tabla InfoRadNuclido.
             griInfoRadNuclido.setItems(infoRadNuclido);
 
-            //Mensaje de confirmacion.
-            Alert alerta = new Alert(AlertType.INFORMATION);
-            alerta.setTitle("Confirmación");
-            alerta.setHeaderText(null);
-            alerta.setContentText("El ítem - " + itemRadionuclido.getDescripcion() + " - fué agregado.");
-            alerta.showAndWait();
-
         }
 
     }
@@ -363,14 +345,7 @@ public class RadionuclidoController implements Initializable {
             //Actualiza el GridView de Radionuclidos.
             griRadionuclido.setItems(radionuclidoData);
             btnModificarRadioNuclido.setDisable(true);
-            
-            // Mensaje de confirmacion
-            Alert alerta = new Alert(AlertType.INFORMATION);
-            alerta.setTitle("Confirmación");
-            alerta.setHeaderText(null);
-            alerta.setContentText("El radionúclido fué agregado.");
-            alerta.showAndWait();
-           
+                      
         }
     }
 
@@ -391,14 +366,7 @@ public class RadionuclidoController implements Initializable {
             griRadionuclido.setItems(radionuclidoData);
             //Comportamiento de botones.
             btnModificarRadioNuclido.setDisable(true);
-            
-            // Mensaje de confirmacion
-            Alert alerta = new Alert(AlertType.INFORMATION);
-            alerta.setTitle("Confirmación");
-            alerta.setHeaderText(null);
-            alerta.setContentText("El radionúclido fué modificado.");
-            alerta.showAndWait();
-
+               
         }
 
     }
