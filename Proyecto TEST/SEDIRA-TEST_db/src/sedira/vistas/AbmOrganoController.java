@@ -6,6 +6,7 @@
 package sedira.vistas;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -22,6 +23,7 @@ import sedira.ConsultasDB;
 import sedira.FuncionesGenerales;
 
 import sedira.model.Organo;
+import sedira.model.OrganoDAO;
 import sedira.model.Phantom;
 
 /**
@@ -125,7 +127,7 @@ public class AbmOrganoController implements Initializable {
      * Antes, valida que los datos sean correctos. 
      */
     @FXML
-    public  void btnGuardarDatos() {
+    public  void btnGuardarDatos() throws SQLException {
         //implementer obtenerIdOrgano
         //int auxId = ConsultasDB.getNewIdOrgano();
         //Organo organoAux = new Organo(auxId,null, -1,-1);    
@@ -192,12 +194,15 @@ public class AbmOrganoController implements Initializable {
      * Validacion de los datos de entrada para Organos. 
      * @return 
      */
-    public boolean validarDatosEntrada (){
+    public boolean validarDatosEntrada () throws SQLException{
         String mensajeError = "";
+        // TODO. Validar los datos de entrada 
             if (txtOrganoNombre.getText()== null || txtOrganoNombre.getText().length() == 0){
                 mensajeError+= "Nombre del órgano Invalido!";
             }
-        
+            if (OrganoDAO.buscaNombre(txtOrganoNombre.getText())==false){
+                mensajeError+="El órgano que desea agregar ya existe! \n";
+            }
             if (txtOrganoMasa.getText() == null || txtOrganoMasa.getText().length() == 0 ){
                 mensajeError += "Valor invalido! \n";
             } else {

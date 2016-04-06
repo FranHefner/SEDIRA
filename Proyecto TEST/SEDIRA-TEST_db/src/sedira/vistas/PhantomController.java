@@ -418,25 +418,22 @@ public class PhantomController  implements Initializable  {
         Organo organo = new Organo(-1, "", 0.0, 0.0);
         // identificador del phantom al cual se agregara el item. 
         int idPhantom = selectedPhantom.getIdPhantom();
-        if (selectedPhantom != null) {
 
-            boolean guardarCambiosClicked = mostrarOrganoEditDialog(organo, selectedPhantom);
-            //El objeto phantom ya tiene la nueva lista de organos. 
+        boolean guardarCambiosClicked = mostrarOrganoEditDialog(organo, selectedPhantom);
+        //El objeto phantom ya tiene la nueva lista de organos. 
 
-            organosData = selectedPhantom.getOrgano();
-            if (guardarCambiosClicked) {
-                //Agrego el nuevo organo a la lista de organos. 
-                organosData.add(organo);
-                //Agrego la lista de organos al phantom
-                selectedPhantom.setOrgano(organosData);
-                // Llamada a la clase accesode datos de organo
-                OrganoDAO.agregarOrgano(organo, idPhantom);
+        //organosData = selectedPhantom.getOrgano();
+        if (guardarCambiosClicked) {
+            //Agrego el nuevo organo a la lista de organos. 
+            organosData.add(organo);
+            //Agrego la lista de organos al phantom
+            selectedPhantom.setOrgano(organosData);
+            // Llamada a la clase accesode datos de organo
+            OrganoDAO.agregarOrgano(organo, idPhantom);
                 //ConsultasDB.modificarPhantom(selectedPhantom,griPhantom.getSelectionModel().getSelectedIndex() );  
-                //Actualizacion de la informacion de organos
-                organosData = PhantomDAO.obtenerInfoOrgano(selectedPhantom);
-                griOrgano.setItems(organosData);
-
-            }
+            //Actualizacion de la informacion de organos
+            organosData = PhantomDAO.obtenerInfoOrgano(selectedPhantom);
+            griOrgano.setItems(organosData);
 
         } else {
             // Nothing selected.
@@ -605,15 +602,30 @@ public class PhantomController  implements Initializable  {
         }
     }
     
+     
+     
     @FXML
-    public void btnModificarOrgano (){
+    /**
+     * Metodo que contiene el comportamiento del boton Modificar Organo. 
+     */
+    public void btnModificarOrgano() {
+        //Phantom auxiliar. 
         Phantom auxPhantom = FuncionesGenerales.getPhantomActual();
+        //Organo a modificar 
         Organo selectedOrgano = griOrgano.getSelectionModel().getSelectedItem();
-        if (selectedOrgano != null){
-            boolean guardarCambiosClicked = mostrarItemOrganoEditDialog (selectedOrgano);
-            if (guardarCambiosClicked){
+        // identificador del phantom que contiene al organo
+        int idPhantom = auxPhantom.getIdPhantom();
+
+        if (selectedOrgano != null) {
+            boolean guardarCambiosClicked = mostrarItemOrganoEditDialog(selectedOrgano);
+            if (guardarCambiosClicked) {
                 //Bd Modificar Phantom
-                ConsultasDB.modificarPhantom(auxPhantom,griPhantom.getSelectionModel().getSelectedIndex() );
+                //ConsultasDB.modificarPhantom(auxPhantom,griPhantom.getSelectionModel().getSelectedIndex() );
+                // LLamada a la clase de acceso de datos de organos. 
+                OrganoDAO.modificarOrgano(selectedOrgano, idPhantom);
+                //Actualizacion de la informacion de organos
+                organosData = PhantomDAO.obtenerInfoOrgano(auxPhantom);
+                griOrgano.setItems(organosData);
             }
         }
         else {
