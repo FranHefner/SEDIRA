@@ -20,7 +20,7 @@ import javax.swing.JOptionPane;
  */
 public class PhantomDAO {
 /**
- * Metodo que retora la lista completa de phantoms de la base de datos 
+ * Metodo que retorna la lista completa de phantoms de la base de datos 
  * @return phantomData
  */
     public static ObservableList<Phantom> obtenerListaPhantom() {
@@ -175,6 +175,10 @@ public class PhantomDAO {
         }
         
     }
+    /**
+     * Metodo que elmina un phanton completo. Organos y propiedades tambien seran eliminados 
+     * @param id Identificador del phantom a eliminar. 
+     */
     public static void eliminarPhantom(int id){
         //Instancia de conexion
         ConexionDB conexion = new ConexionDB();
@@ -202,7 +206,12 @@ public class PhantomDAO {
         }
         
     }
-    
+    /**
+     * Metodo que busca en la base de datos si el nombre del phantoma ya existe. 
+     * @param nombrePhantom
+     * @return
+     * @throws SQLException 
+     */
     public static boolean buscaNombre(String nombrePhantom) throws SQLException {
         //Instancia de conexion
         ConexionDB conexion = new ConexionDB();
@@ -228,6 +237,11 @@ public class PhantomDAO {
             return false;
         }
     }
+    /**
+     * Metodo que retorna la lista de los organos que contiene un phantom. 
+     * @param phantomSeleccionado
+     * @return 
+     */
     public static ObservableList<Organo> obtenerInfoOrgano(Phantom phantomSeleccionado) {
         //Creo una lista auxiliar de tipo organo
         ObservableList<Organo> organoPhantomData = FXCollections.observableArrayList();

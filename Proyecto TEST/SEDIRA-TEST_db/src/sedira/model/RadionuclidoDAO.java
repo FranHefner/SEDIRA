@@ -112,8 +112,7 @@ public class RadionuclidoDAO {
      * a la base de datos. Pero previamente corrobora si existe el radionuclido
      * ya ingresado en la base de datos
      *
-     * @param radionuclido
-     * @return boolean Si se agrego el radionúclido. 
+     * @param radionuclido 
      * @throws java.sql.SQLException
      */
     public static void agregarRadionuclido(Radionuclido radionuclido) throws SQLException {
@@ -146,7 +145,41 @@ public class RadionuclidoDAO {
             
         }
     }
-    
+    /**
+     * Metodo que elimina un radionuclido y todos sus organos. 
+     * @param idRadionuclido Identificador del radionuclido a eliminar. 
+     */
+    public static void eliminarRadionuclido (int idRadionuclido){
+        //Instancia de conexion
+        ConexionDB conexion = new ConexionDB();
+
+        try {
+            PreparedStatement consulta = conexion.getConnection().prepareStatement(
+                    "DELETE FROM radionuclidos WHERE id_radionuclido = ?");
+            consulta.setInt(1, idRadionuclido);
+            //System.out.print(id);
+            consulta.executeUpdate(); //Ejecucion de la consulta.
+            consulta.close();
+            conexion.desconectar();
+            
+            
+            // Mensaje de confirmacion
+            Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+            alerta.setTitle("Confirmación");
+            alerta.setHeaderText(null);
+            alerta.setContentText("El radionúclido fué eliminado. ");
+            alerta.showAndWait();
+
+        } catch (SQLException e) {
+            System.out.println("Ocurrió un error al eliminar el radionúclido \n" + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Ocurrió un error al eliminar el radionúclido \n" + e.getMessage(), "Información", JOptionPane.INFORMATION_MESSAGE);
+        }
+        
+    }
+    /**
+     * Metodo para modificar el nombre de un radionuclido existente. 
+     * @param radionuclido a modificar. 
+     */
     public static void modificarNombreRadionuclido(Radionuclido radionuclido) {
         //Instancia de conexion
         ConexionDB conexion = new ConexionDB();

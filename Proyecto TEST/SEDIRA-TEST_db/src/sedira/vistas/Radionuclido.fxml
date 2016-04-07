@@ -22,10 +22,11 @@
                   </TableView>
                   <Label layoutX="14.0" layoutY="6.0" prefHeight="17.0" prefWidth="254.0" text="Herramienta para la edición de Radionúclidos." />
                   <TextField fx:id="txtCampoBusqueda" layoutX="11.0" layoutY="23.0" onKeyPressed="#buscarRadionuclido" prefHeight="33.0" prefWidth="271.0" promptText="Búsqueda ..." />
-                  <VBox layoutX="141.0" layoutY="86.0" spacing="20.0">
+                  <VBox layoutX="141.0" layoutY="67.0" spacing="20.0">
                      <children>
-                        <Button fx:id="btnAgregarRadionuclido" layoutX="107.0" layoutY="98.0" mnemonicParsing="false" onAction="#btnAgregarRadionuclido" prefHeight="25.0" prefWidth="139.0" text="Crear Radionuclido" />
-                        <Button fx:id="btnModificarRadioNuclido" disable="true" mnemonicParsing="false" onAction="#btnModificarRadionuclido" prefHeight="25.0" prefWidth="139.0" text="Modificar Radionúclido" />
+                        <Button fx:id="btnAgregarRadionuclido" mnemonicParsing="false" onAction="#btnAgregarRadionuclido" prefHeight="25.0" prefWidth="139.0" text="Agregar radionúclido" />
+                        <Button fx:id="btnModificarRadioNuclido" disable="true" mnemonicParsing="false" onAction="#btnModificarRadionuclido" prefHeight="25.0" prefWidth="139.0" text="Modificar radionúclido" />
+                        <Button fx:id="btnEliminarRadionuclido" disable="true" mnemonicParsing="false" onAction="#btnEliminarRadionuclido" prefHeight="25.0" prefWidth="139.0" text="Eliminar radionúclido" />
                      </children>
                   </VBox>
                </children>

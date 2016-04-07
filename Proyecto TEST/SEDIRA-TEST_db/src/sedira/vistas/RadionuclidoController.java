@@ -60,6 +60,8 @@ public class RadionuclidoController implements Initializable {
     @FXML
     private Button btnAgregarRadionuclido;
     @FXML
+    private Button btnEliminarRadionuclido;
+    @FXML
     private Button btnAgregarItem;
     @FXML
     private Button btnEliminarItem;
@@ -127,11 +129,13 @@ public class RadionuclidoController implements Initializable {
             //Prendo botones.
             btnAgregarItem.setDisable(false);
             btnModificarRadioNuclido.setDisable(false);
+            btnEliminarRadionuclido.setDisable(false);
 
         } else {
             //Apago botones.
             btnAgregarItem.setDisable(true);
             btnModificarRadioNuclido.setDisable(true);
+             btnEliminarRadionuclido.setDisable(true);
         }
     }
 
@@ -198,7 +202,9 @@ public class RadionuclidoController implements Initializable {
             return false;
         }
     }
-
+    /**
+     * Método que obtiene el item seleccionado de la tabla de Radionúclidos. 
+     */
     public void getSelectedItemFromTabla() {
         ValorDescripcion selectedItem = new ValorDescripcion();
         selectedItem = griInfoRadNuclido.getSelectionModel().getSelectedItem();
@@ -258,15 +264,14 @@ public class RadionuclidoController implements Initializable {
         Radionuclido radionuclidoActual = FuncionesGenerales.getRadioNuclidoActual();
         //Objeto a eliminar.
         ValorDescripcion selectedItem = griInfoRadNuclido.getSelectionModel().getSelectedItem();
-      
         
-        if (selectedItem!=null) {
+        if (selectedItem != null) {
             //identificador del item a eliminar
             int id = selectedItem.getId();
             
             String mensaje = griInfoRadNuclido.getSelectionModel().getSelectedItem().getDescripcion() + "  "
-                + griInfoRadNuclido.getSelectionModel().getSelectedItem().getValor() + "  "
-                + griInfoRadNuclido.getSelectionModel().getSelectedItem().getUnidad();
+                    + griInfoRadNuclido.getSelectionModel().getSelectedItem().getValor() + "  "
+                    + griInfoRadNuclido.getSelectionModel().getSelectedItem().getUnidad();
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Eliminar Item");
             alert.setHeaderText("Atención!");
@@ -280,7 +285,6 @@ public class RadionuclidoController implements Initializable {
                 infoRadNuclido = RadionuclidoDAO.obtenerInfoRadNuclido(radionuclidoActual);
                 //actualizacion de la tabla InfoRadNuclido.
                 griInfoRadNuclido.setItems(infoRadNuclido);
-
                 
             } else {
                 //Cancelacion de la eliminacion
@@ -291,18 +295,72 @@ public class RadionuclidoController implements Initializable {
                 alerta.setContentText("Se cancelo la eliminación del ítem  - " + selectedItem.getDescripcion() + " ");
                 alerta.showAndWait();
             }
-
+            
         } else {
             // No se selecciono ningun item.
             Alert alert = new Alert(AlertType.WARNING);
             alert.setTitle("Error!");
             alert.setHeaderText("Error!");
             alert.setContentText("Se debe seleccionar un item para eliminar");
-
+            
             alert.showAndWait();
         }
     }
-
+    
+    /**
+     * Metodo que elimina un radionuclido. Tambien elimina los items asociados.
+     */
+    public void btnEliminarRadionuclido() {
+        //Radionuclido seleccionado.
+        Radionuclido radionuclidoActual = FuncionesGenerales.getRadioNuclidoActual();
+        
+        //identificador del radionúclido a eliminar
+        int idRadionuclido = radionuclidoActual.getIdRadNuclido();
+        
+        if (radionuclidoActual != null) {
+            String mensaje = radionuclidoActual.getNombreRadNuclido();
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Eliminar radionúclido");
+            alert.setHeaderText("Atención!");
+            alert.setContentText("Esta seguro que desea eliminar el radionúclido seleccionado? \n"
+                    + "\n Se eliminará el radionuclido con todos sus órganos."
+                    + "\n Detalle:"
+                    + "\n Nombre radionúclido: " + radionuclidoActual.getNombreRadNuclido());
+            Optional<ButtonType> result = alert.showAndWait();
+            
+            if (result.get() == ButtonType.OK) {
+                //llamada a la clase de acceso de datos para la eliminacion.
+                RadionuclidoDAO.eliminarRadionuclido(idRadionuclido);
+                //actualizacion de la informacion del radionuclido.
+                radionuclidoData = RadionuclidoDAO.obtenerListaRadNuclido();
+                //Actualiza el GridView de Radionuclidos.
+                griRadionuclido.setItems(radionuclidoData);
+                
+                //actualizacion de la informacion del radionuclido.
+                infoRadNuclido = RadionuclidoDAO.obtenerInfoRadNuclido(radionuclidoActual);
+                //actualizacion de la tabla InfoRadNuclido.
+                griInfoRadNuclido.setItems(infoRadNuclido);
+                
+            } else {
+                //Cancelacion de la eliminacion
+                //Mensaje de confirmacion.
+                Alert alerta = new Alert(AlertType.INFORMATION);
+                alerta.setTitle("Confirmación");
+                alerta.setHeaderText(null);
+                alerta.setContentText("Se cancelo la eliminación del radionúclido  - " + radionuclidoActual.getNombreRadNuclido() + " ");
+                alerta.showAndWait();
+            }
+            
+        } else {
+            // No se selecciono ningun item.
+            Alert alert = new Alert(AlertType.WARNING);
+            alert.setTitle("Error!");
+            alert.setHeaderText("Error!");
+            alert.setContentText("Se debe seleccionar un radionúclido para eliminar");
+            
+            alert.showAndWait();
+        }
+    }
     /**
      * Metodo que controla el comportamiento del boton modificar item.
      */
@@ -347,7 +405,7 @@ public class RadionuclidoController implements Initializable {
             //Actualiza el GridView de Radionuclidos.
             griRadionuclido.setItems(radionuclidoData);
             btnModificarRadioNuclido.setDisable(true);
-                      
+            btnEliminarRadionuclido.setDisable(true);
         }
     }
 
