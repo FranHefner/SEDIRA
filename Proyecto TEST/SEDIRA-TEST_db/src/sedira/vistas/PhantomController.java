@@ -26,8 +26,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-
-import sedira.ConsultasDB;
 import sedira.FuncionesGenerales;
 import sedira.model.Organo;
 import sedira.model.ValorDescripcion;
@@ -49,7 +47,6 @@ public class PhantomController  implements Initializable  {
     @FXML
     private TableColumn <Phantom, String> clPhantomNombre;
     
-          
     @FXML
     private TableView <Organo> griOrgano;
     @FXML
@@ -70,6 +67,8 @@ public class PhantomController  implements Initializable  {
     private Button btnEditarPhantom;
     @FXML
     private Button btnNuevoPhantom;
+    @FXML
+    private Button btnEliminarPhantom;
     @FXML
     private Button btnEditarOrganos;
     @FXML
@@ -343,11 +342,13 @@ public class PhantomController  implements Initializable  {
             griValorDescripcionPhantom.setItems(infoPhantom);
             //Prendo el boton de Editar phantom
             btnEditarPhantom.setDisable(false);
+            //Prendo boton de Eliminar Phantom
+            btnEliminarPhantom.setDisable(false);
         } else {
             //Todo si no se selecciona ningun phantom de la lista
             //Apago los botones.
             btnEditarPhantom.setDisable(true);
-
+            btnEliminarPhantom.setDisable(true);
         }
     }
     /**
@@ -430,7 +431,7 @@ public class PhantomController  implements Initializable  {
             selectedPhantom.setOrgano(organosData);
             // Llamada a la clase accesode datos de organo
             OrganoDAO.agregarOrgano(organo, idPhantom);
-                //ConsultasDB.modificarPhantom(selectedPhantom,griPhantom.getSelectionModel().getSelectedIndex() );  
+            //ConsultasDB.modificarPhantom(selectedPhantom,griPhantom.getSelectionModel().getSelectedIndex() );  
             //Actualizacion de la informacion de organos
             organosData = PhantomDAO.obtenerInfoOrgano(selectedPhantom);
             griOrgano.setItems(organosData);
@@ -441,43 +442,81 @@ public class PhantomController  implements Initializable  {
         }
 
     }
+    @FXML
+    public void btnEliminarPhantom() {
+        //Phantom seleccionado para eliminar. 
+        Phantom selectedPhantom = FuncionesGenerales.getPhantomActual();
+        //Identificador del phantom a eliminar. 
+        int idPhantom=selectedPhantom.getIdPhantom();
+        if (selectedPhantom != null) {
+            String mensaje = griPhantom.getSelectionModel().getSelectedItem().getPhantomNombre();
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Eliminar Phantom");
+            alert.setHeaderText("Atención!");
+            alert.setContentText("Esta seguro que desea eliminar el phantom seleccionado? \n" + mensaje);
+
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.OK) {
+                PhantomDAO.eliminarPhantom(idPhantom);
+
+            ///Actualizo el GridView de Phantoms.
+            phantomData = PhantomDAO.obtenerListaPhantom();
+            griPhantom.setItems(phantomData);
+            } else {
+
+            }
+
+        } else {
+            // No se selecciono ningun item. 
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Error!");
+            alert.setHeaderText("Error!");
+            alert.setContentText("No hay items para eliminar");
+
+            alert.showAndWait();
+        }
+
+    }
     
-     /**
+    /**
      * Metodo que controla el comportamiento del boton Eliminar Organo.
      */
     @FXML
-    public void btnEliminarOrgano (){
-         Organo selectedItem = griOrgano.getSelectionModel().getSelectedItem();
-         int selectedIndex = griOrgano.getSelectionModel().getSelectedIndex();
-         Phantom selectedPhantom = FuncionesGenerales.getPhantomActual();
-        
-            if (selectedItem != null) {
-                String mensaje = griOrgano.getSelectionModel().getSelectedItem().getNombreOrgano()+ "  " +
-                           griOrgano.getSelectionModel().getSelectedItem().getOrganMass();
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setTitle("Eliminar Item");
-                alert.setHeaderText("Atención!");
-                alert.setContentText("Esta seguro que desea eliminar el item seleccionado? \n"+mensaje);
-                
-                Optional<ButtonType> result = alert.showAndWait();
-                if (result.get() == ButtonType.OK){
-                    griOrgano.getItems().remove(selectedIndex);
-                     ConsultasDB.modificarPhantom(selectedPhantom,griPhantom.getSelectionModel().getSelectedIndex() );    
-                    
-                } else {
+    public void btnEliminarOrgano() {
+        //Organo a eliminar. 
+        Organo selectedItem = griOrgano.getSelectionModel().getSelectedItem();
+        //Phantom que contiene el organo a eliminar. 
+        Phantom selectedPhantom = FuncionesGenerales.getPhantomActual();
+        int idOrgano = selectedItem.getIdOrgano();
+        if (selectedItem != null) {
+            String mensaje = griOrgano.getSelectionModel().getSelectedItem().getNombreOrgano() + "  "
+                    + griOrgano.getSelectionModel().getSelectedItem().getOrganMass();
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Eliminar Item");
+            alert.setHeaderText("Atención!");
+            alert.setContentText("Esta seguro que desea eliminar el órgano seleccionado? \n" + mensaje);
 
-                }
-                    
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.OK) {
+                //Llamada a la clase de acceso de datos de Organo. 
+                OrganoDAO.eliminarOrgano(idOrgano);
+                //Actualizacion de la informacion de organos
+                organosData = PhantomDAO.obtenerInfoOrgano(selectedPhantom);
+                griOrgano.setItems(organosData);
             } else {
-                // No se selecciono ningun item. 
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("Error!");
-                alert.setHeaderText("Error!");
-                alert.setContentText("No hay items para eliminar");
 
-                alert.showAndWait();
             }
-                                    
+
+        } else {
+            // No se selecciono ningun item. 
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Error!");
+            alert.setHeaderText("Error!");
+            alert.setContentText("No hay items para eliminar");
+
+            alert.showAndWait();
+        }
+
     }
     /**
      * Metodo que controla el comportamiento del boton Quitar Item. 

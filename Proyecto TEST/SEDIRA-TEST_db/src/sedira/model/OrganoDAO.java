@@ -27,7 +27,7 @@ public class OrganoDAO {
         String nombreOrgano = organo.getNombreOrgano();
         
         try {
-            if (buscaNombre(nombreOrgano)){
+            if (buscaNombre(nombreOrgano,idPhantom)){
                 PreparedStatement consulta = conexion.getConnection().prepareStatement(
                         "INSERT INTO organos (nombre_organo, masa_organo, masa_total,id_phantom) "
                         + "VALUES(?,?,?,?)");
@@ -91,7 +91,32 @@ public class OrganoDAO {
         }
 
     }
-    public static void eliminarOrgano (){
+    public static void eliminarOrgano (int id){
+         //Instancia de conexion
+        ConexionDB conexion = new ConexionDB();
+
+        try {
+
+            PreparedStatement consulta = conexion.getConnection().prepareStatement(
+                    "DELETE FROM organos WHERE id_organo = ?");
+            consulta.setInt(1, id);
+            //System.out.print(id);
+            consulta.executeUpdate(); //Ejecucion de la consulta.
+            consulta.close();
+            conexion.desconectar();
+            
+            
+            // Mensaje de confirmacion
+            Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+            alerta.setTitle("Confirmación");
+            alerta.setHeaderText(null);
+            alerta.setContentText("El órgano fué eliminado. ");
+            alerta.showAndWait();
+
+        } catch (SQLException e) {
+            System.out.println("Ocurrió un error al eliminar el órgano \n" + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Ocurrió un error al eliminar el organo \n" + e.getMessage(), "Información", JOptionPane.INFORMATION_MESSAGE);
+        }
         
     }
     /**
@@ -100,14 +125,17 @@ public class OrganoDAO {
      * @return True si el nombre no existe. False si el nombre existe
      * @throws SQLException 
      */
-    public static boolean buscaNombre(String nombreOrgano) throws SQLException {
+    public static boolean buscaNombre(String nombreOrgano,int idPhantom) throws SQLException {
         //Instancia de conexion
         ConexionDB conexion = new ConexionDB();
 
         try {
             PreparedStatement consulta = conexion.getConnection().prepareStatement(
-                    "SELECT nombre_organo FROM organos WHERE nombre_organo = ?");
+                    "SELECT nombre_organo FROM organos "
+                            + "WHERE nombre_organo = ?"
+                            + "AND id_phantom = ?");
             consulta.setString(1, nombreOrgano);
+            consulta.setInt(2,idPhantom);
             
             ResultSet resultado = consulta.executeQuery();
             if (resultado.next()) {

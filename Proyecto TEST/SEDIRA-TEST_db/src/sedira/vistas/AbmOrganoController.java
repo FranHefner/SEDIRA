@@ -196,11 +196,12 @@ public class AbmOrganoController implements Initializable {
      */
     public boolean validarDatosEntrada () throws SQLException{
         String mensajeError = "";
+        int idPhantom = phantom.getIdPhantom();
         // TODO. Validar los datos de entrada 
             if (txtOrganoNombre.getText()== null || txtOrganoNombre.getText().length() == 0){
                 mensajeError+= "Nombre del órgano Invalido!";
             }
-            if (OrganoDAO.buscaNombre(txtOrganoNombre.getText())==false){
+            if (OrganoDAO.buscaNombre(txtOrganoNombre.getText(),idPhantom)==false){
                 mensajeError+="El órgano que desea agregar ya existe! \n";
             }
             if (txtOrganoMasa.getText() == null || txtOrganoMasa.getText().length() == 0 ){

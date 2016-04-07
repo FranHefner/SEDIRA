@@ -218,7 +218,9 @@ public class RadionuclidoController implements Initializable {
     public void btnModificarItem() {
         //Objeto a editar.
         ValorDescripcion selectedItem = griInfoRadNuclido.getSelectionModel().getSelectedItem();
+        //Radionuclido que contiene al item a editar 
         Radionuclido radionuclidoActual = FuncionesGenerales.getRadioNuclidoActual();
+        // Identificador del radionuclido que contiene el item 
         int idRadionuclido = FuncionesGenerales.getRadioNuclidoActual().getIdRadNuclido();
         
         if (selectedItem != null) {
