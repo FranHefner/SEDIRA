@@ -5,14 +5,12 @@
  */
 package sedira.vistas;
 
-import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Date;
-import java.time.LocalDate;
-import java.time.Month;
-import java.time.format.DateTimeFormatter;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -35,6 +33,7 @@ import sedira.ConsultasDB;
 import sedira.FuncionesGenerales;
 import sedira.ValidacionesGenerales;
 import javafx.scene.control.DatePicker;
+import sedira.model.PacienteDAO;
 
 /**
  * FXML Controller class
@@ -71,8 +70,7 @@ public class PacienteController implements Initializable {
     @FXML
     private DatePicker txtFechaNacimiento;
 
-    
-    private Paciente PacienteActual;
+    boolean editarClicked = false; 
 
     /**
      * Inicializacion de la clase Controlador.
@@ -109,36 +107,47 @@ public class PacienteController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
 
-        clNombre.setCellValueFactory(cellData -> cellData.getValue().getNombre());
-        clApellido.setCellValueFactory(cellData -> cellData.getValue().getApellido());
-        clTipoDoc.setCellValueFactory(cellData -> cellData.getValue().getTipoDoc());
-        clNumeroDoc.setCellValueFactory(cellData -> cellData.getValue().getNumeroDoc().asObject());
+        clNombre.setCellValueFactory(cellData -> cellData.getValue().getNombreProperty());
+        clApellido.setCellValueFactory(cellData -> cellData.getValue().getApellidoProperty());
+        clTipoDoc.setCellValueFactory(cellData -> cellData.getValue().getTipoDocProperty());
+        clNumeroDoc.setCellValueFactory(cellData -> cellData.getValue().getNumeroDocProperty().asObject());
 
         griListaPacientes.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> SeleccionPaciente(newValue));
 
-        pacienteData = ConsultasDB.ListaPacientes();
+        try {
+            //Obtengo la lista de pacientes desde la base de datos. 
+            //pacienteData = ConsultasDB.ListaPacientes();
+            pacienteData=PacienteDAO.obtenerPacientes();
+            //actualizo el grid
+            griListaPacientes.setItems(pacienteData);
+        } catch (SQLException ex) {
+            Logger.getLogger(PacienteController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         DocumentosData = ConsultasDB.ListaTipoDocumento();
         cbTipoDoc.setItems(DocumentosData);
 
     }
-
+    /**
+     * Método que se activa al escribir un texto en el campo de busqueda. 
+     */
     @FXML
     private void btnBuscar_click() {
         griListaPacientes.setItems(FuncionesGenerales.FiltroListaPaciente(griListaPacientes, pacienteData, txtCampoBusqueda));
     }
 
-    private void SeleccionPaciente(Paciente PacienteActual) {
+    private void SeleccionPaciente(Paciente pacienteSeleccionado) {
 
-        if (PacienteActual != null) {
-
-            this.PacienteActual = PacienteActual;
-            txtIdPaciente.setText(String.valueOf(PacienteActual.getidPaciente().getValue()));
-            txtNombre.setText(String.valueOf(PacienteActual.getNombre().getValue()));
-            txtApellido.setText(String.valueOf(PacienteActual.getApellido().getValue()));
-            txtNumeroDoc.setText(String.valueOf(PacienteActual.getNumeroDoc().getValue()));
-            cbTipoDoc.setValue(String.valueOf(PacienteActual.getTipoDoc().getValue()));
-          
+        if (pacienteSeleccionado != null) {
+            
+            FuncionesGenerales.setPacienteActual(pacienteSeleccionado);
+            txtIdPaciente.setText(String.valueOf(pacienteSeleccionado.getIdPaciente()));
+            txtNombre.setText(String.valueOf(pacienteSeleccionado.getNombre()));
+            txtApellido.setText(String.valueOf(pacienteSeleccionado.getApellido()));
+            txtNumeroDoc.setText(String.valueOf(pacienteSeleccionado.getNumeroDoc()));
+            cbTipoDoc.setValue(String.valueOf(pacienteSeleccionado.getTipoDoc()));
+            System.out.print(pacienteSeleccionado.getIdPaciente());
+            System.out.print(pacienteSeleccionado.getApellido());
         //  Date Fecha =  (Date) PacienteActual.getFechaNacimientoDATE();
                   
                   
@@ -161,9 +170,9 @@ public class PacienteController implements Initializable {
         txtNombre.setText("");
         txtApellido.setText("");
         txtNumeroDoc.setText("");
-
-        txtIdPaciente.setText(String.valueOf(pacienteData.size() + 1));
-
+        // Id paciente. 
+        txtIdPaciente.setText(String.valueOf(PacienteDAO.getLastId()));
+        //Comportamiento de Textfiedls
         txtNombre.setEditable(true);
         txtApellido.setEditable(true);
         txtNumeroDoc.setEditable(true);
@@ -173,26 +182,40 @@ public class PacienteController implements Initializable {
     }
 
     @FXML
-    private void btnAceptar_click() {
-
-        if (Integer.valueOf(txtIdPaciente.getText()) <= pacienteData.size()) {
+    private void btnAceptar_click() throws SQLException {
+        //para editar. 
+        Paciente PacienteActual = FuncionesGenerales.getPacienteActual();
+        if (editarClicked) {
             PacienteActual.setApellido(txtApellido.getText());
             PacienteActual.setNombre(txtNombre.getText());
             PacienteActual.setNumeroDoc(Integer.valueOf(txtNumeroDoc.getText()));
             PacienteActual.setTipoDoc(cbTipoDoc.getValue().toString());
-     
+            //Llamada a la clase de acceso de datos de pacientes. PacienteDAO. 
+            PacienteDAO.modificarPaciente(PacienteActual);
+            //Actualiza la informacion de pacientes
+            pacienteData=PacienteDAO.obtenerPacientes();
+            //Actualiza la grilla. 
+            griListaPacientes.setItems(pacienteData);
+            
             txtNombre.setEditable(false);
             txtApellido.setEditable(false);
             txtNumeroDoc.setEditable(false);
             cbTipoDoc.setDisable(true);
-             txtFechaNacimiento.setDisable(true);             
+            txtFechaNacimiento.setDisable(true);             
           //      PacienteActual.setFechaNacimiento(Date.valueOf(txtFechaNacimiento.getValue() ) ); 
-             
+        //para crear 
         } else {
-            //  
-            Paciente PacienteTemp = new Paciente(Integer.valueOf(txtIdPaciente.getText()), cbTipoDoc.getValue().toString(), Integer.valueOf(txtNumeroDoc.getText()), txtApellido.getText(), txtNombre.getText());
-
-            pacienteData.add(PacienteTemp);
+            //  Falta validacion para atributos vacios. 
+            Paciente PacienteTemp = new Paciente(
+                    Integer.valueOf(txtIdPaciente.getText()), 
+                    cbTipoDoc.getValue().toString(), Integer.valueOf(txtNumeroDoc.getText()), 
+                    txtApellido.getText(), txtNombre.getText());
+            //Llamada a Control de acceso de datos de paciente. PacienteDAO
+            //pacienteData.add(PacienteTemp);
+            PacienteDAO.agregarPaciente(PacienteTemp);
+            pacienteData=PacienteDAO.obtenerPacientes();
+            griListaPacientes.setItems(pacienteData);
+            
             txtNombre.setEditable(false);
             txtApellido.setEditable(false);
             txtNumeroDoc.setEditable(false);
@@ -204,12 +227,18 @@ public class PacienteController implements Initializable {
 
     @FXML
     private void btnEditar_click() {
+        //Paciente seleccionado. 
+        Paciente paciente = FuncionesGenerales.getPacienteActual();
+        //Control de boton. 
+        editarClicked=true;
+          // Id paciente. 
+        txtIdPaciente.setText(String.valueOf(paciente.getIdPaciente()));
         txtNombre.setEditable(true);
         txtApellido.setEditable(true);
         txtNumeroDoc.setEditable(true);
         //   txtTipoDoc.setEditable(true); 
         cbTipoDoc.setDisable(false);
-         txtFechaNacimiento.setDisable(false);
+        txtFechaNacimiento.setDisable(false);
 
     }
     @FXML

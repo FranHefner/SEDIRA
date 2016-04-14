@@ -23,7 +23,6 @@ public class DatosValidacionesCalculo {
     private static Phantom PhantomActual;
     private static Organo OrganoActual;
     private static Radionuclido RadionuclidoActual;
-
     public static String TextoProgreso;
 
     private static void limpiarVariables() {
@@ -35,7 +34,8 @@ public class DatosValidacionesCalculo {
     }
 
     /* Validaciones por cada objeto antes de finalizar el proceso y llenar la entidad cálculo */
-    /* 1 - Que este en la base de datos el objeto (Paciente, Phantom, Organo, Radionuclido)
+    /* 
+     1 - Que este en la base de datos el objeto (Paciente, Phantom, Organo, Radionuclido)
      2 - Que el paciente este en tratamiento
      3 - add..
      */
@@ -45,7 +45,7 @@ public class DatosValidacionesCalculo {
         if (PacienteActual == null) {
 
         } else {
-            TextoProgreso = TextoProgreso + "\n" + "Paciente: " + getPacienteActual().getApellido().getValue() + ", " + getPacienteActual().getNombre().getValue();
+            TextoProgreso = TextoProgreso + "\n" + "Paciente: " + getPacienteActual().getApellido() + ", " + getPacienteActual().getNombre();
 
             if (PhantomActual != null) {
                 TextoProgreso = TextoProgreso + "\n" + "Phantom: " + getPhantomActual().getPhantomNombre();            

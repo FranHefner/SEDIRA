@@ -29,14 +29,14 @@ public class PestañaCalculoController implements Initializable {
     /**
      * Initializes the controller class.
      */
-     @FXML
+    @FXML
     private TextArea txtEntradasCalculo;
-     @FXML
+    @FXML
     private Button btnCalcular;
-     
-        @FXML
+
+    @FXML
     private ProgressBar BarraProgreso;
-     
+
      
     @Override
     public void initialize(URL url, ResourceBundle rb) {

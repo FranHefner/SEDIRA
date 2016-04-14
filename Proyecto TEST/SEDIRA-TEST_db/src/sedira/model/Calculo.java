@@ -4,22 +4,30 @@
  * and open the template in the editor.
  */
 package sedira.model;
-import sedira.model.ValorDescripcion;
 
 import java.util.Date;
-import java.util.List;
+import javafx.collections.ObservableList;
 
 /**
- *
- * @author Fran
+ * Clase que describe un calculo. 
+ * El calculo almacena la informacion de : 
+ * Fecha : dia en que se realiza el calculo. 
+ * IdPaciente: Identificador del paciente al que se le realizo el calculo. 
+ * IdPhantom: Identificador del phantom que se utiliza para el calculo. 
+ * IdRadionuclido: Identificador del radionuclido que se utilizo para el calculo . 
+ * 
+ * @author Hefner Francisco, Quelin Pablo. 
  */
 public class Calculo {
     
-    public static Date Fecha;
-    public static int IdPaciente;
-    public static int IdPhantom;
-    List <ValorDescripcion> DatosEntrada;
-    public static String observaciones;
+    private Date Fecha;
+    private int IdPaciente;
+    private int  IdPhantom;
+    private int IdRadionuclido;
+    private ObservableList <ValorDescripcion> DatosEntrada;
+    private String observaciones;
+    
+    
        
     
 }

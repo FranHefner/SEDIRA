@@ -62,10 +62,10 @@ public class PestañaPacienteController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
-        clNombre.setCellValueFactory(cellData -> cellData.getValue().getNombre());
-        clApellido.setCellValueFactory(cellData -> cellData.getValue().getApellido());         
-        clTipoDoc.setCellValueFactory(cellData ->  cellData.getValue().getTipoDoc());          
-        clNumeroDoc.setCellValueFactory(cellData -> cellData.getValue().getNumeroDoc().asObject());
+        clNombre.setCellValueFactory(cellData -> cellData.getValue().getNombreProperty());
+        clApellido.setCellValueFactory(cellData -> cellData.getValue().getApellidoProperty());         
+        clTipoDoc.setCellValueFactory(cellData ->  cellData.getValue().getTipoDocProperty());          
+        clNumeroDoc.setCellValueFactory(cellData -> cellData.getValue().getNumeroDocProperty().asObject());
          
          griListaPacientes.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> SeleccionPaciente(newValue));
@@ -87,7 +87,7 @@ public class PestañaPacienteController implements Initializable {
             
             this.pacienteActual = PacienteActual;
             
-            txtNombrePaciente.setText(String.valueOf(PacienteActual.getApellido().getValue())+", "+ String.valueOf(PacienteActual.getNombre().getValue()));
+            txtNombrePaciente.setText(String.valueOf(PacienteActual.getApellido())+", "+ String.valueOf(PacienteActual.getNombre()));
             btnHistorialSEDIRA.setDisable(false);
             txtObservaciones.setDisable(false);
             txtNombrePaciente.setDisable(false);
