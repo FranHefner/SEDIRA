@@ -36,9 +36,10 @@
                               <Pane fx:id="grbBotones" layoutX="123.0" layoutY="443.0" prefHeight="72.0" prefWidth="524.0">
                                  <children>
                                     <Button fx:id="btnNuevo" layoutX="7.0" layoutY="24.0" mnemonicParsing="false" onAction="#btnNuevo_click" text="Nuevo" />
-                                    <Button fx:id="btnEditar" layoutX="132.0" layoutY="24.0" mnemonicParsing="false" onAction="#btnEditar_click" text="Editar" />
-                                    <Button fx:id="btnEditar1" layoutX="195.0" layoutY="24.0" mnemonicParsing="false" onAction="#btnAceptar_click" text="Aceptar" />
-                                    <Button fx:id="btnCerrar" layoutX="408.0" layoutY="24.0" mnemonicParsing="false" onAction="#btnCerrar_click" text="Cerrar" />
+                                    <Button fx:id="btnEditar" layoutX="68.0" layoutY="24.0" mnemonicParsing="false" onAction="#btnEditar_click" text="Editar" />
+                                    <Button fx:id="btnAceptar" layoutX="327.0" layoutY="25.0" mnemonicParsing="false" onAction="#btnAceptar_click" text="Aceptar" />
+                                    <Button fx:id="btnCerrar" layoutX="463.0" layoutY="25.0" mnemonicParsing="false" onAction="#btnCerrar_click" text="Cerrar" />
+                                    <Button fx:id="btnCancelar" layoutX="390.0" layoutY="25.0" mnemonicParsing="false" onAction="#btnCancelar_click" text="Cancelar" />
                                  </children>
                               </Pane>
                               <Pane layoutX="101.0" layoutY="159.0" prefHeight="284.0" prefWidth="501.0">

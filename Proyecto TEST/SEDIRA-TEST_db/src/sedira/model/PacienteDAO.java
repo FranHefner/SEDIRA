@@ -77,7 +77,31 @@ public class PacienteDAO {
 
     }
 
-    public static void eliminarPaciente() {
+    public static void eliminarPaciente(int id) {
+        //Instancia de conexion
+        ConexionDB conexion = new ConexionDB();
+
+        try {
+            PreparedStatement consulta = conexion.getConnection().prepareStatement(
+                    "DELETE FROM pacientes WHERE id_paciente = ?");
+            consulta.setInt(1, id);
+            //System.out.print(id);
+            consulta.executeUpdate(); //Ejecucion de la consulta.
+            consulta.close();
+            conexion.desconectar();
+            
+            
+            // Mensaje de confirmacion
+            Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+            alerta.setTitle("Confirmación");
+            alerta.setHeaderText(null);
+            alerta.setContentText("El paciente fué eliminado. ");
+            alerta.showAndWait();
+
+        } catch (SQLException e) {
+            System.out.println("Ocurrió un error al eliminar el paciente \n" + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Ocurrió un error al eliminar el paciente \n" + e.getMessage(), "Información", JOptionPane.INFORMATION_MESSAGE);
+        }
 
     }
 

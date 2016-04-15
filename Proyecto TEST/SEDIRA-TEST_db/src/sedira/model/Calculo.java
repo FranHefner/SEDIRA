@@ -21,11 +21,51 @@ import javafx.collections.ObservableList;
 public class Calculo {
     
     private Date Fecha;
-    private int IdPaciente;
-    private int  IdPhantom;
-    private int IdRadionuclido;
-    private ObservableList <ValorDescripcion> DatosEntrada;
+    private int idPaciente;
+    private int  idPhantom;
+    private int idRadionuclido;
+   // private ObservableList <ValorDescripcion> DatosEntrada;
     private String observaciones;
+
+    public Date getFecha() {
+        return Fecha;
+    }
+
+    public void setFecha(Date Fecha) {
+        this.Fecha = Fecha;
+    }
+
+    public int getIdPaciente() {
+        return idPaciente;
+    }
+
+    public void setIdPaciente(int idPaciente) {
+        this.idPaciente = idPaciente;
+    }
+
+    public int getIdPhantom() {
+        return idPhantom;
+    }
+
+    public void setIdPhantom(int idPhantom) {
+        this.idPhantom = idPhantom;
+    }
+
+    public int getIdRadionuclido() {
+        return idRadionuclido;
+    }
+
+    public void setIdRadionuclido(int idRadionuclido) {
+        this.idRadionuclido = idRadionuclido;
+    }
+
+    public String getObservaciones() {
+        return observaciones;
+    }
+
+    public void setObservaciones(String observaciones) {
+        this.observaciones = observaciones;
+    }
     
     
        

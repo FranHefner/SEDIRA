@@ -8,6 +8,7 @@ package sedira.vistas;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,7 +20,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
@@ -66,7 +69,8 @@ public class PacienteController implements Initializable {
     private ImageView imgPaciente;
     @FXML
     private ComboBox cbTipoDoc;
-    
+    @FXML
+    private Button btnCancelar;
     @FXML
     private DatePicker txtFechaNacimiento;
 
@@ -84,7 +88,8 @@ public class PacienteController implements Initializable {
     @FXML
     private Button btnEditar;
     @FXML
-    private Button btnEditar1;
+    private Button btnAceptar;
+    
     @FXML
     private Button btnCerrar;
     @FXML
@@ -106,7 +111,14 @@ public class PacienteController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-
+        // Control de botones. 
+        btnEditar.setDisable(true);
+        btnCancelar.setDisable(true);
+        btnAceptar.setDisable(true);
+        btnMediciones.setDisable(true);
+        btnHistorialSEDIRA.setDisable(true);
+        btnContacto.setDisable(true);
+        
         clNombre.setCellValueFactory(cellData -> cellData.getValue().getNombreProperty());
         clApellido.setCellValueFactory(cellData -> cellData.getValue().getApellidoProperty());
         clTipoDoc.setCellValueFactory(cellData -> cellData.getValue().getTipoDocProperty());
@@ -114,7 +126,7 @@ public class PacienteController implements Initializable {
 
         griListaPacientes.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> SeleccionPaciente(newValue));
-
+        
         try {
             //Obtengo la lista de pacientes desde la base de datos. 
             //pacienteData = ConsultasDB.ListaPacientes();
@@ -137,8 +149,15 @@ public class PacienteController implements Initializable {
     }
 
     private void SeleccionPaciente(Paciente pacienteSeleccionado) {
-
+           
         if (pacienteSeleccionado != null) {
+            //Control de botones. 
+            btnMediciones.setDisable(false);
+            btnHistorialSEDIRA.setDisable(false);
+            btnContacto.setDisable(false);
+            btnEditar.setDisable(false);
+            //btnCancelar.setDisable(false);
+            btnAceptar.setDisable(true);
             
             FuncionesGenerales.setPacienteActual(pacienteSeleccionado);
             txtIdPaciente.setText(String.valueOf(pacienteSeleccionado.getIdPaciente()));
@@ -155,18 +174,30 @@ public class PacienteController implements Initializable {
      
                     
         } else {
-            txtIdPaciente.setText("");
-            txtNombre.setText("");
-            txtApellido.setText("");
-            txtNumeroDoc.setText("");
+            btnEditar.setDisable(true);
+            btnCancelar.setDisable(true);
+            btnContacto.setDisable(true);
+            btnAceptar.setDisable(true);
+            txtIdPaciente.setText(""); txtIdPaciente.setEditable(false);
+            txtNombre.setText(""); txtNombre.setEditable(false); 
+            txtApellido.setText("");txtApellido.setEditable(false);
+            txtNumeroDoc.setText("");txtNumeroDoc.setEditable(false);
            // txtFechaNacimiento.setValue(null);
           
 
         }
     }
 
+    /**
+     * Método para el comportamiento del boton Nuevo.
+     */
     @FXML
     private void btnNuevo_click() {
+        //Validar si los atributos estan vacios. 
+        //prendo boton aceptar y cancelar. 
+        btnAceptar.setDisable(false);
+        btnCancelar.setDisable(false);
+
         txtNombre.setText("");
         txtApellido.setText("");
         txtNumeroDoc.setText("");
@@ -180,7 +211,30 @@ public class PacienteController implements Initializable {
         txtFechaNacimiento.setDisable(false);
 
     }
+    /**
+     * Método para el comportamiento del boton Cancelar.
+     */
+    @FXML
+    private void btnCancelar_click(){
+        //Abro cuadro de decision
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Cancelar edición");
+            alert.setHeaderText("Atención!");
+            alert.setContentText("Está seguro que desea cancelar la edición? \n"
+                    + "Los datos ingresados se descartarán!  ");
 
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.OK) {
+                   
+                   SeleccionPaciente(null);
+
+            } else {
+                
+            }
+    }
+    /**
+     * Método para el comportamiento del boton Aceptar.
+     */
     @FXML
     private void btnAceptar_click() throws SQLException {
         //para editar. 
@@ -224,23 +278,30 @@ public class PacienteController implements Initializable {
         }
 
     }
-
+    /**
+     * Método para el comportamiento del boton Editar.
+     */
     @FXML
     private void btnEditar_click() {
         //Paciente seleccionado. 
         Paciente paciente = FuncionesGenerales.getPacienteActual();
         //Control de boton. 
-        editarClicked=true;
-          // Id paciente. 
+        editarClicked = true;
+        // Id paciente. 
         txtIdPaciente.setText(String.valueOf(paciente.getIdPaciente()));
+        SeleccionPaciente(paciente);
         txtNombre.setEditable(true);
         txtApellido.setEditable(true);
         txtNumeroDoc.setEditable(true);
         //   txtTipoDoc.setEditable(true); 
         cbTipoDoc.setDisable(false);
         txtFechaNacimiento.setDisable(false);
-
+        btnCancelar.setDisable(false);
+        btnAceptar.setDisable(false);
     }
+    /**
+     * Método para el comportamiento del boton Cerrar. 
+     */
     @FXML
     private void btnCerrar_click() {
       txtNombre.setEditable(false);
@@ -254,7 +315,10 @@ public class PacienteController implements Initializable {
     
     stage.close();
     }
-
+    /**
+     * Método para el comportamiento del boton Historial. 
+     * @throws IOException 
+     */
     @FXML
     private void btnHistorialSEDIRA_click() throws IOException {
         Stage stage = new Stage();
@@ -287,6 +351,7 @@ public class PacienteController implements Initializable {
         stage.setTitle("Contacto Paciente");
         stage.show();
     }
+    
 
     @FXML
     private void txtNumeroDoc_KeyPress() throws IOException {

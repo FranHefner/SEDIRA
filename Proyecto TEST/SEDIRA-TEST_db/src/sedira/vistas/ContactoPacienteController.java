@@ -11,8 +11,8 @@ import javafx.fxml.Initializable;
 
 /**
  * FXML Controller class
- *
- * @author Fran
+ * Clase que controla la interfaz gráfica de Contacto para pacientes. 
+ * @author Francisco Hefner . Quelin Pablo. 
  */
 public class ContactoPacienteController implements Initializable {
 
