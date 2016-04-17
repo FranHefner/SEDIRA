@@ -19,12 +19,12 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.Tooltip;
-import sedira.ConsultasDB;
 import sedira.FuncionesGenerales;
 import sedira.model.Organo;
 import sedira.model.Phantom;
 import sedira.model.ValorDescripcion;
 import sedira.DatosValidacionesCalculo;
+import sedira.model.PhantomDAO;
 
 /**
  * Clase controladora del archivo FXML PestañaPhantom. 
@@ -58,10 +58,14 @@ public class PestañaPhantomController implements Initializable {
     
     //Lista de Organos
          public static  ObservableList <Organo> listaOrgano = FXCollections.observableArrayList();
+         //Lista de Phantom
+         public static  ObservableList <Phantom> ListaPhantom = FXCollections.observableArrayList();
     //Objeto de tipo ValorDescripcopn auxiliar. 
         private ValorDescripcion phantomValorDescripcion;
     //Objeto de tipo Organo auxiliar. 
         private Organo organoActual;
+    //Objeto Phantom auxiliar; 
+        private Phantom phantomActual; 
     
     /**
      * Inicializa la clase controladora.
@@ -99,10 +103,12 @@ public class PestañaPhantomController implements Initializable {
      */
      @FXML
     public void initListaPhantom(){
+        //Inicializo la lista de phantoms con la informacion de la base de datos. 
+        ListaPhantom = PhantomDAO.obtenerListaPhantom();
         //Lista auxliar para el manejo de los nombres de los phantoms. 
         ObservableList <String> listaStringPhantom = FXCollections.observableArrayList();
                      
-        for (Phantom listaPhantom1 : ConsultasDB.ObtenerPhantoms()) {
+        for (Phantom listaPhantom1 : ListaPhantom) {
             listaStringPhantom.add(listaPhantom1.phantomNombreProperty().getValue());
         }
         //Asigno la lista de los nombres de los Phantoms al ChoiceBox
@@ -119,14 +125,15 @@ public class PestañaPhantomController implements Initializable {
         choicePhantom.getSelectionModel().selectedIndexProperty().addListener(new
             ChangeListener<Number>(){
                
+                @Override
                 public void changed (ObservableValue ov, Number value, Number newValue){
                     //Busco el Phantom por el Indice del ChoiceBox
                     int index = choicePhantom.getSelectionModel().getSelectedIndex();
-                    FuncionesGenerales.phantomActual = ConsultasDB.ObtenerPhantoms().get(index);
+                    phantomActual = ListaPhantom.get(index);
                     //Completo tabla de Organos
-                    FuncionesGenerales.mostrarDetalleOrgano(FuncionesGenerales.phantomActual.getOrgano(), griOrgano);
+                    FuncionesGenerales.mostrarDetalleOrgano(PhantomDAO.obtenerInfoOrgano(phantomActual), griOrgano);
                     //Completo tabla de Info Phantoms
-                    FuncionesGenerales.mostrarDetalleTablaValorDescripcion(FuncionesGenerales.phantomActual.getPropiedades(), griValorDescripcionPhantom);
+                    FuncionesGenerales.mostrarDetalleTablaValorDescripcion(PhantomDAO.obtenerInfoPhantom(phantomActual), griValorDescripcionPhantom);
                   
                   /* Seleccion Phantom en el cálculo */  
                     DatosValidacionesCalculo.setPhantom(FuncionesGenerales.phantomActual);                            

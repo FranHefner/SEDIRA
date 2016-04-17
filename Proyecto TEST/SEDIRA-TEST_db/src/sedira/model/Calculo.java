@@ -26,6 +26,7 @@ public class Calculo {
     private int idRadionuclido;
    // private ObservableList <ValorDescripcion> DatosEntrada;
     private String observaciones;
+    private String resultado;
 
     public Date getFecha() {
         return Fecha;
@@ -65,6 +66,14 @@ public class Calculo {
 
     public void setObservaciones(String observaciones) {
         this.observaciones = observaciones;
+    }
+
+    public String getResultado() {
+        return resultado;
+    }
+
+    public void setResultado(String resultado) {
+        this.resultado = resultado;
     }
     
     

@@ -14,8 +14,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.Tab;
@@ -23,7 +21,6 @@ import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import sedira.DatosValidacionesCalculo;
@@ -138,32 +135,29 @@ public class CalculoController implements Initializable {
             tabPaciente.setDisable(false);
             listaTABS.select(tabPaciente);
             pestañaActual = "Paciente";
-            
-           
-
             tabPhantom.setDisable(true);
             tabOrganoTejido.setDisable(true);
             tabRadionuclido.setDisable(true);
             tabCalcular.setDisable(true);
-            
-             txtProceso.setText( DatosValidacionesCalculo.GetTextoProgeso());
+
+            txtProceso.setText( DatosValidacionesCalculo.GetTextoProgeso());
             
         }
         if (EstadoActual.equals("Phantom")) {
             tabPhantom.setDisable(false);
             listaTABS.select(tabPhantom);
-              pestañaActual = "Phantom";
-              
+            pestañaActual = "Phantom";
+
             tabPaciente.setDisable(true);
             tabOrganoTejido.setDisable(true);
             tabRadionuclido.setDisable(true);
             tabCalcular.setDisable(true);
-            
+
             Node NodoPhantom;
             NodoPhantom = (Node) FXMLLoader.load(getClass().getResource("PestañaPhantom.fxml"));
             pnlPhantom.getChildren().setAll(NodoPhantom);
-            
-              txtProceso.setText( DatosValidacionesCalculo.GetTextoProgeso());
+
+            txtProceso.setText(DatosValidacionesCalculo.GetTextoProgeso());
         }
         if (EstadoActual.equals("Organo")) {
             tabOrganoTejido.setDisable(false);

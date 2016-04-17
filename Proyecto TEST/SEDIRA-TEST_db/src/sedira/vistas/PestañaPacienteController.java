@@ -7,7 +7,10 @@ package sedira.vistas;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -21,14 +24,14 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import sedira.ConsultasDB;
 import sedira.FuncionesGenerales;
 import sedira.model.Paciente;
 import sedira.DatosValidacionesCalculo;
+import sedira.model.PacienteDAO;
 
 /**
  * FXML Controller class
- *
+ * Clase controladora de la interfaz gráfica "Pestaña Paciente" que pertenece a un calculo determinado. 
  * @author Fran
  */
 public class PestañaPacienteController implements Initializable {
@@ -69,7 +72,14 @@ public class PestañaPacienteController implements Initializable {
          
          griListaPacientes.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> SeleccionPaciente(newValue));
-        pacienteData =  ConsultasDB.ListaPacientes();
+        try {
+            //pacienteData =  ConsultasDB.ListaPacientes();
+            //Carga los pacientes desde la base de datos .
+            pacienteData = PacienteDAO.obtenerPacientes();
+        } catch (SQLException ex) {
+            Logger.getLogger(PestañaPacienteController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        griListaPacientes.setItems(pacienteData);
     }    
     
     public ObservableList<Paciente> getPacienteData() {
