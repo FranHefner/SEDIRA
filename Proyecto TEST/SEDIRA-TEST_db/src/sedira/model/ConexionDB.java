@@ -21,9 +21,9 @@ public class ConexionDB {
      * Atributos
      */ 
     
-   static String bd = "mydb";
+   static String bd = "sedira";
    static String login = "root";
-   static String password = "root";
+   static String password = "fran";
    static String url = "jdbc:mysql://localhost:3306/"+bd;
  
    Connection connection = null;
