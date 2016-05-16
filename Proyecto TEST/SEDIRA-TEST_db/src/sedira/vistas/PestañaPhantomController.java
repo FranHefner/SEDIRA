@@ -136,7 +136,7 @@ public class PestañaPhantomController implements Initializable {
                     FuncionesGenerales.mostrarDetalleTablaValorDescripcion(PhantomDAO.obtenerInfoPhantom(phantomActual), griValorDescripcionPhantom);
                   
                   /* Seleccion Phantom en el cálculo */  
-                    DatosValidacionesCalculo.setPhantom(FuncionesGenerales.phantomActual);                            
+                    DatosValidacionesCalculo.setPhantom(phantomActual);                            
                    /*************/
                 }
             });

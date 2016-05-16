@@ -74,7 +74,7 @@ public class PacienteController implements Initializable {
     @FXML
     private DatePicker txtFechaNacimiento;
 
-    boolean editarClicked = false; 
+    boolean editarClicked = false;
 
     /**
      * Inicializacion de la clase Controlador.
@@ -89,7 +89,7 @@ public class PacienteController implements Initializable {
     private Button btnEditar;
     @FXML
     private Button btnAceptar;
-    
+
     @FXML
     private Button btnCerrar;
     @FXML
@@ -112,13 +112,12 @@ public class PacienteController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         // Control de botones. 
-        btnEditar.setDisable(true);
-        btnCancelar.setDisable(true);
-        btnAceptar.setDisable(true);
+    
+        ModoLectura();
         btnMediciones.setDisable(true);
         btnHistorialSEDIRA.setDisable(true);
         btnContacto.setDisable(true);
-        
+
         clNombre.setCellValueFactory(cellData -> cellData.getValue().getNombreProperty());
         clApellido.setCellValueFactory(cellData -> cellData.getValue().getApellidoProperty());
         clTipoDoc.setCellValueFactory(cellData -> cellData.getValue().getTipoDocProperty());
@@ -126,11 +125,11 @@ public class PacienteController implements Initializable {
 
         griListaPacientes.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> SeleccionPaciente(newValue));
-        
+
         try {
             //Obtengo la lista de pacientes desde la base de datos. 
             //pacienteData = ConsultasDB.ListaPacientes();
-            pacienteData=PacienteDAO.obtenerPacientes();
+            pacienteData = PacienteDAO.obtenerPacientes();
             //actualizo el grid
             griListaPacientes.setItems(pacienteData);
         } catch (SQLException ex) {
@@ -140,52 +139,81 @@ public class PacienteController implements Initializable {
         cbTipoDoc.setItems(DocumentosData);
 
     }
+
     /**
-     * Método que se activa al escribir un texto en el campo de busqueda. 
+     * Método que se activa al escribir un texto en el campo de busqueda.
      */
     @FXML
     private void btnBuscar_click() {
         griListaPacientes.setItems(FuncionesGenerales.FiltroListaPaciente(griListaPacientes, pacienteData, txtCampoBusqueda));
     }
 
-    private void SeleccionPaciente(Paciente pacienteSeleccionado) {
-           
-        if (pacienteSeleccionado != null) {
-            //Control de botones. 
+    private void ModoLectura() {
+        btnEditar.setDisable(false);
+        btnCancelar.setDisable(true);
+        btnContacto.setDisable(true);
+        btnAceptar.setDisable(true);
+        cbTipoDoc.setDisable(true);
+        txtFechaNacimiento.setDisable(true);
+        txtFechaNacimiento.setEditable(false);
+        btnNuevo.setDisable(false);
+        
+      if  (FuncionesGenerales.pacienteActual != null) 
+        {
             btnMediciones.setDisable(false);
             btnHistorialSEDIRA.setDisable(false);
-            btnContacto.setDisable(false);
-            btnEditar.setDisable(false);
-            //btnCancelar.setDisable(false);
-            btnAceptar.setDisable(true);
-            
+            btnContacto.setDisable(false);   
+        }else          
+        {
+             btnMediciones.setDisable(true);
+            btnHistorialSEDIRA.setDisable(true);
+            btnContacto.setDisable(true);   
+        }
+    }
+
+    private void ModoEdicion() {
+
+        txtNombre.setEditable(true);
+        txtApellido.setEditable(true);
+        txtNumeroDoc.setEditable(true);
+        txtFechaNacimiento.setEditable(true);
+        txtFechaNacimiento.setDisable(false);
+        cbTipoDoc.setDisable(false);
+        btnCancelar.setDisable(false);
+        btnAceptar.setDisable(false);
+        btnEditar.setDisable(true);
+
+        btnMediciones.setDisable(false);
+        btnHistorialSEDIRA.setDisable(false);
+        btnContacto.setDisable(false);
+        btnNuevo.setDisable(true);
+
+    }
+
+    private void SeleccionPaciente(Paciente pacienteSeleccionado) {
+
+        if (pacienteSeleccionado != null) {
+            //Control de botones.               
+
             FuncionesGenerales.setPacienteActual(pacienteSeleccionado);
             txtIdPaciente.setText(String.valueOf(pacienteSeleccionado.getIdPaciente()));
             txtNombre.setText(String.valueOf(pacienteSeleccionado.getNombre()));
             txtApellido.setText(String.valueOf(pacienteSeleccionado.getApellido()));
             txtNumeroDoc.setText(String.valueOf(pacienteSeleccionado.getNumeroDoc()));
             cbTipoDoc.setValue(String.valueOf(pacienteSeleccionado.getTipoDoc()));
+            txtFechaNacimiento.setValue(FuncionesGenerales.DateToLocalDate(pacienteSeleccionado.getFechaNacimientoDATE()));
             System.out.print(pacienteSeleccionado.getIdPaciente());
             System.out.print(pacienteSeleccionado.getApellido());
-        //  Date Fecha =  (Date) PacienteActual.getFechaNacimientoDATE();
-                  
-                  
-        //    txtFechaNacimiento.setValue(FuncionesGenerales.DateToLocalDate(Fecha));
-     
-                    
-        } else {
-            btnEditar.setDisable(true);
-            btnCancelar.setDisable(true);
-            btnContacto.setDisable(true);
-            btnAceptar.setDisable(true);
-            txtIdPaciente.setText(""); txtIdPaciente.setEditable(false);
-            txtNombre.setText(""); txtNombre.setEditable(false); 
-            txtApellido.setText("");txtApellido.setEditable(false);
-            txtNumeroDoc.setText("");txtNumeroDoc.setEditable(false);
-           // txtFechaNacimiento.setValue(null);
-          
-
+      
+        } else {          
+            txtIdPaciente.setText("");        
+            txtNombre.setText("");          
+            txtApellido.setText("");            
+            txtNumeroDoc.setText("");
+            
+            FuncionesGenerales.pacienteActual = null;
         }
+          ModoLectura();
     }
 
     /**
@@ -194,44 +222,46 @@ public class PacienteController implements Initializable {
     @FXML
     private void btnNuevo_click() {
         //Validar si los atributos estan vacios. 
-        //prendo boton aceptar y cancelar. 
-        btnAceptar.setDisable(false);
-        btnCancelar.setDisable(false);
+        //prendo boton aceptar y cancelar.     
 
         txtNombre.setText("");
         txtApellido.setText("");
         txtNumeroDoc.setText("");
+        txtFechaNacimiento.setValue(null);
         // Id paciente. 
         txtIdPaciente.setText(String.valueOf(PacienteDAO.getLastId()));
         //Comportamiento de Textfiedls
-        txtNombre.setEditable(true);
-        txtApellido.setEditable(true);
-        txtNumeroDoc.setEditable(true);
-        cbTipoDoc.setDisable(false);
-        txtFechaNacimiento.setDisable(false);
+         ModoEdicion();
 
     }
+
     /**
      * Método para el comportamiento del boton Cancelar.
      */
     @FXML
-    private void btnCancelar_click(){
+    private void btnCancelar_click() {
         //Abro cuadro de decision
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Cancelar edición");
-            alert.setHeaderText("Atención!");
-            alert.setContentText("Está seguro que desea cancelar la edición? \n"
-                    + "Los datos ingresados se descartarán!  ");
+        alert.setTitle("Cancelar edición");
+        alert.setHeaderText("Atención!");
+        alert.setContentText("Está seguro que desea cancelar la edición? \n"
+                + "Los datos ingresados se descartarán!  ");
 
-            Optional<ButtonType> result = alert.showAndWait();
-            if (result.get() == ButtonType.OK) {
-                   
-                   SeleccionPaciente(null);
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK) {
 
-            } else {
-                
-            }
+        
+            SeleccionPaciente(FuncionesGenerales.pacienteActual);
+            ModoLectura();
+                //   griListaPacientes.getSelectionModel().select(FuncionesGenerales.pacienteActual);
+            // griListaPacientes.getSelectionModel().select( g );
+
+        } else {
+
+        }
+
     }
+
     /**
      * Método para el comportamiento del boton Aceptar.
      */
@@ -240,44 +270,38 @@ public class PacienteController implements Initializable {
         //para editar. 
         Paciente PacienteActual = FuncionesGenerales.getPacienteActual();
         if (editarClicked) {
+           
             PacienteActual.setApellido(txtApellido.getText());
             PacienteActual.setNombre(txtNombre.getText());
             PacienteActual.setNumeroDoc(Integer.valueOf(txtNumeroDoc.getText()));
             PacienteActual.setTipoDoc(cbTipoDoc.getValue().toString());
+            PacienteActual.setFechaNacimiento(txtFechaNacimiento.getValue().toString());
             //Llamada a la clase de acceso de datos de pacientes. PacienteDAO. 
             PacienteDAO.modificarPaciente(PacienteActual);
             //Actualiza la informacion de pacientes
-            pacienteData=PacienteDAO.obtenerPacientes();
+            pacienteData = PacienteDAO.obtenerPacientes();
             //Actualiza la grilla. 
             griListaPacientes.setItems(pacienteData);
+            ModoLectura();
             
-            txtNombre.setEditable(false);
-            txtApellido.setEditable(false);
-            txtNumeroDoc.setEditable(false);
-            cbTipoDoc.setDisable(true);
-            txtFechaNacimiento.setDisable(true);             
           //      PacienteActual.setFechaNacimiento(Date.valueOf(txtFechaNacimiento.getValue() ) ); 
-        //para crear 
+            //para crear 
         } else {
             //  Falta validacion para atributos vacios. 
             Paciente PacienteTemp = new Paciente(
-                    Integer.valueOf(txtIdPaciente.getText()), 
-                    cbTipoDoc.getValue().toString(), Integer.valueOf(txtNumeroDoc.getText()), 
+                    Integer.valueOf(txtIdPaciente.getText()),
+                    cbTipoDoc.getValue().toString(), Integer.valueOf(txtNumeroDoc.getText()),
                     txtApellido.getText(), txtNombre.getText());
             //Llamada a Control de acceso de datos de paciente. PacienteDAO
             //pacienteData.add(PacienteTemp);
             PacienteDAO.agregarPaciente(PacienteTemp);
-            pacienteData=PacienteDAO.obtenerPacientes();
+            pacienteData = PacienteDAO.obtenerPacientes();
             griListaPacientes.setItems(pacienteData);
             
-            txtNombre.setEditable(false);
-            txtApellido.setEditable(false);
-            txtNumeroDoc.setEditable(false);
-            cbTipoDoc.setDisable(true);
-             txtFechaNacimiento.setDisable(true);
         }
 
     }
+
     /**
      * Método para el comportamiento del boton Editar.
      */
@@ -287,37 +311,33 @@ public class PacienteController implements Initializable {
         Paciente paciente = FuncionesGenerales.getPacienteActual();
         //Control de boton. 
         editarClicked = true;
+    
         // Id paciente. 
         txtIdPaciente.setText(String.valueOf(paciente.getIdPaciente()));
         SeleccionPaciente(paciente);
-        txtNombre.setEditable(true);
-        txtApellido.setEditable(true);
-        txtNumeroDoc.setEditable(true);
-        //   txtTipoDoc.setEditable(true); 
-        cbTipoDoc.setDisable(false);
-        txtFechaNacimiento.setDisable(false);
-        btnCancelar.setDisable(false);
-        btnAceptar.setDisable(false);
+
+        ModoEdicion();
+
     }
+
     /**
-     * Método para el comportamiento del boton Cerrar. 
+     * Método para el comportamiento del boton Cerrar.
      */
     @FXML
     private void btnCerrar_click() {
-      txtNombre.setEditable(false);
-        txtApellido.setEditable(false);
-        txtNumeroDoc.setEditable(false);
-        //   txtTipoDoc.setEditable(true); 
+      
         cbTipoDoc.setDisable(false);
-         txtFechaNacimiento.setDisable(false);
-         
-         Stage stage = (Stage) btnCerrar.getScene().getWindow();
-    
-    stage.close();
+        txtFechaNacimiento.setDisable(false);
+
+        Stage stage = (Stage) btnCerrar.getScene().getWindow();
+
+        stage.close();
     }
+
     /**
-     * Método para el comportamiento del boton Historial. 
-     * @throws IOException 
+     * Método para el comportamiento del boton Historial.
+     *
+     * @throws IOException
      */
     @FXML
     private void btnHistorialSEDIRA_click() throws IOException {
@@ -351,7 +371,6 @@ public class PacienteController implements Initializable {
         stage.setTitle("Contacto Paciente");
         stage.show();
     }
-    
 
     @FXML
     private void txtNumeroDoc_KeyPress() throws IOException {

@@ -8,7 +8,9 @@ package sedira;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
@@ -266,15 +268,23 @@ public class FuncionesGenerales {
 
     }
 
-    public static LocalDate DateToLocalDate(Date Fecha) {
+   /* public static LocalDate DateToLocalDate(Date Fecha) {
 
         LocalDate date = Fecha.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
         return date;
-    }
+    }*/
+    
+     public static LocalDate DateToLocalDate(Date date) {
+    Instant instant = Instant.ofEpochMilli(date.getTime());
+    return LocalDateTime.ofInstant(instant, ZoneId.systemDefault())
+        .toLocalDate();
+  }
 
     /*  public static Date LocalDateToDate(LocalDate Fecha) {
      Date date = Date.from(Fecha.atStartOfDay(ZoneId.systemDefault()).toInstant());
      return date;
      }  */
+    
+    
 }

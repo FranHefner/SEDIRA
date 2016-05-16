@@ -6,11 +6,14 @@
 package sedira.model;
 
 import java.sql.Blob;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.scene.control.Alert;
 
 /**
  * Clase Paciente, describe a un paciente dentro del sistema del calculo SEDIRA; 
@@ -149,6 +152,29 @@ public class Paciente {
      public void setFechaNacimiento(Date fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
     }
+      public void setFechaNacimiento(String fechaNacimiento) {
+          
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+	String dateInString = fechaNacimiento;
+
+	try {
+
+		Date date = formatter.parse(dateInString);
+		this.fechaNacimiento= date;
+		
+
+	} catch (ParseException e) {
+                
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Ingreso de datos inválido");
+                alert.setHeaderText("Fecha invalida ");
+                alert.setContentText("La fecha que se quiere guardar es inválida");
+                alert.showAndWait();
+		//e.printStackTrace();
+	}       
+       
+    }
+       
      
     //Direccion
     public StringProperty getDireccionProperty() {

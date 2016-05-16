@@ -209,7 +209,7 @@ public class PacienteDAO {
                // paciente.setDireccion(resultado.getString("direccion"));
                 //paciente.setEmail(resultado.getString("email"));
                 //paciente.setEnTratamiento(resultado.getBoolean("en_tratamiento"));
-                //paciente.setFechaNacimiento(resultado.getDate("fecha_nacimiento"));
+                paciente.setFechaNacimiento(resultado.getDate("fecha_nacimiento"));
                 //paciente.setFoto(resultado.getBlob("foto"));
                 paciente.setNombre(resultado.getString("nombre"));
                 //paciente.setNumeroAsociado(Integer.parseInt(resultado.getString("numero_asociado")));

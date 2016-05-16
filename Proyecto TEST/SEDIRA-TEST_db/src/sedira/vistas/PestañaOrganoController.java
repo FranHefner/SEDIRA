@@ -110,7 +110,8 @@ public class PestañaOrganoController implements Initializable {
                 //Busco el Organo por el Indice del ChoiceBox
                 int index = choiceOrgano.getSelectionModel().getSelectedIndex();
                 //organoActual = ConsultasDB.ObtenerOrganos().get(index);
-                organoActual = FuncionesGenerales.phantomActual.getOrgano().get(index);
+                //organoActual = FuncionesGenerales.phantomActual.getOrgano().get(index);
+                organoActual = DatosValidacionesCalculo.getPhantomActual().getOrgano().get(index);
                 //Al seleccionar el organo, se debe guardar el id en datosValidacionesCalculo.setOrgano
                 //Completo tabla de Organos
                 mostrarDetalleSeleccion(organoActual, txtNombreOrgano, txtMasaOrgano, txtIdOrgano);
