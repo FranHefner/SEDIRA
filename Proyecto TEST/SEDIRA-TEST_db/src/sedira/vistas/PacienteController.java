@@ -282,10 +282,12 @@ public class PacienteController implements Initializable {
             pacienteData = PacienteDAO.obtenerPacientes();
             //Actualiza la grilla. 
             griListaPacientes.setItems(pacienteData);
-            ModoLectura();
             
-          //      PacienteActual.setFechaNacimiento(Date.valueOf(txtFechaNacimiento.getValue() ) ); 
-            //para crear 
+            // Se carga los datos nuevamente  
+             SeleccionPaciente(PacienteActual);
+         
+            
+    
         } else {
             //  Falta validacion para atributos vacios. 
             Paciente PacienteTemp = new Paciente(

@@ -8,12 +8,17 @@ package sedira.vistas;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.scene.control.MenuBar;
+
+
 
 /**
  * FXML Menu principal Controller class
@@ -31,6 +36,20 @@ public class MenuPrincipalController implements Initializable {
         // TODO
     }    
     
+    
+    /**
+     * Declaración del menu
+     */       
+    @FXML
+    private MenuBar mnbPrincipal;
+    /**
+     * Funcion que habilita o deshabilita el menu principal    
+     */
+    private void HabilitacionMenu(boolean Habilitado)
+    {
+        mnbPrincipal.setDisable(!Habilitado);
+        
+    }
     /**
      * Comportamiento para Item de menu, administrar paciente. 
      * @throws IOException 
@@ -38,6 +57,8 @@ public class MenuPrincipalController implements Initializable {
     @FXML
     private void mniPacienteAdministrar_click() throws IOException
     { 
+      
+             
         Stage stage = new Stage();
         Parent root = FXMLLoader.load(getClass().getResource("Paciente.fxml"));
         Scene scene = new Scene(root);
@@ -46,9 +67,12 @@ public class MenuPrincipalController implements Initializable {
         stage.setMinWidth(700);        
         stage.setMinHeight(639);
         stage.setScene(scene);
-        
+         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setTitle("Administrar Pacientes");
         stage.show();   
+        
+     
+      
     }
     /**
      * Comportamiento para el Item de menu, Iniciar Calculo. 
@@ -59,15 +83,19 @@ public class MenuPrincipalController implements Initializable {
     { 
         Stage stage = new Stage();
         Parent root = FXMLLoader.load(getClass().getResource("Calculo.fxml"));
-        Scene scene = new Scene(root);        
-        stage.setMaxWidth(700);        
-        stage.setMaxHeight(681);
-        stage.setMinWidth(700);        
-        stage.setMinHeight(681);
+        Scene scene = new Scene(root);         
+       /*
+        stage.setMaxWidth(682);        
+        stage.setMaxHeight(671);
+        stage.setMinWidth(682);        
+        stage.setMinHeight(671);*/
+          stage.setResizable(false);
         stage.setScene(scene);
         stage.setTitle("Calcular Dosis Administrada");
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setAlwaysOnTop(true);
         stage.show();          
-
+        
     }
     /**
      * Comportamiento para el Item de menu, Administrar Phantoms
@@ -79,7 +107,7 @@ public class MenuPrincipalController implements Initializable {
         Stage stage = new Stage();
         Parent root = FXMLLoader.load(getClass().getResource("Phantom.fxml"));
         Scene scene = new Scene(root);        
-        
+        stage.initModality(Modality.APPLICATION_MODAL);
         stage.setScene(scene);
         stage.setTitle("Administrar Phantoms");
         stage.show();          
@@ -96,7 +124,7 @@ public class MenuPrincipalController implements Initializable {
         Stage stage = new Stage();
         Parent root = FXMLLoader.load(getClass().getResource("Radionuclido.fxml"));
         Scene scene = new Scene(root);        
-        
+        stage.initModality(Modality.APPLICATION_MODAL);
         stage.setScene(scene);
         stage.setTitle("Administrar Radionuclidos");
         stage.show();          

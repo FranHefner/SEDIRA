@@ -6,9 +6,12 @@
 package sedira.model;
 
 import java.sql.Blob;
+import java.text.Format;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -85,9 +88,33 @@ public class Paciente {
          if(fechaNacimiento== null)
         {
         return null;
-        }
-        return fechaNacimiento.toString();
+        }else
+         {
+          return fechaNacimiento.toString();
+         }
+        
+                 
     }
+    
+    public String getFechaNacimientoDB() {
+
+        Format formatter;
+
+        if (fechaNacimiento == null) {
+            return null;
+        } else {
+            formatter = new SimpleDateFormat("yyyy/MM/dd");
+            return formatter.format(fechaNacimiento);
+
+        }
+        
+                 
+    }
+     
+      
+     
+  
+  
     
     //idPaciente
     public IntegerProperty getIdPacienteProperty() {
@@ -154,7 +181,7 @@ public class Paciente {
     }
       public void setFechaNacimiento(String fechaNacimiento) {
           
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 	String dateInString = fechaNacimiento;
 
 	try {

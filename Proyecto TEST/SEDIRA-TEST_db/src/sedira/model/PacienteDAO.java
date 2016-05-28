@@ -118,8 +118,9 @@ public class PacienteDAO {
                         "UPDATE  pacientes SET tipo_doc = ?,"
                                 + "numero_doc=?,"
                                 + "apellido=?,"
-                                + "nombre=?"
-                        + "WHERE id_paciente = ?"
+                                + "nombre=?,"
+                                + "fecha_nacimiento=?"
+                        + " WHERE id_paciente = ?"
                 );
 
                 /**
@@ -129,7 +130,8 @@ public class PacienteDAO {
                 consulta.setInt(2, paciente.getNumeroDoc());
                 consulta.setString(3, paciente.getApellido());
                 consulta.setString(4, paciente.getNombre());
-                consulta.setInt(5,id);
+                consulta.setString(5, paciente.getFechaNacimientoDB());                
+                consulta.setInt(6,id);
                 //parametros acotados para simplicidad del test 
 
                 consulta.executeUpdate(); //Ejecucion de la consulta

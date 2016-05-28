@@ -19,7 +19,7 @@
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                <children>
-                  <TableView fx:id="griValorDescripcionPhantom" layoutX="350.0" layoutY="28.0" prefHeight="362.0" prefWidth="289.0">
+                  <TableView fx:id="griValorDescripcionPhantom" layoutX="350.0" layoutY="28.0" prefHeight="354.0" prefWidth="289.0">
                      <columnResizePolicy>
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                      </columnResizePolicy>
@@ -31,7 +31,7 @@
                   </TableView>
                   <Label layoutX="14.0" layoutY="10.0" prefHeight="17.0" prefWidth="185.0" text="Información de los órganos:" />
                   <Label layoutX="350.0" layoutY="9.0" text="Información del phantom:" />
-                  <TableView fx:id="griOrgano" layoutX="14.0" layoutY="28.0" prefHeight="362.0" prefWidth="289.0">
+                  <TableView fx:id="griOrgano" layoutX="14.0" layoutY="28.0" prefHeight="354.0" prefWidth="289.0">
                     <columns>
                       <TableColumn fx:id="clOrganoNombre" prefWidth="75.0" text="Organo" />
                       <TableColumn fx:id="clOrganoMasa" prefWidth="75.0" text="Masa (grs)" />
