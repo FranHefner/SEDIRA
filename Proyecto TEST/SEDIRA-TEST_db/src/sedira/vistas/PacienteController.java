@@ -20,7 +20,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
@@ -32,7 +31,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import sedira.model.Paciente;
-import sedira.ConsultasDB;
+
 import sedira.FuncionesGenerales;
 import sedira.ValidacionesGenerales;
 import javafx.scene.control.DatePicker;
@@ -128,15 +127,15 @@ public class PacienteController implements Initializable {
 
         try {
             //Obtengo la lista de pacientes desde la base de datos. 
-            //pacienteData = ConsultasDB.ListaPacientes();
+            
             pacienteData = PacienteDAO.obtenerPacientes();
             //actualizo el grid
             griListaPacientes.setItems(pacienteData);
         } catch (SQLException ex) {
             Logger.getLogger(PacienteController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        DocumentosData = ConsultasDB.ListaTipoDocumento();
-        cbTipoDoc.setItems(DocumentosData);
+        //DocumentosData = ConsultasDB.ListaTipoDocumento();
+        //cbTipoDoc.setItems(DocumentosData);
 
     }
 

@@ -17,10 +17,12 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.Tooltip;
-import sedira.ConsultasDB;
+
 import sedira.model.Radionuclido;
 import sedira.model.ValorDescripcion;
 import sedira.DatosValidacionesCalculo;
+import sedira.FuncionesGenerales;
+import sedira.model.RadionuclidoDAO;
 /**
  * FXML Controller class
  *  Clase controladora de la interfaz de Radionuclidos dentro del proceso de calculo. 
@@ -42,8 +44,10 @@ public class PestañaRadionuclidoController implements Initializable {
     @FXML
     private ChoiceBox choiceRadionuclido;
     
-    //Objeto de tipo Phantom auxiliar. 
+    //Objeto de tipo Radionuclido auxiliar. 
         private Radionuclido radionuclidoActual;
+    //Objeto Lista Radionuclidos auxiliar. 
+        public static  ObservableList <Radionuclido> ListaRadionuclido = FXCollections.observableArrayList();
     
     /**
      * Inicializa la clase controladora.
@@ -67,18 +71,20 @@ public class PestañaRadionuclidoController implements Initializable {
     }    
     
     /**
-     * Metodo que inicializa la lista de Phantoms dentro del ChoiceBox 
+     * Metodo que inicializa la lista de Radionuclidos dentro del ChoiceBox 
      */
      @FXML
     public void initListaRadNuclido(){
-        //Lista auxliar para el manejo de los nombres de los phantoms. 
-        ObservableList <String> listaStringRadNuclido = FXCollections.observableArrayList();
-                     
-        for (Radionuclido listaRadNuclido1 : ConsultasDB.obtenerRadionuclidos()) {
-            listaStringRadNuclido.add(listaRadNuclido1.getNombreRadNuclidoProperty().getValue());
+        //Inicializo la lista de radionuclidos con la informacion contenida en la base de datos. 
+        ListaRadionuclido = RadionuclidoDAO.obtenerListaRadNuclido();
+        //Lista auxiliar para el manejo de los nombres de los radionuclidos. 
+        ObservableList <String> listaStringRadionuclido = FXCollections.observableArrayList();
+                                   
+        for (Radionuclido listaRadNuclido1 : ListaRadionuclido){
+            listaStringRadionuclido.add(listaRadNuclido1.getNombreRadNuclidoProperty().getValue());
         }
-        //Asigno la lista de los nombres de los Phantoms al ChoiceBox
-         choiceRadionuclido.setItems(listaStringRadNuclido);
+        //Asigno la lista de los nombres de los Radionuclidos al ChoiceBox
+         choiceRadionuclido.setItems(listaStringRadionuclido);
     }
     
    /**
@@ -105,15 +111,15 @@ public class PestañaRadionuclidoController implements Initializable {
                 public void changed (ObservableValue ov, Number value, Number newValue){
                     //Busco el Radionuclido por el Indice del ChoiceBox
                     int index = choiceRadionuclido.getSelectionModel().getSelectedIndex();
-                    System.out.print(index);
-                    radionuclidoActual = ConsultasDB.obtenerRadionuclidos().get(index);
-                    
+                    //System.out.print(index);
+                    radionuclidoActual = ListaRadionuclido.get(index);
+                     //Completo tabla de Info Radionuclido
+                    FuncionesGenerales.mostrarDetalleTablaValorDescripcion(RadionuclidoDAO.obtenerInfoRadNuclido(radionuclidoActual), griInfoRadNuclido);
                     /*Asigna radionuclido al calculo */
                     DatosValidacionesCalculo.setRadionuclido(radionuclidoActual);
                     /*************************/
                     
-                    //Completo tabla de Info Radionuclidos
-                    showDetalleRadionuclido(radionuclidoActual.getPropiedades());  
+                   
                     
                 }
             });

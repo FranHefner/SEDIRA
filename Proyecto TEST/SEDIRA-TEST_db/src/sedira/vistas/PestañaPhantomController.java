@@ -58,7 +58,7 @@ public class PestañaPhantomController implements Initializable {
     
     //Lista de Organos
          public static  ObservableList <Organo> listaOrgano = FXCollections.observableArrayList();
-         //Lista de Phantom
+    //Lista de Phantom
          public static  ObservableList <Phantom> ListaPhantom = FXCollections.observableArrayList();
     //Objeto de tipo ValorDescripcopn auxiliar. 
         private ValorDescripcion phantomValorDescripcion;

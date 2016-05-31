@@ -15,10 +15,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
-import sedira.ConsultasDB;
-import sedira.FuncionesGenerales;
-import sedira.DatosValidacionesCalculo;
 import sedira.DatosValidacionesCalculo;
 
 import sedira.model.Organo;
@@ -80,19 +76,6 @@ public class PestañaOrganoController implements Initializable {
             txtPhantomSeleccionado.setText(DatosValidacionesCalculo.getPhantomActual().getPhantomNombre());
             aux = 1;
         }   
-        //basicamente el if es un controlador para que se inicialize solo 1 vez, 
-        //Esta inicializacion deberia estar en el calculo controller. 
-       /* if (aux == 0){
-            ObservableList <String> listaOrganoString = FXCollections.observableArrayList();
-
-            for (int i=0; i<FuncionesGenerales.phantomActual.getOrgano().size();i++){
-                listaOrganoString.add(FuncionesGenerales.phantomActual.getOrgano().get(i).getNombreOrgano());
-            }
-            choiceOrgano.setItems(listaOrganoString);
-            txtPhantomSeleccionado.setText(FuncionesGenerales.phantomActual.getPhantomNombre());
-            aux = 1;
-        }   */
-        //Asigno la lista de los nombres de los Phantoms al ChoiceBox
         
         
     }
