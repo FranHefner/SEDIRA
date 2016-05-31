@@ -40,9 +40,7 @@ public class AplicacionPrincipal extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
         
-        //Se crean valores por defecto para el control 
-        ConsultasDB.iniciarPhantomsDefecto();
-        ConsultasDB.iniciarRadionuclidosDefecto();
+      
         
     }
     

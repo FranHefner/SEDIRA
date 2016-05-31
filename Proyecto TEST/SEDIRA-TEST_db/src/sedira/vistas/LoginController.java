@@ -7,7 +7,10 @@ package sedira.vistas;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.TextField;
+import javafx.scene.control.PasswordField;
 
 /**
  * FXML Controller class
@@ -16,6 +19,14 @@ import javafx.fxml.Initializable;
  */
 public class LoginController implements Initializable {
 
+    
+    @FXML
+    private TextField txtUsuario;
+    @FXML
+    private PasswordField txtPassword;
+    
+    
+    
     /**
      * Initializes the controller class.
      */
@@ -23,5 +34,16 @@ public class LoginController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
     }    
+    
+    private void btnAceptar_click()
+    {
+        String Usuario;
+        String Contraseña;
+        
+        Usuario = txtUsuario.getText();
+        Contraseña = txtPassword.getText();
+
+                
+    }
     
 }
