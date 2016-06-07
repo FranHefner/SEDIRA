@@ -15,6 +15,7 @@ import sun.misc.BASE64Encoder;
  *
  * @author INVAP
  */
+/* Clase de seguridad donde se administra la encriptacion del login*/
 public class Security {
 
     private static final String AESencrp  = "AES";
