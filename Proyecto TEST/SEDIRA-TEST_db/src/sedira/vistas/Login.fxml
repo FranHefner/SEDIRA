@@ -15,7 +15,7 @@
          </font>
       </TextField>
       <Button fx:id="btnAceptar" layoutX="89.0" layoutY="120.0" mnemonicParsing="false" onAction="#btnAceptar_click" prefHeight="25.0" prefWidth="94.0" text="Aceptar" />
-      <Button fx:id="btnCancelar" layoutX="197.0" layoutY="120.0" mnemonicParsing="false" onAction="#btnCancelar_click" prefHeight="25.0" prefWidth="94.0" text="Cancelar" />
+      <Button fx:id="btnCerrar" layoutX="197.0" layoutY="120.0" mnemonicParsing="false" onAction="#btnCerrar_click" prefHeight="25.0" prefWidth="94.0" text="Cerrar" />
       <PasswordField fx:id="txtPassword" layoutX="124.0" layoutY="71.0" prefHeight="23.0" prefWidth="144.0" promptText="Password" />
    </children>
 </AnchorPane>
