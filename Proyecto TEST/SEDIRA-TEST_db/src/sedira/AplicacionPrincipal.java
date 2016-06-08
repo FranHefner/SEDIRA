@@ -45,8 +45,14 @@ public class AplicacionPrincipal extends Application {
         //Se le pasa el root node
         Scene scene = new Scene(root);
         
+            primaryStage.setMaxWidth(362);        
+        primaryStage.setMaxHeight(185);
+        primaryStage.setMinWidth(362);        
+        primaryStage.setMinHeight(185);
+   
         primaryStage.setScene(scene);
         primaryStage.show();
+     
         
        
         

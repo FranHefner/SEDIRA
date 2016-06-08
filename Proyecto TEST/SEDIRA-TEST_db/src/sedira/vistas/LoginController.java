@@ -5,9 +5,12 @@
  */
 package sedira.vistas;
 
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -87,10 +90,11 @@ public class LoginController implements Initializable {
             Scene scene = new Scene(root);      
             stage.setScene(scene);                  
             stage.show();
-        }
-             Stage stage = (Stage) btnCerrar.getScene().getWindow();
-             stage.close();
+             Stage stageLogin = (Stage) btnCerrar.getScene().getWindow();
+             stageLogin.close();
         
+        }
+                
 
     }
     
@@ -99,5 +103,14 @@ public class LoginController implements Initializable {
          Stage stage = (Stage) btnCerrar.getScene().getWindow();
              stage.close();
     }
+     @FXML
+    public void onEnter() throws Exception{
+
+           btnAceptar_click();
+
+    }
+
+    
+   
 
 }
