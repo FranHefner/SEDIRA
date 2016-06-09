@@ -41,7 +41,7 @@ public class ConsultasSQL {
             consulta.setString(1, UsuarioEnc);
             consulta.setString(2, passwordEnc);
 
-            String passwordDec = Security.decrypt(passwordEnc);
+         //   String passwordDec = Security.decrypt(passwordEnc);
 
             ResultSet resultado = consulta.executeQuery();
 

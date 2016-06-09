@@ -37,10 +37,9 @@ public class LoginController implements Initializable {
     private PasswordField txtPassword;
     @FXML
     private Button btnCerrar;
-     @FXML
+    @FXML
     private Button btnAceptar;
-    
-    
+
     /**
      * Initializes the controller class.
      */
@@ -48,6 +47,7 @@ public class LoginController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
     }
+
     @FXML
     private void btnAceptar_click() throws Exception {
         String Usuario;
@@ -56,61 +56,59 @@ public class LoginController implements Initializable {
         Usuario = txtUsuario.getText();
         Contraseña = txtPassword.getText();
 
-       int LoginCode = ConsultasSQL.VerificarUserPass(Usuario, Contraseña);
-            IniByCode(LoginCode);
-      
-             String usuario = Usuario;
+        int LoginCode = ConsultasSQL.VerificarUserPass(Usuario, Contraseña);
+        IniByCode(LoginCode);
+
+        String usuario = Usuario;
         String usuarioEnc = Security.encrypt(usuario);
         String usuarioDec = Security.decrypt(usuarioEnc);
 
         System.out.println("Plain Text : " + usuario);
         System.out.println("Encrypted Text : " + usuarioEnc);
         System.out.println("Decrypted Text : " + usuarioDec);
-        
-            
-       String password = Contraseña;
+
+        String password = Contraseña;
         String passwordEnc = Security.encrypt(password);
         String passwordDec = Security.decrypt(passwordEnc);
 
         System.out.println("Plain Text : " + password);
         System.out.println("Encrypted Text : " + passwordEnc);
         System.out.println("Decrypted Text : " + passwordDec);
-        
-       
-        
-            
+
     }
 
     private void IniByCode(int CodigoInicio) throws IOException {
-        if (CodigoInicio > 0) {
-            // LOGIN OK, SEGUN USUARIO SE LANZARIA UN FORM U OTRO
 
+        if (CodigoInicio == 1) {
+            MenuPrincipalController.TipoUsuario = "Completo";
+        }
+        if (CodigoInicio == 2) {
+            MenuPrincipalController.TipoUsuario = "Basico";
+        }
+        if (CodigoInicio > 0) {
             Stage stage = new Stage();
             Parent root = FXMLLoader.load(getClass().getResource("MenuPrincipal.fxml"));
-            Scene scene = new Scene(root);      
-            stage.setScene(scene);                  
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
             stage.show();
-             Stage stageLogin = (Stage) btnCerrar.getScene().getWindow();
-             stageLogin.close();
-        
+            Stage stageLogin = (Stage) btnCerrar.getScene().getWindow();
+            stageLogin.close();
+
         }
-                
 
     }
-    
+
     @FXML
     private void btnCerrar_click() throws Exception {
-         Stage stage = (Stage) btnCerrar.getScene().getWindow();
-             stage.close();
-    }
-     @FXML
-    public void onEnter() throws Exception{
-
-           btnAceptar_click();
-
+        Stage stage = (Stage) btnCerrar.getScene().getWindow();
+        stage.close();
     }
 
-    
-   
+    @FXML
+    public void onEnter() throws Exception {
+
+        btnAceptar_click();
+
+    }
 
 }

@@ -97,11 +97,7 @@ public class CalculoController implements Initializable {
             DatosValidacionesCalculo.IniciarCalculo();
             /**
              * ***********************************
-             */
-
-         /*   Node NodoPhantom;
-            NodoPhantom = (Node) FXMLLoader.load(getClass().getResource("PestañaPhantom.fxml"));
-            pnlPhantom.getChildren().setAll(NodoPhantom);*/
+             */    
 
             Node NodoPaciente;
             NodoPaciente = (Node) FXMLLoader.load(getClass().getResource("PestañaPaciente.fxml"));
@@ -110,13 +106,7 @@ public class CalculoController implements Initializable {
              txtProceso.setText("INFORMACION DEL PROCESO/SELECCION");
              
             DatosValidacionesCalculo.TextoProgreso = txtProceso.getText();
-         /*   Node NodoRadionuclido;
-            NodoRadionuclido = (Node) FXMLLoader.load(getClass().getResource("PestañaRadionuclido.fxml"));
-            pnlRadionuclido.getChildren().setAll(NodoRadionuclido);
-*/
-        /*    Node NodoOrgano;
-            NodoOrgano = (Node) FXMLLoader.load(getClass().getResource("PestañaOrgano.fxml"));
-            pnlOrgano.getChildren().setAll(NodoOrgano); */
+
 
             listaTABS = tabPaneCalculo.getSelectionModel();
 
