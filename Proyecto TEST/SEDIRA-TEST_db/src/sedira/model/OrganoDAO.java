@@ -122,6 +122,7 @@ public class OrganoDAO {
     /**
      * Metodo para buscar en la base de datos el nombre de un organo
      * @param nombreOrgano
+     * @param idPhantom
      * @return True si el nombre no existe. False si el nombre existe
      * @throws SQLException 
      */
