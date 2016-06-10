@@ -35,6 +35,7 @@ public class Paciente {
     private int numeroAsociado;
     private StringProperty  email;
     private StringProperty  telefono; 
+    private StringProperty celular;
     private Blob foto; 
     private StringProperty  sexo;
     private boolean enTratamiento; 
@@ -45,7 +46,7 @@ public class Paciente {
     /**
     * Contructor con parametros
     */
-    public Paciente(int idPaciente, String tipoDoc, int numeroDoc, String apellido, String nombre, Date fechaNacimiento, String direccion, int numeroAsociado, String email, String telefono,/* Blob foto,*/ String sexo, boolean enTratamiento) {
+    public Paciente(int idPaciente, String tipoDoc, int numeroDoc, String apellido, String nombre, Date fechaNacimiento, String direccion, int numeroAsociado, String email, String telefono, String celular,/* Blob foto,*/ String sexo, boolean enTratamiento) {
         this.idPaciente = new SimpleIntegerProperty(idPaciente);
         this.tipoDoc = new SimpleStringProperty(tipoDoc);
         this.numeroDoc = new SimpleIntegerProperty(numeroDoc);
@@ -56,6 +57,7 @@ public class Paciente {
         this.numeroAsociado = numeroAsociado;
         this.email = new SimpleStringProperty(email);
         this.telefono = new SimpleStringProperty(telefono);
+        this.celular = new SimpleStringProperty(celular);
     //    this.foto = foto;
         this.sexo = new SimpleStringProperty(sexo);
         this.enTratamiento = enTratamiento;
@@ -243,6 +245,18 @@ public class Paciente {
     public String getTelefono (){
         return telefono.get();
     }
+    
+    //Celular
+    public StringProperty getCelularProperty() {
+        return celular;
+    }
+    public void setcelular(String celular) {
+        this.celular.set(celular);
+    }
+    public String getcelular (){
+        return celular.get();
+    }
+    
     
     //FOTO
     public Blob getFoto() {

@@ -111,11 +111,9 @@ public class PacienteController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         // Control de botones. 
-    
+
         ModoLectura();
-        btnMediciones.setDisable(true);
-        btnHistorialSEDIRA.setDisable(true);
-        btnContacto.setDisable(true);
+    
 
         clNombre.setCellValueFactory(cellData -> cellData.getValue().getNombreProperty());
         clApellido.setCellValueFactory(cellData -> cellData.getValue().getApellidoProperty());
@@ -127,7 +125,7 @@ public class PacienteController implements Initializable {
 
         try {
             //Obtengo la lista de pacientes desde la base de datos. 
-            
+
             pacienteData = PacienteDAO.obtenerPacientes();
             //actualizo el grid
             griListaPacientes.setItems(pacienteData);
@@ -148,25 +146,29 @@ public class PacienteController implements Initializable {
     }
 
     private void ModoLectura() {
-        btnEditar.setDisable(false);
+
         btnCancelar.setDisable(true);
         btnContacto.setDisable(true);
         btnAceptar.setDisable(true);
         cbTipoDoc.setDisable(true);
         txtFechaNacimiento.setDisable(true);
-        txtFechaNacimiento.setEditable(false);
         btnNuevo.setDisable(false);
-        
-      if  (FuncionesGenerales.pacienteActual != null) 
-        {
+
+        txtNombre.setEditable(false);
+        txtApellido.setEditable(false);
+        txtNumeroDoc.setEditable(false);
+        txtFechaNacimiento.setEditable(false);
+
+        if (FuncionesGenerales.pacienteActual != null) {
             btnMediciones.setDisable(false);
             btnHistorialSEDIRA.setDisable(false);
-            btnContacto.setDisable(false);   
-        }else          
-        {
-             btnMediciones.setDisable(true);
+            btnContacto.setDisable(false);
+            btnEditar.setDisable(false);
+        } else {
+            btnEditar.setDisable(true);
+            btnMediciones.setDisable(true);
             btnHistorialSEDIRA.setDisable(true);
-            btnContacto.setDisable(true);   
+            btnContacto.setDisable(true);
         }
     }
 
@@ -203,16 +205,16 @@ public class PacienteController implements Initializable {
             txtFechaNacimiento.setValue(FuncionesGenerales.DateToLocalDate(pacienteSeleccionado.getFechaNacimientoDATE()));
             System.out.print(pacienteSeleccionado.getIdPaciente());
             System.out.print(pacienteSeleccionado.getApellido());
-      
-        } else {          
-            txtIdPaciente.setText("");        
-            txtNombre.setText("");          
-            txtApellido.setText("");            
+
+        } else {
+            txtIdPaciente.setText("");
+            txtNombre.setText("");
+            txtApellido.setText("");
             txtNumeroDoc.setText("");
-            
+
             FuncionesGenerales.pacienteActual = null;
         }
-          ModoLectura();
+        ModoLectura();
     }
 
     /**
@@ -230,7 +232,7 @@ public class PacienteController implements Initializable {
         // Id paciente. 
         txtIdPaciente.setText(String.valueOf(PacienteDAO.getLastId()));
         //Comportamiento de Textfiedls
-         ModoEdicion();
+        ModoEdicion();
 
     }
 
@@ -249,10 +251,9 @@ public class PacienteController implements Initializable {
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK) {
 
-        
             SeleccionPaciente(FuncionesGenerales.pacienteActual);
             ModoLectura();
-                //   griListaPacientes.getSelectionModel().select(FuncionesGenerales.pacienteActual);
+            //   griListaPacientes.getSelectionModel().select(FuncionesGenerales.pacienteActual);
             // griListaPacientes.getSelectionModel().select( g );
 
         } else {
@@ -269,7 +270,7 @@ public class PacienteController implements Initializable {
         //para editar. 
         Paciente PacienteActual = FuncionesGenerales.getPacienteActual();
         if (editarClicked) {
-           
+
             PacienteActual.setApellido(txtApellido.getText());
             PacienteActual.setNombre(txtNombre.getText());
             PacienteActual.setNumeroDoc(Integer.valueOf(txtNumeroDoc.getText()));
@@ -281,12 +282,10 @@ public class PacienteController implements Initializable {
             pacienteData = PacienteDAO.obtenerPacientes();
             //Actualiza la grilla. 
             griListaPacientes.setItems(pacienteData);
-            
+
             // Se carga los datos nuevamente  
-             SeleccionPaciente(PacienteActual);
-         
-            
-    
+            SeleccionPaciente(PacienteActual);
+
         } else {
             //  Falta validacion para atributos vacios. 
             Paciente PacienteTemp = new Paciente(
@@ -298,7 +297,7 @@ public class PacienteController implements Initializable {
             PacienteDAO.agregarPaciente(PacienteTemp);
             pacienteData = PacienteDAO.obtenerPacientes();
             griListaPacientes.setItems(pacienteData);
-            
+
         }
 
     }
@@ -312,7 +311,7 @@ public class PacienteController implements Initializable {
         Paciente paciente = FuncionesGenerales.getPacienteActual();
         //Control de boton. 
         editarClicked = true;
-    
+
         // Id paciente. 
         txtIdPaciente.setText(String.valueOf(paciente.getIdPaciente()));
         SeleccionPaciente(paciente);
@@ -326,13 +325,28 @@ public class PacienteController implements Initializable {
      */
     @FXML
     private void btnCerrar_click() {
-      
-        cbTipoDoc.setDisable(false);
-        txtFechaNacimiento.setDisable(false);
 
-        Stage stage = (Stage) btnCerrar.getScene().getWindow();
+        if ((btnEditar.isDisable())) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Cancelar edición");
+            alert.setHeaderText("Atención!");
+            alert.setContentText("Está seguro que desea cerrar? \n"
+                    + "Los datos ingresados se descartarán!  ");
 
-        stage.close();
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.OK) {                
+                Stage stage = (Stage) btnCerrar.getScene().getWindow();
+                stage.close();
+            } else {
+
+            }
+        } else {
+
+            Stage stage = (Stage) btnCerrar.getScene().getWindow();
+
+            stage.close();
+        }
+
     }
 
     /**

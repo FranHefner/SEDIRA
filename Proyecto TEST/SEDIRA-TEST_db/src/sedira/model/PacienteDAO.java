@@ -208,16 +208,17 @@ public class PacienteDAO {
                  //obtencion de los datos desde la bd.
                 paciente.setIdPaciente(Integer.parseInt(resultado.getString("id_paciente")));
                 paciente.setApellido(resultado.getString("apellido"));
-               // paciente.setDireccion(resultado.getString("direccion"));
-                //paciente.setEmail(resultado.getString("email"));
-                //paciente.setEnTratamiento(resultado.getBoolean("en_tratamiento"));
+          //      paciente.setDireccion(resultado.getString("direccion"));
+             //   paciente.setEmail(resultado.getString("email"));
+                paciente.setEnTratamiento(resultado.getBoolean("en_tratamiento"));
                 paciente.setFechaNacimiento(resultado.getDate("fecha_nacimiento"));
                 //paciente.setFoto(resultado.getBlob("foto"));
                 paciente.setNombre(resultado.getString("nombre"));
                 //paciente.setNumeroAsociado(Integer.parseInt(resultado.getString("numero_asociado")));
                 paciente.setNumeroDoc(Integer.parseInt(resultado.getString("numero_doc")));
                 //paciente.setSexo(resultado.getString("sexo"));
-                //paciente.setTelefono(resultado.getString("telefono"));
+                paciente.setTelefono(resultado.getString("telefono"));
+                paciente.setcelular(resultado.getString("telefono"));
                 paciente.setTipoDoc(resultado.getString("tipo_doc"));
                 //agrego los datos del paciente a la lista 
                 pacienteData.add(paciente);
