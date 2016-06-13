@@ -66,10 +66,20 @@ public class ContactoPacienteController implements Initializable {
         TelefonoAux = PacienteActual.getTelefono();
         CelularAux = PacienteActual.getcelular();
         EmailAux = PacienteActual.getEmail();
+        
+        ModoLectura();
+        
 
     }
 
     private void ModoLectura() {
+        
+        txtDireccion.setDisable(true);
+        txtTelefono.setDisable(true);
+        txtCelular.setDisable(true);
+        txtEmail.setDisable(true);
+        
+        
         txtDireccion.setEditable(false);
         txtTelefono.setEditable(false);
         txtCelular.setEditable(false);
@@ -80,6 +90,13 @@ public class ContactoPacienteController implements Initializable {
     }
 
     private void ModoEdicion() {
+        
+        
+        txtDireccion.setDisable(false);
+        txtTelefono.setDisable(false);
+        txtCelular.setDisable(false);
+        txtEmail.setDisable(false);
+        
         txtDireccion.setEditable(true);
         txtTelefono.setEditable(true);
         txtCelular.setEditable(true);
@@ -105,6 +122,9 @@ public class ContactoPacienteController implements Initializable {
             PacienteActual.setcelular(txtCelular.getText());
 
             FuncionesGenerales.setPacienteActual(PacienteActual);
+            
+            ModoLectura();
+                    
 
         }
 
@@ -127,6 +147,7 @@ public class ContactoPacienteController implements Initializable {
     private void btnCerrar_click() {
 
         Stage stage = (Stage) btnCerrar.getScene().getWindow();
+        stage.close();
 
     }
 

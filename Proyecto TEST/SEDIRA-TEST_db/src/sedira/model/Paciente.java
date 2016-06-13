@@ -61,19 +61,22 @@ public class Paciente {
     //    this.foto = foto;
         this.sexo = new SimpleStringProperty(sexo);
         this.enTratamiento = enTratamiento;
-    }
-
-    public Paciente(int idPaciente, String tipoDoc, int numeroDoc, String apellido, String nombre/*, Date FechaNacimiento */) {
-        this.idPaciente = new SimpleIntegerProperty(idPaciente);
-        this.tipoDoc = new SimpleStringProperty(tipoDoc);
-        this.numeroDoc = new SimpleIntegerProperty(numeroDoc);
-        this.apellido = new SimpleStringProperty(apellido);
-        this.nombre = new SimpleStringProperty(nombre);
-        //this.fechaNacimiento = FechaNacimiento;
-    }
-   
+    }   
     public Paciente(){
-        
+          this.idPaciente = new SimpleIntegerProperty(0);
+        this.tipoDoc = new SimpleStringProperty("");
+        this.numeroDoc = new SimpleIntegerProperty(0);
+        this.apellido = new SimpleStringProperty("");
+        this.nombre = new SimpleStringProperty("");
+        this.fechaNacimiento = null;
+        this.direccion = new SimpleStringProperty("");
+        this.numeroAsociado = 0;
+        this.email = new SimpleStringProperty("");
+        this.telefono = new SimpleStringProperty("");
+        this.celular = new SimpleStringProperty("");
+    //    this.foto = foto;
+        this.sexo = new SimpleStringProperty("");
+        this.enTratamiento = true;
     }
  
     public Date getFechaNacimientoDATE() {

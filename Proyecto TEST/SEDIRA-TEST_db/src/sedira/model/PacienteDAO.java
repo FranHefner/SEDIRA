@@ -196,7 +196,7 @@ public class PacienteDAO {
         
         try {
             PreparedStatement consulta = conexion.getConnection().prepareStatement(
-                    "SELECT * FROM pacientes ");
+                    "SELECT * FROM pacientes");
    
             //Ejecucion de la consulta. 
             ResultSet resultado = consulta.executeQuery();
@@ -204,12 +204,12 @@ public class PacienteDAO {
             while (resultado.next()) {
                 //objeto auxiliar
                 //Paciente(int idPaciente, String tipoDoc, int numeroDoc, String apellido, String nombre/*, Date FechaNacimiento */) {
-                Paciente paciente = new Paciente(0,"",0,"","");
-                 //obtencion de los datos desde la bd.
+                Paciente paciente = new Paciente();
+                        //obtencion de los datos desde la bd.
                 paciente.setIdPaciente(Integer.parseInt(resultado.getString("id_paciente")));
                 paciente.setApellido(resultado.getString("apellido"));
-          //      paciente.setDireccion(resultado.getString("direccion"));
-             //   paciente.setEmail(resultado.getString("email"));
+                paciente.setDireccion(resultado.getString("direccion"));
+                paciente.setEmail(resultado.getString("email"));
                 paciente.setEnTratamiento(resultado.getBoolean("en_tratamiento"));
                 paciente.setFechaNacimiento(resultado.getDate("fecha_nacimiento"));
                 //paciente.setFoto(resultado.getBlob("foto"));
@@ -218,7 +218,7 @@ public class PacienteDAO {
                 paciente.setNumeroDoc(Integer.parseInt(resultado.getString("numero_doc")));
                 //paciente.setSexo(resultado.getString("sexo"));
                 paciente.setTelefono(resultado.getString("telefono"));
-                paciente.setcelular(resultado.getString("telefono"));
+                paciente.setcelular(resultado.getString("celular"));
                 paciente.setTipoDoc(resultado.getString("tipo_doc"));
                 //agrego los datos del paciente a la lista 
                 pacienteData.add(paciente);
