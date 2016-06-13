@@ -8,6 +8,8 @@ package sedira.vistas;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -290,8 +292,21 @@ public class PacienteController implements Initializable {
             //  Falta validacion para atributos vacios. 
             Paciente PacienteTemp = new Paciente(
                     Integer.valueOf(txtIdPaciente.getText()),
-                    cbTipoDoc.getValue().toString(), Integer.valueOf(txtNumeroDoc.getText()),
-                    txtApellido.getText(), txtNombre.getText());
+                    cbTipoDoc.getValue().toString(), 
+                    Integer.valueOf(txtNumeroDoc.getText()),
+                    txtApellido.getText(), 
+                    txtNombre.getText(),
+                   Date.from(txtFechaNacimiento.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()),
+                    PacienteActual.getDireccion(),
+                    0,
+                    PacienteActual.getEmail(),
+                    PacienteActual.getTelefono(),
+                    PacienteActual.getcelular(),
+                    "m",
+                    true                
+            );            
+     
+                    
             //Llamada a Control de acceso de datos de paciente. PacienteDAO
             //pacienteData.add(PacienteTemp);
             PacienteDAO.agregarPaciente(PacienteTemp);
