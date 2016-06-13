@@ -104,7 +104,7 @@ public class PacienteDAO {
         }
 
     }
-
+    
     public static void modificarPaciente(Paciente paciente) {
         //Instancia de conexion
         ConexionDB conexion = new ConexionDB();

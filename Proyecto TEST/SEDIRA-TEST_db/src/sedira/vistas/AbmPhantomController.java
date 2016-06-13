@@ -139,7 +139,7 @@ public class AbmPhantomController implements Initializable {
     }
     
      /**
-     * Metodo llamado al momento de que el usuario presiona Guardar datos .
+     * Método llamado al momento de que el usuario presiona Guardar datos .
      */
     @FXML
     public  void btnGuardarDatos() throws SQLException {
@@ -170,7 +170,7 @@ public class AbmPhantomController implements Initializable {
     }
     
     /**
-     * Metodo que retorna si el usuario presiono el boton Guardar Datos. 
+     * Método que retorna si el usuario presiono el boton Guardar Datos. 
      * @return guardarDatos 
      */
     public boolean isGuardarDatosClicked(){

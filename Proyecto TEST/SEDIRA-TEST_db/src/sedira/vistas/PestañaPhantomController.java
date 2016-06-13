@@ -14,6 +14,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
@@ -104,7 +105,7 @@ public class PestañaPhantomController implements Initializable {
      @FXML
     public void initListaPhantom(){
         //Inicializo la lista de phantoms con la informacion de la base de datos. 
-        ListaPhantom = PhantomDAO.obtenerListaPhantom();
+        ListaPhantom = PhantomDAO.obtenerListaPhantomCompletos();
         //Lista auxliar para el manejo de los nombres de los phantoms. 
         ObservableList <String> listaStringPhantom = FXCollections.observableArrayList();
                      
@@ -128,13 +129,15 @@ public class PestañaPhantomController implements Initializable {
                 @Override
                 public void changed (ObservableValue ov, Number value, Number newValue){
                     //Busco el Phantom por el Indice del ChoiceBox
+                    
                     int index = choicePhantom.getSelectionModel().getSelectedIndex();
                     phantomActual = ListaPhantom.get(index);
                     //Completo tabla de Organos
+                    
                     FuncionesGenerales.mostrarDetalleOrgano(PhantomDAO.obtenerInfoOrgano(phantomActual), griOrgano);
                     //Completo tabla de Info Phantoms
                     FuncionesGenerales.mostrarDetalleTablaValorDescripcion(PhantomDAO.obtenerInfoPhantom(phantomActual), griValorDescripcionPhantom);
-                  
+                    
                   /* Seleccion Phantom en el cálculo */  
                     DatosValidacionesCalculo.setPhantom(phantomActual);                            
                    /*************/

@@ -54,6 +54,44 @@ public class PhantomDAO {
 
         return phantomData;
     }
+ /**
+ * Método que retorna la lista de phantoms que tienen organos asignados
+ * @return phantomData
+ */
+    public static ObservableList<Phantom> obtenerListaPhantomCompletos() {
+        //Creo una lista auxiliar
+        ObservableList<Phantom> phantomData = FXCollections.observableArrayList();
+        //Instancia de conexion
+        ConexionDB conexion = new ConexionDB();
+
+        try {
+            PreparedStatement consulta = conexion.getConnection().prepareStatement("SELECT * from phantoms INNER JOIN organos "
+                                                                                     + "WHERE organos.id_phantom = phantoms.id_phantom "
+                                                                                     + "GROUP BY phantoms.id_phantom");
+            ResultSet resultado = consulta.executeQuery();
+            while (resultado.next()) {
+                //objeto auxiliar
+                // parametros de inicializacion del contructor (id, nombre, listaPropiedades, listaOrganos)
+                Phantom phantom = new Phantom(0, "", null, null);
+                //obtencion de los datos desde la bd.
+                phantom.setIdPhantom(Integer.parseInt(resultado.getString("id_phantom")));
+                phantom.setPhantomNombre(resultado.getString("nombre_phantom"));
+                //agrego el objeto a la lista de phantom. Esta se retornada para completar la vista.
+                phantomData.add(phantom);
+
+            }
+            resultado.close();
+            consulta.close();
+            conexion.desconectar();
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "no se pudo consultar el phantom /n" + e);
+            System.out.print(e);
+        }
+
+        return phantomData;
+    }
+    
     /**
      * Metodo que retorna la informacion completa de tipo valor descripcion
      * que contiene un phantom.

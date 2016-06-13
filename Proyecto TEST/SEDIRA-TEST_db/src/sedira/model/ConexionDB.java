@@ -23,7 +23,7 @@ public class ConexionDB {
     
    static String bd = "sedira";
    static String login = "root";
-   static String password = "fran";
+   static String password = "root";
    static String url = "jdbc:mysql://localhost:3306/"+bd;
  
    Connection connection = null;
