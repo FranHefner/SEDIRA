@@ -149,5 +149,22 @@ public class MenuPrincipalController implements Initializable {
         stage.show();
 
     }
+    
+       /**
+     * Comportamiento para el Item de menu, Administrar Usuarios
+     *
+     * @throws IOException
+     */
+    @FXML
+    private void mniUsuarioAdministrar_click() throws IOException {
+        Stage stage = new Stage();
+        Parent root = FXMLLoader.load(getClass().getResource("Usuario.fxml"));
+        Scene scene = new Scene(root);
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setScene(scene);
+        stage.setTitle("Administrar Usuarios");
+        stage.show();
+
+    }
 
 }

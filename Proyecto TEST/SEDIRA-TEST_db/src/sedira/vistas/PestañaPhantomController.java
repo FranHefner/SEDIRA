@@ -14,7 +14,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
@@ -100,7 +99,7 @@ public class PestañaPhantomController implements Initializable {
         
     }   
     /**
-     * Metodo que inicializa la lista de Phantoms dentro del ChoiceBox 
+     * Método que inicializa la lista de Phantoms dentro del ChoiceBox 
      */
      @FXML
     public void initListaPhantom(){
@@ -117,7 +116,7 @@ public class PestañaPhantomController implements Initializable {
     }
       
     /**
-     * Metodo que se activa al seleccionar un phantom. 
+     * Método que se activa al seleccionar un phantom. 
      * Este llenara las tablas de organos y de informacion del phantom. 
      */
     @FXML

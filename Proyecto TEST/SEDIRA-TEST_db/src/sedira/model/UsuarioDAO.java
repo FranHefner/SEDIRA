@@ -8,6 +8,8 @@ package sedira.model;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import javax.swing.JOptionPane;
 
@@ -159,5 +161,43 @@ public class UsuarioDAO {
             return false;
         }
     }
-    
+    /**
+     * Método que retorna la informacion completa de la tabla de usuarios
+     * @param usuarioSeleccionado
+     * @return 
+     */
+    public static ObservableList <Usuario> obtenerUsuarios (){
+        //Creo una lista auxiliar
+        ObservableList<Usuario> usuarioData = FXCollections.observableArrayList();
+        //Instancia de conexion
+        ConexionDB conexion = new ConexionDB();
+
+        try {
+            PreparedStatement consulta = conexion.getConnection().prepareStatement("SELECT * FROM Usuarios");
+            ResultSet resultado = consulta.executeQuery();
+            while (resultado.next()) {
+                //objeto auxiliar
+                // parametros de inicializacion del contructor (int idUsuario, String descripcion, String login, String pass)
+                Usuario usuario = new Usuario(0, "", "", "");
+                //obtencion de los datos desde la bd.
+                usuario.setIdUsuario(Integer.parseInt(resultado.getString("id_usuario")));
+                usuario.setDescripcion(resultado.getString("descripcion"));
+                usuario.setLogin(resultado.getString("login"));
+                usuario.setPass(resultado.getString("pass"));
+                //Join con Tipos de usuario para traer el tipo. 
+                
+                usuarioData.add(usuario);
+
+            }
+            resultado.close();
+            consulta.close();
+            conexion.desconectar();
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "no se pudo consultar el usuario /n" + e);
+            System.out.print(e);
+        }
+
+        return usuarioData;
+    }
 }
