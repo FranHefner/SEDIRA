@@ -7,7 +7,6 @@ package sedira.vistas;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -65,6 +64,7 @@ public class UsuarioController implements Initializable {
                 cellData -> cellData.getValue().getIdUsuarioProperty().asObject());
         //Limpieza de los detalles del usuario
         mostrarDetalleUsuario(userData, griInfoUser);
+        
         griInfoUser.getSelectionModel().selectedItemProperty().addListener(
             (observable, oldValue, newValue) -> seleccionUsuario(newValue));     
         
@@ -90,10 +90,6 @@ public class UsuarioController implements Initializable {
         //Se setea el usuario seleccionado como usuario actual. 
         
         if (usuarioActual != null) {
-            //Completo la lista usuarios
-            //userData = UsuarioDAO.obtenerUsuarios();
-            //Completo la grilla de los usuarios. 
-            //griInfoUser.setItems(userData);
             
             //Prendo el boton de Editar Usuario
             btnModificarUsuario.setDisable(false);

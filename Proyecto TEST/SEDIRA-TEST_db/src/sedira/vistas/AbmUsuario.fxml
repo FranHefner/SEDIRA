@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="330.0" prefWidth="332.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="sedira.vistas.AbmUsuarioController">
+   <children>
+      <VBox layoutX="142.0" layoutY="57.0" spacing="20.0">
+         <children>
+            <TextField editable="false" layoutX="20.0" layoutY="57.0" />
+            <TextField layoutX="20.0" layoutY="97.0" />
+            <TextField layoutX="20.0" layoutY="138.0" />
+            <TextField layoutX="20.0" layoutY="178.0" />
+            <TextField layoutX="20.0" layoutY="215.0" />
+         </children>
+      </VBox>
+      <HBox layoutX="39.0" layoutY="269.0" spacing="20.0">
+         <children>
+            <Button layoutX="87.0" layoutY="271.0" mnemonicParsing="false" text="Guardar" />
+            <Button layoutX="154.0" layoutY="271.0" mnemonicParsing="false" text="Cancelar" />
+            <Button layoutX="220.0" layoutY="271.0" mnemonicParsing="false" text="Limpiar valores" />
+         </children>
+      </HBox>
+      <Text layoutX="81.0" layoutY="75.0" strokeType="OUTSIDE" strokeWidth="0.0" text="usuario_id" />
+      <Text layoutX="39.0" layoutY="116.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre de usuario" />
+      <Text layoutX="77.0" layoutY="158.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Contraseña" />
+      <Text layoutX="77.0" layoutY="200.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Descripción" />
+      <Text layoutX="58.0" layoutY="243.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tipo de usuario" />
+   </children>
+</AnchorPane>
