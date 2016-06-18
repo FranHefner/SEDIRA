@@ -63,24 +63,22 @@ public class CalculoController implements Initializable {
     private Pane pnlRadionuclido;
     @FXML
     private Pane pnlOrgano;
-     @FXML
+    @FXML
     private Pane pnlCalculo;
-    
+
     @FXML
     private Button btnSiguiente;
     @FXML
     private TextArea txtProceso;
-     
+
     @FXML
     private Button btnAtras;
     @FXML
     private Button btnCancelar;
 
     private PestañaOrganoController organoController;
-    
+
     public static String pestañaActual;
-    
-  
 
     /**
      * Initializes the controller class.
@@ -97,16 +95,23 @@ public class CalculoController implements Initializable {
             DatosValidacionesCalculo.IniciarCalculo();
             /**
              * ***********************************
-             */    
-
+             */
+            /**
+             * *************************************************
+             */
+            /**
+             * ********* LLenado de los nodos/pestañas
+             */
             Node NodoPaciente;
             NodoPaciente = (Node) FXMLLoader.load(getClass().getResource("PestañaPaciente.fxml"));
             pnlPaciente.getChildren().setAll(NodoPaciente);
-            
-             txtProceso.setText("INFORMACION DEL PROCESO/SELECCION");
-             
-            DatosValidacionesCalculo.TextoProgreso = txtProceso.getText();
 
+            /**
+             * ***************************************************
+             */
+            txtProceso.setText("INFORMACION DEL PROCESO/SELECCION");
+
+            DatosValidacionesCalculo.TextoProgreso = txtProceso.getText();
 
             listaTABS = tabPaneCalculo.getSelectionModel();
 
@@ -117,10 +122,9 @@ public class CalculoController implements Initializable {
 
     public void SeleccionPestaña(boolean adelante) throws IOException {
         //  String EstadoActual = NuevoCalculo.EstadoActual();
-        
-       
-        String EstadoActual = DatosValidacionesCalculo.EstadoActual(adelante,pestañaActual );
-               
+
+        String EstadoActual = DatosValidacionesCalculo.EstadoActual(adelante, pestañaActual);
+
         if (EstadoActual.equals("Paciente")) {
             tabPaciente.setDisable(false);
             listaTABS.select(tabPaciente);
@@ -130,8 +134,8 @@ public class CalculoController implements Initializable {
             tabRadionuclido.setDisable(true);
             tabCalcular.setDisable(true);
 
-            txtProceso.setText( DatosValidacionesCalculo.GetTextoProgeso());
-            
+            txtProceso.setText(DatosValidacionesCalculo.GetTextoProgeso());
+
         }
         if (EstadoActual.equals("Phantom")) {
             tabPhantom.setDisable(false);
@@ -142,29 +146,32 @@ public class CalculoController implements Initializable {
             tabOrganoTejido.setDisable(true);
             tabRadionuclido.setDisable(true);
             tabCalcular.setDisable(true);
-
-            Node NodoPhantom;
-            NodoPhantom = (Node) FXMLLoader.load(getClass().getResource("PestañaPhantom.fxml"));
-            pnlPhantom.getChildren().setAll(NodoPhantom);
+            if (adelante) {
+                Node NodoPhantom;
+                NodoPhantom = (Node) FXMLLoader.load(getClass().getResource("PestañaPhantom.fxml"));
+                pnlPhantom.getChildren().setAll(NodoPhantom);
+            }
 
             txtProceso.setText(DatosValidacionesCalculo.GetTextoProgeso());
         }
         if (EstadoActual.equals("Organo")) {
             tabOrganoTejido.setDisable(false);
             listaTABS.select(tabOrganoTejido);
-              pestañaActual = "Organo";
+            pestañaActual = "Organo";
 
             tabPaciente.setDisable(true);
             tabPhantom.setDisable(true);
             tabRadionuclido.setDisable(true);
             tabCalcular.setDisable(true);
-            
-             Node NodoOrgano;
-            NodoOrgano = (Node) FXMLLoader.load(getClass().getResource("PestañaOrgano.fxml"));
-            pnlOrgano.getChildren().setAll(NodoOrgano);
-            
-              txtProceso.setText( DatosValidacionesCalculo.GetTextoProgeso());
-            
+            if (adelante) {
+
+                Node NodoOrgano;
+                NodoOrgano = (Node) FXMLLoader.load(getClass().getResource("PestañaOrgano.fxml"));
+                pnlOrgano.getChildren().setAll(NodoOrgano);
+            }
+
+            txtProceso.setText(DatosValidacionesCalculo.GetTextoProgeso());
+
         }
         if (EstadoActual.equals("RadioNuclido")) {
             tabRadionuclido.setDisable(false);
@@ -175,31 +182,34 @@ public class CalculoController implements Initializable {
             tabPhantom.setDisable(true);
             tabOrganoTejido.setDisable(true);
             tabCalcular.setDisable(true);
-            
-             Node NodoRadionuclido;
-            NodoRadionuclido = (Node) FXMLLoader.load(getClass().getResource("PestañaRadionuclido.fxml"));
-            pnlRadionuclido.getChildren().setAll(NodoRadionuclido);
-            
-              txtProceso.setText( DatosValidacionesCalculo.GetTextoProgeso());
+
+            if (adelante) {
+                Node NodoRadionuclido;
+                NodoRadionuclido = (Node) FXMLLoader.load(getClass().getResource("PestañaRadionuclido.fxml"));
+                pnlRadionuclido.getChildren().setAll(NodoRadionuclido);
+            }
+
+            txtProceso.setText(DatosValidacionesCalculo.GetTextoProgeso());
         }
         if (EstadoActual.equals("Completo")) {
             tabCalcular.setDisable(false);
             listaTABS.select(tabCalcular);
-             pestañaActual = "Completo";
+            pestañaActual = "Completo";
 
             tabRadionuclido.setDisable(true);
             tabPaciente.setDisable(true);
             tabPhantom.setDisable(true);
             tabOrganoTejido.setDisable(true);
-            
-               txtProceso.setText( DatosValidacionesCalculo.GetTextoProgeso());
-               
-              Node NodoCalculo;
-            NodoCalculo = (Node) FXMLLoader.load(getClass().getResource("PestañaCalculo.fxml"));
-            pnlCalculo.getChildren().setAll(NodoCalculo);           
-         
-            
-            
+
+            if (adelante) {
+
+                Node NodoCalculo;
+                NodoCalculo = (Node) FXMLLoader.load(getClass().getResource("PestañaCalculo.fxml"));
+                pnlCalculo.getChildren().setAll(NodoCalculo);
+            }
+
+            txtProceso.setText(DatosValidacionesCalculo.GetTextoProgeso());
+
         }
 
         /* Logica de botones */
@@ -210,10 +220,11 @@ public class CalculoController implements Initializable {
         } else {
             btnAtras.setDisable(false);
             if (EstadoActual.equals("Completo")) {
-                 btnSiguiente.setText("Finalizar");
-            }else
-            {
+                btnSiguiente.setText("Finalizar");
+                btnSiguiente.setDisable(true);
+            } else {
                 btnSiguiente.setText("Siguiente");
+                btnSiguiente.setDisable(false);
             }
         }
 
@@ -231,9 +242,9 @@ public class CalculoController implements Initializable {
 
     @FXML
     private void btnCancelar_click() throws IOException {
-         Stage stage = (Stage) btnCancelar.getScene().getWindow();
-    
-    stage.close();
+        Stage stage = (Stage) btnCancelar.getScene().getWindow();
+
+        stage.close();
     }
 
 }

@@ -279,6 +279,9 @@ public class FuncionesGenerales {
     Instant instant = Instant.ofEpochMilli(date.getTime());
     return LocalDateTime.ofInstant(instant, ZoneId.systemDefault())
         .toLocalDate();
+    
+   
+      
   }
 
     /*  public static Date LocalDateToDate(LocalDate Fecha) {

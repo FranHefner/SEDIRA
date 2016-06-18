@@ -203,7 +203,7 @@ public class PacienteController implements Initializable {
             txtNombre.setText(String.valueOf(pacienteSeleccionado.getNombre()));
             txtApellido.setText(String.valueOf(pacienteSeleccionado.getApellido()));
             txtNumeroDoc.setText(String.valueOf(pacienteSeleccionado.getNumeroDoc()));
-            cbTipoDoc.setValue(String.valueOf(pacienteSeleccionado.getTipoDoc()));
+            cbTipoDoc.setValue(String.valueOf(pacienteSeleccionado.getTipoDoc()));         
             txtFechaNacimiento.setValue(FuncionesGenerales.DateToLocalDate(pacienteSeleccionado.getFechaNacimientoDATE()));
             System.out.print(pacienteSeleccionado.getIdPaciente());
             System.out.print(pacienteSeleccionado.getApellido());
