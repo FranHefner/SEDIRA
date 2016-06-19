@@ -323,7 +323,7 @@ public class RadionuclidoController implements Initializable {
             alert.setTitle("Eliminar radionúclido");
             alert.setHeaderText("Atención!");
             alert.setContentText("Esta seguro que desea eliminar el radionúclido seleccionado? \n"
-                    + "\n Se eliminará el radionuclido con todos sus órganos."
+                    + "\n Se eliminará el radionuclido con todas sus propiedades."
                     + "\n Detalle:"
                     + "\n Nombre radionúclido: " + radionuclidoActual.getNombreRadNuclido());
             Optional<ButtonType> result = alert.showAndWait();

@@ -58,7 +58,7 @@ public class LoginController implements Initializable {
 
         int LoginCode = ConsultasSQL.VerificarUserPass(Usuario, Contraseña);
         IniByCode(LoginCode);
-
+        
         String usuario = Usuario;
         String usuarioEnc = Security.encrypt(usuario);
         String usuarioDec = Security.decrypt(usuarioEnc);

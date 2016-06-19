@@ -25,6 +25,7 @@ import sedira.model.Organo;
 import sedira.model.Paciente;
 import sedira.model.Phantom;
 import sedira.model.Radionuclido;
+import sedira.model.Usuario;
 import sedira.model.ValorDescripcion;
 
 /**
@@ -34,11 +35,12 @@ import sedira.model.ValorDescripcion;
  */
 public class FuncionesGenerales {
 
-    //Objeto de tipo Phantom auxiliar. 
+    
 
     public static Phantom phantomActual;
     public static Radionuclido radionuclidoActual;
     public static Paciente pacienteActual;
+    public static Usuario usuarioActual; 
     public static int indice;
 
     public static String pattern = "dd-MM-yyyy";
@@ -104,6 +106,20 @@ public class FuncionesGenerales {
      */
     public static void setPacienteActual(Paciente paciente) {
         pacienteActual = paciente;
+    }
+    /**
+     * Método SetTer para UsuarioActual
+     * @param usuario 
+     */
+    public static void setUsuarioActual (Usuario usuario){
+        usuarioActual = usuario; 
+    }
+    /**
+     * Método GetTer para UsuarioActual 
+     * @return 
+     */
+    public static Usuario getUsuarioActual (){
+        return usuarioActual; 
     }
 
     /**

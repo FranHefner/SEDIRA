@@ -125,7 +125,7 @@ public class AbmPhantomController implements Initializable {
             
     }
     /**
-     * 
+     * Setea los Items en el phantom
      * @param itemPhantom 
      */
     public void setItemPhantom (ValorDescripcion itemPhantom){
