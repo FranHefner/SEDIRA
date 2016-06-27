@@ -205,7 +205,7 @@ public class AbmUsuarioController implements Initializable {
             if (txtNombreUsuario.getText() == null || txtNombreUsuario.getText().length() == 0) {
                 mensajeError += "Nombre de usuario inválido!";
             }
-            if (UsuarioDAO.buscaUsuario(nombreUsuario) == false) {
+            if (UsuarioDAO.buscaUsuario(nombreUsuario) == true) {
                 mensajeError += "El nombre de usuario ya existe!";
             }
             if (txtPass.getText()== null || txtPass.getText().length()==0){

@@ -14,6 +14,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Menu;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.scene.control.MenuBar;
@@ -26,6 +27,21 @@ import javafx.scene.control.MenuBar;
  */
 public class MenuPrincipalController implements Initializable {
 
+    @FXML
+    Menu menuDosis;
+    @FXML
+    Menu menuPacientes;
+    @FXML
+    Menu menuPhantoms;
+    @FXML
+    Menu menuRadionuclidos;
+    @FXML
+    Menu menuUsuarios;
+    @FXML
+    Menu menuInicio;
+    @FXML
+    Menu menuAyuda;
+
     /**
      * Initializes the controller class.
      */
@@ -34,7 +50,7 @@ public class MenuPrincipalController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
+        AdministrarMenu(TipoUsuario);
     }
 
     /**
@@ -80,15 +96,15 @@ public class MenuPrincipalController implements Initializable {
      */
     @FXML
     private void mniIniciarCalculo_click() throws IOException {
-        if ("Completo".equals(TipoUsuario)) {
+        if ("Completo" == TipoUsuario) {
             Stage stage = new Stage();
             Parent root = FXMLLoader.load(getClass().getResource("Calculo.fxml"));
             Scene scene = new Scene(root);
             /*
-            stage.setMaxWidth(682);        
-            stage.setMaxHeight(671);
-            stage.setMinWidth(682);        
-            stage.setMinHeight(671);*/
+             stage.setMaxWidth(682);        
+             stage.setMaxHeight(671);
+             stage.setMinWidth(682);        
+             stage.setMinHeight(671);*/
             stage.setResizable(false);
             stage.setScene(scene);
             stage.setTitle("Calcular Dosis Administrada");
@@ -96,16 +112,15 @@ public class MenuPrincipalController implements Initializable {
             //  stage.setAlwaysOnTop(true);
             stage.show();
         }
-        if ("Basico".equals(TipoUsuario))
-        {
-              Stage stage = new Stage();
+        if ("Basico" == TipoUsuario) {
+            Stage stage = new Stage();
             Parent root = FXMLLoader.load(getClass().getResource("CalculoBasico.fxml"));
             Scene scene = new Scene(root);
             /*
-            stage.setMaxWidth(682);        
-            stage.setMaxHeight(671);
-            stage.setMinWidth(682);        
-            stage.setMinHeight(671);*/
+             stage.setMaxWidth(682);        
+             stage.setMaxHeight(671);
+             stage.setMinWidth(682);        
+             stage.setMinHeight(671);*/
             stage.setResizable(false);
             stage.setScene(scene);
             stage.setTitle("Calcular Dosis Administrada");
@@ -149,22 +164,58 @@ public class MenuPrincipalController implements Initializable {
         stage.show();
 
     }
-    
-       /**
+
+    /**
      * Comportamiento para el Item de menu, Administrar Usuarios
      *
      * @throws IOException
      */
     @FXML
     private void mniUsuarioAdministrar_click() throws IOException {
-        Stage stage = new Stage();
-        Parent root = FXMLLoader.load(getClass().getResource("Usuario.fxml"));
-        Scene scene = new Scene(root);
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.setScene(scene);
-        stage.setTitle("Administrar Usuarios");
-        stage.show();
+        if ("Completo".equals(TipoUsuario)) {
 
+            Stage stage = new Stage();
+            Parent root = FXMLLoader.load(getClass().getResource("Usuario.fxml"));
+            Scene scene = new Scene(root);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setScene(scene);
+            stage.setTitle("Administrar Usuarios");
+            stage.show();
+        }
+        //TODO SUPERUSER
     }
 
-}
+    private void AdministrarMenu(String TipoUsuario) {
+        if (TipoUsuario.equals("Completo")) {
+            menuInicio.setDisable(false);
+            menuDosis.setDisable(false);
+            menuPacientes.setDisable(false);
+            menuPhantoms.setDisable(false);
+            menuRadionuclidos.setDisable(false);
+            menuAyuda.setDisable(false);
+            menuUsuarios.setDisable(true);
+        }
+        if (TipoUsuario.equals("Basico")) {
+            menuInicio.setDisable(false);
+            menuDosis.setDisable(false);
+            menuPacientes.setDisable(true);
+            menuPhantoms.setDisable(true);
+            menuRadionuclidos.setDisable(true);
+            menuAyuda.setDisable(true);
+            menuUsuarios.setDisable(true);
+
+        }
+        if (TipoUsuario.equals("Admin")) {
+            //Controla todo + los usuarios
+            menuInicio.setDisable(false);
+            menuDosis.setDisable(false);
+            menuPacientes.setDisable(false);
+            menuPhantoms.setDisable(false);
+            menuRadionuclidos.setDisable(false);
+            menuAyuda.setDisable(false);
+            menuUsuarios.setDisable(false);
+
+        }
+    }
+
+    }

@@ -5,12 +5,9 @@
  */
 package sedira.vistas;
 
-import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -19,7 +16,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.Button;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import sedira.ConsultasSQL;
 import sedira.Security;
@@ -84,6 +80,9 @@ public class LoginController implements Initializable {
         }
         if (CodigoInicio == 2) {
             MenuPrincipalController.TipoUsuario = "Basico";
+        }
+          if (CodigoInicio == 3) {
+            MenuPrincipalController.TipoUsuario = "Admin";
         }
         if (CodigoInicio > 0) {
             Stage stage = new Stage();

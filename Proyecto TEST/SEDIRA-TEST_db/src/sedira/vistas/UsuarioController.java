@@ -22,6 +22,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import sedira.ConsultasSQL;
 import sedira.FuncionesGenerales;
 import sedira.model.Usuario;
 import sedira.model.UsuarioDAO;
@@ -65,7 +66,7 @@ public class UsuarioController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        
+        btnInsertarUsuario.setDisable(false);
         // Inicializo la tabla de Usuarios
         clUser.setCellValueFactory(
                 cellData -> cellData.getValue().getLoginProperty());
@@ -182,7 +183,7 @@ public class UsuarioController implements Initializable {
      * Metodo para el comportamiento del boton NUEVO. 
      */
     @FXML
-    public void btnCrearUsuario() {
+    public void btnCrearUsuario() throws Exception {
        
         Usuario tempUsuario = new Usuario(-1, "", "", "");
         
@@ -190,7 +191,7 @@ public class UsuarioController implements Initializable {
         
         if (guardarCambiosClicked) {
             //Harcodeado el tipo de usuario. 
-            UsuarioDAO.agregarUsuario(tempUsuario, 2);
+            ConsultasSQL.GuardarUserPass(tempUsuario.getDescripcion(), tempUsuario.getLogin(), tempUsuario.getPass(), 2);//.agregarUsuario(tempUsuario, 2);
             //Actualizo el GridView de Phantoms.
             userData = UsuarioDAO.obtenerUsuarios();
             griInfoUser.setItems(userData);

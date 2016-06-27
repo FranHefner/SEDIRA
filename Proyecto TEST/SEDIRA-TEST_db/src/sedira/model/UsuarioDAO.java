@@ -147,8 +147,7 @@ public class UsuarioDAO {
             ResultSet resultado = consulta.executeQuery();
             if (resultado.next()) {
                 consulta.close();
-                //JOptionPane.showMessageDialog(null, "El radionúclido que desea insertar ya existe","Información",JOptionPane.INFORMATION_MESSAGE);
-                //System.out.println();
+                
                 return true;
             } else {
                 //Si no hay coincidencias. o sea, la cantidad de tuplas es 0 entonces EL nombre no existe

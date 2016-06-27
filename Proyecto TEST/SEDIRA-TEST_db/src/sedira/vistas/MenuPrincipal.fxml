@@ -10,37 +10,37 @@
    <children>
       <MenuBar fx:id="mnbPrincipal" layoutX="14.0" layoutY="14.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <menus>
-          <Menu mnemonicParsing="false" text="Inicio">
+          <Menu fx:id="menuInicio" mnemonicParsing="false" text="Inicio">
             <items>
               <MenuItem mnemonicParsing="false" text="Close" />
             </items>
           </Menu>
-            <Menu mnemonicParsing="false" text="Dosis">
+            <Menu fx:id="menuDosis" mnemonicParsing="false" text="Dosis">
               <items>
                   <MenuItem fx:id="mniIniciarCalculo" mnemonicParsing="false" onAction="#mniIniciarCalculo_click" text="Iniciar cálculo" />
               </items>
             </Menu>
-          <Menu mnemonicParsing="false" text="Pacientes">
+          <Menu fx:id="menuPacientes" mnemonicParsing="false" text="Pacientes">
             <items>
               <MenuItem fx:id="mniPacienteAdministrar" mnemonicParsing="false" onAction="#mniPacienteAdministrar_click" text="Administrar" />
             </items>
           </Menu>
-            <Menu mnemonicParsing="false" text="Phantoms">
+            <Menu fx:id="menuPhantoms" mnemonicParsing="false" text="Phantoms">
               <items>
                 <MenuItem fx:id="mniPhantomAdministrar" mnemonicParsing="false" onAction="#mniPhantomAdministrar_click" text="Administrar " />
               </items>
             </Menu>
-            <Menu mnemonicParsing="false" text="Radionúclidos">
+            <Menu fx:id="menuRadionuclidos" mnemonicParsing="false" text="Radionúclidos">
               <items>
                 <MenuItem mnemonicParsing="false" onAction="#mniRadionuclidosAdministrar_click" text="Administrar" />
               </items>
             </Menu>
-            <Menu mnemonicParsing="false" text="Usuarios">
+            <Menu fx:id="menuUsuarios" mnemonicParsing="false" text="Usuarios">
               <items>
                 <MenuItem mnemonicParsing="false" onAction="#mniUsuarioAdministrar_click" text="Administrar Usuarios" />
               </items>
             </Menu>
-          <Menu mnemonicParsing="false" text="Ayuda">
+          <Menu fx:id="menuAyuda" mnemonicParsing="false" text="Ayuda">
             <items>
               <MenuItem mnemonicParsing="false" text="About" />
             </items>

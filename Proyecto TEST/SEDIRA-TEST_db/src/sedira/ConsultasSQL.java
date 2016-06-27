@@ -5,18 +5,13 @@
  */
 package sedira;
 
-import java.security.Key;
-import java.security.MessageDigest;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Arrays;
 import javafx.scene.control.Alert;
-import javax.crypto.spec.SecretKeySpec;
 import javax.swing.JOptionPane;
 import sedira.model.ConexionDB;
-import sedira.model.Paciente;
 
 /**
  *
@@ -86,18 +81,8 @@ public class ConsultasSQL {
         try {
 
             PreparedStatement consulta = conexion.getConnection().prepareStatement(
-                    "INSERT INTO usuarios ("
-                    + " descripcion,"
-                    + " login,"
-                    + " pass,"
-                    + " id_tipoUsuario"
-                    + " ) VALUES ("
-                    + " '?',  -- descripcion"
-                    + " '?',  -- login"
-                    + " ?,   -- pass"
-                    + " ?,   -- id_tipoUsuario"
-                    + ")");
-
+                    "INSERT INTO usuarios (descripcion,login,pass,id_tipoUsuario)"
+                            + "VALUES (?,?,?,?)");
             consulta.setString(1, Descripcion);
             consulta.setString(2, UsuarioEnc);
             consulta.setString(3, passwordEnc);
