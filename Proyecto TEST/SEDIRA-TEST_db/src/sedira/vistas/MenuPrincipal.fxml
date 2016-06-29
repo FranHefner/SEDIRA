@@ -42,7 +42,7 @@
             </Menu>
           <Menu fx:id="menuAyuda" mnemonicParsing="false" text="Ayuda">
             <items>
-              <MenuItem mnemonicParsing="false" text="About" />
+              <MenuItem mnemonicParsing="false" onAction="#ayudaClick" text="Manual" />
             </items>
           </Menu>
         </menus>

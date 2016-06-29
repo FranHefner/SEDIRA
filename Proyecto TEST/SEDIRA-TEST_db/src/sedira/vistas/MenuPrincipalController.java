@@ -217,5 +217,15 @@ public class MenuPrincipalController implements Initializable {
 
         }
     }
+    @FXML
+    private void ayudaClick () throws IOException{
+        Stage stage = new Stage();
+            Parent root = FXMLLoader.load(getClass().getResource("ayuda.fxml"));
+            Scene scene = new Scene(root);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setScene(scene);
+            stage.setTitle("Administrar Usuarios");
+            stage.show();
+    }
 
     }
