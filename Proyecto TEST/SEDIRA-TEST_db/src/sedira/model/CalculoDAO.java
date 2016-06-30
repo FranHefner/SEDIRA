@@ -15,7 +15,7 @@ import javax.swing.JOptionPane;
  * Clase de acceso de datos para Cálculo
  * @author Quelin Pablo, Francisco Hefner
  */
-public class CalculoDAO {
+public abstract class CalculoDAO {
     
     public static void getCalculo(int idPaciente){
         

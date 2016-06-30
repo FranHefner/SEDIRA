@@ -17,7 +17,7 @@ import javax.swing.JOptionPane;
  * Clase de acceso de datos para Usuarios
  * @author Quelin Pablo, Hefner Francisco
  */
-public class UsuarioDAO {
+public abstract class UsuarioDAO {
     /**
      * Método para agregar un usuario a la base de datos 
      * @param usuario

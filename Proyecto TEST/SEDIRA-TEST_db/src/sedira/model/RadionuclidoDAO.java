@@ -20,7 +20,7 @@ import javax.swing.JOptionPane;
  *
  * @author Quelin Pablo, Hefner Francisco.
  */
-public class RadionuclidoDAO {
+public abstract class RadionuclidoDAO {
     
     /**
      * Metodo que retorna la lista completa de radionuclidos almacenados en la

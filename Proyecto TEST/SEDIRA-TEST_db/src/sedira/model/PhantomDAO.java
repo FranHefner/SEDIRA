@@ -18,7 +18,7 @@ import javax.swing.JOptionPane;
  *  Clase de Acceso de datos para objetos de tipo Phamtonm
  * @author Quelin Pablo, Hefner Francisco
  */
-public class PhantomDAO {
+public abstract class PhantomDAO {
 /**
  * Metodo que retorna la lista completa de phantoms de la base de datos 
  * @return phantomData

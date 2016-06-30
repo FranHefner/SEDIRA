@@ -16,7 +16,7 @@ import javax.swing.JOptionPane;
  *
  *  * @author Quelin Pablo, Hefner Francisco
  */
-public class ValorDescripcionDAO {
+public abstract class ValorDescripcionDAO {
 
     /**
      * Metodo que modifica un item para las tablas de Valor Descripcion.

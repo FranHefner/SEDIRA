@@ -19,7 +19,7 @@ import javax.swing.JOptionPane;
  * @author Quelin Pablo, Hefner Francisco
  * 
  */
-public class PacienteDAO {
+public abstract class PacienteDAO {
     
     public static void agregarPaciente (Paciente paciente){
         //Instancia de conexion

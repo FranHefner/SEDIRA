@@ -15,7 +15,7 @@ import javax.swing.JOptionPane;
  *  Clase de acceso a datos para Organos. 
  * @author Quelin Pablo , Hefner Francisco
  */
-public class OrganoDAO {
+public abstract class OrganoDAO {
     /**
      * 
      * @param organo
