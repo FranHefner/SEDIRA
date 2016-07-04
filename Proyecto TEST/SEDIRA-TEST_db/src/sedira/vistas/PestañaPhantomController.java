@@ -24,7 +24,8 @@ import sedira.model.Organo;
 import sedira.model.Phantom;
 import sedira.model.ValorDescripcion;
 import sedira.DatosValidacionesCalculo;
-import sedira.model.PhantomDAO;
+import sedira.model.IPhantomDAO;
+import sedira.model.PhantomDAOsql;
 
 /**
  * Clase controladora del archivo FXML PestañaPhantom. 
@@ -66,6 +67,8 @@ public class PestañaPhantomController implements Initializable {
         private Organo organoActual;
     //Objeto Phantom auxiliar; 
         private Phantom phantomActual; 
+    //Objeto interfaz Phantom
+        IPhantomDAO ph = new PhantomDAOsql();
     
     /**
      * Inicializa la clase controladora.
@@ -104,7 +107,7 @@ public class PestañaPhantomController implements Initializable {
      @FXML
     public void initListaPhantom(){
         //Inicializo la lista de phantoms con la informacion de la base de datos. 
-        ListaPhantom = PhantomDAO.obtenerListaPhantomCompletos();
+        ListaPhantom = ph.obtenerListaPhantomCompletos();
         //Lista auxliar para el manejo de los nombres de los phantoms. 
         ObservableList <String> listaStringPhantom = FXCollections.observableArrayList();
                      
@@ -133,9 +136,9 @@ public class PestañaPhantomController implements Initializable {
                     phantomActual = ListaPhantom.get(index);
                     //Completo tabla de Organos
                     
-                    FuncionesGenerales.mostrarDetalleOrgano(PhantomDAO.obtenerInfoOrgano(phantomActual), griOrgano);
+                    FuncionesGenerales.mostrarDetalleOrgano(ph.obtenerInfoOrgano(phantomActual), griOrgano);
                     //Completo tabla de Info Phantoms
-                    FuncionesGenerales.mostrarDetalleTablaValorDescripcion(PhantomDAO.obtenerInfoPhantom(phantomActual), griValorDescripcionPhantom);
+                    FuncionesGenerales.mostrarDetalleTablaValorDescripcion(ph.obtenerInfoPhantom(phantomActual), griValorDescripcionPhantom);
                     
                   /* Seleccion Phantom en el cálculo */  
                     DatosValidacionesCalculo.setPhantom(phantomActual);                            

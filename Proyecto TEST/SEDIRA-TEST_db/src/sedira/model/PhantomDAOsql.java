@@ -18,12 +18,13 @@ import javax.swing.JOptionPane;
  *  Clase de Acceso de datos para objetos de tipo Phamtonm
  * @author Quelin Pablo, Hefner Francisco
  */
-public abstract class PhantomDAO {
+public class  PhantomDAOsql implements IPhantomDAO{
 /**
  * Metodo que retorna la lista completa de phantoms de la base de datos 
  * @return phantomData
  */
-    public static ObservableList<Phantom> obtenerListaPhantom() {
+    @Override
+    public ObservableList<Phantom> obtenerListaPhantom() {
         //Creo una lista auxiliar
         ObservableList<Phantom> phantomData = FXCollections.observableArrayList();
         //Instancia de conexion
@@ -58,7 +59,8 @@ public abstract class PhantomDAO {
  * Método que retorna la lista de phantoms que tienen organos asignados
  * @return phantomData
  */
-    public static ObservableList<Phantom> obtenerListaPhantomCompletos() {
+    @Override
+    public ObservableList<Phantom> obtenerListaPhantomCompletos() {
         //Creo una lista auxiliar
         ObservableList<Phantom> phantomData = FXCollections.observableArrayList();
         //Instancia de conexion
@@ -98,7 +100,8 @@ public abstract class PhantomDAO {
      * @param phantomSeleccionado
      * @return 
      */
-    public static ObservableList<ValorDescripcion> obtenerInfoPhantom(Phantom phantomSeleccionado) {
+    @Override
+    public ObservableList<ValorDescripcion> obtenerInfoPhantom(Phantom phantomSeleccionado) {
         //Creo una lista auxiliar
         ObservableList<ValorDescripcion> infoPhantomData = FXCollections.observableArrayList();
         //Instancia de conexion
@@ -145,7 +148,8 @@ public abstract class PhantomDAO {
      * Metodo que agrega un Phantom a la base da datos 
      * @param phantom que se insertara en la base de datos 
      */
-    public static void agregarPhantom (Phantom phantom){
+    @Override
+    public void agregarPhantom (Phantom phantom){
         //Instancia de conexion
         ConexionDB conexion = new ConexionDB();
         String nombrePhantom = phantom.getPhantomNombre();
@@ -177,7 +181,8 @@ public abstract class PhantomDAO {
      * Metodo que modifica el nombre de un phantom existente. 
      * @param phantom 
      */
-    public static void modificarNombrePhantom(Phantom phantom){
+    @Override
+    public void modificarNombrePhantom(Phantom phantom){
         //Instancia de conexion
         ConexionDB conexion = new ConexionDB();
         String nombrePhantom = phantom.getPhantomNombre();
@@ -217,7 +222,8 @@ public abstract class PhantomDAO {
      * Metodo que elmina un phanton completo. Organos y propiedades tambien seran eliminados 
      * @param id Identificador del phantom a eliminar. 
      */
-    public static void eliminarPhantom(int id){
+    @Override
+    public void eliminarPhantom(int id){
         //Instancia de conexion
         ConexionDB conexion = new ConexionDB();
 
@@ -250,7 +256,10 @@ public abstract class PhantomDAO {
      * @return
      * @throws SQLException 
      */
-    public static boolean buscaNombre(String nombrePhantom) throws SQLException {
+    
+    
+    @Override
+    public boolean buscaNombre(String nombrePhantom) throws SQLException {
         //Instancia de conexion
         ConexionDB conexion = new ConexionDB();
 
@@ -280,7 +289,8 @@ public abstract class PhantomDAO {
      * @param phantomSeleccionado
      * @return 
      */
-    public static ObservableList<Organo> obtenerInfoOrgano(Phantom phantomSeleccionado) {
+    @Override
+    public ObservableList<Organo> obtenerInfoOrgano(Phantom phantomSeleccionado) {
         //Creo una lista auxiliar de tipo organo
         ObservableList<Organo> organoPhantomData = FXCollections.observableArrayList();
         //Instancia de conexion

@@ -20,8 +20,10 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import sedira.FuncionesGenerales;
+import sedira.model.IPhantomDAO;
 import sedira.model.Phantom;
-import sedira.model.PhantomDAO;
+import sedira.model.PhantomDAOsql;
+
 import sedira.model.ValorDescripcion;
 
 /**
@@ -225,12 +227,14 @@ public class AbmPhantomController implements Initializable {
     public boolean validarDatosEntrada() throws SQLException {
         String mensajeError = "";
         String nombrePhantom = txtNombrePhantom.getText();
+        //Se cambia el PhantomDAOsql por la implementacion Correcta para otro motor. 
+        IPhantomDAO ph = new PhantomDAOsql();
         if ("Crear un Phantom".equals(this.dialogStage.getTitle())||"Modificar nombre del Phantom".equals(this.dialogStage.getTitle())) {
             // Solo valido
             if (txtNombrePhantom.getText() == null || txtNombrePhantom.getText().length() == 0) {
                 mensajeError += "Nombre del Phantom Invalido!";
             }
-            if (PhantomDAO.buscaNombre(nombrePhantom)==false){
+            if (ph.buscaNombre(nombrePhantom)==false){
                 mensajeError+= "El nombre del phantom ya existe!";
             }
         } else {

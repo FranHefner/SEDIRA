@@ -32,9 +32,9 @@ import sedira.model.ValorDescripcion;
 import sedira.model.Phantom;
 import sedira.AplicacionPrincipal;
 import sedira.model.OrganoDAO;
-import sedira.model.PhantomDAO;
+import sedira.model.PhantomDAOsql;
 import sedira.model.ValorDescripcionDAO;
-
+import sedira.model.IPhantomDAO;
 
 /**
  * Clase controladora para el Administrador de Phantoms. 
@@ -96,6 +96,7 @@ public class PhantomController  implements Initializable  {
     
     private AplicacionPrincipal aplicacionPrincipal;
     private Stage primaryStage;
+    private IPhantomDAO ph = new PhantomDAOsql();
     
     
                
@@ -114,7 +115,7 @@ public class PhantomController  implements Initializable  {
     public void initialize(URL url, ResourceBundle rb) {
         
         //Traigo los datos de los phantoms existentes. 
-        phantomData   = PhantomDAO.obtenerListaPhantom();
+        phantomData   = ph.obtenerListaPhantom();
         
         // Inicializo la tabla de Organos
         clOrganoNombre.setCellValueFactory(
@@ -333,11 +334,11 @@ public class PhantomController  implements Initializable  {
         FuncionesGenerales.setPhantomActual(phantomActual);
         if (phantomActual != null) {
             //Completo la lista de organos. 
-            organosData = PhantomDAO.obtenerInfoOrgano(phantomActual);
+            organosData = ph.obtenerInfoOrgano(phantomActual);
             //Completo la grilla de los organos. 
             griOrgano.setItems(organosData);
             //Completo la lista de items para el phantom
-            infoPhantom = PhantomDAO.obtenerInfoPhantom(phantomActual);
+            infoPhantom = ph.obtenerInfoPhantom(phantomActual);
             //Completo la grilla de los items del phantom
             griValorDescripcionPhantom.setItems(infoPhantom);
             //Prendo el boton de Editar phantom
@@ -362,8 +363,8 @@ public class PhantomController  implements Initializable  {
                     
         if (guardarCambiosClicked){
             //Llamada a la Clase de acceso a datos de Phantom
-            PhantomDAO.modificarNombrePhantom(phantom);
-            phantomData = PhantomDAO.obtenerListaPhantom();
+            ph.modificarNombrePhantom(phantom);
+            phantomData = ph.obtenerListaPhantom();
             //Actualiza el GridView de los phantoms 
             griPhantom.setItems(phantomData);
             //Comportamiento de botones 
@@ -398,9 +399,9 @@ public class PhantomController  implements Initializable  {
             tempPhantom.setPropiedades(propiedadesPhantom);
             tempPhantom.setOrgano(organosPhantom);
             //ConsultasDB.agregarPhantom(tempPhantom);
-            PhantomDAO.agregarPhantom(tempPhantom);
+            ph.agregarPhantom(tempPhantom);
             //Actualizo el GridView de Phantoms.
-            phantomData = PhantomDAO.obtenerListaPhantom();
+            phantomData = ph.obtenerListaPhantom();
             griPhantom.setItems(phantomData);
             
 
@@ -433,7 +434,7 @@ public class PhantomController  implements Initializable  {
             OrganoDAO.agregarOrgano(organo, idPhantom);
             //ConsultasDB.modificarPhantom(selectedPhantom,griPhantom.getSelectionModel().getSelectedIndex() );  
             //Actualizacion de la informacion de organos
-            organosData = PhantomDAO.obtenerInfoOrgano(selectedPhantom);
+            organosData = ph.obtenerInfoOrgano(selectedPhantom);
             griOrgano.setItems(organosData);
 
         } else {
@@ -457,10 +458,10 @@ public class PhantomController  implements Initializable  {
 
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == ButtonType.OK) {
-                PhantomDAO.eliminarPhantom(idPhantom);
+                ph.eliminarPhantom(idPhantom);
 
             ///Actualizo el GridView de Phantoms.
-            phantomData = PhantomDAO.obtenerListaPhantom();
+            phantomData = ph.obtenerListaPhantom();
             griPhantom.setItems(phantomData);
             } else {
 
@@ -501,7 +502,7 @@ public class PhantomController  implements Initializable  {
                 //Llamada a la clase de acceso de datos de Organo. 
                 OrganoDAO.eliminarOrgano(idOrgano);
                 //Actualizacion de la informacion de organos
-                organosData = PhantomDAO.obtenerInfoOrgano(selectedPhantom);
+                organosData = ph.obtenerInfoOrgano(selectedPhantom);
                 griOrgano.setItems(organosData);
             } else {
 
@@ -544,7 +545,7 @@ public class PhantomController  implements Initializable  {
                 //Llamada BD para la eliminacion. 
                 ValorDescripcionDAO.eliminarItem(idItem);
                 //actualizacion de la informacion del phantom.
-                infoPhantom = PhantomDAO.obtenerInfoPhantom(selectedPhantom);
+                infoPhantom = ph.obtenerInfoPhantom(selectedPhantom);
                 //actualizacion de la tabla ValorDescripcionPhantom.
                 griValorDescripcionPhantom.setItems(infoPhantom);
 
@@ -596,7 +597,7 @@ public class PhantomController  implements Initializable  {
             ValorDescripcionDAO.agregarItem(itemPhantom, idPhantom, true, false);
             
              //actualizacion de la informacion del phantom.
-            infoPhantom = PhantomDAO.obtenerInfoPhantom(auxPhantom);
+            infoPhantom = ph.obtenerInfoPhantom(auxPhantom);
             //actualizacion de la tabla ValorDescripcionPhantom.
             griValorDescripcionPhantom.setItems(infoPhantom);
 
@@ -623,7 +624,7 @@ public class PhantomController  implements Initializable  {
                 //Flase para Radionuclido
                 ValorDescripcionDAO.modificarItem(selectedItem, idPhantom, true, false);
                 //Actualizacion de la informacion del radionuclido
-                infoPhantom = PhantomDAO.obtenerInfoPhantom(phantomActual);
+                infoPhantom = ph.obtenerInfoPhantom(phantomActual);
                 griValorDescripcionPhantom.setItems(infoPhantom);
                 
                 
@@ -663,7 +664,7 @@ public class PhantomController  implements Initializable  {
                 // LLamada a la clase de acceso de datos de organos. 
                 OrganoDAO.modificarOrgano(selectedOrgano, idPhantom);
                 //Actualizacion de la informacion de organos
-                organosData = PhantomDAO.obtenerInfoOrgano(auxPhantom);
+                organosData = ph.obtenerInfoOrgano(auxPhantom);
                 griOrgano.setItems(organosData);
             }
         }
