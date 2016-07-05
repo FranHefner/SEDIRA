@@ -20,9 +20,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import sedira.FuncionesGenerales;
+import sedira.model.IOrganoDAO;
 
 import sedira.model.Organo;
-import sedira.model.OrganoDAO;
+import sedira.model.OrganoDAOsql;
 import sedira.model.Phantom;
 
 /**
@@ -61,7 +62,8 @@ public class AbmOrganoController implements Initializable {
     private Stage dialogStage;
     // boleano para controlar cuando el usuario clickea ok 
     private boolean guardarDatos = false;
-    
+    //Instancia de objeto IOrganoDAO. Inicializado como OrganoDAOsql. Para implementacion en MySql.  
+    private IOrganoDAO org = new OrganoDAOsql();
     
     
     /**
@@ -202,7 +204,7 @@ public class AbmOrganoController implements Initializable {
             if (txtOrganoNombre.getText()== null || txtOrganoNombre.getText().length() == 0){
                 mensajeError+= "Nombre del órgano Invalido!";
             }
-            if (OrganoDAO.buscaNombre(txtOrganoNombre.getText(),idPhantom)==false){
+            if (org.buscaNombre(txtOrganoNombre.getText(),idPhantom)==false){
                 mensajeError+="El órgano que desea agregar ya existe! \n";
             }
             if (txtOrganoMasa.getText() == null || txtOrganoMasa.getText().length() == 0 ){

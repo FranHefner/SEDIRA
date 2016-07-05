@@ -15,7 +15,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import sedira.FuncionesGenerales;
 import sedira.model.Paciente;
-import sedira.model.PacienteDAO;
+import sedira.model.PacienteDAOsql;
 
 /**
  * FXML Controller class Clase que controla la interfaz gráfica de Contacto para

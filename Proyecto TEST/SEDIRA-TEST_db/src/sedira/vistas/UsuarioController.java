@@ -24,8 +24,9 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import sedira.ConsultasSQL;
 import sedira.FuncionesGenerales;
+import sedira.model.IUsuarioDAO;
 import sedira.model.Usuario;
-import sedira.model.UsuarioDAO;
+import sedira.model.UsuarioDAOsql;
 
 /**
  * FXML Controller class
@@ -53,13 +54,15 @@ public class UsuarioController implements Initializable {
     @FXML
     private Button btnEliminarUsuario;
     
-    
+    IUsuarioDAO usr = new UsuarioDAOsql();
     //Lista Observable para el manejo de phantoms
-    private ObservableList <Usuario> userData = UsuarioDAO.obtenerUsuarios();
+    private ObservableList <Usuario> userData = usr.obtenerUsuarios();
     //Auxiliar para setear el stage 
     private Stage primaryStage;
     //Auxiliar usuario para usuario actual . 
     private Usuario usuarioActual;
+    
+    
     /**
      * Initializes the controller class.
      */
@@ -169,8 +172,8 @@ public class UsuarioController implements Initializable {
         if (guardarCambiosClicked){
             //Llamada a la Clase de acceso a datos de Usuario. 
             // Hardcodeado el tipo de usuario. 
-            UsuarioDAO.modificarUsuario(usuario, 2);
-            userData = UsuarioDAO.obtenerUsuarios();
+            usr.modificarUsuario(usuario, 2);
+            userData = usr.obtenerUsuarios();
             //Actualiza el GridView de los phantoms 
             griInfoUser.setItems(userData);
             //Comportamiento de botones 
@@ -193,7 +196,7 @@ public class UsuarioController implements Initializable {
             //Harcodeado el tipo de usuario. 
             ConsultasSQL.GuardarUserPass(tempUsuario.getDescripcion(), tempUsuario.getLogin(), tempUsuario.getPass(), 2);//.agregarUsuario(tempUsuario, 2);
             //Actualizo el GridView de Phantoms.
-            userData = UsuarioDAO.obtenerUsuarios();
+            userData = usr.obtenerUsuarios();
             griInfoUser.setItems(userData);
                        
         }
@@ -216,10 +219,10 @@ public class UsuarioController implements Initializable {
 
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == ButtonType.OK) {
-                UsuarioDAO.eliminarUsuario(idUsuario);
+                usr.eliminarUsuario(idUsuario);
 
             ///Actualizo el GridView de Phantoms.
-            userData = UsuarioDAO.obtenerUsuarios();
+            userData = usr.obtenerUsuarios();
             griInfoUser.setItems(userData);
             } else {
 

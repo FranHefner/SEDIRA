@@ -20,7 +20,7 @@ import javax.swing.JOptionPane;
  *
  * @author Quelin Pablo, Hefner Francisco.
  */
-public abstract class RadionuclidoDAO {
+public class RadionuclidoDAOsql implements IRadionuclidoDAO {
     
     /**
      * Metodo que retorna la lista completa de radionuclidos almacenados en la
@@ -28,7 +28,7 @@ public abstract class RadionuclidoDAO {
      *
      * @return
      */
-    public static ObservableList<Radionuclido> obtenerListaRadNuclido() {
+    public ObservableList<Radionuclido> obtenerListaRadNuclido() {
         //Creo una lista auxiliar
         ObservableList<Radionuclido> radionuclidoData = FXCollections.observableArrayList();
         //Instancia de conexion
@@ -56,14 +56,13 @@ public abstract class RadionuclidoDAO {
         
         return radionuclidoData;
     }
-    
     /**
      * Metodo que retorna la la lista de informacion para un radionuclido
      * seleccionado.
      *
      * @return
      */
-    public static ObservableList<ValorDescripcion> obtenerInfoRadNuclido(Radionuclido radioNuclidoSeleccionado) {
+    public ObservableList<ValorDescripcion> obtenerInfoRadNuclido(Radionuclido radioNuclidoSeleccionado) {
         //Creo una lista auxiliar
         ObservableList<ValorDescripcion> infoRadNuclidoData = FXCollections.observableArrayList();
         
@@ -106,7 +105,6 @@ public abstract class RadionuclidoDAO {
         
         return infoRadNuclidoData;
     }
-    
     /**
      * Metodo para agregar un radionuclido nuevo. Registra un nuevo radionuclido
      * a la base de datos. Pero previamente corrobora si existe el radionuclido
@@ -115,7 +113,7 @@ public abstract class RadionuclidoDAO {
      * @param radionuclido 
      * @throws java.sql.SQLException
      */
-    public static void agregarRadionuclido(Radionuclido radionuclido) throws SQLException {
+    public void agregarRadionuclido(Radionuclido radionuclido) throws SQLException {
         //Instancia de conexion
         ConexionDB conexion = new ConexionDB();
         String nombreRadNuclido = radionuclido.getNombreRadNuclido();
@@ -149,7 +147,7 @@ public abstract class RadionuclidoDAO {
      * Metodo que elimina un radionuclido y todos sus organos. 
      * @param idRadionuclido Identificador del radionuclido a eliminar. 
      */
-    public static void eliminarRadionuclido (int idRadionuclido){
+    public void eliminarRadionuclido (int idRadionuclido){
         //Instancia de conexion
         ConexionDB conexion = new ConexionDB();
 
@@ -180,7 +178,7 @@ public abstract class RadionuclidoDAO {
      * Metodo para modificar el nombre de un radionuclido existente. 
      * @param radionuclido a modificar. 
      */
-    public static void modificarNombreRadionuclido(Radionuclido radionuclido) {
+    public void modificarNombreRadionuclido(Radionuclido radionuclido) {
         //Instancia de conexion
         ConexionDB conexion = new ConexionDB();
         //Auxiliar que contiene el nombre del radionuclido modificado.
@@ -220,14 +218,13 @@ public abstract class RadionuclidoDAO {
             JOptionPane.showMessageDialog(null, "Ocurrio un error en la modificación, " + e);
         }
     }
-
     /**
      * Metodo que busca valida si un radionuclido ya existe.
      *
      * @param nombreRadionuclido
      * @return True si no hay coincidencias. False si el nombre existe. 
      */
-    public static boolean buscaNombre(String nombreRadionuclido) throws SQLException {
+    public boolean buscaNombre(String nombreRadionuclido) throws SQLException {
         //Instancia de conexion
         ConexionDB conexion = new ConexionDB();
 

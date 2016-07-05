@@ -17,8 +17,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import sedira.model.IUsuarioDAO;
 import sedira.model.Usuario;
-import sedira.model.UsuarioDAO;
+import sedira.model.UsuarioDAOsql;
 
 /**
  * FXML Controller class Clase controladora para AmbUsuario.FXML
@@ -52,6 +53,8 @@ public class AbmUsuarioController implements Initializable {
     private Stage dialogStage;
     // boleano para controlar cuando el usuario clickea ok 
     private boolean guardarDatos = false;
+    
+    IUsuarioDAO usr = new UsuarioDAOsql();
     
     /**
      * Initializes the controller class.
@@ -205,7 +208,7 @@ public class AbmUsuarioController implements Initializable {
             if (txtNombreUsuario.getText() == null || txtNombreUsuario.getText().length() == 0) {
                 mensajeError += "Nombre de usuario inválido!";
             }
-            if (UsuarioDAO.buscaUsuario(nombreUsuario) == true) {
+            if (usr.buscaUsuario(nombreUsuario) == true) {
                 mensajeError += "El nombre de usuario ya existe!";
             }
             if (txtPass.getText()== null || txtPass.getText().length()==0){

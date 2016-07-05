@@ -27,7 +27,8 @@ import javafx.stage.Stage;
 import sedira.FuncionesGenerales;
 import sedira.model.Paciente;
 import sedira.DatosValidacionesCalculo;
-import sedira.model.PacienteDAO;
+import sedira.model.IPacienteDAO;
+import sedira.model.PacienteDAOsql;
 
 /**
  * FXML Controller class
@@ -35,7 +36,9 @@ import sedira.model.PacienteDAO;
  * @author Fran
  */
 public class PestañaPacienteController implements Initializable {
-
+     
+    //Instancia de objeto tipo IPacienteDAO. Se inicializa como PacienteDAOsql.  
+    private IPacienteDAO pac = new PacienteDAOsql(); 
     /**
      * Initializes the controller class.
      */
@@ -75,7 +78,7 @@ public class PestañaPacienteController implements Initializable {
         try {
             //pacienteData =  ConsultasDB.ListaPacientes();
             //Carga los pacientes desde la base de datos .
-            pacienteData = PacienteDAO.obtenerPacientes();
+            pacienteData = pac.obtenerPacientes();
         } catch (SQLException ex) {
             Logger.getLogger(PestañaPacienteController.class.getName()).log(Level.SEVERE, null, ex);
         }

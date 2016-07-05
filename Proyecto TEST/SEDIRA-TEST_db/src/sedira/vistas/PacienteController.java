@@ -37,7 +37,8 @@ import sedira.model.Paciente;
 import sedira.FuncionesGenerales;
 import sedira.ValidacionesGenerales;
 import javafx.scene.control.DatePicker;
-import sedira.model.PacienteDAO;
+import sedira.model.IPacienteDAO;
+import sedira.model.PacienteDAOsql;
 
 /**
  * FXML Controller class
@@ -76,6 +77,9 @@ public class PacienteController implements Initializable {
     private DatePicker txtFechaNacimiento;
 
     boolean editarClicked = false;
+    
+    //Instancia de objeto tipo IPacienteDAO. Se inicializa como PacienteDAOsql.  
+    private IPacienteDAO pac = new PacienteDAOsql(); 
 
     /**
      * Inicializacion de la clase Controlador.
@@ -128,7 +132,7 @@ public class PacienteController implements Initializable {
         try {
             //Obtengo la lista de pacientes desde la base de datos. 
 
-            pacienteData = PacienteDAO.obtenerPacientes();
+            pacienteData = pac.obtenerPacientes();
             //actualizo el grid
             griListaPacientes.setItems(pacienteData);
         } catch (SQLException ex) {
@@ -232,7 +236,7 @@ public class PacienteController implements Initializable {
         txtNumeroDoc.setText("");
         txtFechaNacimiento.setValue(null);
         // Id paciente. 
-        txtIdPaciente.setText(String.valueOf(PacienteDAO.getLastId()));
+        txtIdPaciente.setText(String.valueOf(pac.getLastId()));
         //Comportamiento de Textfiedls
         ModoEdicion();
 
@@ -279,9 +283,9 @@ public class PacienteController implements Initializable {
             PacienteActual.setTipoDoc(cbTipoDoc.getValue().toString());
             PacienteActual.setFechaNacimiento(txtFechaNacimiento.getValue().toString());
             //Llamada a la clase de acceso de datos de pacientes. PacienteDAO. 
-            PacienteDAO.modificarPaciente(PacienteActual);
+            pac.modificarPaciente(PacienteActual);
             //Actualiza la informacion de pacientes
-            pacienteData = PacienteDAO.obtenerPacientes();
+            pacienteData = pac.obtenerPacientes();
             //Actualiza la grilla. 
             griListaPacientes.setItems(pacienteData);
 
@@ -309,8 +313,8 @@ public class PacienteController implements Initializable {
                     
             //Llamada a Control de acceso de datos de paciente. PacienteDAO
             //pacienteData.add(PacienteTemp);
-            PacienteDAO.agregarPaciente(PacienteTemp);
-            pacienteData = PacienteDAO.obtenerPacientes();
+            pac.agregarPaciente(PacienteTemp);
+            pacienteData = pac.obtenerPacientes();
             griListaPacientes.setItems(pacienteData);
 
         }

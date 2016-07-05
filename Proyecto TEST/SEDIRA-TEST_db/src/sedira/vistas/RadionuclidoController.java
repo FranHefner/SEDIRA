@@ -27,10 +27,12 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import sedira.FuncionesGenerales;
+import sedira.model.IRadionuclidoDAO;
+import sedira.model.IValorDescripcionDAO;
 import sedira.model.Radionuclido;
-import sedira.model.RadionuclidoDAO;
+import sedira.model.RadionuclidoDAOsql;
 import sedira.model.ValorDescripcion;
-import sedira.model.ValorDescripcionDAO;
+import sedira.model.ValorDescripcionDAOsql;
 
 /**
  * FXML Controller class Clase controladora de la intefaz de usuario
@@ -76,12 +78,16 @@ public class RadionuclidoController implements Initializable {
     private ObservableList<ValorDescripcion> infoRadNuclido = FXCollections.observableArrayList();
     // Stage auxiliar.
     private Stage primaryStage;
+    //Instancia de objeto tipo IPacienteDAO. Se inicializa como PacienteDAOsql.  
+    private IRadionuclidoDAO rad = new RadionuclidoDAOsql();
+     //Instancia de objeto tipo IValorDescripcionDAO. Se inicializa como ValorDescripcionDAOsql.  
+    private IValorDescripcionDAO vd = new ValorDescripcionDAOsql();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         //obtengo el listado de los radionuclidos existentes.
         //Version Anterior // radionuclidoData = ConsultasDB.obtenerRadionuclidos();
-        radionuclidoData = RadionuclidoDAO.obtenerListaRadNuclido();
+        radionuclidoData = rad.obtenerListaRadNuclido();
         //Inicializo la tabla de Propiedad Valor, correspondiente a la informacion de los radioNuclidos .
 
         clVdValor.setCellValueFactory(
@@ -123,7 +129,7 @@ public class RadionuclidoController implements Initializable {
         FuncionesGenerales.setRadioNuclidoActual(radionuclidoActual);
         if (radionuclidoActual != null) {
             //Obtengo de la Base de datos la lista de propiedades 
-            infoRadNuclido = RadionuclidoDAO.obtenerInfoRadNuclido(radionuclidoActual);
+            infoRadNuclido = rad.obtenerInfoRadNuclido(radionuclidoActual);
             //griInfoRadNuclido.setItems(infoRadNuclido);
             griInfoRadNuclido.setItems(infoRadNuclido);
             //Prendo botones.
@@ -235,9 +241,9 @@ public class RadionuclidoController implements Initializable {
             if (guardarCambiosClicked) {
                 //False para Phantom,
                 //True para Radionuclido
-                ValorDescripcionDAO.modificarItem(selectedItem, idRadionuclido, false, true);
+                vd.modificarItem(selectedItem, idRadionuclido, false, true);
                 //actualizacion de la informacion del radionuclido.
-                infoRadNuclido = RadionuclidoDAO.obtenerInfoRadNuclido(radionuclidoActual);
+                infoRadNuclido = rad.obtenerInfoRadNuclido(radionuclidoActual);
                 //actualizacion de la tabla InfoRadNuclido.
                 griInfoRadNuclido.setItems(infoRadNuclido);
                 
@@ -280,9 +286,9 @@ public class RadionuclidoController implements Initializable {
             
             if (result.get() == ButtonType.OK) {
                 //llamada a la clase de acceso de datos para la eliminacion.
-                ValorDescripcionDAO.eliminarItem(id);
+                vd.eliminarItem(id);
                 //actualizacion de la informacion del radionuclido.
-                infoRadNuclido = RadionuclidoDAO.obtenerInfoRadNuclido(radionuclidoActual);
+                infoRadNuclido = rad.obtenerInfoRadNuclido(radionuclidoActual);
                 //actualizacion de la tabla InfoRadNuclido.
                 griInfoRadNuclido.setItems(infoRadNuclido);
                 
@@ -330,14 +336,14 @@ public class RadionuclidoController implements Initializable {
             
             if (result.get() == ButtonType.OK) {
                 //llamada a la clase de acceso de datos para la eliminacion.
-                RadionuclidoDAO.eliminarRadionuclido(idRadionuclido);
+                rad.eliminarRadionuclido(idRadionuclido);
                 //actualizacion de la informacion del radionuclido.
-                radionuclidoData = RadionuclidoDAO.obtenerListaRadNuclido();
+                radionuclidoData = rad.obtenerListaRadNuclido();
                 //Actualiza el GridView de Radionuclidos.
                 griRadionuclido.setItems(radionuclidoData);
                 
                 //actualizacion de la informacion del radionuclido.
-                infoRadNuclido = RadionuclidoDAO.obtenerInfoRadNuclido(radionuclidoActual);
+                infoRadNuclido = rad.obtenerInfoRadNuclido(radionuclidoActual);
                 //actualizacion de la tabla InfoRadNuclido.
                 griInfoRadNuclido.setItems(infoRadNuclido);
                 
@@ -380,9 +386,9 @@ public class RadionuclidoController implements Initializable {
             // Llamada a la Clase de Acceso de datos de ValorDescripcion.
             // Parametros. Item auxiliar , identificador del radionuclido que hace la llamda a la funcion, False para Phantom, True para Radionuclido
 
-            ValorDescripcionDAO.agregarItem(itemRadionuclido, idRadNuclido, false, true);
+            vd.agregarItem(itemRadionuclido, idRadNuclido, false, true);
             //actualizacion de la informacion del radionuclido.
-            infoRadNuclido = RadionuclidoDAO.obtenerInfoRadNuclido(radionuclidoActual);
+            infoRadNuclido = rad.obtenerInfoRadNuclido(radionuclidoActual);
             //actualizacion de la tabla InfoRadNuclido.
             griInfoRadNuclido.setItems(infoRadNuclido);
 
@@ -400,8 +406,8 @@ public class RadionuclidoController implements Initializable {
         Radionuclido tempRadNuclido = new Radionuclido(-1, "", null);
         boolean guardarCambiosClicked = mostrarRadionuclidoDialog(tempRadNuclido);
         if (guardarCambiosClicked) {
-            RadionuclidoDAO.agregarRadionuclido(tempRadNuclido);
-            radionuclidoData = RadionuclidoDAO.obtenerListaRadNuclido();
+            rad.agregarRadionuclido(tempRadNuclido);
+            radionuclidoData = rad.obtenerListaRadNuclido();
             //Actualiza el GridView de Radionuclidos.
             griRadionuclido.setItems(radionuclidoData);
             btnModificarRadioNuclido.setDisable(true);
@@ -420,8 +426,8 @@ public class RadionuclidoController implements Initializable {
         if (guardarCambiosClicked) {
 
             //Llamada a la Clase de acceso a datos de Radionuclido
-            RadionuclidoDAO.modificarNombreRadionuclido(radioNuclidoActual);
-            radionuclidoData = RadionuclidoDAO.obtenerListaRadNuclido();
+            rad.modificarNombreRadionuclido(radioNuclidoActual);
+            radionuclidoData = rad.obtenerListaRadNuclido();
             //Actualiza el GridView de Radionuclidos.
             griRadionuclido.setItems(radionuclidoData);
             //Comportamiento de botones.

@@ -16,7 +16,7 @@ import javax.swing.JOptionPane;
  *
  *  * @author Quelin Pablo, Hefner Francisco
  */
-public abstract class ValorDescripcionDAO {
+public class ValorDescripcionDAOsql implements IValorDescripcionDAO {
 
     /**
      * Metodo que modifica un item para las tablas de Valor Descripcion.
@@ -29,7 +29,7 @@ public abstract class ValorDescripcionDAO {
      * False
      * @throws SQLException
      */
-    public static void agregarItem(ValorDescripcion vd, int id, boolean phantom, boolean radionuclido) throws SQLException {
+    public void agregarItem(ValorDescripcion vd, int id, boolean phantom, boolean radionuclido) throws SQLException {
         //Instancia de conexion
         ConexionDB conexion = new ConexionDB();
         String unidad = vd.getUnidad();
@@ -79,7 +79,7 @@ public abstract class ValorDescripcionDAO {
      * @param phantom
      * @param radionuclido
      */
-    public static void modificarItem(ValorDescripcion vd, int id, boolean phantom, boolean radionuclido) {
+    public void modificarItem(ValorDescripcion vd, int id, boolean phantom, boolean radionuclido) {
         //Instancia de conexion
         ConexionDB conexion = new ConexionDB();
         //Identificador del item a modificar.
@@ -133,7 +133,7 @@ public abstract class ValorDescripcionDAO {
      *
      * @param id identificador del item a eliminar.
      */
-    public static void eliminarItem(int id) {
+    public void eliminarItem(int id) {
         //Instancia de conexion
         ConexionDB conexion = new ConexionDB();
 
@@ -168,7 +168,7 @@ public abstract class ValorDescripcionDAO {
      * @return True si no hay coincidencias. False si el nombre existe. 
      * @throws java.sql.SQLException 
      */
-    public static boolean buscaNombre(String propiedad) throws SQLException {
+    public boolean buscaNombre(String propiedad) throws SQLException {
         //Instancia de conexion
         ConexionDB conexion = new ConexionDB();
 

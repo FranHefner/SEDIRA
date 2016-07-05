@@ -22,7 +22,8 @@ import sedira.model.Radionuclido;
 import sedira.model.ValorDescripcion;
 import sedira.DatosValidacionesCalculo;
 import sedira.FuncionesGenerales;
-import sedira.model.RadionuclidoDAO;
+import sedira.model.IRadionuclidoDAO;
+import sedira.model.RadionuclidoDAOsql;
 /**
  * FXML Controller class
  *  Clase controladora de la interfaz de Radionuclidos dentro del proceso de calculo. 
@@ -48,6 +49,8 @@ public class PestañaRadionuclidoController implements Initializable {
         private Radionuclido radionuclidoActual;
     //Objeto Lista Radionuclidos auxiliar. 
         public static  ObservableList <Radionuclido> ListaRadionuclido = FXCollections.observableArrayList();
+    //Instancia de objeto tipo IPacienteDAO. Se inicializa como PacienteDAOsql.  
+    private IRadionuclidoDAO rad = new RadionuclidoDAOsql();
     
     /**
      * Inicializa la clase controladora.
@@ -76,7 +79,7 @@ public class PestañaRadionuclidoController implements Initializable {
      @FXML
     public void initListaRadNuclido(){
         //Inicializo la lista de radionuclidos con la informacion contenida en la base de datos. 
-        ListaRadionuclido = RadionuclidoDAO.obtenerListaRadNuclido();
+        ListaRadionuclido = rad.obtenerListaRadNuclido();
         //Lista auxiliar para el manejo de los nombres de los radionuclidos. 
         ObservableList <String> listaStringRadionuclido = FXCollections.observableArrayList();
                                    
@@ -114,7 +117,7 @@ public class PestañaRadionuclidoController implements Initializable {
                     //System.out.print(index);
                     radionuclidoActual = ListaRadionuclido.get(index);
                      //Completo tabla de Info Radionuclido
-                    FuncionesGenerales.mostrarDetalleTablaValorDescripcion(RadionuclidoDAO.obtenerInfoRadNuclido(radionuclidoActual), griInfoRadNuclido);
+                    FuncionesGenerales.mostrarDetalleTablaValorDescripcion(rad.obtenerInfoRadNuclido(radionuclidoActual), griInfoRadNuclido);
                     /*Asigna radionuclido al calculo */
                     DatosValidacionesCalculo.setRadionuclido(radionuclidoActual);
                     /*************************/

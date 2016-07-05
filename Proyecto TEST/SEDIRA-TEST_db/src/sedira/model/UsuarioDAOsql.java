@@ -17,13 +17,13 @@ import javax.swing.JOptionPane;
  * Clase de acceso de datos para Usuarios
  * @author Quelin Pablo, Hefner Francisco
  */
-public abstract class UsuarioDAO {
+public class UsuarioDAOsql implements IUsuarioDAO {
     /**
      * Método para agregar un usuario a la base de datos 
      * @param usuario
      * @param tipoUsuario 
      */
-    public static void agregarUsuario(Usuario usuario, int tipoUsuario){
+    public void agregarUsuario(Usuario usuario, int tipoUsuario){
         //Instancia de conexion
         ConexionDB conexion = new ConexionDB();
         //obtengo el nombre de usuario para la busqueda. 
@@ -63,7 +63,7 @@ public abstract class UsuarioDAO {
      * @param usuario
      * @param tipoUsuario
      */
-    public static void modificarUsuario(Usuario usuario, int tipoUsuario) {
+    public void modificarUsuario(Usuario usuario, int tipoUsuario) {
         //Instancia de conexion
         ConexionDB conexion = new ConexionDB();
         String nombreUsuario = usuario.getLogin();
@@ -98,7 +98,7 @@ public abstract class UsuarioDAO {
      * Método que eliminar un usuario existente en la base de datos 
      * @param idUsuario 
      */
-    public static void eliminarUsuario (int idUsuario){
+    public void eliminarUsuario (int idUsuario){
         //Instancia de conexion
         ConexionDB conexion = new ConexionDB();
 
@@ -133,7 +133,7 @@ public abstract class UsuarioDAO {
      * @param usuario
      * @return True o False
      */
-    public static boolean buscaUsuario (String usuario){
+    public boolean buscaUsuario (String usuario){
         //Instancia de conexion
         ConexionDB conexion = new ConexionDB();
 
@@ -165,7 +165,7 @@ public abstract class UsuarioDAO {
      * @param usuarioSeleccionado
      * @return 
      */
-    public static ObservableList <Usuario> obtenerUsuarios (){
+    public ObservableList <Usuario> obtenerUsuarios (){
         //Creo una lista auxiliar
         ObservableList<Usuario> usuarioData = FXCollections.observableArrayList();
         //Instancia de conexion

@@ -12,16 +12,18 @@ import javafx.scene.control.Alert;
 import javax.swing.JOptionPane;
 
 /**
- *  Clase de acceso a datos para Organos. 
+ * Clase de acceso a datos para Organos. 
+ * Escrita en codigo SQL. 
+ * Para motor MySQL. 
  * @author Quelin Pablo , Hefner Francisco
  */
-public abstract class OrganoDAO {
+public class OrganoDAOsql implements IOrganoDAO {
     /**
-     * 
+     * Método que agrega un órgano a la base de datos
      * @param organo
      * @param idPhantom 
      */
-    public static void  agregarOrgano (Organo organo,int idPhantom){
+    public void  agregarOrgano (Organo organo,int idPhantom){
          //Instancia de conexion
         ConexionDB conexion = new ConexionDB();
         String nombreOrgano = organo.getNombreOrgano();
@@ -57,11 +59,11 @@ public abstract class OrganoDAO {
     
     }
     /**
-     * Metodo que modifica un órgano
+     * Método que modifica un órgano
      * @param organo
      * @param idPhantom 
      */
-    public static void modificarOrgano(Organo organo, int idPhantom) {
+    public void modificarOrgano(Organo organo, int idPhantom) {
         //Instancia de conexion
         ConexionDB conexion = new ConexionDB();
         String nombreOrgano = organo.getNombreOrgano();
@@ -91,7 +93,11 @@ public abstract class OrganoDAO {
         }
 
     }
-    public static void eliminarOrgano (int id){
+    /**
+     * Método que elimina un órgano de la base de datos. 
+     * @param id identificador del órgano a eliminar. 
+     */
+    public void eliminarOrgano (int id){
          //Instancia de conexion
         ConexionDB conexion = new ConexionDB();
 
@@ -120,13 +126,13 @@ public abstract class OrganoDAO {
         
     }
     /**
-     * Metodo para buscar en la base de datos el nombre de un organo
+     * Método para buscar en la base de datos el nombre de un órgano
      * @param nombreOrgano
      * @param idPhantom
      * @return True si el nombre no existe. False si el nombre existe
      * @throws SQLException 
      */
-    public static boolean buscaNombre(String nombreOrgano,int idPhantom) throws SQLException {
+    public boolean buscaNombre(String nombreOrgano,int idPhantom) throws SQLException {
         //Instancia de conexion
         ConexionDB conexion = new ConexionDB();
 
