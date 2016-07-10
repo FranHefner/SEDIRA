@@ -26,7 +26,7 @@ import javafx.scene.layout.Pane;
 /**
  * FXML Controller class
  *
- * @author INVAP
+ * @author Hefner Francisco, Quelin Pablo
  */
 public class CalculoBasicoController implements Initializable {
 

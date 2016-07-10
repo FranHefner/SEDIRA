@@ -13,7 +13,7 @@ import sun.misc.BASE64Encoder;
 
 /**
  *
- * @author INVAP
+ * @author Hefner Francisco, Quelin Pablo
  */
 /* Clase de seguridad donde se administra la encriptacion del login*/
 public class Security {

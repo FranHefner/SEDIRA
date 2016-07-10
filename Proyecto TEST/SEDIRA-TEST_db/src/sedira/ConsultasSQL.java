@@ -15,7 +15,7 @@ import sedira.model.ConexionDB;
 
 /**
  *
- * @author INVAP
+ * @author Hefner Francisco, Quelin Pablo
  */
 public class ConsultasSQL {
 

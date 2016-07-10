@@ -17,7 +17,7 @@ import javafx.scene.chart.XYChart;
 /**
  * FXML Controller class
  *
- * @author INVAP
+ * @author Hefner Francisco, Quelin Pablo
  */
 public class HistorialSEDIRAController implements Initializable {
       @FXML
