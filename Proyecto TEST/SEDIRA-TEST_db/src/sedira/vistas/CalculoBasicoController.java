@@ -81,6 +81,7 @@ public class CalculoBasicoController implements Initializable {
 
     @FXML
     private void btnSiguiente_click(MouseEvent event) {
+
     }
 
     @FXML

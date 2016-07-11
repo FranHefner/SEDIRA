@@ -96,7 +96,7 @@ public class MenuPrincipalController implements Initializable {
      */
     @FXML
     private void mniIniciarCalculo_click() throws IOException {
-        if ("Completo" == TipoUsuario) {
+        if ("Cientifico".equals(TipoUsuario) ||"Admin".equals(TipoUsuario)  ) {
             Stage stage = new Stage();
             Parent root = FXMLLoader.load(getClass().getResource("Calculo.fxml"));
             Scene scene = new Scene(root);
@@ -112,7 +112,7 @@ public class MenuPrincipalController implements Initializable {
             //  stage.setAlwaysOnTop(true);
             stage.show();
         }
-        if ("Basico" == TipoUsuario) {
+        if ("Medico" == TipoUsuario) {
             Stage stage = new Stage();
             Parent root = FXMLLoader.load(getClass().getResource("CalculoBasico.fxml"));
             Scene scene = new Scene(root);
@@ -186,7 +186,7 @@ public class MenuPrincipalController implements Initializable {
     }
 
     private void AdministrarMenu(String TipoUsuario) {
-        if (TipoUsuario.equals("Completo")) {
+        if (TipoUsuario.equals("Cientifico")) {
             menuInicio.setDisable(false);
             menuDosis.setDisable(false);
             menuPacientes.setDisable(false);
@@ -195,7 +195,7 @@ public class MenuPrincipalController implements Initializable {
             menuAyuda.setDisable(false);
             menuUsuarios.setDisable(true);
         }
-        if (TipoUsuario.equals("Basico")) {
+        if (TipoUsuario.equals("Medico")) {
             menuInicio.setDisable(false);
             menuDosis.setDisable(false);
             menuPacientes.setDisable(true);

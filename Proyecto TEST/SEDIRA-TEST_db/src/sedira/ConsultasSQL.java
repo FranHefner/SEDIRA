@@ -26,11 +26,13 @@ public class ConsultasSQL {
 
         try {
 
-            PreparedStatement consulta = conexion.getConnection().prepareStatement(
-                    "SELECT *, "
-                    + "NOW() AS HoraServer "
-                    + "FROM usuarios "
-                    + "WHERE login = ? AND pass = ? "
+                 PreparedStatement consulta = conexion.getConnection().prepareStatement(
+                    " SELECT *, NOW() AS HoraServer"
+                    + " FROM usuarios "
+                    + "     JOIN usuariotipos "
+                    + "       ON usuarios.id_tipoUsuario = usuariotipos.id_usuarioTipos "
+                    + " WHERE     login = ? "
+                    + "     AND pass = ? "
                     + "GROUP BY ID_USUARIO");
 
             consulta.setString(1, UsuarioEnc);
@@ -42,7 +44,7 @@ public class ConsultasSQL {
 
             if (resultado.next()) {
 
-                int id_usuario = Integer.parseInt(resultado.getString("id_usuario"));
+                int tipoUsuario = Integer.parseInt(resultado.getString("id_tipoUsuario"));
                 Date NOW = resultado.getDate("HoraServer");
                 Alert alerta = new Alert(Alert.AlertType.INFORMATION);
                 alerta.setTitle("Confirmación");
@@ -50,7 +52,7 @@ public class ConsultasSQL {
                 alerta.setContentText("Login OK");
                 alerta.showAndWait();
 
-                return id_usuario;
+                return tipoUsuario;
             } else {
                 consulta.close();
                 conexion.desconectar();

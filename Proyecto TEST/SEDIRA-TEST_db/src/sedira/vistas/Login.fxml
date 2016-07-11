@@ -7,13 +7,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="168.0" prefWidth="360.0" snapToPixel="false" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sedira.vistas.LoginController">
+<AnchorPane id="AnchorPane" prefHeight="193.0" prefWidth="360.0" snapToPixel="false" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sedira.vistas.LoginController">
    <children>
-      <TextField fx:id="txtUsuario" layoutX="111.0" layoutY="31.0" onAction="#onEnter" promptText="Usuario">
-         <font>
-            <Font name="System Italic" size="12.0" />
-         </font>
-      </TextField>
+      <TextField fx:id="txtUsuario" layoutX="111.0" layoutY="31.0" onAction="#onEnter" promptText="Usuario" />
       <PasswordField fx:id="txtPassword" layoutX="112.0" layoutY="67.0" onAction="#onEnter" prefHeight="23.0" prefWidth="144.0" promptText="Password" />
       <Button fx:id="btnAceptar" layoutX="77.0" layoutY="116.0" mnemonicParsing="false" onAction="#btnAceptar_click" prefHeight="25.0" prefWidth="94.0" text="Aceptar" />
       <Button fx:id="btnCerrar" layoutX="185.0" layoutY="116.0" mnemonicParsing="false" onAction="#btnCerrar_click" prefHeight="25.0" prefWidth="94.0" text="Cerrar" />

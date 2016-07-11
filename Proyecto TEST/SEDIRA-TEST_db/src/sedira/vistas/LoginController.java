@@ -76,14 +76,15 @@ public class LoginController implements Initializable {
     private void IniByCode(int CodigoInicio) throws IOException {
 
         if (CodigoInicio == 1) {
-            MenuPrincipalController.TipoUsuario = "Completo";
+            MenuPrincipalController.TipoUsuario = "Cientifico";
         }
         if (CodigoInicio == 2) {
-            MenuPrincipalController.TipoUsuario = "Basico";
+            MenuPrincipalController.TipoUsuario = "Medico";
         }
-          if (CodigoInicio == 3) {
+         if (CodigoInicio == 3) {
             MenuPrincipalController.TipoUsuario = "Admin";
         }
+         
         if (CodigoInicio > 0) {
             Stage stage = new Stage();
             Parent root = FXMLLoader.load(getClass().getResource("MenuPrincipal.fxml"));

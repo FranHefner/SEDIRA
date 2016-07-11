@@ -10,6 +10,8 @@ import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 /**
  *
@@ -46,6 +48,23 @@ public class Security {
     private static Key generateKey() throws Exception {
         Key key = new SecretKeySpec(fOmJ19yWN, AESencrp );
         return key;
+    }
+
+    public static String md5(String clear) throws Exception {
+        MessageDigest md = MessageDigest.getInstance("MD5");
+        byte[] b = md.digest(clear.getBytes());
+
+        int size = b.length;
+        StringBuilder h = new StringBuilder(size);
+        for (int i = 0; i < size; i++) {
+            int u = b[i] & 255;
+            if (u < 16) {
+                h.append("0" + Integer.toHexString(u));
+            } else {
+                h.append(Integer.toHexString(u));
+            }
+        }
+        return h.toString();
     }
 
 }

@@ -90,17 +90,12 @@ public class CalculoController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
 
         try {
-            /* SE INICIA EL CÁLCULO, SE CARGAN LAS PESTAÑAS Y SE CARGA LA LISTA DE TABS */
+            /* SE INICIA EL CÁLCULO, SE CARGA LA PESTAÑA Y SE CARGA LA LISTA DE TABS */
             // NuevoCalculo.IniciarCalculo();
             DatosValidacionesCalculo.IniciarCalculo();
-            /**
-             * ***********************************
-             */
-            /**
-             * *************************************************
-             */
-            /**
-             * ********* LLenado de los nodos/pestañas
+         
+            /*
+             * ********* LLenado del primer nodo/pestaña
              */
             Node NodoPaciente;
             NodoPaciente = (Node) FXMLLoader.load(getClass().getResource("PestañaPaciente.fxml"));

@@ -5,8 +5,15 @@
  */
 package sedira.model;
 
+import java.sql.Blob;
+import java.text.Format;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.ObservableList;
+import sedira.Security;
+import sedira.ValidacionesGenerales;
 
 /**
  * Clase que describe un calculo. 
@@ -20,20 +27,80 @@ import javafx.collections.ObservableList;
  */
 public class Calculo {
     
-    private Date Fecha;
+    private long Fecha;
     private int idPaciente;
     private int  idPhantom;
     private int idRadionuclido;
    // private ObservableList <ValorDescripcion> DatosEntrada;
     private String observaciones;
-    private String resultado;
+    private Blob resultado;
+    private String HashValidado;
 
-    public Date getFecha() {
+    
+    
+    public Calculo(long pfecha, int pidPaciente, int pidPhantom, int pidRadionuclido, String pobservaciones, Blob presultado) {
+        Fecha = pfecha;
+        idPaciente = pidPaciente;
+        idPhantom = pidPhantom;
+        idRadionuclido = pidRadionuclido;
+        observaciones = pobservaciones;
+        resultado = presultado;   
+    }
+    
+    
+    
+    public boolean Validar()
+    {  
+ 
+        String Resultado =   String.valueOf(Fecha) + idPaciente + idPhantom + idRadionuclido + observaciones + resultado.hashCode();
+     
+     
+        try {
+          
+            /* ver si conviene el hash code de java o el que hice que devuelve string*/
+              System.out.println(Resultado.hashCode());
+                System.out.println(Security.md5( Resultado) );
+            
+            HashValidado =  Security.md5( Resultado);    
+            return true;
+        } catch (Exception ex) {
+            Logger.getLogger(Calculo.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }       
+    }
+    /* Valida que el hash del parametro sea igual al actual*/
+    public boolean ValidacionHash(String hash)
+    { 
+        return HashValidado.equals(hash);
+    }
+    public String getHashCode()
+    {
+        return HashValidado;
+    }
+    public long getFecha() {
         return Fecha;
+        
+        
     }
 
-    public void setFecha(Date Fecha) {
+    public void setFecha(long Fecha) {
         this.Fecha = Fecha;
+    }
+    
+    
+     public String getFechaDB() {
+
+        Format formatter;
+
+        if (Fecha != 0) {
+            return null;
+        } else {
+            formatter = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss");
+            return formatter.format(Fecha);
+
+        }
+        
+                 
     }
 
     public int getIdPaciente() {
@@ -68,11 +135,11 @@ public class Calculo {
         this.observaciones = observaciones;
     }
 
-    public String getResultado() {
+    public Blob getResultado() {
         return resultado;
     }
 
-    public void setResultado(String resultado) {
+    public void setResultado(Blob resultado) {
         this.resultado = resultado;
     }
     

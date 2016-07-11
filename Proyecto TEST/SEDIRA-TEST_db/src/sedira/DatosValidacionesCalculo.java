@@ -5,11 +5,18 @@
  */
 package sedira;
 
+import java.sql.Blob;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import sedira.model.Calculo;
+import sedira.model.CalculoDAOsql;
+import sedira.model.ICalculoDAO;
 import sedira.model.Paciente;
 import sedira.model.Phantom;
 import sedira.model.Organo;
 import sedira.model.Radionuclido;
+
 
 /**
  * Clase que define y guarda un calculo en tiempo de ejecucion
@@ -23,7 +30,10 @@ public class DatosValidacionesCalculo {
     private static Phantom PhantomActual;
     private static Organo OrganoActual;
     private static Radionuclido RadionuclidoActual;
-    public static String TextoProgreso;
+    public  static String TextoProgreso;
+    private static String Observaciones;
+    private static Blob Resultado;
+  
 
     private static void limpiarVariables() {
         CalculoActual = null;
@@ -33,6 +43,7 @@ public class DatosValidacionesCalculo {
         RadionuclidoActual = null;
     }
 
+     private static final ICalculoDAO cal = new CalculoDAOsql(); 
     /* Validaciones por cada objeto antes de finalizar el proceso y llenar la entidad cálculo */
     /* 
      1 - Que este en la base de datos el objeto (Paciente, Phantom, Organo, Radionuclido)
@@ -66,6 +77,46 @@ public class DatosValidacionesCalculo {
         return TextoProgreso;
     }
 
+    public static boolean finalizarCalculo(Blob resultado)
+    {
+        Resultado = resultado;     
+       
+        return true;
+    }
+    
+    public static boolean guardarCalculo()
+    {
+          
+       
+        Date Ahora = new Date();
+       
+
+       if (Resultado != null)
+       {
+           Calculo nuevoCalculo = new Calculo( Ahora.getTime(), PacienteActual.getIdPaciente(),PhantomActual.getIdPhantom(),RadionuclidoActual.getIdRadNuclido(),Observaciones, Resultado);
+        
+           /*  Se valida el hash antes de guardar, para luego tomarlo nuevamente de la base de datos y comparalo para ver si son iguales
+           la idea es poner un byte array, por otro lado hay que ver si conviene implementar el hash que viene por defecto en netbeans
+           hashCode() o usar el que hice que te devuelve un string en vez de un entero.
+           
+           */
+           nuevoCalculo.Validar();     
+        
+       
+           cal.setCalculo(nuevoCalculo);
+       
+           
+       }else
+       {
+           return false;
+       }
+    
+        /* Una vez guardado, obtener el dato y aplicar Hash para ver si coinciden, como forma de asegurarse el resiltado*/
+        /* ver en que tipo de dato se guarda, podria ser en binaio para asegurarnos que no van a existir casteos de la db 
+        porque pude ser que cambie el motor de db        */
+        
+        return true;
+    }
     private static boolean validarPaciente() {
 
         /*Ej: Aplicar hash MD5 al objeto y compararlo con ConsultasDB.Obtener(Paciente)*/
@@ -127,6 +178,14 @@ public class DatosValidacionesCalculo {
         return validaradionuclidoActual();
     }
 
+    public static Blob getResultado()
+    {
+        if (Resultado != null) {
+            return Resultado;
+        } else {
+            return null;
+        }
+    }
     public static Phantom getPhantomActual() {
         if (PhantomActual != null) {
             return PhantomActual;

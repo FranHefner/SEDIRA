@@ -40,15 +40,16 @@ public class CalculoDAOsql implements ICalculoDAO {
 
             PreparedStatement consulta = conexion.getConnection().prepareStatement(
                     "INSERT INTO calculos (id_paciente, id_radionuclido, id_phantom, fecha_calculo, "
-                    + "resultado_calculo, observaciones) "
-                    + "VALUES(?,?,?,?,?,?)");
+                    + "resultado_calculo, observaciones, hash_code) "
+                    + "VALUES(?,?,?,?,?,?,?)");
             consulta.setInt(1, calculo.getIdPaciente());
             consulta.setInt(2, calculo.getIdRadionuclido());
             consulta.setInt(3, calculo.getIdPhantom());
 
-            consulta.setDate(4, (Date) calculo.getFecha());
-            consulta.setString(5, calculo.getResultado());
+            consulta.setLong(4, calculo.getFecha());
+            consulta.setBlob(5, calculo.getResultado());
             consulta.setString(6, calculo.getObservaciones());
+            consulta.setString(7, calculo.getHashCode());
 
             consulta.executeUpdate(); //Ejecucion de la consulta
             consulta.close();
