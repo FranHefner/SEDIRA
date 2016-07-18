@@ -85,18 +85,24 @@ public class CalculoController implements Initializable {
      */
     // DatosValidacionesCalculo NuevoCalculo = new DatosValidacionesCalculo();
     SingleSelectionModel<Tab> listaTABS;
+     /****** Inicializamos si vamos a realizar un proceso completo (Cientifico) o de Medico (Basico) ***/
+     
+     
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
         try {
-            /* SE INICIA EL CÁLCULO, SE CARGA LA PESTAÑA Y SE CARGA LA LISTA DE TABS */
-            // NuevoCalculo.IniciarCalculo();
+         
             DatosValidacionesCalculo.IniciarCalculo();
+            DatosValidacionesCalculo.setProcesoCompleto(true);
          
             /*
              * ********* LLenado del primer nodo/pestaña
              */
+            
+         
+            
             Node NodoPaciente;
             NodoPaciente = (Node) FXMLLoader.load(getClass().getResource("PestañaPaciente.fxml"));
             pnlPaciente.getChildren().setAll(NodoPaciente);

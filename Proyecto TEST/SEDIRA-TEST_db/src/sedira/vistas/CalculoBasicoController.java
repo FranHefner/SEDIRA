@@ -16,12 +16,15 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import sedira.DatosValidacionesCalculo;
+import static sedira.vistas.CalculoController.pestañaActual;
 
 /**
  * FXML Controller class
@@ -64,34 +67,44 @@ public class CalculoBasicoController implements Initializable {
     /**
      * Initializes the controller class.
      */
+     SingleSelectionModel<Tab> listaTABS;
+     /****** Inicializamos si vamos a realizar un proceso completo (Cientifico) o de Medico (Basico) ***/
+
+    
+     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
+            
+            DatosValidacionesCalculo.setProcesoCompleto(false);
+             
             Node NodoPaciente;
             NodoPaciente = (Node) FXMLLoader.load(getClass().getResource("PestañaPaciente.fxml"));
             pnlPaciente.getChildren().setAll(NodoPaciente);
+               listaTABS = tabPaneCalculo.getSelectionModel();
         } catch (IOException ex) {
             Logger.getLogger(CalculoBasicoController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }    
 
-    @FXML
-    private void btnAtras_click(ActionEvent event) {
-    }
 
     @FXML
-    private void btnSiguiente_click(MouseEvent event) {
-
-    }
-
-    @FXML
-    private void btnSiguiente_click(ActionEvent event) {
+    private void btnSiguiente_click(ActionEvent event) throws IOException {
         
-             
+                Node NodoCalculo;
+                NodoCalculo = (Node) FXMLLoader.load(getClass().getResource("PestañaCalculo.fxml"));
+                pnlCalculo.getChildren().setAll(NodoCalculo);
+                
+                tabCalcular.setDisable(false);
+                listaTABS.select(tabCalcular);
+                btnSiguiente.setText("Finalizar");
     }
 
     @FXML
     private void btnCancelar_click(ActionEvent event) {
+    }
+    @FXML
+    private void btnAtras_click(ActionEvent event) {
     }
     
 }

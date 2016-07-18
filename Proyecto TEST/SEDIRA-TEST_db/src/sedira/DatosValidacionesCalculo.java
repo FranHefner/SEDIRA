@@ -17,7 +17,6 @@ import sedira.model.Phantom;
 import sedira.model.Organo;
 import sedira.model.Radionuclido;
 
-
 /**
  * Clase que define y guarda un calculo en tiempo de ejecucion
  *
@@ -30,10 +29,10 @@ public class DatosValidacionesCalculo {
     private static Phantom PhantomActual;
     private static Organo OrganoActual;
     private static Radionuclido RadionuclidoActual;
-    public  static String TextoProgreso;
+    public static String TextoProgreso;
     private static String Observaciones;
     private static Blob Resultado;
-  
+    private static Boolean ProcesoCompleto;
 
     private static void limpiarVariables() {
         CalculoActual = null;
@@ -43,80 +42,90 @@ public class DatosValidacionesCalculo {
         RadionuclidoActual = null;
     }
 
-     private static final ICalculoDAO cal = new CalculoDAOsql(); 
+    private static final ICalculoDAO cal = new CalculoDAOsql();
+
     /* Validaciones por cada objeto antes de finalizar el proceso y llenar la entidad cálculo */
-    /* 
+ /* 
      1 - Que este en la base de datos el objeto (Paciente, Phantom, Organo, Radionuclido)
      2 - Que el paciente este en tratamiento
      3 - add..
      */
+    
+    
     public static String GetTextoProgeso() {
         TextoProgreso = "INFORMACION DEL PROCESO/SELECCION";
-     
-        if (PacienteActual == null) {
 
-        } else {
-            TextoProgreso = TextoProgreso + "\n" + "Paciente: " + getPacienteActual().getApellido() + ", " + getPacienteActual().getNombre();
+        if (ProcesoCompleto) {
+            if (PacienteActual == null) {
 
-            if (PhantomActual != null) {
-                TextoProgreso = TextoProgreso + "\n" + "Phantom: " + getPhantomActual().getPhantomNombre();            
+            } else {
+                TextoProgreso = TextoProgreso + "\n" + "Paciente: " + getPacienteActual().getApellido() + ", " + getPacienteActual().getNombre();
 
-                if (OrganoActual != null) {
-                    TextoProgreso = TextoProgreso + "\n" + "Organo: " + getOrganoActual().getNombreOrgano();
-               
-                    if (RadionuclidoActual  != null) {
+                if (PhantomActual != null) {
+                    TextoProgreso = TextoProgreso + "\n" + "Phantom: " + getPhantomActual().getPhantomNombre();
 
-                        TextoProgreso = TextoProgreso + "\n" + "Radionuclido: " + getRadionuClidoActual().getNombreRadNuclido();
+                    if (OrganoActual != null) {
+                        TextoProgreso = TextoProgreso + "\n" + "Organo: " + getOrganoActual().getNombreOrgano();
 
+                        if (RadionuclidoActual != null) {
+
+                            TextoProgreso = TextoProgreso + "\n" + "Radionuclido: " + getRadionuClidoActual().getNombreRadNuclido();
+
+                        }
                     }
+
                 }
 
             }
+        } else if (PacienteActual == null) {
 
+        } else {
+            TextoProgreso = TextoProgreso + "\n" + "Paciente: " + getPacienteActual().getApellido() + ", " + getPacienteActual().getNombre();
         }
+
         return TextoProgreso;
     }
 
-    public static boolean finalizarCalculo(Blob resultado)
+    public static void setProcesoCompleto(boolean esCompleto)
     {
-        Resultado = resultado;     
-       
+        ProcesoCompleto = esCompleto;
+    }
+     public static boolean getProcesoCompleto()
+    {
+       return ProcesoCompleto;
+    }
+    public static boolean finalizarCalculo(Blob resultado) {
+        Resultado = resultado;
+
         return true;
     }
-    
-    public static boolean guardarCalculo()
-    {
-          
-       
-        Date Ahora = new Date();
-       
 
-       if (Resultado != null)
-       {
-           Calculo nuevoCalculo = new Calculo( Ahora.getTime(), PacienteActual.getIdPaciente(),PhantomActual.getIdPhantom(),RadionuclidoActual.getIdRadNuclido(),Observaciones, Resultado);
-        
-           /*  Se valida el hash antes de guardar, para luego tomarlo nuevamente de la base de datos y comparalo para ver si son iguales
+    public static boolean guardarCalculo() {
+
+        Date Ahora = new Date();
+
+        if (Resultado != null) {
+            Calculo nuevoCalculo = new Calculo(Ahora.getTime(), PacienteActual.getIdPaciente(), PhantomActual.getIdPhantom(), RadionuclidoActual.getIdRadNuclido(), Observaciones, Resultado);
+
+            /*  Se valida el hash antes de guardar, para luego tomarlo nuevamente de la base de datos y comparalo para ver si son iguales
            la idea es poner un byte array, por otro lado hay que ver si conviene implementar el hash que viene por defecto en netbeans
            hashCode() o usar el que hice que te devuelve un string en vez de un entero.
            
-           */
-           nuevoCalculo.Validar();     
-        
-       
-           cal.setCalculo(nuevoCalculo);
-       
-           
-       }else
-       {
-           return false;
-       }
-    
+             */
+            nuevoCalculo.Validar();
+
+            cal.setCalculo(nuevoCalculo);
+
+        } else {
+            return false;
+        }
+
         /* Una vez guardado, obtener el dato y aplicar Hash para ver si coinciden, como forma de asegurarse el resiltado*/
-        /* ver en que tipo de dato se guarda, podria ser en binaio para asegurarnos que no van a existir casteos de la db 
+ /* ver en que tipo de dato se guarda, podria ser en binaio para asegurarnos que no van a existir casteos de la db 
         porque pude ser que cambie el motor de db        */
-        
         return true;
     }
+
     private static boolean validarPaciente() {
 
         /*Ej: Aplicar hash MD5 al objeto y compararlo con ConsultasDB.Obtener(Paciente)*/
@@ -178,14 +187,14 @@ public class DatosValidacionesCalculo {
         return validaradionuclidoActual();
     }
 
-    public static Blob getResultado()
-    {
+    public static Blob getResultado() {
         if (Resultado != null) {
             return Resultado;
         } else {
             return null;
         }
     }
+
     public static Phantom getPhantomActual() {
         if (PhantomActual != null) {
             return PhantomActual;
@@ -247,37 +256,31 @@ public class DatosValidacionesCalculo {
         /* Se valida el estado real del calculo */
         if (PacienteActual == null) {
             return "Paciente";
-        } else {
-            if (PhantomActual == null) {
-                if (!adelante) {
-                    validarPaciente();
-                    return "Paciente";
-                }
-                return "Phantom";
-
-            } else {
-                if (OrganoActual == null) {
-                    if (!adelante) {
-                        validarPhantom();
-                        return "Phantom";
-                    }
-                    return "Organo";
-                } else {
-                    if (RadionuclidoActual == null) {
-                        if (!adelante) {
-                            validarOrgano();
-                            return "Organo";
-                        }
-                        return "RadioNuclido";
-                    } else {
-                        if (!adelante) {
-                            validaradionuclidoActual();
-                            return "RadioNuclido";
-                        }
-                        return "Completo";
-                    }
-                }
+        } else if (PhantomActual == null) {
+            if (!adelante) {
+                validarPaciente();
+                return "Paciente";
             }
+            return "Phantom";
+
+        } else if (OrganoActual == null) {
+            if (!adelante) {
+                validarPhantom();
+                return "Phantom";
+            }
+            return "Organo";
+        } else if (RadionuclidoActual == null) {
+            if (!adelante) {
+                validarOrgano();
+                return "Organo";
+            }
+            return "RadioNuclido";
+        } else {
+            if (!adelante) {
+                validaradionuclidoActual();
+                return "RadioNuclido";
+            }
+            return "Completo";
         }
 
     }

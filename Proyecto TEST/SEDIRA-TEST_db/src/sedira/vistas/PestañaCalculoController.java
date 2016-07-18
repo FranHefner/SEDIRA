@@ -47,14 +47,15 @@ public class PestañaCalculoController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-       txtEntradasCalculo.setText( DatosValidacionesCalculo.GetTextoProgeso());
+        
+        
+       txtEntradasCalculo.setText(DatosValidacionesCalculo.GetTextoProgeso());
      
     }    
     
      @FXML
     public void GuardarResultado()
-    {
-  
+    {  
         DatosValidacionesCalculo.guardarCalculo();
     }
     @FXML
