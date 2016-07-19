@@ -42,7 +42,7 @@ public class FuncionesGenerales {
     public static Paciente pacienteActual;
     public static Usuario usuarioActual; 
     public static int indice;
-
+    public static int tipoUsuario;
     public static String pattern = "dd-MM-yyyy";
     public static DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(pattern);
 
@@ -305,5 +305,11 @@ public class FuncionesGenerales {
      return date;
      }  */
     
+    public static int getTipoUsuario(){
+        return tipoUsuario;
+    }
+    public static void setTipoUsuario(int tipo){
+        tipoUsuario=tipo;
+    }
     
 }

@@ -27,7 +27,8 @@ public class UsuarioDAOsql implements IUsuarioDAO {
         //Instancia de conexion
         ConexionDB conexion = new ConexionDB();
         //obtengo el nombre de usuario para la busqueda. 
-        String nombreUsuario = usuario.getLogin();
+        String nombreUsuario = usuario.getLogin();     
+        int TipoUsuario; 
         
         try {
             if (buscaUsuario(nombreUsuario)==false){
@@ -178,6 +179,7 @@ public class UsuarioDAOsql implements IUsuarioDAO {
                 //objeto auxiliar
                 // parametros de inicializacion del contructor (int idUsuario, String descripcion, String login, String pass)
                 Usuario usuario = new Usuario(0, "", "", "");
+         
                 //obtencion de los datos desde la bd.
                 usuario.setIdUsuario(Integer.parseInt(resultado.getString("id_usuario")));
                 usuario.setDescripcion(resultado.getString("descripcion"));
@@ -198,5 +200,35 @@ public class UsuarioDAOsql implements IUsuarioDAO {
         }
 
         return usuarioData;
+    }
+    public String obtenerTipoUsuario(int id){
+         //Instancia de conexion
+        ConexionDB conexion = new ConexionDB();
+        String tipoUsuario="0";
+        try {
+            PreparedStatement consulta = conexion.getConnection().prepareStatement("SELECT id_tipoUsuario FROM Usuarios"
+                    + " WHERE id_usuario = ?");
+            consulta.setInt(1, id);
+            ResultSet resultado = consulta.executeQuery();
+            while (resultado.next()) {
+                //objeto auxiliar
+                
+                //obtencion de los datos desde la bd.
+                tipoUsuario= resultado.getString("id_tipoUsuario");
+                
+            }
+            
+            resultado.close();
+            consulta.close();
+            conexion.desconectar();
+            
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "no se pudo consultar el usuario /n" + e);
+            System.out.print(e);
+        }
+
+     return tipoUsuario;
+        
     }
 }

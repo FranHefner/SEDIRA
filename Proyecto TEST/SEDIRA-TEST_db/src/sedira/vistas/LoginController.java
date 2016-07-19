@@ -23,7 +23,7 @@ import sedira.Security;
 /**
  * FXML Controller class
  *
- * @author Fran
+ * @author Quelin Pablo, Hefner Francisco
  */
 public class LoginController implements Initializable {
 
@@ -82,7 +82,7 @@ public class LoginController implements Initializable {
             MenuPrincipalController.TipoUsuario = "Medico";
         }
          if (CodigoInicio == 3) {
-            MenuPrincipalController.TipoUsuario = "Admin";
+            MenuPrincipalController.TipoUsuario = "Administrador";
         }
          
         if (CodigoInicio > 0) {

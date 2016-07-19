@@ -17,6 +17,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import sedira.FuncionesGenerales;
 import sedira.model.IUsuarioDAO;
 import sedira.model.Usuario;
 import sedira.model.UsuarioDAOsql;
@@ -55,6 +56,7 @@ public class AbmUsuarioController implements Initializable {
     private boolean guardarDatos = false;
     
     IUsuarioDAO usr = new UsuarioDAOsql();
+    int tipoUsuario= 0; 
     
     /**
      * Initializes the controller class.
@@ -100,7 +102,7 @@ public class AbmUsuarioController implements Initializable {
             txtDescripcion.setText(usuario.getDescripcion());
 
             txtTipoUsuario.setEditable(true);
-            txtTipoUsuario.setText("Algo a ocurrido... verlo con fran");
+            txtTipoUsuario.setText(usr.obtenerTipoUsuario(usuario.getIdUsuario()));
 
             //Comportamiento de botones. 
         } else {
@@ -130,11 +132,13 @@ public class AbmUsuarioController implements Initializable {
                     usuario.setDescripcion(txtDescripcion.getText());
                     usuario.setLogin(txtNombreUsuario.getText());
                     usuario.setPass(txtPass.getText());
+                    FuncionesGenerales.setTipoUsuario(Integer.valueOf(txtTipoUsuario.getText()));
                     break;
                 case "Modificar Usuario":
                     usuario.setDescripcion(txtDescripcion.getText());
                     usuario.setLogin(txtNombreUsuario.getText());
                     usuario.setPass(txtPass.getText());
+                    FuncionesGenerales.setTipoUsuario(Integer.valueOf(txtTipoUsuario.getText()));
                     break;
                 
             }
@@ -233,5 +237,5 @@ public class AbmUsuarioController implements Initializable {
         }
 
     }
-
+  
 }

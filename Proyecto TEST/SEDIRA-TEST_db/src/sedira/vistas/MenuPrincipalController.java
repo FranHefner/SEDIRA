@@ -172,7 +172,7 @@ public class MenuPrincipalController implements Initializable {
      */
     @FXML
     private void mniUsuarioAdministrar_click() throws IOException {
-        if ("Completo".equals(TipoUsuario)) {
+        if ("Administrador".equals(TipoUsuario)) {
 
             Stage stage = new Stage();
             Parent root = FXMLLoader.load(getClass().getResource("Usuario.fxml"));
@@ -205,7 +205,7 @@ public class MenuPrincipalController implements Initializable {
             menuUsuarios.setDisable(true);
 
         }
-        if (TipoUsuario.equals("Admin")) {
+        if (TipoUsuario.equals("Administrador")) {
             //Controla todo + los usuarios
             menuInicio.setDisable(false);
             menuDosis.setDisable(false);
@@ -224,7 +224,7 @@ public class MenuPrincipalController implements Initializable {
             Scene scene = new Scene(root);
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setScene(scene);
-            stage.setTitle("Administrar Usuarios");
+            stage.setTitle("Ayuda");
             stage.show();
     }
 

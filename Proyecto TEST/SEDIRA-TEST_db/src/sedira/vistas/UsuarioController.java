@@ -60,7 +60,7 @@ public class UsuarioController implements Initializable {
     //Auxiliar para setear el stage 
     private Stage primaryStage;
     //Auxiliar usuario para usuario actual . 
-    private Usuario usuarioActual;
+    private Usuario usuarioActual=FuncionesGenerales.getUsuarioActual();
     
     
     /**
@@ -108,6 +108,7 @@ public class UsuarioController implements Initializable {
         //Se setea el usuario seleccionado como usuario actual. 
     
         FuncionesGenerales.setUsuarioActual(usuarioActual);
+        
         
         if (usuarioActual != null) {
             
@@ -166,13 +167,14 @@ public class UsuarioController implements Initializable {
     @FXML
     public void btnEditarUsuario () throws IOException{
         Usuario usuario = FuncionesGenerales.getUsuarioActual();
-        
+      
+        int tipoUsuario = FuncionesGenerales.getTipoUsuario();
         boolean guardarCambiosClicked = mostrarUsuarioEditDialog(usuario);
                     
         if (guardarCambiosClicked){
             //Llamada a la Clase de acceso a datos de Usuario. 
             // Hardcodeado el tipo de usuario. 
-            usr.modificarUsuario(usuario, 2);
+            usr.modificarUsuario(usuario, tipoUsuario);
             userData = usr.obtenerUsuarios();
             //Actualiza el GridView de los phantoms 
             griInfoUser.setItems(userData);
@@ -193,8 +195,9 @@ public class UsuarioController implements Initializable {
         boolean guardarCambiosClicked = mostrarUsuarioEditDialog(tempUsuario);
         
         if (guardarCambiosClicked) {
-            //Harcodeado el tipo de usuario. 
-            ConsultasSQL.GuardarUserPass(tempUsuario.getDescripcion(), tempUsuario.getLogin(), tempUsuario.getPass(), 2);//.agregarUsuario(tempUsuario, 2);
+            //Harcodeado el tipo de usuario.
+            int tipoUsuario = FuncionesGenerales.getTipoUsuario();
+            ConsultasSQL.GuardarUserPass(tempUsuario.getDescripcion(), tempUsuario.getLogin(), tempUsuario.getPass(),tipoUsuario);//.agregarUsuario(tempUsuario, 2);
             //Actualizo el GridView de Phantoms.
             userData = usr.obtenerUsuarios();
             griInfoUser.setItems(userData);
@@ -206,10 +209,8 @@ public class UsuarioController implements Initializable {
      */
      @FXML
     public void btnEliminar() {
-        //Phantom seleccionado para eliminar. 
-       // Phantom selectedPhantom = FuncionesGenerales.getPhantomActual();
-        //Identificador del phantom a eliminar. 
-        int idUsuario=FuncionesGenerales.getUsuarioActual().getIdUsuario();
+       usuarioActual=FuncionesGenerales.getUsuarioActual();
+        int idUsuario=usuarioActual.getIdUsuario();
         if (usuarioActual != null) {
             String mensaje = usuarioActual.getDescripcion() + " Nombre de usuario: " + usuarioActual.getLogin();
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
