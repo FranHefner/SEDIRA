@@ -7,7 +7,7 @@ package sedira.model;
 
 /**
  *
- * @author Fran
+ * @author Hefner Francisco, Quelin Pablo
  */
 public class TipoDocumento {
     

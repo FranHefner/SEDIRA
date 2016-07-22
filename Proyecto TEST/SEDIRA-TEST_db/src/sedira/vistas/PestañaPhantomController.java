@@ -24,6 +24,8 @@ import sedira.model.Organo;
 import sedira.model.Phantom;
 import sedira.model.ValorDescripcion;
 import sedira.DatosValidacionesCalculo;
+import sedira.DatosValidacionesCalculoBasico;
+import sedira.IDatosValidaciones;
 import sedira.model.IPhantomDAO;
 import sedira.model.PhantomDAOsql;
 
@@ -69,12 +71,24 @@ public class PestañaPhantomController implements Initializable {
         private Phantom phantomActual; 
     //Objeto interfaz Phantom
         IPhantomDAO ph = new PhantomDAOsql();
-    
+        
+        
+    private IDatosValidaciones dValidaciones;
     /**
      * Inicializa la clase controladora.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        
+        /* Se inicializa la interface para que se adapte al tipo de cálculo actual */
+        if( MenuPrincipalController.TipoUsuario == "Cientifico")
+        {
+           dValidaciones = new DatosValidacionesCalculo();
+        }
+        if (MenuPrincipalController.TipoUsuario == "Medico")
+        {
+           dValidaciones = new DatosValidacionesCalculoBasico();
+        }
         
         // Inicializo la tabla de Organos
         clOrganoNombre.setCellValueFactory(
@@ -141,7 +155,7 @@ public class PestañaPhantomController implements Initializable {
                     FuncionesGenerales.mostrarDetalleTablaValorDescripcion(ph.obtenerInfoPhantom(phantomActual), griValorDescripcionPhantom);
                     
                   /* Seleccion Phantom en el cálculo */  
-                    DatosValidacionesCalculo.setPhantom(phantomActual);                            
+                    dValidaciones.setPhantom(phantomActual);                            
                    /*************/
                 }
             });

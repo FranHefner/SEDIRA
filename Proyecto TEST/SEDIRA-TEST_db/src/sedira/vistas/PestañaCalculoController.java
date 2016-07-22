@@ -23,13 +23,15 @@ import sedira.DatosValidacionesCalculo;
 import sedira.vistas.CalculoController;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.ProgressIndicator;
+import sedira.DatosValidacionesCalculoBasico;
+import sedira.IDatosValidaciones;
 import sedira.ValidacionesGenerales;
 
 
 /**
  * FXML Controller class
  *
- * @author Fran
+ * @author Hefner Francisco, Quelin Pablo
  */
 public class PestañaCalculoController implements Initializable {
 
@@ -45,18 +47,30 @@ public class PestañaCalculoController implements Initializable {
     @FXML
     private TextField txtResult;
     
+    private IDatosValidaciones dValidaciones;
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
+         /* Se inicializa la interface para que se adapte al tipo de cálculo actual */
+        if( MenuPrincipalController.TipoUsuario == "Cientifico")
+        {
+           dValidaciones = new DatosValidacionesCalculo();
+        }
+        if (MenuPrincipalController.TipoUsuario == "Medico")
+        {
+           dValidaciones = new DatosValidacionesCalculoBasico();
+        }
+        /****************************************************************************/
         
-       txtEntradasCalculo.setText(DatosValidacionesCalculo.GetTextoProgeso());
+       txtEntradasCalculo.setText(dValidaciones.GetTextoProgeso());
      
     }    
     
      @FXML
     public void GuardarResultado()
     {  
-        DatosValidacionesCalculo.guardarCalculo();
+        dValidaciones.guardarCalculo();
     }
     @FXML
     public void RealizarCalculo()            
@@ -98,7 +112,7 @@ public class PestañaCalculoController implements Initializable {
             bytes[3] = (byte) ((bits >> 24) & 0xff);
 
             Blob resultado_temp_blob = new javax.sql.rowset.serial.SerialBlob(bytes);
-            DatosValidacionesCalculo.finalizarCalculo(resultado_temp_blob);
+            dValidaciones.finalizarCalculo(resultado_temp_blob);
           
             /* DE UN FLOAT COMO RESULTADO DEL CALCULO PASA A UN BLOB Y DESPUES A UN FLOAT */
         float f = ByteBuffer.wrap(bytes).order(ByteOrder.LITTLE_ENDIAN).getFloat();

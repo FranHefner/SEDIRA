@@ -27,13 +27,15 @@ import javafx.stage.Stage;
 import sedira.FuncionesGenerales;
 import sedira.model.Paciente;
 import sedira.DatosValidacionesCalculo;
+import sedira.DatosValidacionesCalculoBasico;
+import sedira.IDatosValidaciones;
 import sedira.model.IPacienteDAO;
 import sedira.model.PacienteDAOsql;
 
 /**
  * FXML Controller class
  * Clase controladora de la interfaz gráfica "Pestaña Paciente" que pertenece a un calculo determinado. 
- * @author Fran
+ * @author Hefner Francisco, Quelin Pablo
  */
 public class PestañaPacienteController implements Initializable {
      
@@ -63,10 +65,24 @@ public class PestañaPacienteController implements Initializable {
         
     private Paciente pacienteActual;
     private ObservableList<Paciente> pacienteData = FXCollections.observableArrayList();
+     private IDatosValidaciones dValidaciones;
+    
      
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        
+        
+        /* Se inicializa la interface para que se adapte al tipo de cálculo actual */
+        if( MenuPrincipalController.TipoUsuario == "Cientifico")
+        {
+           dValidaciones = new DatosValidacionesCalculo();
+        }
+        if (MenuPrincipalController.TipoUsuario == "Medico")
+        {
+           dValidaciones = new DatosValidacionesCalculoBasico();
+        }
+        /****************************************************************************/
         
         clNombre.setCellValueFactory(cellData -> cellData.getValue().getNombreProperty());
         clApellido.setCellValueFactory(cellData -> cellData.getValue().getApellidoProperty());         
@@ -76,7 +92,7 @@ public class PestañaPacienteController implements Initializable {
          griListaPacientes.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> SeleccionPaciente(newValue));
         try {
-            //pacienteData =  ConsultasDB.ListaPacientes();
+           
             //Carga los pacientes desde la base de datos .
             pacienteData = pac.obtenerPacientes();
         } catch (SQLException ex) {
@@ -105,7 +121,9 @@ public class PestañaPacienteController implements Initializable {
             txtObservaciones.setDisable(false);
             txtNombrePaciente.setDisable(false);
             
-            DatosValidacionesCalculo.setPaciente(PacienteActual);
+            dValidaciones.setPaciente(PacienteActual);
+         
+          
             
             
         } else {

@@ -52,7 +52,7 @@ public class MenuPrincipalController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         AdministrarMenu(TipoUsuario);
     }
-
+    
     /**
      * Declaración del menu
      */

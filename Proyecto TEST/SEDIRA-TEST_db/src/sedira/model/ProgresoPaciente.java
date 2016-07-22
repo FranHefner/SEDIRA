@@ -10,7 +10,7 @@ import java.util.Date;
 
 /**
  *
- * @author Fran
+ * @author Hefner Francisco, Quelin Pablo
  */
 public class ProgresoPaciente {
     

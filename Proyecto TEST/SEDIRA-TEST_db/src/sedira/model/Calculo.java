@@ -46,6 +46,21 @@ public class Calculo {
         observaciones = pobservaciones;
         resultado = presultado;   
     }
+        
+    /**
+     *
+     * Método contructor Cálculo Básico   
+     * @param pfecha
+     * @param pidPaciente
+     * @param pobservaciones
+     * @param presultado      
+     */
+    public Calculo(long pfecha, int pidPaciente, String pobservaciones, Blob presultado) {
+        Fecha = pfecha;
+        idPaciente = pidPaciente;      
+        observaciones = pobservaciones;
+        resultado = presultado;   
+    }
     
     
     

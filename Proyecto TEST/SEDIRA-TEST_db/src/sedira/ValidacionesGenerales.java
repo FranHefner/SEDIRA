@@ -9,7 +9,7 @@ import java.nio.ByteBuffer;
 
 /**
  *
- * @author Fran
+ * @author Hefner Francisco, Quelin Pablo
  */
 public class ValidacionesGenerales {
     

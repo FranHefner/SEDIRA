@@ -16,6 +16,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import sedira.DatosValidacionesCalculo;
+import sedira.DatosValidacionesCalculoBasico;
+import sedira.IDatosValidaciones;
 
 import sedira.model.Organo;
 
@@ -43,7 +45,7 @@ public class PestañaOrganoController implements Initializable {
     int aux;
      
     
-   
+   private IDatosValidaciones dValidaciones;
     
     /**
      * Inicializa la clase controladora. 
@@ -51,6 +53,16 @@ public class PestañaOrganoController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
       
+          /* Se inicializa la interface para que se adapte al tipo de cálculo actual */
+        if( MenuPrincipalController.TipoUsuario == "Cientifico")
+        {
+           dValidaciones = new DatosValidacionesCalculo();
+        }
+        if (MenuPrincipalController.TipoUsuario == "Medico")
+        {
+           dValidaciones = new DatosValidacionesCalculoBasico();
+        }
+        /****************************************************************************/
         /**
          * OJO. metodo init y el metodo seleccion del choiceBox genera indexOfBounds. 
          * 
@@ -69,11 +81,11 @@ public class PestañaOrganoController implements Initializable {
         if (aux == 0){
             ObservableList <String> listaOrganoString = FXCollections.observableArrayList();
 
-            for (int i=0; i<DatosValidacionesCalculo.getPhantomActual().getOrgano().size();i++){
-                listaOrganoString.add(DatosValidacionesCalculo.getPhantomActual().getOrgano().get(i).getNombreOrgano());
+            for (int i=0; i<dValidaciones.getPhantomActual().getOrgano().size();i++){
+                listaOrganoString.add(dValidaciones.getPhantomActual().getOrgano().get(i).getNombreOrgano());
             }
             choiceOrgano.setItems(listaOrganoString);
-            txtPhantomSeleccionado.setText(DatosValidacionesCalculo.getPhantomActual().getPhantomNombre());
+            txtPhantomSeleccionado.setText(dValidaciones.getPhantomActual().getPhantomNombre());
             aux = 1;
         }   
         
@@ -94,14 +106,14 @@ public class PestañaOrganoController implements Initializable {
                 int index = choiceOrgano.getSelectionModel().getSelectedIndex();
                 //organoActual = ConsultasDB.ObtenerOrganos().get(index);
                 //organoActual = FuncionesGenerales.phantomActual.getOrgano().get(index);
-                organoActual = DatosValidacionesCalculo.getPhantomActual().getOrgano().get(index);
+                organoActual = dValidaciones.getPhantomActual().getOrgano().get(index);
                 //Al seleccionar el organo, se debe guardar el id en datosValidacionesCalculo.setOrgano
                 //Completo tabla de Organos
                 mostrarDetalleSeleccion(organoActual, txtNombreOrgano, txtMasaOrgano, txtIdOrgano);
                 
                 /* Selección del organo para el cálculo */
                 
-                DatosValidacionesCalculo.setOrgano(organoActual);
+                dValidaciones.setOrgano(organoActual);
                 /****/ 
              
             }

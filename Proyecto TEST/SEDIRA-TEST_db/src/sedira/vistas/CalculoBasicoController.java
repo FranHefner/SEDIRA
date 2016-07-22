@@ -23,7 +23,8 @@ import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-import sedira.DatosValidacionesCalculo;
+import sedira.DatosValidacionesCalculoBasico;
+import sedira.IDatosValidaciones;
 import static sedira.vistas.CalculoController.pestañaActual;
 
 /**
@@ -38,19 +39,7 @@ public class CalculoBasicoController implements Initializable {
     @FXML
     private Tab tabPaciente;
     @FXML
-    private Pane pnlPaciente;
-    @FXML
-    private Tab tabPhantom;
-    @FXML
-    private Pane pnlPhantom;
-    @FXML
-    private Tab tabOrganoTejido;
-    @FXML
-    private Pane pnlOrgano;
-    @FXML
-    private Tab tabRadionuclido;
-    @FXML
-    private Pane pnlRadionuclido;
+    private Pane pnlPaciente;   
     @FXML
     private Tab tabCalcular;
     @FXML
@@ -70,17 +59,21 @@ public class CalculoBasicoController implements Initializable {
      SingleSelectionModel<Tab> listaTABS;
      /****** Inicializamos si vamos a realizar un proceso completo (Cientifico) o de Medico (Basico) ***/
 
-    
+     private IDatosValidaciones dValidaciones = new DatosValidacionesCalculoBasico();
      
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        
+       
+        
         try {
             
-            DatosValidacionesCalculo.setProcesoCompleto(false);
+            dValidaciones.setProcesoCompleto(false);
              
             Node NodoPaciente;
             NodoPaciente = (Node) FXMLLoader.load(getClass().getResource("PestañaPaciente.fxml"));
             pnlPaciente.getChildren().setAll(NodoPaciente);
+            
                listaTABS = tabPaneCalculo.getSelectionModel();
         } catch (IOException ex) {
             Logger.getLogger(CalculoBasicoController.class.getName()).log(Level.SEVERE, null, ex);
@@ -93,8 +86,7 @@ public class CalculoBasicoController implements Initializable {
         
                 Node NodoCalculo;
                 NodoCalculo = (Node) FXMLLoader.load(getClass().getResource("PestañaCalculo.fxml"));
-                pnlCalculo.getChildren().setAll(NodoCalculo);
-                
+                pnlCalculo.getChildren().setAll(NodoCalculo);                
                 tabCalcular.setDisable(false);
                 listaTABS.select(tabCalcular);
                 btnSiguiente.setText("Finalizar");

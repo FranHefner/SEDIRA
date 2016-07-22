@@ -24,6 +24,8 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import sedira.DatosValidacionesCalculo;
+import sedira.DatosValidacionesCalculoBasico;
+import sedira.IDatosValidaciones;
 
 /**
  * FXML Controller class Clase controladora para el proceso de Calculo.
@@ -83,19 +85,22 @@ public class CalculoController implements Initializable {
     /**
      * Initializes the controller class.
      */
-    // DatosValidacionesCalculo NuevoCalculo = new DatosValidacionesCalculo();
+  
     SingleSelectionModel<Tab> listaTABS;
      /****** Inicializamos si vamos a realizar un proceso completo (Cientifico) o de Medico (Basico) ***/
      
-     
+     private IDatosValidaciones dValidaciones = new DatosValidacionesCalculo();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
+             
+        
+        
         try {
          
-            DatosValidacionesCalculo.IniciarCalculo();
-            DatosValidacionesCalculo.setProcesoCompleto(true);
+            dValidaciones.IniciarCalculo();
+            dValidaciones.setProcesoCompleto(true);
          
             /*
              * ********* LLenado del primer nodo/pestaña
@@ -110,9 +115,7 @@ public class CalculoController implements Initializable {
             /**
              * ***************************************************
              */
-            txtProceso.setText("INFORMACION DEL PROCESO/SELECCION");
-
-            DatosValidacionesCalculo.TextoProgreso = txtProceso.getText();
+            txtProceso.setText(dValidaciones.GetTextoProgeso());     
 
             listaTABS = tabPaneCalculo.getSelectionModel();
 
@@ -124,7 +127,7 @@ public class CalculoController implements Initializable {
     public void SeleccionPestaña(boolean adelante) throws IOException {
         //  String EstadoActual = NuevoCalculo.EstadoActual();
 
-        String EstadoActual = DatosValidacionesCalculo.EstadoActual(adelante, pestañaActual);
+        String EstadoActual = dValidaciones.getEstadoActual(adelante, pestañaActual);
 
         if (EstadoActual.equals("Paciente")) {
             tabPaciente.setDisable(false);
@@ -135,7 +138,7 @@ public class CalculoController implements Initializable {
             tabRadionuclido.setDisable(true);
             tabCalcular.setDisable(true);
 
-            txtProceso.setText(DatosValidacionesCalculo.GetTextoProgeso());
+            txtProceso.setText(dValidaciones.GetTextoProgeso());
 
         }
         if (EstadoActual.equals("Phantom")) {
@@ -153,7 +156,7 @@ public class CalculoController implements Initializable {
                 pnlPhantom.getChildren().setAll(NodoPhantom);
             }
 
-            txtProceso.setText(DatosValidacionesCalculo.GetTextoProgeso());
+            txtProceso.setText(dValidaciones.GetTextoProgeso());
         }
         if (EstadoActual.equals("Organo")) {
             tabOrganoTejido.setDisable(false);
@@ -171,7 +174,7 @@ public class CalculoController implements Initializable {
                 pnlOrgano.getChildren().setAll(NodoOrgano);
             }
 
-            txtProceso.setText(DatosValidacionesCalculo.GetTextoProgeso());
+            txtProceso.setText(dValidaciones.GetTextoProgeso());
 
         }
         if (EstadoActual.equals("RadioNuclido")) {
@@ -190,7 +193,7 @@ public class CalculoController implements Initializable {
                 pnlRadionuclido.getChildren().setAll(NodoRadionuclido);
             }
 
-            txtProceso.setText(DatosValidacionesCalculo.GetTextoProgeso());
+            txtProceso.setText(dValidaciones.GetTextoProgeso());
         }
         if (EstadoActual.equals("Completo")) {
             tabCalcular.setDisable(false);
@@ -209,7 +212,7 @@ public class CalculoController implements Initializable {
                 pnlCalculo.getChildren().setAll(NodoCalculo);
             }
 
-            txtProceso.setText(DatosValidacionesCalculo.GetTextoProgeso());
+            txtProceso.setText(dValidaciones.GetTextoProgeso());
 
         }
 

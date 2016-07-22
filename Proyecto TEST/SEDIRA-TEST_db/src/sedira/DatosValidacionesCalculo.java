@@ -22,14 +22,14 @@ import sedira.model.Radionuclido;
  *
  * @author Hefner Francisco, Quelin Pablo
  */
-public class DatosValidacionesCalculo {
+public class DatosValidacionesCalculo implements IDatosValidaciones{
 
     private static Calculo CalculoActual;
     private static Paciente PacienteActual;
     private static Phantom PhantomActual;
     private static Organo OrganoActual;
     private static Radionuclido RadionuclidoActual;
-    public static String TextoProgreso;
+    private static String TextoProgreso;
     private static String Observaciones;
     private static Blob Resultado;
     private static Boolean ProcesoCompleto;
@@ -51,8 +51,8 @@ public class DatosValidacionesCalculo {
      3 - add..
      */
     
-    
-    public static String GetTextoProgeso() {
+    @Override
+    public String GetTextoProgeso() {
         TextoProgreso = "INFORMACION DEL PROCESO/SELECCION";
 
         if (ProcesoCompleto) {
@@ -86,21 +86,25 @@ public class DatosValidacionesCalculo {
         return TextoProgreso;
     }
 
-    public static void setProcesoCompleto(boolean esCompleto)
+    @Override
+    public void setProcesoCompleto(boolean esCompleto)
     {
         ProcesoCompleto = esCompleto;
     }
-     public static boolean getProcesoCompleto()
+     @Override
+    public boolean getProcesoCompleto()
     {
        return ProcesoCompleto;
     }
-    public static boolean finalizarCalculo(Blob resultado) {
+    @Override
+    public boolean finalizarCalculo(Blob resultado) {
         Resultado = resultado;
 
         return true;
     }
 
-    public static boolean guardarCalculo() {
+    @Override
+    public boolean guardarCalculo() {
 
         Date Ahora = new Date();
 
@@ -121,7 +125,7 @@ public class DatosValidacionesCalculo {
         }
 
         /* Una vez guardado, obtener el dato y aplicar Hash para ver si coinciden, como forma de asegurarse el resiltado*/
- /* ver en que tipo de dato se guarda, podria ser en binaio para asegurarnos que no van a existir casteos de la db 
+        /* ver en que tipo de dato se guarda, podria ser en binaio para asegurarnos que no van a existir casteos de la db 
         porque pude ser que cambie el motor de db        */
         return true;
     }
@@ -161,24 +165,28 @@ public class DatosValidacionesCalculo {
         return true;
     }
 
-    public static boolean setPaciente(Paciente miPaciente) {
+    @Override
+    public boolean setPaciente(Paciente miPaciente) {
         PacienteActual = miPaciente;
         return validarPaciente();
     }
 
-    public static boolean setPhantom(Phantom miPhantom) {
+    @Override
+    public boolean setPhantom(Phantom miPhantom) {
         PhantomActual = miPhantom;
 
         return validarPhantom();
     }
 
-    public static boolean setOrgano(Organo miOrgano) {
+    @Override
+    public boolean setOrgano(Organo miOrgano) {
         OrganoActual = miOrgano;
 
         return validarOrgano();
     }
 
-    public static boolean setRadionuclido(Radionuclido miRadionuclido) {
+    @Override
+    public boolean setRadionuclido(Radionuclido miRadionuclido) {
 
         if (miRadionuclido != null) {
             RadionuclidoActual = miRadionuclido;
@@ -187,7 +195,8 @@ public class DatosValidacionesCalculo {
         return validaradionuclidoActual();
     }
 
-    public static Blob getResultado() {
+    @Override
+    public Blob getResultado() {
         if (Resultado != null) {
             return Resultado;
         } else {
@@ -195,7 +204,8 @@ public class DatosValidacionesCalculo {
         }
     }
 
-    public static Phantom getPhantomActual() {
+    @Override
+    public Phantom getPhantomActual() {
         if (PhantomActual != null) {
             return PhantomActual;
         } else {
@@ -203,7 +213,8 @@ public class DatosValidacionesCalculo {
         }
     }
 
-    public static Paciente getPacienteActual() {
+    @Override
+    public Paciente getPacienteActual() {
         if (PacienteActual != null) {
             return PacienteActual;
         } else {
@@ -211,7 +222,8 @@ public class DatosValidacionesCalculo {
         }
     }
 
-    public static Organo getOrganoActual() {
+    @Override
+    public Organo getOrganoActual() {
         if (OrganoActual != null) {
             return OrganoActual;
         } else {
@@ -219,7 +231,8 @@ public class DatosValidacionesCalculo {
         }
     }
 
-    public static Radionuclido getRadionuClidoActual() {
+    @Override
+    public Radionuclido getRadionuClidoActual() {
         if (RadionuclidoActual != null) {
             return RadionuclidoActual;
         } else {
@@ -227,11 +240,13 @@ public class DatosValidacionesCalculo {
         }
     }
 
-    public static void IniciarCalculo() {
+    @Override
+    public void IniciarCalculo() {
         limpiarVariables();
     }
 
-    public static String EstadoActual(boolean adelante, String pestañaActual) {
+    @Override
+    public String getEstadoActual(boolean adelante, String pestañaActual) {
         /* Si adelante esta en falso, retorna el estado anterior al estado actual */
 
         if (!adelante) {

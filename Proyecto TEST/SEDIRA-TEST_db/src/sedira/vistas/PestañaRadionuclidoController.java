@@ -21,7 +21,9 @@ import javafx.scene.control.Tooltip;
 import sedira.model.Radionuclido;
 import sedira.model.ValorDescripcion;
 import sedira.DatosValidacionesCalculo;
+import sedira.DatosValidacionesCalculoBasico;
 import sedira.FuncionesGenerales;
+import sedira.IDatosValidaciones;
 import sedira.model.IRadionuclidoDAO;
 import sedira.model.RadionuclidoDAOsql;
 /**
@@ -51,12 +53,23 @@ public class PestañaRadionuclidoController implements Initializable {
         public static  ObservableList <Radionuclido> ListaRadionuclido = FXCollections.observableArrayList();
     //Instancia de objeto tipo IPacienteDAO. Se inicializa como PacienteDAOsql.  
     private IRadionuclidoDAO rad = new RadionuclidoDAOsql();
-    
+     private IDatosValidaciones dValidaciones;
     /**
      * Inicializa la clase controladora.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        
+        /* Se inicializa la interface para que se adapte al tipo de cálculo actual */
+        if( MenuPrincipalController.TipoUsuario == "Cientifico")
+        {
+           dValidaciones = new DatosValidacionesCalculo();
+        }
+        if (MenuPrincipalController.TipoUsuario == "Medico")
+        {
+           dValidaciones = new DatosValidacionesCalculoBasico();
+        }
+        
         //Inicializo la tabla de Propiedad Valor, correspondiente a la informacion de los radioNuclidos . 
         clVdValor.setCellValueFactory(
                cellData -> cellData.getValue().valorProperty().asObject());
@@ -119,7 +132,7 @@ public class PestañaRadionuclidoController implements Initializable {
                      //Completo tabla de Info Radionuclido
                     FuncionesGenerales.mostrarDetalleTablaValorDescripcion(rad.obtenerInfoRadNuclido(radionuclidoActual), griInfoRadNuclido);
                     /*Asigna radionuclido al calculo */
-                    DatosValidacionesCalculo.setRadionuclido(radionuclidoActual);
+                    dValidaciones.setRadionuclido(radionuclidoActual);
                     /*************************/
                     
                    
