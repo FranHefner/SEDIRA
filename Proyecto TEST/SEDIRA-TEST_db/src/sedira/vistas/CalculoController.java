@@ -225,7 +225,7 @@ public class CalculoController implements Initializable {
             btnAtras.setDisable(false);
             if (EstadoActual.equals("Completo")) {
                 btnSiguiente.setText("Finalizar");
-                btnSiguiente.setDisable(true);
+              
             } else {
                 btnSiguiente.setText("Siguiente");
                 btnSiguiente.setDisable(false);

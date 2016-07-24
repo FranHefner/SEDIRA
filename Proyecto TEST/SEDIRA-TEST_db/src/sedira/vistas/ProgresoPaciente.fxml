@@ -11,11 +11,11 @@
 
 <AnchorPane id="AnchorPane" prefHeight="659.0" prefWidth="669.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sedira.vistas.ProgresoPacienteController">
    <children>
-      <SplitPane dividerPositions="0.6529680365296804" layoutX="22.0" layoutY="159.0" orientation="VERTICAL" prefHeight="278.0" prefWidth="651.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <SplitPane dividerPositions="0.654490106544901" layoutX="22.0" layoutY="159.0" orientation="VERTICAL" prefHeight="278.0" prefWidth="651.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+          <AnchorPane prefHeight="428.0" prefWidth="667.0">
                <children>
-                  <LineChart fx:id="lchProgreso" prefHeight="122.0" prefWidth="627.0" title="Progreso Paciente" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <LineChart fx:id="lchProgreso" prefHeight="338.0" prefWidth="667.0" title="Progreso Paciente" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <xAxis>
                       <CategoryAxis label="Mediciones" prefHeight="43.0" prefWidth="565.0" side="BOTTOM" />
                     </xAxis>
@@ -23,9 +23,20 @@
                       <NumberAxis label="Progreso Paciente" lowerBound="-50.0" side="LEFT" upperBound="90.0" />
                     </yAxis>
                   </LineChart>
+                  <TitledPane animated="false" collapsible="false" layoutX="63.0" layoutY="347.0" prefHeight="75.0" prefWidth="541.0" text="Nueva Medición">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <Button fx:id="btnAgregar" layoutX="340.0" layoutY="12.0" mnemonicParsing="false" onAction="#btnAgregar_click" prefHeight="25.0" prefWidth="128.0" text="Agregar" />
+                              <DatePicker layoutX="33.0" layoutY="12.0" />
+                              <TextField layoutX="227.0" layoutY="12.0" prefHeight="25.0" prefWidth="93.0" promptText="Valor.." />
+                           </children>
+                        </AnchorPane>
+                    </content>
+                  </TitledPane>
                </children>
             </AnchorPane>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+          <AnchorPane maxHeight="224.0" maxWidth="667.0" minHeight="224.0" minWidth="667.0" prefHeight="224.0" prefWidth="667.0">
                <children>
                   <TitledPane animated="false" collapsible="false" layoutX="14.0" layoutY="11.0" prefHeight="154.0" prefWidth="372.0" text="Historial de Cálculos" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <content>

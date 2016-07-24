@@ -17,11 +17,9 @@ public interface IPhantomDAO {
      ObservableList<Phantom> obtenerListaPhantom();
      ObservableList<Phantom> obtenerListaPhantomCompletos();
      ObservableList<ValorDescripcion> obtenerInfoPhantom(Phantom phantomSeleccionado);
-    void agregarPhantom (Phantom phantom);
-      void modificarNombrePhantom(Phantom phantom);
-     void eliminarPhantom(int id);
-
-    
+     void agregarPhantom (Phantom phantom);
+     void modificarNombrePhantom(Phantom phantom);
+     void eliminarPhantom(int id);    
      boolean buscaNombre(String nombrePhantom)throws SQLException;
      ObservableList<Organo> obtenerInfoOrgano(Phantom phantomSeleccionado);
      

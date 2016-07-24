@@ -126,6 +126,28 @@ public class DatosValidacionesCalculoBasico implements IDatosValidaciones {
     public void IniciarCalculo() {
         limpiarVariables();
     }
+      @Override
+    public String getEstadoActual(boolean adelante, String pestañaActual) {
+        /* Si adelante esta en falso, retorna el estado anterior al estado actual */
+
+        if (!adelante) {
+            /* Si se selecciono algo en la pestaña actual se elimina */
+            switch (pestañaActual) {
+                case "Paciente":
+                    PacienteActual = null;
+                    break;               
+                case "Completo":
+                    break;
+            }
+        }
+        /* Se valida el estado real del calculo */
+        if (PacienteActual == null) {
+            return "Paciente";
+        }else {
+           
+            return "Completo";
+        }
+    }
 
    
     @Override
@@ -143,10 +165,7 @@ public class DatosValidacionesCalculoBasico implements IDatosValidaciones {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
-    public String getEstadoActual(boolean adelante, String pestañaActual) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+  
 
     @Override
     public boolean setPhantom(Phantom miPhantom) {

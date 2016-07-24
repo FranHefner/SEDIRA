@@ -19,6 +19,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -34,24 +36,29 @@ import static sedira.vistas.CalculoController.pestañaActual;
  */
 public class CalculoBasicoController implements Initializable {
 
+  
     @FXML
     private TabPane tabPaneCalculo;
+
     @FXML
-    private Tab tabPaciente;
-    @FXML
-    private Pane pnlPaciente;   
+    private Tab tabPaciente;   
     @FXML
     private Tab tabCalcular;
+   
     @FXML
-    private AnchorPane pnlCalculo;
+    private Pane pnlPaciente;
+  
     @FXML
-    private TextArea txtProceso;
-    @FXML
-    private Button btnAtras;
+    private Pane pnlCalculo;
+
     @FXML
     private Button btnSiguiente;
     @FXML
-    private Button btnCancelar;
+    private TextArea txtProceso;
+
+    @FXML
+    private Button btnAtras;
+
 
     /**
      * Initializes the controller class.
@@ -81,22 +88,69 @@ public class CalculoBasicoController implements Initializable {
     }    
 
 
-    @FXML
-    private void btnSiguiente_click(ActionEvent event) throws IOException {
-        
+        public void SeleccionPestaña(boolean adelante) throws IOException {
+        //  String EstadoActual = NuevoCalculo.EstadoActual();
+
+        String EstadoActual = dValidaciones.getEstadoActual(adelante, pestañaActual);
+
+        if (EstadoActual.equals("Paciente")) {
+            tabPaciente.setDisable(false);
+            listaTABS.select(tabPaciente);
+            pestañaActual = "Paciente";        
+            tabCalcular.setDisable(true);
+            txtProceso.setText(dValidaciones.GetTextoProgeso());
+
+        }
+    
+       
+        if (EstadoActual.equals("Completo")) {
+            tabCalcular.setDisable(false);
+            listaTABS.select(tabCalcular);
+            pestañaActual = "Completo";
+            tabPaciente.setDisable(true);
+
+            if (adelante) {
+
                 Node NodoCalculo;
                 NodoCalculo = (Node) FXMLLoader.load(getClass().getResource("PestañaCalculo.fxml"));
-                pnlCalculo.getChildren().setAll(NodoCalculo);                
-                tabCalcular.setDisable(false);
-                listaTABS.select(tabCalcular);
+                pnlCalculo.getChildren().setAll(NodoCalculo);
+            }
+
+            txtProceso.setText(dValidaciones.GetTextoProgeso());
+
+        }
+
+        /* Logica de botones */
+        if (EstadoActual.equals("Paciente")) {
+            btnAtras.setDisable(true);
+            btnSiguiente.setDisable(false);
+
+        } else {
+            btnAtras.setDisable(false);
+            if (EstadoActual.equals("Completo")) {
                 btnSiguiente.setText("Finalizar");
+              
+            } else {
+                btnSiguiente.setText("Siguiente");
+                btnSiguiente.setDisable(false);
+            }
+        }
+
+    }
+        
+     @FXML
+    private void btnSiguiente_click() throws IOException {
+        SeleccionPestaña(true);
+    }
+
+    @FXML
+    private void btnAtras_click() throws IOException {
+        SeleccionPestaña(false);
     }
 
     @FXML
     private void btnCancelar_click(ActionEvent event) {
     }
-    @FXML
-    private void btnAtras_click(ActionEvent event) {
-    }
+   
     
 }

@@ -16,94 +16,91 @@ import sedira.Security;
 import sedira.ValidacionesGenerales;
 
 /**
- * Clase que describe un calculo. 
- * El calculo almacena la informacion de : 
- * Fecha : dia en que se realiza el calculo. 
- * IdPaciente: Identificador del paciente al que se le realizo el calculo. 
- * IdPhantom: Identificador del phantom que se utiliza para el calculo. 
- * IdRadionuclido: Identificador del radionuclido que se utilizo para el calculo . 
- * 
- * @author Hefner Francisco, Quelin Pablo. 
+ * Clase que describe un calculo. El calculo almacena la informacion de : Fecha
+ * : dia en que se realiza el calculo. IdPaciente: Identificador del paciente al
+ * que se le realizo el calculo. IdPhantom: Identificador del phantom que se
+ * utiliza para el calculo. IdRadionuclido: Identificador del radionuclido que
+ * se utilizo para el calculo .
+ *
+ * @author Hefner Francisco, Quelin Pablo.
  */
 public class Calculo {
-    
+
     private long Fecha;
     private int idPaciente;
-    private int  idPhantom;
+    private int idPhantom;
     private int idRadionuclido;
-   // private ObservableList <ValorDescripcion> DatosEntrada;
+    // private ObservableList <ValorDescripcion> DatosEntrada;
     private String observaciones;
     private Blob resultado;
     private String HashValidado;
+    private String TipoCaluclo;
 
-    
-    
     public Calculo(long pfecha, int pidPaciente, int pidPhantom, int pidRadionuclido, String pobservaciones, Blob presultado) {
         Fecha = pfecha;
         idPaciente = pidPaciente;
         idPhantom = pidPhantom;
         idRadionuclido = pidRadionuclido;
         observaciones = pobservaciones;
-        resultado = presultado;   
+        resultado = presultado;
+        TipoCaluclo = "Completo";
     }
-        
+
     /**
      *
-     * Método contructor Cálculo Básico   
+     * Método contructor Cálculo Básico
+     *
      * @param pfecha
      * @param pidPaciente
      * @param pobservaciones
-     * @param presultado      
+     * @param presultado
      */
     public Calculo(long pfecha, int pidPaciente, String pobservaciones, Blob presultado) {
         Fecha = pfecha;
-        idPaciente = pidPaciente;      
+        idPaciente = pidPaciente;
         observaciones = pobservaciones;
-        resultado = presultado;   
+        resultado = presultado;
+        TipoCaluclo = "Basico";
+
     }
-    
-    
-    
-    public boolean Validar()
-    {  
- 
-        String Resultado =   String.valueOf(Fecha) + idPaciente + idPhantom + idRadionuclido + observaciones + resultado.hashCode();
-     
-     
+
+    public boolean Validar() {
+
+        String Resultado = String.valueOf(Fecha) + idPaciente + idPhantom + idRadionuclido + observaciones + resultado.hashCode();
+
         try {
-          
+
             /* ver si conviene el hash code de java o el que hice que devuelve string*/
-              System.out.println(Resultado.hashCode());
-                System.out.println(Security.md5( Resultado) );
-            
-            HashValidado =  Security.md5( Resultado);    
+            System.out.println(Resultado.hashCode());
+            System.out.println(Security.md5(Resultado));
+
+            HashValidado = Security.md5(Resultado);
             return true;
         } catch (Exception ex) {
             Logger.getLogger(Calculo.class.getName()).log(Level.SEVERE, null, ex);
             return false;
-        }       
+        }
     }
+
     /* Valida que el hash del parametro sea igual al actual*/
-    public boolean ValidacionHash(String hash)
-    { 
+    public boolean ValidacionHash(String hash) {
         return HashValidado.equals(hash);
     }
-    public String getHashCode()
-    {
+
+    public String getHashCode() {
         return HashValidado;
     }
+
     public long getFecha() {
         return Fecha;
-        
-        
+
     }
 
     public void setFecha(long Fecha) {
         this.Fecha = Fecha;
     }
-    
-    
-     public String getFechaDB() {
+
+    public String getFechaDB() {
 
         Format formatter;
 
@@ -114,50 +111,51 @@ public class Calculo {
             return formatter.format(Fecha);
 
         }
-        
-                 
+
     }
 
     public int getIdPaciente() {
         return idPaciente;
     }
-
-    public void setIdPaciente(int idPaciente) {
-        this.idPaciente = idPaciente;
-    }
-
     public int getIdPhantom() {
         return idPhantom;
-    }
-
-    public void setIdPhantom(int idPhantom) {
-        this.idPhantom = idPhantom;
     }
 
     public int getIdRadionuclido() {
         return idRadionuclido;
     }
 
-    public void setIdRadionuclido(int idRadionuclido) {
-        this.idRadionuclido = idRadionuclido;
+    public Blob getResultado() {
+        return resultado;
     }
 
     public String getObservaciones() {
         return observaciones;
     }
 
-    public void setObservaciones(String observaciones) {
-        this.observaciones = observaciones;
+    /* Por ahora no se necesitan */
+    /*
+    public void setIdPaciente(int idPaciente) {
+        this.idPaciente = idPaciente;
     }
 
-    public Blob getResultado() {
-        return resultado;
+    public void setIdRadionuclido(int idRadionuclido) {
+        this.idRadionuclido = idRadionuclido;
+    }
+
+    public void setIdPhantom(int idPhantom) {
+        this.idPhantom = idPhantom;
+    }
+
+    public void setObservaciones(String observaciones) {
+        this.observaciones = observaciones;
     }
 
     public void setResultado(Blob resultado) {
         this.resultado = resultado;
     }
-    
+*/
+
     
        
     

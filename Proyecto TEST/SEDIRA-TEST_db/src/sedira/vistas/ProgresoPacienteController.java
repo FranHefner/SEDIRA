@@ -5,6 +5,7 @@
  */
 package sedira.vistas;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -68,6 +69,13 @@ public class ProgresoPacienteController implements Initializable {
      
      
     }   
+    
+     @FXML
+    private void btnAgregar_click()  {
+       
+        
+        
+    }
    
    
     
