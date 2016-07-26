@@ -68,4 +68,38 @@ public class CalculoDAOsql implements ICalculoDAO {
             JOptionPane.showMessageDialog(null, "Ocurrió un error al guardar el cálculo " + e.getMessage(), "Información", JOptionPane.INFORMATION_MESSAGE);
         }
     }
+    
+    public void setCalculoBasico(Calculo calculo) {
+        //Instancia de conexion
+        ConexionDB conexion = new ConexionDB();
+
+        try {
+
+            PreparedStatement consulta = conexion.getConnection().prepareStatement(
+                    "INSERT INTO calculos (id_paciente,fecha_calculo, "
+                    + "resultado_calculo, observaciones, hash_code) "
+                    + "VALUES(?,?,?,?,?)");
+            consulta.setInt(1, calculo.getIdPaciente());
+            consulta.setLong(2, calculo.getFecha());
+            consulta.setBlob(3, calculo.getResultado());
+            consulta.setString(4, calculo.getObservaciones());
+            consulta.setString(5, calculo.getHashCode());
+
+            consulta.executeUpdate(); //Ejecucion de la consulta
+            consulta.close();
+            // JOptionPane.showMessageDialog(null, "La propiedad "+vd.getDescripcion()+ " fué agregada con éxito!","Información",JOptionPane.INFORMATION_MESSAGE);
+            conexion.desconectar();
+
+            // Mensaje de confirmacion
+            Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+            alerta.setTitle("Confirmación");
+            alerta.setHeaderText(null);
+            alerta.setContentText("El cálculo fué guardado con éxito.");
+            alerta.showAndWait();
+
+        } catch (SQLException e) {
+            System.out.println("Ocurrió un error al guardar el cálculo " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Ocurrió un error al guardar el cálculo " + e.getMessage(), "Información", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
 }

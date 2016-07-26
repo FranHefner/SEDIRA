@@ -80,7 +80,7 @@ public class DatosValidacionesCalculoBasico implements IDatosValidaciones {
              */
             nuevoCalculo.Validar();
 
-            cal.setCalculo(nuevoCalculo);
+            cal.setCalculoBasico(nuevoCalculo);
 
         } else {
             return false;

@@ -12,6 +12,7 @@ package sedira.model;
 public interface ICalculoDAO {
       void getCalculo(int idPaciente);
       void setCalculo(Calculo calculo);
+      void setCalculoBasico(Calculo calculo);
               
     
 }
