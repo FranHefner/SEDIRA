@@ -30,7 +30,7 @@ public class ConsultasSQL {
                     " SELECT *, NOW() AS HoraServer"
                     + " FROM usuarios "
                     + "     JOIN usuariotipos "
-                    + "       ON usuarios.id_tipoUsuario = usuariotipos.id_usuarioTipos "
+                    + "       ON usuarios.id_usuarioTipos = usuariotipos.id_usuarioTipos "
                     + " WHERE     login = ? "
                     + "     AND pass = ? "
                     + "GROUP BY ID_USUARIO");
@@ -44,7 +44,7 @@ public class ConsultasSQL {
 
             if (resultado.next()) {
 
-                int tipoUsuario = Integer.parseInt(resultado.getString("id_tipoUsuario"));
+                int tipoUsuario = Integer.parseInt(resultado.getString("id_usuarioTipos"));
                 Date NOW = resultado.getDate("HoraServer");
                 Alert alerta = new Alert(Alert.AlertType.INFORMATION);
                 alerta.setTitle("Confirmación");
@@ -83,7 +83,7 @@ public class ConsultasSQL {
         try {
 
             PreparedStatement consulta = conexion.getConnection().prepareStatement(
-                    "INSERT INTO usuarios (descripcion,login,pass,id_tipoUsuario)"
+                    "INSERT INTO usuarios (descripcion,login,pass,id_usuarioTipos)"
                             + "VALUES (?,?,?,?)");
             consulta.setString(1, Descripcion);
             consulta.setString(2, UsuarioEnc);

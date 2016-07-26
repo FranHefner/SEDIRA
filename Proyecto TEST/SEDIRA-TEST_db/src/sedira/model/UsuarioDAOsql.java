@@ -33,7 +33,7 @@ public class UsuarioDAOsql implements IUsuarioDAO {
         try {
             if (buscaUsuario(nombreUsuario)==false){
                 PreparedStatement consulta = conexion.getConnection().prepareStatement(
-                        "INSERT INTO usuarios (descripcion, login, pass, id_tipoUsuario) "
+                        "INSERT INTO usuarios (descripcion, login, pass, id_usuarioTipos) "
                         + "VALUES(?,?,?,?)");
                 consulta.setString(1, usuario.getDescripcion());
                 consulta.setString(2, usuario.getLogin());
@@ -75,7 +75,7 @@ public class UsuarioDAOsql implements IUsuarioDAO {
                         "UPDATE usuario SET login = ?"
                         + ",pass = ?"
                         + ", descripcion=?"
-                        + ",id_tipoUsuario=? "
+                        + ",id_usuarioTipos=? "
                         + "WHERE id_usuario = ?");
 
                 consulta.setString(1, usuario.getLogin());
@@ -206,7 +206,7 @@ public class UsuarioDAOsql implements IUsuarioDAO {
         ConexionDB conexion = new ConexionDB();
         String tipoUsuario="0";
         try {
-            PreparedStatement consulta = conexion.getConnection().prepareStatement("SELECT id_tipoUsuario FROM Usuarios"
+            PreparedStatement consulta = conexion.getConnection().prepareStatement("SELECT id_usuarioTipos FROM Usuarios"
                     + " WHERE id_usuario = ?");
             consulta.setInt(1, id);
             ResultSet resultado = consulta.executeQuery();
@@ -214,7 +214,7 @@ public class UsuarioDAOsql implements IUsuarioDAO {
                 //objeto auxiliar
                 
                 //obtencion de los datos desde la bd.
-                tipoUsuario= resultado.getString("id_tipoUsuario");
+                tipoUsuario= resultado.getString("id_usuarioTipos");
                 
             }
             
