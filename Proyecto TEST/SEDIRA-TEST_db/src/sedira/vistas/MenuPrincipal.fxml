@@ -12,7 +12,7 @@
         <menus>
           <Menu fx:id="menuInicio" mnemonicParsing="false" text="Inicio">
             <items>
-              <MenuItem mnemonicParsing="false" text="Close" />
+              <MenuItem fx:id="btnCerrar" mnemonicParsing="false" onAction="#Cerrar_click" text="Cerrar" />
             </items>
           </Menu>
             <Menu fx:id="menuDosis" mnemonicParsing="false" text="Dosis">

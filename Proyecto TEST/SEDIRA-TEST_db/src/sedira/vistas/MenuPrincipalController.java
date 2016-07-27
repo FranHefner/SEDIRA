@@ -14,6 +14,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Menu;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -41,6 +42,8 @@ public class MenuPrincipalController implements Initializable {
     Menu menuInicio;
     @FXML
     Menu menuAyuda;
+    @FXML
+    Menu menuCerrar;
 
     /**
      * Initializes the controller class.
@@ -218,7 +221,7 @@ public class MenuPrincipalController implements Initializable {
         }
     }
     @FXML
-    private void ayudaClick () throws IOException{
+    private void ayudaClick() throws IOException{
         Stage stage = new Stage();
             Parent root = FXMLLoader.load(getClass().getResource("ayuda.fxml"));
             Scene scene = new Scene(root);
@@ -227,5 +230,14 @@ public class MenuPrincipalController implements Initializable {
             stage.setTitle("Ayuda");
             stage.show();
     }
+    
+    @FXML
+    private void Cerrar_click()
+    {
+        
+             System.exit(0);
+    }
+    
+  
 
     }

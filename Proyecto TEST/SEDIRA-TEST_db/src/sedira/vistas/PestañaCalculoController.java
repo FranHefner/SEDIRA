@@ -26,6 +26,7 @@ import javafx.scene.control.ProgressIndicator;
 import sedira.DatosValidacionesCalculoBasico;
 import sedira.IDatosValidaciones;
 import sedira.ValidacionesGenerales;
+import sedira.vistas.CalculoController;
 
 
 /**
@@ -71,6 +72,8 @@ public class PestañaCalculoController implements Initializable {
     public void GuardarResultado()
     {  
         dValidaciones.guardarCalculo();
+       
+        
     }
     @FXML
     public void RealizarCalculo()            

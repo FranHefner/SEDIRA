@@ -210,9 +210,12 @@ public class CalculoController implements Initializable {
                 Node NodoCalculo;
                 NodoCalculo = (Node) FXMLLoader.load(getClass().getResource("PestañaCalculo.fxml"));
                 pnlCalculo.getChildren().setAll(NodoCalculo);
+                  
             }
 
             txtProceso.setText(dValidaciones.GetTextoProgeso());
+            
+           
 
         }
 
@@ -220,15 +223,20 @@ public class CalculoController implements Initializable {
         if (EstadoActual.equals("Paciente")) {
             btnAtras.setDisable(true);
             btnSiguiente.setDisable(false);
+              btnCancelar.setText("Cancelar");
 
         } else {
             btnAtras.setDisable(false);
             if (EstadoActual.equals("Completo")) {
-                btnSiguiente.setText("Finalizar");
+              
+                btnCancelar.setText("Cerrar");
+                btnSiguiente.setDisable(true);
+                 
               
             } else {
                 btnSiguiente.setText("Siguiente");
                 btnSiguiente.setDisable(false);
+                 btnCancelar.setText("Cancelar");
             }
         }
 
@@ -236,7 +244,11 @@ public class CalculoController implements Initializable {
 
     @FXML
     private void btnSiguiente_click() throws IOException {
-        SeleccionPestaña(true);
+     
+     
+              SeleccionPestaña(true);
+      
+       
     }
 
     @FXML
@@ -250,5 +262,8 @@ public class CalculoController implements Initializable {
 
         stage.close();
     }
+    
+    
+     
 
 }
