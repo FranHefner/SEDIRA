@@ -50,10 +50,11 @@
                               <VBox layoutX="474.0" layoutY="181.0" spacing="20.0">
                                  <children>
                                     <Button fx:id="btnAgregarItem" disable="true" layoutX="451.0" layoutY="78.0" mnemonicParsing="false" onAction="#btnAgregarItem" prefHeight="25.0" prefWidth="94.0" text="Agregar Item" />
-                                    <Button fx:id="btnEditarItem" disable="true" layoutX="451.0" layoutY="121.0" mnemonicParsing="false" onAction="#btnModificarItem" text="Modificar Item" />
+                                    <Button fx:id="btnEditarItem" disable="true" layoutX="451.0" layoutY="121.0" mnemonicParsing="false" onAction="#btnModificarItem" prefHeight="23.0" prefWidth="93.0" text="Modificar Item" />
                                     <Button fx:id="btnEliminarItem" disable="true" layoutX="451.0" layoutY="161.0" mnemonicParsing="false" onAction="#btnEliminarItem" prefHeight="25.0" prefWidth="93.0" text="Eliminar Item" />
                                  </children>
                               </VBox>
+                              <Button fx:id="btnCerrar" layoutX="478.0" layoutY="430.0" mnemonicParsing="false" onAction="#btnCerrar_click" prefHeight="23.0" prefWidth="93.0" text="Cerrar" />
                            </children>
                         </AnchorPane>
                     </content>

@@ -71,6 +71,8 @@ public class RadionuclidoController implements Initializable {
     private Button btnEditarItem;
     @FXML
     private TextField txtCampoBusqueda;
+@   FXML
+    private Button btnCerrar;
 
     //Lista Observable para el manejo de phantoms
     private ObservableList<Radionuclido> radionuclidoData = FXCollections.observableArrayList();
@@ -435,6 +437,14 @@ public class RadionuclidoController implements Initializable {
                
         }
 
+    }
+    
+    @FXML
+    public void btnCerrar_click()
+    {
+        Stage stage = (Stage) btnCerrar.getScene().getWindow();
+
+            stage.close();
     }
 
 

@@ -9,6 +9,7 @@
 
 <AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sedira.vistas.AyudaController">
    <children>
-      <WebView fx:id="navegador" layoutX="6.0" layoutY="10.0" prefHeight="380.0" prefWidth="593.0" />
+      <WebView fx:id="navegador" layoutX="6.0" layoutY="10.0" prefHeight="356.0" prefWidth="593.0" />
+      <Button fx:id="btnCerrar" layoutX="488.0" layoutY="366.0" mnemonicParsing="false" onAction="#btnCerrar_click" prefHeight="23.0" prefWidth="74.0" text="Cerrar" />
    </children>
 </AnchorPane>

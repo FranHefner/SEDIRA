@@ -7,10 +7,13 @@ package sedira.vistas;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -21,6 +24,8 @@ public class AyudaController implements Initializable {
     
     @FXML
     WebView navegador = new WebView();
+    @FXML
+    private Button btnCerrar;
     
     /**
      * Initializes the controller class.
@@ -35,6 +40,14 @@ public class AyudaController implements Initializable {
         //engine.load("file:///D:/Documents/NetBeansProjects/SEDIRA/Proyecto%20TEST/SEDIRA-TEST_db/dist/javadoc/index.htmla");
         
     }     
-    
+
+    @FXML
+    private void btnCerrar_click(ActionEvent event) {
+        Stage stage = (Stage) btnCerrar.getScene().getWindow();
+
+        stage.close();
+    }
+   
+   
     
 }

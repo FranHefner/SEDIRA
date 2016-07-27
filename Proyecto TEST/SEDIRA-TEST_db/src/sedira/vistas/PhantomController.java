@@ -91,6 +91,8 @@ public class PhantomController implements Initializable {
     private Button btnEliminarOrgano;
     @FXML
     private Button btnModificarOrgano;
+    @FXML
+    private Button btnCerrar;
 
     //Lista Observable para el manejo de phantoms
     private ObservableList<Phantom> phantomData = FXCollections.observableArrayList();
@@ -727,6 +729,13 @@ public class PhantomController implements Initializable {
             btnModificarOrgano.setDisable(true);
         }
 
+    }
+    @FXML
+    public void btnCerrar_click()
+    {
+        Stage stage = (Stage) btnCerrar.getScene().getWindow();
+
+            stage.close();
     }
 
 }

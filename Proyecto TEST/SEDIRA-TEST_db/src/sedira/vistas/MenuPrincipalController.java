@@ -117,7 +117,7 @@ public class MenuPrincipalController implements Initializable {
         }
         if ("Medico" == TipoUsuario) {
             Stage stage = new Stage();
-            Parent root = FXMLLoader.load(getClass().getResource("CalculoBasico.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("CalculoRapido.fxml"));
             Scene scene = new Scene(root);
             /*
              stage.setMaxWidth(682);        

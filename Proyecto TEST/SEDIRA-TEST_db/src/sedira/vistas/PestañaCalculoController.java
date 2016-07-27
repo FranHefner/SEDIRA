@@ -49,6 +49,8 @@ public class PestañaCalculoController implements Initializable {
     private TextField txtResult;
     
     private IDatosValidaciones dValidaciones;
+    @FXML
+    private Button btnGuardar;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
