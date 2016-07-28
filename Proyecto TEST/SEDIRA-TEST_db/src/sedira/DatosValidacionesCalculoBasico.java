@@ -14,6 +14,7 @@ import sedira.model.Organo;
 import sedira.model.Paciente;
 import sedira.model.Phantom;
 import sedira.model.Radionuclido;
+import sedira.model.ValorDescripcion;
 
 /**
  *
@@ -179,6 +180,26 @@ public class DatosValidacionesCalculoBasico implements IDatosValidaciones {
 
     @Override
     public boolean setRadionuclido(Radionuclido miRadionuclido) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public ValorDescripcion getItemPhantom() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public ValorDescripcion getItemRadNuclido() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean setItemPhantom(ValorDescripcion miItemPhantom) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean setItemRadNuclido(ValorDescripcion miItemRadNuclido) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.scene.*?>
@@ -19,7 +20,7 @@
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                <children>
-                  <TableView fx:id="griValorDescripcionPhantom" layoutX="350.0" layoutY="28.0" prefHeight="354.0" prefWidth="289.0">
+                  <TableView fx:id="griValorDescripcionPhantom" layoutX="269.0" layoutY="28.0" onMouseClicked="#seleccionInfoPhantom" prefHeight="184.0" prefWidth="384.0">
                      <columnResizePolicy>
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                      </columnResizePolicy>
@@ -30,16 +31,23 @@
                      </columns>
                   </TableView>
                   <Label layoutX="14.0" layoutY="10.0" prefHeight="17.0" prefWidth="185.0" text="Información de los órganos:" />
-                  <Label layoutX="350.0" layoutY="9.0" text="Información del phantom:" />
-                  <TableView fx:id="griOrgano" layoutX="14.0" layoutY="28.0" prefHeight="354.0" prefWidth="289.0">
+                  <Label layoutX="269.0" layoutY="7.0" text="Información del phantom:" />
+                  <TableView fx:id="griOrgano" focusTraversable="false" layoutX="14.0" layoutY="28.0" pickOnBounds="false" prefHeight="354.0" prefWidth="226.0">
                     <columns>
                       <TableColumn fx:id="clOrganoNombre" prefWidth="75.0" text="Organo" />
-                      <TableColumn fx:id="clOrganoMasa" prefWidth="75.0" text="Masa (grs)" />
+                      <TableColumn fx:id="clOrganoMasa" prefWidth="92.0" text="Masa (grs)" />
                     </columns>
                      <columnResizePolicy>
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                      </columnResizePolicy>
                   </TableView>
+                  <TextField fx:id="txtPropiedad" editable="false" layoutX="401.0" layoutY="261.0" prefHeight="22.0" prefWidth="106.0" />
+                  <TextField fx:id="txtValor" editable="false" layoutX="401.0" layoutY="290.0" prefHeight="22.0" prefWidth="106.0" />
+                  <TextField fx:id="txtUnidad" editable="false" layoutX="401.0" layoutY="318.0" prefHeight="22.0" prefWidth="106.0" />
+                  <Text layoutX="269.0" layoutY="234.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Seleccione un item de la lista propiedad-valor. " wrappingWidth="264.0" />
+                  <Text layoutX="340.0" layoutY="279.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Propiedad:" />
+                  <Text layoutX="362.0" layoutY="309.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Valor:" />
+                  <Text layoutX="353.0" layoutY="337.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Unidad:" />
                </children>
             </AnchorPane>
         </items>

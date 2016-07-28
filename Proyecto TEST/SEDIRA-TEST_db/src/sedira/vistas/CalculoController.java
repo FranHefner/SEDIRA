@@ -7,6 +7,7 @@ package sedira.vistas;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -14,7 +15,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -24,7 +27,6 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import sedira.DatosValidacionesCalculo;
-import sedira.DatosValidacionesCalculoBasico;
 import sedira.IDatosValidaciones;
 
 /**
@@ -78,36 +80,30 @@ public class CalculoController implements Initializable {
     @FXML
     private Button btnCancelar;
 
-    private PestañaOrganoController organoController;
-
     public static String pestañaActual;
 
     /**
      * Initializes the controller class.
      */
-  
     SingleSelectionModel<Tab> listaTABS;
-     /****** Inicializamos si vamos a realizar un proceso completo (Cientifico) o de Medico (Basico) ***/
-     
-     private IDatosValidaciones dValidaciones = new DatosValidacionesCalculo();
+    /**
+     * **** Inicializamos si vamos a realizar un proceso completo (Cientifico) o
+     * de Medico (Basico) **
+     */
+
+    private IDatosValidaciones dValidaciones = new DatosValidacionesCalculo();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
-             
-        
-        
         try {
-         
+
             dValidaciones.IniciarCalculo();
             dValidaciones.setProcesoCompleto(true);
-         
+
             /*
              * ********* LLenado del primer nodo/pestaña
              */
-            
-         
-            
             Node NodoPaciente;
             NodoPaciente = (Node) FXMLLoader.load(getClass().getResource("PestañaPaciente.fxml"));
             pnlPaciente.getChildren().setAll(NodoPaciente);
@@ -115,7 +111,7 @@ public class CalculoController implements Initializable {
             /**
              * ***************************************************
              */
-            txtProceso.setText(dValidaciones.GetTextoProgeso());     
+            txtProceso.setText(dValidaciones.GetTextoProgeso());
 
             listaTABS = tabPaneCalculo.getSelectionModel();
 
@@ -123,7 +119,11 @@ public class CalculoController implements Initializable {
             Logger.getLogger(CalculoController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    /**
+     * Método para el comportamiento de la selección de las pestañas. 
+     * @param adelante
+     * @throws IOException 
+     */
     public void SeleccionPestaña(boolean adelante) throws IOException {
         //  String EstadoActual = NuevoCalculo.EstadoActual();
 
@@ -150,6 +150,7 @@ public class CalculoController implements Initializable {
             tabOrganoTejido.setDisable(true);
             tabRadionuclido.setDisable(true);
             tabCalcular.setDisable(true);
+            
             if (adelante) {
                 Node NodoPhantom;
                 NodoPhantom = (Node) FXMLLoader.load(getClass().getResource("PestañaPhantom.fxml"));
@@ -210,12 +211,10 @@ public class CalculoController implements Initializable {
                 Node NodoCalculo;
                 NodoCalculo = (Node) FXMLLoader.load(getClass().getResource("PestañaCalculo.fxml"));
                 pnlCalculo.getChildren().setAll(NodoCalculo);
-                  
+
             }
 
             txtProceso.setText(dValidaciones.GetTextoProgeso());
-            
-           
 
         }
 
@@ -223,47 +222,60 @@ public class CalculoController implements Initializable {
         if (EstadoActual.equals("Paciente")) {
             btnAtras.setDisable(true);
             btnSiguiente.setDisable(false);
-              btnCancelar.setText("Cancelar");
+            btnCancelar.setText("Cancelar");
 
         } else {
             btnAtras.setDisable(false);
             if (EstadoActual.equals("Completo")) {
-              
+
                 btnCancelar.setText("Cerrar");
                 btnSiguiente.setDisable(true);
-                 
-              
+
             } else {
                 btnSiguiente.setText("Siguiente");
                 btnSiguiente.setDisable(false);
-                 btnCancelar.setText("Cancelar");
+                btnCancelar.setText("Cancelar");
             }
         }
 
     }
-
+    
+    /**
+     * Método para el comportamiento del boton Siguiente
+     * @throws IOException 
+     */
     @FXML
     private void btnSiguiente_click() throws IOException {
-     
-     
-              SeleccionPestaña(true);
-      
-       
+        SeleccionPestaña(true);
     }
-
+    /**
+     * Método para el comportamiento del boton Atras
+     * @throws IOException 
+     */
     @FXML
     private void btnAtras_click() throws IOException {
         SeleccionPestaña(false);
     }
-
+    /**
+     * Método para el comportamiento del boton Cancelar
+     * @throws IOException 
+     */
     @FXML
     private void btnCancelar_click() throws IOException {
         Stage stage = (Stage) btnCancelar.getScene().getWindow();
+        
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Cancelar proceso de cálculo");
+        alert.setHeaderText("Atención!");
+        alert.setContentText("Está seguro de cancelar el cálculo?");
 
-        stage.close();
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK){
+            stage.close();
+        } else {
+            
+        }
+        
     }
-    
-    
-     
 
 }

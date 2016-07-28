@@ -5,7 +5,6 @@
  */
 package sedira.vistas;
 
-import java.io.ByteArrayInputStream;
 import java.net.URL;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -20,14 +19,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import sedira.DatosValidacionesCalculo;
-import sedira.vistas.CalculoController;
 import javafx.scene.control.ProgressBar;
-import javafx.scene.control.ProgressIndicator;
 import sedira.DatosValidacionesCalculoBasico;
 import sedira.IDatosValidaciones;
-import sedira.ValidacionesGenerales;
-import sedira.vistas.CalculoController;
-
 
 /**
  * FXML Controller class
@@ -47,68 +41,64 @@ public class PestañaCalculoController implements Initializable {
     private ProgressBar BarraProgreso;
     @FXML
     private TextField txtResult;
-    
+
     private IDatosValidaciones dValidaciones;
     @FXML
     private Button btnGuardar;
-    
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
-         /* Se inicializa la interface para que se adapte al tipo de cálculo actual */
-        if( MenuPrincipalController.TipoUsuario == "Cientifico")
-        {
-           dValidaciones = new DatosValidacionesCalculo();
+
+        /* Se inicializa la interface para que se adapte al tipo de cálculo actual */
+        if (MenuPrincipalController.TipoUsuario == "Cientifico") {
+            dValidaciones = new DatosValidacionesCalculo();
         }
-        if (MenuPrincipalController.TipoUsuario == "Medico")
-        {
-           dValidaciones = new DatosValidacionesCalculoBasico();
+        if (MenuPrincipalController.TipoUsuario == "Medico") {
+            dValidaciones = new DatosValidacionesCalculoBasico();
         }
-        /****************************************************************************/
-        
-       txtEntradasCalculo.setText(dValidaciones.GetTextoProgeso());
-     
-    }    
-    
-     @FXML
-    public void GuardarResultado()
-    {  
-        dValidaciones.guardarCalculo();
-       
-        
+        /**
+         * *************************************************************************
+         */
+
+        txtEntradasCalculo.setText(dValidaciones.GetTextoProgeso());
+
     }
+
     @FXML
-    public void RealizarCalculo()            
-    {
-     
-      BarraProgreso.setProgress(0.5);
-      
-      double Progreso = 0;
-      
-      boolean bandera = false;
-      while (bandera == false)
-      {
-          try {
-              Thread.sleep(100);
-            Progreso  = Progreso+ 0.1;
-              BarraProgreso.setProgress(Progreso);
-              if (Progreso >= 1)
-              {
-                  bandera = true;
-              }
-          } catch (InterruptedException ex) {
-              Logger.getLogger(PestañaCalculoController.class.getName()).log(Level.SEVERE, null, ex);
-          }
-      }
-      
-      /***************************************************/
-       
-      /* Se conviene el RESULTADO A BLOB */ 
+    public void GuardarResultado() {
+        dValidaciones.guardarCalculo();
+
+    }
+
+    @FXML
+    public void RealizarCalculo() {
+
+        BarraProgreso.setProgress(0.5);
+
+        double Progreso = 0;
+
+        boolean bandera = false;
+        while (bandera == false) {
+            try {
+                Thread.sleep(100);
+                Progreso = Progreso + 0.1;
+                BarraProgreso.setProgress(Progreso);
+                if (Progreso >= 1) {
+                    bandera = true;
+                }
+            } catch (InterruptedException ex) {
+                Logger.getLogger(PestañaCalculoController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        /**
+         * ************************************************
+         */
+        /* Se conviene el RESULTADO A BLOB */
         try {
-          
+
             float resultado_temp_float = 489238;
-            
-      
+
             int bits = Float.floatToIntBits(resultado_temp_float);
             byte[] bytes = new byte[4];
             bytes[0] = (byte) (bits & 0xff);
@@ -118,21 +108,17 @@ public class PestañaCalculoController implements Initializable {
 
             Blob resultado_temp_blob = new javax.sql.rowset.serial.SerialBlob(bytes);
             dValidaciones.finalizarCalculo(resultado_temp_blob);
-          
+
             /* DE UN FLOAT COMO RESULTADO DEL CALCULO PASA A UN BLOB Y DESPUES A UN FLOAT */
-        float f = ByteBuffer.wrap(bytes).order(ByteOrder.LITTLE_ENDIAN).getFloat();
-        
-           String ResultString = String.valueOf(f);
+            float f = ByteBuffer.wrap(bytes).order(ByteOrder.LITTLE_ENDIAN).getFloat();
+
+            String ResultString = String.valueOf(f);
             txtResult.setText(ResultString);
-            
-      
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(PestañaCalculoController.class.getName()).log(Level.SEVERE, null, ex);
         }
-    
-  
-              
+
     }
-    
+
 }

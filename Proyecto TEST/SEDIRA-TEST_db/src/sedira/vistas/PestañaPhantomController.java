@@ -18,6 +18,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import sedira.FuncionesGenerales;
 import sedira.model.Organo;
@@ -38,6 +39,12 @@ public class PestañaPhantomController implements Initializable {
        
     //declaración de los componentes de la interfaz. 
     
+    @FXML
+    private TextField txtPropiedad;
+    @FXML
+    private TextField txtValor;
+    @FXML
+    private TextField txtUnidad;
     @FXML
     private ChoiceBox choicePhantom;
     @FXML
@@ -63,10 +70,8 @@ public class PestañaPhantomController implements Initializable {
          public static  ObservableList <Organo> listaOrgano = FXCollections.observableArrayList();
     //Lista de Phantom
          public static  ObservableList <Phantom> ListaPhantom = FXCollections.observableArrayList();
-    //Objeto de tipo ValorDescripcopn auxiliar. 
+    //Objeto de tipo ValorDescripcion auxiliar. 
         private ValorDescripcion phantomValorDescripcion;
-    //Objeto de tipo Organo auxiliar. 
-        private Organo organoActual;
     //Objeto Phantom auxiliar; 
         private Phantom phantomActual; 
     //Objeto interfaz Phantom
@@ -76,16 +81,18 @@ public class PestañaPhantomController implements Initializable {
     private IDatosValidaciones dValidaciones;
     /**
      * Inicializa la clase controladora.
+     * @param url
+     * @param rb
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
         /* Se inicializa la interface para que se adapte al tipo de cálculo actual */
-        if( MenuPrincipalController.TipoUsuario == "Cientifico")
+        if( "Cientifico".equals(MenuPrincipalController.TipoUsuario))
         {
            dValidaciones = new DatosValidacionesCalculo();
         }
-        if (MenuPrincipalController.TipoUsuario == "Medico")
+        if ("Medico".equals(MenuPrincipalController.TipoUsuario))
         {
            dValidaciones = new DatosValidacionesCalculoBasico();
         }
@@ -98,6 +105,10 @@ public class PestañaPhantomController implements Initializable {
        
         // Limpieza de los detalles de organos. 
         FuncionesGenerales.mostrarDetalleOrgano(null, griOrgano);
+        
+        //Desactivo la seleccion en la lista de organos 
+        griOrgano.setEditable(false);
+        
   
         
        //Inicializo la tabla de Propiedad Valor, correspondiente a los Phantoms. 
@@ -159,6 +170,17 @@ public class PestañaPhantomController implements Initializable {
                    /*************/
                 }
             });
+    }
+    /**
+     * Método que se activa al seleccionar un item de la tabla de informacion del phantom.  
+     */
+    @FXML
+    public void seleccionInfoPhantom (){
+        phantomValorDescripcion = griValorDescripcionPhantom.getSelectionModel().getSelectedItem();
+        txtPropiedad.setText(phantomValorDescripcion.getDescripcion());
+        txtValor.setText(String.valueOf(phantomValorDescripcion.getValor()));
+        txtUnidad.setText(phantomValorDescripcion.getUnidad());
+        dValidaciones.setItemPhantom(phantomValorDescripcion);
     }
     
 }
