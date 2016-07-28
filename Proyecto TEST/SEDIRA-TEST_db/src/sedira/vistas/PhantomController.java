@@ -50,6 +50,8 @@ public class PhantomController implements Initializable {
     @FXML
     private TableView<Phantom> griPhantom;
     @FXML
+    private TextField txtPesoTotal;
+    @FXML
     private TableColumn<Phantom, String> clPhantomNombre;
 
     @FXML
@@ -353,6 +355,8 @@ public class PhantomController implements Initializable {
             btnEditarPhantom.setDisable(false);
             //Prendo boton de Eliminar Phantom
             btnEliminarPhantom.setDisable(false);
+            //Completo el textfield del pesototal
+            txtPesoTotal.setText(String.valueOf(phantomActual.getPesoTotal(phantomActual)));
         } else {
             //Todo si no se selecciona ningun phantom de la lista
             //Apago los botones.
@@ -395,7 +399,7 @@ public class PhantomController implements Initializable {
          * con la utilizacion de los botones. Agregar item y Agregar organo.
          *
          */
-        Phantom tempPhantom = new Phantom(-1, "", null, null);
+        Phantom tempPhantom = new Phantom(-1, "",0.0, null, null);
         //Lista Observable para el manejo de la informacion de los phantoms
         ObservableList<ValorDescripcion> propiedadesPhantom = FXCollections.observableArrayList();
         //Lista Observable para el manejo de los organos de los phantoms
@@ -443,6 +447,8 @@ public class PhantomController implements Initializable {
             //Actualizacion de la informacion de organos
             organosData = ph.obtenerInfoOrgano(selectedPhantom);
             griOrgano.setItems(organosData);
+            //Completo el textfield del pesototal
+            txtPesoTotal.setText(String.valueOf(selectedPhantom.getPesoTotal(selectedPhantom)));
 
         } else {
             // Nothing selected.
@@ -676,6 +682,8 @@ public class PhantomController implements Initializable {
                 //Actualizacion de la informacion de organos
                 organosData = ph.obtenerInfoOrgano(auxPhantom);
                 griOrgano.setItems(organosData);
+                //Completo el textfield del pesototal
+                txtPesoTotal.setText(String.valueOf(auxPhantom.getPesoTotal(auxPhantom)));
             }
         } else {
             // No se selecciono ningun item. 

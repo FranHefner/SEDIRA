@@ -38,7 +38,8 @@ import sedira.model.PhantomDAOsql;
 public class PestañaPhantomController implements Initializable {
        
     //declaración de los componentes de la interfaz. 
-    
+    @FXML
+    private TextField txtPesoTotal;
     @FXML
     private TextField txtPropiedad;
     @FXML
@@ -164,7 +165,8 @@ public class PestañaPhantomController implements Initializable {
                     FuncionesGenerales.mostrarDetalleOrgano(ph.obtenerInfoOrgano(phantomActual), griOrgano);
                     //Completo tabla de Info Phantoms
                     FuncionesGenerales.mostrarDetalleTablaValorDescripcion(ph.obtenerInfoPhantom(phantomActual), griValorDescripcionPhantom);
-                    
+                    // Completo el textfield pesoTotal
+                    txtPesoTotal.setText(String.valueOf(phantomActual.getPesoTotal(phantomActual)));
                   /* Seleccion Phantom en el cálculo */  
                     dValidaciones.setPhantom(phantomActual);                            
                    /*************/

@@ -13,29 +13,31 @@ import javafx.collections.ObservableList;
 
 /**
  * Clase que describe un Phantom.
+ *
  * @author Hefner Francisco, Quelin Pablo
- * 
+ *
  */
 public class Phantom {
+
     private IntegerProperty idPhantom;
     private StringProperty phantomNombre;
-    private ObservableList <ValorDescripcion> propiedades; 
-    private ObservableList <Organo> organo;
+    private Double pesoTotal; //Sumatoria del peso de todos los organos
+    private ObservableList<ValorDescripcion> propiedades;
+    private ObservableList<Organo> organo;
 
-    
-    
-    
-   /**
-    * Constructor de Phantoms, Contiene una lista de valor-descripcion. Para la mejorar la escalabilidad. 
-    * @param phantomNombre
-    * @param propiedades
-    * @param organo 
-    * @param idPhantom identificador unico para el uso con Base de datos 
-    */
-    
-    public Phantom(int idPhantom, String phantomNombre, ObservableList<ValorDescripcion> propiedades, ObservableList<Organo> organo) {
-        this.idPhantom = new SimpleIntegerProperty (idPhantom);
-        this.phantomNombre = new SimpleStringProperty (phantomNombre);
+    /**
+     * Constructor de Phantoms, Contiene una lista de valor-descripcion. Para la
+     * mejorar la escalabilidad.
+     *
+     * @param phantomNombre
+     * @param propiedades
+     * @param organo
+     * @param idPhantom identificador unico para el uso con Base de datos
+     */
+    public Phantom(int idPhantom, String phantomNombre, Double pesoTotal, ObservableList<ValorDescripcion> propiedades, ObservableList<Organo> organo) {
+        this.idPhantom = new SimpleIntegerProperty(idPhantom);
+        this.phantomNombre = new SimpleStringProperty(phantomNombre);
+        this.pesoTotal = pesoTotal;
         this.propiedades = propiedades;
         this.organo = organo;
     }
@@ -47,23 +49,23 @@ public class Phantom {
     public void setIdPhantom(int idPhantom) {
         this.idPhantom.set(idPhantom);
     }
-    
-    public IntegerProperty idPhantomProperty (){
+
+    public IntegerProperty idPhantomProperty() {
         return idPhantom;
     }
-        
+
     public String getPhantomNombre() {
         return phantomNombre.get();
     }
-    
+
     public void setPhantomNombre(String phantomNombre) {
         this.phantomNombre.set(phantomNombre);
     }
-    
-    public StringProperty phantomNombreProperty (){
+
+    public StringProperty phantomNombreProperty() {
         return phantomNombre;
     }
-   
+
     public ObservableList<ValorDescripcion> getPropiedades() {
         return propiedades;
     }
@@ -79,15 +81,17 @@ public class Phantom {
     public void setOrgano(ObservableList<Organo> organo) {
         this.organo = organo;
     }
-    
 
-   
-    
-       
-    
-    
-    
-    
-    
-    
+    public Double getPesoTotal(Phantom phantom) {
+        ObservableList<Organo> organos = phantom.getOrgano();
+        if (organos != null) {
+            for (int i = 0; i < organos.size(); i++) {
+                pesoTotal = pesoTotal + organos.get(i).getOrganMass();
+            }
+            return pesoTotal;
+        } else {
+            return 0.0;
+        }
+    }
+
 }
