@@ -70,14 +70,14 @@ public class DatosValidacionesCalculo implements IDatosValidaciones{
             } else {
                 TextoProgreso = TextoProgreso + "Paciente: " + getPacienteActual().getApellido() + ", " + getPacienteActual().getNombre();
 
-                if (PhantomActual != null) {
+                if (PhantomActual != null && ItemPhantom != null) {
                     TextoProgreso = TextoProgreso + "\n" + "Phantom: " + getPhantomActual().getPhantomNombre();
                     TextoProgreso = TextoProgreso + "\n" + "Item Phantom: " + getItemPhantom().getDescripcion();
                     
                     if (OrganoActual != null) {
                         TextoProgreso = TextoProgreso + "\n" + "Organo: " + getOrganoActual().getNombreOrgano();
 
-                        if (RadionuclidoActual != null) {
+                        if (RadionuclidoActual != null && ItemRadNuclido != null) {
 
                             TextoProgreso = TextoProgreso + "\n" + "Radionuclido: " + getRadionuClidoActual().getNombreRadNuclido();
                             TextoProgreso = TextoProgreso + "\n" + "Item Radionuclido : " + getItemRadNuclido().getDescripcion();
@@ -154,7 +154,7 @@ public class DatosValidacionesCalculo implements IDatosValidaciones{
     }
 
     private static boolean validarPhantom() {
-        ItemPhantom = null;
+        //ItemPhantom = null;
         OrganoActual = null;
         RadionuclidoActual = null;
         ItemRadNuclido = null;
@@ -333,14 +333,20 @@ public class DatosValidacionesCalculo implements IDatosValidaciones{
         /* Se valida el estado real del calculo */
         if (PacienteActual == null) {
             return "Paciente";
-        } else if (PhantomActual == null) {
+        } else if (PhantomActual == null ) {
             if (!adelante) {
                 validarPaciente();
                 return "Paciente";
             }
             return "Phantom";
 
-        } else if (OrganoActual == null) {
+        } else if (ItemPhantom == null ) {
+            if (!adelante) {
+                validarPaciente();
+                return "Paciente";
+            }
+            return "Phantom";
+        }else if (OrganoActual == null) {
             if (!adelante) {
                 validarPhantom();
                 validarItemPhantom();
@@ -353,7 +359,14 @@ public class DatosValidacionesCalculo implements IDatosValidaciones{
                 return "Organo";
             }
             return "RadioNuclido";
-        } else {
+        }else if (ItemRadNuclido == null) {
+            if (!adelante) {
+                validarOrgano();
+                return "Organo";
+            }
+            return "RadioNuclido";
+        } 
+        else {
             if (!adelante) {
                 validaradionuclidoActual();
                 validarItemRadNuclido();
