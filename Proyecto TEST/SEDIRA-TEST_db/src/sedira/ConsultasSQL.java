@@ -18,7 +18,14 @@ import sedira.model.ConexionDB;
  * @author Hefner Francisco, Quelin Pablo
  */
 public class ConsultasSQL {
-
+    /**
+     * Metodo que es llamado en el momento de iniciar sesion 
+     * Se encarga de comprobar el nombre de usuario y la contraseña almacenados en la base de datos. 
+     * @param Usuario
+     * @param Password
+     * @return
+     * @throws Exception 
+     */
     public static int VerificarUserPass(String Usuario, String Password) throws Exception {
         ConexionDB conexion = new ConexionDB();
         String passwordEnc = Security.encrypt(Password);
@@ -26,7 +33,7 @@ public class ConsultasSQL {
 
         try {
 
-                 PreparedStatement consulta = conexion.getConnection().prepareStatement(
+            PreparedStatement consulta = conexion.getConnection().prepareStatement(
                     " SELECT *, NOW() AS HoraServer"
                     + " FROM usuarios "
                     + "     JOIN usuariotipos "
@@ -39,7 +46,6 @@ public class ConsultasSQL {
             consulta.setString(2, passwordEnc);
 
          //   String passwordDec = Security.decrypt(passwordEnc);
-
             ResultSet resultado = consulta.executeQuery();
 
             if (resultado.next()) {
@@ -72,7 +78,16 @@ public class ConsultasSQL {
         }
 
     }
-
+    
+    /**
+     * Método que se llama al crear un nuevo usuario. 
+     * @param Descripcion
+     * @param Usuario
+     * @param Password
+     * @param Id_TipoUsuario
+     * @return
+     * @throws Exception 
+     */
     public static boolean GuardarUserPass(String Descripcion, String Usuario, String Password, int Id_TipoUsuario) throws Exception {
         ConexionDB conexion = new ConexionDB();
 
@@ -84,7 +99,7 @@ public class ConsultasSQL {
 
             PreparedStatement consulta = conexion.getConnection().prepareStatement(
                     "INSERT INTO usuarios (descripcion,login,pass,id_usuarioTipos)"
-                            + "VALUES (?,?,?,?)");
+                    + "VALUES (?,?,?,?)");
             consulta.setString(1, Descripcion);
             consulta.setString(2, UsuarioEnc);
             consulta.setString(3, passwordEnc);

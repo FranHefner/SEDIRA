@@ -5,7 +5,6 @@
  */
 package sedira;
 
-import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
@@ -20,7 +19,6 @@ import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 import sedira.model.Organo;
 import sedira.model.Paciente;
 import sedira.model.Phantom;
@@ -29,7 +27,7 @@ import sedira.model.Usuario;
 import sedira.model.ValorDescripcion;
 
 /**
- * Funciones generales se trata de una encapsulacion de metodos y herramientas.
+ * Funciones generales se trata de una encapsulación de métodos y herramientas.
  *
  * @author Hefner Francisco , Quelin Pablo
  */

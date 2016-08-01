@@ -17,7 +17,10 @@ import sedira.model.Radionuclido;
 import sedira.model.ValorDescripcion;
 
 /**
- *
+ * Clase que define y guarda un cálculo en tiempo de ejecución. 
+ * El cálculo básico está definido para los usuarios que desen obtener una interfaz mas rápida y sencilla. 
+ * En la aplicación, está destinada a los "Medicos". 
+ * Dependera el tipo de usuario que inicia la app. 
  * @author Hefner Francisco, Quelin Pablo
  */
 public class DatosValidacionesCalculoBasico implements IDatosValidaciones {

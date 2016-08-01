@@ -17,8 +17,9 @@ import sedira.model.Radionuclido;
 import sedira.model.ValorDescripcion;
 
 /**
- * Clase que define y guarda un calculo en tiempo de ejecucion
- *
+ * Clase que define y guarda un cálculo en tiempo de ejecución
+ * En la aplicación, está destinada a los "Cientificos". 
+ * Dependera el tipo de usuario que inicia la app. 
  * @author Hefner Francisco, Quelin Pablo
  */
 public class DatosValidacionesCalculo implements IDatosValidaciones{
@@ -50,7 +51,7 @@ public class DatosValidacionesCalculo implements IDatosValidaciones{
         ItemRadNuclido = null;
         ItemPhantom = null;
     }
-
+    
     private static final ICalculoDAO cal = new CalculoDAOsql();
 
     /* Validaciones por cada objeto antes de finalizar el proceso y llenar la entidad cálculo */
