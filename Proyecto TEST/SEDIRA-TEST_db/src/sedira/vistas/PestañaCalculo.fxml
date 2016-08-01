@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import javafx.scene.chart.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
@@ -7,15 +8,47 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="444.0" prefWidth="611.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sedira.vistas.PestañaCalculoController">
+<AnchorPane id="AnchorPane" maxHeight="639.0" maxWidth="700.0" minHeight="440.0" minWidth="682.0" prefHeight="483.0" prefWidth="682.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sedira.vistas.PestañaCalculoController">
    <children>
-      <ProgressBar fx:id="BarraProgreso" layoutX="58.0" layoutY="258.0" prefHeight="35.0" prefWidth="539.0" progress="0.0" />
-      <Button id="btnCalcular" fx:id="btnCalcular" layoutX="193.0" layoutY="181.0" mnemonicParsing="false" onMouseClicked="#RealizarCalculo" prefHeight="35.0" prefWidth="251.0" text="Calcular" />
-      <Label layoutX="60.0" layoutY="299.0" text="Resultado:" />
-      <Label layoutX="58.0" layoutY="222.0" text="Progreso:" />
-      <TextField fx:id="txtResult" layoutX="176.0" layoutY="323.0" prefHeight="62.0" prefWidth="285.0" />
-      <TextArea fx:id="txtEntradasCalculo" layoutX="42.0" layoutY="56.0" prefHeight="119.0" prefWidth="552.0" />
-      <Label layoutX="42.0" layoutY="29.0" text="Entradas Cálculo:" />
-      <Button id="btnCalcular" fx:id="btnGuardar" layoutX="193.0" layoutY="395.0" mnemonicParsing="false" onMouseClicked="#GuardarResultado" prefHeight="35.0" prefWidth="251.0" text="Guardar" />
+      <Button id="btnCalcular" fx:id="btnCalcular" layoutX="54.0" layoutY="304.0" mnemonicParsing="false" onMouseClicked="#RealizarCalculo" prefHeight="64.0" prefWidth="179.0" text="Calcular" />
+      <Label layoutX="303.0" layoutY="438.0" text="Resultado:" />
+      <TextArea fx:id="txtEntrada" layoutX="371.0" layoutY="278.0" prefHeight="58.0" prefWidth="278.0" />
+      <Label layoutX="301.0" layoutY="299.0" text="Formula:" />
+      <Button id="btnCalcular" fx:id="btnGuardar" layoutX="54.0" layoutY="387.0" mnemonicParsing="false" onMouseClicked="#GuardarResultado" prefHeight="64.0" prefWidth="179.0" text="Guardar" />
+      <Pane fx:id="pnFuncion" layoutX="371.0" layoutY="347.0" prefHeight="79.0" prefWidth="278.0" style="-fx-background-color: black;" />
+      <TableView fx:id="griValorDescripcionPhantom" layoutX="11.0" layoutY="22.0" prefHeight="79.0" prefWidth="264.0">
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
+         <columns>
+            <TableColumn fx:id="clVdDescripcion" prefWidth="118.0" text="Propiedad" />
+            <TableColumn fx:id="clVdValor" prefWidth="73.0" text="Valor" />
+            <TableColumn fx:id="clVdUnidad" editable="false" prefWidth="71.0" text="Unidad" />
+         </columns>
+      </TableView>
+      <Label layoutX="11.0" layoutY="2.0" text="Propiedades Phantom" />
+      <TableView fx:id="griValorDescripcionPhantom1" layoutX="11.0" layoutY="128.0" prefHeight="79.0" prefWidth="264.0">
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
+         <columns>
+            <TableColumn fx:id="clVdDescripcion1" prefWidth="118.0" text="Propiedad" />
+            <TableColumn fx:id="clVdValor1" prefWidth="73.0" text="Valor" />
+            <TableColumn fx:id="clVdUnidad1" editable="false" prefWidth="71.0" text="Unidad" />
+         </columns>
+      </TableView>
+      <Label layoutX="147.0" layoutY="233.0" text="Masa:" />
+      <Label layoutX="23.0" layoutY="104.0" text="Propiedades Radionuclido" />
+      <TextField fx:id="txtResult" layoutX="371.0" layoutY="434.0" prefHeight="25.0" prefWidth="278.0" />
+      <Label layoutX="56.0" layoutY="233.0" text="&quot;Organo&quot;" />
+      <Button layoutX="322.0" layoutY="111.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="50.0" text="=&gt;" />
+      <TableView layoutX="415.0" layoutY="21.0" prefHeight="231.0" prefWidth="197.0">
+        <columns>
+          <TableColumn prefWidth="111.0" text="Propiedad" />
+          <TableColumn prefWidth="85.0" text="Variable" />
+        </columns>
+      </TableView>
+      <TextField fx:id="txtMasa" layoutX="193.0" layoutY="229.0" prefHeight="25.0" prefWidth="85.0" />
+      <Label layoutX="292.0" layoutY="378.0" text="Vista Previa:" />
    </children>
 </AnchorPane>
