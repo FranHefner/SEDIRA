@@ -11,33 +11,46 @@ import javax.crypto.spec.SecretKeySpec;
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
 import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
 /**
+ * Clase auxiliar. Ofrece los mecanismos de segurirar para el control de
+ * usuarios.
  *
  * @author Hefner Francisco, Quelin Pablo
  */
-/* Clase de seguridad donde se administra la encriptacion del login*/
 public class Security {
 
-    private static final String AESencrp  = "AES";
+    private static final String AESencrp = "AES";
     private static final byte[] fOmJ19yWN
             = new byte[]{'p', 'j', 'S', '9', '%', 's', '+',
                 '6', 'F', '#', 'b', 'w', '&', 'x', 'w', '7'};
 
-             
+    /**
+     * Método para encriptar un dato pasado por parámetros.
+     *
+     * @param Data
+     * @return
+     * @throws Exception
+     */
     public static String encrypt(String Data) throws Exception {
         Key key = generateKey();
-        Cipher c = Cipher.getInstance(AESencrp );
+        Cipher c = Cipher.getInstance(AESencrp);
         c.init(Cipher.ENCRYPT_MODE, key);
         byte[] encVal = c.doFinal(Data.getBytes());
         String encryptedValue = new BASE64Encoder().encode(encVal);
-        return encryptedValue;        
+        return encryptedValue;
     }
 
+    /**
+     * Método para desencriptar un dato pasado por parámetros.
+     *
+     * @param encryptedData
+     * @return
+     * @throws Exception
+     */
     public static String decrypt(String encryptedData) throws Exception {
         Key key = generateKey();
-        Cipher c = Cipher.getInstance(AESencrp );
+        Cipher c = Cipher.getInstance(AESencrp);
         c.init(Cipher.DECRYPT_MODE, key);
         byte[] decordedValue = new BASE64Decoder().decodeBuffer(encryptedData);
         byte[] decValue = c.doFinal(decordedValue);
@@ -45,11 +58,25 @@ public class Security {
         return decryptedValue;
     }
 
+    /**
+     * Método para generar el Key Utilizado en los métodos de encriptación y
+     * desencriptación.
+     *
+     * @return
+     * @throws Exception
+     */
     private static Key generateKey() throws Exception {
-        Key key = new SecretKeySpec(fOmJ19yWN, AESencrp );
+        Key key = new SecretKeySpec(fOmJ19yWN, AESencrp);
         return key;
     }
 
+    /**
+     * Método para aplicar el algoritmo de reducción criptografico.
+     *
+     * @param clear
+     * @return
+     * @throws Exception
+     */
     public static String md5(String clear) throws Exception {
         MessageDigest md = MessageDigest.getInstance("MD5");
         byte[] b = md.digest(clear.getBytes());

@@ -38,7 +38,7 @@ public class AplicacionPrincipal extends Application {
 
         //Se le pasa el root node
         Scene scene = new Scene(root);
-
+        //Tamaños de ventana
         primaryStage.setMaxWidth(362);
         primaryStage.setMaxHeight(185);
         primaryStage.setMinWidth(362);

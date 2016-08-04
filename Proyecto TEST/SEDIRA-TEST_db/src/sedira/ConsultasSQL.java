@@ -19,7 +19,7 @@ import sedira.model.ConexionDB;
  */
 public class ConsultasSQL {
     /**
-     * Metodo que es llamado en el momento de iniciar sesion 
+     * Metodo que es llamado en el momento de iniciar sesión 
      * Se encarga de comprobar el nombre de usuario y la contraseña almacenados en la base de datos. 
      * @param Usuario
      * @param Password
@@ -85,7 +85,7 @@ public class ConsultasSQL {
      * @param Usuario
      * @param Password
      * @param Id_TipoUsuario
-     * @return
+     * @return True si el usuario fué creado. False si ocurrio algun error. 
      * @throws Exception 
      */
     public static boolean GuardarUserPass(String Descripcion, String Usuario, String Password, int Id_TipoUsuario) throws Exception {

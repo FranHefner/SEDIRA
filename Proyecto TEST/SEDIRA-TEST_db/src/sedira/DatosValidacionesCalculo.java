@@ -17,15 +17,16 @@ import sedira.model.Radionuclido;
 import sedira.model.ValorDescripcion;
 
 /**
- * Clase que define y guarda un cálculo en tiempo de ejecución
- * En la aplicación, está destinada a los "Cientificos". 
- * Dependera el tipo de usuario que inicia la app. 
+ * Clase que define y guarda un cálculo en tiempo de ejecución En la aplicación,
+ * está destinada a los "Cientificos". Dependera el tipo de usuario que inicia
+ * la app.
+ *
  * @author Hefner Francisco, Quelin Pablo
  */
-public class DatosValidacionesCalculo implements IDatosValidaciones{
-    
+public class DatosValidacionesCalculo implements IDatosValidaciones {
+
     /**
-     * Elementos necesarios para la realizacion del calculo. 
+     * Elementos necesarios para la realización del cálculo.
      */
     private static Calculo CalculoActual;
     private static Paciente PacienteActual;
@@ -34,9 +35,10 @@ public class DatosValidacionesCalculo implements IDatosValidaciones{
     private static ValorDescripcion ItemPhantom;
     //ItemRadNuclido es el item que se selecciona de la lista de atributos del Radionuclido. 
     private static ValorDescripcion ItemRadNuclido;
-       
+
     private static Organo OrganoActual;
     private static Radionuclido RadionuclidoActual;
+    //Variable que se encarga de almacenar información recopilada durante el proceso de cálculo. 
     private static String TextoProgreso;
     private static String Observaciones;
     private static Blob Resultado;
@@ -51,16 +53,39 @@ public class DatosValidacionesCalculo implements IDatosValidaciones{
         ItemRadNuclido = null;
         ItemPhantom = null;
     }
-    
+
+    //Implementación de la interface ICalculo. En este caso, utiliza el lenguaje de base de datos MySql. 
     private static final ICalculoDAO cal = new CalculoDAOsql();
 
     /* Validaciones por cada objeto antes de finalizar el proceso y llenar la entidad cálculo */
- /* 
+    /* 
      1 - Que este en la base de datos el objeto (Paciente, Phantom, Organo, Radionuclido)
      2 - Que el paciente este en tratamiento
      3 - add..
      */
-    
+    @Override
+    public void setProcesoCompleto(boolean esCompleto) {
+        ProcesoCompleto = esCompleto;
+    }
+
+    @Override
+    public boolean getProcesoCompleto() {
+        return ProcesoCompleto;
+    }
+
+    @Override
+    public boolean finalizarCalculo(Blob resultado) {
+        Resultado = resultado;
+
+        return true;
+    }
+
+    /**
+     * Método que almacena en un cadena de texto toda la información de los
+     * items seleccionados en el proceso de cálculo.
+     *
+     * @return
+     */
     @Override
     public String GetTextoProgeso() {
         TextoProgreso = "";
@@ -74,7 +99,7 @@ public class DatosValidacionesCalculo implements IDatosValidaciones{
                 if (PhantomActual != null && ItemPhantom != null) {
                     TextoProgreso = TextoProgreso + "\n" + "Phantom: " + getPhantomActual().getPhantomNombre();
                     TextoProgreso = TextoProgreso + "\n" + "Item Phantom: " + getItemPhantom().getDescripcion();
-                    
+
                     if (OrganoActual != null) {
                         TextoProgreso = TextoProgreso + "\n" + "Organo: " + getOrganoActual().getNombreOrgano();
 
@@ -97,23 +122,12 @@ public class DatosValidacionesCalculo implements IDatosValidaciones{
         return TextoProgreso;
     }
 
-    @Override
-    public void setProcesoCompleto(boolean esCompleto)
-    {
-        ProcesoCompleto = esCompleto;
-    }
-     @Override
-    public boolean getProcesoCompleto()
-    {
-       return ProcesoCompleto;
-    }
-    @Override
-    public boolean finalizarCalculo(Blob resultado) {
-        Resultado = resultado;
-
-        return true;
-    }
-
+    /**
+     * Método que almacena el resultado del cálculo y todos los componentes en
+     * la base de datos
+     *
+     * @return
+     */
     @Override
     public boolean guardarCalculo() {
 
@@ -123,8 +137,8 @@ public class DatosValidacionesCalculo implements IDatosValidaciones{
             Calculo nuevoCalculo = new Calculo(Ahora.getTime(), PacienteActual.getIdPaciente(), PhantomActual.getIdPhantom(), RadionuclidoActual.getIdRadNuclido(), Observaciones, Resultado);
 
             /*  Se valida el hash antes de guardar, para luego tomarlo nuevamente de la base de datos y comparalo para ver si son iguales
-           la idea es poner un byte array, por otro lado hay que ver si conviene implementar el hash que viene por defecto en netbeans
-           hashCode() o usar el que hice que te devuelve un string en vez de un entero.
+             la idea es poner un byte array, por otro lado hay que ver si conviene implementar el hash que viene por defecto en netbeans
+             hashCode() o usar el que hice que te devuelve un string en vez de un entero.
            
              */
             nuevoCalculo.Validar();
@@ -137,7 +151,7 @@ public class DatosValidacionesCalculo implements IDatosValidaciones{
 
         /* Una vez guardado, obtener el dato y aplicar Hash para ver si coinciden, como forma de asegurarse el resiltado*/
         /* ver en que tipo de dato se guarda, podria ser en binaio para asegurarnos que no van a existir casteos de la db 
-        porque pude ser que cambie el motor de db        */
+         porque pude ser que cambie el motor de db        */
         return true;
     }
 
@@ -163,7 +177,7 @@ public class DatosValidacionesCalculo implements IDatosValidaciones{
 
         return true;
     }
-    
+
     private static boolean validarItemPhantom() {
 
         OrganoActual = null;
@@ -189,7 +203,7 @@ public class DatosValidacionesCalculo implements IDatosValidaciones{
 
         return true;
     }
-    
+
     private static boolean validarItemRadNuclido() {
 
         CalculoActual = null;
@@ -203,25 +217,44 @@ public class DatosValidacionesCalculo implements IDatosValidaciones{
         return validarPaciente();
     }
 
+    /**
+     * Método SetTer para el Phantom seleccionado en el proceso de cálculo.
+     *
+     * @param miPhantom
+     * @return
+     */
     @Override
     public boolean setPhantom(Phantom miPhantom) {
         PhantomActual = miPhantom;
 
         return validarPhantom();
     }
-    
+
+    /**
+     * Método SetTer para el Item del Phantom seleccionado en el proceso de
+     * cálculo.
+     *
+     * @param miItemPhantom
+     * @return
+     */
     @Override
-    public boolean setItemPhantom (ValorDescripcion miItemPhantom){
+    public boolean setItemPhantom(ValorDescripcion miItemPhantom) {
         ItemPhantom = miItemPhantom;
         return validarItemPhantom();
     }
-    
+
     @Override
-    public boolean setItemRadNuclido (ValorDescripcion miItemRadNuclido){
+    public boolean setItemRadNuclido(ValorDescripcion miItemRadNuclido) {
         ItemRadNuclido = miItemRadNuclido;
         return validarItemRadNuclido();
     }
 
+    /**
+     * Método SetTer para el organo seleccionado en el proceso de cálculo.
+     *
+     * @param miOrgano
+     * @return
+     */
     @Override
     public boolean setOrgano(Organo miOrgano) {
         OrganoActual = miOrgano;
@@ -229,6 +262,12 @@ public class DatosValidacionesCalculo implements IDatosValidaciones{
         return validarOrgano();
     }
 
+    /**
+     * Método SetTer para el Radionuclido seleccionado en el proceso de cálculo.
+     *
+     * @param miRadionuclido
+     * @return
+     */
     @Override
     public boolean setRadionuclido(Radionuclido miRadionuclido) {
 
@@ -256,6 +295,7 @@ public class DatosValidacionesCalculo implements IDatosValidaciones{
             return null;
         }
     }
+
     @Override
     public ValorDescripcion getItemPhantom() {
         if (ItemPhantom != null) {
@@ -264,7 +304,7 @@ public class DatosValidacionesCalculo implements IDatosValidaciones{
             return null;
         }
     }
-    
+
     @Override
     public ValorDescripcion getItemRadNuclido() {
         if (ItemRadNuclido != null) {
@@ -301,11 +341,22 @@ public class DatosValidacionesCalculo implements IDatosValidaciones{
         }
     }
 
+    /**
+     * Método que se llama al iniciar el cálculo. Limpia todas las variables
+     * para comenzar 0
+     */
     @Override
     public void IniciarCalculo() {
         limpiarVariables();
     }
 
+    /**
+     * Método para el control del estado en el cual se encuentra el cálculo.
+     *
+     * @param adelante
+     * @param pestañaActual
+     * @return
+     */
     @Override
     public String getEstadoActual(boolean adelante, String pestañaActual) {
         /* Si adelante esta en falso, retorna el estado anterior al estado actual */
@@ -334,20 +385,20 @@ public class DatosValidacionesCalculo implements IDatosValidaciones{
         /* Se valida el estado real del calculo */
         if (PacienteActual == null) {
             return "Paciente";
-        } else if (PhantomActual == null ) {
+        } else if (PhantomActual == null) {
             if (!adelante) {
                 validarPaciente();
                 return "Paciente";
             }
             return "Phantom";
 
-        } else if (ItemPhantom == null ) {
+        } else if (ItemPhantom == null) {
             if (!adelante) {
                 validarPaciente();
                 return "Paciente";
             }
             return "Phantom";
-        }else if (OrganoActual == null) {
+        } else if (OrganoActual == null) {
             if (!adelante) {
                 validarPhantom();
                 validarItemPhantom();
@@ -360,14 +411,13 @@ public class DatosValidacionesCalculo implements IDatosValidaciones{
                 return "Organo";
             }
             return "RadioNuclido";
-        }else if (ItemRadNuclido == null) {
+        } else if (ItemRadNuclido == null) {
             if (!adelante) {
                 validarOrgano();
                 return "Organo";
             }
             return "RadioNuclido";
-        } 
-        else {
+        } else {
             if (!adelante) {
                 validaradionuclidoActual();
                 validarItemRadNuclido();

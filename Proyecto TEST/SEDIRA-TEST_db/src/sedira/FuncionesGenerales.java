@@ -33,17 +33,14 @@ import sedira.model.ValorDescripcion;
  */
 public class FuncionesGenerales {
 
-    
-
     public static Phantom phantomActual;
     public static Radionuclido radionuclidoActual;
     public static Paciente pacienteActual;
-    public static Usuario usuarioActual; 
+    public static Usuario usuarioActual;
     public static int indice;
     public static int tipoUsuario;
     public static String pattern = "dd-MM-yyyy";
     public static DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(pattern);
-
     public static SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
     public static int getIndice() {
@@ -105,19 +102,23 @@ public class FuncionesGenerales {
     public static void setPacienteActual(Paciente paciente) {
         pacienteActual = paciente;
     }
+
     /**
      * Método SetTer para UsuarioActual
-     * @param usuario 
+     *
+     * @param usuario
      */
-    public static void setUsuarioActual (Usuario usuario){
-        usuarioActual = usuario; 
+    public static void setUsuarioActual(Usuario usuario) {
+        usuarioActual = usuario;
     }
+
     /**
-     * Método GetTer para UsuarioActual 
-     * @return 
+     * Método GetTer para UsuarioActual
+     *
+     * @return
      */
-    public static Usuario getUsuarioActual (){
-        return usuarioActual; 
+    public static Usuario getUsuarioActual() {
+        return usuarioActual;
     }
 
     /**
@@ -165,8 +166,8 @@ public class FuncionesGenerales {
     }
 
     /**
-     * Funcion que retorna una lista ordenada de los phantoms mendiante un
-     * criterio de busqueda.
+     * Función que retorna una lista ordenada de los Phantoms mendiante un
+     * criterio de búsqueda.
      *
      * @param griPhantom
      * @param phantomData
@@ -203,6 +204,15 @@ public class FuncionesGenerales {
 
     }
 
+    /**
+     * Función que retorna una lista ordenada de los Radionúclidos mendiante un
+     * criterio de búsqueda.
+     *
+     * @param griRadionuclido
+     * @param radionuclidoData
+     * @param txtCampoBusqueda
+     * @return
+     */
     public static SortedList<Radionuclido> FiltroListaRadNuclido(TableView<Radionuclido> griRadionuclido, ObservableList<Radionuclido> radionuclidoData, TextField txtCampoBusqueda) {
         // 1. Wrap the ObservableList in a FilteredList (initially display all data).
         FilteredList<Radionuclido> filteredData = new FilteredList<>(radionuclidoData, p -> true);
@@ -258,6 +268,13 @@ public class FuncionesGenerales {
 
     }
 
+    /**
+     * Método para convertir el formato Date de la fecha en una cadena de
+     * caracteres.
+     *
+     * @param date
+     * @return
+     */
     public static String DateLocalToString(LocalDate date) {
         if (date != null) {
             return dateFormatter.format(date);
@@ -266,6 +283,12 @@ public class FuncionesGenerales {
         }
     }
 
+    /**
+     * Método para convertir el formato String a formato Date.
+     *
+     * @param string
+     * @return
+     */
     public static LocalDate StringToDateLocal(String string) {
         if (string != null && !string.isEmpty()) {
             return LocalDate.parse(string, dateFormatter);
@@ -274,6 +297,13 @@ public class FuncionesGenerales {
         }
     }
 
+    /**
+     * Método para convertir el formato String a formato Date.
+     *
+     * @param Fecha
+     * @return
+     * @throws ParseException
+     */
     public static Date StringToDate(String Fecha) throws ParseException {
 
         Date date = dateFormat.parse(Fecha);
@@ -282,32 +312,39 @@ public class FuncionesGenerales {
 
     }
 
-   /* public static LocalDate DateToLocalDate(Date Fecha) {
+    /* public static LocalDate DateToLocalDate(Date Fecha) {
 
-        LocalDate date = Fecha.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+     LocalDate date = Fecha.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
-        return date;
-    }*/
-    
-     public static LocalDate DateToLocalDate(Date date) {
-    Instant instant = Instant.ofEpochMilli(date.getTime());
-    return LocalDateTime.ofInstant(instant, ZoneId.systemDefault())
-        .toLocalDate();
-    
-   
-      
-  }
+     return date;
+     }*/
+    public static LocalDate DateToLocalDate(Date date) {
+        Instant instant = Instant.ofEpochMilli(date.getTime());
+        return LocalDateTime.ofInstant(instant, ZoneId.systemDefault())
+                .toLocalDate();
+
+    }
 
     /*  public static Date LocalDateToDate(LocalDate Fecha) {
      Date date = Date.from(Fecha.atStartOfDay(ZoneId.systemDefault()).toInstant());
      return date;
      }  */
-    
-    public static int getTipoUsuario(){
+    /**
+     * Método GetTers para TipoUsuario
+     *
+     * @return
+     */
+    public static int getTipoUsuario() {
         return tipoUsuario;
     }
-    public static void setTipoUsuario(int tipo){
-        tipoUsuario=tipo;
+
+    /**
+     * Método para SetTer para TipoUsuario.
+     *
+     * @param tipo
+     */
+    public static void setTipoUsuario(int tipo) {
+        tipoUsuario = tipo;
     }
-    
+
 }
