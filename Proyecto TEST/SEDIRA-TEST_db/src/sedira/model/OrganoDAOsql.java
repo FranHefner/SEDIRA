@@ -23,6 +23,7 @@ public class OrganoDAOsql implements IOrganoDAO {
      * @param organo
      * @param idPhantom 
      */
+    @Override
     public void  agregarOrgano (Organo organo,int idPhantom){
          //Instancia de conexion
         ConexionDB conexion = new ConexionDB();
@@ -59,10 +60,11 @@ public class OrganoDAOsql implements IOrganoDAO {
     
     }
     /**
-     * Método que modifica un órgano
+     * Método que modifica un órgano existente en la base de datos
      * @param organo
      * @param idPhantom 
      */
+    @Override
     public void modificarOrgano(Organo organo, int idPhantom) {
         //Instancia de conexion
         ConexionDB conexion = new ConexionDB();
@@ -97,6 +99,7 @@ public class OrganoDAOsql implements IOrganoDAO {
      * Método que elimina un órgano de la base de datos. 
      * @param id identificador del órgano a eliminar. 
      */
+    @Override
     public void eliminarOrgano (int id){
          //Instancia de conexion
         ConexionDB conexion = new ConexionDB();
@@ -132,6 +135,7 @@ public class OrganoDAOsql implements IOrganoDAO {
      * @return True si el nombre no existe. False si el nombre existe
      * @throws SQLException 
      */
+    @Override
     public boolean buscaNombre(String nombreOrgano,int idPhantom) throws SQLException {
         //Instancia de conexion
         ConexionDB conexion = new ConexionDB();

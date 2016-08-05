@@ -152,7 +152,6 @@ public class AbmRadionuclidoController implements Initializable {
         if (validarDatosEntrada()) {
             switch (dialogStage.getTitle()) {
                 case "Crear un Radionúclido":
-
                     radionuclido.setNombreRadNuclido(txtRadNuclidoNombre.getText());
                     radionuclido.setPropiedades(listaAtributoRadNuclido);
                     break;
@@ -250,9 +249,10 @@ public class AbmRadionuclidoController implements Initializable {
                 if (txtPropiedad.getText() == null || txtPropiedad.getText().length() == 0) {
                     mensajeError += "Nombre de Propiedad Invalido! \n";
                 }
-                if (vd.buscaNombre(txtPropiedad.getText()) == false) {
+                /*if (vd.buscaNombre(txtPropiedad.getText()) == false) {
                     mensajeError += "El nombre de la propiedad que desea insertar ya existe\n";
-                }
+                    
+                }*/
 
             }
 

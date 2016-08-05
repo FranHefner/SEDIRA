@@ -566,12 +566,6 @@ public class PhantomController implements Initializable {
                 //actualizacion de la tabla ValorDescripcionPhantom.
                 griValorDescripcionPhantom.setItems(infoPhantom);
 
-                //Mensaje de confirmacion.
-                Alert alerta = new Alert(AlertType.INFORMATION);
-                alerta.setTitle("Confirmación");
-                alerta.setHeaderText(null);
-                alerta.setContentText("El ítem - " + selectedItem.getDescripcion() + " - fué eliminado.");
-                alerta.showAndWait();
 
             } else {
                 //Cancelacion de la eliminacion
@@ -640,7 +634,7 @@ public class PhantomController implements Initializable {
 
             if (guardarCambiosClicked) {
                 //True para Phantom,
-                //Flase para Radionuclido
+                //False para Radionuclido
                 vd.modificarItem(selectedItem, idPhantom, true, false);
                 //Actualizacion de la informacion del radionuclido
                 infoPhantom = ph.obtenerInfoPhantom(phantomActual);

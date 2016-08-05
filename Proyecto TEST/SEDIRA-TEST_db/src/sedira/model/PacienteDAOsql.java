@@ -19,12 +19,15 @@ import javax.swing.JOptionPane;
  * @author Quelin Pablo, Hefner Francisco
  *
  */
-public  class PacienteDAOsql implements IPacienteDAO {
+public class PacienteDAOsql implements IPacienteDAO {
+
     /**
      * Método que agrega un paciente a la base de datos
+     *
      * @param paciente a agregar
      */
-    public  void agregarPaciente(Paciente paciente) {
+    @Override
+    public void agregarPaciente(Paciente paciente) {
         //Instancia de conexion
         ConexionDB conexion = new ConexionDB();
         int dni = paciente.getNumeroDoc();
@@ -78,11 +81,14 @@ public  class PacienteDAOsql implements IPacienteDAO {
         }
 
     }
+
     /**
-     * Método para eliminar un paciente de la base de datos.  
-     * @param id Numero de paciente a eliminar. 
+     * Método para eliminar un paciente de la base de datos.
+     *
+     * @param id Numero de paciente a eliminar.
      */
-    public  void eliminarPaciente(int id) {
+    @Override
+    public void eliminarPaciente(int id) {
         //Instancia de conexion
         ConexionDB conexion = new ConexionDB();
 
@@ -108,11 +114,14 @@ public  class PacienteDAOsql implements IPacienteDAO {
         }
 
     }
+
     /**
-     * Método que modifica un paciente que ya existe en la base de datos. 
-     * @param paciente 
+     * Método que modifica un paciente que ya existe en la base de datos.
+     *
+     * @param paciente
      */
-    public  void modificarPaciente(Paciente paciente) {
+    @Override
+    public void modificarPaciente(Paciente paciente) {
         //Instancia de conexion
         ConexionDB conexion = new ConexionDB();
         int dni = paciente.getNumeroDoc();
@@ -159,13 +168,15 @@ public  class PacienteDAOsql implements IPacienteDAO {
         }
 
     }
+
     /**
      * Método que busca si el paciente ya está ingresado por su dni.
      *
      * @param dni
      * @return True si no existe, False si existe.
      */
-    public  boolean buscaDni(int dni) {
+    @Override
+    public boolean buscaDni(int dni) {
         //Instancia de conexion
         ConexionDB conexion = new ConexionDB();
 
@@ -191,13 +202,15 @@ public  class PacienteDAOsql implements IPacienteDAO {
             return false;
         }
     }
+
     /**
      * Método que retorna la lista completa de pacientes
      *
      * @return Lista de pacientes.
      * @throws SQLException
      */
-    public  ObservableList<Paciente> obtenerPacientes() throws SQLException {
+    @Override
+    public ObservableList<Paciente> obtenerPacientes() throws SQLException {
         //Instancia de conexion
         ConexionDB conexion = new ConexionDB();
         //Creo una lista auxiliar
@@ -246,12 +259,14 @@ public  class PacienteDAOsql implements IPacienteDAO {
         }
         return pacienteData;
     }
+
     /**
      * Método que retorna el último id insertado
      *
      * @return ultimo id
      */
-    public  int getLastId() {
+    @Override
+    public int getLastId() {
         // aux 
         int insertId = -1;
         //Instancia de conexion

@@ -13,7 +13,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 /**
- * Clase que describe a un organo. Un phantom esta contituido por una lista de organos. 
+ * Clase que describe a un órgano. Un phantom esta constituido por una lista de órganos. 
  * @author Hefner Francisco, Quelin Pablo
 
  */
@@ -59,7 +59,7 @@ public class Organo {
         return nombreOrgano;
     }
 
-    //**********************************irganMass GETters and SETters 
+    //**********************************organMass GETters and SETters 
     public Double getOrganMass() {
         return organMass.get();
     }

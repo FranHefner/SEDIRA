@@ -26,6 +26,7 @@ public class ValorDescripcion {
        
     /**
      * 
+     * @param id identidicador para el uso en la base de datos. 
      * @param descripcion define el nombre de un nuevo atributo.
      * @param valor el valor que tomara ese nuevo atributo. 
      * @param unidad se especifica la unidad. Debido a la pluralidad de elementos que existen.

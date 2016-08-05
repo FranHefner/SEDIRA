@@ -19,7 +19,9 @@ public interface IUsuarioDAO {
     public void modificarUsuario(Usuario usuario, int tipoUsuario);
 
     public void eliminarUsuario(int idUsuario);
+
     public String obtenerTipoUsuario(int id);
+
     public boolean buscaUsuario(String usuario);
 
     public ObservableList<Usuario> obtenerUsuarios();

@@ -9,14 +9,21 @@ import java.sql.SQLException;
 import javafx.collections.ObservableList;
 
 /**
- * Interface para PacientesDAOsql   
+ * Interface para PacientesDAOsql
+ *
  * @author pablo
  */
 public interface IPacienteDAO {
+
     void agregarPaciente(Paciente paciente);
+
     void eliminarPaciente(int id);
+
     void modificarPaciente(Paciente paciente);
+
     boolean buscaDni(int dni);
+
     ObservableList<Paciente> obtenerPacientes() throws SQLException;
+
     int getLastId();
 }

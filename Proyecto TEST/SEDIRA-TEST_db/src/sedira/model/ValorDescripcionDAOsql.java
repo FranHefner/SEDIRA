@@ -19,8 +19,8 @@ import javax.swing.JOptionPane;
 public class ValorDescripcionDAOsql implements IValorDescripcionDAO {
 
     /**
-     * Metodo que modifica un item para las tablas de Valor Descripcion.
-     * Funciona tanto para radionuclidos como para Phantoms
+     * Método que modifica un ítem para las tablas de Valor Descripcion.
+     * Funciona tanto para radionúclidos como para Phantoms
      *
      * @param vd item a agregar
      * @param id Identificador de la entidad que hace la llamada al metodo
@@ -29,11 +29,12 @@ public class ValorDescripcionDAOsql implements IValorDescripcionDAO {
      * False
      * @throws SQLException
      */
+    @Override
     public void agregarItem(ValorDescripcion vd, int id, boolean phantom, boolean radionuclido) throws SQLException {
         //Instancia de conexion
         ConexionDB conexion = new ConexionDB();
         String unidad = vd.getUnidad();
-        System.out.print(vd.getDescripcion());
+        
         try {
             PreparedStatement consulta = conexion.getConnection().prepareStatement(
                     "INSERT INTO valordescripcion (descripcion, valor, unidad, id_radionuclido,id_phantom) "
@@ -71,21 +72,22 @@ public class ValorDescripcionDAOsql implements IValorDescripcionDAO {
     }
 
     /**
-     * Metodo que modifica un item para las tablas de Valor Descripcion.
-     * Funciona tanto para radionuclidos como para Phantoms
+     * Método que modifica un ítem para las tablas de Valor Descripcion.
+     * Funciona tanto para radionúclidos como para Phantoms
      *
      * @param vd item a modificar
      * @param id Identificacion de la entidad que hace la llamada al metodo.
      * @param phantom
      * @param radionuclido
      */
+    @Override
     public void modificarItem(ValorDescripcion vd, int id, boolean phantom, boolean radionuclido) {
         //Instancia de conexion
         ConexionDB conexion = new ConexionDB();
         //Identificador del item a modificar.
         int itemId = vd.getId();
         try {
-            if (buscaNombre(vd.getDescripcion())) {
+            //if (buscaNombre(vd.getDescripcion())) {
                 PreparedStatement consulta = conexion.getConnection().prepareStatement(
                         "UPDATE valordescripcion SET descripcion = ?"
                         + ",valor = ?"
@@ -120,7 +122,7 @@ public class ValorDescripcionDAOsql implements IValorDescripcionDAO {
                 alerta.setContentText("El ítem -"+vd.getDescripcion() +"- fué modificado.");
                 alerta.showAndWait();
                 // JOptionPane.showMessageDialog(null, "La propiedad " + vd.getDescripcion() + " fué agregada con éxito!", "Información", JOptionPane.INFORMATION_MESSAGE); 
-            }
+            //}
 
         } catch (SQLException e) {
             System.out.println("Ocurrió un error en la modificación de la propiedad \n" + e.getMessage());
@@ -129,10 +131,11 @@ public class ValorDescripcionDAOsql implements IValorDescripcionDAO {
     }
 
     /**
-     * Metodo que elimina un item de una tabla de tipo ValorDescripcion.
+     * Método que elimina un ítem de una tabla de tipo ValorDescripcion.
      *
      * @param id identificador del item a eliminar.
      */
+    @Override
     public void eliminarItem(int id) {
         //Instancia de conexion
         ConexionDB conexion = new ConexionDB();
@@ -162,12 +165,13 @@ public class ValorDescripcionDAOsql implements IValorDescripcionDAO {
     }
     
     /**
-     * Metodo que busca si una propiedad ya existe.
+     * Método que busca si una propiedad ya existe.
      *
      * @param propiedad
      * @return True si no hay coincidencias. False si el nombre existe. 
      * @throws java.sql.SQLException 
      */
+    @Override
     public boolean buscaNombre(String propiedad) throws SQLException {
         //Instancia de conexion
         ConexionDB conexion = new ConexionDB();

@@ -15,34 +15,37 @@ import javax.swing.JOptionPane;
 
 /**
  * Clase de acceso de datos para Usuarios
+ *
  * @author Quelin Pablo, Hefner Francisco
  */
 public class UsuarioDAOsql implements IUsuarioDAO {
+
     /**
-     * Método para agregar un usuario a la base de datos 
+     * Método para agregar un usuario a la base de datos
+     *
      * @param usuario
-     * @param tipoUsuario 
+     * @param tipoUsuario
      */
-    public void agregarUsuario(Usuario usuario, int tipoUsuario){
+    public void agregarUsuario(Usuario usuario, int tipoUsuario) {
         //Instancia de conexion
         ConexionDB conexion = new ConexionDB();
         //obtengo el nombre de usuario para la busqueda. 
-        String nombreUsuario = usuario.getLogin();     
-        int TipoUsuario; 
-        
+        String nombreUsuario = usuario.getLogin();
+        int TipoUsuario;
+
         try {
-            if (buscaUsuario(nombreUsuario)==false){
+            if (buscaUsuario(nombreUsuario) == false) {
                 PreparedStatement consulta = conexion.getConnection().prepareStatement(
                         "INSERT INTO usuarios (descripcion, login, pass, id_usuarioTipos) "
                         + "VALUES(?,?,?,?)");
                 consulta.setString(1, usuario.getDescripcion());
                 consulta.setString(2, usuario.getLogin());
                 consulta.setString(3, usuario.getPass());
-                consulta.setInt(4,tipoUsuario);
+                consulta.setInt(4, tipoUsuario);
 
                 consulta.executeUpdate(); //Ejecucion de la consulta
                 consulta.close();
-                
+
                 conexion.desconectar();
 
                 // Mensaje de confirmacion
@@ -52,15 +55,17 @@ public class UsuarioDAOsql implements IUsuarioDAO {
                 alerta.setContentText("El usuario fué agregado.");
                 alerta.showAndWait();
             } else {
-                
+
             }
         } catch (SQLException e) {
             System.out.println("Ocurrió un error en la inserción del usuario " + e.getMessage());
             JOptionPane.showMessageDialog(null, "Ocurrió un error en la inserción del usuario " + e.getMessage(), "Información", JOptionPane.INFORMATION_MESSAGE);
         }
     }
+
     /**
      * Método que modifica un usuario existente en la base de datos
+     *
      * @param usuario
      * @param tipoUsuario
      */
@@ -95,11 +100,13 @@ public class UsuarioDAOsql implements IUsuarioDAO {
             JOptionPane.showMessageDialog(null, "Ocurrió un error en la modificación del usuario " + e.getMessage(), "Información", JOptionPane.INFORMATION_MESSAGE);
         }
     }
+
     /**
-     * Método que eliminar un usuario existente en la base de datos 
-     * @param idUsuario 
+     * Método que eliminar un usuario existente en la base de datos
+     *
+     * @param idUsuario
      */
-    public void eliminarUsuario (int idUsuario){
+    public void eliminarUsuario(int idUsuario) {
         //Instancia de conexion
         ConexionDB conexion = new ConexionDB();
 
@@ -112,8 +119,7 @@ public class UsuarioDAOsql implements IUsuarioDAO {
             consulta.executeUpdate(); //Ejecucion de la consulta.
             consulta.close();
             conexion.desconectar();
-            
-            
+
             // Mensaje de confirmacion
             Alert alerta = new Alert(Alert.AlertType.INFORMATION);
             alerta.setTitle("Confirmación");
@@ -125,48 +131,50 @@ public class UsuarioDAOsql implements IUsuarioDAO {
             System.out.println("Ocurrió un error al eliminar el usuario \n" + e.getMessage());
             JOptionPane.showMessageDialog(null, "Ocurrió un error al eliminar el usuario \n" + e.getMessage(), "Información", JOptionPane.INFORMATION_MESSAGE);
         }
-            
+
     }
+
     /**
-     * Método que busca un nombre de usuario en la base de datos. 
-     * En caso que exista returna True. 
-     * En caso que no exista retorna False
+     * Método que busca un nombre de usuario en la base de datos. En caso que
+     * exista returna True. En caso que no exista retorna False
+     *
      * @param usuario
      * @return True o False
      */
-    public boolean buscaUsuario (String usuario){
+    public boolean buscaUsuario(String usuario) {
         //Instancia de conexion
         ConexionDB conexion = new ConexionDB();
 
         try {
             PreparedStatement consulta = conexion.getConnection().prepareStatement(
                     "SELECT login FROM usuarios "
-                            + "WHERE login = ?");
+                    + "WHERE login = ?");
             consulta.setString(1, usuario);
-          
-            
+
             ResultSet resultado = consulta.executeQuery();
             if (resultado.next()) {
                 consulta.close();
-                
+
                 return true;
             } else {
                 //Si no hay coincidencias. o sea, la cantidad de tuplas es 0 entonces EL nombre no existe
                 return false;
             }
-            
+
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             JOptionPane.showMessageDialog(null, "Ocurrio un error! " + e);
             return false;
         }
     }
+
     /**
      * Método que retorna la informacion completa de la tabla de usuarios
-     * @param usuarioSeleccionado
-     * @return 
+     *
+     * @return
      */
-    public ObservableList <Usuario> obtenerUsuarios (){
+    @Override
+    public ObservableList<Usuario> obtenerUsuarios() {
         //Creo una lista auxiliar
         ObservableList<Usuario> usuarioData = FXCollections.observableArrayList();
         //Instancia de conexion
@@ -179,14 +187,14 @@ public class UsuarioDAOsql implements IUsuarioDAO {
                 //objeto auxiliar
                 // parametros de inicializacion del contructor (int idUsuario, String descripcion, String login, String pass)
                 Usuario usuario = new Usuario(0, "", "", "");
-         
+
                 //obtencion de los datos desde la bd.
                 usuario.setIdUsuario(Integer.parseInt(resultado.getString("id_usuario")));
                 usuario.setDescripcion(resultado.getString("descripcion"));
                 usuario.setLogin(resultado.getString("login"));
                 usuario.setPass(resultado.getString("pass"));
                 //Join con Tipos de usuario para traer el tipo. 
-                
+
                 usuarioData.add(usuario);
 
             }
@@ -201,10 +209,19 @@ public class UsuarioDAOsql implements IUsuarioDAO {
 
         return usuarioData;
     }
-    public String obtenerTipoUsuario(int id){
-         //Instancia de conexion
+
+    /**
+     * Método que retorna el tipo de usuario a partir de un id de usuario pasado
+     * por parametros.
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public String obtenerTipoUsuario(int id) {
+        //Instancia de conexion
         ConexionDB conexion = new ConexionDB();
-        String tipoUsuario="0";
+        String tipoUsuario = "0";
         try {
             PreparedStatement consulta = conexion.getConnection().prepareStatement("SELECT id_usuarioTipos FROM Usuarios"
                     + " WHERE id_usuario = ?");
@@ -212,23 +229,22 @@ public class UsuarioDAOsql implements IUsuarioDAO {
             ResultSet resultado = consulta.executeQuery();
             while (resultado.next()) {
                 //objeto auxiliar
-                
+
                 //obtencion de los datos desde la bd.
-                tipoUsuario= resultado.getString("id_usuarioTipos");
-                
+                tipoUsuario = resultado.getString("id_usuarioTipos");
+
             }
-            
+
             resultado.close();
             consulta.close();
             conexion.desconectar();
-            
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "no se pudo consultar el usuario /n" + e);
             System.out.print(e);
         }
 
-     return tipoUsuario;
-        
+        return tipoUsuario;
+
     }
 }

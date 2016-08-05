@@ -31,6 +31,7 @@ public class Phantom {
      *
      * @param phantomNombre
      * @param propiedades
+     * @param pesoTotal
      * @param organo
      * @param idPhantom identificador unico para el uso con Base de datos
      */
@@ -82,6 +83,13 @@ public class Phantom {
         this.organo = organo;
     }
 
+    /**
+     * Método que cálcula el peso total de un phantom, sumando la totalidad del
+     * paso de los órganos.
+     *
+     * @param phantom
+     * @return
+     */
     public Double getPesoTotal(Phantom phantom) {
         ObservableList<Organo> organos = phantom.getOrgano();
         if (organos != null) {

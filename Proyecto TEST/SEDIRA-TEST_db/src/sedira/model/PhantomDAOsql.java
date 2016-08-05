@@ -15,14 +15,17 @@ import javafx.scene.control.Alert;
 import javax.swing.JOptionPane;
 
 /**
- *  Clase de Acceso de datos para objetos de tipo Phamtonm
+ * Clase de Acceso de datos para objetos de tipo Phamtonm
+ *
  * @author Quelin Pablo, Hefner Francisco
  */
-public class  PhantomDAOsql implements IPhantomDAO{
-/**
- * Metodo que retorna la lista completa de phantoms de la base de datos 
- * @return phantomData
- */
+public class PhantomDAOsql implements IPhantomDAO {
+
+    /**
+     * Metodo que retorna la lista completa de phantoms de la base de datos
+     *
+     * @return phantomData
+     */
     @Override
     public ObservableList<Phantom> obtenerListaPhantom() {
         //Creo una lista auxiliar
@@ -36,7 +39,7 @@ public class  PhantomDAOsql implements IPhantomDAO{
             while (resultado.next()) {
                 //objeto auxiliar
                 // parametros de inicializacion del contructor (id, nombre, listaPropiedades, listaOrganos)
-                Phantom phantom = new Phantom(0, "",0.0, null, null);
+                Phantom phantom = new Phantom(0, "", 0.0, null, null);
                 //obtencion de los datos desde la bd.
                 phantom.setIdPhantom(Integer.parseInt(resultado.getString("id_phantom")));
                 phantom.setPhantomNombre(resultado.getString("nombre_phantom"));
@@ -55,10 +58,12 @@ public class  PhantomDAOsql implements IPhantomDAO{
 
         return phantomData;
     }
- /**
- * Método que retorna la lista de phantoms que tienen organos asignados
- * @return phantomData
- */
+
+    /**
+     * Método que retorna la lista de phantoms que tienen organos asignados
+     *
+     * @return phantomData
+     */
     @Override
     public ObservableList<Phantom> obtenerListaPhantomCompletos() {
         //Creo una lista auxiliar
@@ -68,13 +73,13 @@ public class  PhantomDAOsql implements IPhantomDAO{
 
         try {
             PreparedStatement consulta = conexion.getConnection().prepareStatement("SELECT * from phantoms INNER JOIN organos "
-                                                                                     + "WHERE organos.id_phantom = phantoms.id_phantom "
-                                                                                     + "GROUP BY phantoms.id_phantom");
+                    + "WHERE organos.id_phantom = phantoms.id_phantom "
+                    + "GROUP BY phantoms.id_phantom");
             ResultSet resultado = consulta.executeQuery();
             while (resultado.next()) {
                 //objeto auxiliar
                 // parametros de inicializacion del contructor (id, nombre, listaPropiedades, listaOrganos)
-                Phantom phantom = new Phantom(0, "",0.0, null, null);
+                Phantom phantom = new Phantom(0, "", 0.0, null, null);
                 //obtencion de los datos desde la bd.
                 phantom.setIdPhantom(Integer.parseInt(resultado.getString("id_phantom")));
                 phantom.setPhantomNombre(resultado.getString("nombre_phantom"));
@@ -93,12 +98,13 @@ public class  PhantomDAOsql implements IPhantomDAO{
 
         return phantomData;
     }
-    
+
     /**
-     * Metodo que retorna la informacion completa de tipo valor descripcion
-     * que contiene un phantom.
+     * Metodo que retorna la informacion completa de tipo valor descripcion que
+     * contiene un phantom.
+     *
      * @param phantomSeleccionado
-     * @return 
+     * @return
      */
     @Override
     public ObservableList<ValorDescripcion> obtenerInfoPhantom(Phantom phantomSeleccionado) {
@@ -111,21 +117,21 @@ public class  PhantomDAOsql implements IPhantomDAO{
         try {
             PreparedStatement consulta = conexion.getConnection().prepareStatement(
                     "SELECT * FROM phantoms "
-                            + "INNER JOIN valordescripcion "
-                            + "ON phantoms.id_phantom = valordescripcion.id_phantom "
-                            + "WHERE phantoms.id_phantom =" + idPhantom + ";"
+                    + "INNER JOIN valordescripcion "
+                    + "ON phantoms.id_phantom = valordescripcion.id_phantom "
+                    + "WHERE phantoms.id_phantom =" + idPhantom + ";"
             );
             ResultSet resultado = consulta.executeQuery();
             while (resultado.next()) {
                 //Ojeto Aux de tipo ValorDescripcion.
                 ValorDescripcion infoPhantom = new ValorDescripcion(-1, "", 0.0, "");
-                
+
                 //Completo el aux con la informacion obtenida de la BD
                 infoPhantom.setId(Integer.parseInt(resultado.getString("id_valordescripcion")));
                 infoPhantom.setDescripcion(resultado.getString("descripcion"));
                 infoPhantom.setValor(Double.parseDouble(resultado.getString("valor")));
                 infoPhantom.setUnidad(resultado.getString("unidad"));
-                
+
                 //agregro al arreglo de propiedades la nueva propiedad parseada
                 infoPhantomData.add(infoPhantom);
                 //agrego al phantom seleccionado la lista de propiedades
@@ -134,22 +140,22 @@ public class  PhantomDAOsql implements IPhantomDAO{
             resultado.close();
             consulta.close();
             conexion.desconectar();
-            
+
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "no se pudo consultar la información del phantom /n" + e);
             System.out.print(e);
         }
-        
+
         return infoPhantomData;
     }
-    
-    
+
     /**
-     * Metodo que agrega un Phantom a la base da datos 
-     * @param phantom que se insertara en la base de datos 
+     * Metodo que agrega un Phantom a la base da datos
+     *
+     * @param phantom que se insertara en la base de datos
      */
     @Override
-    public void agregarPhantom (Phantom phantom){
+    public void agregarPhantom(Phantom phantom) {
         //Instancia de conexion
         ConexionDB conexion = new ConexionDB();
         String nombrePhantom = phantom.getPhantomNombre();
@@ -157,16 +163,16 @@ public class  PhantomDAOsql implements IPhantomDAO{
             //Antes de insertar corrobora que no exista el nombre
             if (buscaNombre(nombrePhantom)) {
                 Statement consulta = conexion.getConnection().createStatement();
-                consulta.executeUpdate("INSERT INTO phantoms (nombre_phantom) VALUES ('" + nombrePhantom+ "')");
+                consulta.executeUpdate("INSERT INTO phantoms (nombre_phantom) VALUES ('" + nombrePhantom + "')");
                 consulta.close();
                 conexion.desconectar();
-            //Mensaje de confirmacion
-            Alert alerta = new Alert(Alert.AlertType.INFORMATION);
-            alerta.setTitle("Confirmación");
-            alerta.setHeaderText(null);
-            alerta.setContentText("El phantom fué "+nombrePhantom+" agregado.");
-            alerta.showAndWait();
-            
+                //Mensaje de confirmacion
+                Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+                alerta.setTitle("Confirmación");
+                alerta.setHeaderText(null);
+                alerta.setContentText("El phantom fué " + nombrePhantom + " agregado.");
+                alerta.showAndWait();
+
             } else {
                 //Las validaciones se encuentran en ABMphantomController 
                 //JOptionPane.showMessageDialog(null, "El phantom " + nombrePhantom + " ya existe!", "Información", JOptionPane.INFORMATION_MESSAGE);
@@ -175,39 +181,41 @@ public class  PhantomDAOsql implements IPhantomDAO{
             System.out.println(e.getMessage());
             JOptionPane.showMessageDialog(null, "Ocurrio un error en la creación");
         }
-        
+
     }
+
     /**
-     * Metodo que modifica el nombre de un phantom existente. 
-     * @param phantom 
+     * Metodo que modifica el nombre de un phantom existente.
+     *
+     * @param phantom a modificar
      */
     @Override
-    public void modificarNombrePhantom(Phantom phantom){
+    public void modificarNombrePhantom(Phantom phantom) {
         //Instancia de conexion
         ConexionDB conexion = new ConexionDB();
         String nombrePhantom = phantom.getPhantomNombre();
-        int id=phantom.getIdPhantom();
+        int id = phantom.getIdPhantom();
         try {
             //Antes de insertar corrobora que no exista el nombre
             if (buscaNombre(nombrePhantom)) {
                 PreparedStatement consulta = conexion.getConnection().prepareStatement(
-                "UPDATE phantoms SET nombre_phantom = ?"
+                        "UPDATE phantoms SET nombre_phantom = ?"
                         + "WHERE id_phantom=?");
-                
+
                 consulta.setString(1, nombrePhantom);
                 consulta.setInt(2, id);
                 //Ejecuto la consulta
                 consulta.executeUpdate();
                 consulta.close();
                 conexion.desconectar();
-                
-            //Mensaje de confirmacion
-            Alert alerta = new Alert(Alert.AlertType.INFORMATION);
-            alerta.setTitle("Confirmación");
-            alerta.setHeaderText(null);
-            alerta.setContentText("El phantom fué modificado");
-            alerta.showAndWait();
-            
+
+                //Mensaje de confirmacion
+                Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+                alerta.setTitle("Confirmación");
+                alerta.setHeaderText(null);
+                alerta.setContentText("El phantom fué modificado");
+                alerta.showAndWait();
+
             } else {
                 //Las validaciones se encuentran en ABMphantomController 
                 //JOptionPane.showMessageDialog(null, "El phantom " + nombrePhantom + " ya existe!", "Información", JOptionPane.INFORMATION_MESSAGE);
@@ -216,14 +224,17 @@ public class  PhantomDAOsql implements IPhantomDAO{
             System.out.println(e.getMessage());
             JOptionPane.showMessageDialog(null, "Ocurrio un error en la creación");
         }
-        
+
     }
+
     /**
-     * Metodo que elmina un phanton completo. Organos y propiedades tambien seran eliminados 
-     * @param id Identificador del phantom a eliminar. 
+     * Método que elimina un phanton completo. Organos y propiedades tambien
+     * seran eliminados
+     *
+     * @param id Identificador del phantom a eliminar.
      */
     @Override
-    public void eliminarPhantom(int id){
+    public void eliminarPhantom(int id) {
         //Instancia de conexion
         ConexionDB conexion = new ConexionDB();
 
@@ -235,8 +246,7 @@ public class  PhantomDAOsql implements IPhantomDAO{
             consulta.executeUpdate(); //Ejecucion de la consulta.
             consulta.close();
             conexion.desconectar();
-            
-            
+
             // Mensaje de confirmacion
             Alert alerta = new Alert(Alert.AlertType.INFORMATION);
             alerta.setTitle("Confirmación");
@@ -248,16 +258,16 @@ public class  PhantomDAOsql implements IPhantomDAO{
             System.out.println("Ocurrió un error al eliminar el phantom \n" + e.getMessage());
             JOptionPane.showMessageDialog(null, "Ocurrió un error al eliminar el phantom \n" + e.getMessage(), "Información", JOptionPane.INFORMATION_MESSAGE);
         }
-        
+
     }
+
     /**
-     * Metodo que busca en la base de datos si el nombre del phantoma ya existe. 
+     * Método que busca en la base de datos si el nombre del Phantom ya existe.
+     *
      * @param nombrePhantom
      * @return
-     * @throws SQLException 
+     * @throws SQLException
      */
-    
-    
     @Override
     public boolean buscaNombre(String nombrePhantom) throws SQLException {
         //Instancia de conexion
@@ -267,7 +277,7 @@ public class  PhantomDAOsql implements IPhantomDAO{
             PreparedStatement consulta = conexion.getConnection().prepareStatement(
                     "SELECT nombre_phantom FROM phantoms WHERE nombre_phantom = ?");
             consulta.setString(1, nombrePhantom);
-            
+
             ResultSet resultado = consulta.executeQuery();
             if (resultado.next()) {
                 consulta.close();
@@ -277,17 +287,19 @@ public class  PhantomDAOsql implements IPhantomDAO{
                 //Si no hay coincidencias. o sea, la cantidad de tuplas es 0 entonces EL nombre no existe
                 return true;
             }
-            
+
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             JOptionPane.showMessageDialog(null, "Ocurrio un error! " + e);
             return false;
         }
     }
+
     /**
-     * Metodo que retorna la lista de los organos que contiene un phantom. 
+     * Método que retorna la lista de los órganos que contiene un phantom.
+     *
      * @param phantomSeleccionado
-     * @return 
+     * @return
      */
     @Override
     public ObservableList<Organo> obtenerInfoOrgano(Phantom phantomSeleccionado) {

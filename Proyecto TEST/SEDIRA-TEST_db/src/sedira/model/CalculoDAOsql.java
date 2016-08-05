@@ -5,14 +5,13 @@
  */
 package sedira.model;
 
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import javafx.scene.control.Alert;
 import javax.swing.JOptionPane;
 
 /**
- * Clase de acceso de datos para Cálculo
+ * Clase de acceso de datos para Cálculo. Implementada en MySql.
  *
  * @author Quelin Pablo, Francisco Hefner
  */
@@ -23,15 +22,17 @@ public class CalculoDAOsql implements ICalculoDAO {
      *
      * @param idPaciente Identificador de paciente
      */
+    @Override
     public void getCalculo(int idPaciente) {
 
     }
 
     /**
-     * Método que agrega el resultado de un calculo.
+     * Método que almacena un cálculo en la base de datos.
      *
      * @param calculo
      */
+    @Override
     public void setCalculo(Calculo calculo) {
         //Instancia de conexion
         ConexionDB conexion = new ConexionDB();
@@ -68,7 +69,13 @@ public class CalculoDAOsql implements ICalculoDAO {
             JOptionPane.showMessageDialog(null, "Ocurrió un error al guardar el cálculo " + e.getMessage(), "Información", JOptionPane.INFORMATION_MESSAGE);
         }
     }
-    
+
+    /**
+     * Método que almacena un cálculo con menos datos en la base de datos.
+     *
+     * @param calculo
+     */
+    @Override
     public void setCalculoBasico(Calculo calculo) {
         //Instancia de conexion
         ConexionDB conexion = new ConexionDB();

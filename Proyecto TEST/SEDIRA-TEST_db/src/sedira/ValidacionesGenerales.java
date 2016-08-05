@@ -96,5 +96,9 @@ public class ValidacionesGenerales {
         }
         return true;
     }
+    public static boolean ValidarNombreConEspacios(String Nombre) {
+        return Nombre.matches("^[\\p{L} '-]+$");
+              
+    }
 
 }

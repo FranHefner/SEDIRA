@@ -19,33 +19,45 @@ import javafx.beans.property.StringProperty;
 import javafx.scene.control.Alert;
 
 /**
- * Clase Paciente, describe a un paciente dentro del sistema del calculo SEDIRA; 
- * 
- * 
+ * Clase Paciente, describe a un paciente dentro del sistema del calculo SEDIRA;
+ *
  */
 public class Paciente {
-    private  IntegerProperty idPaciente;
-    private  StringProperty tipoDoc;
-    private  IntegerProperty numeroDoc;
-    private  StringProperty apellido;
-    private  StringProperty nombre;
-  
-    private Date fechaNacimiento; 
-    private StringProperty  direccion; 
+
+    private IntegerProperty idPaciente;
+    private StringProperty tipoDoc;
+    private IntegerProperty numeroDoc;
+    private StringProperty apellido;
+    private StringProperty nombre;
+    private Date fechaNacimiento;
+    private StringProperty direccion;
     private int numeroAsociado;
-    private StringProperty  email;
-    private StringProperty  telefono; 
+    private StringProperty email;
+    private StringProperty telefono;
     private StringProperty celular;
-    private Blob foto; 
-    private StringProperty  sexo;
-    private boolean enTratamiento; 
+    private Blob foto;
+    private StringProperty sexo;
+    private boolean enTratamiento;
     private ProgresoPaciente EstadoActual;
-   // private List<ProgresoPaciente> Progreso;
-    
-   
+    // private List<ProgresoPaciente> Progreso;
+
     /**
-    * Contructor con parametros
-    */
+     * Contructor con parámetros para pacientes.
+     *
+     * @param idPaciente
+     * @param tipoDoc
+     * @param numeroDoc
+     * @param apellido
+     * @param nombre
+     * @param fechaNacimiento
+     * @param direccion
+     * @param numeroAsociado
+     * @param email
+     * @param telefono
+     * @param celular
+     * @param sexo
+     * @param enTratamiento
+     */
     public Paciente(int idPaciente, String tipoDoc, int numeroDoc, String apellido, String nombre, Date fechaNacimiento, String direccion, int numeroAsociado, String email, String telefono, String celular,/* Blob foto,*/ String sexo, boolean enTratamiento) {
         this.idPaciente = new SimpleIntegerProperty(idPaciente);
         this.tipoDoc = new SimpleStringProperty(tipoDoc);
@@ -58,12 +70,16 @@ public class Paciente {
         this.email = new SimpleStringProperty(email);
         this.telefono = new SimpleStringProperty(telefono);
         this.celular = new SimpleStringProperty(celular);
-    //    this.foto = foto;
+        //    this.foto = foto;
         this.sexo = new SimpleStringProperty(sexo);
         this.enTratamiento = enTratamiento;
-    }   
-    public Paciente(){
-          this.idPaciente = new SimpleIntegerProperty(0);
+    }
+
+    /**
+     * Contructor sin parámetros para pacientes.
+     */
+    public Paciente() {
+        this.idPaciente = new SimpleIntegerProperty(0);
         this.tipoDoc = new SimpleStringProperty("");
         this.numeroDoc = new SimpleIntegerProperty(0);
         this.apellido = new SimpleStringProperty("");
@@ -74,33 +90,29 @@ public class Paciente {
         this.email = new SimpleStringProperty("");
         this.telefono = new SimpleStringProperty("");
         this.celular = new SimpleStringProperty("");
-    //    this.foto = foto;
+        //    this.foto = foto;
         this.sexo = new SimpleStringProperty("");
         this.enTratamiento = true;
     }
- 
+
     public Date getFechaNacimientoDATE() {
-                      
-        if(fechaNacimiento== null)
-        {
-        return null;
+
+        if (fechaNacimiento == null) {
+            return null;
         }
         return fechaNacimiento;
     }
-    
+
     public String getFechaNacimientoString() {
-                        
-         if(fechaNacimiento== null)
-        {
-        return null;
-        }else
-         {
-          return fechaNacimiento.toString();
-         }
-        
-                 
+
+        if (fechaNacimiento == null) {
+            return null;
+        } else {
+            return fechaNacimiento.toString();
+        }
+
     }
-    
+
     public String getFechaNacimientoDB() {
 
         Format formatter;
@@ -112,15 +124,9 @@ public class Paciente {
             return formatter.format(fechaNacimiento);
 
         }
-        
-                 
+
     }
-     
-      
-     
-  
-  
-    
+
     //idPaciente
     public IntegerProperty getIdPacienteProperty() {
         return idPaciente;
@@ -129,161 +135,182 @@ public class Paciente {
     public void setIdPaciente(int idPaciente) {
         this.idPaciente.set(idPaciente);
     }
-    public int getIdPaciente (){
+
+    public int getIdPaciente() {
         return idPaciente.get();
     }
-  
+
     //TipoDoc
     public String getTipoDoc() {
         return tipoDoc.get();
     }
+
     public void setTipoDoc(String tipoDoc) {
         this.tipoDoc.set(tipoDoc);
     }
-    public StringProperty getTipoDocProperty(){
+
+    public StringProperty getTipoDocProperty() {
         return tipoDoc;
     }
-    
+
     //NumeroDoc
     public int getNumeroDoc() {
         return numeroDoc.get();
     }
+
     public void setNumeroDoc(int numeroDoc) {
         this.numeroDoc.set(numeroDoc);
     }
-    public IntegerProperty getNumeroDocProperty(){
+
+    public IntegerProperty getNumeroDocProperty() {
         return numeroDoc;
     }
-    
+
     //Apellido
     public StringProperty getApellidoProperty() {
         return apellido;
     }
+
     public void setApellido(String apellido) {
         this.apellido.set(apellido);
     }
-    public String getApellido(){
+
+    public String getApellido() {
         return apellido.get();
     }
-    
+
     //Nombre
     public StringProperty getNombreProperty() {
         return nombre;
     }
-    public String getNombre(){
+
+    public String getNombre() {
         return nombre.get();
     }
+
     public void setNombre(String nombre) {
         this.nombre.set(nombre);
     }
-    
+
     //FechaNacimiento
     public Date getFechaNacimiento() {
         return fechaNacimiento;
     }
-     public void setFechaNacimiento(Date fechaNacimiento) {
+
+    public void setFechaNacimiento(Date fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
     }
-      public void setFechaNacimiento(String fechaNacimiento) {
-          
+
+    public void setFechaNacimiento(String fechaNacimiento) {
+
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-	String dateInString = fechaNacimiento;
+        String dateInString = fechaNacimiento;
 
-	try {
+        try {
 
-		Date date = formatter.parse(dateInString);
-		this.fechaNacimiento= date;
-		
+            Date date = formatter.parse(dateInString);
+            this.fechaNacimiento = date;
 
-	} catch (ParseException e) {
-                
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("Ingreso de datos inválido");
-                alert.setHeaderText("Fecha invalida ");
-                alert.setContentText("La fecha que se quiere guardar es inválida");
-                alert.showAndWait();
-		//e.printStackTrace();
-	}       
-       
+        } catch (ParseException e) {
+
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Ingreso de datos inválido");
+            alert.setHeaderText("Fecha invalida ");
+            alert.setContentText("La fecha que se quiere guardar es inválida");
+            alert.showAndWait();
+            //e.printStackTrace();
+        }
+
     }
-       
-     
+
     //Direccion
     public StringProperty getDireccionProperty() {
         return direccion;
     }
+
     public void setDireccion(String direccion) {
         this.direccion.set(direccion);
     }
-    public String getDireccion(){
+
+    public String getDireccion() {
         return direccion.get();
     }
-    
+
     //Numero asociado
     public int getNumeroAsociado() {
         return numeroAsociado;
     }
+
     public void setNumeroAsociado(int numeroAsociado) {
         this.numeroAsociado = numeroAsociado;
     }
-    
+
     //Email
     public StringProperty getEmailProperty() {
         return email;
     }
-    public String getEmail (){
+
+    public String getEmail() {
         return email.get();
     }
+
     public void setEmail(String email) {
         this.email.set(email);
     }
-    
+
     //Telefono
     public StringProperty getTelefonoProperty() {
         return telefono;
     }
+
     public void setTelefono(String telefono) {
         this.telefono.set(telefono);
     }
-    public String getTelefono (){
+
+    public String getTelefono() {
         return telefono.get();
     }
-    
+
     //Celular
     public StringProperty getCelularProperty() {
         return celular;
     }
+
     public void setcelular(String celular) {
         this.celular.set(celular);
     }
-    public String getcelular (){
+
+    public String getcelular() {
         return celular.get();
     }
-    
-    
+
     //FOTO
     public Blob getFoto() {
         return foto;
     }
+
     public void setFoto(Blob foto) {
         this.foto = foto;
     }
-    
+
     //Sexo
     public StringProperty getSexoProperty() {
         return sexo;
     }
+
     public void setSexo(String sexo) {
         this.sexo.get();
     }
-    public String getSexo(){
+
+    public String getSexo() {
         return sexo.get();
     }
-    
+
     //Entratamiento
     public boolean isEnTratamiento() {
         return enTratamiento;
     }
+
     public void setEnTratamiento(boolean enTratamiento) {
         this.enTratamiento = enTratamiento;
     }
@@ -295,13 +322,5 @@ public class Paciente {
     public void setEstadoActual(ProgresoPaciente EstadoActual) {
         this.EstadoActual = EstadoActual;
     }
-    
-    
 
-
-
-   
-    
-    
-    
 }

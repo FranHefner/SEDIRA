@@ -12,18 +12,20 @@ import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
 
 /**
- * Clase que describe a los radionuclidos. 
+ * Clase que describe a los radionúclidos. 
  * @author Quelin Pablo, Hefner Francisco.
  */
 public class Radionuclido {
-    private IntegerProperty idRadNuclido; //identificador unico. Para uso en Base de Datos 
+    private IntegerProperty idRadNuclido; //identificador único. Para uso en Base de Datos 
     private StringProperty nombreRadNuclido;
     private ObservableList <ValorDescripcion> propiedades; // Otras propiedades. Escalabilidad. 
     
     
     /**
-     * Contructor de RadioNuclidos. Contiene una lista de propiedades para mejorar la escalabilidad. 
+     * Contructor de Radionúclidos. Contiene una lista de propiedades para mejorar la escalabilidad. 
      * @param idRadNuclido identificador unico para el uso en Base de datos. 
+     * @param nombreRadNuclido 
+     * @param propiedades 
      */
    
     public Radionuclido(int idRadNuclido,String nombreRadNuclido, ObservableList<ValorDescripcion> propiedades) {

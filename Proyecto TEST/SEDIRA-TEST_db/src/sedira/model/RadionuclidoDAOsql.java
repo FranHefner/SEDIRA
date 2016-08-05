@@ -16,14 +16,14 @@ import javafx.scene.control.Alert.AlertType;
 import javax.swing.JOptionPane;
 
 /**
- * Clase de acceso a datos para Radionuclidos.
+ * Clase de acceso a datos para Radionúclidos.
  *
  * @author Quelin Pablo, Hefner Francisco.
  */
 public class RadionuclidoDAOsql implements IRadionuclidoDAO {
     
     /**
-     * Metodo que retorna la lista completa de radionuclidos almacenados en la
+     * Método que retorna la lista completa de radionúclidos almacenados en la
      * base de datos.
      *
      * @return
@@ -57,11 +57,13 @@ public class RadionuclidoDAOsql implements IRadionuclidoDAO {
         return radionuclidoData;
     }
     /**
-     * Metodo que retorna la la lista de informacion para un radionuclido
+     * Método que retorna la la lista de información para un radionúclido
      * seleccionado.
      *
+     * @param radioNuclidoSeleccionado
      * @return
      */
+    @Override
     public ObservableList<ValorDescripcion> obtenerInfoRadNuclido(Radionuclido radioNuclidoSeleccionado) {
         //Creo una lista auxiliar
         ObservableList<ValorDescripcion> infoRadNuclidoData = FXCollections.observableArrayList();
@@ -106,13 +108,14 @@ public class RadionuclidoDAOsql implements IRadionuclidoDAO {
         return infoRadNuclidoData;
     }
     /**
-     * Metodo para agregar un radionuclido nuevo. Registra un nuevo radionuclido
-     * a la base de datos. Pero previamente corrobora si existe el radionuclido
+     * Método para agregar un radionúclido nuevo. Registra un nuevo radionúclido
+     * a la base de datos. Pero previamente corrobora si existe el radionúclido
      * ya ingresado en la base de datos
      *
      * @param radionuclido 
      * @throws java.sql.SQLException
      */
+    @Override
     public void agregarRadionuclido(Radionuclido radionuclido) throws SQLException {
         //Instancia de conexion
         ConexionDB conexion = new ConexionDB();
@@ -144,9 +147,10 @@ public class RadionuclidoDAOsql implements IRadionuclidoDAO {
         }
     }
     /**
-     * Metodo que elimina un radionuclido y todos sus organos. 
+     * Método que elimina un radionúclido y todos sus órganos. 
      * @param idRadionuclido Identificador del radionuclido a eliminar. 
      */
+    @Override
     public void eliminarRadionuclido (int idRadionuclido){
         //Instancia de conexion
         ConexionDB conexion = new ConexionDB();
@@ -175,9 +179,10 @@ public class RadionuclidoDAOsql implements IRadionuclidoDAO {
         
     }
     /**
-     * Metodo para modificar el nombre de un radionuclido existente. 
+     * Método para modificar el nombre de un radionúclido existente. 
      * @param radionuclido a modificar. 
      */
+    @Override
     public void modificarNombreRadionuclido(Radionuclido radionuclido) {
         //Instancia de conexion
         ConexionDB conexion = new ConexionDB();
@@ -219,11 +224,12 @@ public class RadionuclidoDAOsql implements IRadionuclidoDAO {
         }
     }
     /**
-     * Metodo que busca valida si un radionuclido ya existe.
+     * Método que busca valida si un radionúclido ya existe.
      *
      * @param nombreRadionuclido
      * @return True si no hay coincidencias. False si el nombre existe. 
      */
+    @Override
     public boolean buscaNombre(String nombreRadionuclido) throws SQLException {
         //Instancia de conexion
         ConexionDB conexion = new ConexionDB();

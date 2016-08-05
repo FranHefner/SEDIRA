@@ -6,7 +6,8 @@
 package sedira.model;
 
 /**
- *
+ * Clase para el almacenaje de tipos de documentos. 
+ * Los tipos vienen instalados con la app. 
  * @author Hefner Francisco, Quelin Pablo
  */
 public class TipoDocumento {

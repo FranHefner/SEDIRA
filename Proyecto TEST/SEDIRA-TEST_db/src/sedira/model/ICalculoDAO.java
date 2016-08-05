@@ -6,13 +6,16 @@
 package sedira.model;
 
 /**
- * Interface para CalculoDAO 
+ * Interface para CalculoDAO
+ *
  * @author Quelin Pablo, Hefner Francisco
  */
 public interface ICalculoDAO {
-      void getCalculo(int idPaciente);
-      void setCalculo(Calculo calculo);
-      void setCalculoBasico(Calculo calculo);
-              
-    
+
+    void getCalculo(int idPaciente);
+
+    void setCalculo(Calculo calculo);
+
+    void setCalculoBasico(Calculo calculo);
+
 }

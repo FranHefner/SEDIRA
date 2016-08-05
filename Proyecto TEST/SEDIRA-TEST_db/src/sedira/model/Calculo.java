@@ -8,19 +8,16 @@ package sedira.model;
 import java.sql.Blob;
 import java.text.Format;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.collections.ObservableList;
 import sedira.Security;
-import sedira.ValidacionesGenerales;
 
 /**
- * Clase que describe un calculo. El calculo almacena la informacion de : Fecha
- * : dia en que se realiza el calculo. IdPaciente: Identificador del paciente al
- * que se le realizo el calculo. IdPhantom: Identificador del phantom que se
- * utiliza para el calculo. IdRadionuclido: Identificador del radionuclido que
- * se utilizo para el calculo .
+ * Clase que describe un cálculo. El cálculo almacena la información de : Fecha
+ * : dia en que se realiza el cálculo. IdPaciente: Identificador del paciente al
+ * que se le realizó el cálculo. IdPhantom: Identificador del phantom que se
+ * utilizó para el cálculo. IdRadionuclido: Identificador del radionuclido que
+ * se utilizó para el cálculo .
  *
  * @author Hefner Francisco, Quelin Pablo.
  */
@@ -34,8 +31,18 @@ public class Calculo {
     private String observaciones;
     private Blob resultado;
     private String HashValidado;
-    private String TipoCaluclo;
+    private String TipoCalculo;
 
+    /**
+     * Constructor para la clase Calculo.
+     *
+     * @param pfecha
+     * @param pidPaciente
+     * @param pidPhantom
+     * @param pidRadionuclido
+     * @param pobservaciones
+     * @param presultado
+     */
     public Calculo(long pfecha, int pidPaciente, int pidPhantom, int pidRadionuclido, String pobservaciones, Blob presultado) {
         Fecha = pfecha;
         idPaciente = pidPaciente;
@@ -43,7 +50,7 @@ public class Calculo {
         idRadionuclido = pidRadionuclido;
         observaciones = pobservaciones;
         resultado = presultado;
-        TipoCaluclo = "Completo";
+        TipoCalculo = "Completo";
     }
 
     /**
@@ -60,10 +67,16 @@ public class Calculo {
         idPaciente = pidPaciente;
         observaciones = pobservaciones;
         resultado = presultado;
-        TipoCaluclo = "Basico";
+        TipoCalculo = "Basico";
 
     }
 
+    /**
+     * Método que valida un cálculo realizado. Utiliza Hash para hacer la
+     * comparación.
+     *
+     * @return
+     */
     public boolean Validar() {
 
         String Resultado = String.valueOf(Fecha) + idPaciente + idPhantom + idRadionuclido + observaciones + resultado.hashCode();
@@ -83,19 +96,40 @@ public class Calculo {
     }
 
     /* Valida que el hash del parametro sea igual al actual*/
+    /**
+     * Compara el hash del cálculo guardado con el cálculo leido.
+     *
+     * @param hash
+     * @return
+     */
     public boolean ValidacionHash(String hash) {
         return HashValidado.equals(hash);
     }
 
+    /**
+     * Método para obtener el HashCode
+     *
+     * @return
+     */
     public String getHashCode() {
         return HashValidado;
     }
 
+    /**
+     * Método GetTer para el atributo fecha.
+     *
+     * @return
+     */
     public long getFecha() {
         return Fecha;
 
     }
 
+    /**
+     * Método SetTer para el atributo fecha.
+     *
+     * @param Fecha
+     */
     public void setFecha(long Fecha) {
         this.Fecha = Fecha;
     }
@@ -114,49 +148,71 @@ public class Calculo {
 
     }
 
+    /**
+     * Método GetTer para el atributo idPaciente.
+     *
+     * @return
+     */
     public int getIdPaciente() {
         return idPaciente;
     }
+
+    /**
+     * Método GetTer para el atributo idPhantom.
+     *
+     * @return
+     */
     public int getIdPhantom() {
         return idPhantom;
     }
 
+    /**
+     * Método GetTer para el atributo idRadionuclido.
+     *
+     * @return
+     */
     public int getIdRadionuclido() {
         return idRadionuclido;
     }
 
+    /**
+     * Método GetTer para el atributo resultado.
+     *
+     * @return el resultado en tipo BLOB
+     */
     public Blob getResultado() {
         return resultado;
     }
 
+    /**
+     * Método GetTer para el atributo observaciones.
+     *
+     * @return
+     */
     public String getObservaciones() {
         return observaciones;
     }
 
     /* Por ahora no se necesitan */
     /*
-    public void setIdPaciente(int idPaciente) {
-        this.idPaciente = idPaciente;
-    }
+     public void setIdPaciente(int idPaciente) {
+     this.idPaciente = idPaciente;
+     }
 
-    public void setIdRadionuclido(int idRadionuclido) {
-        this.idRadionuclido = idRadionuclido;
-    }
+     public void setIdRadionuclido(int idRadionuclido) {
+     this.idRadionuclido = idRadionuclido;
+     }
 
-    public void setIdPhantom(int idPhantom) {
-        this.idPhantom = idPhantom;
-    }
+     public void setIdPhantom(int idPhantom) {
+     this.idPhantom = idPhantom;
+     }
 
-    public void setObservaciones(String observaciones) {
-        this.observaciones = observaciones;
-    }
+     public void setObservaciones(String observaciones) {
+     this.observaciones = observaciones;
+     }
 
-    public void setResultado(Blob resultado) {
-        this.resultado = resultado;
-    }
-*/
-
-    
-       
-    
+     public void setResultado(Blob resultado) {
+     this.resultado = resultado;
+     }
+     */
 }
