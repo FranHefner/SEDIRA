@@ -62,7 +62,7 @@ public class ValorDescripcionDAOsql implements IValorDescripcionDAO {
             Alert alerta = new Alert(Alert.AlertType.INFORMATION);
             alerta.setTitle("Confirmación");
             alerta.setHeaderText(null);
-            alerta.setContentText("El item -"+vd.getDescripcion() +"- fué agregado.");
+            alerta.setContentText("El item: \n " +vd.getDescripcion() +"\n fué agregado.");
             alerta.showAndWait();
             
         } catch (SQLException e) {
@@ -119,7 +119,7 @@ public class ValorDescripcionDAOsql implements IValorDescripcionDAO {
                 Alert alerta = new Alert(Alert.AlertType.INFORMATION);
                 alerta.setTitle("Confirmación");
                 alerta.setHeaderText(null);
-                alerta.setContentText("El ítem -"+vd.getDescripcion() +"- fué modificado.");
+                alerta.setContentText("El item: \n " +vd.getDescripcion() +"\n fué modificado.");
                 alerta.showAndWait();
                 // JOptionPane.showMessageDialog(null, "La propiedad " + vd.getDescripcion() + " fué agregada con éxito!", "Información", JOptionPane.INFORMATION_MESSAGE); 
             //}
@@ -139,7 +139,7 @@ public class ValorDescripcionDAOsql implements IValorDescripcionDAO {
     public void eliminarItem(int id) {
         //Instancia de conexion
         ConexionDB conexion = new ConexionDB();
-
+        
         try {
 
             PreparedStatement consulta = conexion.getConnection().prepareStatement(

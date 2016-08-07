@@ -86,7 +86,7 @@ public class ValidacionesGenerales {
      * Método que controla si un nombre contiene los caracteres permitidos.
      *
      * @param Nombre
-     * @return
+     * @return True si acepta. False si no
      */
     public static boolean ValidarNombre(String Nombre) {
         for (int i = 0; i < Nombre.length(); i++) {
@@ -96,9 +96,20 @@ public class ValidacionesGenerales {
         }
         return true;
     }
+    /**
+     * Método que controla si un nombre es aceptado. En este caso acepta espacios entre caracteres. 
+     * Utiliza expresiones regulares. 
+     * @param Nombre
+     * @return True si acepta. False si no 
+     */
     public static boolean ValidarNombreConEspacios(String Nombre) {
         return Nombre.matches("^[\\p{L} '-]+$");
               
     }
+    
+    public static boolean ValidarNumericoFloat (String Numero){
+        return Numero.matches("-?\\d+(\\.\\d+)?");
+    }
+    
 
 }

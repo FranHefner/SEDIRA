@@ -35,7 +35,7 @@ import sedira.model.ValorDescripcion;
 import sedira.model.ValorDescripcionDAOsql;
 
 /**
- * FXML Controller class Clase controladora de la intefaz de usuario
+ * FXML Controller class Clase controladora de la interfaz de usuario
  * Administrador de Radionúclidos.
  *
  * @author Quelin Pablo, Hefner Francisco.
@@ -112,7 +112,7 @@ public class RadionuclidoController implements Initializable {
     }
 
     /**
-     * Al buscar el radionuclido , los muestra en la lista para su seleccion.
+     * Al buscar el radionúclido , los muestra en la lista para su selección.
      */
     @FXML
     public void buscarRadionuclido() {
@@ -121,7 +121,7 @@ public class RadionuclidoController implements Initializable {
     }
 
     /**
-     * Metodo que muestra los detalles del radionuclido seleccionado en la tabla
+     * Metodo que muestra los detalles del radionúclido seleccionado en la tabla
      * de resultado de busqueda.
      *
      * @param radionuclidoActual radionuclido que se selecciona del grilla de
@@ -146,7 +146,11 @@ public class RadionuclidoController implements Initializable {
              btnEliminarRadionuclido.setDisable(true);
         }
     }
-
+    /**
+     * Método  que se activa el momento en que el usuario desea modificar el radionúclido.
+     * @param radionuclido
+     * @return 
+     */
     public boolean mostrarRadionuclidoDialog(Radionuclido radionuclido) {
         // cargo el nuevo FXML para crear un ventana tipo PopUp
         try {
@@ -178,7 +182,11 @@ public class RadionuclidoController implements Initializable {
             return false;
         }
     }
-
+    /**
+     * Método que se activa cuando el usuario desea moficar o crear un item perteneciente a  un radionúclido. 
+     * @param itemRadionuclido
+     * @return 
+     */
     public boolean mostrarItemRadionuclidoEditDialog(ValorDescripcion itemRadionuclido) {
         // cargo el nuevo FXML para crear un ventana tipo PopUp
         try {
@@ -225,7 +233,7 @@ public class RadionuclidoController implements Initializable {
     }
 
     /**
-     * Metodo para el comportamiento del boton editar. Abre un dialogo para la
+     * Método para el comportamiento del boton editar. Abre un dialogo para la
      * edicion de un item del Radionuclido.
      */
     @FXML
@@ -264,7 +272,7 @@ public class RadionuclidoController implements Initializable {
     }
 
     /**
-     * Metodo que controla el comportamiento del boton Quitar Item.
+     * Método que controla el comportamiento del boton Quitar Item.
      */
     @FXML
     public void btnEliminarItem() {
@@ -316,7 +324,7 @@ public class RadionuclidoController implements Initializable {
     }
     
     /**
-     * Metodo que elimina un radionuclido. Tambien elimina los items asociados.
+     * Método que elimina un radionúclido. Tambien elimina los items asociados.
      */
     public void btnEliminarRadionuclido() {
         //Radionuclido seleccionado.
@@ -370,7 +378,7 @@ public class RadionuclidoController implements Initializable {
         }
     }
     /**
-     * Metodo que controla el comportamiento del boton modificar item.
+     * Método que controla el comportamiento del boton modificar item.
      */
     @FXML
     public void btnAgregarItem() throws SQLException {
@@ -399,8 +407,8 @@ public class RadionuclidoController implements Initializable {
     }
 
     /**
-     * Metodo para el comportamiento del boton Crear radioNuclido El
-     * radionuclido primero se crea sin elemento de tipo propiedad valor.
+     * Método para el comportamiento del boton Crear radionuclido. El
+     * radionúclido primero se crea sin elemento de tipo propiedad valor.
      */
     @FXML
     public void btnAgregarRadionuclido() throws SQLException {
@@ -418,7 +426,7 @@ public class RadionuclidoController implements Initializable {
     }
 
     /**
-     * Metodo que modifica el nombre del radionuclido.
+     * Método que modifica el nombre del radionúclido.
      */
     @FXML
     public void btnModificarRadionuclido() {

@@ -20,6 +20,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import sedira.FuncionesGenerales;
+import sedira.ValidacionesGenerales;
 import sedira.model.IRadionuclidoDAO;
 import sedira.model.IValorDescripcionDAO;
 import sedira.model.Radionuclido;
@@ -93,7 +94,7 @@ public class AbmRadionuclidoController implements Initializable {
     }
 
     /**
-     * Setea el Radionuclido a editar.
+     * Setea el Radionúclido a editar.
      *
      * @param radionuclido a editar.
      */
@@ -127,7 +128,7 @@ public class AbmRadionuclidoController implements Initializable {
     }
 
     /**
-     *
+     * Método SetTer para el item de radionúclido que se selecciono. 
      * @param itemRadionuclido
      */
     public void setItemRadionuclido(ValorDescripcion itemRadionuclido) {
@@ -143,11 +144,11 @@ public class AbmRadionuclidoController implements Initializable {
     }
 
     /**
-     * Metodo llamado al momento de que el usuario presiona Guardar datos .
+     * Método llamado al momento de que el usuario presiona Guardar datos .
      */
     @FXML
     public void btnGuardarDatos() throws SQLException {
-       // TODO: VALIDACIONES.  
+        // TODO: VALIDACIONES.  
 
         if (validarDatosEntrada()) {
             switch (dialogStage.getTitle()) {
@@ -216,7 +217,7 @@ public class AbmRadionuclidoController implements Initializable {
     }
 
     /**
-     * metodo para el control del Boton Limpiar Valores. limpia los datos
+     * Método para el control del Boton Limpiar Valores. limpia los datos
      * agregados en los textFields del formulario.
      */
     @FXML
@@ -226,13 +227,25 @@ public class AbmRadionuclidoController implements Initializable {
         txtValor.setText("");
     }
 
+    /**
+     * Método que se encarga de la validación de los datos ingresados por el
+     * usuario.
+     *
+     * @return
+     * @throws SQLException
+     */
     public boolean validarDatosEntrada() throws SQLException {
-        String mensajeError = "";
+        String mensajeError = "Existe un error en los siguientes campos: \n";
+        String valor = txtValor.getText();
+        String propiedad = txtPropiedad.getText();
+        String unidad = txtUnidad.getText();
         String nombreRadNuclido = txtRadNuclidoNombre.getText();
+        
         if ("Crear un Radionúclido".equals(this.dialogStage.getTitle()) || "Modificar nombre del Radionúclido".equals(this.dialogStage.getTitle())) {
             // Solo valido
+            // campo en NULL y Campo con logitud 0
             if (txtRadNuclidoNombre.getText() == null || txtRadNuclidoNombre.getText().length() == 0) {
-                mensajeError += "Nombre del Radionuclido Invalido!";
+                mensajeError += "Nombre del radionúclido inválido!";
             }
             if (rad.buscaNombre(nombreRadNuclido) == false) {
                 mensajeError += "El nombre del radionúclido ya existe!";
@@ -240,45 +253,56 @@ public class AbmRadionuclidoController implements Initializable {
 
         } else {
             /*
-             Debido  a la utilizacion del mismo formulario para el abm de radionuclido. 
-             Cuando se modifica el nombre los campos de unidad, propiedad y valor estan desactivados. 
+             Debido  a la utilización del mismo formulario para el abm de radionúclido. 
+             Cuando se modifica el nombre los campos de unidad, propiedad y valor están desactivados. 
              Por eso se pregunta si estan prendidos los textfields
              */
             if (txtPropiedad.isDisable() == false) {
 
-                if (txtPropiedad.getText() == null || txtPropiedad.getText().length() == 0) {
-                    mensajeError += "Nombre de Propiedad Invalido! \n";
+                if (propiedad == null || propiedad.length() == 0) {
+                    mensajeError += "El campo Propiedad inválido! \n";
                 }
                 /*if (vd.buscaNombre(txtPropiedad.getText()) == false) {
-                    mensajeError += "El nombre de la propiedad que desea insertar ya existe\n";
+                 mensajeError += "El nombre de la propiedad que desea insertar ya existe\n";
                     
-                }*/
+                 }*/
 
             }
 
             if (txtValor.isDisable() == false) {
-                if (txtValor.getText() == null || txtValor.getText().length() == 0) {
-                    mensajeError += "Valor invalido! \n";
+                if (valor == null || valor.length() == 0) {
+                    mensajeError += "Valor inválido! \n";
                 } else {
-                    if (Double.valueOf(txtValor.getText()) == 0.0) {
-                        mensajeError += "Adventencia - Valor = 0.0 \n";
-                    } else {
-                        //trato de parsear el valor como un double. 
-                        try {
-                            Double.parseDouble(txtValor.getText());
-                        } catch (NumberFormatException e) {
-                            mensajeError += "El atributo valor debe ser un número real!\n";
+                    try {
+                        int i = Integer.parseInt(valor);
+                    //int routine
+                        //Si puede se pasa el entero a Double. 
+                    } catch (NumberFormatException e) {
+                        if (ValidacionesGenerales.ValidarNumericoFloat(valor)) {
+                            double d = Double.parseDouble(valor);
+                            if (d == 0.0) {
+                                mensajeError += "El campo Valor no debe ser 0.0 !\n";
+                            }
+                            //double routine
+
+                        } else {
+                            mensajeError += "El campo Valor debe ser númerico separado por . "
+                                    + "  Ej: 12.30 \n";
+                            //throw new IllegalArgumentException();
                         }
                     }
                 }
             }
+            //Validacion Unidad. 
+            // Al no saber con ciencia cierta lo que el usuario seleccionara como unidad. Este campo solo valida que el 
+            // no este vacio o sin caracteres. 
             if (txtUnidad.isDisable() == false) {
                 if (txtUnidad.getText() == null || txtUnidad.getText().length() == 0) {
-                    mensajeError += "El campo Unidad Invalido! \n";
+                    mensajeError += "El campo Unidad inválido! \n";
                 }
             }
         }
-        // TODO validacion Unidad. 
+        
 
         if (mensajeError.length() == 0) {
             return true;

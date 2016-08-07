@@ -226,12 +226,17 @@ public class AbmPhantomController implements Initializable {
         txtValor.setText("");
     }
 
+    /**
+     * Método que se encarga de la validación de los datos ingresados
+     *
+     * @return
+     * @throws SQLException
+     */
     public boolean validarDatosEntrada() throws SQLException {
         String mensajeError = "";
         String valor = txtValor.getText();
         String propiedad = txtPropiedad.getText();
         String unidad = txtUnidad.getText();
-
         String nombrePhantom = txtNombrePhantom.getText();
 
         if ("Crear un Phantom".equals(this.dialogStage.getTitle()) || "Modificar nombre del Phantom".equals(this.dialogStage.getTitle())) {
@@ -246,7 +251,7 @@ public class AbmPhantomController implements Initializable {
         } else {
             // Validacion propiedad
             if (propiedad == null || propiedad.length() == 0) {
-                mensajeError += "El campo propiedad no puede estar vacio. \n";
+                mensajeError += "El campo Propiedad no puede estar vacio. \n";
             } else {
                 if (!ValidacionesGenerales.ValidarNombreConEspacios(propiedad)) {
                     mensajeError += "El campo Propiedad debe contener solo letras.\n";
@@ -262,7 +267,7 @@ public class AbmPhantomController implements Initializable {
                     //int routine
                     //Si puede se pasa el entero a Double. 
                 } catch (NumberFormatException e) {
-                    if (valor.matches("-?\\d+(\\.\\d+)?")) {
+                    if (ValidacionesGenerales.ValidarNumericoFloat(valor)) {
                         double d = Double.parseDouble(valor);
                         if (d == 0.0) {
                             mensajeError += "El campo Valor no debe ser 0.0 \n";
@@ -270,19 +275,20 @@ public class AbmPhantomController implements Initializable {
                         //double routine
 
                     } else {
-                        mensajeError += "El campo Valor debe ser númerico separado por . "
-                                + "  Ej: 12.30";
+                        mensajeError += "El campo Valor debe ser númerico separado por . (punto) "
+                                + "  Ej: 12.30 \n";
                         //throw new IllegalArgumentException();
                     }
                 }
 
             }
             //Validacion Unidad. 
-            if (txtUnidad.getText() == null || txtUnidad.getText().length() == 0) {
-                    mensajeError += "\n El campo Unidad es inválido! \n";
-                }
+            // Al no saber con ciencia cierta lo que el usuario seleccionara como unidad. Este campo solo valida que el 
+            // no este vacio o sin caracteres. 
+            if (unidad == null || unidad.length() == 0) {
+                mensajeError += "El campo Unidad es inválido! \n";
+            }
         }
-         
 
         if (mensajeError.length() == 0) {
             return true;
@@ -291,7 +297,6 @@ public class AbmPhantomController implements Initializable {
             alert.setTitle("Error!");
             alert.setHeaderText("Existe un error en los siguientes campos:");
             alert.setContentText(mensajeError);
-
             alert.showAndWait();
             return false;
         }

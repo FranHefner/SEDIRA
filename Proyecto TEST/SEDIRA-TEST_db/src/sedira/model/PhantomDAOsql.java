@@ -39,7 +39,7 @@ public class PhantomDAOsql implements IPhantomDAO {
             while (resultado.next()) {
                 //objeto auxiliar
                 // parametros de inicializacion del contructor (id, nombre, listaPropiedades, listaOrganos)
-                Phantom phantom = new Phantom(0, "", 0.0, null, null);
+                Phantom phantom = new Phantom(0, "", 0, null, null);
                 //obtencion de los datos desde la bd.
                 phantom.setIdPhantom(Integer.parseInt(resultado.getString("id_phantom")));
                 phantom.setPhantomNombre(resultado.getString("nombre_phantom"));
@@ -79,7 +79,7 @@ public class PhantomDAOsql implements IPhantomDAO {
             while (resultado.next()) {
                 //objeto auxiliar
                 // parametros de inicializacion del contructor (id, nombre, listaPropiedades, listaOrganos)
-                Phantom phantom = new Phantom(0, "", 0.0, null, null);
+                Phantom phantom = new Phantom(0, "", 0, null, null);
                 //obtencion de los datos desde la bd.
                 phantom.setIdPhantom(Integer.parseInt(resultado.getString("id_phantom")));
                 phantom.setPhantomNombre(resultado.getString("nombre_phantom"));

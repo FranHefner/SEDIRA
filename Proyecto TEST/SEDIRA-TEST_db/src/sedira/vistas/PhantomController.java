@@ -399,7 +399,7 @@ public class PhantomController implements Initializable {
          * con la utilizacion de los botones. Agregar item y Agregar organo.
          *
          */
-        Phantom tempPhantom = new Phantom(-1, "",0.0, null, null);
+        Phantom tempPhantom = new Phantom(-1, "",0, null, null);
         //Lista Observable para el manejo de la informacion de los phantoms
         ObservableList<ValorDescripcion> propiedadesPhantom = FXCollections.observableArrayList();
         //Lista Observable para el manejo de los organos de los phantoms
@@ -482,7 +482,7 @@ public class PhantomController implements Initializable {
             } else {
 
             }
-
+            
         } else {
             // No se selecciono ningun item. 
             Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -520,6 +520,7 @@ public class PhantomController implements Initializable {
                 //Actualizacion de la informacion de organos
                 organosData = ph.obtenerInfoOrgano(selectedPhantom);
                 griOrgano.setItems(organosData);
+                txtPesoTotal.setText(String.valueOf(selectedPhantom.getPesoTotal(selectedPhantom)));
             } else {
 
             }

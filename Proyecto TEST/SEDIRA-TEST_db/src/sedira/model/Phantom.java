@@ -5,6 +5,8 @@
  */
 package sedira.model;
 
+
+import static java.lang.Math.round;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -21,7 +23,7 @@ public class Phantom {
 
     private IntegerProperty idPhantom;
     private StringProperty phantomNombre;
-    private Double pesoTotal; //Sumatoria del peso de todos los organos
+    private double pesoTotal; //Sumatoria del peso de todos los organos
     private ObservableList<ValorDescripcion> propiedades;
     private ObservableList<Organo> organo;
 
@@ -35,7 +37,7 @@ public class Phantom {
      * @param organo
      * @param idPhantom identificador unico para el uso con Base de datos
      */
-    public Phantom(int idPhantom, String phantomNombre, Double pesoTotal, ObservableList<ValorDescripcion> propiedades, ObservableList<Organo> organo) {
+    public Phantom(int idPhantom, String phantomNombre, double pesoTotal, ObservableList<ValorDescripcion> propiedades, ObservableList<Organo> organo) {
         this.idPhantom = new SimpleIntegerProperty(idPhantom);
         this.phantomNombre = new SimpleStringProperty(phantomNombre);
         this.pesoTotal = pesoTotal;
@@ -90,13 +92,15 @@ public class Phantom {
      * @param phantom
      * @return
      */
-    public Double getPesoTotal(Phantom phantom) {
+    public double getPesoTotal(Phantom phantom) {
+        pesoTotal = 0.0;
         ObservableList<Organo> organos = phantom.getOrgano();
+        int organosSize = organo.size();
         if (organos != null) {
             for (int i = 0; i < organos.size(); i++) {
                 pesoTotal = pesoTotal + organos.get(i).getOrganMass();
             }
-            return pesoTotal;
+            return (pesoTotal);
         } else {
             return 0.0;
         }
