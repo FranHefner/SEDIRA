@@ -49,16 +49,6 @@ public class AbmRadionuclidoController implements Initializable {
 
     @FXML
     private Button btnLimpiarValores;
-    @FXML
-    private Button btnEditar;
-    @FXML
-    private Button btnAgregar;
-    @FXML
-    private Button btnQuitar;
-    @FXML
-    private Button btnGuardarCambios;
-    @FXML
-    private Button btnCancelar;
 
     //******************** variables 
     //Objeto Lista de radionuclidos  auxiliar. 
@@ -108,13 +98,14 @@ public class AbmRadionuclidoController implements Initializable {
              */
             txtIdRadNuclido.setText(String.valueOf(radionuclido.getIdRadNuclido()));
             txtRadNuclidoNombre.setText(radionuclido.getNombreRadNuclido());
+            btnLimpiarValores.setDisable(true);
             txtPropiedad.setDisable(true);
             txtValor.setDisable(true);
             txtUnidad.setDisable(true);
             //Prendo los botones
 
         } else {
-
+            btnLimpiarValores.setDisable(true);
             txtIdRadNuclido.setDisable(true);
             //Cambio Nombre en el formulario. 
             this.dialogStage.setTitle("Crear un Radionúclido");
@@ -128,7 +119,8 @@ public class AbmRadionuclidoController implements Initializable {
     }
 
     /**
-     * Método SetTer para el item de radionúclido que se selecciono. 
+     * Método SetTer para el item de radionúclido que se selecciono.
+     *
      * @param itemRadionuclido
      */
     public void setItemRadionuclido(ValorDescripcion itemRadionuclido) {
@@ -174,7 +166,7 @@ public class AbmRadionuclidoController implements Initializable {
     }
 
     /**
-     * Metodo que retorna si el usuario presiono el boton Guardar Datos.
+     * Método que retorna si el usuario presiono el boton Guardar Datos.
      *
      * @return guardarDatos
      */
@@ -183,7 +175,7 @@ public class AbmRadionuclidoController implements Initializable {
     }
 
     /**
-     * Metodo que se llama al presionar el boton cancelar.
+     * Método que se llama al presionar el boton cancelar.
      */
     @FXML
     public void btnCancel_click() {
@@ -240,17 +232,19 @@ public class AbmRadionuclidoController implements Initializable {
         String propiedad = txtPropiedad.getText();
         String unidad = txtUnidad.getText();
         String nombreRadNuclido = txtRadNuclidoNombre.getText();
-        
+
         if ("Crear un Radionúclido".equals(this.dialogStage.getTitle()) || "Modificar nombre del Radionúclido".equals(this.dialogStage.getTitle())) {
             // Solo valido
             // campo en NULL y Campo con logitud 0
             if (txtRadNuclidoNombre.getText() == null || txtRadNuclidoNombre.getText().length() == 0) {
-                mensajeError += "Nombre del radionúclido inválido!";
+                mensajeError += "Debe agregar un nombre para el radionúclido";
+                if (!ValidacionesGenerales.ValidarNombreConEspacios(nombreRadNuclido)) {
+                    mensajeError += "Nombre del radionúclido inválido";
+                } else if (rad.buscaNombre(nombreRadNuclido) == false) {
+                    mensajeError += "El nombre del radionúclido ya existe!";
+                }
             }
-            if (rad.buscaNombre(nombreRadNuclido) == false) {
-                mensajeError += "El nombre del radionúclido ya existe!";
-            }
-
+            
         } else {
             /*
              Debido  a la utilización del mismo formulario para el abm de radionúclido. 
@@ -275,7 +269,7 @@ public class AbmRadionuclidoController implements Initializable {
                 } else {
                     try {
                         int i = Integer.parseInt(valor);
-                    //int routine
+                        //int routine
                         //Si puede se pasa el entero a Double. 
                     } catch (NumberFormatException e) {
                         if (ValidacionesGenerales.ValidarNumericoFloat(valor)) {
@@ -302,7 +296,6 @@ public class AbmRadionuclidoController implements Initializable {
                 }
             }
         }
-        
 
         if (mensajeError.length() == 0) {
             return true;

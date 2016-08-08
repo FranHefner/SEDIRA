@@ -5,7 +5,6 @@
  */
 package sedira.model;
 
-
 import static java.lang.Math.round;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -89,21 +88,20 @@ public class Phantom {
      * Método que cálcula el peso total de un phantom, sumando la totalidad del
      * paso de los órganos.
      *
-     * @param phantom
-     * @return
+     * @return pesoTotal
      */
-    public double getPesoTotal(Phantom phantom) {
+    public double getPesoTotal() {
         pesoTotal = 0.0;
-        ObservableList<Organo> organos = phantom.getOrgano();
-        int organosSize = organo.size();
-        if (organos != null) {
-            for (int i = 0; i < organos.size(); i++) {
-                pesoTotal = pesoTotal + organos.get(i).getOrganMass();
+        
+        if (this.organo != null) {
+            for (int i = 0; i < this.organo.size(); i++) {
+                pesoTotal = pesoTotal + this.organo.get(i).getOrganMass();
             }
-            return (pesoTotal);
-        } else {
-            return 0.0;
+            pesoTotal = Math.round(pesoTotal*100);
+            return (pesoTotal/100);
         }
+        
+        return pesoTotal;
     }
 
 }

@@ -71,7 +71,7 @@ public class RadionuclidoController implements Initializable {
     private Button btnEditarItem;
     @FXML
     private TextField txtCampoBusqueda;
-@   FXML
+    @FXML
     private Button btnCerrar;
 
     //Lista Observable para el manejo de phantoms

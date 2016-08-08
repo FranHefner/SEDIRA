@@ -356,7 +356,8 @@ public class PhantomController implements Initializable {
             //Prendo boton de Eliminar Phantom
             btnEliminarPhantom.setDisable(false);
             //Completo el textfield del pesototal
-            txtPesoTotal.setText(String.valueOf(phantomActual.getPesoTotal(phantomActual)));
+            txtPesoTotal.setText(String.valueOf(phantomActual.getPesoTotal()));
+            
         } else {
             //Todo si no se selecciona ningun phantom de la lista
             //Apago los botones.
@@ -448,7 +449,7 @@ public class PhantomController implements Initializable {
             organosData = ph.obtenerInfoOrgano(selectedPhantom);
             griOrgano.setItems(organosData);
             //Completo el textfield del pesototal
-            txtPesoTotal.setText(String.valueOf(selectedPhantom.getPesoTotal(selectedPhantom)));
+            txtPesoTotal.setText(String.valueOf(selectedPhantom.getPesoTotal()));
 
         } else {
             // Nothing selected.
@@ -520,7 +521,7 @@ public class PhantomController implements Initializable {
                 //Actualizacion de la informacion de organos
                 organosData = ph.obtenerInfoOrgano(selectedPhantom);
                 griOrgano.setItems(organosData);
-                txtPesoTotal.setText(String.valueOf(selectedPhantom.getPesoTotal(selectedPhantom)));
+                txtPesoTotal.setText(String.valueOf(selectedPhantom.getPesoTotal()));
             } else {
 
             }
@@ -678,7 +679,7 @@ public class PhantomController implements Initializable {
                 organosData = ph.obtenerInfoOrgano(auxPhantom);
                 griOrgano.setItems(organosData);
                 //Completo el textfield del pesototal
-                txtPesoTotal.setText(String.valueOf(auxPhantom.getPesoTotal(auxPhantom)));
+                txtPesoTotal.setText(String.valueOf(auxPhantom.getPesoTotal()));
             }
         } else {
             // No se selecciono ningun item. 

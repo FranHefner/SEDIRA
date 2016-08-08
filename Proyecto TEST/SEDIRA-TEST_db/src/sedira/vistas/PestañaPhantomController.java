@@ -14,6 +14,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
@@ -166,10 +167,11 @@ public class PestañaPhantomController implements Initializable {
                     //Completo tabla de Info Phantoms
                     FuncionesGenerales.mostrarDetalleTablaValorDescripcion(ph.obtenerInfoPhantom(phantomActual), griValorDescripcionPhantom);
                     // Completo el textfield pesoTotal
-                    txtPesoTotal.setText(String.valueOf(phantomActual.getPesoTotal(phantomActual)));
+                    txtPesoTotal.setText(String.valueOf(phantomActual.getPesoTotal()));
                   /* Seleccion Phantom en el cálculo */  
                     dValidaciones.setPhantom(phantomActual);                            
                    /*************/
+                    
                 }
             });
     }

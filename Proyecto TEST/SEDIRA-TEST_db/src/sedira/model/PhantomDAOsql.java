@@ -72,9 +72,13 @@ public class PhantomDAOsql implements IPhantomDAO {
         ConexionDB conexion = new ConexionDB();
 
         try {
-            PreparedStatement consulta = conexion.getConnection().prepareStatement("SELECT * from phantoms INNER JOIN organos "
-                    + "WHERE organos.id_phantom = phantoms.id_phantom "
+            PreparedStatement consulta = conexion.getConnection().prepareStatement("SELECT * FROM phantoms "
+                    + "INNER JOIN organos "
+                    + "ON phantoms.id_phantom = organos.id_phantom "
+                    + "INNER JOIN valordescripcion "
+                    + "ON phantoms.id_phantom = valordescripcion.id_phantom "
                     + "GROUP BY phantoms.id_phantom");
+            
             ResultSet resultado = consulta.executeQuery();
             while (resultado.next()) {
                 //objeto auxiliar
