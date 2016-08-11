@@ -734,6 +734,9 @@ public class PhantomController implements Initializable {
         }
 
     }
+    /**
+     * Método para el control de botón cerrar. 
+     */
     @FXML
     public void btnCerrar_click()
     {

@@ -222,8 +222,7 @@ public class RadionuclidoController implements Initializable {
      * Método que obtiene el item seleccionado de la tabla de Radionúclidos. 
      */
     public void getSelectedItemFromTabla() {
-        ValorDescripcion selectedItem = new ValorDescripcion();
-        selectedItem = griInfoRadNuclido.getSelectionModel().getSelectedItem();
+        ValorDescripcion selectedItem = griInfoRadNuclido.getSelectionModel().getSelectedItem();
 
         if (selectedItem != null) {
             btnEliminarItem.setDisable(false);
@@ -379,6 +378,7 @@ public class RadionuclidoController implements Initializable {
     }
     /**
      * Método que controla el comportamiento del boton modificar item.
+     * @throws java.sql.SQLException
      */
     @FXML
     public void btnAgregarItem() throws SQLException {
@@ -409,6 +409,7 @@ public class RadionuclidoController implements Initializable {
     /**
      * Método para el comportamiento del boton Crear radionuclido. El
      * radionúclido primero se crea sin elemento de tipo propiedad valor.
+     * @throws java.sql.SQLException
      */
     @FXML
     public void btnAgregarRadionuclido() throws SQLException {
@@ -446,7 +447,9 @@ public class RadionuclidoController implements Initializable {
         }
 
     }
-    
+    /**
+     * Método para el comportamiento del boton Cerrar. 
+     */
     @FXML
     public void btnCerrar_click()
     {

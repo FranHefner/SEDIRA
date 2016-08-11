@@ -29,42 +29,43 @@ import sedira.model.Usuario;
 import sedira.model.UsuarioDAOsql;
 
 /**
- * FXML Controller class
- * Clase controladora del FXML de usuarios. 
- * @author Hefner Francisco, Quelin Pablo   
+ * FXML Controller class Clase controladora del FXML de usuarios.
+ *
+ * @author Hefner Francisco, Quelin Pablo
  */
 public class UsuarioController implements Initializable {
-    
+
     //Declaracion de variables FXML
     @FXML
     private TableView<Usuario> griInfoUser;
     @FXML
-    private TableColumn<Usuario, Integer > clIdUsuario;
+    private TableColumn<Usuario, Integer> clIdUsuario;
     @FXML
-    private TableColumn<Usuario, String > clUser;
+    private TableColumn<Usuario, String> clUser;
     @FXML
-    private TableColumn<Usuario, String > clPass;
+    private TableColumn<Usuario, String> clPass;
     @FXML
-    private TableColumn<Usuario, String > clDescripcion;
-    
+    private TableColumn<Usuario, String> clDescripcion;
+
     @FXML
     private Button btnModificarUsuario;
     @FXML
     private Button btnInsertarUsuario;
     @FXML
     private Button btnEliminarUsuario;
-    
+
     IUsuarioDAO usr = new UsuarioDAOsql();
     //Lista Observable para el manejo de phantoms
-    private ObservableList <Usuario> userData = usr.obtenerUsuarios();
+    private ObservableList<Usuario> userData = usr.obtenerUsuarios();
     //Auxiliar para setear el stage 
     private Stage primaryStage;
     //Auxiliar usuario para usuario actual . 
-    private Usuario usuarioActual=FuncionesGenerales.getUsuarioActual();
-    
-    
+    private Usuario usuarioActual = FuncionesGenerales.getUsuarioActual();
+
     /**
      * Initializes the controller class.
+     * @param url
+     * @param rb
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -81,37 +82,35 @@ public class UsuarioController implements Initializable {
                 cellData -> cellData.getValue().getIdUsuarioProperty().asObject());
         //Limpieza de los detalles del usuario
         mostrarDetalleUsuario(userData, griInfoUser);
-        
+
         griInfoUser.getSelectionModel().selectedItemProperty().addListener(
-            (observable, oldValue, newValue) -> seleccionUsuario(newValue));     
-        
-  
-                    
-        
+                (observable, oldValue, newValue) -> seleccionUsuario(newValue));
+
     }
-    
+
     /**
      * Método que setea los items en la tabla de usuario
+     *
      * @param infoObjeto
-     * @param tabla 
+     * @param tabla
      */
     private void mostrarDetalleUsuario(ObservableList<Usuario> infoObjeto, TableView<Usuario> tabla) {
-        
+
         tabla.setItems(infoObjeto);
     }
-    
+
     /**
-     * Metodo que muestra los detalles del phantom seleccionado. 
-     * @param usuarioActual 
+     * Metodo que muestra los detalles del phantom seleccionado.
+     *
+     * @param usuarioActual
      */
     public void seleccionUsuario(Usuario usuarioActual) {
         //Se setea el usuario seleccionado como usuario actual. 
-    
+
         FuncionesGenerales.setUsuarioActual(usuarioActual);
-        
-        
+
         if (usuarioActual != null) {
-            
+
             //Prendo el boton de Editar Usuario
             btnModificarUsuario.setDisable(false);
             //Prendo boton de Eliminar Usuario
@@ -123,10 +122,12 @@ public class UsuarioController implements Initializable {
             btnEliminarUsuario.setDisable(true);
         }
     }
+
     /**
-     * Método que abre el formulario para la edicion/creacion de un usuario. 
+     * Método que abre el formulario para la edicion/creacion de un usuario.
+     *
      * @param usuario
-     * @return 
+     * @return
      */
     public boolean mostrarUsuarioEditDialog(Usuario usuario) {
 
@@ -160,18 +161,21 @@ public class UsuarioController implements Initializable {
         }
 
     }
-    
+
     /**
-     * Metodo para el comportamiento del boton editar. Abre un dialogo para la edicion del Usuario. 
+     * Metodo para el comportamiento del boton editar. Abre un dialogo para la
+     * edicion del Usuario.
+     *
+     * @throws java.io.IOException
      */
     @FXML
-    public void btnEditarUsuario () throws IOException{
+    public void btnEditarUsuario() throws IOException {
         Usuario usuario = FuncionesGenerales.getUsuarioActual();
-      
+
         int tipoUsuario = FuncionesGenerales.getTipoUsuario();
         boolean guardarCambiosClicked = mostrarUsuarioEditDialog(usuario);
-                    
-        if (guardarCambiosClicked){
+
+        if (guardarCambiosClicked) {
             //Llamada a la Clase de acceso a datos de Usuario. 
             // Hardcodeado el tipo de usuario. 
             usr.modificarUsuario(usuario, tipoUsuario);
@@ -181,36 +185,39 @@ public class UsuarioController implements Initializable {
             //Comportamiento de botones 
             btnModificarUsuario.setDisable(true);
         }
-               
+
     }
-    
+
     /**
-     * Metodo para el comportamiento del boton NUEVO. 
+     * Metodo para el comportamiento del boton NUEVO.
+     *
+     * @throws java.lang.Exception
      */
     @FXML
     public void btnCrearUsuario() throws Exception {
-       
+
         Usuario tempUsuario = new Usuario(-1, "", "", "");
-        
+
         boolean guardarCambiosClicked = mostrarUsuarioEditDialog(tempUsuario);
-        
+
         if (guardarCambiosClicked) {
             //Harcodeado el tipo de usuario.
             int tipoUsuario = FuncionesGenerales.getTipoUsuario();
-            ConsultasSQL.GuardarUserPass(tempUsuario.getDescripcion(), tempUsuario.getLogin(), tempUsuario.getPass(),tipoUsuario);//.agregarUsuario(tempUsuario, 2);
+            ConsultasSQL.GuardarUserPass(tempUsuario.getDescripcion(), tempUsuario.getLogin(), tempUsuario.getPass(), tipoUsuario);//.agregarUsuario(tempUsuario, 2);
             //Actualizo el GridView de Phantoms.
             userData = usr.obtenerUsuarios();
             griInfoUser.setItems(userData);
-                       
+
         }
     }
+
     /**
-     * Método para el comportamiento del boton Eliminar. 
+     * Método para el comportamiento del boton Eliminar.
      */
-     @FXML
+    @FXML
     public void btnEliminar() {
-       usuarioActual=FuncionesGenerales.getUsuarioActual();
-        int idUsuario=usuarioActual.getIdUsuario();
+        usuarioActual = FuncionesGenerales.getUsuarioActual();
+        int idUsuario = usuarioActual.getIdUsuario();
         if (usuarioActual != null) {
             String mensaje = usuarioActual.getDescripcion() + " Nombre de usuario: " + usuarioActual.getLogin();
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -222,9 +229,9 @@ public class UsuarioController implements Initializable {
             if (result.get() == ButtonType.OK) {
                 usr.eliminarUsuario(idUsuario);
 
-            ///Actualizo el GridView de Phantoms.
-            userData = usr.obtenerUsuarios();
-            griInfoUser.setItems(userData);
+                ///Actualizo el GridView de Phantoms.
+                userData = usr.obtenerUsuarios();
+                griInfoUser.setItems(userData);
             } else {
 
             }
@@ -234,11 +241,11 @@ public class UsuarioController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Error!");
             alert.setHeaderText("Error!");
-            alert.setContentText("No hay items para eliminar");
+            alert.setContentText("No hay ítems para eliminar");
 
             alert.showAndWait();
         }
 
     }
-    
+
 }
