@@ -24,8 +24,15 @@ import sedira.IDatosValidaciones;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import static java.lang.invoke.MethodHandles.invoker;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.layout.Pane;
+import javax.script.Invocable;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
@@ -34,6 +41,8 @@ import org.jfree.fx.FXGraphics2D;
 import org.scilab.forge.jlatexmath.TeXConstants;
 import org.scilab.forge.jlatexmath.TeXFormula;
 import org.scilab.forge.jlatexmath.TeXIcon;
+
+
 
 /**
  * FXML Controller class
@@ -89,8 +98,24 @@ public class PestañaCalculoController implements Initializable {
     }
 
     @FXML
-    public void RealizarCalculo() {
+    public void RealizarCalculo() throws ScriptException, NoSuchMethodException, IOException {
 
+              
+        ScriptEngine engineT = new ScriptEngineManager().getEngineByName("nashorn");
+      
+      engineT.eval(new FileReader("tools/math.js"));
+        // la siguiente linea invoca la función "greeter" con parámetro "Autentia"
+       // final String greetingMessage = (String)invoker.invokeFunction("greeter", "Autentia");
+     ///   System.out.println(greetingMessage);
+        
+
+        Invocable invocable = (Invocable) engineT;
+
+        Object result = invocable.invokeFunction("fun1", "Peter Parker");
+        System.out.println(result);
+        System.out.println(result.getClass());
+      
+              
        /* BarraProgreso.setProgress(0.5);
 
         double Progreso = 0;
