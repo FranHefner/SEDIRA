@@ -18,6 +18,7 @@
             <Menu fx:id="menuDosis" mnemonicParsing="false" text="Dosis">
               <items>
                   <MenuItem fx:id="mniIniciarCalculo" mnemonicParsing="false" onAction="#mniIniciarCalculo_click" text="Iniciar cálculo" />
+                  <MenuItem mnemonicParsing="false" onAction="#mniIaClick" text="Ia" />
               </items>
             </Menu>
           <Menu fx:id="menuPacientes" mnemonicParsing="false" text="Pacientes">

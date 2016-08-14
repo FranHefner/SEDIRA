@@ -220,6 +220,10 @@ public class MenuPrincipalController implements Initializable {
 
         }
     }
+    /**
+     * Método que se inicia al momento de seleccionar el menú Ayuda
+     * @throws IOException 
+     */
     @FXML
     private void ayudaClick() throws IOException{
         Stage stage = new Stage();
@@ -228,6 +232,20 @@ public class MenuPrincipalController implements Initializable {
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setScene(scene);
             stage.setTitle("Ayuda");
+            stage.show();
+    }
+    /**
+     * Método para el módulo de inteligencia artificial. 
+     * @throws IOException 
+     */
+    @FXML
+    private void mniIaClick() throws IOException{
+        Stage stage = new Stage();
+            Parent root = FXMLLoader.load(getClass().getResource("Ia.fxml"));
+            Scene scene = new Scene(root);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setScene(scene);
+            stage.setTitle("Inteligencia Artificial");
             stage.show();
     }
     
