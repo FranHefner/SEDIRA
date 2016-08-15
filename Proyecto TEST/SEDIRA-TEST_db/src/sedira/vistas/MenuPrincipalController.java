@@ -243,7 +243,7 @@ public class MenuPrincipalController implements Initializable {
         Stage stage = new Stage();
             Parent root = FXMLLoader.load(getClass().getResource("Ia.fxml"));
             Scene scene = new Scene(root);
-            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initModality(Modality.WINDOW_MODAL);
             stage.setScene(scene);
             stage.setTitle("Inteligencia Artificial");
             stage.show();

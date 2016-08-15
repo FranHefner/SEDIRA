@@ -1,13 +1,10 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * 
  */
 package sedira.model;
 
 /**
  * Clase que describe un Perceptrón simple.
- *
  * @author Quelin Pablo, Hefner Francisco
  */
 public class SimplePerceptron {
@@ -16,8 +13,9 @@ public class SimplePerceptron {
     private double[] objetivos;
     private double[][] entradas;
     private int numeroEntradas;
-    private static final double TASA_APRENDIZAJE = 0.5d;
+    private static final double TASA_APRENDIZAJE = 0.9d;
     private String textoResultado ="";
+    private int pasos=0; 
 
     public String getTextoResultado() {
         return textoResultado;
@@ -52,15 +50,28 @@ public class SimplePerceptron {
         this.numeroEntradas = entradas[0].length;
     }
 
+    public int getPasos() {
+        return pasos;
+    }
+
+    public void setPasos(int pasos) {
+        this.pasos = pasos;
+    }
+    
     /**
      * Método que inicializa los pesos sinápticos con números aleeatorios del
-     * intervalo [-1, 1]
+     * intervalo [-1, 1].
      */
     public void inicializarPesos() {
         pesos = new double[numeroEntradas];
         for (int i = 0; i < numeroEntradas; i++) {
             pesos[i] = Math.random();
         }
+       /*
+       
+        pesos[0]=2.1964972347264435;
+        pesos[1]=1.8275669069278204;
+        pesos[2]=-1.737038378012491;*/
     }
 
     /**
@@ -76,7 +87,7 @@ public class SimplePerceptron {
 
     /**
      * wj(k+1)=wj(k)+&#951;[z(k)&#8722;y(k)]xj(k), j =1,2,...,n+1
-     *
+     * Método llamado en el momento de aprendizaje. 
      * @param posicionEntrada
      */
     public void recalcularPesos(int posicionEntrada, double y) {
@@ -84,7 +95,9 @@ public class SimplePerceptron {
             pesos[i] = pesos[i] + TASA_APRENDIZAJE * (objetivos[posicionEntrada] - y) * entradas[posicionEntrada][i];
         }
     }
-
+    /**
+     * Método que se encarga de entrenar el perceptrón. 
+     */
     public void entrenar() {
         int indice = 0;
         double yi = 0;
@@ -113,6 +126,7 @@ public class SimplePerceptron {
                 }
                 textoResultado +=(" => Esperada = " + objetivos[indice] + ", Calculada = " + yi + " [Error]");
                 textoResultado +=("\n\nCorrección de pesos\n");
+                pasos+=1;
                 recalcularPesos(indice, yi);
                 imprimirPesos();
                 textoResultado +=("\n--\n");
@@ -123,5 +137,5 @@ public class SimplePerceptron {
         textoResultado += "\nPESOS FINALES\n";
         imprimirPesos();
     }
-
+            
 }

@@ -1,13 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sedira.vistas.IaController">
+<AnchorPane id="AnchorPane" prefHeight="614.0" prefWidth="647.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sedira.vistas.IaController">
    <children>
-      <TextArea fx:id="txtInfo" layoutX="13.0" layoutY="30.0" prefHeight="350.0" prefWidth="566.0" />
+      <TextArea fx:id="txtInfo" layoutX="14.0" layoutY="164.0" prefHeight="187.0" prefWidth="615.0" />
+      <TableView fx:id="tblEntradas" layoutX="14.0" layoutY="26.0" prefHeight="123.0" prefWidth="246.0">
+        <columns>
+          <TableColumn fx:id="tbcX1" prefWidth="75.0" text="x1" />
+          <TableColumn fx:id="tbcX2" prefWidth="75.0" text="x2" />
+            <TableColumn fx:id="tbcX3" prefWidth="75.0" text="x3(Umbral)" />
+        </columns>
+      </TableView>
+      <TableView layoutX="302.0" layoutY="26.0" prefHeight="123.0" prefWidth="79.0">
+        <columns>
+          <TableColumn prefWidth="75.0" text="objetivos" />
+        </columns>
+      </TableView>
+      <TableView layoutX="417.0" layoutY="26.0" prefHeight="123.0" prefWidth="79.0">
+        <columns>
+          <TableColumn prefWidth="75.0" text="W[]" />
+        </columns>
+      </TableView>
+      <TextField fx:id="txtPasos" editable="false" layoutX="14.0" layoutY="364.0" prefHeight="22.0" prefWidth="109.0" />
+      <TableView layoutX="14.0" layoutY="400.0" prefHeight="123.0" prefWidth="109.0">
+         <columns>
+            <TableColumn prefWidth="75.0" text="WF[]" />
+         </columns>
+      </TableView>
+      <Button fx:id="btnRecalcular" layoutX="167.0" layoutY="501.0" mnemonicParsing="false" prefHeight="22.0" prefWidth="109.0" text="Recalcular" />
+      <Button fx:id="btnNuevosPesos" layoutX="509.0" layoutY="49.0" mnemonicParsing="false" prefHeight="22.0" prefWidth="109.0" text="Nuevos Pesos" />
+      <Button fx:id="btnCalcular" layoutX="167.0" layoutY="451.0" mnemonicParsing="false" prefHeight="22.0" prefWidth="109.0" text="Calcular" />
+      <ImageView fitHeight="167.0" fitWidth="280.0" layoutX="342.0" layoutY="364.0" pickOnBounds="true" preserveRatio="true" />
+      <Button fx:id="btnCerrar" layoutX="520.0" layoutY="571.0" mnemonicParsing="false" onAction="#btnCerrar_click" prefHeight="22.0" prefWidth="109.0" text="Cerrar" />
    </children>
 </AnchorPane>
