@@ -8,6 +8,7 @@ package sedira.model;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import javafx.scene.control.Alert;
 
 /**
  * Clase que controla la conexion a la Base de Datos. Implementada sobre JDBC.
@@ -24,7 +25,7 @@ public class ConexionDB {
     static String login = "root";
     static String password = "root";
     static String url = "jdbc:mysql://localhost:3306/" + bd;
-
+    private boolean error = false;
     Connection connection = null;
 
     /**
@@ -39,13 +40,32 @@ public class ConexionDB {
 
             if (connection != null) {
                 System.out.println("Conexión a base de datos " + bd + " OK\n");
+
             }
         } catch (SQLException e) {
             System.out.println(e);
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error!");
+            alert.setHeaderText("Ocurrio un error al conectarse con la base de datos. ");
+            alert.setContentText(String.valueOf(e));
+            alert.showAndWait();
+            setError(true);
         } catch (ClassNotFoundException e) {
             System.out.println(e);
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error!");
+            alert.setHeaderText("Ocurrio un error al conectarse con la base de datos. ");
+            alert.setContentText(String.valueOf(e));
+            alert.showAndWait();
+            setError(true);
         } catch (Exception e) {
             System.out.println(e);
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error!");
+            alert.setHeaderText("Ocurrio un error al conectarse con la base de datos. ");
+            alert.setContentText(String.valueOf(e));
+            alert.showAndWait();
+            setError(true);
         }
     }
 
@@ -63,6 +83,19 @@ public class ConexionDB {
      */
     public void desconectar() {
         connection = null;
+    }
+
+    /**
+     * Método que retorna si la conexión entro en error.
+     *
+     * @return
+     */
+    public boolean getError() {
+        return this.error;
+    }
+
+    private void setError(boolean error) {
+        this.error = error;
     }
 
 }
