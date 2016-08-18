@@ -104,10 +104,11 @@ public class SimplePerceptron {
     }
 
     /**
-     * wj(k+1)=wj(k)+&#951;[z(k)&#8722;y(k)]xj(k), j =1,2,...,n+1 Método llamado
-     * en el momento de aprendizaje.
+     * wj(k+1)=wj(k)+&#951;[z(k)&#8722;y(k)]xj(k), j =1,2,...,n+1 
+     * Método llamado en el momento de aprendizaje.
      *
      * @param posicionEntrada
+     * @param y
      */
     public void recalcularPesos(int posicionEntrada, double y) {
         for (int i = 0; i < pesos.length; i++) {
