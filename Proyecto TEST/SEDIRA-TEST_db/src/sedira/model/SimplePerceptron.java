@@ -14,10 +14,18 @@ public class SimplePerceptron {
     private double[] objetivos;
     private double[][] entradas;
     private int numeroEntradas;
-    private static final double TASA_APRENDIZAJE = 0.9d;
+    private double TASA_APRENDIZAJE = 0.2d;
     private String textoResultado = "";
     private int pasos = 0;
     private double pesoInicial[];
+
+    public double getTASA_APRENDIZAJE() {
+        return TASA_APRENDIZAJE;
+    }
+
+    public void setTASA_APRENDIZAJE(double TASA_APRENDIZAJE) {
+        this.TASA_APRENDIZAJE = TASA_APRENDIZAJE;
+    }
 
     public double[] getPesoInicial() {
         return pesoInicial;

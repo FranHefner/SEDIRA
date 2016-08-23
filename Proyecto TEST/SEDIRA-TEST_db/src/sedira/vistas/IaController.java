@@ -7,10 +7,13 @@ package sedira.vistas;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Slider;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -60,6 +63,10 @@ public class IaController implements Initializable {
     private Button btnCalcular;
     @FXML
     private Button btnCerrar;
+    @FXML
+    private Slider SliTasa;
+    @FXML
+    private TextField txtTasa;
 
     /**
      * Initializes the controller class.
@@ -69,7 +76,7 @@ public class IaController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
+        txtTasa.setText(String.valueOf(SliTasa.getValue()));
         txtInfo.setText(null);
         btnRecalcular.setDisable(true);
         //Salidas esperadas
@@ -96,7 +103,13 @@ public class IaController implements Initializable {
         p.inicializarPesos();
 
         llenarTxtVector(p.getPesos(), txtPesosInicio);
-
+        SliTasa.valueProperty().addListener(new ChangeListener<Number>(){
+            @Override
+            public void changed (ObservableValue<? extends Number> observable, 
+                    Number oldValue, Number newValue){
+                txtTasa.setText(String.valueOf(newValue));
+            }
+        });
     }
 
     /**
@@ -161,6 +174,7 @@ public class IaController implements Initializable {
     public void btnCalcular(ActionEvent event) {
         p.setTextoResultado("");
         p.entrenar();
+        p.setTASA_APRENDIZAJE(SliTasa.getValue());
         llenarTxtVector(p.getPesos(), txtPesosFinales);
         //llenarTxtVector(p.getPesos(),txtPesosInicio);
         txtInfo.setText(p.getTextoResultado());
