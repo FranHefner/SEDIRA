@@ -9,11 +9,11 @@
 
 <AnchorPane id="AnchorPane" prefHeight="614.0" prefWidth="647.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sedira.vistas.IaController">
    <children>
-      <TextArea fx:id="txtInfo" editable="false" layoutX="14.0" layoutY="164.0" prefHeight="187.0" prefWidth="615.0" />
-      <TextField fx:id="txtPasos" editable="false" layoutX="109.0" layoutY="359.0" prefHeight="22.0" prefWidth="109.0" />
-      <Button fx:id="btnRecalcular" layoutX="14.0" layoutY="505.0" mnemonicParsing="false" onAction="#btnReCalcular" prefHeight="52.0" prefWidth="109.0" text="Recalcular con pesos finales" textAlignment="CENTER" wrapText="true" />
+      <TextArea fx:id="txtInfo" editable="false" layoutX="16.0" layoutY="207.0" prefHeight="187.0" prefWidth="615.0" />
+      <TextField fx:id="txtPasos" editable="false" layoutX="109.0" layoutY="408.0" prefHeight="22.0" prefWidth="109.0" />
+      <Button fx:id="btnRecalcular" layoutX="13.0" layoutY="545.0" mnemonicParsing="false" onAction="#btnReCalcular" prefHeight="52.0" prefWidth="109.0" text="Recalcular con pesos finales" textAlignment="CENTER" wrapText="true" />
       <Button fx:id="btnNuevosPesos" layoutX="509.0" layoutY="49.0" mnemonicParsing="false" onAction="#btnNuevosPesos" prefHeight="22.0" prefWidth="109.0" text="Nuevos Pesos" />
-      <Button fx:id="btnCalcular" layoutX="269.0" layoutY="364.0" mnemonicParsing="false" onAction="#btnCalcular" prefHeight="31.0" prefWidth="109.0" text="Calcular" />
+      <Button fx:id="btnCalcular" layoutX="242.0" layoutY="404.0" mnemonicParsing="false" onAction="#btnCalcular" prefHeight="31.0" prefWidth="109.0" text="Calcular" />
       <ImageView fitHeight="137.0" fitWidth="235.0" layoutX="392.0" layoutY="408.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../perceptron-simple.png" />
@@ -25,10 +25,11 @@
       <Label layoutX="26.0" layoutY="14.0" text="Matriz de valores (entrada)" />
       <Label layoutX="242.0" layoutY="14.0" text="Objetivos" />
       <Label layoutX="369.0" layoutY="14.0" text="Pesos W[]" />
-      <Label layoutX="14.0" layoutY="408.0" text="Pesos finales" />
-      <TextArea fx:id="txtPesosFinales" editable="false" layoutX="14.0" layoutY="422.0" prefHeight="74.0" prefWidth="266.0" />
-      <Label layoutX="13.0" layoutY="368.0" text="Cantidad de pasos:" />
-      <Slider fx:id="SliTasa" blockIncrement="0.1" layoutX="494.0" layoutY="137.0" majorTickUnit="0.1" max="0.9" min="0.1" minorTickCount="1" prefHeight="13.0" prefWidth="120.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="0.1" />
-      <TextField fx:id="txtTasa" layoutX="508.0" layoutY="102.0" prefHeight="22.0" prefWidth="46.0" />
+      <Label layoutX="13.0" layoutY="445.0" text="Pesos finales" />
+      <TextArea fx:id="txtPesosFinales" editable="false" layoutX="13.0" layoutY="459.0" prefHeight="74.0" prefWidth="266.0" />
+      <Label layoutX="13.0" layoutY="417.0" text="Cantidad de pasos:" />
+      <Slider fx:id="SliTasa" blockIncrement="0.01" layoutX="31.0" layoutY="169.0" majorTickUnit="0.1" max="0.9" min="0.1" minorTickCount="1" prefHeight="13.0" prefWidth="313.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="0.1" />
+      <TextField fx:id="txtTasa" editable="false" layoutX="361.0" layoutY="165.0" prefHeight="22.0" prefWidth="86.0" />
+      <Label layoutX="27.0" layoutY="143.0" text="Tasa de aprendizaje" />
    </children>
 </AnchorPane>
