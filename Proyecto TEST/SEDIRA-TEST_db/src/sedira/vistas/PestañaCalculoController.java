@@ -41,6 +41,7 @@ import org.jfree.fx.FXGraphics2D;
 import org.scilab.forge.jlatexmath.TeXConstants;
 import org.scilab.forge.jlatexmath.TeXFormula;
 import org.scilab.forge.jlatexmath.TeXIcon;
+import sedira.MathJS;
 
 
 
@@ -101,20 +102,21 @@ public class PestañaCalculoController implements Initializable {
     public void RealizarCalculo() throws ScriptException, NoSuchMethodException, IOException {
 
               
-        ScriptEngine engineT = new ScriptEngineManager().getEngineByName("nashorn");
-      
-      engineT.eval(new FileReader("tools/math.js"));
-        // la siguiente linea invoca la función "greeter" con parámetro "Autentia"
-       // final String greetingMessage = (String)invoker.invokeFunction("greeter", "Autentia");
-     ///   System.out.println(greetingMessage);
         
+        MathJS math = new MathJS();
+        System.out.println(math.eval("a = 4.5"));
+        System.out.println(math.eval("1.2 * (2 + a)"));
+        System.out.println(math.eval("5.08 cm in inch"));
+        System.out.println(math.eval("sin(45 deg) ^ 2"));   
+        System.out.println(math.eval("9 / 3 + 2i") );   
+        System.out.println(math.eval("det([-1, 2; 3, 1])"));
+       
+     //  var node = math.parse('sqrt(2/3)');
+// node.toTex(); // returns '\sqrt{\frac{2}{3}}'
 
-        Invocable invocable = (Invocable) engineT;
 
-        Object result = invocable.invokeFunction("fun1", "Peter Parker");
-        System.out.println(result);
-        System.out.println(result.getClass());
-      
+          System.out.println(math.eval( (math.eval("sqrt(x/x+1)"))+".toTex()"));
+         System.out.println("hola");
               
        /* BarraProgreso.setProgress(0.5);
 
@@ -155,7 +157,8 @@ public class PestañaCalculoController implements Initializable {
      //   spnFuncion.getChildren().add(canvas);  
       //  spnFuncion.autosize();
     
-       pnFuncion.getChildren().add(canvas);  
+      /* Calculo viejo con motor de JS basico */
+    /*   pnFuncion.getChildren().add(canvas);  
        
        double resultado = eval(txtEntrada.getText());
         txtResult.setText( String.valueOf(resultado));
@@ -166,7 +169,10 @@ public class PestañaCalculoController implements Initializable {
             System.out.println(engine.eval(foo));
         } catch (ScriptException ex) {
             Logger.getLogger(PestañaCalculoController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        }*/    
+    
+        /****************************************/
+        /* Nuevo MEOTOD !! */ 
         
         
         /* Se convierte el RESULTADO A BLOB */
