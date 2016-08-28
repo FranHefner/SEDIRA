@@ -37,13 +37,20 @@ public class MathJS {
         String script = "math.format(parser.eval('" + expr + "'), precision);";
         return (String) engine.eval(script);
     }
-    public String toTex (String expr) 
+    public String toTex (String node) 
             throws ScriptException {
-        String script = "(parser.eval('" + expr + "').toTex();";
-        return (String) engine.eval(script);
+     //  String script = "(parser.eval('" + expr + "').toTex();";
+     String script = node+".toTex()";
+          
+     return (String) engine.eval(script);
     }
     
-    
+    public String Ejecutar (String codigo) 
+            throws ScriptException {   
+     String script = codigo;
+      return (String) engine.eval(script);
+    }
+     
   /*  var node = math.parse('sqrt(2/3)');
 node.toTex(); // returns '\sqrt{\frac{2}{3}}'*/
 

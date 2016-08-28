@@ -71,7 +71,7 @@ public class PestañaCalculoController implements Initializable {
      private Pane pnFuncion;
    
     
-    
+    private String formulEnTex;
     
 
     @Override
@@ -112,13 +112,40 @@ public class PestañaCalculoController implements Initializable {
         System.out.println(math.eval("det([-1, 2; 3, 1])"));
         
          System.out.println(math.eval("pow([[-1, 2], [3, 1]], 2)")); 
-       
+         
+         System.out.println(math.eval("sqrt(2/3)")); 
+         
+         System.out.println(  math.eval("node = parse(sqrt(2/3))"));
+         
+         System.out.println(  math.eval(" (parse(sqrt(2/3))).toTex()"));
+         
+        // System.out.println(  math.Ejecutar(" (math.parse(math.sqrt(2/3))).toTex();"));
+        
+         //System.out.println(  math.Ejecutar(" (math.parse(math.sqrt(2/3))).toTex({parenthesis: 'keep', implicit: 'hide'}) : '';"));
+       System.out.println( "hola");
+         
+         System.out.println(  math.Ejecutar("value = 'sqrt(75 / 3) + det([[-1, 2], [3, 1]]) - sin(pi / 4)^2';"));
+         
+          System.out.println(  math.Ejecutar("value = '"+txtEntrada.getText() +"';"));
+         
+          
+           System.out.println(  math.Ejecutar(" math.parse(value).toTex() " ));
+   formulEnTex =  math.Ejecutar(" math.parse(value).toTex() " );
+  
+        //  System.out.println( math.toTex(math.eval("node")));
+     //    parenthesis = 'keep',
+     // implicit = 'hide';
       
+     //  var latex = node ? 
+         
+        //  formulEnTex = math.Ejecutar( "node.toTex();"  );
+       System.out.println(formulEnTex);
         txtResult.setText( math.eval( txtEntrada.getText()) );
         
      //  var node = math.parse('sqrt(2/3)');
 // node.toTex(); // returns '\sqrt{\frac{2}{3}}'
-
+// var node = math.parse('sqrt(2/3)');
+// node.toTex(); // returns '\sqrt{\frac{2}{3}}'*/
 
        //   System.out.println(math.eval( (math.eval("sqrt(x/x+1)"))+".toTex()"));
        
@@ -224,7 +251,11 @@ public class PestañaCalculoController implements Initializable {
             this.g2 = new FXGraphics2D(getGraphicsContext2D());
 
             // create a formula
-            String FormulaString = txtEntrada.getText();
+            
+            
+                    
+                  
+            String FormulaString =   formulEnTex;
            //  String FormulaString = "\\frac12\\begin{array}{cccc}5&7&7&7\\\\4&4&4&4\\\\4&4&4&4\\end{array}";
            
            
