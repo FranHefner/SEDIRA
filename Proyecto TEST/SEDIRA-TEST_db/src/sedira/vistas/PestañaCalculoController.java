@@ -110,6 +110,8 @@ public class PestañaCalculoController implements Initializable {
         System.out.println(math.eval("sin(45 deg) ^ 2"));   
         System.out.println(math.eval("9 / 3 + 2i") );   
         System.out.println(math.eval("det([-1, 2; 3, 1])"));
+        
+         System.out.println(math.eval("pow([[-1, 2], [3, 1]], 2)")); 
        
       
         txtResult.setText( math.eval( txtEntrada.getText()) );
