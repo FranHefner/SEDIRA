@@ -111,12 +111,15 @@ public class PestañaCalculoController implements Initializable {
         System.out.println(math.eval("9 / 3 + 2i") );   
         System.out.println(math.eval("det([-1, 2; 3, 1])"));
        
+      
+        txtResult.setText( math.eval( txtEntrada.getText()) );
+        
      //  var node = math.parse('sqrt(2/3)');
 // node.toTex(); // returns '\sqrt{\frac{2}{3}}'
 
 
-          System.out.println(math.eval( (math.eval("sqrt(x/x+1)"))+".toTex()"));
-         System.out.println("hola");
+       //   System.out.println(math.eval( (math.eval("sqrt(x/x+1)"))+".toTex()"));
+       
               
        /* BarraProgreso.setProgress(0.5);
 
@@ -158,9 +161,9 @@ public class PestañaCalculoController implements Initializable {
       //  spnFuncion.autosize();
     
       /* Calculo viejo con motor de JS basico */
-    /*   pnFuncion.getChildren().add(canvas);  
+     pnFuncion.getChildren().add(canvas);  
        
-       double resultado = eval(txtEntrada.getText());
+     /*  double resultado = eval(txtEntrada.getText());
         txtResult.setText( String.valueOf(resultado));
         ScriptEngineManager mgr = new ScriptEngineManager();
          ScriptEngine engine = mgr.getEngineByName("JavaScript");
@@ -169,8 +172,8 @@ public class PestañaCalculoController implements Initializable {
             System.out.println(engine.eval(foo));
         } catch (ScriptException ex) {
             Logger.getLogger(PestañaCalculoController.class.getName()).log(Level.SEVERE, null, ex);
-        }*/    
-    
+        }
+    */
         /****************************************/
         /* Nuevo MEOTOD !! */ 
         
