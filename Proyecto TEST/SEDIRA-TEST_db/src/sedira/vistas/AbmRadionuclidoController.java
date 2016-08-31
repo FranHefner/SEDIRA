@@ -188,7 +188,6 @@ public class AbmRadionuclidoController implements Initializable {
                 alert.setContentText("Está seguro de cancelar la creación del radionúclido? ");
                 break;
             case "Modificar nombre del Radionúclido":
-
                 alert.setTitle("Cancelar modificación del radionúclido");
                 alert.setHeaderText("Atención!");
                 alert.setContentText("Está seguro de cancelar la modificación del radionúclido? ");
@@ -227,24 +226,26 @@ public class AbmRadionuclidoController implements Initializable {
      * @throws SQLException
      */
     public boolean validarDatosEntrada() throws SQLException {
-        String mensajeError = "Existe un error en los siguientes campos: \n";
+        String mensajeError = "";
         String valor = txtValor.getText();
         String propiedad = txtPropiedad.getText();
         String unidad = txtUnidad.getText();
         String nombreRadNuclido = txtRadNuclidoNombre.getText();
 
         if ("Crear un Radionúclido".equals(this.dialogStage.getTitle()) || "Modificar nombre del Radionúclido".equals(this.dialogStage.getTitle())) {
-            // Solo valido
-            // campo en NULL y Campo con logitud 0
-            if (txtRadNuclidoNombre.getText() == null || txtRadNuclidoNombre.getText().length() == 0) {
-                mensajeError += "Debe agregar un nombre para el radionúclido";
-                if (!ValidacionesGenerales.ValidarNombreConEspacios(nombreRadNuclido)) {
-                    mensajeError += "Nombre del radionúclido inválido";
-                } else if (rad.buscaNombre(nombreRadNuclido) == false) {
-                    mensajeError += "El nombre del radionúclido ya existe!";
+            if (!nombreRadNuclido.equals(this.radionuclido.getNombreRadNuclido())) {
+                // Solo valido
+                // campo en NULL y Campo con logitud 0
+                if (txtRadNuclidoNombre.getText() == null || txtRadNuclidoNombre.getText().length() == 0) {
+                    mensajeError += "Debe agregar un nombre para el radionúclido \n";
+                }
+                if (!ValidacionesGenerales.ValidarNombreRadNuclido(nombreRadNuclido)) {
+                    mensajeError += "Nombre del radionúclido inválido \n Ej: Yodo-131";
+                }
+                if (!rad.buscaNombre(nombreRadNuclido)) {
+                    mensajeError += "El nombre del radionúclido ya existe! \n";
                 }
             }
-            
         } else {
             /*
              Debido  a la utilización del mismo formulario para el abm de radionúclido. 
@@ -302,7 +303,7 @@ public class AbmRadionuclidoController implements Initializable {
         } else {
             Alert alert = new Alert(AlertType.ERROR);
             alert.setTitle("Error!");
-            alert.setHeaderText("Error al guardar el radionúclido");
+            alert.setHeaderText("Error al guardar el radionúclido, revise los siguientes campos: ");
             alert.setContentText(mensajeError);
 
             alert.showAndWait();

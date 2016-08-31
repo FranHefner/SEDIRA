@@ -110,6 +110,8 @@ public class ValidacionesGenerales {
     public static boolean ValidarNumericoFloat (String Numero){
         return Numero.matches("-?\\d+(\\.\\d+)?");
     }
-    
+    public static boolean ValidarNombreRadNuclido (String Numero){
+        return Numero.matches("[a-z,A-Z]*-[0-9]*");
+    }
 
 }
