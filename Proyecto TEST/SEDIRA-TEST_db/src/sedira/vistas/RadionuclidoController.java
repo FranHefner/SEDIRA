@@ -87,8 +87,16 @@ public class RadionuclidoController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+       btnAgregarRadionuclido.defaultButtonProperty().bind(btnAgregarRadionuclido.focusedProperty());
+       btnModificarRadioNuclido.defaultButtonProperty().bind(btnModificarRadioNuclido.focusedProperty());
+       btnEliminarRadionuclido.defaultButtonProperty().bind(btnEliminarRadionuclido.focusedProperty());
+       
+       btnEditarItem.defaultButtonProperty().bind(btnEditarItem.focusedProperty());
+       btnEliminarItem.defaultButtonProperty().bind(btnEliminarItem.focusedProperty());
+       btnAgregarItem.defaultButtonProperty().bind(btnAgregarItem.focusedProperty());
+        btnCerrar.defaultButtonProperty().bind(btnCerrar.focusedProperty());
+      
         //obtengo el listado de los radionuclidos existentes.
-        //Version Anterior // radionuclidoData = ConsultasDB.obtenerRadionuclidos();
         radionuclidoData = rad.obtenerListaRadNuclido();
         //Inicializo la tabla de Propiedad Valor, correspondiente a la informacion de los radioNuclidos .
 
@@ -108,7 +116,11 @@ public class RadionuclidoController implements Initializable {
         //Listener para la seleccion del radionuclido en la lista de radionuclidos que trae la busqueda.
         griRadionuclido.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> seleccionRadionuclido(newValue));
-
+        
+        //Listener para la seleccion del radionuclido en la lista de radionuclidos que trae la busqueda.
+        griInfoRadNuclido.getSelectionModel().selectedItemProperty().addListener(
+                (observable, oldValue, newValue) -> getSelectedItemFromTabla(newValue));
+        
     }
 
     /**
@@ -143,7 +155,7 @@ public class RadionuclidoController implements Initializable {
             //Apago botones.
             btnAgregarItem.setDisable(true);
             btnModificarRadioNuclido.setDisable(true);
-             btnEliminarRadionuclido.setDisable(true);
+            btnEliminarRadionuclido.setDisable(true);
         }
     }
     /**
@@ -221,7 +233,7 @@ public class RadionuclidoController implements Initializable {
     /**
      * Método que obtiene el item seleccionado de la tabla de Radionúclidos. 
      */
-    public void getSelectedItemFromTabla() {
+    public void getSelectedItemFromTabla(ValorDescripcion vd) {
         ValorDescripcion selectedItem = griInfoRadNuclido.getSelectionModel().getSelectedItem();
 
         if (selectedItem != null) {

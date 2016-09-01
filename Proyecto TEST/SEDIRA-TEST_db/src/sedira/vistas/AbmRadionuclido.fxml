@@ -12,21 +12,21 @@
          <content>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="228.0" prefWidth="572.0">
                <children>
+                  <TextField fx:id="txtIdRadNuclido" editable="false" layoutX="14.0" layoutY="24.0" prefHeight="25.0" prefWidth="81.0" />
+                  <TextField fx:id="txtRadNuclidoNombre" layoutX="118.0" layoutY="24.0" onAction="#onEnter" prefHeight="25.0" prefWidth="255.0" />
+                  <TextField fx:id="txtPropiedad" layoutX="14.0" layoutY="73.0" onAction="#onEnter" prefHeight="25.0" prefWidth="181.0" />
+                  <TextField fx:id="txtValor" layoutX="209.0" layoutY="73.0" onAction="#onEnter" prefHeight="25.0" prefWidth="154.0" />
+                  <TextField fx:id="txtUnidad" layoutX="15.0" layoutY="121.0" onAction="#onEnter" prefHeight="25.0" prefWidth="134.0" />
                   <VBox alignment="CENTER" layoutX="456.0" layoutY="14.0" spacing="15.0">
                      <children>
-                        <Button fx:id="btnLimpiarValores" mnemonicParsing="false" onAction="#btnLimpiarValores_click" text="Limpiar valores" />
                         <Button fx:id="btnGuardarCambios" mnemonicParsing="false" onAction="#btnGuardarDatos" text="Guardar cambios" />
                         <Button fx:id="btnCancelar" mnemonicParsing="false" onAction="#btnCancel_click" text="Cancelar" />
+                        <Button fx:id="btnLimpiarValores" mnemonicParsing="false" onAction="#btnLimpiarValores_click" text="Limpiar valores" />
                      </children>
                   </VBox>
-                  <TextField fx:id="txtIdRadNuclido" editable="false" layoutX="14.0" layoutY="24.0" prefHeight="25.0" prefWidth="81.0" />
-                  <TextField fx:id="txtRadNuclidoNombre" layoutX="118.0" layoutY="24.0" prefHeight="25.0" prefWidth="255.0" />
+                  <Label layoutX="14.0" layoutY="56.0" text="Propiedad" />
                   <Label layoutX="14.0" layoutY="7.0" text="Id radionúclido" />
                   <Label layoutX="118.0" layoutY="7.0" text="Nombre radionúclido" />
-                  <TextField fx:id="txtPropiedad" layoutX="14.0" layoutY="73.0" prefHeight="25.0" prefWidth="181.0" />
-                  <TextField fx:id="txtValor" layoutX="209.0" layoutY="73.0" prefHeight="25.0" prefWidth="154.0" />
-                  <TextField fx:id="txtUnidad" layoutX="15.0" layoutY="121.0" prefHeight="25.0" prefWidth="134.0" />
-                  <Label layoutX="14.0" layoutY="56.0" text="Propiedad" />
                   <Label layoutX="209.0" layoutY="58.0" text="Valor" />
                   <Label layoutX="14.0" layoutY="103.0" text="Unidad" />
                </children>

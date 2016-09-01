@@ -49,6 +49,10 @@ public class AbmRadionuclidoController implements Initializable {
 
     @FXML
     private Button btnLimpiarValores;
+    @FXML
+    private Button btnCancelar;
+    @FXML
+    private Button btnGuardarCambios;
 
     //******************** variables 
     //Objeto Lista de radionuclidos  auxiliar. 
@@ -70,7 +74,11 @@ public class AbmRadionuclidoController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
+        
+          btnLimpiarValores.defaultButtonProperty().bind(btnLimpiarValores.focusedProperty());
+            btnGuardarCambios.defaultButtonProperty().bind(btnGuardarCambios.focusedProperty());
+              btnCancelar.defaultButtonProperty().bind(btnCancelar.focusedProperty());
+          
     }
 
     /**
@@ -266,7 +274,7 @@ public class AbmRadionuclidoController implements Initializable {
 
             if (txtValor.isDisable() == false) {
                 if (valor == null || valor.length() == 0) {
-                    mensajeError += "Valor inválido! \n";
+                    mensajeError += "El campo Valor inválido! \n";
                 } else {
                     try {
                         int i = Integer.parseInt(valor);
@@ -309,6 +317,18 @@ public class AbmRadionuclidoController implements Initializable {
             alert.showAndWait();
             return false;
         }
+
+    }
+
+    /**
+     * Método para el comportamiento presionar enter.
+     *
+     * @throws Exception
+     */
+    @FXML
+    public void onEnter() throws Exception {
+
+        btnGuardarDatos();
 
     }
 
