@@ -30,7 +30,12 @@ import java.io.IOException;
 import static java.lang.invoke.MethodHandles.invoker;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.control.Alert;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.layout.Pane;
 import javax.script.Invocable;
 import javax.script.ScriptEngine;
@@ -41,7 +46,10 @@ import org.jfree.fx.FXGraphics2D;
 import org.scilab.forge.jlatexmath.TeXConstants;
 import org.scilab.forge.jlatexmath.TeXFormula;
 import org.scilab.forge.jlatexmath.TeXIcon;
+import sedira.FuncionesGenerales;
 import sedira.MathJS;
+import sedira.model.ValorDescripcion;
+import sedira.model.VariableCalculo;
 
 
 
@@ -65,18 +73,51 @@ public class PestañaCalculoController implements Initializable {
 
     private IDatosValidaciones dValidaciones;
     @FXML
-    private Button btnGuardar;
-  
-    @FXML    
-     private Pane pnFuncion;
-   
+    private TableView <ValorDescripcion> griValorDescripcionPhantom;  
+    @FXML
+    private TableView <ValorDescripcion> griValorDescripcionRadionuclido;  
+    @FXML
+    private  TableView <VariableCalculo> griVariables;
     
+    @FXML    
+    private Pane pnFuncion;
+      @FXML
+    private TableColumn <ValorDescripcion, Double> clVdValorPhantom;
+    @FXML
+    private TableColumn <ValorDescripcion, String> clVdDescripcionPhantom;
+    @FXML
+    private TableColumn <ValorDescripcion, String> clVdUnidadPhantom;
+    
+     @FXML
+    private TableColumn <ValorDescripcion, Double> clVdValorRadionuclido;
+    @FXML
+    private TableColumn <ValorDescripcion, String> clVdDescripcionRadionuclido;
+    @FXML
+    private TableColumn <ValorDescripcion, String> clVdUnidadRadionuclido;
+    
+     @FXML
+    private TableColumn <VariableCalculo, String> clDescripcionVariable;
+      @FXML
+    private TableColumn <VariableCalculo, Double> clValorVariable;
+      @FXML
+    private TableColumn <VariableCalculo, String> clLetraVariable;
+      
+    
+   
+            
+            
     private String formulEnTex;
+    
+    private ValorDescripcion variableSeleccionada;
+    private char letra = 'A';
+    private ObservableList<VariableCalculo> listaVariables = FXCollections.observableArrayList();
+    
     
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
+   
+        
         /* Se inicializa la interface para que se adapte al tipo de cálculo actual */
         if (MenuPrincipalController.TipoUsuario == "Cientifico") {
             dValidaciones = new DatosValidacionesCalculo();
@@ -87,11 +128,110 @@ public class PestañaCalculoController implements Initializable {
         /**
          * *************************************************************************
          */
-
-      //  txtResult.setText(dValidaciones.GetTextoProgeso());
-
+          
+         //Inicializo la tabla de Propiedad Valor, correspondiente a los Phantoms. 
+        clVdValorPhantom.setCellValueFactory(
+               cellData -> cellData.getValue().valorProperty().asObject());
+        clVdDescripcionPhantom.setCellValueFactory(
+                cellData->cellData.getValue().descripcionProperty());
+        clVdUnidadPhantom.setCellValueFactory(
+                cellData -> cellData.getValue().unidadProperty());
+        // Limpieza de los detalles de Phantoms. 
+       // FuncionesGenerales.mostrarDetalleTablaValorDescripcion(null,griValorDescripcionPhantom);
+        
+        // Muestro las propiedades del phantom selecionado
+        FuncionesGenerales.mostrarDetalleTablaValorDescripcion( dValidaciones.getPhantomActual().getPropiedades(), griValorDescripcionPhantom);
+         
+        
+        griValorDescripcionPhantom.getSelectionModel().selectedItemProperty().addListener(
+                (observable, oldValue, newValue) -> seleccionPropiedadPhantom(newValue));
+        
+        // Muestro las propiedades del radionuclido seleccionado
+        
+        //Inicializo la tabla de Propiedad Valor, correspondiente a la informacion de los radioNuclidos . 
+        clVdValorRadionuclido.setCellValueFactory(
+                cellData -> cellData.getValue().valorProperty().asObject());
+        clVdDescripcionRadionuclido.setCellValueFactory(
+                cellData -> cellData.getValue().descripcionProperty());
+        clVdUnidadRadionuclido.setCellValueFactory(
+                cellData -> cellData.getValue().unidadProperty());
+         //Completo tabla de Info Radionuclido
+          FuncionesGenerales.mostrarDetalleTablaValorDescripcion(dValidaciones.getRadionuClidoActual().getPropiedades(), griValorDescripcionRadionuclido);
+    
+         griValorDescripcionRadionuclido.getSelectionModel().selectedItemProperty().addListener(
+                (observable, oldValue, newValue) -> seleccionPropiedadRadionuclido(newValue));
+                
+         //Inicializo la tabla de Variables, correspondiente a la informacion de los radioNuclidos . 
+       clDescripcionVariable.setCellValueFactory(
+                cellData -> cellData.getValue().descripcionProperty());
+                  
+       
+        clValorVariable.setCellValueFactory(
+               cellData -> cellData.getValue().valorProperty().asObject());
+        
+         clLetraVariable.setCellValueFactory(
+                cellData -> cellData.getValue().variableProperty());
+         
+        
+        
+                
+         
     }
 
+    
+    public void seleccionPropiedadPhantom(ValorDescripcion datoSeleccionado) {
+       
+        
+       
+         griValorDescripcionRadionuclido.getSelectionModel().clearSelection();
+       variableSeleccionada = datoSeleccionado;
+         
+        
+        
+       
+    }
+    public void seleccionPropiedadRadionuclido(ValorDescripcion datoSeleccionado) {
+       
+       
+            griValorDescripcionPhantom.getSelectionModel().clearSelection();
+      
+       
+         
+        variableSeleccionada = datoSeleccionado;
+        
+       
+    }
+    
+    
+    @FXML
+    public void agregarVariables() {
+        
+      
+        
+       if (letra == '[')
+       {
+             Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Límite Variables");
+            alert.setHeaderText("Atención!");
+            alert.setContentText("No es posible agregar más variables al cálculo");
+            alert.show();
+       }else
+       {  
+           VariableCalculo nuevaVariable = new VariableCalculo(variableSeleccionada.getId(),variableSeleccionada.getDescripcion(),variableSeleccionada.getValor(), String.valueOf(letra++));
+       
+         listaVariables.add(nuevaVariable);
+
+         griVariables.refresh();
+      
+         griVariables.setItems(listaVariables);
+       }
+               
+     
+                 
+     
+         
+    }
+    
     @FXML
     public void GuardarResultado() {
         dValidaciones.guardarCalculo();
@@ -101,88 +241,41 @@ public class PestañaCalculoController implements Initializable {
     @FXML
     public void RealizarCalculo() throws ScriptException, NoSuchMethodException, IOException {
 
-              
         
-        MathJS math = new MathJS();
-        System.out.println(math.eval("a = 4.5"));
-        System.out.println(math.eval("1.2 * (2 + a)"));
-        System.out.println(math.eval("5.08 cm in inch"));
-        System.out.println(math.eval("sin(45 deg) ^ 2"));   
-        System.out.println(math.eval("9 / 3 + 2i") );   
-        System.out.println(math.eval("det([-1, 2; 3, 1])"));
+      
+       
         
-         System.out.println(math.eval("pow([[-1, 2], [3, 1]], 2)")); 
+         MathJS math = new MathJS();
          
-         System.out.println(math.eval("sqrt(2/3)")); 
-         
-         System.out.println(  math.eval("node = parse(sqrt(2/3))"));
-         
-         System.out.println(  math.eval(" (parse(sqrt(2/3))).toTex()"));
-         
-        // System.out.println(  math.Ejecutar(" (math.parse(math.sqrt(2/3))).toTex();"));
-        
-         //System.out.println(  math.Ejecutar(" (math.parse(math.sqrt(2/3))).toTex({parenthesis: 'keep', implicit: 'hide'}) : '';"));
-       System.out.println( "hola");
-         
-         System.out.println(  math.Ejecutar("value = 'sqrt(75 / 3) + det([[-1, 2], [3, 1]]) - sin(pi / 4)^2';"));
-         
-          System.out.println(  math.Ejecutar("value = '"+txtEntrada.getText() +"';"));
-         
+      
           
-           System.out.println(  math.Ejecutar(" math.parse(value).toTex() " ));
+     /*  int IndexVariable =  listaVariables.indexOf('A');
+       
+         System.out.println(listaVariables.get(IndexVariable).getvariable()+"= "+listaVariables.get(IndexVariable).getValor());
+          
+        if (IndexVariable != -1)
+        {
+           String Asingacion=  listaVariables.get(IndexVariable).getvariable()+"= "+listaVariables.get(IndexVariable).getValor();
+           math.Ejecutar( Asingacion );
+        }
+        */
+          
+          math.Ejecutar("value = '"+txtEntrada.getText() +"';");
+                  
+             math.Ejecutar(" math.parse(value).toTex() " );
+             
    formulEnTex =  math.Ejecutar(" math.parse(value).toTex() " );
   
-        //  System.out.println( math.toTex(math.eval("node")));
-     //    parenthesis = 'keep',
-     // implicit = 'hide';
       
-     //  var latex = node ? 
          
-        //  formulEnTex = math.Ejecutar( "node.toTex();"  );
+   
        System.out.println(formulEnTex);
         txtResult.setText( math.eval( txtEntrada.getText()) );
         
-     //  var node = math.parse('sqrt(2/3)');
-// node.toTex(); // returns '\sqrt{\frac{2}{3}}'
-// var node = math.parse('sqrt(2/3)');
-// node.toTex(); // returns '\sqrt{\frac{2}{3}}'*/
-
-       //   System.out.println(math.eval( (math.eval("sqrt(x/x+1)"))+".toTex()"));
-       
-              
-       /* BarraProgreso.setProgress(0.5);
-
-        double Progreso = 0;
-
-        boolean bandera = false;
-        while (bandera == false) {
-            try {
-                Thread.sleep(100);
-                Progreso = Progreso + 0.1;
-                BarraProgreso.setProgress(Progreso);
-                if (Progreso >= 1) {
-                    bandera = true;
-                }
-            } catch (InterruptedException ex) {
-                Logger.getLogger(PestañaCalculoController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }*/
-
-        /**
-         * ************************************************
-         */
-        
-        
-           /******************* NUEVO *******************************************/
-       
-     // spnFuncion.getChildren().add(canvas); 
-      
-        /******************************************************************/
+    
            pnFuncion.getChildren().clear();
             MyCanvas canvas = new MyCanvas();
-    //   StackPane stackPane = new StackPane(); 
-     //  spnFuncion.getChildren().add(canvas);  
-        // Bind canvas size to stack pane size. 
+    
         canvas.widthProperty().bind( pnFuncion.widthProperty()); 
         canvas.heightProperty().bind( pnFuncion.heightProperty());  
        

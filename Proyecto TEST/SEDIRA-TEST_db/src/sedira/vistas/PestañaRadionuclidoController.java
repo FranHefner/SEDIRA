@@ -163,8 +163,8 @@ public class PestañaRadionuclidoController implements Initializable {
         itemRadNuclido = griInfoRadNuclido.getSelectionModel().getSelectedItem();
         txtPropiedad.setText(itemRadNuclido.getDescripcion());
         txtValor.setText(String.valueOf(itemRadNuclido.getValor()));
-        txtUnidad.setText(itemRadNuclido.getUnidad());
-        dValidaciones.setItemRadNuclido(itemRadNuclido);
+        txtUnidad.setText(itemRadNuclido.getUnidad());    
+        dValidaciones.setRadionuclido(radionuclidoActual);
     }
 
 }

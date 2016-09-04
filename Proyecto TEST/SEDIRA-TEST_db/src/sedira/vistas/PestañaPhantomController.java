@@ -184,7 +184,8 @@ public class PestañaPhantomController implements Initializable {
         txtPropiedad.setText(phantomValorDescripcion.getDescripcion());
         txtValor.setText(String.valueOf(phantomValorDescripcion.getValor()));
         txtUnidad.setText(phantomValorDescripcion.getUnidad());
-        dValidaciones.setItemPhantom(phantomValorDescripcion);
+        dValidaciones.setPhantom(phantomActual);
+        
     }
     
 }

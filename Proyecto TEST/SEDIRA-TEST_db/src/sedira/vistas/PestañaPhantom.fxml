@@ -20,7 +20,7 @@
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                <children>
-                  <TableView fx:id="griValorDescripcionPhantom" layoutX="269.0" layoutY="34.0" onMouseClicked="#seleccionInfoPhantom" prefHeight="228.0" prefWidth="384.0">
+                  <TableView fx:id="griValorDescripcionPhantom" layoutX="269.0" layoutY="34.0" prefHeight="348.0" prefWidth="384.0">
                      <columnResizePolicy>
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                      </columnResizePolicy>
@@ -41,13 +41,6 @@
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                      </columnResizePolicy>
                   </TableView>
-                  <TextField fx:id="txtPropiedad" editable="false" layoutX="547.0" layoutY="287.0" prefHeight="22.0" prefWidth="106.0" />
-                  <TextField fx:id="txtValor" editable="false" layoutX="547.0" layoutY="316.0" prefHeight="22.0" prefWidth="106.0" />
-                  <TextField fx:id="txtUnidad" editable="false" layoutX="547.0" layoutY="344.0" prefHeight="22.0" prefWidth="106.0" />
-                  <Text layoutX="269.0" layoutY="276.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Seleccione un item de la lista propiedad-valor. " wrappingWidth="264.0" />
-                  <Text layoutX="486.0" layoutY="305.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Propiedad:" />
-                  <Text layoutX="508.0" layoutY="335.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Valor:" />
-                  <Text layoutX="499.0" layoutY="363.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Unidad:" />
                   <Text layoutX="492.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Peso Total" />
                   <TextField fx:id="txtPesoTotal" editable="false" layoutX="547.0" layoutY="3.0" prefHeight="22.0" prefWidth="106.0" />
                </children>

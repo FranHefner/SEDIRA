@@ -24,9 +24,7 @@ public interface IDatosValidaciones {
       boolean guardarCalculo();
       
       Blob    getResultado();
-      Phantom getPhantomActual();
-      ValorDescripcion getItemPhantom();
-      ValorDescripcion getItemRadNuclido();
+      Phantom getPhantomActual();   
       Paciente getPacienteActual();
       String  GetTextoProgeso();
       Organo  getOrganoActual();      
@@ -35,9 +33,7 @@ public interface IDatosValidaciones {
       boolean getProcesoCompleto();      
       
       boolean setPaciente(Paciente miPaciente);      
-      boolean setPhantom(Phantom miPhantom);
-      boolean setItemPhantom(ValorDescripcion miItemPhantom);
-      boolean setItemRadNuclido (ValorDescripcion miItemRadNuclido);
+      boolean setPhantom(Phantom miPhantom);  
       boolean setOrgano(Organo miOrgano);
       boolean setRadionuclido(Radionuclido miRadionuclido);
       void setProcesoCompleto(boolean esCompleto);

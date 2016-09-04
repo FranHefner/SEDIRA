@@ -31,11 +31,6 @@ public class DatosValidacionesCalculo implements IDatosValidaciones {
     private static Calculo CalculoActual;
     private static Paciente PacienteActual;
     private static Phantom PhantomActual;
-    //ItemPhantom es el item que se selecciona de la lista de atributos del phantom. 
-    private static ValorDescripcion ItemPhantom;
-    //ItemRadNuclido es el item que se selecciona de la lista de atributos del Radionuclido. 
-    private static ValorDescripcion ItemRadNuclido;
-
     private static Organo OrganoActual;
     private static Radionuclido RadionuclidoActual;
     //Variable que se encarga de almacenar información recopilada durante el proceso de cálculo. 
@@ -49,9 +44,7 @@ public class DatosValidacionesCalculo implements IDatosValidaciones {
         PacienteActual = null;
         PhantomActual = null;
         OrganoActual = null;
-        RadionuclidoActual = null;
-        ItemRadNuclido = null;
-        ItemPhantom = null;
+        RadionuclidoActual = null;      
     }
 
     //Implementación de la interface ICalculo. En este caso, utiliza el lenguaje de base de datos MySql. 
@@ -96,17 +89,17 @@ public class DatosValidacionesCalculo implements IDatosValidaciones {
             } else {
                 TextoProgreso = TextoProgreso + "Paciente: " + getPacienteActual().getApellido() + ", " + getPacienteActual().getNombre();
 
-                if (PhantomActual != null && ItemPhantom != null) {
+                if (PhantomActual != null ) {
                     TextoProgreso = TextoProgreso + "\n" + "Phantom: " + getPhantomActual().getPhantomNombre();
-                    TextoProgreso = TextoProgreso + "\n" + "Item Phantom: " + getItemPhantom().getDescripcion();
+                    
 
                     if (OrganoActual != null) {
                         TextoProgreso = TextoProgreso + "\n" + "Organo: " + getOrganoActual().getNombreOrgano();
 
-                        if (RadionuclidoActual != null && ItemRadNuclido != null) {
+                        if (RadionuclidoActual != null ) {
 
                             TextoProgreso = TextoProgreso + "\n" + "Radionuclido: " + getRadionuClidoActual().getNombreRadNuclido();
-                            TextoProgreso = TextoProgreso + "\n" + "Item Radionuclido : " + getItemRadNuclido().getDescripcion();
+                           
                         }
                     }
 
@@ -159,20 +152,19 @@ public class DatosValidacionesCalculo implements IDatosValidaciones {
 
         /*Ej: Aplicar hash MD5 al objeto y compararlo con ConsultasDB.Obtener(Paciente)*/
         PhantomActual = null;
-        ItemPhantom = null;
+        
         OrganoActual = null;
         RadionuclidoActual = null;
-        ItemRadNuclido = null;
+       
         CalculoActual = null;
 
         return true;
     }
 
     private static boolean validarPhantom() {
-        //ItemPhantom = null;
+       
         OrganoActual = null;
-        RadionuclidoActual = null;
-        ItemRadNuclido = null;
+        RadionuclidoActual = null;      
         CalculoActual = null;
 
         return true;
@@ -181,8 +173,7 @@ public class DatosValidacionesCalculo implements IDatosValidaciones {
     private static boolean validarItemPhantom() {
 
         OrganoActual = null;
-        RadionuclidoActual = null;
-        ItemRadNuclido = null;
+        RadionuclidoActual = null;      
         CalculoActual = null;
 
         return true;
@@ -190,21 +181,19 @@ public class DatosValidacionesCalculo implements IDatosValidaciones {
 
     private static boolean validarOrgano() {
 
-        RadionuclidoActual = null;
-        ItemRadNuclido = null;
+        RadionuclidoActual = null;       
         CalculoActual = null;
 
         return true;
     }
 
-    private static boolean validaradionuclidoActual() {
-        ItemRadNuclido = null;
+    private static boolean validaRadionuclidoActual() {     
         CalculoActual = null;
 
         return true;
     }
 
-    private static boolean validarItemRadNuclido() {
+    private static boolean validardNuclido() {
 
         CalculoActual = null;
 
@@ -230,25 +219,7 @@ public class DatosValidacionesCalculo implements IDatosValidaciones {
         return validarPhantom();
     }
 
-    /**
-     * Método SetTer para el Item del Phantom seleccionado en el proceso de
-     * cálculo.
-     *
-     * @param miItemPhantom
-     * @return
-     */
-    @Override
-    public boolean setItemPhantom(ValorDescripcion miItemPhantom) {
-        ItemPhantom = miItemPhantom;
-        return validarItemPhantom();
-    }
-
-    @Override
-    public boolean setItemRadNuclido(ValorDescripcion miItemRadNuclido) {
-        ItemRadNuclido = miItemRadNuclido;
-        return validarItemRadNuclido();
-    }
-
+   
     /**
      * Método SetTer para el organo seleccionado en el proceso de cálculo.
      *
@@ -275,7 +246,7 @@ public class DatosValidacionesCalculo implements IDatosValidaciones {
             RadionuclidoActual = miRadionuclido;
         }
 
-        return validaradionuclidoActual();
+        return validaRadionuclidoActual();
     }
 
     @Override
@@ -296,24 +267,8 @@ public class DatosValidacionesCalculo implements IDatosValidaciones {
         }
     }
 
-    @Override
-    public ValorDescripcion getItemPhantom() {
-        if (ItemPhantom != null) {
-            return ItemPhantom;
-        } else {
-            return null;
-        }
-    }
-
-    @Override
-    public ValorDescripcion getItemRadNuclido() {
-        if (ItemRadNuclido != null) {
-            return ItemRadNuclido;
-        } else {
-            return null;
-        }
-    }
-
+  
+   
     @Override
     public Paciente getPacienteActual() {
         if (PacienteActual != null) {
@@ -368,15 +323,13 @@ public class DatosValidacionesCalculo implements IDatosValidaciones {
                     PacienteActual = null;
                     break;
                 case "Phantom":
-                    PhantomActual = null;
-                    ItemPhantom = null;
+                    PhantomActual = null;                   
                     break;
                 case "Organo":
                     OrganoActual = null;
                     break;
                 case "RadioNuclido":
-                    RadionuclidoActual = null;
-                    ItemRadNuclido = null;
+                    RadionuclidoActual = null;                  
                     break;
                 case "Completo":
                     break;
@@ -392,16 +345,9 @@ public class DatosValidacionesCalculo implements IDatosValidaciones {
             }
             return "Phantom";
 
-        } else if (ItemPhantom == null) {
-            if (!adelante) {
-                validarPaciente();
-                return "Paciente";
-            }
-            return "Phantom";
         } else if (OrganoActual == null) {
             if (!adelante) {
-                validarPhantom();
-                validarItemPhantom();
+                validarPhantom();                
                 return "Phantom";
             }
             return "Organo";
@@ -411,16 +357,9 @@ public class DatosValidacionesCalculo implements IDatosValidaciones {
                 return "Organo";
             }
             return "RadioNuclido";
-        } else if (ItemRadNuclido == null) {
-            if (!adelante) {
-                validarOrgano();
-                return "Organo";
-            }
-            return "RadioNuclido";
         } else {
             if (!adelante) {
-                validaradionuclidoActual();
-                validarItemRadNuclido();
+                validaRadionuclidoActual();              
                 return "RadioNuclido";
             }
             return "Completo";
