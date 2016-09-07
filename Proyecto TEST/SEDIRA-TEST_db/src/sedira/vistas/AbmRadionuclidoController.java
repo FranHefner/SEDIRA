@@ -18,6 +18,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import sedira.FuncionesGenerales;
 import sedira.ValidacionesGenerales;
@@ -88,7 +89,7 @@ public class AbmRadionuclidoController implements Initializable {
      */
     public void setDialogStage(Stage dialogStage) {
         this.dialogStage = dialogStage;
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        dialogStage.initModality(Modality.APPLICATION_MODAL); //To change body of generated methods, choose Tools | Templates.
     }
 
     /**
@@ -261,7 +262,6 @@ public class AbmRadionuclidoController implements Initializable {
              Por eso se pregunta si estan prendidos los textfields
              */
             if (txtPropiedad.isDisable() == false) {
-
                 if (propiedad == null || propiedad.length() == 0) {
                     mensajeError += "El campo Propiedad inválido! \n";
                 }

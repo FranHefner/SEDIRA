@@ -14,10 +14,10 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import sedira.FuncionesGenerales;
 import sedira.ValidacionesGenerales;
@@ -75,6 +75,7 @@ public class AbmOrganoController implements Initializable {
      */
     public void setDialogStage(Stage dialogStage) {
         this.dialogStage = dialogStage;
+        dialogStage.initModality(Modality.APPLICATION_MODAL);
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -225,9 +226,9 @@ public class AbmOrganoController implements Initializable {
             } catch (NumberFormatException e) {
                 if (ValidacionesGenerales.ValidarNumericoFloat(masa)) {
                     double d = Double.parseDouble(masa);
-                    if (d == 0.0) {
+                    /*if (d == 0.0) {
                         mensajeError += "El campo Masa no debe ser 0.0 !\n";
-                    }
+                    }*/
                     //double routine
 
                 } else {

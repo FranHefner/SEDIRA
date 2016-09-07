@@ -18,6 +18,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import sedira.FuncionesGenerales;
 import sedira.ValidacionesGenerales;
@@ -80,6 +81,7 @@ public class AbmPhantomController implements Initializable {
      */
     public void setDialogStage(Stage dialogStage) {
         this.dialogStage = dialogStage;
+        dialogStage.initModality(Modality.APPLICATION_MODAL);
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -240,14 +242,16 @@ public class AbmPhantomController implements Initializable {
         String nombrePhantom = txtNombrePhantom.getText();
 
         if ("Crear un Phantom".equals(this.dialogStage.getTitle()) || "Modificar nombre del Phantom".equals(this.dialogStage.getTitle())) {
-            // Solo valido
-            if (txtNombrePhantom.getText() == null || txtNombrePhantom.getText().length() == 0) {
-                mensajeError += "Nombre del Phantom Inválido!";
+            if (!nombrePhantom.equals(this.phantom.getPhantomNombre())) {
+                // Solo valido
+                // campo en NULL y Campo con logitud 0
+                if (txtNombrePhantom.getText() == null || txtNombrePhantom.getText().length() == 0) {
+                    mensajeError += "Nombre del Phantom Inválido!";
+                }
+                if (ph.buscaNombre(nombrePhantom) == false) {
+                    mensajeError += "El nombre del phantom ya existe!";
+                }
             }
-            if (ph.buscaNombre(nombrePhantom) == false) {
-                mensajeError += "El nombre del phantom ya existe!";
-            }
-
         } else {
             // Validacion propiedad
             if (propiedad == null || propiedad.length() == 0) {

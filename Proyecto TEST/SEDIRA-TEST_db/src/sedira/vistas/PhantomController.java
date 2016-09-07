@@ -5,11 +5,14 @@
  */
 package sedira.vistas;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.Scanner;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -46,7 +49,6 @@ import sedira.model.IValorDescripcionDAO;
 public class PhantomController implements Initializable {
 
     //Declaracion de los elementos de la interfaz grafica. 
-
     @FXML
     private TableView<Phantom> griPhantom;
     @FXML
@@ -357,7 +359,7 @@ public class PhantomController implements Initializable {
             btnEliminarPhantom.setDisable(false);
             //Completo el textfield del pesototal
             txtPesoTotal.setText(String.valueOf(phantomActual.getPesoTotal()));
-            
+
         } else {
             //Todo si no se selecciona ningun phantom de la lista
             //Apago los botones.
@@ -400,7 +402,7 @@ public class PhantomController implements Initializable {
          * con la utilizacion de los botones. Agregar item y Agregar organo.
          *
          */
-        Phantom tempPhantom = new Phantom(-1, "",0, null, null);
+        Phantom tempPhantom = new Phantom(-1, "", 0, null, null);
         //Lista Observable para el manejo de la informacion de los phantoms
         ObservableList<ValorDescripcion> propiedadesPhantom = FXCollections.observableArrayList();
         //Lista Observable para el manejo de los organos de los phantoms
@@ -457,6 +459,7 @@ public class PhantomController implements Initializable {
         }
 
     }
+
     /**
      * Método que controla el comportamiento del boton Eliminar Organo
      */
@@ -471,7 +474,8 @@ public class PhantomController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Eliminar Phantom");
             alert.setHeaderText("Atención!");
-            alert.setContentText("Esta seguro que desea eliminar el phantom seleccionado? \n" + mensaje);
+            alert.setContentText("Esta seguro que desea eliminar el phantom seleccionado? \n"
+                    + "Se eliminaran todas las propiedades y los órganos asociados. ");
 
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == ButtonType.OK) {
@@ -483,7 +487,7 @@ public class PhantomController implements Initializable {
             } else {
 
             }
-            
+
         } else {
             // No se selecciono ningun item. 
             Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -567,7 +571,6 @@ public class PhantomController implements Initializable {
                 infoPhantom = ph.obtenerInfoPhantom(selectedPhantom);
                 //actualizacion de la tabla ValorDescripcionPhantom.
                 griValorDescripcionPhantom.setItems(infoPhantom);
-
 
             } else {
                 //Cancelacion de la eliminacion
@@ -734,15 +737,15 @@ public class PhantomController implements Initializable {
         }
 
     }
+
     /**
-     * Método para el control de botón cerrar. 
+     * Método para el control de botón cerrar.
      */
     @FXML
-    public void btnCerrar_click()
-    {
+    public void btnCerrar_click() {
         Stage stage = (Stage) btnCerrar.getScene().getWindow();
 
-            stage.close();
+        stage.close();
     }
 
 }

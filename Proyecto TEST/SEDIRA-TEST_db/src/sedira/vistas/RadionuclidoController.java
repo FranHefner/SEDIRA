@@ -275,7 +275,7 @@ public class RadionuclidoController implements Initializable {
             Alert alert = new Alert(AlertType.WARNING);
             alert.setTitle("Error!");
             alert.setHeaderText("Error!");
-            alert.setContentText("No existe item para modificar");
+            alert.setContentText("Seleccione un ítem para modificar");
 
             alert.showAndWait();
 

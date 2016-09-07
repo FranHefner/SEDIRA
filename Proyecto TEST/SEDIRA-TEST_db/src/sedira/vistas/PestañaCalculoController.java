@@ -221,7 +221,7 @@ public class PestañaCalculoController implements Initializable {
        
          listaVariables.add(nuevaVariable);
 
-         griVariables.refresh();
+         //griVariables.refresh();
       
          griVariables.setItems(listaVariables);
        }
