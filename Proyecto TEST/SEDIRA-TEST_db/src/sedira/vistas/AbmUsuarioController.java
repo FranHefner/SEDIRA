@@ -9,12 +9,15 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -48,6 +51,8 @@ public class AbmUsuarioController implements Initializable {
     private Button btnCancelar;
     @FXML
     private Button btnLimpiar;
+    @FXML
+    private ChoiceBox cBtipoUsuario;
 
     //Objeto Phantom auxiliar. 
     private Usuario usuario;
@@ -55,16 +60,24 @@ public class AbmUsuarioController implements Initializable {
     private Stage dialogStage;
     // boleano para controlar cuando el usuario clickea ok 
     private boolean guardarDatos = false;
-    
+
     IUsuarioDAO usr = new UsuarioDAOsql();
-    int tipoUsuario= 0; 
-    
+    int tipoUsuario = 0;
+
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+
+        ObservableList<String> strTipoUsuario = FXCollections.observableArrayList();
+
+        strTipoUsuario.add(0, "Científico");
+        strTipoUsuario.add(1, "Médico");
+        strTipoUsuario.add(2, "Administrador");
+
+        cBtipoUsuario.setItems(strTipoUsuario);
+
     }
 
     /**
@@ -74,7 +87,7 @@ public class AbmUsuarioController implements Initializable {
      */
     public void setDialogStage(Stage dialogStage) {
         this.dialogStage = dialogStage;
-         dialogStage.initModality(Modality.APPLICATION_MODAL);
+        dialogStage.initModality(Modality.APPLICATION_MODAL);
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -134,15 +147,15 @@ public class AbmUsuarioController implements Initializable {
                     usuario.setDescripcion(txtDescripcion.getText());
                     usuario.setLogin(txtNombreUsuario.getText());
                     usuario.setPass(txtPass.getText());
-                    FuncionesGenerales.setTipoUsuario(Integer.valueOf(txtTipoUsuario.getText()));
+                    FuncionesGenerales.setTipoUsuario(cBtipoUsuario.getSelectionModel().getSelectedIndex()+1);
                     break;
                 case "Modificar Usuario":
                     usuario.setDescripcion(txtDescripcion.getText());
                     usuario.setLogin(txtNombreUsuario.getText());
                     usuario.setPass(txtPass.getText());
-                    FuncionesGenerales.setTipoUsuario(Integer.valueOf(txtTipoUsuario.getText()));
+                    FuncionesGenerales.setTipoUsuario(cBtipoUsuario.getSelectionModel().getSelectedIndex()+1);
                     break;
-                
+
             }
             // Si las validaciones son correctas se guardan los datos. 
             guardarDatos = true;
@@ -178,7 +191,7 @@ public class AbmUsuarioController implements Initializable {
                 alert.setHeaderText("Atención!");
                 alert.setContentText("Está seguro de cancelar la modificación del usuario? ");
                 break;
-            
+
         }
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK) {
@@ -197,32 +210,38 @@ public class AbmUsuarioController implements Initializable {
         txtDescripcion.setText("");
         txtPass.setText("");
         txtNombreUsuario.setText("");
-       
+
     }
+
     /**
-     * Método que se encarga de la validacion de los datos necesarios para la creacion o la modificacion de un usuario. 
-     * @return True si no existen errores. 0 si se encontraron errores. 
-     * @throws SQLException 
+     * Método que se encarga de la validacion de los datos necesarios para la
+     * creacion o la modificacion de un usuario.
+     *
+     * @return True si no existen errores. 0 si se encontraron errores.
+     * @throws SQLException
      */
     public boolean validarDatosEntrada() throws SQLException {
         // CUIDADO CON LA ENCRIPTACION. 
-        
+
         String mensajeError = "";
         String nombreUsuario = txtNombreUsuario.getText();
         if ("Crear Usuario".equals(this.dialogStage.getTitle()) || "Modificar Usuario".equals(this.dialogStage.getTitle())) {
             // Solo valido
             if (txtNombreUsuario.getText() == null || txtNombreUsuario.getText().length() == 0) {
-                mensajeError += "Nombre de usuario inválido!";
+                mensajeError += "Nombre de usuario inválido!\n";
             }
             if (usr.buscaUsuario(nombreUsuario) == true) {
-                mensajeError += "El nombre de usuario ya existe!";
+                mensajeError += "El nombre de usuario ya existe!\n";
             }
-            if (txtPass.getText()== null || txtPass.getText().length()==0){
+            if (txtPass.getText() == null || txtPass.getText().length() == 0) {
                 //mas validaciones con resperto al pass. 
                 // O llamar a funcion que verifique, cantidad de caracteres , largo y demas 
-                mensajeError+= "La contraseña es invalida";
+                mensajeError += "La contraseña es invalida\n";
             }
-        
+            if (cBtipoUsuario.getSelectionModel().getSelectedItem()==null){
+                mensajeError += "Debe seleccionar un tipo de usuario \n";
+            }
+
         }
         // TODO validacion Unidad. 
 
@@ -239,5 +258,5 @@ public class AbmUsuarioController implements Initializable {
         }
 
     }
-  
+
 }

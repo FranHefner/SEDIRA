@@ -99,7 +99,7 @@ public class MenuPrincipalController implements Initializable {
      */
     @FXML
     private void mniIniciarCalculo_click() throws IOException {
-        if ("Cientifico".equals(TipoUsuario) ||"Admin".equals(TipoUsuario)  ) {
+        if ("Cientifico".equals(TipoUsuario) ||"Administrador".equals(TipoUsuario)  ) {
             Stage stage = new Stage();
             Parent root = FXMLLoader.load(getClass().getResource("Calculo.fxml"));
             Scene scene = new Scene(root);
@@ -115,7 +115,7 @@ public class MenuPrincipalController implements Initializable {
             //  stage.setAlwaysOnTop(true);
             stage.show();
         }
-        if ("Medico" == TipoUsuario) {
+        if ("Medico".equals(TipoUsuario)) {
             Stage stage = new Stage();
             Parent root = FXMLLoader.load(getClass().getResource("CalculoRapido.fxml"));
             Scene scene = new Scene(root);

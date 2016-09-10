@@ -81,7 +81,7 @@ public class LoginController implements Initializable {
         if (CodigoInicio == 2) {
             MenuPrincipalController.TipoUsuario = "Medico";
         }
-         if (CodigoInicio == 4) {
+         if (CodigoInicio == 3) {
             MenuPrincipalController.TipoUsuario = "Administrador";
         }
          
