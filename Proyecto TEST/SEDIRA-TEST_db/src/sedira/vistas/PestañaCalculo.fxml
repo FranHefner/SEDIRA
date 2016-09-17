@@ -49,8 +49,8 @@
           <TableColumn fx:id="clLetraVariable" prefWidth="89.0" text="Variable" />
         </columns>
       </TableView>
-      <TextField fx:id="txtMasa" layoutX="193.0" layoutY="229.0" prefHeight="25.0" prefWidth="85.0" />
+      <TextField fx:id="txtOrganoMasa" layoutX="193.0" layoutY="229.0" onMouseClicked="#seleccionMasa" prefHeight="25.0" prefWidth="85.0" />
       <Label layoutX="246.0" layoutY="360.0" text="Vista Previa:" />
-      <Button layoutX="306.0" layoutY="138.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="50.0" text="X" />
+      <Button layoutX="306.0" layoutY="138.0" mnemonicParsing="false" onMouseClicked="#eliminarVariable" prefHeight="35.0" prefWidth="50.0" text="X" />
    </children>
 </AnchorPane>
