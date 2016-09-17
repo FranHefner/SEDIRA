@@ -35,10 +35,21 @@ public class PacienteDAOsql implements IPacienteDAO {
         try {
             if (buscaDni(dni)) {
                 PreparedStatement consulta = conexion.getConnection().prepareStatement(
-                        "INSERT INTO pacientes (tipo_doc, numero_doc, apellido, nombre)"
-                        + "VALUES ("
-                        + "?,?,?,?"
-                        + ")"
+                        " INSERT INTO pacientes ("                        
+                        + "tipo_doc"
+                        + ",numero_doc"
+                        + ",apellido"
+                        + ",nombre"
+                        + ",fecha_nacimiento"
+                        + ",direccion"
+                        + ",numero_asociado"
+                        + ",email"
+                        + ",telefono"
+                        + ",foto"
+                        + ",sexo"
+                        + ",en_tratamiento"
+                        + ",celular"
+                        + "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
                 );
 
                 /**
@@ -54,13 +65,15 @@ public class PacienteDAOsql implements IPacienteDAO {
                 consulta.setString(4, paciente.getNombre());
                 //parametros acotados para simplicidad del test 
 
-                //consulta.setDate(5, (Date) paciente.getFechaNacimientoDATE());
-                //consulta.setString(6, paciente.getDireccion());
-                //consulta.setInt(7, paciente.getNumeroAsociado());
-                //consulta.setString(8,paciente.getEmail());
-                //consulta.setString(9,paciente.getTelefono());
-                //consulta.setBlob(10,paciente.getFoto());
-                //consulta.setBoolean(11, paciente.isEnTratamiento());
+                consulta.setString(5,  paciente.getFechaNacimientoDB());
+                consulta.setString(6, paciente.getDireccion());
+                consulta.setInt(7, paciente.getNumeroAsociado());
+                consulta.setString(8,paciente.getEmail());
+                consulta.setString(9,paciente.getTelefono());               
+                consulta.setBlob(10,paciente.getFoto());
+                consulta.setString(11, paciente.getSexo());
+                consulta.setBoolean(12, paciente.isEnTratamiento());
+                consulta.setString(13, paciente.getcelular());
                 consulta.executeUpdate(); //Ejecucion de la consulta
                 consulta.close();
                 // JOptionPane.showMessageDialog(null, "La propiedad "+vd.getDescripcion()+ " fué agregada con éxito!","Información",JOptionPane.INFORMATION_MESSAGE);
