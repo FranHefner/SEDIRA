@@ -8,10 +8,13 @@ package sedira.model;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import javax.swing.JOptionPane;
+import sedira.Security;
 
 /**
  * Clase de acceso de datos para Usuarios
@@ -26,6 +29,7 @@ public class UsuarioDAOsql implements IUsuarioDAO {
      * @param usuario
      * @param tipoUsuario
      */
+    @Override
     public void agregarUsuario(Usuario usuario, int tipoUsuario) {
         //Instancia de conexion
         ConexionDB conexion = new ConexionDB();
@@ -34,13 +38,15 @@ public class UsuarioDAOsql implements IUsuarioDAO {
         int TipoUsuario;
 
         try {
-            if (buscaUsuario(nombreUsuario) == false) {
+            String UsuarioEnc = Security.encrypt(usuario.getLogin());
+            String passwordEnc = Security.encrypt(usuario.getPass());
+          
                 PreparedStatement consulta = conexion.getConnection().prepareStatement(
                         "INSERT INTO usuarios (descripcion, login, pass, id_usuarioTipos) "
                         + "VALUES(?,?,?,?)");
                 consulta.setString(1, usuario.getDescripcion());
-                consulta.setString(2, usuario.getLogin());
-                consulta.setString(3, usuario.getPass());
+                consulta.setString(2, Security.encrypt(usuario.getLogin()));
+                consulta.setString(3, Security.encrypt(usuario.getPass()));
                 consulta.setInt(4, tipoUsuario);
 
                 consulta.executeUpdate(); //Ejecucion de la consulta
@@ -54,12 +60,12 @@ public class UsuarioDAOsql implements IUsuarioDAO {
                 alerta.setHeaderText(null);
                 alerta.setContentText("El usuario fué agregado.");
                 alerta.showAndWait();
-            } else {
-
-            }
+          
         } catch (SQLException e) {
             System.out.println("Ocurrió un error en la inserción del usuario " + e.getMessage());
             JOptionPane.showMessageDialog(null, "Ocurrió un error en la inserción del usuario " + e.getMessage(), "Información", JOptionPane.INFORMATION_MESSAGE);
+        } catch (Exception ex) {
+            Logger.getLogger(UsuarioDAOsql.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -75,16 +81,18 @@ public class UsuarioDAOsql implements IUsuarioDAO {
         String nombreUsuario = usuario.getLogin();
 
         try {
+            String UsuarioEnc = Security.encrypt(usuario.getLogin());
+            String passwordEnc = Security.encrypt(usuario.getPass());
             if (buscaUsuario(nombreUsuario) == false) {
                 PreparedStatement consulta = conexion.getConnection().prepareStatement(
-                        "UPDATE usuario SET login = ?"
+                        "UPDATE usuarios SET login = ?"
                         + ",pass = ?"
                         + ", descripcion=?"
                         + ",id_usuarioTipos=? "
                         + "WHERE id_usuario = ?");
 
-                consulta.setString(1, usuario.getLogin());
-                consulta.setString(2, usuario.getPass());
+                consulta.setString(1, UsuarioEnc);
+                consulta.setString(2, passwordEnc);
                 consulta.setString(3, usuario.getDescripcion());
                 consulta.setInt(4, tipoUsuario);
                 consulta.setInt(5, usuario.getIdUsuario());
@@ -98,6 +106,8 @@ public class UsuarioDAOsql implements IUsuarioDAO {
         } catch (SQLException e) {
             System.out.println("Ocurrió un error en la modificación del usuario " + e.getMessage());
             JOptionPane.showMessageDialog(null, "Ocurrió un error en la modificación del usuario " + e.getMessage(), "Información", JOptionPane.INFORMATION_MESSAGE);
+        } catch (Exception ex) {
+            Logger.getLogger(UsuarioDAOsql.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -141,11 +151,13 @@ public class UsuarioDAOsql implements IUsuarioDAO {
      * @param usuario
      * @return True o False
      */
+    @Override
     public boolean buscaUsuario(String usuario) {
         //Instancia de conexion
         ConexionDB conexion = new ConexionDB();
-
+        
         try {
+//            String decUsuario = Security.decrypt(usuario);
             PreparedStatement consulta = conexion.getConnection().prepareStatement(
                     "SELECT login FROM usuarios "
                     + "WHERE login = ?");
@@ -154,19 +166,29 @@ public class UsuarioDAOsql implements IUsuarioDAO {
             ResultSet resultado = consulta.executeQuery();
             if (resultado.next()) {
                 consulta.close();
-
+                conexion.desconectar(); 
                 return true;
             } else {
                 //Si no hay coincidencias. o sea, la cantidad de tuplas es 0 entonces EL nombre no existe
+                conexion.desconectar();
                 return false;
+                
             }
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             JOptionPane.showMessageDialog(null, "Ocurrio un error! " + e);
+            conexion.desconectar();
+            return false;
+        } catch (Exception ex) {
+            Logger.getLogger(UsuarioDAOsql.class.getName()).log(Level.SEVERE, null, ex);
+            conexion.desconectar();
             return false;
         }
-    }
+       
+    }     
+    
+    
 
     /**
      * Método que retorna la informacion completa de la tabla de usuarios

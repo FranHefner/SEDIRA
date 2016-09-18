@@ -24,6 +24,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import sedira.ConsultasSQL;
 import sedira.FuncionesGenerales;
+import sedira.Security;
 import sedira.model.IUsuarioDAO;
 import sedira.model.Usuario;
 import sedira.model.UsuarioDAOsql;
@@ -129,7 +130,7 @@ public class UsuarioController implements Initializable {
      * @param usuario
      * @return
      */
-    public boolean mostrarUsuarioEditDialog(Usuario usuario) {
+    public boolean mostrarUsuarioEditDialog(Usuario usuario) throws Exception {
 
         // cargo el nuevo FXML para crear un ventana tipo PopUp
         try {
@@ -169,15 +170,16 @@ public class UsuarioController implements Initializable {
      * @throws java.io.IOException
      */
     @FXML
-    public void btnEditarUsuario() throws IOException {
+    public void btnEditarUsuario() throws IOException, Exception {
         Usuario usuario = FuncionesGenerales.getUsuarioActual();
-
         int tipoUsuario = FuncionesGenerales.getTipoUsuario();
+       
         boolean guardarCambiosClicked = mostrarUsuarioEditDialog(usuario);
 
         if (guardarCambiosClicked) {
             //Llamada a la Clase de acceso a datos de Usuario. 
-            // Hardcodeado el tipo de usuario. 
+            // Pasa el tipo de usuario seleccionado del ComboBox. 
+          
             usr.modificarUsuario(usuario, tipoUsuario);
             userData = usr.obtenerUsuarios();
             //Actualiza el GridView de los phantoms 
@@ -203,7 +205,7 @@ public class UsuarioController implements Initializable {
         if (guardarCambiosClicked) {
             //Harcodeado el tipo de usuario.
             int tipoUsuario = FuncionesGenerales.getTipoUsuario();
-            ConsultasSQL.GuardarUserPass(tempUsuario.getDescripcion(), tempUsuario.getLogin(), tempUsuario.getPass(), tipoUsuario);//.agregarUsuario(tempUsuario, 2);
+            usr.agregarUsuario(tempUsuario, tipoUsuario);//.agregarUsuario(tempUsuario, 2);
             //Actualizo el GridView de Phantoms.
             userData = usr.obtenerUsuarios();
             griInfoUser.setItems(userData);
@@ -213,13 +215,14 @@ public class UsuarioController implements Initializable {
 
     /**
      * Método para el comportamiento del boton Eliminar.
+     * @throws java.lang.Exception
      */
     @FXML
-    public void btnEliminar() {
+    public void btnEliminar() throws Exception {
         usuarioActual = FuncionesGenerales.getUsuarioActual();
         int idUsuario = usuarioActual.getIdUsuario();
         if (usuarioActual != null) {
-            String mensaje = usuarioActual.getDescripcion() + " Nombre de usuario: " + usuarioActual.getLogin();
+            String mensaje = usuarioActual.getDescripcion() + " Nombre de usuario: " + Security.decrypt(usuarioActual.getLogin());
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Eliminar Usuario");
             alert.setHeaderText("Atención!");

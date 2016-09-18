@@ -91,7 +91,7 @@ public class ConsultasSQL {
     public static boolean GuardarUserPass(String Descripcion, String Usuario, String Password, int Id_TipoUsuario) throws Exception {
         ConexionDB conexion = new ConexionDB();
 
-        //      CAST(AES_DECRYPT(usuarios.pass,"llave") AS CHAR(50)) 
+       
         String UsuarioEnc = Security.encrypt(Usuario);
         String passwordEnc = Security.encrypt(Password);
 
