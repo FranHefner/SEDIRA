@@ -51,8 +51,6 @@ import sedira.MathJS;
 import sedira.model.ValorDescripcion;
 import sedira.model.VariableCalculo;
 
-
-
 /**
  * FXML Controller class
  *
@@ -67,57 +65,54 @@ public class PestañaCalculoController implements Initializable {
     private TextArea txtEntrada;
     @FXML
     private Button btnCalcular;
-   
+
     @FXML
     private TextField txtResult;
 
+    @FXML
+    private TextField txtOrganoMasa;
+
     private IDatosValidaciones dValidaciones;
     @FXML
-    private TableView <ValorDescripcion> griValorDescripcionPhantom;  
+    private TableView<ValorDescripcion> griValorDescripcionPhantom;
     @FXML
-    private TableView <ValorDescripcion> griValorDescripcionRadionuclido;  
+    private TableView<ValorDescripcion> griValorDescripcionRadionuclido;
     @FXML
-    private  TableView <VariableCalculo> griVariables;
-    
-    @FXML    
+    private TableView<VariableCalculo> griVariables;
+
+    @FXML
     private Pane pnFuncion;
-      @FXML
-    private TableColumn <ValorDescripcion, Double> clVdValorPhantom;
     @FXML
-    private TableColumn <ValorDescripcion, String> clVdDescripcionPhantom;
+    private TableColumn<ValorDescripcion, Double> clVdValorPhantom;
     @FXML
-    private TableColumn <ValorDescripcion, String> clVdUnidadPhantom;
-    
-     @FXML
-    private TableColumn <ValorDescripcion, Double> clVdValorRadionuclido;
+    private TableColumn<ValorDescripcion, String> clVdDescripcionPhantom;
     @FXML
-    private TableColumn <ValorDescripcion, String> clVdDescripcionRadionuclido;
+    private TableColumn<ValorDescripcion, String> clVdUnidadPhantom;
+
     @FXML
-    private TableColumn <ValorDescripcion, String> clVdUnidadRadionuclido;
-    
-     @FXML
-    private TableColumn <VariableCalculo, String> clDescripcionVariable;
-      @FXML
-    private TableColumn <VariableCalculo, Double> clValorVariable;
-      @FXML
-    private TableColumn <VariableCalculo, String> clLetraVariable;
-      
-    
-   
-            
-            
+    private TableColumn<ValorDescripcion, Double> clVdValorRadionuclido;
+    @FXML
+    private TableColumn<ValorDescripcion, String> clVdDescripcionRadionuclido;
+    @FXML
+    private TableColumn<ValorDescripcion, String> clVdUnidadRadionuclido;
+
+    @FXML
+    private TableColumn<VariableCalculo, String> clDescripcionVariable;
+    @FXML
+    private TableColumn<VariableCalculo, Double> clValorVariable;
+    @FXML
+    private TableColumn<VariableCalculo, String> clLetraVariable;
+
     private String formulEnTex;
-    
-    private ValorDescripcion variableSeleccionada;
+    private String formulaCalculo;
+
+    private ValorDescripcion variableSeleccionada = null;
     private char letra = 'A';
     private ObservableList<VariableCalculo> listaVariables = FXCollections.observableArrayList();
-    
-    
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-   
-        
+
         /* Se inicializa la interface para que se adapte al tipo de cálculo actual */
         if (MenuPrincipalController.TipoUsuario == "Cientifico") {
             dValidaciones = new DatosValidacionesCalculo();
@@ -128,26 +123,24 @@ public class PestañaCalculoController implements Initializable {
         /**
          * *************************************************************************
          */
-          
-         //Inicializo la tabla de Propiedad Valor, correspondiente a los Phantoms. 
+
+        //Inicializo la tabla de Propiedad Valor, correspondiente a los Phantoms. 
         clVdValorPhantom.setCellValueFactory(
-               cellData -> cellData.getValue().valorProperty().asObject());
+                cellData -> cellData.getValue().valorProperty().asObject());
         clVdDescripcionPhantom.setCellValueFactory(
-                cellData->cellData.getValue().descripcionProperty());
+                cellData -> cellData.getValue().descripcionProperty());
         clVdUnidadPhantom.setCellValueFactory(
                 cellData -> cellData.getValue().unidadProperty());
         // Limpieza de los detalles de Phantoms. 
-       // FuncionesGenerales.mostrarDetalleTablaValorDescripcion(null,griValorDescripcionPhantom);
-        
+        // FuncionesGenerales.mostrarDetalleTablaValorDescripcion(null,griValorDescripcionPhantom);
+
         // Muestro las propiedades del phantom selecionado
-        FuncionesGenerales.mostrarDetalleTablaValorDescripcion( dValidaciones.getPhantomActual().getPropiedades(), griValorDescripcionPhantom);
-         
-        
+        FuncionesGenerales.mostrarDetalleTablaValorDescripcion(dValidaciones.getPhantomActual().getPropiedades(), griValorDescripcionPhantom);
+
         griValorDescripcionPhantom.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> seleccionPropiedadPhantom(newValue));
-        
+
         // Muestro las propiedades del radionuclido seleccionado
-        
         //Inicializo la tabla de Propiedad Valor, correspondiente a la informacion de los radioNuclidos . 
         clVdValorRadionuclido.setCellValueFactory(
                 cellData -> cellData.getValue().valorProperty().asObject());
@@ -155,83 +148,97 @@ public class PestañaCalculoController implements Initializable {
                 cellData -> cellData.getValue().descripcionProperty());
         clVdUnidadRadionuclido.setCellValueFactory(
                 cellData -> cellData.getValue().unidadProperty());
-         //Completo tabla de Info Radionuclido
-          FuncionesGenerales.mostrarDetalleTablaValorDescripcion(dValidaciones.getRadionuClidoActual().getPropiedades(), griValorDescripcionRadionuclido);
-    
-         griValorDescripcionRadionuclido.getSelectionModel().selectedItemProperty().addListener(
+        //Completo tabla de Info Radionuclido
+        FuncionesGenerales.mostrarDetalleTablaValorDescripcion(dValidaciones.getRadionuClidoActual().getPropiedades(), griValorDescripcionRadionuclido);
+
+        griValorDescripcionRadionuclido.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> seleccionPropiedadRadionuclido(newValue));
-                
-         //Inicializo la tabla de Variables, correspondiente a la informacion de los radioNuclidos . 
-       clDescripcionVariable.setCellValueFactory(
+
+        //Inicializo la tabla de Variables, correspondiente a la informacion de las variables . 
+        clDescripcionVariable.setCellValueFactory(
                 cellData -> cellData.getValue().descripcionProperty());
-                  
-       
+
         clValorVariable.setCellValueFactory(
-               cellData -> cellData.getValue().valorProperty().asObject());
-        
-         clLetraVariable.setCellValueFactory(
+                cellData -> cellData.getValue().valorProperty().asObject());
+
+        clLetraVariable.setCellValueFactory(
                 cellData -> cellData.getValue().variableProperty());
-         
-        
-        
-                
-         
+
+        txtOrganoMasa.setText(dValidaciones.getOrganoActual().getOrganMass().toString());
+
     }
 
-    
+    @FXML
     public void seleccionPropiedadPhantom(ValorDescripcion datoSeleccionado) {
-       
-        
-       
-         griValorDescripcionRadionuclido.getSelectionModel().clearSelection();
-       variableSeleccionada = datoSeleccionado;
-         
-        
-        
-       
-    }
-    public void seleccionPropiedadRadionuclido(ValorDescripcion datoSeleccionado) {
-       
-       
-            griValorDescripcionPhantom.getSelectionModel().clearSelection();
-      
-       
-         
+
+        griValorDescripcionRadionuclido.getSelectionModel().clearSelection();
         variableSeleccionada = datoSeleccionado;
-        
-       
+
     }
-    
-    
+
+    @FXML
+    public void seleccionPropiedadRadionuclido(ValorDescripcion datoSeleccionado) {
+
+        griValorDescripcionPhantom.getSelectionModel().clearSelection();
+
+        variableSeleccionada = datoSeleccionado;
+
+    }
+
+    @FXML
+    public void eliminarVariable() {
+
+        if (griVariables.getSelectionModel().getSelectedItem() == null) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Falta selección");
+            alert.setHeaderText("Atención!");
+            alert.setContentText("Falta seleccionar la propiedad que se desea eliminar");
+            alert.show();
+        } else {
+            griVariables.getItems().remove(griVariables.getSelectionModel().getSelectedItem());
+        }
+
+    }
+
+    @FXML
+    public void seleccionMasa() {
+
+        variableSeleccionada = new ValorDescripcion(0, "Masa órgano/tejido", dValidaciones.getOrganoActual().getOrganMass(), "grs");
+
+    }
+
     @FXML
     public void agregarVariables() {
-        
-      
-        
-       if (letra == '[')
-       {
-             Alert alert = new Alert(Alert.AlertType.WARNING);
+
+        if (variableSeleccionada == null) {
+
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Falta selección");
+            alert.setHeaderText("Atención!");
+            alert.setContentText("Falta seleccionar la propiedad que se desea agregar");
+            alert.show();
+
+        } else if (letra == '[') {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Límite Variables");
             alert.setHeaderText("Atención!");
             alert.setContentText("No es posible agregar más variables al cálculo");
             alert.show();
-       }else
-       {  
-           VariableCalculo nuevaVariable = new VariableCalculo(variableSeleccionada.getId(),variableSeleccionada.getDescripcion(),variableSeleccionada.getValor(), String.valueOf(letra++));
-       
-         listaVariables.add(nuevaVariable);
+        } else {
+            VariableCalculo nuevaVariable = new VariableCalculo(variableSeleccionada.getId(), variableSeleccionada.getDescripcion(), variableSeleccionada.getValor(), String.valueOf(letra++));
 
-         //griVariables.refresh();
-      
-         griVariables.setItems(listaVariables);
-       }
-               
-     
-                 
-     
-         
+            listaVariables.add(nuevaVariable);
+
+            //griVariables.refresh();
+            griVariables.setItems(listaVariables);
+
+            griValorDescripcionRadionuclido.getSelectionModel().clearSelection();
+            griValorDescripcionPhantom.getSelectionModel().clearSelection();
+            variableSeleccionada = null;
+        }
+
     }
-    
+
     @FXML
     public void GuardarResultado() {
         dValidaciones.guardarCalculo();
@@ -241,65 +248,40 @@ public class PestañaCalculoController implements Initializable {
     @FXML
     public void RealizarCalculo() throws ScriptException, NoSuchMethodException, IOException {
 
-        
-      
-       
-        
-         MathJS math = new MathJS();
-         
-      
-          
-     /*  int IndexVariable =  listaVariables.indexOf('A');
-       
-         System.out.println(listaVariables.get(IndexVariable).getvariable()+"= "+listaVariables.get(IndexVariable).getValor());
-          
-        if (IndexVariable != -1)
-        {
-           String Asingacion=  listaVariables.get(IndexVariable).getvariable()+"= "+listaVariables.get(IndexVariable).getValor();
-           math.Ejecutar( Asingacion );
+        MathJS math = new MathJS();
+
+        //     int IndexVariable =  listaVariables.indexOf('A');
+        // listaVariables.stream().filter(o -> o.getvariable().equals("A")).findFirst().isPresent();
+        // System.out.println(listaVariables.get(IndexVariable).getvariable()+"= "+listaVariables.get(IndexVariable).getValor());
+        formulaCalculo = txtEntrada.getText();
+
+        for (VariableCalculo Variable : listaVariables) {
+
+            formulaCalculo = formulaCalculo.replace(Variable.getvariable(), Variable.getValor().toString());
+
+            // System.out.println(Variable.getvariable() +"= "+ Variable.getValor());
+            // String Asingacion=  Variable.getvariable() +"= "+ Variable.getValor();
+            //   math.Ejecutar( Asingacion );
         }
-        */
-          
-          math.Ejecutar("value = '"+txtEntrada.getText() +"';");
-                  
-             math.Ejecutar(" math.parse(value).toTex() " );
-             
-   formulEnTex =  math.Ejecutar(" math.parse(value).toTex() " );
-  
-      
-         
-   
-       System.out.println(formulEnTex);
-        txtResult.setText( math.eval( txtEntrada.getText()) );
-        
-    
-           pnFuncion.getChildren().clear();
-            MyCanvas canvas = new MyCanvas();
-    
-        canvas.widthProperty().bind( pnFuncion.widthProperty()); 
-        canvas.heightProperty().bind( pnFuncion.heightProperty());  
-       
-     //   spnFuncion.getChildren().add(canvas);  
-      //  spnFuncion.autosize();
-    
-      /* Calculo viejo con motor de JS basico */
-     pnFuncion.getChildren().add(canvas);  
-       
-     /*  double resultado = eval(txtEntrada.getText());
-        txtResult.setText( String.valueOf(resultado));
-        ScriptEngineManager mgr = new ScriptEngineManager();
-         ScriptEngine engine = mgr.getEngineByName("JavaScript");
-             String foo = txtEntrada.getText();
-        try {
-            System.out.println(engine.eval(foo));
-        } catch (ScriptException ex) {
-            Logger.getLogger(PestañaCalculoController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    */
-        /****************************************/
-        /* Nuevo MEOTOD !! */ 
-        
-        
+
+        math.Ejecutar("value = '" + formulaCalculo + "';");
+
+        // math.Ejecutar("value = '" + txtEntrada.getText() + "';");
+        math.Ejecutar(" math.parse(value).toTex() ");
+
+        formulEnTex = math.Ejecutar(" math.parse(value).toTex() ");
+
+        System.out.println(formulEnTex);
+        txtResult.setText(math.eval(formulaCalculo));
+
+        pnFuncion.getChildren().clear();
+        MyCanvas canvas = new MyCanvas();
+
+        canvas.widthProperty().bind(pnFuncion.widthProperty());
+        canvas.heightProperty().bind(pnFuncion.heightProperty());
+
+        pnFuncion.getChildren().add(canvas);
+
         /* Se convierte el RESULTADO A BLOB */
         try {
 
@@ -324,17 +306,15 @@ public class PestañaCalculoController implements Initializable {
         } catch (SQLException ex) {
             Logger.getLogger(PestañaCalculoController.class.getName()).log(Level.SEVERE, null, ex);
         }
-               
-  
+
     }
-   @FXML
-    public void seleccionarPhantom(){
-        
-        
+
+    @FXML
+    public void seleccionarPhantom() {
+
     }
-    
-    
-      class MyCanvas extends Canvas { 
+
+    class MyCanvas extends Canvas {
 
         private FXGraphics2D g2;
 
@@ -343,41 +323,21 @@ public class PestañaCalculoController implements Initializable {
         public MyCanvas() {
             this.g2 = new FXGraphics2D(getGraphicsContext2D());
 
-            // create a formula
-            
-            
-                    
-                  
-            String FormulaString =   formulEnTex;
-           //  String FormulaString = "\\frac12\\begin{array}{cccc}5&7&7&7\\\\4&4&4&4\\\\4&4&4&4\\end{array}";
-           
-           
-           // TeXFormula formula = new TeXFormula("x=\\frac{-b \\pm \\sqrt {b^2-7ac}}{2a}");
-       //    TeXFormula Result = new TeXFormula("\\pgfmathparse{sin(60)}\\pgfmathresult");
+            String FormulaString = formulEnTex;
 
-         //   txtResult.setText(Result.toString());
-          // txtEntrada.setText(FormulaString);
             TeXFormula formula = new TeXFormula(FormulaString);
-            
-            // render the formla to an icon of the same size as the formula.
+
             this.icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY, 20);
 
-            // Redraw canvas when size changes. 
-            widthProperty().addListener(evt -> draw()); 
-            heightProperty().addListener(evt -> draw()); 
-        }  
+            widthProperty().addListener(evt -> draw());
+            heightProperty().addListener(evt -> draw());
+        }
 
-        private void draw() { 
-            double width = getWidth(); 
+        private void draw() {
+            double width = getWidth();
             double height = getHeight();
             getGraphicsContext2D().clearRect(0, 0, width, height);
 
-            // ideally it should be possible to draw directly to the FXGraphics2D
-            // instance without creating an image first...but this does not generate
-            // good output
-            //this.icon.paintIcon(new JLabel(), g2, 50, 50);
-
-            // now create an actual image of the rendered equation
             BufferedImage image = new BufferedImage(icon.getIconWidth(),
                     icon.getIconHeight(), BufferedImage.TYPE_INT_ARGB);
             Graphics2D gg = image.createGraphics();
@@ -386,30 +346,33 @@ public class PestañaCalculoController implements Initializable {
             JLabel jl = new JLabel();
             jl.setForeground(new Color(0, 0, 0));
             icon.paintIcon(jl, gg, 0, 0);
-            // at this point the image is created, you could also save it with ImageIO
 
             this.g2.drawImage(image, 0, 0, null);
-        } 
+        }
 
-        @Override 
-        public boolean isResizable() { 
+        @Override
+        public boolean isResizable() {
             return true;
-        }  
+        }
 
-        @Override 
-        public double prefWidth(double height) { return getWidth(); }  
+        @Override
+        public double prefWidth(double height) {
+            return getWidth();
+        }
 
-        @Override 
-        public double prefHeight(double width) { return getHeight(); } 
+        @Override
+        public double prefHeight(double width) {
+            return getHeight();
+        }
     }
-      
-      
-      /***************** Funcion de evaluacion 1 *///////////
-      
-       public static String valuacionString (String Expresion){
+
+    /**
+     * *************** Funcion de evaluacion 1
+     *///////////
+    public static String valuacionString(String Expresion) {
         ScriptEngineManager mgr = new ScriptEngineManager();
         ScriptEngine engine = mgr.getEngineByName("JavaScript");
-       
+
         try {
             //System.out.println(engine.eval(foo));
             return engine.eval(Expresion).toString();
@@ -417,89 +380,114 @@ public class PestañaCalculoController implements Initializable {
             Logger.getLogger(PestañaCalculoController.class.getName()).log(Level.SEVERE, null, ex);
             return "";
         }
-        } 
-    
-    
-      /**************** Funcion De evaluacion  2 *************/
-      public static double eval(final String str) {
-    return new Object() {
-        int pos = -1, ch;
+    }
 
-        void nextChar() {
-            ch = (++pos < str.length()) ? str.charAt(pos) : -1;
-        }
+    /**
+     * ************** Funcion De evaluacion 2 ************
+     */
+    public static double eval(final String str) {
+        return new Object() {
+            int pos = -1, ch;
 
-        boolean eat(int charToEat) {
-            while (ch == ' ') nextChar();
-            if (ch == charToEat) {
+            void nextChar() {
+                ch = (++pos < str.length()) ? str.charAt(pos) : -1;
+            }
+
+            boolean eat(int charToEat) {
+                while (ch == ' ') {
+                    nextChar();
+                }
+                if (ch == charToEat) {
+                    nextChar();
+                    return true;
+                }
+                return false;
+            }
+
+            double parse() {
                 nextChar();
-                return true;
-            }
-            return false;
-        }
-
-        double parse() {
-            nextChar();
-            double x = parseExpression();
-            if (pos < str.length()) throw new RuntimeException("Unexpected: " + (char)ch);
-            return x;
-        }
-
-        // Grammar:
-        // expression = term | expression `+` term | expression `-` term
-        // term = factor | term `*` factor | term `/` factor
-        // factor = `+` factor | `-` factor | `(` expression `)`
-        //        | number | functionName factor | factor `^` factor
-
-        double parseExpression() {
-            double x = parseTerm();
-            for (;;) {
-                if      (eat('+')) x += parseTerm(); // addition
-                else if (eat('-')) x -= parseTerm(); // subtraction
-                else return x;
-            }
-        }
-
-        double parseTerm() {
-            double x = parseFactor();
-            for (;;) {
-                if      (eat('*')) x *= parseFactor(); // multiplication
-                else if (eat('/')) x /= parseFactor(); // division
-                else return x;
-            }
-        }
-
-        double parseFactor() {
-            if (eat('+')) return parseFactor(); // unary plus
-            if (eat('-')) return -parseFactor(); // unary minus
-
-            double x;
-            int startPos = this.pos;
-            if (eat('(')) { // parentheses
-                x = parseExpression();
-                eat(')');
-            } else if ((ch >= '0' && ch <= '9') || ch == '.') { // numbers
-                while ((ch >= '0' && ch <= '9') || ch == '.') nextChar();
-                x = Double.parseDouble(str.substring(startPos, this.pos));
-            } else if (ch >= 'a' && ch <= 'z') { // functions
-                while (ch >= 'a' && ch <= 'z') nextChar();
-                String func = str.substring(startPos, this.pos);
-                x = parseFactor();
-                if (func.equals("sqrt")) x = Math.sqrt(x);
-                else if (func.equals("sin")) x = Math.sin(Math.toRadians(x));
-                else if (func.equals("cos")) x = Math.cos(Math.toRadians(x));
-                else if (func.equals("tan")) x = Math.tan(Math.toRadians(x));
-                else throw new RuntimeException("Unknown function: " + func);
-            } else {
-                throw new RuntimeException("Unexpected: " + (char)ch);
+                double x = parseExpression();
+                if (pos < str.length()) {
+                    throw new RuntimeException("Unexpected: " + (char) ch);
+                }
+                return x;
             }
 
-            if (eat('^')) x = Math.pow(x, parseFactor()); // exponentiation
+            // Grammar:
+            // expression = term | expression `+` term | expression `-` term
+            // term = factor | term `*` factor | term `/` factor
+            // factor = `+` factor | `-` factor | `(` expression `)`
+            //        | number | functionName factor | factor `^` factor
+            double parseExpression() {
+                double x = parseTerm();
+                for (;;) {
+                    if (eat('+')) {
+                        x += parseTerm(); // addition
+                    } else if (eat('-')) {
+                        x -= parseTerm(); // subtraction
+                    } else {
+                        return x;
+                    }
+                }
+            }
 
-            return x;
-        }
-    }.parse();
-}
-     
-   
+            double parseTerm() {
+                double x = parseFactor();
+                for (;;) {
+                    if (eat('*')) {
+                        x *= parseFactor(); // multiplication
+                    } else if (eat('/')) {
+                        x /= parseFactor(); // division
+                    } else {
+                        return x;
+                    }
+                }
+            }
+
+            double parseFactor() {
+                if (eat('+')) {
+                    return parseFactor(); // unary plus
+                }
+                if (eat('-')) {
+                    return -parseFactor(); // unary minus
+                }
+                double x;
+                int startPos = this.pos;
+                if (eat('(')) { // parentheses
+                    x = parseExpression();
+                    eat(')');
+                } else if ((ch >= '0' && ch <= '9') || ch == '.') { // numbers
+                    while ((ch >= '0' && ch <= '9') || ch == '.') {
+                        nextChar();
+                    }
+                    x = Double.parseDouble(str.substring(startPos, this.pos));
+                } else if (ch >= 'a' && ch <= 'z') { // functions
+                    while (ch >= 'a' && ch <= 'z') {
+                        nextChar();
+                    }
+                    String func = str.substring(startPos, this.pos);
+                    x = parseFactor();
+                    if (func.equals("sqrt")) {
+                        x = Math.sqrt(x);
+                    } else if (func.equals("sin")) {
+                        x = Math.sin(Math.toRadians(x));
+                    } else if (func.equals("cos")) {
+                        x = Math.cos(Math.toRadians(x));
+                    } else if (func.equals("tan")) {
+                        x = Math.tan(Math.toRadians(x));
+                    } else {
+                        throw new RuntimeException("Unknown function: " + func);
+                    }
+                } else {
+                    throw new RuntimeException("Unexpected: " + (char) ch);
+                }
+
+                if (eat('^')) {
+                    x = Math.pow(x, parseFactor()); // exponentiation
+                }
+                return x;
+            }
+        }.parse();
+    }
+
 }

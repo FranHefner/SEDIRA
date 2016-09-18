@@ -71,6 +71,8 @@ public class PacienteController implements Initializable {
     private ImageView imgPaciente;
     @FXML
     private ComboBox cbTipoDoc;
+     @FXML
+    private ComboBox cbSexo;
     @FXML
     private Button btnCancelar;
     @FXML
@@ -119,8 +121,9 @@ public class PacienteController implements Initializable {
         // Control de botones. 
 
         ModoLectura();
-    
-
+        cbTipoDoc.getItems().addAll("DNI","PAS");
+        cbSexo.getItems().addAll("F","M","O");
+        
         clNombre.setCellValueFactory(cellData -> cellData.getValue().getNombreProperty());
         clApellido.setCellValueFactory(cellData -> cellData.getValue().getApellidoProperty());
         clTipoDoc.setCellValueFactory(cellData -> cellData.getValue().getTipoDocProperty());
