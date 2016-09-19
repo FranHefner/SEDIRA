@@ -107,6 +107,7 @@ public class PestañaCalculoController implements Initializable {
     private String formulaCalculo;
 
     private ValorDescripcion variableSeleccionada = null;
+    private boolean grillaSeleccionada = false;
     private char letra = 'A';
     private ObservableList<VariableCalculo> listaVariables = FXCollections.observableArrayList();
 
@@ -171,18 +172,17 @@ public class PestañaCalculoController implements Initializable {
     @FXML
     public void seleccionPropiedadPhantom(ValorDescripcion datoSeleccionado) {
 
-        griValorDescripcionRadionuclido.getSelectionModel().clearSelection();
-        variableSeleccionada = datoSeleccionado;
-
+       
+                       variableSeleccionada = datoSeleccionado;                  
+          
     }
 
     @FXML
     public void seleccionPropiedadRadionuclido(ValorDescripcion datoSeleccionado) {
-
-        griValorDescripcionPhantom.getSelectionModel().clearSelection();
-
-        variableSeleccionada = datoSeleccionado;
-
+          
+                     
+                   variableSeleccionada = datoSeleccionado;
+               
     }
 
     @FXML
@@ -234,7 +234,7 @@ public class PestañaCalculoController implements Initializable {
 
             griValorDescripcionRadionuclido.getSelectionModel().clearSelection();
             griValorDescripcionPhantom.getSelectionModel().clearSelection();
-            variableSeleccionada = null;
+            variableSeleccionada = null;            
         }
 
     }
