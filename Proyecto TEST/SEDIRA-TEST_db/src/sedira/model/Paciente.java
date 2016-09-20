@@ -38,7 +38,8 @@ public class Paciente {
     private Blob foto;
     private StringProperty sexo;
     private boolean enTratamiento;
-    private ProgresoPaciente EstadoActual;
+    private ProgresoPaciente estadoActual;
+    private Boolean esNuevo;
     // private List<ProgresoPaciente> Progreso;
 
     /**
@@ -58,7 +59,7 @@ public class Paciente {
      * @param sexo
      * @param enTratamiento
      */
-    public Paciente(int idPaciente, String tipoDoc, int numeroDoc, String apellido, String nombre, Date fechaNacimiento, String direccion, int numeroAsociado, String email, String telefono, String celular,/* Blob foto,*/ String sexo, boolean enTratamiento) {
+    public Paciente(int idPaciente, String tipoDoc, int numeroDoc, String apellido, String nombre, Date fechaNacimiento, String direccion, int numeroAsociado, String email, String telefono, String celular,/* Blob foto,*/ String sexo, boolean enTratamiento, Boolean esNuevo) {
         this.idPaciente = new SimpleIntegerProperty(idPaciente);
         this.tipoDoc = new SimpleStringProperty(tipoDoc);
         this.numeroDoc = new SimpleIntegerProperty(numeroDoc);
@@ -70,9 +71,11 @@ public class Paciente {
         this.email = new SimpleStringProperty(email);
         this.telefono = new SimpleStringProperty(telefono);
         this.celular = new SimpleStringProperty(celular);
-        //    this.foto = foto;
+        this.foto = foto;
         this.sexo = new SimpleStringProperty(sexo);
         this.enTratamiento = enTratamiento;
+        this.esNuevo = esNuevo;
+        
     }
 
     /**
@@ -90,9 +93,10 @@ public class Paciente {
         this.email = new SimpleStringProperty("");
         this.telefono = new SimpleStringProperty("");
         this.celular = new SimpleStringProperty("");
-        //    this.foto = foto;
+        this.foto = foto;
         this.sexo = new SimpleStringProperty("");
         this.enTratamiento = true;
+        this.esNuevo = true;
     }
 
     public Date getFechaNacimientoDATE() {
@@ -307,7 +311,7 @@ public class Paciente {
     }
 
     //Entratamiento
-    public boolean isEnTratamiento() {
+    public boolean enEnTratamiento() {
         return enTratamiento;
     }
 
@@ -316,11 +320,18 @@ public class Paciente {
     }
 
     public ProgresoPaciente getEstadoActual() {
-        return EstadoActual;
+        return estadoActual;
     }
 
     public void setEstadoActual(ProgresoPaciente EstadoActual) {
-        this.EstadoActual = EstadoActual;
+        this.estadoActual = EstadoActual;
+    }
+     public Boolean getEsNuevo() {
+        return esNuevo;
+    }
+
+    public void setEsNuevo(Boolean EsNuevo) {
+        this.esNuevo = EsNuevo;
     }
 
 }

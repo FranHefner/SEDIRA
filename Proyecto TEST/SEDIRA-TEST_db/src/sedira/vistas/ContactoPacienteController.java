@@ -14,6 +14,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import sedira.FuncionesGenerales;
+import sedira.model.IPacienteDAO;
 import sedira.model.Paciente;
 import sedira.model.PacienteDAOsql;
 
@@ -39,47 +40,45 @@ public class ContactoPacienteController implements Initializable {
     private Button btnEditar;
     @FXML
     private Button btnCerrar;
-    
+
     String DireccionAux;
     String TelefonoAux;
     String CelularAux;
     String EmailAux;
-    
 
+      private IPacienteDAO pac = new PacienteDAOsql(); 
+      
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
-        
-  
-    
         Paciente PacienteActual = FuncionesGenerales.getPacienteActual();
 
-        txtDireccion.setText(PacienteActual.getDireccion());
-        txtTelefono.setText(PacienteActual.getTelefono());
-        txtCelular.setText(PacienteActual.getcelular());
-        txtEmail.setText(PacienteActual.getEmail());
+        if (PacienteActual.getEsNuevo() == false) {
+            txtDireccion.setText(PacienteActual.getDireccion());
+            txtTelefono.setText(PacienteActual.getTelefono());
+            txtCelular.setText(PacienteActual.getcelular());
+            txtEmail.setText(PacienteActual.getEmail());
 
-        DireccionAux = PacienteActual.getDireccion();
-        TelefonoAux = PacienteActual.getTelefono();
-        CelularAux = PacienteActual.getcelular();
-        EmailAux = PacienteActual.getEmail();
-        
+            DireccionAux = PacienteActual.getDireccion();
+            TelefonoAux = PacienteActual.getTelefono();
+            CelularAux = PacienteActual.getcelular();
+            EmailAux = PacienteActual.getEmail();
+        }
+
         ModoLectura();
-        
 
     }
 
     private void ModoLectura() {
-        
+
         txtDireccion.setDisable(true);
         txtTelefono.setDisable(true);
         txtCelular.setDisable(true);
         txtEmail.setDisable(true);
-        
-        
+
         txtDireccion.setEditable(false);
         txtTelefono.setEditable(false);
         txtCelular.setEditable(false);
@@ -90,13 +89,12 @@ public class ContactoPacienteController implements Initializable {
     }
 
     private void ModoEdicion() {
-        
-        
+
         txtDireccion.setDisable(false);
         txtTelefono.setDisable(false);
         txtCelular.setDisable(false);
         txtEmail.setDisable(false);
-        
+
         txtDireccion.setEditable(true);
         txtTelefono.setEditable(true);
         txtCelular.setEditable(true);
@@ -122,9 +120,13 @@ public class ContactoPacienteController implements Initializable {
             PacienteActual.setcelular(txtCelular.getText());
 
             FuncionesGenerales.setPacienteActual(PacienteActual);
-            
+                
+            if (PacienteActual.getEsNuevo() == false)
+            {
+              pac.modificarPaciente(PacienteActual);
+            }
+          
             ModoLectura();
-                    
 
         }
 

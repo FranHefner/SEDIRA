@@ -35,7 +35,7 @@ public class PacienteDAOsql implements IPacienteDAO {
         try {
             if (buscaDni(dni)) {
                 PreparedStatement consulta = conexion.getConnection().prepareStatement(
-                        " INSERT INTO pacientes ("                        
+                        " INSERT INTO pacientes ("
                         + "tipo_doc"
                         + ",numero_doc"
                         + ",apellido"
@@ -48,8 +48,8 @@ public class PacienteDAOsql implements IPacienteDAO {
                         + ",foto"
                         + ",sexo"
                         + ",en_tratamiento"
-                        + ",celular"
-                        + "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
+                        + ",celular)"
+                        + " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)"
                 );
 
                 /**
@@ -63,16 +63,14 @@ public class PacienteDAOsql implements IPacienteDAO {
                 consulta.setInt(2, paciente.getNumeroDoc());
                 consulta.setString(3, paciente.getApellido());
                 consulta.setString(4, paciente.getNombre());
-                //parametros acotados para simplicidad del test 
-
-                consulta.setString(5,  paciente.getFechaNacimientoDB());
+                consulta.setString(5, paciente.getFechaNacimientoDB());
                 consulta.setString(6, paciente.getDireccion());
                 consulta.setInt(7, paciente.getNumeroAsociado());
-                consulta.setString(8,paciente.getEmail());
-                consulta.setString(9,paciente.getTelefono());               
-                consulta.setBlob(10,paciente.getFoto());
+                consulta.setString(8, paciente.getEmail());
+                consulta.setString(9, paciente.getTelefono());
+                consulta.setBlob(10, paciente.getFoto());
                 consulta.setString(11, paciente.getSexo());
-                consulta.setBoolean(12, paciente.isEnTratamiento());
+                consulta.setBoolean(12, paciente.enEnTratamiento());
                 consulta.setString(13, paciente.getcelular());
                 consulta.executeUpdate(); //Ejecucion de la consulta
                 consulta.close();
@@ -137,21 +135,26 @@ public class PacienteDAOsql implements IPacienteDAO {
     public void modificarPaciente(Paciente paciente) {
         //Instancia de conexion
         ConexionDB conexion = new ConexionDB();
-        int dni = paciente.getNumeroDoc();
-        int id = paciente.getIdPaciente();
 
         try {
             //Validar . Estaba con DNI, pero al modificar a un paciente el dni se mantiene. 
 
             PreparedStatement consulta = conexion.getConnection().prepareStatement(
-                    "UPDATE  pacientes SET tipo_doc = ?,"
-                    + "numero_doc=?,"
-                    + "apellido=?,"
-                    + "nombre=?,"
-                    + "fecha_nacimiento=?"
-                    + " WHERE id_paciente = ?"
-            );
-
+                    " UPDATE pacientes SET "                
+                    + "tipo_doc = ?,"
+                    + "numero_doc = ?,"
+                    + "apellido = ?,"
+                    + "nombre = ?,"
+                    + "fecha_nacimiento = ?,"
+                    + "direccion = ?,"
+                    + "numero_asociado =?,"
+                    + "email = ?,"
+                    + "telefono = ?,"
+                    + "foto = ?,"
+                    + "sexo = ?,"
+                    + "en_tratamiento = ?,"
+                    + "celular = ?"
+                    + " WHERE id_paciente = ?");
             /**
              * COMPLETAR CONSULTA COMPLETA PARA TODOS LOS ATRIBUTOS.
              */
@@ -160,7 +163,16 @@ public class PacienteDAOsql implements IPacienteDAO {
             consulta.setString(3, paciente.getApellido());
             consulta.setString(4, paciente.getNombre());
             consulta.setString(5, paciente.getFechaNacimientoDB());
-            consulta.setInt(6, id);
+            consulta.setString(6, paciente.getDireccion());
+            consulta.setInt(7, paciente.getNumeroAsociado());
+            consulta.setString(8, paciente.getEmail());
+            consulta.setString(9, paciente.getTelefono());
+            consulta.setBlob(10, paciente.getFoto());
+            consulta.setString(11, paciente.getSexo());
+            consulta.setBoolean(12, paciente.enEnTratamiento());
+            consulta.setString(13, paciente.getcelular());
+
+            consulta.setInt(14, paciente.getIdPaciente());
             //parametros acotados para simplicidad del test 
 
             consulta.executeUpdate(); //Ejecucion de la consulta

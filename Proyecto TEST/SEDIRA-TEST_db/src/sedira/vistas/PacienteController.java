@@ -57,8 +57,8 @@ public class PacienteController implements Initializable {
     private TableColumn<Paciente, String> clNombre;
     @FXML
     private TableColumn<Paciente, String> clApellido;
-    @FXML
-    private TextField txtIdPaciente;
+    //@FXML
+   // private TextField txtIdPaciente;
     @FXML
     private TextField txtNumeroDoc;
     @FXML
@@ -74,7 +74,7 @@ public class PacienteController implements Initializable {
      @FXML
     private ComboBox cbSexo;
     @FXML
-    private Button btnCancelar;
+    private Button btnCancelar;   
     @FXML
     private DatePicker txtFechaNacimiento;
 
@@ -114,16 +114,23 @@ public class PacienteController implements Initializable {
     // public ObservableList<TipoDocumento> getDocumentosData() {
     //    return DocumentosData;
     // }
+    
+    private int IdPacienteActual;
+     // Paciente PacienteActual = new Paciente();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         // Control de botones. 
 
+        
         ModoLectura();
         cbTipoDoc.getItems().addAll("DNI","PAS");
         cbSexo.getItems().addAll("F","M","O");
         
+               FuncionesGenerales.setPacienteActual(new Paciente());
+     
+          
         clNombre.setCellValueFactory(cellData -> cellData.getValue().getNombreProperty());
         clApellido.setCellValueFactory(cellData -> cellData.getValue().getApellidoProperty());
         clTipoDoc.setCellValueFactory(cellData -> cellData.getValue().getTipoDocProperty());
@@ -160,6 +167,7 @@ public class PacienteController implements Initializable {
         btnContacto.setDisable(true);
         btnAceptar.setDisable(true);
         cbTipoDoc.setDisable(true);
+        cbSexo.setDisable(true);
         txtFechaNacimiento.setDisable(true);
         btnNuevo.setDisable(false);
 
@@ -189,6 +197,7 @@ public class PacienteController implements Initializable {
         txtFechaNacimiento.setEditable(true);
         txtFechaNacimiento.setDisable(false);
         cbTipoDoc.setDisable(false);
+        cbSexo.setDisable(false);
         btnCancelar.setDisable(false);
         btnAceptar.setDisable(false);
         btnEditar.setDisable(true);
@@ -206,17 +215,22 @@ public class PacienteController implements Initializable {
             //Control de botones.               
 
             FuncionesGenerales.setPacienteActual(pacienteSeleccionado);
-            txtIdPaciente.setText(String.valueOf(pacienteSeleccionado.getIdPaciente()));
+            
+            IdPacienteActual = pacienteSeleccionado.getIdPaciente();
+        //    txtIdPaciente.setText(String.valueOf(pacienteSeleccionado.getIdPaciente()));
             txtNombre.setText(String.valueOf(pacienteSeleccionado.getNombre()));
             txtApellido.setText(String.valueOf(pacienteSeleccionado.getApellido()));
             txtNumeroDoc.setText(String.valueOf(pacienteSeleccionado.getNumeroDoc()));
-            cbTipoDoc.setValue(String.valueOf(pacienteSeleccionado.getTipoDoc()));         
+            cbTipoDoc.setValue(String.valueOf(pacienteSeleccionado.getTipoDoc()));  
+            cbSexo.setValue(String.valueOf(pacienteSeleccionado.getSexo()));  
             txtFechaNacimiento.setValue(FuncionesGenerales.DateToLocalDate(pacienteSeleccionado.getFechaNacimientoDATE()));
             System.out.print(pacienteSeleccionado.getIdPaciente());
             System.out.print(pacienteSeleccionado.getApellido());
+             FuncionesGenerales.pacienteActual.setEsNuevo(false);
 
         } else {
-            txtIdPaciente.setText("");
+            IdPacienteActual = -1;
+          //  txtIdPaciente.setText("");
             txtNombre.setText("");
             txtApellido.setText("");
             txtNumeroDoc.setText("");
@@ -231,6 +245,9 @@ public class PacienteController implements Initializable {
      */
     @FXML
     private void btnNuevo_click() {
+        
+       
+         
         //Validar si los atributos estan vacios. 
         //prendo boton aceptar y cancelar.     
 
@@ -238,8 +255,11 @@ public class PacienteController implements Initializable {
         txtApellido.setText("");
         txtNumeroDoc.setText("");
         txtFechaNacimiento.setValue(null);
-        // Id paciente. 
-        txtIdPaciente.setText(String.valueOf(pac.getLastId()));
+          IdPacienteActual = pac.getLastId();
+       // txtIdPaciente.setText(String.valueOf(pac.getLastId()));
+       
+     //  FuncionesGenerales.pacienteActual.setEsNuevo(true);
+     
         //Comportamiento de Textfiedls
         ModoEdicion();
 
@@ -277,13 +297,15 @@ public class PacienteController implements Initializable {
     @FXML
     private void btnAceptar_click() throws SQLException {
         //para editar. 
-        Paciente PacienteActual = FuncionesGenerales.getPacienteActual();
+       Paciente PacienteActual = FuncionesGenerales.getPacienteActual();
         if (editarClicked) {
 
+            PacienteActual.setIdPaciente(IdPacienteActual);
             PacienteActual.setApellido(txtApellido.getText());
             PacienteActual.setNombre(txtNombre.getText());
             PacienteActual.setNumeroDoc(Integer.valueOf(txtNumeroDoc.getText()));
             PacienteActual.setTipoDoc(cbTipoDoc.getValue().toString());
+            PacienteActual.setSexo(cbSexo.getValue().toString() );
             PacienteActual.setFechaNacimiento(txtFechaNacimiento.getValue().toString());
             //Llamada a la clase de acceso de datos de pacientes. PacienteDAO. 
             pac.modificarPaciente(PacienteActual);
@@ -298,7 +320,7 @@ public class PacienteController implements Initializable {
         } else {
             //  Falta validacion para atributos vacios. 
             Paciente PacienteTemp = new Paciente(
-                    Integer.valueOf(txtIdPaciente.getText()),
+                    IdPacienteActual,
                     cbTipoDoc.getValue().toString(), 
                     Integer.valueOf(txtNumeroDoc.getText()),
                     txtApellido.getText(), 
@@ -309,8 +331,9 @@ public class PacienteController implements Initializable {
                     PacienteActual.getEmail(),
                     PacienteActual.getTelefono(),
                     PacienteActual.getcelular(),
-                    "m",
-                    true                
+                    cbSexo.getValue().toString(),
+                    true,
+                    true
             );            
      
                     
@@ -335,7 +358,9 @@ public class PacienteController implements Initializable {
         editarClicked = true;
 
         // Id paciente. 
-        txtIdPaciente.setText(String.valueOf(paciente.getIdPaciente()));
+        
+        IdPacienteActual =paciente.getIdPaciente();
+      //  txtIdPaciente.setText(String.valueOf(paciente.getIdPaciente()));
         SeleccionPaciente(paciente);
 
         ModoEdicion();
