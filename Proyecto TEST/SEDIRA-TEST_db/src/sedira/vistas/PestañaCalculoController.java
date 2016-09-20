@@ -24,12 +24,7 @@ import sedira.IDatosValidaciones;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
-import static java.lang.invoke.MethodHandles.invoker;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.canvas.Canvas;
@@ -37,7 +32,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.Pane;
-import javax.script.Invocable;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
@@ -68,6 +62,8 @@ public class PestañaCalculoController implements Initializable {
 
     @FXML
     private TextField txtResult;
+    @FXML
+    private TextField txtNombreOrgano;
 
     @FXML
     private TextField txtOrganoMasa;
@@ -124,7 +120,7 @@ public class PestañaCalculoController implements Initializable {
         /**
          * *************************************************************************
          */
-
+        
         //Inicializo la tabla de Propiedad Valor, correspondiente a los Phantoms. 
         clVdValorPhantom.setCellValueFactory(
                 cellData -> cellData.getValue().valorProperty().asObject());
@@ -137,7 +133,9 @@ public class PestañaCalculoController implements Initializable {
 
         // Muestro las propiedades del phantom selecionado
         FuncionesGenerales.mostrarDetalleTablaValorDescripcion(dValidaciones.getPhantomActual().getPropiedades(), griValorDescripcionPhantom);
-
+        // Muestro el nombre del órgano Seleccionado
+        txtNombreOrgano.setText(dValidaciones.getOrganoActual().getNombreOrgano());
+        
         griValorDescripcionPhantom.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> seleccionPropiedadPhantom(newValue));
 
@@ -149,6 +147,7 @@ public class PestañaCalculoController implements Initializable {
                 cellData -> cellData.getValue().descripcionProperty());
         clVdUnidadRadionuclido.setCellValueFactory(
                 cellData -> cellData.getValue().unidadProperty());
+        
         //Completo tabla de Info Radionuclido
         FuncionesGenerales.mostrarDetalleTablaValorDescripcion(dValidaciones.getRadionuClidoActual().getPropiedades(), griValorDescripcionRadionuclido);
 
@@ -172,17 +171,15 @@ public class PestañaCalculoController implements Initializable {
     @FXML
     public void seleccionPropiedadPhantom(ValorDescripcion datoSeleccionado) {
 
-       
-                       variableSeleccionada = datoSeleccionado;                  
-          
+        variableSeleccionada = datoSeleccionado;
+
     }
 
     @FXML
     public void seleccionPropiedadRadionuclido(ValorDescripcion datoSeleccionado) {
-          
-                     
-                   variableSeleccionada = datoSeleccionado;
-               
+
+        variableSeleccionada = datoSeleccionado;
+
     }
 
     @FXML
@@ -204,7 +201,7 @@ public class PestañaCalculoController implements Initializable {
     public void seleccionMasa() {
 
         variableSeleccionada = new ValorDescripcion(0, "Masa órgano/tejido", dValidaciones.getOrganoActual().getOrganMass(), "grs");
-
+        
     }
 
     @FXML
@@ -234,7 +231,7 @@ public class PestañaCalculoController implements Initializable {
 
             griValorDescripcionRadionuclido.getSelectionModel().clearSelection();
             griValorDescripcionPhantom.getSelectionModel().clearSelection();
-            variableSeleccionada = null;            
+            variableSeleccionada = null;
         }
 
     }

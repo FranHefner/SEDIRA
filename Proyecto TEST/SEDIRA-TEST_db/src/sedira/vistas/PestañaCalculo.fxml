@@ -10,13 +10,7 @@
 
 <AnchorPane id="AnchorPane" maxHeight="639.0" maxWidth="700.0" minHeight="440.0" minWidth="682.0" prefHeight="483.0" prefWidth="682.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sedira.vistas.PestañaCalculoController">
    <children>
-      <Button id="btnCalcular" fx:id="btnCalcular" layoutX="54.0" layoutY="304.0" mnemonicParsing="false" onMouseClicked="#RealizarCalculo" prefHeight="64.0" prefWidth="179.0" text="Calcular" />
-      <Label layoutX="255.0" layoutY="438.0" text="Resultado:" />
-      <TextArea fx:id="txtEntrada" layoutX="331.0" layoutY="269.0" prefHeight="35.0" prefWidth="330.0" />
-      <Label layoutX="255.0" layoutY="278.0" text="Formula:" />
-      <Button id="btnCalcular" fx:id="btnGuardar" layoutX="54.0" layoutY="387.0" mnemonicParsing="false" onMouseClicked="#GuardarResultado" prefHeight="64.0" prefWidth="179.0" text="Guardar" />
-      <Pane fx:id="pnFuncion" layoutX="330.0" layoutY="318.0" prefHeight="102.0" prefWidth="330.0" style="-fx-background-color: black;" />
-      <TableView fx:id="griValorDescripcionPhantom" layoutX="11.0" layoutY="22.0" prefHeight="79.0" prefWidth="264.0">
+      <TableView fx:id="griValorDescripcionPhantom" layoutX="11.0" layoutY="22.0" prefHeight="102.0" prefWidth="264.0">
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
@@ -26,8 +20,7 @@
             <TableColumn fx:id="clVdUnidadPhantom" editable="false" prefWidth="71.0" text="Unidad" />
          </columns>
       </TableView>
-      <Label layoutX="11.0" layoutY="2.0" text="Propiedades Phantom" />
-      <TableView fx:id="griValorDescripcionRadionuclido" layoutX="11.0" layoutY="128.0" prefHeight="79.0" prefWidth="264.0">
+      <TableView fx:id="griValorDescripcionRadionuclido" layoutX="11.0" layoutY="167.0" prefHeight="102.0" prefWidth="264.0">
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
@@ -37,20 +30,28 @@
             <TableColumn fx:id="clVdUnidadRadionuclido" editable="false" prefWidth="71.0" text="Unidad" />
          </columns>
       </TableView>
-      <Label layoutX="147.0" layoutY="233.0" text="Masa:" />
-      <Label layoutX="23.0" layoutY="104.0" text="Propiedades Radionuclido" />
-      <TextField fx:id="txtResult" layoutX="330.0" layoutY="434.0" prefHeight="25.0" prefWidth="330.0" />
-      <Label layoutX="56.0" layoutY="233.0" text="&quot;Organo&quot;" />
-      <Button layoutX="306.0" layoutY="84.0" mnemonicParsing="false" onMouseClicked="#agregarVariables" prefHeight="35.0" prefWidth="50.0" text="=&gt;" />
-      <TableView fx:id="griVariables" layoutX="388.0" layoutY="22.0" prefHeight="231.0" prefWidth="272.0">
+      <Button id="btnCalcular" fx:id="btnCalcular" layoutX="61.0" layoutY="313.0" mnemonicParsing="false" onMouseClicked="#RealizarCalculo" prefHeight="45.0" prefWidth="149.0" text="Calcular" />
+      <Label layoutX="273.0" layoutY="453.0" text="Resultado:" />
+      <TextArea fx:id="txtEntrada" layoutX="330.0" layoutY="295.0" prefHeight="35.0" prefWidth="330.0" />
+      <Label layoutX="284.0" layoutY="306.0" text="Formula:" />
+      <Button id="btnCalcular" fx:id="btnGuardar" layoutX="61.0" layoutY="380.0" mnemonicParsing="false" onMouseClicked="#GuardarResultado" prefHeight="45.0" prefWidth="149.0" text="Guardar" />
+      <Pane fx:id="pnFuncion" layoutX="330.0" layoutY="336.0" prefHeight="102.0" prefWidth="330.0" style="-fx-background-color: white;" />
+      <Label layoutX="11.0" layoutY="2.0" text="Propiedades del phantom" />
+      <Label layoutX="546.0" layoutY="26.0" text="Masa:" />
+      <Label layoutX="14.0" layoutY="149.0" text="Propiedades Radionúclido" />
+      <TextField fx:id="txtResult" layoutX="330.0" layoutY="447.0" prefHeight="25.0" prefWidth="330.0" />
+      <Label layoutX="433.0" layoutY="2.0" text="Propiedades del órgano" />
+      <Button layoutX="305.0" layoutY="89.0" mnemonicParsing="false" onMouseClicked="#agregarVariables" prefHeight="35.0" prefWidth="50.0" text="=&gt;" />
+      <TableView fx:id="griVariables" layoutX="388.0" layoutY="75.0" prefHeight="197.0" prefWidth="272.0">
         <columns>
           <TableColumn fx:id="clDescripcionVariable" prefWidth="100.0" text="Propiedad" />
             <TableColumn fx:id="clValorVariable" prefWidth="82.0" text="Valor" />
           <TableColumn fx:id="clLetraVariable" prefWidth="89.0" text="Variable" />
         </columns>
       </TableView>
-      <TextField fx:id="txtOrganoMasa" layoutX="193.0" layoutY="229.0" onMouseClicked="#seleccionMasa" prefHeight="25.0" prefWidth="85.0" />
-      <Label layoutX="246.0" layoutY="360.0" text="Vista Previa:" />
-      <Button layoutX="306.0" layoutY="138.0" mnemonicParsing="false" onMouseClicked="#eliminarVariable" prefHeight="35.0" prefWidth="50.0" text="X" />
+      <TextField fx:id="txtOrganoMasa" layoutX="575.0" layoutY="21.0" onMouseClicked="#seleccionMasa" prefHeight="25.0" prefWidth="85.0" />
+      <Label layoutX="264.0" layoutY="380.0" text="Vista Previa:" />
+      <Button layoutX="305.0" layoutY="156.0" mnemonicParsing="false" onMouseClicked="#eliminarVariable" prefHeight="35.0" prefWidth="50.0" text="X" />
+      <TextField fx:id="txtNombreOrgano" editable="false" layoutX="433.0" layoutY="22.0" prefHeight="22.0" prefWidth="91.0" />
    </children>
 </AnchorPane>
