@@ -319,6 +319,7 @@ public class PestañaCalculoController implements Initializable {
 
         public MyCanvas() {
             this.g2 = new FXGraphics2D(getGraphicsContext2D());
+             this.g2.scale(0.8, 0.8);
 
             String FormulaString = formulEnTex;
 
