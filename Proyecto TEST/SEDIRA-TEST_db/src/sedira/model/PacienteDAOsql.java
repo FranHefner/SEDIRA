@@ -87,6 +87,7 @@ public class PacienteDAOsql implements IPacienteDAO {
 
             }
         } catch (SQLException e) {
+           
             System.out.println("Ocurrió un error en la inserción del paciente " + e.getMessage());
             JOptionPane.showMessageDialog(null, "Ocurrió un error en la inserción del paciente " + e.getMessage(), "Información", JOptionPane.INFORMATION_MESSAGE);
         }
@@ -188,6 +189,14 @@ public class PacienteDAOsql implements IPacienteDAO {
             alerta.showAndWait();
 
         } catch (SQLException e) {
+            if (e.getErrorCode() == 1062)
+            {
+                  JOptionPane.showMessageDialog(null, "La persona ya se encuentra en la base de datos, por favor seleccione otro tipo o número de documento ", "Información",JOptionPane.INFORMATION_MESSAGE);
+            }else            
+            {
+                
+            }
+            
             System.out.println("Ocurrió un error en la modificación  del paciente " + e.getMessage());
             JOptionPane.showMessageDialog(null, "Ocurrió un error en la modificación del paciente " + e.getMessage(), "Información", JOptionPane.INFORMATION_MESSAGE);
         }
