@@ -17,6 +17,8 @@ public class CodigosErrorSQL {
     private String analizarExepcion(SQLException e)
     {
         String mensajeError ="error";
+        
+        
          // e.getErrorCode() 
             //
         return mensajeError;
