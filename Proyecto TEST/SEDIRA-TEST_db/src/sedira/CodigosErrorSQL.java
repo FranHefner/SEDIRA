@@ -6,6 +6,7 @@
 package sedira;
 
 import java.sql.SQLException;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -14,14 +15,25 @@ import java.sql.SQLException;
 public class CodigosErrorSQL {
     
     
-    private String analizarExepcion(SQLException e)
+    private void analizarExepcion(SQLException e)
     {
-        String mensajeError ="error";
+        String mensajeError ="";
+        Boolean errorConocido = false;
+        String titulo ="Información";
         
         
-         // e.getErrorCode() 
-            //
-        return mensajeError;
+        
+          if (e.getErrorCode() == 1062)
+            {
+                mensajeError = "El registro que se intenta agregar/modificar ya encuentra en la base de datos " + e.getMessage();
+            }
+            if (errorConocido == false)
+            {
+                 mensajeError = "Ocurrió un error al realizar la operación. Por favor, intente nuevamente";           
+            }    
+            
+            JOptionPane.showMessageDialog(null, mensajeError, titulo, JOptionPane.INFORMATION_MESSAGE);
+           
     }
     
 }
