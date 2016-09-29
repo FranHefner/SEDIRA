@@ -135,6 +135,7 @@ public class AbmRadionuclidoController implements Initializable {
     public void setItemRadionuclido(ValorDescripcion itemRadionuclido) {
         Radionuclido radionuclidoActual = FuncionesGenerales.getRadioNuclidoActual();
         this.itemRadionuclido = itemRadionuclido;
+        
         txtIdRadNuclido.setText(String.valueOf(radionuclidoActual.getIdRadNuclido()));
         txtIdRadNuclido.setDisable(true);
         txtRadNuclidoNombre.setText(radionuclidoActual.getNombreRadNuclido());

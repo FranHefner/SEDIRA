@@ -14,7 +14,7 @@
                <children>
                   <TextField fx:id="txtPropiedad" layoutX="86.0" layoutY="14.0" prefHeight="33.0" prefWidth="250.0" />
                   <TextField fx:id="txtValor" layoutX="86.0" layoutY="56.0" prefHeight="33.0" prefWidth="250.0" />
-                  <TextField fx:id="txtUnidad" layoutX="86.0" layoutY="101.0" prefHeight="33.0" prefWidth="250.0" text="poner un dropdown" />
+                  <TextField fx:id="txtUnidad" layoutX="86.0" layoutY="101.0" prefHeight="33.0" prefWidth="250.0" />
                   <Label layoutX="16.0" layoutY="28.0" text="Propiedad:" />
                   <Label layoutX="43.0" layoutY="72.0" text="Valor:" />
                   <Label layoutX="31.0" layoutY="109.0" text="Unidad:" />

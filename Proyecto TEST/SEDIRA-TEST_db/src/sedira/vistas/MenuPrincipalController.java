@@ -21,8 +21,8 @@ import javafx.stage.Stage;
 import javafx.scene.control.MenuBar;
 
 /**
- * FXML Menu principal Controller class Controlador para el comportamiento del
- * menu principal
+ * FXML Menú principal Controller class Controlador para el comportamiento del
+ * menú principal
  *
  * @author Hefner Francisco, Quelin Pablo
  */
@@ -163,7 +163,7 @@ public class MenuPrincipalController implements Initializable {
         Scene scene = new Scene(root);
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setScene(scene);
-        stage.setTitle("Administrar Radionuclidos");
+        stage.setTitle("Administrar Radionúclidos");
         stage.show();
 
     }
@@ -206,6 +206,7 @@ public class MenuPrincipalController implements Initializable {
             menuRadionuclidos.setDisable(true);
             menuAyuda.setDisable(true);
             menuUsuarios.setDisable(true);
+            menuAyuda.setDisable(false);
 
         }
         if (TipoUsuario.equals("Administrador")) {

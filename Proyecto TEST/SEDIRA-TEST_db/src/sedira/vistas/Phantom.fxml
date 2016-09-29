@@ -59,7 +59,7 @@
                         </AnchorPane>
                     </content>
                   </TitledPane>
-                  <TitledPane animated="false" collapsible="false" layoutX="431.0" layoutY="7.0" prefHeight="430.0" prefWidth="396.0" text="Organos perteneciente al Phantom seleccionado">
+                  <TitledPane animated="false" collapsible="false" layoutX="431.0" layoutY="7.0" prefHeight="430.0" prefWidth="396.0" text="Organos pertenecientes al Phantom seleccionado">
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="397.0" prefWidth="394.0">
                            <children>
