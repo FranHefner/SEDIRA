@@ -18,6 +18,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -68,19 +69,19 @@ public class CalculoController implements Initializable {
     @FXML
     private Pane pnlOrgano;
     @FXML
-    private Pane pnlCalculo;
-
+    private Pane pnlCalculo;   
     @FXML
     private Button btnSiguiente;
     @FXML
     private TextArea txtProceso;
-
     @FXML
     private Button btnAtras;
     @FXML
     private Button btnCancelar;
 
     public static String pestañaActual;
+    
+   
 
     /**
      * Initializes the controller class.

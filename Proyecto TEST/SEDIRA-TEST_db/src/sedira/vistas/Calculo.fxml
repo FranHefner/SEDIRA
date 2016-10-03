@@ -64,7 +64,7 @@
             </AnchorPane>
           <AnchorPane maxHeight="146.0" maxWidth="680.0" minHeight="146.0" minWidth="680.0">
                <children>
-                  <TextArea fx:id="txtProceso" editable="false" layoutX="47.0" layoutY="60.0" prefHeight="75.0" prefWidth="600.0" style="-fx-background-color: black;" />
+                  <TextArea fx:id="txtProceso" editable="false" layoutX="13.0" layoutY="60.0" prefHeight="80.0" prefWidth="647.0" scaleShape="false" scrollLeft="-20.0" scrollTop="-20.0" style="-fx-background-color: black;" />
                   <Pane layoutX="119.0" prefHeight="52.0" prefWidth="444.0">
                      <children>
                         <Button fx:id="btnAtras" disable="true" layoutX="14.0" layoutY="8.0" mnemonicParsing="false" onAction="#btnAtras_click" prefHeight="36.0" prefWidth="117.0" text="Atras" />
@@ -72,7 +72,7 @@
                         <Button fx:id="btnCancelar" layoutX="313.0" layoutY="8.0" mnemonicParsing="false" onAction="#btnCancelar_click" prefHeight="36.0" prefWidth="117.0" text="Cancelar" />
                      </children>
                   </Pane>
-                  <Text layoutX="14.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Información del proceso de selección:" />
+                  <Text layoutX="14.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Información selección:" />
                </children>
             </AnchorPane>
         </items>

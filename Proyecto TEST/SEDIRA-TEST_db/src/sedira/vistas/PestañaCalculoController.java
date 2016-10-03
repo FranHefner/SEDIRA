@@ -29,6 +29,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.Pane;
@@ -59,12 +60,11 @@ public class PestañaCalculoController implements Initializable {
     private TextArea txtEntrada;
     @FXML
     private Button btnCalcular;
-
     @FXML
+    
     private TextField txtResult;
     @FXML
-    private TextField txtNombreOrgano;
-
+    private Label lblOrgano;
     @FXML
     private TextField txtOrganoMasa;
 
@@ -134,7 +134,8 @@ public class PestañaCalculoController implements Initializable {
         // Muestro las propiedades del phantom selecionado
         FuncionesGenerales.mostrarDetalleTablaValorDescripcion(dValidaciones.getPhantomActual().getPropiedades(), griValorDescripcionPhantom);
         // Muestro el nombre del órgano Seleccionado
-        txtNombreOrgano.setText(dValidaciones.getOrganoActual().getNombreOrgano());
+       
+        lblOrgano.setText(dValidaciones.getOrganoActual().getNombreOrgano());
         
         griValorDescripcionPhantom.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> seleccionPropiedadPhantom(newValue));
