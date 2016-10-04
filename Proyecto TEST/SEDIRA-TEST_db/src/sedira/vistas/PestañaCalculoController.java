@@ -247,6 +247,34 @@ public class PestañaCalculoController implements Initializable {
 
     }
 
+     @FXML
+     public void VistaPreviaFormula() 
+     {
+     
+        try {
+            
+             System.out.println(txtEntrada.getText());
+              
+         //   math.Ejecutar("value = '" + txtEntrada.getText() + "';");
+             formulEnTex = math.Ejecutar(" math.parse('" + txtEntrada.getText() + "').toTex() ");
+        System.out.println(formulEnTex);
+             
+                  pnFuncion.getChildren().clear();
+        MyCanvas canvas = new MyCanvas();
+                 
+        canvas.widthProperty().bind(pnFuncion.widthProperty());
+        canvas.heightProperty().bind(pnFuncion.heightProperty());
+
+        pnFuncion.getChildren().add(canvas);
+            
+        } catch (ScriptException ex) {
+            System.out.println("No se pudo graficar la fórmula");
+        }
+
+       
+      
+        
+     }
     @FXML
     public void RealizarCalculo() throws ScriptException, NoSuchMethodException, IOException {
 
@@ -272,13 +300,13 @@ public class PestañaCalculoController implements Initializable {
         math.Ejecutar("value = '" + formulaCalculo + "';");
 
         // math.Ejecutar("value = '" + txtEntrada.getText() + "';");
-        math.Ejecutar(" math.parse(value).toTex() ");
+      //  math.Ejecutar(" math.parse(value).toTex() ");
 
         formulEnTex = math.Ejecutar(" math.parse(value).toTex() ");
         
         
         System.out.println(formulEnTex);
-        txtResult.setText(math.eval(formulaCalculo));
+       txtResult.setText(math.eval(formulaCalculo));
 
         pnFuncion.getChildren().clear();
         MyCanvas canvas = new MyCanvas();
@@ -288,7 +316,7 @@ public class PestañaCalculoController implements Initializable {
 
         pnFuncion.getChildren().add(canvas);
         
-        
+       
         /* Se convierte el RESULTADO A BLOB */
         try {
 
@@ -304,7 +332,7 @@ public class PestañaCalculoController implements Initializable {
             Blob resultado_temp_blob = new javax.sql.rowset.serial.SerialBlob(bytes);
             dValidaciones.finalizarCalculo(resultado_temp_blob);
 
-            /* DE UN FLOAT COMO RESULTADO DEL CALCULO PASA A UN BLOB Y DESPUES A UN FLOAT */
+            // DE UN FLOAT COMO RESULTADO DEL CALCULO PASA A UN BLOB Y DESPUES A UN FLOAT 
             float f = ByteBuffer.wrap(bytes).order(ByteOrder.LITTLE_ENDIAN).getFloat();
 
             String ResultString = String.valueOf(f);

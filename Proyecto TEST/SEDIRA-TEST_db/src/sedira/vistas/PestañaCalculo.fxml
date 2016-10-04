@@ -32,7 +32,7 @@
       </TableView>
       <Button id="btnCalcular" fx:id="btnCalcular" layoutX="554.0" layoutY="315.0" mnemonicParsing="false" onMouseClicked="#RealizarCalculo" prefHeight="35.0" prefWidth="114.0" text="Calcular" />
       <Label layoutX="20.0" layoutY="452.0" text="Resultado:" />
-      <TextArea fx:id="txtEntrada" layoutX="98.0" layoutY="318.0" prefHeight="35.0" prefWidth="412.0" />
+      <TextArea fx:id="txtEntrada" layoutX="98.0" layoutY="318.0" onKeyPressed="#VistaPreviaFormula" prefHeight="35.0" prefWidth="412.0" />
       <Label layoutX="19.0" layoutY="324.0" text="Formula:" />
       <Button id="btnCalcular" fx:id="btnGuardar" layoutX="554.0" layoutY="412.0" mnemonicParsing="false" onMouseClicked="#GuardarResultado" prefHeight="35.0" prefWidth="114.0" text="Guardar Cálculo" />
       <Pane fx:id="pnFuncion" layoutX="98.0" layoutY="363.0" prefHeight="66.0" prefWidth="412.0" style="-fx-background-color: white;" />
