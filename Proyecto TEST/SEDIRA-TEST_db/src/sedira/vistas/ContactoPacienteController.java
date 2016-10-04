@@ -74,16 +74,16 @@ public class ContactoPacienteController implements Initializable {
 
     private void ModoLectura() {
 
-        txtDireccion.setDisable(true);
-        txtTelefono.setDisable(true);
-        txtCelular.setDisable(true);
-        txtEmail.setDisable(true);
+        txtDireccion.setDisable(false);
+        txtTelefono.setDisable(false);
+        txtCelular.setDisable(false);
+        txtEmail.setDisable(false);
 
         txtDireccion.setEditable(false);
         txtTelefono.setEditable(false);
         txtCelular.setEditable(false);
         txtEmail.setEditable(false);
-
+        
         btnAceptar.setDisable(true);
         btnEditar.setDisable(false);
     }

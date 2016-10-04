@@ -10,7 +10,7 @@
 
 <AnchorPane id="AnchorPane" maxHeight="639.0" maxWidth="700.0" minHeight="440.0" minWidth="682.0" prefHeight="483.0" prefWidth="682.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sedira.vistas.PestañaCalculoController">
    <children>
-      <TableView fx:id="griValorDescripcionPhantom" layoutX="11.0" layoutY="22.0" prefHeight="102.0" prefWidth="264.0">
+      <TableView fx:id="griValorDescripcionPhantom" layoutX="29.0" layoutY="31.0" prefHeight="102.0" prefWidth="264.0">
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
@@ -20,7 +20,7 @@
             <TableColumn fx:id="clVdUnidadPhantom" editable="false" prefWidth="71.0" text="Unidad" />
          </columns>
       </TableView>
-      <TableView fx:id="griValorDescripcionRadionuclido" layoutX="11.0" layoutY="167.0" prefHeight="102.0" prefWidth="264.0">
+      <TableView fx:id="griValorDescripcionRadionuclido" layoutX="29.0" layoutY="161.0" prefHeight="102.0" prefWidth="264.0">
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
@@ -30,28 +30,32 @@
             <TableColumn fx:id="clVdUnidadRadionuclido" editable="false" prefWidth="71.0" text="Unidad" />
          </columns>
       </TableView>
-      <Button id="btnCalcular" fx:id="btnCalcular" layoutX="61.0" layoutY="313.0" mnemonicParsing="false" onMouseClicked="#RealizarCalculo" prefHeight="45.0" prefWidth="149.0" text="Calcular" />
-      <Label layoutX="273.0" layoutY="453.0" text="Resultado:" />
-      <TextArea fx:id="txtEntrada" layoutX="330.0" layoutY="295.0" prefHeight="35.0" prefWidth="330.0" />
-      <Label layoutX="284.0" layoutY="306.0" text="Formula:" />
-      <Button id="btnCalcular" fx:id="btnGuardar" layoutX="61.0" layoutY="380.0" mnemonicParsing="false" onMouseClicked="#GuardarResultado" prefHeight="45.0" prefWidth="149.0" text="Guardar" />
-      <Pane fx:id="pnFuncion" layoutX="330.0" layoutY="336.0" prefHeight="102.0" prefWidth="330.0" style="-fx-background-color: white;" />
-      <Label layoutX="11.0" layoutY="2.0" text="Propiedades del phantom" />
-      <Label layoutX="546.0" layoutY="26.0" text="Masa:" />
-      <Label layoutX="14.0" layoutY="149.0" text="Propiedades Radionúclido" />
-      <TextField fx:id="txtResult" layoutX="330.0" layoutY="447.0" prefHeight="25.0" prefWidth="330.0" />
-      <Label layoutX="433.0" layoutY="2.0" text="Propiedades del órgano" />
-      <Button layoutX="305.0" layoutY="89.0" mnemonicParsing="false" onMouseClicked="#agregarVariables" prefHeight="35.0" prefWidth="50.0" text="=&gt;" />
-      <TableView fx:id="griVariables" layoutX="388.0" layoutY="75.0" prefHeight="197.0" prefWidth="272.0">
+      <Button id="btnCalcular" fx:id="btnCalcular" layoutX="554.0" layoutY="315.0" mnemonicParsing="false" onMouseClicked="#RealizarCalculo" prefHeight="35.0" prefWidth="114.0" text="Calcular" />
+      <Label layoutX="20.0" layoutY="452.0" text="Resultado:" />
+      <TextArea fx:id="txtEntrada" layoutX="98.0" layoutY="318.0" prefHeight="35.0" prefWidth="412.0" />
+      <Label layoutX="19.0" layoutY="324.0" text="Formula:" />
+      <Button id="btnCalcular" fx:id="btnGuardar" layoutX="554.0" layoutY="412.0" mnemonicParsing="false" onMouseClicked="#GuardarResultado" prefHeight="35.0" prefWidth="114.0" text="Guardar Cálculo" />
+      <Pane fx:id="pnFuncion" layoutX="98.0" layoutY="363.0" prefHeight="66.0" prefWidth="412.0" style="-fx-background-color: white;" />
+      <Label layoutX="29.0" layoutY="8.0" text="Propiedades del phantom" />
+      <Label layoutX="32.0" layoutY="144.0" text="Propiedades Radionúclido" />
+      <TextField fx:id="txtResult" layoutX="98.0" layoutY="443.0" prefHeight="25.0" prefWidth="206.0" />
+      <Label layoutX="186.0" layoutY="276.0" text="Masa:" />
+      <Button layoutX="323.0" layoutY="75.0" mnemonicParsing="false" onMouseClicked="#agregarVariables" prefHeight="35.0" prefWidth="50.0" text="=&gt;" />
+      <TableView fx:id="griVariables" layoutX="404.0" layoutY="63.0" prefHeight="234.0" prefWidth="264.0">
         <columns>
           <TableColumn fx:id="clDescripcionVariable" prefWidth="100.0" text="Propiedad" />
-            <TableColumn fx:id="clValorVariable" prefWidth="82.0" text="Valor" />
-          <TableColumn fx:id="clLetraVariable" prefWidth="89.0" text="Variable" />
+            <TableColumn fx:id="clValorVariable" prefWidth="71.0" text="Valor" />
+          <TableColumn fx:id="clLetraVariable" prefWidth="100.0" text="Variable" />
         </columns>
       </TableView>
-      <TextField fx:id="txtOrganoMasa" layoutX="575.0" layoutY="21.0" onMouseClicked="#seleccionMasa" prefHeight="25.0" prefWidth="85.0" />
-      <Label layoutX="264.0" layoutY="380.0" text="Vista Previa:" />
-      <Button layoutX="305.0" layoutY="156.0" mnemonicParsing="false" onMouseClicked="#eliminarVariable" prefHeight="35.0" prefWidth="50.0" text="X" />
-      <TextField fx:id="txtNombreOrgano" editable="false" layoutX="433.0" layoutY="22.0" prefHeight="22.0" prefWidth="91.0" />
+      <TextField fx:id="txtOrganoMasa" layoutX="223.0" layoutY="272.0" onMouseClicked="#seleccionMasa" prefHeight="25.0" prefWidth="73.0" />
+      <Label layoutX="19.0" layoutY="384.0" text="Vista Previa:" />
+      <Button layoutX="323.0" layoutY="135.0" mnemonicParsing="false" onMouseClicked="#eliminarVariable" prefHeight="35.0" prefWidth="50.0" text="X" />
+      <Label fx:id="lblOrgano" layoutX="125.0" layoutY="276.0" text="[organo]" />
+      <Label layoutX="404.0" layoutY="41.0" text="Variables requeridas:" />
+      <ComboBox layoutX="461.0" layoutY="4.0" prefHeight="25.0" prefWidth="181.0" />
+      <Label layoutX="404.0" layoutY="10.0" text="Formula" />
+      <Button id="btnCalcular" fx:id="btnGuardar1" layoutX="554.0" layoutY="363.0" mnemonicParsing="false" onMouseClicked="#GuardarResultado" prefHeight="35.0" prefWidth="114.0" text="Guardar Formula" />
+      <Button layoutX="650.0" layoutY="4.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="37.0" text="X" />
    </children>
 </AnchorPane>
