@@ -1,4 +1,4 @@
-    /*
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -41,9 +41,10 @@ public class LoginController implements Initializable {
     private Button btnAceptar;
     @FXML
     private Label lblInicio;
-    
-     @FXML
+
+    @FXML
     private Usuario infoLogin;
+
     /**
      * Initializes the controller class.
      */
@@ -56,17 +57,14 @@ public class LoginController implements Initializable {
     private void btnAceptar_click() throws Exception {
         String Usuario;
         String Contraseña;
-       
 
         Usuario = txtUsuario.getText();
         Contraseña = txtPassword.getText();
 
         infoLogin = ConsultasSQL.VerificarUserPass(Usuario, Contraseña);
-                          
-        
+
         IniByCode(infoLogin.getTipoUsuario());
-        
-    
+
         String usuario = Usuario;
         String usuarioEnc = Security.encrypt(usuario);
         String usuarioDec = Security.decrypt(usuarioEnc);
@@ -89,37 +87,34 @@ public class LoginController implements Initializable {
 
         if (CodigoInicio == 1) {
             MenuPrincipalController.TipoUsuario = "Cientifico";
-            CodigoInicio = 219346218;
+            CodigoInicio = 219346217;
         }
         if (CodigoInicio == 2) {
             MenuPrincipalController.TipoUsuario = "Medico";
-               CodigoInicio = 219346218;
+            CodigoInicio = 219346217;
         }
-         if (CodigoInicio == 3) {
+        if (CodigoInicio == 3) {
             MenuPrincipalController.TipoUsuario = "Administrador";
-               CodigoInicio = 219346218;
+            CodigoInicio = 219346217;
         }
-         
-        if (CodigoInicio == 219346218) {
-            
-           
-              Alert alerta = new Alert(Alert.AlertType.INFORMATION);
-                alerta.setTitle("Ingresando al sistema...");
-                alerta.setHeaderText(null);
-                alerta.setContentText("Bienvenido "+infoLogin.getDescripcion());
-                              
-                alerta.show();
-                
+
+        if (CodigoInicio == 219346217) {
+
+            Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+            alerta.setTitle("Ingresando al sistema...");
+            alerta.setHeaderText(null);
+            alerta.setContentText("Bienvenido " + infoLogin.getDescripcion());
+            alerta.show();
+
             Stage stage = new Stage();
             Parent root = FXMLLoader.load(getClass().getResource("MenuPrincipal.fxml"));
             Scene scene = new Scene(root);
             stage.setScene(scene);
-    
+
             stage.show();
             Stage stageLogin = (Stage) btnCerrar.getScene().getWindow();
             stageLogin.close();
             alerta.close();
-        
 
         }
 
@@ -137,5 +132,5 @@ public class LoginController implements Initializable {
         btnAceptar_click();
 
     }
-    
+
 }
