@@ -113,6 +113,12 @@ public class PestañaCalculoController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
+        // Se activa la funcion para realizar la vista previa;
+        txtEntrada.textProperty().addListener((observable, oldValue, newValue) -> {
+   
+    VistaPreviaFormula(newValue);
+});
+        
       
         /* Se inicializa la interface para que se adapte al tipo de cálculo actual */
         if (MenuPrincipalController.TipoUsuario == "Cientifico") {
@@ -248,15 +254,14 @@ public class PestañaCalculoController implements Initializable {
     }
 
      @FXML
-     public void VistaPreviaFormula() 
+     public void VistaPreviaFormula(String NuevoTexto) 
      {
      
         try {
             
-             System.out.println(txtEntrada.getText());
-              
+            
          //   math.Ejecutar("value = '" + txtEntrada.getText() + "';");
-             formulEnTex = math.Ejecutar(" math.parse('" + txtEntrada.getText() + "').toTex() ");
+             formulEnTex = math.Ejecutar(" math.parse('" + NuevoTexto + "').toTex() ");
         System.out.println(formulEnTex);
              
                   pnFuncion.getChildren().clear();
