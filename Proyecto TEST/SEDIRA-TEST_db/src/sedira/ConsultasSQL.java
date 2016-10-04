@@ -10,8 +10,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javafx.scene.control.Alert;
+import javafx.stage.Modality;
 import javax.swing.JOptionPane;
 import sedira.model.ConexionDB;
+import sedira.model.Usuario;
 
 /**
  *
@@ -26,10 +28,13 @@ public class ConsultasSQL {
      * @return
      * @throws Exception 
      */
-    public static int VerificarUserPass(String Usuario, String Password) throws Exception {
+    public static Usuario VerificarUserPass(String Usuario, String Password) throws Exception {
         ConexionDB conexion = new ConexionDB();
         String passwordEnc = Security.encrypt(Password);
         String UsuarioEnc = Security.encrypt(Usuario);
+        Usuario UsuarioLogin;
+        
+        
 
         try {
 
@@ -44,21 +49,19 @@ public class ConsultasSQL {
 
             consulta.setString(1, UsuarioEnc);
             consulta.setString(2, passwordEnc);
+            
 
          //   String passwordDec = Security.decrypt(passwordEnc);
             ResultSet resultado = consulta.executeQuery();
 
             if (resultado.next()) {
 
-                int tipoUsuario = Integer.parseInt(resultado.getString("id_usuarioTipos"));
+                UsuarioLogin = new Usuario( resultado.getString("descripcion"), resultado.getInt("id_UsuarioTipos"));
                 Date NOW = resultado.getDate("HoraServer");
-                Alert alerta = new Alert(Alert.AlertType.INFORMATION);
-                alerta.setTitle("Confirmación");
-                alerta.setHeaderText(null);
-                alerta.setContentText("Login OK");
-                alerta.showAndWait();
-
-                return tipoUsuario;
+                
+               //   public Usuario(String descripcion, int TipoUsuario ) {
+                        
+                return UsuarioLogin;
             } else {
                 consulta.close();
                 conexion.desconectar();
@@ -68,13 +71,13 @@ public class ConsultasSQL {
                 alerta.setHeaderText(null);
                 alerta.setContentText("Error de validación, ingrese los datos nuevamente");
                 alerta.showAndWait();
-                return -1;
+                return new Usuario("Error de validación", -1);
             }
 
         } catch (SQLException e) {
             System.out.println("Ocurrió un error al verificar el usuario/contraseña " + e.getMessage());
             JOptionPane.showMessageDialog(null, "Ocurrió un error verificar el usuario/contraseña " + e.getMessage(), "Información", JOptionPane.INFORMATION_MESSAGE);
-            return -2;
+            return new Usuario("Error génerico", -2);
         }
 
     }

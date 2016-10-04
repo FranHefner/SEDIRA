@@ -19,6 +19,7 @@ public class Usuario {
     private StringProperty descripcion;
     private StringProperty login; //nombre de usuario
     private StringProperty pass; 
+    private int idTipoUsuario;
     
     /**
      * Contructor de usuarios
@@ -33,6 +34,18 @@ public class Usuario {
         this.login = new SimpleStringProperty (login);
         this.pass = new SimpleStringProperty (pass);
     }
+    
+    /**
+     * Constructor para el login, solamente con descripcion y tipo de usuario
+     * @param descripcion
+     * @param TipoUsuario 
+     */
+       public Usuario(String descripcion, int TipoUsuario ) {
+        
+        this.descripcion = new SimpleStringProperty (descripcion);
+        this.idTipoUsuario = TipoUsuario;
+    }
+       
     
 //**********************************idUsuario GETters and SETters 
     public IntegerProperty getIdUsuarioProperty() {
@@ -78,7 +91,12 @@ public class Usuario {
     }
     public void setPass(String pass) {
         this.pass.set(pass);   }
+ //***********************************Tipo Usuario Get()
     
+    public int getTipoUsuario()
+    {
+        return idTipoUsuario;
+    }
     
     
     

@@ -5,9 +5,12 @@
  */
 package sedira.vistas;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,6 +22,8 @@ import javafx.scene.control.Menu;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.scene.control.MenuBar;
+import javax.script.ScriptException;
+import sedira.MathJS;
 
 /**
  * FXML Menú principal Controller class Controlador para el comportamiento del
@@ -50,10 +55,20 @@ public class MenuPrincipalController implements Initializable {
      */
     // Variable para definir el comportamiento del menu segun el tipo de usuario.
     public static String TipoUsuario = "";
+     public static MathJS math;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         AdministrarMenu(TipoUsuario);
+        
+        
+        try {
+            math = new MathJS();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(MenuPrincipalController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ScriptException ex) {
+            Logger.getLogger(MenuPrincipalController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     /**

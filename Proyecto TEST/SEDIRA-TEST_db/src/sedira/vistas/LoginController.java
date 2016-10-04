@@ -13,12 +13,16 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import sedira.ConsultasSQL;
 import sedira.Security;
+import sedira.model.Usuario;
 
 /**
  * FXML Controller class
@@ -35,7 +39,11 @@ public class LoginController implements Initializable {
     private Button btnCerrar;
     @FXML
     private Button btnAceptar;
-
+    @FXML
+    private Label lblInicio;
+    
+     @FXML
+    private Usuario infoLogin;
     /**
      * Initializes the controller class.
      */
@@ -48,13 +56,17 @@ public class LoginController implements Initializable {
     private void btnAceptar_click() throws Exception {
         String Usuario;
         String Contraseña;
+       
 
         Usuario = txtUsuario.getText();
         Contraseña = txtPassword.getText();
 
-        int LoginCode = ConsultasSQL.VerificarUserPass(Usuario, Contraseña);
-        IniByCode(LoginCode);
+        infoLogin = ConsultasSQL.VerificarUserPass(Usuario, Contraseña);
+                          
         
+        IniByCode(infoLogin.getTipoUsuario());
+        
+    
         String usuario = Usuario;
         String usuarioEnc = Security.encrypt(usuario);
         String usuarioDec = Security.decrypt(usuarioEnc);
@@ -77,22 +89,37 @@ public class LoginController implements Initializable {
 
         if (CodigoInicio == 1) {
             MenuPrincipalController.TipoUsuario = "Cientifico";
+            CodigoInicio = 219346218;
         }
         if (CodigoInicio == 2) {
             MenuPrincipalController.TipoUsuario = "Medico";
+               CodigoInicio = 219346218;
         }
          if (CodigoInicio == 3) {
             MenuPrincipalController.TipoUsuario = "Administrador";
+               CodigoInicio = 219346218;
         }
          
-        if (CodigoInicio > 0) {
+        if (CodigoInicio == 219346218) {
+            
+           
+              Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+                alerta.setTitle("Ingresando al sistema...");
+                alerta.setHeaderText(null);
+                alerta.setContentText("Bienvenido "+infoLogin.getDescripcion());
+                              
+                alerta.show();
+                
             Stage stage = new Stage();
             Parent root = FXMLLoader.load(getClass().getResource("MenuPrincipal.fxml"));
             Scene scene = new Scene(root);
             stage.setScene(scene);
+    
             stage.show();
             Stage stageLogin = (Stage) btnCerrar.getScene().getWindow();
             stageLogin.close();
+            alerta.close();
+        
 
         }
 

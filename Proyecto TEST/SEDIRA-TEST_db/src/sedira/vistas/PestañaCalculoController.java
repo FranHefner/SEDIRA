@@ -24,7 +24,9 @@ import sedira.IDatosValidaciones;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Date;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.canvas.Canvas;
@@ -106,10 +108,12 @@ public class PestañaCalculoController implements Initializable {
     private boolean grillaSeleccionada = false;
     private char letra = 'A';
     private ObservableList<VariableCalculo> listaVariables = FXCollections.observableArrayList();
+    private MathJS math = MenuPrincipalController.math;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
+        
+      
         /* Se inicializa la interface para que se adapte al tipo de cálculo actual */
         if (MenuPrincipalController.TipoUsuario == "Cientifico") {
             dValidaciones = new DatosValidacionesCalculo();
@@ -245,8 +249,10 @@ public class PestañaCalculoController implements Initializable {
     @FXML
     public void RealizarCalculo() throws ScriptException, NoSuchMethodException, IOException {
 
-        MathJS math = new MathJS();
+        
+        
 
+                 
         //     int IndexVariable =  listaVariables.indexOf('A');
         // listaVariables.stream().filter(o -> o.getvariable().equals("A")).findFirst().isPresent();
         // System.out.println(listaVariables.get(IndexVariable).getvariable()+"= "+listaVariables.get(IndexVariable).getValor());
@@ -260,25 +266,28 @@ public class PestañaCalculoController implements Initializable {
             // String Asingacion=  Variable.getvariable() +"= "+ Variable.getValor();
             //   math.Ejecutar( Asingacion );
         }
-
+        
+           
         math.Ejecutar("value = '" + formulaCalculo + "';");
 
         // math.Ejecutar("value = '" + txtEntrada.getText() + "';");
         math.Ejecutar(" math.parse(value).toTex() ");
 
         formulEnTex = math.Ejecutar(" math.parse(value).toTex() ");
-
+        
+        
         System.out.println(formulEnTex);
         txtResult.setText(math.eval(formulaCalculo));
 
         pnFuncion.getChildren().clear();
         MyCanvas canvas = new MyCanvas();
-
+                 
         canvas.widthProperty().bind(pnFuncion.widthProperty());
         canvas.heightProperty().bind(pnFuncion.heightProperty());
 
         pnFuncion.getChildren().add(canvas);
-
+        
+        
         /* Se convierte el RESULTADO A BLOB */
         try {
 
