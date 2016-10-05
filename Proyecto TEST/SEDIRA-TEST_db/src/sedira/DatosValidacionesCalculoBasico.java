@@ -63,7 +63,7 @@ public class DatosValidacionesCalculoBasico implements IDatosValidaciones {
     }
 
     @Override
-    public  boolean finalizarCalculo(Blob resultado) {
+    public  boolean finalizarCalculo(Blob resultado, String formula, String formulaTex) {
         Resultado = resultado;
 
         return true;

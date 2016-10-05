@@ -20,7 +20,7 @@ import sedira.model.ValorDescripcion;
 public interface IDatosValidaciones {
     
       void IniciarCalculo();
-      boolean finalizarCalculo(Blob resultado);
+      boolean finalizarCalculo(Blob resultado, String Formula, String FormulaTex);
       boolean guardarCalculo();
       
       Blob    getResultado();

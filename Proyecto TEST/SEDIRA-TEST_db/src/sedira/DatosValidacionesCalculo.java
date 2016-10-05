@@ -38,6 +38,8 @@ public class DatosValidacionesCalculo implements IDatosValidaciones {
     private static String Observaciones;
     private static Blob Resultado;
     private static Boolean ProcesoCompleto;
+    private static String Formula;
+    private static String FormulaTex;
 
     private static void limpiarVariables() {
         CalculoActual = null;
@@ -67,8 +69,10 @@ public class DatosValidacionesCalculo implements IDatosValidaciones {
     }
 
     @Override
-    public boolean finalizarCalculo(Blob resultado) {
+    public boolean finalizarCalculo(Blob resultado, String formula,String formulaTex) {
         Resultado = resultado;
+        Formula = formula;
+        FormulaTex = formulaTex;
 
         return true;
     }
@@ -127,7 +131,7 @@ public class DatosValidacionesCalculo implements IDatosValidaciones {
         Date Ahora = new Date();
 
         if (Resultado != null) {
-            Calculo nuevoCalculo = new Calculo(Ahora.getTime(), PacienteActual.getIdPaciente(), PhantomActual.getIdPhantom(), RadionuclidoActual.getIdRadNuclido(), Observaciones, Resultado);
+            Calculo nuevoCalculo = new Calculo(Ahora.getTime(), PacienteActual.getIdPaciente(), PhantomActual.getIdPhantom(), RadionuclidoActual.getIdRadNuclido(), Observaciones, Resultado, Formula, FormulaTex);
 
             /*  Se valida el hash antes de guardar, para luego tomarlo nuevamente de la base de datos y comparalo para ver si son iguales
              la idea es poner un byte array, por otro lado hay que ver si conviene implementar el hash que viene por defecto en netbeans
@@ -206,6 +210,7 @@ public class DatosValidacionesCalculo implements IDatosValidaciones {
         return validarPaciente();
     }
 
+    
     /**
      * Método SetTer para el Phantom seleccionado en el proceso de cálculo.
      *

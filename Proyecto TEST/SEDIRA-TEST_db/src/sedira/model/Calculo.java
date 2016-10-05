@@ -32,6 +32,8 @@ public class Calculo {
     private Blob resultado;
     private String HashValidado;
     private String TipoCalculo;
+    private String Formula;
+    private String FormulaTex;
 
     /**
      * Constructor para la clase Calculo.
@@ -43,7 +45,7 @@ public class Calculo {
      * @param pobservaciones
      * @param presultado
      */
-    public Calculo(long pfecha, int pidPaciente, int pidPhantom, int pidRadionuclido, String pobservaciones, Blob presultado) {
+    public Calculo(long pfecha, int pidPaciente, int pidPhantom, int pidRadionuclido, String pobservaciones, Blob presultado, String formula, String formulaTex) {
         Fecha = pfecha;
         idPaciente = pidPaciente;
         idPhantom = pidPhantom;
@@ -51,6 +53,9 @@ public class Calculo {
         observaciones = pobservaciones;
         resultado = presultado;
         TipoCalculo = "Completo";
+        Formula = formula;
+        FormulaTex = formulaTex;
+        
     }
 
     /**
@@ -79,11 +84,10 @@ public class Calculo {
      */
     public boolean Validar() {
 
-        String Resultado = String.valueOf(Fecha) + idPaciente + idPhantom + idRadionuclido + observaciones + resultado.hashCode();
+        String Resultado = String.valueOf(Fecha) + idPaciente + idPhantom + idRadionuclido + observaciones + Formula + FormulaTex + resultado.hashCode();
 
         try {
-
-            /* ver si conviene el hash code de java o el que hice que devuelve string*/
+       
             System.out.println(Resultado.hashCode());
             System.out.println(Security.md5(Resultado));
 
@@ -149,7 +153,25 @@ public class Calculo {
     }
 
     /**
-     * Método GetTer para el atributo idPaciente.
+     * Método GetTer para el atributo formula.
+     *
+     * @return
+     */
+    public String getFormula() {
+        return Formula;
+    }
+     /**
+     * Método GetTer para el atributo formula.
+     *
+     * @return
+     */
+    public String getFormulaTex() {
+        return FormulaTex;
+    }
+    
+    
+    /**
+     * Método GetTer para el atributo formulaTex.
      *
      * @return
      */

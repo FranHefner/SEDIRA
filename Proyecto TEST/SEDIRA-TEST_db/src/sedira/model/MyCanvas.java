@@ -19,7 +19,7 @@ import org.scilab.forge.jlatexmath.TeXIcon;
  *
  * @author Hefner Francisco
  */
-    class MyCanvas extends Canvas {
+  public class MyCanvas extends Canvas {
 
         private FXGraphics2D g2;
 

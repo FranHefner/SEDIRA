@@ -9,7 +9,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="380.0" prefWidth="790.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sedira.vistas.HistorialSEDIRAController">
+<AnchorPane id="AnchorPane" prefHeight="403.0" prefWidth="790.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sedira.vistas.HistorialSEDIRAController">
    <children>
       <TitledPane animated="false" collapsible="false" layoutX="28.0" layoutY="14.0" prefHeight="326.0" prefWidth="546.0" text="Historial de Cálculos" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <content>
@@ -36,7 +36,7 @@
                                  </columns>
                               </TableView>
                               <Pane layoutX="19.0" layoutY="231.0" prefHeight="64.0" prefWidth="497.0" style="-fx-background-color: black;" />
-                              <Label layoutX="24.0" layoutY="202.0" text="Vista Previa Formula" />
+                              <Label layoutX="23.0" layoutY="203.0" text="Vista Previa Formula" />
                               <Label layoutX="26.0" layoutY="151.0" text="Formula" />
                               <Label layoutX="18.0" layoutY="38.0" text="Phantom:" />
                               <Label layoutX="19.0" layoutY="62.0" text="Órgano:" />
@@ -49,6 +49,8 @@
                               <TextField layoutX="20.0" layoutY="173.0" prefHeight="25.0" prefWidth="301.0" />
                               <Label layoutX="333.0" layoutY="151.0" text="Resultado:" />
                               <TextField layoutX="333.0" layoutY="173.0" prefHeight="25.0" prefWidth="172.0" />
+                              <Label layoutX="19.0" layoutY="301.0" text="Cálculo Hash:" />
+                              <Label fx:id="lblhash" layoutX="96.0" layoutY="301.0" text="[hash]" />
                            </children>
                         </AnchorPane>
                      </content>

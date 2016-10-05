@@ -5,6 +5,8 @@
  */
 package sedira.model;
 
+import javafx.collections.ObservableList;
+
 /**
  * Interface para CalculoDAO
  *
@@ -12,7 +14,9 @@ package sedira.model;
  */
 public interface ICalculoDAO {
 
-    void getCalculo(int idPaciente);
+    void getCalculoPaciente(int idPaciente);   
+    
+     ObservableList<CalculoMuestra>  getCalculos();
 
     void setCalculo(Calculo calculo);
 

@@ -47,6 +47,7 @@ import sedira.FuncionesGenerales;
 import sedira.MathJS;
 import sedira.model.ValorDescripcion;
 import sedira.model.VariableCalculo;
+import sedira.model.MyCanvas;
 
 /**
  * FXML Controller class
@@ -63,7 +64,7 @@ public class PestañaCalculoController implements Initializable {
     @FXML
     private Button btnCalcular;
     @FXML
-    
+
     private TextField txtResult;
     @FXML
     private Label lblOrgano;
@@ -100,26 +101,34 @@ public class PestañaCalculoController implements Initializable {
     private TableColumn<VariableCalculo, Double> clValorVariable;
     @FXML
     private TableColumn<VariableCalculo, String> clLetraVariable;
+    @FXML
+    private Button btnGuardar;
 
     private String formulEnTex;
     private String formulaCalculo;
+
+    boolean graficaOK = false;
+    boolean calculoOK = false;
 
     private ValorDescripcion variableSeleccionada = null;
     private boolean grillaSeleccionada = false;
     private char letra = 'A';
     private ObservableList<VariableCalculo> listaVariables = FXCollections.observableArrayList();
     private MathJS math = MenuPrincipalController.math;
+    private MyCanvas canvas;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
+
         // Se activa la funcion para realizar la vista previa;
         txtEntrada.textProperty().addListener((observable, oldValue, newValue) -> {
-   
-    VistaPreviaFormula(newValue);
-});
-        
-      
+            RealizarCalculo(newValue);
+        });
+        // Se realiza una pequeña pre-carga para cargar archivos a memoria
+        txtEntrada.setText("0");
+        txtEntrada.setText("");
+
+
         /* Se inicializa la interface para que se adapte al tipo de cálculo actual */
         if (MenuPrincipalController.TipoUsuario == "Cientifico") {
             dValidaciones = new DatosValidacionesCalculo();
@@ -130,7 +139,7 @@ public class PestañaCalculoController implements Initializable {
         /**
          * *************************************************************************
          */
-        
+
         //Inicializo la tabla de Propiedad Valor, correspondiente a los Phantoms. 
         clVdValorPhantom.setCellValueFactory(
                 cellData -> cellData.getValue().valorProperty().asObject());
@@ -144,9 +153,9 @@ public class PestañaCalculoController implements Initializable {
         // Muestro las propiedades del phantom selecionado
         FuncionesGenerales.mostrarDetalleTablaValorDescripcion(dValidaciones.getPhantomActual().getPropiedades(), griValorDescripcionPhantom);
         // Muestro el nombre del órgano Seleccionado
-       
+
         lblOrgano.setText(dValidaciones.getOrganoActual().getNombreOrgano());
-        
+
         griValorDescripcionPhantom.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> seleccionPropiedadPhantom(newValue));
 
@@ -158,7 +167,7 @@ public class PestañaCalculoController implements Initializable {
                 cellData -> cellData.getValue().descripcionProperty());
         clVdUnidadRadionuclido.setCellValueFactory(
                 cellData -> cellData.getValue().unidadProperty());
-        
+
         //Completo tabla de Info Radionuclido
         FuncionesGenerales.mostrarDetalleTablaValorDescripcion(dValidaciones.getRadionuClidoActual().getPropiedades(), griValorDescripcionRadionuclido);
 
@@ -212,7 +221,7 @@ public class PestañaCalculoController implements Initializable {
     public void seleccionMasa() {
 
         variableSeleccionada = new ValorDescripcion(0, "Masa órgano/tejido", dValidaciones.getOrganoActual().getOrganMass(), "grs");
-        
+
     }
 
     @FXML
@@ -249,286 +258,92 @@ public class PestañaCalculoController implements Initializable {
 
     @FXML
     public void GuardarResultado() {
+
+        if (calculoOK == true) {
+            /* Se convierte el RESULTADO A BLOB */
+            try {
+
+                float resultado_temp_float = Float.valueOf(txtResult.getText());
+
+                int bits = Float.floatToIntBits(resultado_temp_float);
+                byte[] bytes = new byte[4];
+                bytes[0] = (byte) (bits & 0xff);
+                bytes[1] = (byte) ((bits >> 8) & 0xff);
+                bytes[2] = (byte) ((bits >> 16) & 0xff);
+                bytes[3] = (byte) ((bits >> 24) & 0xff);
+
+                Blob resultado_temp_blob = new javax.sql.rowset.serial.SerialBlob(bytes);
+                dValidaciones.finalizarCalculo(resultado_temp_blob, formulaCalculo, formulEnTex);
+
+                // DE UN FLOAT COMO RESULTADO DEL CALCULO PASA A UN BLOB Y DESPUES A UN FLOAT 
+                float f = ByteBuffer.wrap(bytes).order(ByteOrder.LITTLE_ENDIAN).getFloat();
+
+                String ResultString = String.valueOf(f);
+                //txtResult.setText(ResultString);
+
+            } catch (SQLException ex) {
+                Logger.getLogger(PestañaCalculoController.class.getName()).log(Level.SEVERE, null, ex);
+                System.out.println("No se pudo convertir a blob");
+            }
+        }
+
         dValidaciones.guardarCalculo();
 
     }
 
-     @FXML
-     public void VistaPreviaFormula(String NuevoTexto) 
-     {
-     
-        try {
-            
-            
-         //   math.Ejecutar("value = '" + txtEntrada.getText() + "';");
-             formulEnTex = math.Ejecutar(" math.parse('" + NuevoTexto + "').toTex() ");
-        System.out.println(formulEnTex);
-             
-                  pnFuncion.getChildren().clear();
-        MyCanvas canvas = new MyCanvas();
-                 
-        canvas.widthProperty().bind(pnFuncion.widthProperty());
-        canvas.heightProperty().bind(pnFuncion.heightProperty());
-
-        pnFuncion.getChildren().add(canvas);
-            
-        } catch (ScriptException ex) {
-            System.out.println("No se pudo graficar la fórmula");
-        }
-
-       
-      
-        
-     }
     @FXML
-    public void RealizarCalculo() throws ScriptException, NoSuchMethodException, IOException {
+    public void RealizarCalculo(String NuevaFormula) {
 
-        
-        
-
-                 
-        //     int IndexVariable =  listaVariables.indexOf('A');
-        // listaVariables.stream().filter(o -> o.getvariable().equals("A")).findFirst().isPresent();
-        // System.out.println(listaVariables.get(IndexVariable).getvariable()+"= "+listaVariables.get(IndexVariable).getValor());
-        formulaCalculo = txtEntrada.getText();
-
-        for (VariableCalculo Variable : listaVariables) {
-
-            formulaCalculo = formulaCalculo.replace(Variable.getvariable(), Variable.getValor().toString());
-
-            // System.out.println(Variable.getvariable() +"= "+ Variable.getValor());
-            // String Asingacion=  Variable.getvariable() +"= "+ Variable.getValor();
-            //   math.Ejecutar( Asingacion );
-        }
-        
-           
-        math.Ejecutar("value = '" + formulaCalculo + "';");
-
-        // math.Ejecutar("value = '" + txtEntrada.getText() + "';");
-      //  math.Ejecutar(" math.parse(value).toTex() ");
-
-        formulEnTex = math.Ejecutar(" math.parse(value).toTex() ");
-        
-        
-        System.out.println(formulEnTex);
-       txtResult.setText(math.eval(formulaCalculo));
-
+        txtResult.setText("");
         pnFuncion.getChildren().clear();
-        MyCanvas canvas = new MyCanvas();
-                 
-        canvas.widthProperty().bind(pnFuncion.widthProperty());
-        canvas.heightProperty().bind(pnFuncion.heightProperty());
+        btnGuardar.setDisable(true);
 
-        pnFuncion.getChildren().add(canvas);
-        
-       
-        /* Se convierte el RESULTADO A BLOB */
-        try {
+        //Si no es vacio, continua
+        if (!"".equals(NuevaFormula)) {
+            try {
+                /* SE GRAFICA LA FÓRMULA */
+                formulaCalculo = NuevaFormula;
 
-            float resultado_temp_float = 489238;
+                for (VariableCalculo Variable : listaVariables) {
 
-            int bits = Float.floatToIntBits(resultado_temp_float);
-            byte[] bytes = new byte[4];
-            bytes[0] = (byte) (bits & 0xff);
-            bytes[1] = (byte) ((bits >> 8) & 0xff);
-            bytes[2] = (byte) ((bits >> 16) & 0xff);
-            bytes[3] = (byte) ((bits >> 24) & 0xff);
+                    formulaCalculo = formulaCalculo.replace(Variable.getvariable(), Variable.getValor().toString());
 
-            Blob resultado_temp_blob = new javax.sql.rowset.serial.SerialBlob(bytes);
-            dValidaciones.finalizarCalculo(resultado_temp_blob);
+                }
 
-            // DE UN FLOAT COMO RESULTADO DEL CALCULO PASA A UN BLOB Y DESPUES A UN FLOAT 
-            float f = ByteBuffer.wrap(bytes).order(ByteOrder.LITTLE_ENDIAN).getFloat();
+                formulEnTex = math.Ejecutar(" math.parse('" + formulaCalculo + "').toTex() ");
 
-            String ResultString = String.valueOf(f);
-            //txtResult.setText(ResultString);
+                System.out.println(formulEnTex);
 
-        } catch (SQLException ex) {
-            Logger.getLogger(PestañaCalculoController.class.getName()).log(Level.SEVERE, null, ex);
+                canvas = new MyCanvas(formulEnTex);
+
+                canvas.widthProperty().bind(pnFuncion.widthProperty());
+                canvas.heightProperty().bind(pnFuncion.heightProperty());
+
+                pnFuncion.getChildren().add(canvas);
+                graficaOK = true;
+
+            } catch (ScriptException ex) {
+                System.out.println("No se pudo graficar la fórmula");
+                txtResult.setText("Fórmula incompleta o errónea");;
+                graficaOK = false;
+            }
+
+            if (graficaOK == true) {
+                /* SE CALCULA LA FÓRMULA */
+                try {
+
+                    txtResult.setText(math.eval(formulaCalculo));
+
+                    calculoOK = true;
+                    btnGuardar.setDisable(false);
+                } catch (ScriptException ex) {
+                    // System.out.println("No se pudo calcular la fórmula");
+                    txtResult.setText("Fórmula no soportada o faltan definir variables.");
+                    calculoOK = false;
+                }
+            }
+        } else {
         }
 
     }
-
-    @FXML
-    public void seleccionarPhantom() {
-
-    }
-
-    class MyCanvas extends Canvas {
-
-        private FXGraphics2D g2;
-
-        private TeXIcon icon;
-
-        public MyCanvas() {
-            this.g2 = new FXGraphics2D(getGraphicsContext2D());
-             this.g2.scale(0.8, 0.8);
-
-            String FormulaString = formulEnTex;
-
-            TeXFormula formula = new TeXFormula(FormulaString);
-
-            this.icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY, 20);
-
-            widthProperty().addListener(evt -> draw());
-            heightProperty().addListener(evt -> draw());
-        }
-
-        private void draw() {
-            double width = getWidth();
-            double height = getHeight();
-            getGraphicsContext2D().clearRect(0, 0, width, height);
-
-            BufferedImage image = new BufferedImage(icon.getIconWidth(),
-                    icon.getIconHeight(), BufferedImage.TYPE_INT_ARGB);
-            Graphics2D gg = image.createGraphics();
-            gg.setColor(Color.WHITE);
-            gg.fillRect(0, 0, icon.getIconWidth(), icon.getIconHeight());
-            JLabel jl = new JLabel();
-            jl.setForeground(new Color(0, 0, 0));
-            icon.paintIcon(jl, gg, 0, 0);
-
-            this.g2.drawImage(image, 0, 0, null);
-        }
-
-        @Override
-        public boolean isResizable() {
-            return true;
-        }
-
-        @Override
-        public double prefWidth(double height) {
-            return getWidth();
-        }
-
-        @Override
-        public double prefHeight(double width) {
-            return getHeight();
-        }
-    }
-
-    /**
-     * *************** Funcion de evaluacion 1
-     *///////////
-    public static String valuacionString(String Expresion) {
-        ScriptEngineManager mgr = new ScriptEngineManager();
-        ScriptEngine engine = mgr.getEngineByName("JavaScript");
-
-        try {
-            //System.out.println(engine.eval(foo));
-            return engine.eval(Expresion).toString();
-        } catch (ScriptException ex) {
-            Logger.getLogger(PestañaCalculoController.class.getName()).log(Level.SEVERE, null, ex);
-            return "";
-        }
-    }
-
-    /**
-     * ************** Funcion De evaluacion 2 ************
-     */
-    public static double eval(final String str) {
-        return new Object() {
-            int pos = -1, ch;
-
-            void nextChar() {
-                ch = (++pos < str.length()) ? str.charAt(pos) : -1;
-            }
-
-            boolean eat(int charToEat) {
-                while (ch == ' ') {
-                    nextChar();
-                }
-                if (ch == charToEat) {
-                    nextChar();
-                    return true;
-                }
-                return false;
-            }
-
-            double parse() {
-                nextChar();
-                double x = parseExpression();
-                if (pos < str.length()) {
-                    throw new RuntimeException("Unexpected: " + (char) ch);
-                }
-                return x;
-            }
-
-            // Grammar:
-            // expression = term | expression `+` term | expression `-` term
-            // term = factor | term `*` factor | term `/` factor
-            // factor = `+` factor | `-` factor | `(` expression `)`
-            //        | number | functionName factor | factor `^` factor
-            double parseExpression() {
-                double x = parseTerm();
-                for (;;) {
-                    if (eat('+')) {
-                        x += parseTerm(); // addition
-                    } else if (eat('-')) {
-                        x -= parseTerm(); // subtraction
-                    } else {
-                        return x;
-                    }
-                }
-            }
-
-            double parseTerm() {
-                double x = parseFactor();
-                for (;;) {
-                    if (eat('*')) {
-                        x *= parseFactor(); // multiplication
-                    } else if (eat('/')) {
-                        x /= parseFactor(); // division
-                    } else {
-                        return x;
-                    }
-                }
-            }
-
-            double parseFactor() {
-                if (eat('+')) {
-                    return parseFactor(); // unary plus
-                }
-                if (eat('-')) {
-                    return -parseFactor(); // unary minus
-                }
-                double x;
-                int startPos = this.pos;
-                if (eat('(')) { // parentheses
-                    x = parseExpression();
-                    eat(')');
-                } else if ((ch >= '0' && ch <= '9') || ch == '.') { // numbers
-                    while ((ch >= '0' && ch <= '9') || ch == '.') {
-                        nextChar();
-                    }
-                    x = Double.parseDouble(str.substring(startPos, this.pos));
-                } else if (ch >= 'a' && ch <= 'z') { // functions
-                    while (ch >= 'a' && ch <= 'z') {
-                        nextChar();
-                    }
-                    String func = str.substring(startPos, this.pos);
-                    x = parseFactor();
-                    if (func.equals("sqrt")) {
-                        x = Math.sqrt(x);
-                    } else if (func.equals("sin")) {
-                        x = Math.sin(Math.toRadians(x));
-                    } else if (func.equals("cos")) {
-                        x = Math.cos(Math.toRadians(x));
-                    } else if (func.equals("tan")) {
-                        x = Math.tan(Math.toRadians(x));
-                    } else {
-                        throw new RuntimeException("Unknown function: " + func);
-                    }
-                } else {
-                    throw new RuntimeException("Unexpected: " + (char) ch);
-                }
-
-                if (eat('^')) {
-                    x = Math.pow(x, parseFactor()); // exponentiation
-                }
-                return x;
-            }
-        }.parse();
-    }
-
 }
