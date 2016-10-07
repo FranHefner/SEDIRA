@@ -325,7 +325,7 @@ public class PacienteController implements Initializable {
                     Integer.valueOf(txtNumeroDoc.getText()),
                     txtApellido.getText(), 
                     txtNombre.getText(),
-                   Date.from(txtFechaNacimiento.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()),
+                    Date.from(txtFechaNacimiento.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()),
                     PacienteActual.getDireccion(),
                     0,
                     PacienteActual.getEmail(),

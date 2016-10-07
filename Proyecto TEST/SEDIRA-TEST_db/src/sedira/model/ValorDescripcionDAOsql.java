@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import javafx.scene.control.Alert;
 import javax.swing.JOptionPane;
+import sedira.CodigosErrorSQL;
 
 /**
  * Clase de acceso a datos para Objetos de tipo ValorDescripcion.
@@ -66,8 +67,9 @@ public class ValorDescripcionDAOsql implements IValorDescripcionDAO {
             alerta.showAndWait();
             
         } catch (SQLException e) {
-            System.out.println("Ocurrió un error en la inserción de la propiedad " + e.getMessage());
-            JOptionPane.showMessageDialog(null, "Ocurrió un error en la inserción de la propiedad " + e.getMessage(), "Información", JOptionPane.INFORMATION_MESSAGE);
+            CodigosErrorSQL.analizarExepcion(e);
+            //System.out.println("Ocurrió un error en la inserción de la propiedad " + e.getMessage());
+            //JOptionPane.showMessageDialog(null, "Ocurrió un error en la inserción de la propiedad " + e.getMessage(), "Información", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 

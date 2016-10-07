@@ -14,6 +14,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javax.swing.JOptionPane;
+import sedira.CodigosErrorSQL;
 
 /**
  * Clase de acceso a datos para Radionúclidos.
@@ -28,6 +29,7 @@ public class RadionuclidoDAOsql implements IRadionuclidoDAO {
      *
      * @return
      */
+    @Override
     public ObservableList<Radionuclido> obtenerListaRadNuclido() {
         //Creo una lista auxiliar
         ObservableList<Radionuclido> radionuclidoData = FXCollections.observableArrayList();
@@ -49,9 +51,10 @@ public class RadionuclidoDAOsql implements IRadionuclidoDAO {
             consulta.close();
             conexion.desconectar();
             
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "no se pudo consultar el radionuclido /n" + e);
-            System.out.print(e);
+        } catch (SQLException e) {
+            CodigosErrorSQL.analizarExepcion(e);
+            //JOptionPane.showMessageDialog(null, "no se pudo consultar el radionuclido /n" + e);
+            //System.out.print(e);
         }
         
         return radionuclidoData;
@@ -173,8 +176,9 @@ public class RadionuclidoDAOsql implements IRadionuclidoDAO {
             alerta.showAndWait();
 
         } catch (SQLException e) {
-            System.out.println("Ocurrió un error al eliminar el radionúclido \n" + e.getMessage());
-            JOptionPane.showMessageDialog(null, "Ocurrió un error al eliminar el radionúclido \n" + e.getMessage(), "Información", JOptionPane.INFORMATION_MESSAGE);
+            CodigosErrorSQL.analizarExepcion(e);
+            //System.out.println("Ocurrió un error al eliminar el radionúclido \n" + e.getErrorCode());
+            //JOptionPane.showMessageDialog(null, "Ocurrió un error al eliminar el radionúclido \n" + e.getMessage(), "Información", JOptionPane.INFORMATION_MESSAGE);
         }
         
     }

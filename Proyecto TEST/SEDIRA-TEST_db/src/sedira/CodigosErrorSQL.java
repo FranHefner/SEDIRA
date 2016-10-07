@@ -9,31 +9,34 @@ import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
 /**
+ * Clase para el control de las excepciones de la base de datos.
  *
  * @author Hefner Francisco, Quelin Pablo
  */
 public class CodigosErrorSQL {
-    
-    
-    private void analizarExepcion(SQLException e)
-    {
-        String mensajeError ="";
+
+    public static void analizarExepcion(SQLException e) {
+        String mensajeError = "";
         Boolean errorConocido = false;
-        String titulo ="Información";
-        
-        
-        
-          if (e.getErrorCode() == 1062)
-            {
-                mensajeError = "El registro que se intenta agregar/modificar ya encuentra en la base de datos " + e.getMessage();
-            }
-            if (errorConocido == false)
-            {
-                 mensajeError = "Ocurrió un error al realizar la operación. Por favor, intente nuevamente";           
-            }    
-            
-            JOptionPane.showMessageDialog(null, mensajeError, titulo, JOptionPane.INFORMATION_MESSAGE);
-           
+        String titulo = "Información";
+
+        switch (e.getErrorCode()) {
+            case 1062:
+                mensajeError = "El registro que se intenta agregar/modificar ya encuentra en la base de datos \n "
+                        + "Error SQL: \n" + e.getMessage();
+                break;
+            case 1451:
+                mensajeError = "El registro que se intenta eliminar esta siendo referenciado. Ne puede ser eliminado mientras exista dicha referencia.  \n "
+                        + "Error SQL: \n" + e.getMessage();
+                break;
+
+        }
+        /*if (errorConocido == false) {
+         mensajeError = "Ocurrió un error al realizar la operación. Por favor, intente nuevamente";
+         }*/
+
+        JOptionPane.showMessageDialog(null, mensajeError, titulo, JOptionPane.INFORMATION_MESSAGE);
+
     }
-    
+
 }
