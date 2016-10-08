@@ -103,7 +103,8 @@ public class RadionuclidoDAOsql implements IRadionuclidoDAO {
             consulta.close();
             conexion.desconectar();
             
-        } catch (Exception e) {
+        } catch (SQLException | NumberFormatException e) {
+            CodigosErrorSQL.analizarExepcion((SQLException) e);
             JOptionPane.showMessageDialog(null, "no se pudo consultar la información del radionúclido /n" + e);
             System.out.print(e);
         }
@@ -144,8 +145,9 @@ public class RadionuclidoDAOsql implements IRadionuclidoDAO {
            
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            JOptionPane.showMessageDialog(null, "Ocurrio un error en la creación");
+            CodigosErrorSQL.analizarExepcion(e);
+            //System.out.println(e.getMessage());
+            //JOptionPane.showMessageDialog(null, "Ocurrio un error en la creación");
             
         }
     }
@@ -223,8 +225,9 @@ public class RadionuclidoDAOsql implements IRadionuclidoDAO {
             }
             
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            JOptionPane.showMessageDialog(null, "Ocurrio un error en la modificación, " + e);
+            CodigosErrorSQL.analizarExepcion(e);
+            //System.out.println(e.getMessage());
+            //JOptionPane.showMessageDialog(null, "Ocurrio un error en la modificación, " + e);
         }
     }
     /**
@@ -257,8 +260,9 @@ public class RadionuclidoDAOsql implements IRadionuclidoDAO {
             }
             
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            JOptionPane.showMessageDialog(null, "Ocurrio un error! " + e);
+            CodigosErrorSQL.analizarExepcion(e);
+            //System.out.println(e.getMessage());
+            //JOptionPane.showMessageDialog(null, "Ocurrio un error! " + e);
             return false;
         }
     }
