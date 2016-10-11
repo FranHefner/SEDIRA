@@ -103,7 +103,7 @@ public class PestañaRadionuclidoController implements Initializable {
     @FXML
     public void initListaRadNuclido() {
         //Inicializo la lista de radionuclidos con la informacion contenida en la base de datos. 
-        ListaRadionuclido = rad.obtenerListaRadNuclido();
+        ListaRadionuclido = rad.obtenerListaRadNuclidoCompletos();
         //Lista auxiliar para el manejo de los nombres de los radionuclidos. 
         ObservableList<String> listaStringRadionuclido = FXCollections.observableArrayList();
 

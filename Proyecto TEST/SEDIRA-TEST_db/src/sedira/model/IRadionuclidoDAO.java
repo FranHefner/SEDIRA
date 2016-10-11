@@ -18,6 +18,8 @@ public interface IRadionuclidoDAO {
     public ObservableList<Radionuclido> obtenerListaRadNuclido();
 
     public ObservableList<ValorDescripcion> obtenerInfoRadNuclido(Radionuclido radioNuclidoSeleccionado);
+    
+    public ObservableList<Radionuclido> obtenerListaRadNuclidoCompletos();
 
     public void agregarRadionuclido(Radionuclido radionuclido) throws SQLException;
 

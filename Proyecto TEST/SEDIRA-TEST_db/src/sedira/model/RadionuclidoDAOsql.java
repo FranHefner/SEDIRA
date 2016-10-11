@@ -59,6 +59,45 @@ public class RadionuclidoDAOsql implements IRadionuclidoDAO {
         
         return radionuclidoData;
     }
+    
+    /**
+     * Metodo que retorna la lista de radionuclidos que tienen propiedades asociadas
+     * @return 
+     */
+    @Override
+    public ObservableList<Radionuclido> obtenerListaRadNuclidoCompletos() {
+        //Creo una lista auxiliar
+        ObservableList<Radionuclido> radionuclidoData = FXCollections.observableArrayList();
+        //Instancia de conexion
+        ConexionDB conexion = new ConexionDB();
+        
+        try {
+            PreparedStatement consulta = conexion.getConnection().prepareStatement(""
+                    + "SELECT * FROM radionuclidos "
+                    + "INNER JOIN valordescripcion "
+                    + "ON radionuclidos.id_radionuclido = valordescripcion.id_radionuclido "
+                    + "GROUP BY radionuclidos.id_radionuclido");
+            ResultSet resultado = consulta.executeQuery();
+            while (resultado.next()) {
+                //objeto auxiliar
+                Radionuclido radionuclido = new Radionuclido(0, "", null);
+                
+                radionuclido.setIdRadNuclido(Integer.parseInt(resultado.getString("id_radionuclido")));
+                radionuclido.setNombreRadNuclido(resultado.getString("nombre_radionuclido"));
+                radionuclidoData.add(radionuclido);
+            }
+            resultado.close();
+            consulta.close();
+            conexion.desconectar();
+            
+        } catch (SQLException e) {
+            CodigosErrorSQL.analizarExepcion(e);
+            //JOptionPane.showMessageDialog(null, "no se pudo consultar el radionuclido /n" + e);
+            //System.out.print(e);
+        }
+        
+        return radionuclidoData;
+    }
     /**
      * Método que retorna la la lista de información para un radionúclido
      * seleccionado.
