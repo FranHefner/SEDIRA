@@ -7,6 +7,7 @@ package sedira;
 
 import java.sql.Blob;
 import java.util.Date;
+import java.util.List;
 import sedira.model.Calculo;
 import sedira.model.CalculoDAOsql;
 import sedira.model.ICalculoDAO;
@@ -15,6 +16,7 @@ import sedira.model.Phantom;
 import sedira.model.Organo;
 import sedira.model.Radionuclido;
 import sedira.model.ValorDescripcion;
+import sedira.model.VariableCalculo;
 
 /**
  * Clase que define y guarda un cálculo en tiempo de ejecución En la aplicación,
@@ -40,6 +42,8 @@ public class DatosValidacionesCalculo implements IDatosValidaciones {
     private static Boolean ProcesoCompleto;
     private static String Formula;
     private static String FormulaTex;
+    private static List<VariableCalculo> VariablesCalculo;
+ 
 
     private static void limpiarVariables() {
         CalculoActual = null;
@@ -69,10 +73,11 @@ public class DatosValidacionesCalculo implements IDatosValidaciones {
     }
 
     @Override
-    public boolean finalizarCalculo(Blob resultado, String formula,String formulaTex) {
+    public boolean finalizarCalculo(Blob resultado, String formula,String formulaTex, List<VariableCalculo> variablesCalculo) {
         Resultado = resultado;
         Formula = formula;
         FormulaTex = formulaTex;
+        VariablesCalculo = variablesCalculo;
 
         return true;
     }
@@ -131,7 +136,7 @@ public class DatosValidacionesCalculo implements IDatosValidaciones {
         Date Ahora = new Date();
 
         if (Resultado != null) {
-            Calculo nuevoCalculo = new Calculo(Ahora.getTime(), PacienteActual.getIdPaciente(), PhantomActual.getIdPhantom(), RadionuclidoActual.getIdRadNuclido(), Observaciones, Resultado, Formula, FormulaTex);
+            Calculo nuevoCalculo = new Calculo(Ahora.getTime(), PacienteActual.getIdPaciente(), PhantomActual.getIdPhantom(), RadionuclidoActual.getIdRadNuclido(), Observaciones, Resultado, Formula, FormulaTex,VariablesCalculo);
 
             /*  Se valida el hash antes de guardar, para luego tomarlo nuevamente de la base de datos y comparalo para ver si son iguales
              la idea es poner un byte array, por otro lado hay que ver si conviene implementar el hash que viene por defecto en netbeans

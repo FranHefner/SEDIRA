@@ -6,11 +6,13 @@
 package sedira;
 
 import java.sql.Blob;
+import java.util.List;
 import sedira.model.Organo;
 import sedira.model.Paciente;
 import sedira.model.Phantom;
 import sedira.model.Radionuclido;
 import sedira.model.ValorDescripcion;
+import sedira.model.VariableCalculo;
 
 /**
  * Interface para DatosValidaciones. 
@@ -20,7 +22,7 @@ import sedira.model.ValorDescripcion;
 public interface IDatosValidaciones {
     
       void IniciarCalculo();
-      boolean finalizarCalculo(Blob resultado, String Formula, String FormulaTex);
+      boolean finalizarCalculo(Blob resultado, String Formula, String FormulaTex, List<VariableCalculo> variablesCalculo);
       boolean guardarCalculo();
       
       Blob    getResultado();

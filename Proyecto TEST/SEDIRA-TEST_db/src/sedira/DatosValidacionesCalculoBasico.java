@@ -7,6 +7,7 @@ package sedira;
 
 import java.sql.Blob;
 import java.util.Date;
+import java.util.List;
 import sedira.model.Calculo;
 import sedira.model.CalculoDAOsql;
 import sedira.model.ICalculoDAO;
@@ -15,6 +16,7 @@ import sedira.model.Paciente;
 import sedira.model.Phantom;
 import sedira.model.Radionuclido;
 import sedira.model.ValorDescripcion;
+import sedira.model.VariableCalculo;
 
 /**
  * Clase que define y guarda un cálculo en tiempo de ejecución. 
@@ -29,8 +31,11 @@ public class DatosValidacionesCalculoBasico implements IDatosValidaciones {
     private static Calculo CalculoActual;
     public static String TextoProgreso;
     private static String Observaciones;
-    private static Blob Resultado;
+   private static Blob Resultado;
     private static Boolean ProcesoCompleto;
+    private static String Formula;
+    private static String FormulaTex;
+    private static List<VariableCalculo> VariablesCalculo;
 
     private static final ICalculoDAO cal = new CalculoDAOsql();
 
@@ -62,13 +67,16 @@ public class DatosValidacionesCalculoBasico implements IDatosValidaciones {
         return ProcesoCompleto;
     }
 
-    @Override
-    public  boolean finalizarCalculo(Blob resultado, String formula, String formulaTex) {
+ 
+   @Override
+    public boolean finalizarCalculo(Blob resultado, String formula,String formulaTex, List<VariableCalculo> variablesCalculo) {
         Resultado = resultado;
+        Formula = formula;
+        FormulaTex = formulaTex;
+        VariablesCalculo = variablesCalculo;
 
         return true;
     }
-
     @Override
     public  boolean guardarCalculo() {
 

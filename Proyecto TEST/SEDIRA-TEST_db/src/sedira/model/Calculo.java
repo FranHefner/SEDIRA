@@ -8,6 +8,7 @@ package sedira.model;
 import java.sql.Blob;
 import java.text.Format;
 import java.text.SimpleDateFormat;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import sedira.Security;
@@ -34,6 +35,7 @@ public class Calculo {
     private String TipoCalculo;
     private String Formula;
     private String FormulaTex;
+    private  List<VariableCalculo> VariablesCalculo;
 
     /**
      * Constructor para la clase Calculo.
@@ -44,8 +46,9 @@ public class Calculo {
      * @param pidRadionuclido
      * @param pobservaciones
      * @param presultado
+     * @param variablesCalculo
      */
-    public Calculo(long pfecha, int pidPaciente, int pidPhantom, int pidRadionuclido, String pobservaciones, Blob presultado, String formula, String formulaTex) {
+    public Calculo(long pfecha, int pidPaciente, int pidPhantom, int pidRadionuclido, String pobservaciones, Blob presultado, String formula, String formulaTex, List<VariableCalculo> variablesCalculo) {
         Fecha = pfecha;
         idPaciente = pidPaciente;
         idPhantom = pidPhantom;
@@ -55,6 +58,7 @@ public class Calculo {
         TipoCalculo = "Completo";
         Formula = formula;
         FormulaTex = formulaTex;
+        VariablesCalculo = variablesCalculo;
         
     }
 

@@ -14,7 +14,7 @@ import javafx.beans.property.StringProperty;
 
 /**
  *
- * @author Hefner Francisco
+ * @author Pablo Quelin, Hefner Francisco
  */
 public class VariableCalculo {
     
