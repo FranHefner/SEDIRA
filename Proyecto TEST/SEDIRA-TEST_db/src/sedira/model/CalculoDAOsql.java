@@ -13,6 +13,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import javax.swing.JOptionPane;
+import sedira.CodigosErrorSQL;
 
 /**
  * Clase de acceso de datos para Cálculo. Implementada en MySql.
@@ -30,15 +31,16 @@ public class CalculoDAOsql implements ICalculoDAO {
     public void getCalculoPaciente(int idPaciente) {
 
     }
-      /**
-     * Método que obtiene los calculos realizados 
+
+    /**
+     * Método que obtiene los cálculos realizados
      *
-     *
+     * @return
      */
     @Override
-    public  ObservableList<CalculoMuestra> getCalculos() {
-        
-          //Instancia de conexion
+    public ObservableList<CalculoMuestra> getCalculos() {
+
+        //Instancia de conexion
         ConexionDB conexion = new ConexionDB();
         //Creo una lista auxiliar
         ObservableList<CalculoMuestra> calculosData = FXCollections.observableArrayList();
@@ -52,24 +54,24 @@ public class CalculoDAOsql implements ICalculoDAO {
 
             while (resultado.next()) {
  //public Calculo(long pfecha, int pidPaciente, int pidPhantom, int pidRadionuclido, String pobservaciones, Blob presultado, String formula, String formulaTex) {
-      //    "INSERT INTO calculos (id_paciente, id_radionuclido, id_phantom, fecha_calculo, "
-       //             + "resultado_calculo, observaciones, hash_code, formula_mat, formula_tex) "
+                //    "INSERT INTO calculos (id_paciente, id_radionuclido, id_phantom, fecha_calculo, "
+                //             + "resultado_calculo, observaciones, hash_code, formula_mat, formula_tex) "
             /* EN PROCESO    
-       CalculoMuestra calculo = new CalculoMuestra(
+                 CalculoMuestra calculo = new CalculoMuestra(
        
                          
-                    resultado.getLong("Fecha"),
-                    resultado.getString("Paciente"),
-                    resultado.getString("Phantom"),
-                    resultado.getString("Radionuclido"),
-                    resultado.getString("Phantom"),
-                    resultado.getString("Formula"),
-                    resultado.getString("FormulaTex"),
-                    resultado.getString("HashCode"),
+                 resultado.getLong("Fecha"),
+                 resultado.getString("Paciente"),
+                 resultado.getString("Phantom"),
+                 resultado.getString("Radionuclido"),
+                 resultado.getString("Phantom"),
+                 resultado.getString("Formula"),
+                 resultado.getString("FormulaTex"),
+                 resultado.getString("HashCode"),
                         
-                //obtencion de los datos desde la bd.
+                 //obtencion de los datos desde la bd.
               
-                calculosData.add(calculo);*/
+                 calculosData.add(calculo);*/
 
             }
             //Cierre de consulta
@@ -79,6 +81,7 @@ public class CalculoDAOsql implements ICalculoDAO {
             conexion.desconectar();
 
         } catch (SQLException e) {
+            CodigosErrorSQL.analizarExepcion(e);
             System.out.println(e.getMessage());
             JOptionPane.showMessageDialog(null, "Ocurrio un error! " + e);
 
@@ -127,8 +130,9 @@ public class CalculoDAOsql implements ICalculoDAO {
             alerta.showAndWait();
 
         } catch (SQLException e) {
-            System.out.println("Ocurrió un error al guardar el cálculo " + e.getMessage());
-            JOptionPane.showMessageDialog(null, "Ocurrió un error al guardar el cálculo " + e.getMessage(), "Información", JOptionPane.INFORMATION_MESSAGE);
+            CodigosErrorSQL.analizarExepcion(e);
+            //System.out.println("Ocurrió un error al guardar el cálculo " + e.getMessage());
+            //JOptionPane.showMessageDialog(null, "Ocurrió un error al guardar el cálculo " + e.getMessage(), "Información", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
@@ -167,8 +171,9 @@ public class CalculoDAOsql implements ICalculoDAO {
             alerta.showAndWait();
 
         } catch (SQLException e) {
-            System.out.println("Ocurrió un error al guardar el cálculo " + e.getMessage());
-            JOptionPane.showMessageDialog(null, "Ocurrió un error al guardar el cálculo " + e.getMessage(), "Información", JOptionPane.INFORMATION_MESSAGE);
+            CodigosErrorSQL.analizarExepcion(e);
+            //System.out.println("Ocurrió un error al guardar el cálculo " + e.getMessage());
+            //JOptionPane.showMessageDialog(null, "Ocurrió un error al guardar el cálculo " + e.getMessage(), "Información", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 }

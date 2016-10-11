@@ -12,6 +12,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import javax.swing.JOptionPane;
+import sedira.CodigosErrorSQL;
 
 /**
  * Clase para el acceso de datos de Pacientes.
@@ -87,9 +88,9 @@ public class PacienteDAOsql implements IPacienteDAO {
 
             }
         } catch (SQLException e) {
-           
-            System.out.println("Ocurrió un error en la inserción del paciente " + e.getMessage());
-            JOptionPane.showMessageDialog(null, "Ocurrió un error en la inserción del paciente " + e.getMessage(), "Información", JOptionPane.INFORMATION_MESSAGE);
+            CodigosErrorSQL.analizarExepcion(e);
+           // System.out.println("Ocurrió un error en la inserción del paciente " + e.getMessage());
+            // JOptionPane.showMessageDialog(null, "Ocurrió un error en la inserción del paciente " + e.getMessage(), "Información", JOptionPane.INFORMATION_MESSAGE);
         }
 
     }
@@ -121,8 +122,9 @@ public class PacienteDAOsql implements IPacienteDAO {
             alerta.showAndWait();
 
         } catch (SQLException e) {
-            System.out.println("Ocurrió un error al eliminar el paciente \n" + e.getMessage());
-            JOptionPane.showMessageDialog(null, "Ocurrió un error al eliminar el paciente \n" + e.getMessage(), "Información", JOptionPane.INFORMATION_MESSAGE);
+            CodigosErrorSQL.analizarExepcion(e);
+            //System.out.println("Ocurrió un error al eliminar el paciente \n" + e.getMessage());
+            //JOptionPane.showMessageDialog(null, "Ocurrió un error al eliminar el paciente \n" + e.getMessage(), "Información", JOptionPane.INFORMATION_MESSAGE);
         }
 
     }
@@ -141,7 +143,7 @@ public class PacienteDAOsql implements IPacienteDAO {
             //Validar . Estaba con DNI, pero al modificar a un paciente el dni se mantiene. 
 
             PreparedStatement consulta = conexion.getConnection().prepareStatement(
-                    " UPDATE pacientes SET "                
+                    " UPDATE pacientes SET "
                     + "tipo_doc = ?,"
                     + "numero_doc = ?,"
                     + "apellido = ?,"
@@ -189,16 +191,10 @@ public class PacienteDAOsql implements IPacienteDAO {
             alerta.showAndWait();
 
         } catch (SQLException e) {
-            if (e.getErrorCode() == 1062)
-            {
-                  JOptionPane.showMessageDialog(null, "La persona ya se encuentra en la base de datos, por favor seleccione otro tipo o número de documento ", "Información",JOptionPane.INFORMATION_MESSAGE);
-            }else            
-            {
-                
-            }
-            
-            System.out.println("Ocurrió un error en la modificación  del paciente " + e.getMessage());
-            JOptionPane.showMessageDialog(null, "Ocurrió un error en la modificación del paciente " + e.getMessage(), "Información", JOptionPane.INFORMATION_MESSAGE);
+            CodigosErrorSQL.analizarExepcion(e);
+
+            //System.out.println("Ocurrió un error en la modificación  del paciente " + e.getMessage());
+            //JOptionPane.showMessageDialog(null, "Ocurrió un error en la modificación del paciente " + e.getMessage(), "Información", JOptionPane.INFORMATION_MESSAGE);
         }
 
     }
@@ -231,8 +227,9 @@ public class PacienteDAOsql implements IPacienteDAO {
             }
 
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            JOptionPane.showMessageDialog(null, "Ocurrio un error! " + e);
+           CodigosErrorSQL.analizarExepcion(e);
+            // System.out.println(e.getMessage());
+           // JOptionPane.showMessageDialog(null, "Ocurrio un error! " + e);
             return false;
         }
     }
@@ -287,8 +284,9 @@ public class PacienteDAOsql implements IPacienteDAO {
             conexion.desconectar();
 
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            JOptionPane.showMessageDialog(null, "Ocurrio un error! " + e);
+            CodigosErrorSQL.analizarExepcion(e);
+            //System.out.println(e.getMessage());
+            //JOptionPane.showMessageDialog(null, "Ocurrio un error! " + e);
 
         }
         return pacienteData;
@@ -318,8 +316,9 @@ public class PacienteDAOsql implements IPacienteDAO {
 
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            JOptionPane.showMessageDialog(null, "Ocurrio un error! " + e);
+            CodigosErrorSQL.analizarExepcion(e);
+            //System.out.println(e.getMessage());
+            //JOptionPane.showMessageDialog(null, "Ocurrio un error! " + e);
 
         }
         return insertId;

@@ -66,7 +66,7 @@ public class ConsultasSQL {
                 consulta.close();
                 conexion.desconectar();
 
-                Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+                Alert alerta = new Alert(Alert.AlertType.ERROR);
                 alerta.setTitle("Confirmación");
                 alerta.setHeaderText(null);
                 alerta.setContentText("Error de validación, ingrese los datos nuevamente");
@@ -75,8 +75,10 @@ public class ConsultasSQL {
             }
 
         } catch (SQLException e) {
-            System.out.println("Ocurrió un error al verificar el usuario/contraseña " + e.getMessage());
+            CodigosErrorSQL.analizarExepcion(e);
+            /*System.out.println(e.getErrorCode());
             JOptionPane.showMessageDialog(null, "Ocurrió un error verificar el usuario/contraseña " + e.getMessage(), "Información", JOptionPane.INFORMATION_MESSAGE);
+            */
             return new Usuario("Error génerico", -2);
         }
 

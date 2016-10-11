@@ -14,6 +14,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import javax.swing.JOptionPane;
+import sedira.CodigosErrorSQL;
 import sedira.Security;
 
 /**
@@ -62,8 +63,9 @@ public class UsuarioDAOsql implements IUsuarioDAO {
                 alerta.showAndWait();
           
         } catch (SQLException e) {
-            System.out.println("Ocurrió un error en la inserción del usuario " + e.getMessage());
-            JOptionPane.showMessageDialog(null, "Ocurrió un error en la inserción del usuario " + e.getMessage(), "Información", JOptionPane.INFORMATION_MESSAGE);
+             CodigosErrorSQL.analizarExepcion((SQLException) e);
+            //JOptionPane.showMessageDialog(null, "no se pudo consultar el phantom /n" + e);
+            //System.out.print(e);
         } catch (Exception ex) {
             Logger.getLogger(UsuarioDAOsql.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -75,6 +77,7 @@ public class UsuarioDAOsql implements IUsuarioDAO {
      * @param usuario
      * @param tipoUsuario
      */
+    @Override
     public void modificarUsuario(Usuario usuario, int tipoUsuario) {
         //Instancia de conexion
         ConexionDB conexion = new ConexionDB();
@@ -104,8 +107,9 @@ public class UsuarioDAOsql implements IUsuarioDAO {
 
             }
         } catch (SQLException e) {
-            System.out.println("Ocurrió un error en la modificación del usuario " + e.getMessage());
-            JOptionPane.showMessageDialog(null, "Ocurrió un error en la modificación del usuario " + e.getMessage(), "Información", JOptionPane.INFORMATION_MESSAGE);
+             CodigosErrorSQL.analizarExepcion((SQLException) e);
+            //JOptionPane.showMessageDialog(null, "no se pudo consultar el phantom /n" + e);
+            //System.out.print(e);
         } catch (Exception ex) {
             Logger.getLogger(UsuarioDAOsql.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -116,6 +120,7 @@ public class UsuarioDAOsql implements IUsuarioDAO {
      *
      * @param idUsuario
      */
+    @Override
     public void eliminarUsuario(int idUsuario) {
         //Instancia de conexion
         ConexionDB conexion = new ConexionDB();
@@ -138,8 +143,9 @@ public class UsuarioDAOsql implements IUsuarioDAO {
             alerta.showAndWait();
 
         } catch (SQLException e) {
-            System.out.println("Ocurrió un error al eliminar el usuario \n" + e.getMessage());
-            JOptionPane.showMessageDialog(null, "Ocurrió un error al eliminar el usuario \n" + e.getMessage(), "Información", JOptionPane.INFORMATION_MESSAGE);
+            CodigosErrorSQL.analizarExepcion((SQLException) e);
+            //JOptionPane.showMessageDialog(null, "no se pudo consultar el phantom /n" + e);
+            //System.out.print(e);
         }
 
     }
@@ -176,8 +182,9 @@ public class UsuarioDAOsql implements IUsuarioDAO {
             }
 
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            JOptionPane.showMessageDialog(null, "Ocurrio un error! " + e);
+            CodigosErrorSQL.analizarExepcion((SQLException) e);
+            //JOptionPane.showMessageDialog(null, "no se pudo consultar el phantom /n" + e);
+            //System.out.print(e);
             conexion.desconectar();
             return false;
         } catch (Exception ex) {
@@ -224,9 +231,10 @@ public class UsuarioDAOsql implements IUsuarioDAO {
             consulta.close();
             conexion.desconectar();
 
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "no se pudo consultar el usuario /n" + e);
-            System.out.print(e);
+        } catch (SQLException | NumberFormatException e) {
+            CodigosErrorSQL.analizarExepcion((SQLException) e);
+            //JOptionPane.showMessageDialog(null, "no se pudo consultar el phantom /n" + e);
+            //System.out.print(e);
         }
 
         return usuarioData;
@@ -262,8 +270,9 @@ public class UsuarioDAOsql implements IUsuarioDAO {
             conexion.desconectar();
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "no se pudo consultar el usuario /n" + e);
-            System.out.print(e);
+             CodigosErrorSQL.analizarExepcion((SQLException) e);
+            //JOptionPane.showMessageDialog(null, "no se pudo consultar el phantom /n" + e);
+            //System.out.print(e);
         }
 
         return tipoUsuario;

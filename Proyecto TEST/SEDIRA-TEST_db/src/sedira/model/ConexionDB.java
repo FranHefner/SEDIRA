@@ -9,9 +9,10 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import javafx.scene.control.Alert;
+import sedira.CodigosErrorSQL;
 
 /**
- * Clase que controla la conexion a la Base de Datos. Implementada sobre JDBC.
+ * Clase que controla la conexión a la Base de Datos. Implementada sobre JDBC.
  * MySQL
  *
  * @author Quelin Pablo, Francisto Hefner
@@ -43,12 +44,8 @@ public class ConexionDB {
 
             }
         } catch (SQLException e) {
-            System.out.println(e);
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error!");
-            alert.setHeaderText("Ocurrio un error al conectarse con la base de datos. ");
-            alert.setContentText(String.valueOf(e));
-            alert.showAndWait();
+             System.out.println(e.getErrorCode());
+            CodigosErrorSQL.analizarExepcion(e);
             setError(true);
         } catch (ClassNotFoundException e) {
             System.out.println(e);

@@ -13,6 +13,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import javax.swing.JOptionPane;
+import sedira.CodigosErrorSQL;
 
 /**
  * Clase de Acceso de datos para objetos de tipo Phamtonm
@@ -51,9 +52,10 @@ public class PhantomDAOsql implements IPhantomDAO {
             consulta.close();
             conexion.desconectar();
 
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "no se pudo consultar el phantom /n" + e);
-            System.out.print(e);
+        } catch (SQLException | NumberFormatException e) {
+            CodigosErrorSQL.analizarExepcion((SQLException) e);
+            //JOptionPane.showMessageDialog(null, "no se pudo consultar el phantom /n" + e);
+            //System.out.print(e);
         }
 
         return phantomData;
@@ -96,8 +98,9 @@ public class PhantomDAOsql implements IPhantomDAO {
             conexion.desconectar();
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "no se pudo consultar el phantom /n" + e);
-            System.out.print(e);
+             CodigosErrorSQL.analizarExepcion((SQLException) e);
+            //JOptionPane.showMessageDialog(null, "no se pudo consultar el phantom /n" + e);
+            //System.out.print(e);
         }
 
         return phantomData;
@@ -146,8 +149,9 @@ public class PhantomDAOsql implements IPhantomDAO {
             conexion.desconectar();
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "no se pudo consultar la información del phantom /n" + e);
-            System.out.print(e);
+             CodigosErrorSQL.analizarExepcion((SQLException) e);
+            //JOptionPane.showMessageDialog(null, "no se pudo consultar el phantom /n" + e);
+            //System.out.print(e);
         }
 
         return infoPhantomData;
@@ -182,8 +186,9 @@ public class PhantomDAOsql implements IPhantomDAO {
                 //JOptionPane.showMessageDialog(null, "El phantom " + nombrePhantom + " ya existe!", "Información", JOptionPane.INFORMATION_MESSAGE);
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            JOptionPane.showMessageDialog(null, "Ocurrio un error en la creación");
+             CodigosErrorSQL.analizarExepcion((SQLException) e);
+            //JOptionPane.showMessageDialog(null, "no se pudo consultar el phantom /n" + e);
+            //System.out.print(e);
         }
 
     }
@@ -225,8 +230,9 @@ public class PhantomDAOsql implements IPhantomDAO {
                 //JOptionPane.showMessageDialog(null, "El phantom " + nombrePhantom + " ya existe!", "Información", JOptionPane.INFORMATION_MESSAGE);
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            JOptionPane.showMessageDialog(null, "Ocurrio un error en la creación");
+             CodigosErrorSQL.analizarExepcion((SQLException) e);
+            //JOptionPane.showMessageDialog(null, "no se pudo consultar el phantom /n" + e);
+            //System.out.print(e);
         }
 
     }
@@ -259,8 +265,9 @@ public class PhantomDAOsql implements IPhantomDAO {
             alerta.showAndWait();
 
         } catch (SQLException e) {
-            System.out.println("Ocurrió un error al eliminar el phantom \n" + e.getMessage());
-            JOptionPane.showMessageDialog(null, "Ocurrió un error al eliminar el phantom \n" + e.getMessage(), "Información", JOptionPane.INFORMATION_MESSAGE);
+            CodigosErrorSQL.analizarExepcion((SQLException) e);
+            //JOptionPane.showMessageDialog(null, "no se pudo consultar el phantom /n" + e);
+            //System.out.print(e);
         }
 
     }
@@ -293,8 +300,9 @@ public class PhantomDAOsql implements IPhantomDAO {
             }
 
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            JOptionPane.showMessageDialog(null, "Ocurrio un error! " + e);
+             CodigosErrorSQL.analizarExepcion((SQLException) e);
+            //JOptionPane.showMessageDialog(null, "no se pudo consultar el phantom /n" + e);
+            //System.out.print(e);
             return false;
         }
     }
@@ -341,8 +349,9 @@ public class PhantomDAOsql implements IPhantomDAO {
             conexion.desconectar();
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "no se pudo consultar los organos del phantom /n" + e);
-            System.out.print(e);
+             CodigosErrorSQL.analizarExepcion((SQLException) e);
+            //JOptionPane.showMessageDialog(null, "no se pudo consultar el phantom /n" + e);
+            //System.out.print(e);
         }
 
         return organoPhantomData;

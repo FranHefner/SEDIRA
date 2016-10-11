@@ -136,7 +136,9 @@ public class RadionuclidoDAOsql implements IRadionuclidoDAO {
                 Alert alerta = new Alert(AlertType.INFORMATION);
                 alerta.setTitle("Confirmación");
                 alerta.setHeaderText(null);
-                alerta.setContentText("El radionúclido - "+nombreRadNuclido+" - fué agregado.");
+                alerta.setContentText("El radionúclido "
+                        + ""+nombreRadNuclido+" "
+                        + "fué agregado.");
                 alerta.showAndWait();
             } else {
                  /**
@@ -226,6 +228,8 @@ public class RadionuclidoDAOsql implements IRadionuclidoDAO {
             
         } catch (SQLException e) {
             CodigosErrorSQL.analizarExepcion(e);
+            
+            
             //System.out.println(e.getMessage());
             //JOptionPane.showMessageDialog(null, "Ocurrio un error en la modificación, " + e);
         }
