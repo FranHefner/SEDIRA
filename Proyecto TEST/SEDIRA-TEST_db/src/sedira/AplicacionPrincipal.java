@@ -40,16 +40,16 @@ public class AplicacionPrincipal extends Application {
         //Detecta error del servidor no encontrado. 
         ConexionDB conex = new ConexionDB();
         if (!conex.getError()){
-        conex.desconectar();
-        Parent root = FXMLLoader.load(getClass().getResource("vistas/Login.fxml"));
+            conex.desconectar();
+            Parent root = FXMLLoader.load(getClass().getResource("vistas/Login.fxml"));
 
-        //Se le pasa el root node
-        Scene scene = new Scene(root);
-        //Tamaños de ventana
-        primaryStage.setMaxWidth(362);
-        primaryStage.setMaxHeight(185);
-        primaryStage.setMinWidth(362);
-        primaryStage.setMinHeight(185);
+            //Se le pasa el root node
+            Scene scene = new Scene(root);
+            //Tamaños de ventana
+            primaryStage.setMaxWidth(362);
+            primaryStage.setMaxHeight(185);
+            primaryStage.setMinWidth(362);
+            primaryStage.setMinHeight(185);
 
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -65,7 +65,7 @@ public class AplicacionPrincipal extends Application {
         }
         
     }
-
+    
     /**
      * @param args argumentos de linea de comando. Llama al Método start
      */

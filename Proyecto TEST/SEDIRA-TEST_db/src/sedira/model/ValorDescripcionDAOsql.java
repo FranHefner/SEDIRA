@@ -127,8 +127,9 @@ public class ValorDescripcionDAOsql implements IValorDescripcionDAO {
             //}
 
         } catch (SQLException e) {
-            System.out.println("Ocurrió un error en la modificación de la propiedad \n" + e.getMessage());
-            JOptionPane.showMessageDialog(null, "Ocurrió un error en la modificación de la propiedad \n" + e.getMessage(), "Información", JOptionPane.INFORMATION_MESSAGE);
+             CodigosErrorSQL.analizarExepcion((SQLException) e);
+            //JOptionPane.showMessageDialog(null, "no se pudo consultar el phantom /n" + e);
+            //System.out.print(e);
         }
     }
 
@@ -161,8 +162,9 @@ public class ValorDescripcionDAOsql implements IValorDescripcionDAO {
             alerta.showAndWait();
 
         } catch (SQLException e) {
-            System.out.println("Ocurrió un error al eliminar el item \n" + e.getMessage());
-            JOptionPane.showMessageDialog(null, "Ocurrió un error al eliminar el item \n" + e.getMessage(), "Información", JOptionPane.INFORMATION_MESSAGE);
+            CodigosErrorSQL.analizarExepcion((SQLException) e);
+            //JOptionPane.showMessageDialog(null, "no se pudo consultar el phantom /n" + e);
+            //System.out.print(e);
         }
     }
     
@@ -198,8 +200,10 @@ public class ValorDescripcionDAOsql implements IValorDescripcionDAO {
             }
 
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            JOptionPane.showMessageDialog(null, "Ocurrio un error! " + e);
+             CodigosErrorSQL.analizarExepcion((SQLException) e);
+            //JOptionPane.showMessageDialog(null, "no se pudo consultar el phantom /n" + e);
+            //System.out.print(e);
+           
             return false;
         }
     }

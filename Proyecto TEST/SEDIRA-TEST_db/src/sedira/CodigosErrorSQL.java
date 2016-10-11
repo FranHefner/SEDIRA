@@ -6,7 +6,7 @@
 package sedira;
 
 import java.sql.SQLException;
-import javax.swing.JOptionPane;
+import javafx.scene.control.Alert;
 
 /**
  * Clase para el control de las excepciones de la base de datos.
@@ -18,7 +18,7 @@ public class CodigosErrorSQL {
     public static void analizarExepcion(SQLException e) {
         String mensajeError = "";
         Boolean errorConocido = false;
-        String titulo = "Información";
+        String titulo = "Error!";
 
         switch (e.getErrorCode()) {
             case 1062:
@@ -29,16 +29,31 @@ public class CodigosErrorSQL {
                 mensajeError = "El registro que se intenta eliminar esta siendo referenciado. "
                         + "No puede ser eliminado mientras exista dicha referencia.  \n ";
                         //muy largo el mensaje. 
-                        //+ "Error SQL: \n" + e.getMessage();
+                //+ "Error SQL: \n" + e.getMessage();
                 break;
+            case 0:
+                mensajeError = "Ocurrio un error en la conexión con el servidor de base de datos.  "
+                        + "Por favor revise que el servicio de MySql se encuentre corriendo y encendido.  \n"
+                        + "POR FAVOR, REINICIE LA APLICACIÓN ";
+                        //muy largo el mensaje. 
+                //+ "Error SQL: \n" + e.getMessage();
+
+                break;
+            default: 
+                mensajeError = "Ocurrio un error! \n"
+                        + "POR FAVOR REINICE LA APLICACIÓN";
 
         }
         /*if (errorConocido == false) {
          mensajeError = "Ocurrió un error al realizar la operación. Por favor, intente nuevamente";
          }*/
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(titulo);
+        alert.setHeaderText(mensajeError);
+        alert.setContentText(String.valueOf(e));
+        alert.showAndWait();
 
-        JOptionPane.showMessageDialog(null, mensajeError, titulo, JOptionPane.INFORMATION_MESSAGE);
-
+        //JOptionPane.showMessageDialog(null, mensajeError, titulo, JOptionPane.INFORMATION_MESSAGE);
     }
 
 }

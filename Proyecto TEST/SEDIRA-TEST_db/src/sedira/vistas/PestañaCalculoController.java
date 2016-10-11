@@ -273,6 +273,7 @@ public class PestañaCalculoController implements Initializable {
                 bytes[3] = (byte) ((bits >> 24) & 0xff);
 
                 Blob resultado_temp_blob = new javax.sql.rowset.serial.SerialBlob(bytes);
+                
                 dValidaciones.finalizarCalculo(resultado_temp_blob, formulaCalculo, formulEnTex, listaVariables);
 
                 // DE UN FLOAT COMO RESULTADO DEL CALCULO PASA A UN BLOB Y DESPUES A UN FLOAT 
