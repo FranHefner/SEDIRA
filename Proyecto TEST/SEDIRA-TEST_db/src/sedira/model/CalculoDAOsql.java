@@ -9,6 +9,7 @@ import java.sql.Blob;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
@@ -99,28 +100,73 @@ public class CalculoDAOsql implements ICalculoDAO {
     public void setCalculo(Calculo calculo) {
         //Instancia de conexion
         ConexionDB conexion = new ConexionDB();
-
+        
+        int Id_calculo = -1;
+          
         try {
-
-            PreparedStatement consulta = conexion.getConnection().prepareStatement(
+                
+               conexion.getConnection().setAutoCommit(false);
+            
+          
+                     
+               
+            // Guardado del cálculo
+             PreparedStatement consultaCalculo = conexion.getConnection().prepareStatement(
                     "INSERT INTO calculos (id_paciente, id_radionuclido, id_phantom, fecha_calculo, "
                     + "resultado_calculo, observaciones, hash_code, formula_mat, formula_tex) "
                     + "VALUES(?,?,?,?,?,?,?,?,?)");
-            consulta.setInt(1, calculo.getIdPaciente());
-            consulta.setInt(2, calculo.getIdRadionuclido());
-            consulta.setInt(3, calculo.getIdPhantom());
+            consultaCalculo.setInt(1, calculo.getIdPaciente());
+            consultaCalculo.setInt(2, calculo.getIdRadionuclido());
+            consultaCalculo.setInt(3, calculo.getIdPhantom());
 
-            consulta.setLong(4, calculo.getFecha());
-            consulta.setBlob(5, calculo.getResultado());
-            consulta.setString(6, calculo.getObservaciones());
-            consulta.setString(7, calculo.getHashCode());
-            consulta.setString(8, calculo.getFormula());
-            consulta.setString(9, calculo.getFormulaTex());
+            consultaCalculo.setLong(4, calculo.getFecha());
+            consultaCalculo.setBlob(5, calculo.getResultado());
+            consultaCalculo.setString(6, calculo.getObservaciones());
+            consultaCalculo.setString(7, calculo.getHashCode());
+            consultaCalculo.setString(8, calculo.getFormula());
+            consultaCalculo.setString(9, calculo.getFormulaTex());
 
-            consulta.executeUpdate(); //Ejecucion de la consulta
-            consulta.close();
+            consultaCalculo.executeUpdate(); //Ejecucion de la consulta
+            
+            //Obtengo el id del calculo
+            PreparedStatement consultaObtenerID= conexion.getConnection().prepareStatement(
+                     "SELECT MAX(id_calculo) +1 AS id FROM calculos");
+             
+            
+                     
+            ResultSet resultado = consultaObtenerID.executeQuery();
+            while (resultado.next()) {
+                      Id_calculo =  resultado.getInt("id");
+
+            }
+            
+            if(Id_calculo == -1)
+            {
+                //ABORTAR
+            }
+         
+               String queryVariables = "INSERT INTO historialcalculo (propiedad, valor, variable, id_calculo) VALUES (0,'','','',0)";
+               
+            List<VariableCalculo> variables  = calculo.getVariables();
+            for (int i=0;i<variables.size();i++) {
+                
+               queryVariables = queryVariables+ (",('" + variables.get(i).getDescripcion()+
+                                                 "','" + variables.get(i).getValor()    +
+                                                 "','" + variables.get(i).getvariable() +
+                                                 "','" + Id_calculo+"')");
+            }
+            
+            
+            PreparedStatement consultaVariables = conexion.getConnection().prepareStatement(queryVariables);
+                  
+            consultaVariables.executeQuery();
+                     
+             consultaCalculo.close();
             // JOptionPane.showMessageDialog(null, "La propiedad "+vd.getDescripcion()+ " fué agregada con éxito!","Información",JOptionPane.INFORMATION_MESSAGE);
             conexion.desconectar();
+            
+            conexion.getConnection().commit();
+            conexion.getConnection().setAutoCommit(true);
 
             // Mensaje de confirmacion
             Alert alerta = new Alert(Alert.AlertType.INFORMATION);
@@ -134,6 +180,8 @@ public class CalculoDAOsql implements ICalculoDAO {
             //System.out.println("Ocurrió un error al guardar el cálculo " + e.getMessage());
             //JOptionPane.showMessageDialog(null, "Ocurrió un error al guardar el cálculo " + e.getMessage(), "Información", JOptionPane.INFORMATION_MESSAGE);
         }
+      
+        
     }
 
     /**
