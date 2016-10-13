@@ -44,7 +44,7 @@ public class PestañaCalculoController implements Initializable {
      
     }    
     
-    public void RealizarCaluclo()            
+    public void RealizarCalculo()            
     {
      
       BarraProgreso.setProgress(0.5);
