@@ -28,6 +28,7 @@ public class Calculo {
     private int idPaciente;
     private int idPhantom;
     private int idRadionuclido;
+    private int idOrgano;
     // private ObservableList <ValorDescripcion> DatosEntrada;
     private String observaciones;
     private Blob resultado;
@@ -48,11 +49,12 @@ public class Calculo {
      * @param presultado
      * @param variablesCalculo
      */
-    public Calculo(long pfecha, int pidPaciente, int pidPhantom, int pidRadionuclido, String pobservaciones, Blob presultado, String formula, String formulaTex, List<VariableCalculo> variablesCalculo) {
+    public Calculo(long pfecha, int pidPaciente, int pidPhantom, int pidRadionuclido, int pidOrgano, String pobservaciones, Blob presultado, String formula, String formulaTex, List<VariableCalculo> variablesCalculo) {
         Fecha = pfecha;
         idPaciente = pidPaciente;
         idPhantom = pidPhantom;
         idRadionuclido = pidRadionuclido;
+        idOrgano = pidOrgano;
         observaciones = pobservaciones;
         resultado = presultado;
         TipoCalculo = "Completo";
@@ -173,9 +175,18 @@ public class Calculo {
         return FormulaTex;
     }
     
+         /**
+     * Método GetTer para el atributo idOrgano.
+     *
+     * @return
+     */
+    public int getIdOrgano() {
+        return idOrgano;
+    }
+    
     
     /**
-     * Método GetTer para el atributo formulaTex.
+     * Método GetTer para el atributo idPaciente.
      *
      * @return
      */
