@@ -18,7 +18,7 @@ public interface ICalculoDAO {
     
     ObservableList<CalculoMuestra>  getCalculos();
 
-    void setCalculo(Calculo calculo);
+    int setCalculo(Calculo calculo);
 
     void setCalculoBasico(Calculo calculo);
 

@@ -43,6 +43,7 @@ public class DatosValidacionesCalculo implements IDatosValidaciones {
     private static String Formula;
     private static String FormulaTex;
     private static List<VariableCalculo> VariablesCalculo;
+    private static int IdCalculo;
  
 
     private static void limpiarVariables() {
@@ -145,7 +146,7 @@ public class DatosValidacionesCalculo implements IDatosValidaciones {
              */
             nuevoCalculo.Validar();
 
-            cal.setCalculo(nuevoCalculo);
+           IdCalculo= cal.setCalculo(nuevoCalculo);
 
         } else {
             return false;
@@ -196,6 +197,8 @@ public class DatosValidacionesCalculo implements IDatosValidaciones {
         return true;
     }
 
+      
+        
     private static boolean validaRadionuclidoActual() {     
         CalculoActual = null;
 
@@ -278,7 +281,11 @@ public class DatosValidacionesCalculo implements IDatosValidaciones {
     }
 
   
-   
+    @Override
+     public  int getIdCalgulo()
+     {
+         return IdCalculo;
+     }
     @Override
     public Paciente getPacienteActual() {
         if (PacienteActual != null) {

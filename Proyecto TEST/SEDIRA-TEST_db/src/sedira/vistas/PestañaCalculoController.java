@@ -27,6 +27,7 @@ import java.awt.image.BufferedImage;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Date;
+import java.util.Optional;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.canvas.Canvas;
@@ -34,6 +35,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.Pane;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
@@ -45,6 +47,8 @@ import org.scilab.forge.jlatexmath.TeXFormula;
 import org.scilab.forge.jlatexmath.TeXIcon;
 import sedira.FuncionesGenerales;
 import sedira.MathJS;
+import sedira.model.FormulaDAOsql;
+import sedira.model.IFormulaDAO;
 import sedira.model.ValorDescripcion;
 import sedira.model.VariableCalculo;
 import sedira.model.MyCanvas;
@@ -116,6 +120,7 @@ public class PestañaCalculoController implements Initializable {
     private ObservableList<VariableCalculo> listaVariables = FXCollections.observableArrayList();
     private MathJS math = MenuPrincipalController.math;
     private MyCanvas canvas;
+    private IFormulaDAO formu = new FormulaDAOsql();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -224,6 +229,27 @@ public class PestañaCalculoController implements Initializable {
 
     }
 
+    @FXML
+    public void GuardarFormula() {
+
+            TextInputDialog dialog = new TextInputDialog("");
+            
+           
+            dialog.setTitle("Guardado de Formula");
+            dialog.setHeaderText("La formula se usará como plantilla para nuevos cáclulos.\n¿Qué nombre desea utilizar?");
+            dialog.setContentText("Por favor, ingrese el nombre:");
+
+            // Traditional way to get the response value.
+            Optional<String> result = dialog.showAndWait();
+            if (result.isPresent()){
+            
+                     formu.setFormula( result.get() , formulaCalculo,dValidaciones.getIdCalgulo() );
+            }
+
+          
+               
+                    
+    }
     @FXML
     public void agregarVariables() {
 

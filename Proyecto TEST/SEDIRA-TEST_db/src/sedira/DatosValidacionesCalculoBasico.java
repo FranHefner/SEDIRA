@@ -35,6 +35,7 @@ public class DatosValidacionesCalculoBasico implements IDatosValidaciones {
     private static Boolean ProcesoCompleto;
     private static String Formula;
     private static String FormulaTex;
+    private static int IdCalculo;
     private static List<VariableCalculo> VariablesCalculo;
 
     private static final ICalculoDAO cal = new CalculoDAOsql();
@@ -134,6 +135,12 @@ public class DatosValidacionesCalculoBasico implements IDatosValidaciones {
             return null;
         }
     }
+      @Override
+     public  int getIdCalgulo()
+     {
+         return IdCalculo;
+     }
+     
     @Override
     public void IniciarCalculo() {
         limpiarVariables();

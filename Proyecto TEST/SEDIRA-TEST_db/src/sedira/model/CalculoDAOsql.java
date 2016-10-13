@@ -141,7 +141,7 @@ public class CalculoDAOsql implements ICalculoDAO {
      * @param calculo
      */
     @Override
-    public void setCalculo(Calculo calculo) {
+    public int setCalculo(Calculo calculo) {
         //Instancia de conexion
         ConexionDB conexion = new ConexionDB();
         
@@ -232,7 +232,8 @@ public class CalculoDAOsql implements ICalculoDAO {
             alerta.setHeaderText(null);
             alerta.setContentText("El cálculo fué guardado con éxito.");
             alerta.showAndWait();
-
+            
+ 
         } catch (SQLException e) {
             CodigosErrorSQL.analizarExepcion(e);
        
@@ -245,13 +246,12 @@ public class CalculoDAOsql implements ICalculoDAO {
                
                
             }
+              
         }
         
-            //System.out.println("Ocurrió un error al guardar el cálculo " + e.getMessage());
-            //JOptionPane.showMessageDialog(null, "Ocurrió un error al guardar el cálculo " + e.getMessage(), "Información", JOptionPane.INFORMATION_MESSAGE);
         }
       
-        
+          return Id_calculo;
     }
 
     /**

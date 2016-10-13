@@ -31,6 +31,7 @@ public interface IDatosValidaciones {
       String  GetTextoProgeso();
       Organo  getOrganoActual();      
       Radionuclido getRadionuClidoActual();   
+      int getIdCalgulo();
       String getEstadoActual(boolean adelante, String pestañaActual);
       boolean getProcesoCompleto();      
       
