@@ -9,6 +9,7 @@ import java.sql.Blob;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
@@ -44,34 +45,24 @@ public class CalculoDAOsql implements ICalculoDAO {
         ConexionDB conexion = new ConexionDB();
         //Creo una lista auxiliar
         ObservableList<CalculoMuestra> calculosData = FXCollections.observableArrayList();
-
+        
         try {
             PreparedStatement consulta = conexion.getConnection().prepareStatement(
                     "SELECT * FROM calculos");
 
             //Ejecucion de la consulta. 
             ResultSet resultado = consulta.executeQuery();
-
+           
             while (resultado.next()) {
- //public Calculo(long pfecha, int pidPaciente, int pidPhantom, int pidRadionuclido, String pobservaciones, Blob presultado, String formula, String formulaTex) {
-                //    "INSERT INTO calculos (id_paciente, id_radionuclido, id_phantom, fecha_calculo, "
-                //             + "resultado_calculo, observaciones, hash_code, formula_mat, formula_tex) "
-            /* EN PROCESO    
-                 CalculoMuestra calculo = new CalculoMuestra(
-       
-                         
-                 resultado.getLong("Fecha"),
-                 resultado.getString("Paciente"),
-                 resultado.getString("Phantom"),
-                 resultado.getString("Radionuclido"),
-                 resultado.getString("Phantom"),
-                 resultado.getString("Formula"),
-                 resultado.getString("FormulaTex"),
-                 resultado.getString("HashCode"),
-                        
-                 //obtencion de los datos desde la bd.
               
-                 calculosData.add(calculo);*/
+                CalculoMuestra calculo = new CalculoMuestra();
+                    
+                    calculo.setFecha((Long.parseLong(resultado.getString("fecha_calculo"))));
+                    calculo.setIdCalculoMuestra(Integer.parseInt(resultado.getString("id_calculo")));
+                    calculo.setPaciente(resultado.getString("id_paciente"));
+                    
+                 
+                calculosData.add(calculo);
 
             }
             //Cierre de consulta

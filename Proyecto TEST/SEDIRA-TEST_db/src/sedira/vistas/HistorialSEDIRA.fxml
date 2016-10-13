@@ -15,13 +15,14 @@
          <content>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
-                  <TableView layoutX="14.0" layoutY="19.6" prefHeight="315.0" prefWidth="179.0" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <TableView fx:id="griListaCalculos" layoutX="14.0" layoutY="19.6" prefHeight="315.0" prefWidth="179.0" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <columnResizePolicy>
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                      </columnResizePolicy>
                      <columns>
-                        <TableColumn prefWidth="87.0" text="Fecha" />
-                        <TableColumn prefWidth="90.0" text="Persona" />
+                        <TableColumn fx:id="clIdCalculo" prefWidth="75.0" text="Id" />
+                        <TableColumn fx:id="clFechaCalculo" prefWidth="87.0" text="Fecha" />
+                        <TableColumn fx:id="clPaciente" prefWidth="90.0" text="Persona" />
                      </columns>
                   </TableView>
                   <TitledPane animated="false" collapsible="false" layoutX="211.0" layoutY="4.6" prefHeight="319.0" prefWidth="558.0" text="Información del cálculo seleccionado" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -43,7 +44,7 @@
                               <Label layoutX="84.0" layoutY="38.0" text="[phantom]" />
                               <Label layoutX="89.0" layoutY="62.0" text="[organo]" />
                               <Label layoutX="18.0" layoutY="13.0" text="Persona:" />
-                              <Label layoutX="84.0" layoutY="13.0" text="[persona]" />
+                              <Label fx:id="lblPaciente" layoutX="84.0" layoutY="13.0" text="[persona]" />
                               <Label layoutX="19.0" layoutY="89.0" text="Radionúclido" />
                               <Label layoutX="94.0" layoutY="89.0" text="[radionuclido]" />
                               <TextField layoutX="20.0" layoutY="173.0" prefHeight="25.0" prefWidth="301.0" />

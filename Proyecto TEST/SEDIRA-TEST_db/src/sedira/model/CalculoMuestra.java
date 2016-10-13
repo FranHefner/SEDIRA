@@ -8,165 +8,100 @@ package sedira.model;
 import java.sql.Blob;
 import java.text.Format;
 import java.text.SimpleDateFormat;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import sedira.Security;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.LongProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleLongProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 /**
  *
  * @author Hefner Francisco
  */
 public class CalculoMuestra {
-    private long Fecha;
-    private String Paciente;
-    private String Phantom;
-    private String Radionuclido;
-    private String Observaciones;
+    private IntegerProperty idCalculoMuestra;
+    private LongProperty Fecha;
+    private StringProperty Paciente;
+    private StringProperty Phantom;
+    private StringProperty Radionuclido;
+    private StringProperty Observaciones;
     private Blob Resultado;
-    private String HashValidado;
-    private String Formula;
-    private String FormulaTex;
+    private StringProperty HashValidado;
+    private StringProperty Formula;
+    private StringProperty FormulaTex;
 
     /**
-     * Constructor para la clase Calculo.
+     * Constructor para la clase CalculoMuestra.
      *
      * @param pfecha
-     * @param pidPaciente
-     * @param pidPhantom
-     * @param pidRadionuclido
+     * @param ppaciente
+     * @param pphantom
      * @param pobservaciones
+     * @param pradionuclido
      * @param presultado
+     * @param pformula
+     * @param pformulaTex
      */
-    public CalculoMuestra(long pfecha, String ppaciente,  String pphantom, String pradionuclido, String pobservaciones, Blob presultado, String pformula, String pformulaTex) {
-        Fecha = pfecha;
-        Paciente = ppaciente;
-        Phantom = pphantom;
-        Radionuclido = pradionuclido;
-        Observaciones = pobservaciones;
-        Resultado = presultado;
-        Formula = pformula;
-        FormulaTex = pformulaTex;
+    public CalculoMuestra(int idCalculoM, long pfecha, String ppaciente,  String pphantom, String pradionuclido, String pobservaciones, Blob presultado, String pformula, String pformulaTex) {
+        this.idCalculoMuestra = new SimpleIntegerProperty(idCalculoM);
+        this.Fecha = new SimpleLongProperty (pfecha);
+        this.Paciente = new SimpleStringProperty (ppaciente);
+        this.Phantom = new SimpleStringProperty (pphantom);
+        this.Radionuclido = new SimpleStringProperty (pradionuclido);
+        this.Observaciones = new SimpleStringProperty (pobservaciones);
+        this.Resultado = presultado;
+        this.Formula = new SimpleStringProperty (pformula);
+        this.FormulaTex = new SimpleStringProperty (pformulaTex);
         
     }
 
-   
-
-
-    /* Valida que el hash del parametro sea igual al actual*/
-    /**
-     * Compara el hash del cálculo guardado con el cálculo leido.
-     *
-     * @param hash
-     * @return
-     */
-    public boolean ValidacionHash(String hash) {
-        return HashValidado.equals(hash);
+    public CalculoMuestra() {
+        this.idCalculoMuestra = new SimpleIntegerProperty(0);
+        this.Fecha = new SimpleLongProperty (0);
+        this.Paciente = new SimpleStringProperty ("");
+        this.Phantom = new SimpleStringProperty ("");
+        this.Radionuclido = new SimpleStringProperty ("");
+        this.Observaciones = new SimpleStringProperty ("");
+        this.Resultado = Resultado;
+        this.Formula = new SimpleStringProperty ("");
+        this.FormulaTex = new SimpleStringProperty ("");
     }
 
-    /**
-     * Método para obtener el HashCode
-     *
-     * @return
-     */
-    public String getHashCode() {
-        return HashValidado;
+    public IntegerProperty getIdCalculoMuestraProperty() {
+        return idCalculoMuestra;
     }
-
-    /**
-     * Método GetTer para el atributo fecha.
-     *
-     * @return
-     */
-    public long getFecha() {
-        return Fecha;
-
+    public int getIdCalculoMuestra(){
+        return idCalculoMuestra.get();
     }
-
-    /**
-     * Método SetTer para el atributo fecha.
-     *
-     * @param Fecha
-     */
-    public void setFecha(long Fecha) {
-        this.Fecha = Fecha;
-    }
-
-    public String getFechaDB() {
-
-        Format formatter;
-
-        if (Fecha != 0) {
-            return null;
-        } else {
-            formatter = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss");
-            return formatter.format(Fecha);
-
-        }
-
-    }
-
-    /**
-     * Método GetTer para el atributo formula.
-     *
-     * @return
-     */
-    public String getFormula() {
-        return Formula;
-    }
-     /**
-     * Método GetTer para el atributo formula.
-     *
-     * @return
-     */
-    public String getFormulaTex() {
-        return FormulaTex;
+    public void setIdCalculoMuestra(int idCalculoMuestra) {
+        this.idCalculoMuestra.set(idCalculoMuestra);
     }
     
-    
-    /**
-     * Método GetTer para el atributo formulaTex.
-     *
-     * @return
-     */
-    public String getPaciente() {
+     public StringProperty getPacienteProperty() {
         return Paciente;
     }
-
-    /**
-     * Método GetTer para el atributo idPhantom.
-     *
-     * @return
-     */
-    public String getPhantom() {
-        return Phantom;
+    public String getPaciente(){
+        return Paciente.get();
     }
-
-    /**
-     * Método GetTer para el atributo idRadionuclido.
-     *
-     * @return
-     */
-    public String getRadionuclido() {
-        return Radionuclido;
+    public void setPaciente(String Paciente) {
+        this.Paciente.set(Paciente);
     }
-
-    /**
-     * Método GetTer para el atributo resultado.
-     *
-     * @return el resultado en tipo BLOB
-     */
-    public Blob getResultado() {
-        return Resultado;
+    
+       
+    public LongProperty getFechaProperty() {
+        return Fecha;
     }
-
-    /**
-     * Método GetTer para el atributo observaciones.
-     *
-     * @return
-     */
-    public String getObservaciones() {
-        return Observaciones;
+    public Long getFecha(){
+        return Fecha.get();
     }
+    public void setFecha(Long Fecha) {
+        this.Fecha.set(Fecha);
+    }
+    
+    
+    
 
+   
   
 }
