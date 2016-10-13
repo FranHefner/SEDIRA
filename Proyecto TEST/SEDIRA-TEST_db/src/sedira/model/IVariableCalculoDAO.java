@@ -8,18 +8,11 @@ package sedira.model;
 import javafx.collections.ObservableList;
 
 /**
- * Interface para CalculoDAO
+ * Interface para VariableCalculoDAOsql
  *
  * @author Quelin Pablo, Hefner Francisco
  */
-public interface ICalculoDAO {
-
-    public ObservableList<CalculoMuestra> getCalculoPaciente(int idPaciente);   
-    
-    ObservableList<CalculoMuestra>  getCalculos();
-
-    void setCalculo(Calculo calculo);
-
-    void setCalculoBasico(Calculo calculo);
-
+public interface IVariableCalculoDAO {
+       
+    public ObservableList <VariableCalculo> obtenerVariables (int IdCalculo);
 }

@@ -20,6 +20,7 @@ import javafx.beans.property.StringProperty;
  * @author Hefner Francisco
  */
 public class CalculoMuestra {
+
     private IntegerProperty idCalculoMuestra;
     private LongProperty Fecha;
     private StringProperty Paciente;
@@ -43,65 +44,80 @@ public class CalculoMuestra {
      * @param pformula
      * @param pformulaTex
      */
-    public CalculoMuestra(int idCalculoM, long pfecha, String ppaciente,  String pphantom, String pradionuclido, String pobservaciones, Blob presultado, String pformula, String pformulaTex) {
+    public CalculoMuestra(int idCalculoM, long pfecha, String ppaciente, String pphantom, String pradionuclido, String pobservaciones, Blob presultado, String pformula, String pformulaTex) {
         this.idCalculoMuestra = new SimpleIntegerProperty(idCalculoM);
-        this.Fecha = new SimpleLongProperty (pfecha);
-        this.Paciente = new SimpleStringProperty (ppaciente);
-        this.Phantom = new SimpleStringProperty (pphantom);
-        this.Radionuclido = new SimpleStringProperty (pradionuclido);
-        this.Observaciones = new SimpleStringProperty (pobservaciones);
+        this.Fecha = new SimpleLongProperty(pfecha);
+        this.Paciente = new SimpleStringProperty(ppaciente);
+        this.Phantom = new SimpleStringProperty(pphantom);
+        this.Radionuclido = new SimpleStringProperty(pradionuclido);
+        this.Observaciones = new SimpleStringProperty(pobservaciones);
         this.Resultado = presultado;
-        this.Formula = new SimpleStringProperty (pformula);
-        this.FormulaTex = new SimpleStringProperty (pformulaTex);
-        
+        this.Formula = new SimpleStringProperty(pformula);
+        this.FormulaTex = new SimpleStringProperty(pformulaTex);
+
     }
 
     public CalculoMuestra() {
         this.idCalculoMuestra = new SimpleIntegerProperty(0);
-        this.Fecha = new SimpleLongProperty (0);
-        this.Paciente = new SimpleStringProperty ("");
-        this.Phantom = new SimpleStringProperty ("");
-        this.Radionuclido = new SimpleStringProperty ("");
-        this.Observaciones = new SimpleStringProperty ("");
+        this.Fecha = new SimpleLongProperty(0);
+        this.Paciente = new SimpleStringProperty("");
+        this.Phantom = new SimpleStringProperty("");
+        this.Radionuclido = new SimpleStringProperty("");
+        this.Observaciones = new SimpleStringProperty("");
         this.Resultado = Resultado;
-        this.Formula = new SimpleStringProperty ("");
-        this.FormulaTex = new SimpleStringProperty ("");
+        this.Formula = new SimpleStringProperty("");
+        this.FormulaTex = new SimpleStringProperty("");
     }
 
     public IntegerProperty getIdCalculoMuestraProperty() {
         return idCalculoMuestra;
     }
-    public int getIdCalculoMuestra(){
+
+    public int getIdCalculoMuestra() {
         return idCalculoMuestra.get();
     }
+
     public void setIdCalculoMuestra(int idCalculoMuestra) {
         this.idCalculoMuestra.set(idCalculoMuestra);
     }
-    
-     public StringProperty getPacienteProperty() {
+
+    public StringProperty getPacienteProperty() {
         return Paciente;
     }
-    public String getPaciente(){
+
+    public String getPaciente() {
         return Paciente.get();
     }
+
     public void setPaciente(String Paciente) {
         this.Paciente.set(Paciente);
     }
-    
-       
+
     public LongProperty getFechaProperty() {
         return Fecha;
     }
-    public Long getFecha(){
+
+    public Long getFecha() {
         return Fecha.get();
     }
+
     public void setFecha(Long Fecha) {
         this.Fecha.set(Fecha);
     }
-    
-    
-    
 
-   
-  
+    /*public StringProperty getFechaDB() {
+        
+        Format formatter;
+
+        if ((Fecha == 0)) {
+            return null;
+        } else {
+            formatter = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss");
+            a=formatter.format(Fecha);
+            return a;
+
+        }
+
+    }*/
+
 }

@@ -307,7 +307,7 @@ public class PestañaCalculoController implements Initializable {
 
                 for (VariableCalculo Variable : listaVariables) {
 
-                    formulaCalculo = formulaCalculo.replace(Variable.getvariable(), Variable.getValor().toString());
+                    formulaCalculo = formulaCalculo.replace(Variable.getVariable(), Variable.getValor().toString());
 
                 }
 

@@ -27,9 +27,63 @@ public class CalculoDAOsql implements ICalculoDAO {
      * Método que obtiene los calculos realizados a un paciente determinado.
      *
      * @param idPaciente Identificador de paciente
+     * @return 
      */
     @Override
-    public void getCalculoPaciente(int idPaciente) {
+    public ObservableList<CalculoMuestra> getCalculoPaciente(int idPaciente) {
+         
+        ConexionDB conexion = new ConexionDB();
+        //Creo una lista auxiliar
+        ObservableList<CalculoMuestra> calculosData = FXCollections.observableArrayList();
+        
+        try {
+            PreparedStatement consulta = conexion.getConnection().prepareStatement(
+                    "SELECT * FROM calculos "
+                            + "WHERE id_paciente = ?");
+            consulta.setInt(1, idPaciente);
+            //Ejecucion de la consulta. 
+           
+            /*SELECT  CONCAT(P.apellido,", ", P.nombre) AS Paciente,
+            R.nombre_radionuclido AS Radionuclido,
+             PH.nombre_phantom AS Phantom,
+             C.fecha_calculo AS Fecha,
+             C.resultado_calculo AS Resultado,        
+             C.observaciones AS Observaciones,
+             C.hash_code AS Hash,
+             C.formula_mat AS Formula_Mat,
+             C.formula_tex AS Formula_Tex       
+             FROM calculos C
+             JOIN radionuclidos R ON C.id_radionuclido = R.id_radionuclido
+             JOIN phantoms PH ON C.id_phantom = PH.id_phantom
+             JOIN pacientes P ON C.id_paciente = P.id_paciente*/
+            
+            ResultSet resultado = consulta.executeQuery();
+           
+            while (resultado.next()) {
+              
+                CalculoMuestra calculo = new CalculoMuestra();
+                    
+                    calculo.setFecha((Long.parseLong(resultado.getString("fecha_calculo"))));
+                    calculo.setIdCalculoMuestra(Integer.parseInt(resultado.getString("id_calculo")));
+                    calculo.setPaciente(resultado.getString("id_paciente"));
+                    
+                 
+                calculosData.add(calculo);
+
+            }
+            //Cierre de consulta
+            resultado.close();
+            consulta.close();
+            //Cierre de conexion. 
+            conexion.desconectar();
+
+        } catch (SQLException e) {
+            CodigosErrorSQL.analizarExepcion(e);
+            System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(null, "Ocurrio un error! " + e);
+
+        }
+        return calculosData;
 
     }
 
@@ -142,7 +196,7 @@ public class CalculoDAOsql implements ICalculoDAO {
                 
                queryVariables = queryVariables+ (",('" + variables.get(i).getDescripcion()+
                                                  "','" + variables.get(i).getValor()    +
-                                                 "','" + variables.get(i).getvariable() +
+                                                 "','" + variables.get(i).getVariable() +
                                                  "','" + Id_calculo+"')");
             }
             
@@ -214,4 +268,5 @@ public class CalculoDAOsql implements ICalculoDAO {
             //JOptionPane.showMessageDialog(null, "Ocurrió un error al guardar el cálculo " + e.getMessage(), "Información", JOptionPane.INFORMATION_MESSAGE);
         }
     }
+    
 }

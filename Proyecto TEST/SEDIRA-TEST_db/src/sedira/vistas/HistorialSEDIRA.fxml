@@ -22,18 +22,18 @@
                      <columns>
                         <TableColumn fx:id="clIdCalculo" prefWidth="75.0" text="Id" />
                         <TableColumn fx:id="clFechaCalculo" prefWidth="87.0" text="Fecha" />
-                        <TableColumn fx:id="clPaciente" prefWidth="90.0" text="Persona" />
+                        <TableColumn fx:id="clPaciente" prefWidth="90.0" text="Paciente" />
                      </columns>
                   </TableView>
                   <TitledPane animated="false" collapsible="false" layoutX="211.0" layoutY="4.6" prefHeight="319.0" prefWidth="558.0" text="Información del cálculo seleccionado" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <TableView layoutX="278.0" layoutY="19.6" prefHeight="133.0" prefWidth="241.0" AnchorPane.topAnchor="0.0">
+                              <TableView fx:id="griVariableCalculo" layoutX="278.0" layoutY="19.6" prefHeight="133.0" prefWidth="241.0" AnchorPane.topAnchor="0.0">
                                  <columns>
-                                    <TableColumn prefWidth="75.0" text="Propiedad" />
-                                    <TableColumn prefWidth="85.0" text="Valor" />
-                                    <TableColumn prefWidth="85.0" text="Variable" />
+                                    <TableColumn fx:id="clPropiedad" prefWidth="75.0" text="Propiedad" />
+                                    <TableColumn fx:id="clValor" prefWidth="85.0" text="Valor" />
+                                    <TableColumn fx:id="clVariable" prefWidth="85.0" text="Variable" />
                                  </columns>
                               </TableView>
                               <Pane layoutX="19.0" layoutY="231.0" prefHeight="64.0" prefWidth="497.0" style="-fx-background-color: black;" />
@@ -43,7 +43,7 @@
                               <Label layoutX="19.0" layoutY="62.0" text="Órgano:" />
                               <Label layoutX="84.0" layoutY="38.0" text="[phantom]" />
                               <Label layoutX="89.0" layoutY="62.0" text="[organo]" />
-                              <Label layoutX="18.0" layoutY="13.0" text="Persona:" />
+                              <Label layoutX="18.0" layoutY="13.0" text="Paciente:" />
                               <Label fx:id="lblPaciente" layoutX="84.0" layoutY="13.0" text="[persona]" />
                               <Label layoutX="19.0" layoutY="89.0" text="Radionúclido" />
                               <Label layoutX="94.0" layoutY="89.0" text="[radionuclido]" />

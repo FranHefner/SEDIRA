@@ -13,19 +13,15 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 /**
- *
+ * 
  * @author Pablo Quelin, Hefner Francisco
  */
 public class VariableCalculo {
     
       IntegerProperty vdId; 
-       StringProperty descripcion;
-       DoubleProperty valor;
-       StringProperty variable;
-       
-       
-     
-     
+      StringProperty descripcion;
+      DoubleProperty valor;
+      StringProperty variable;
        
     /**
      * 
@@ -42,7 +38,10 @@ public class VariableCalculo {
         this.variable = new SimpleStringProperty (variable);
     }
     public VariableCalculo(){
-        
+        this.vdId = new SimpleIntegerProperty (-1);
+        this.descripcion = new SimpleStringProperty ("");
+        this.valor = new SimpleDoubleProperty(0.0);
+        this.variable = new SimpleStringProperty ("");
     }
     
     public int getId (){
@@ -75,11 +74,11 @@ public class VariableCalculo {
         return valor;
     }
 
-    public String getvariable() {
+    public String getVariable() {
         return variable.get();
     }
 
-    public void setvariable(String variable) {
+    public void setVariable(String variable) {
         this.variable.set(variable);
     }
     public StringProperty variableProperty(){
