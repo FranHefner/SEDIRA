@@ -153,7 +153,7 @@ public class CalculoDAOsql implements ICalculoDAO {
             
           
                 PreparedStatement consultaObtenerID= conexion.getConnection().prepareStatement(
-                     "SELECT MAX(id_calculo) + 1 AS SIGUIENTE FROM calculos");
+                     "SELECT IFNULL(MAX(id_calculo) + 1,1) AS SIGUIENTE FROM calculos");
              
             
                      
