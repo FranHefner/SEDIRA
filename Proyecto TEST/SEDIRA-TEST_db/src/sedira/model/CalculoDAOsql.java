@@ -206,7 +206,7 @@ public class CalculoDAOsql implements ICalculoDAO {
                {
                      queryVariables = queryVariables+ (",('" + variables.get(i).getDescripcion()+
                                                  "','" + variables.get(i).getValor()    +
-                                                 "','" + variables.get(i).getvariable() +
+                                                 "','" + variables.get(i).getVariable() +
                                                  "','" + Id_calculo+"')");
                }
              
