@@ -136,7 +136,7 @@ public class DatosValidacionesCalculo implements IDatosValidaciones {
         Date Ahora = new Date();
 
         if (Resultado != null) {
-            Calculo nuevoCalculo = new Calculo(Ahora.getTime(), PacienteActual.getIdPaciente(), PhantomActual.getIdPhantom(), RadionuclidoActual.getIdRadNuclido(), Observaciones, Resultado, Formula, FormulaTex,VariablesCalculo);
+            Calculo nuevoCalculo = new Calculo(Ahora.getTime(), PacienteActual.getIdPaciente(), PhantomActual.getIdPhantom(), RadionuclidoActual.getIdRadNuclido(),OrganoActual.getIdOrgano() , Observaciones, Resultado, Formula, FormulaTex,VariablesCalculo);
 
             /*  Se valida el hash antes de guardar, para luego tomarlo nuevamente de la base de datos y comparalo para ver si son iguales
              la idea es poner un byte array, por otro lado hay que ver si conviene implementar el hash que viene por defecto en netbeans

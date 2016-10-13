@@ -152,65 +152,79 @@ public class CalculoDAOsql implements ICalculoDAO {
                conexion.getConnection().setAutoCommit(false);
             
           
-                     
-               
-            // Guardado del cálculo
-             PreparedStatement consultaCalculo = conexion.getConnection().prepareStatement(
-                    "INSERT INTO calculos (id_paciente, id_radionuclido, id_phantom, fecha_calculo, "
-                    + "resultado_calculo, observaciones, hash_code, formula_mat, formula_tex) "
-                    + "VALUES(?,?,?,?,?,?,?,?,?)");
-            consultaCalculo.setInt(1, calculo.getIdPaciente());
-            consultaCalculo.setInt(2, calculo.getIdRadionuclido());
-            consultaCalculo.setInt(3, calculo.getIdPhantom());
-
-            consultaCalculo.setLong(4, calculo.getFecha());
-            consultaCalculo.setBlob(5, calculo.getResultado());
-            consultaCalculo.setString(6, calculo.getObservaciones());
-            consultaCalculo.setString(7, calculo.getHashCode());
-            consultaCalculo.setString(8, calculo.getFormula());
-            consultaCalculo.setString(9, calculo.getFormulaTex());
-
-            consultaCalculo.executeUpdate(); //Ejecucion de la consulta
-            
-            //Obtengo el id del calculo
-            PreparedStatement consultaObtenerID= conexion.getConnection().prepareStatement(
-                     "SELECT MAX(id_calculo) +1 AS id FROM calculos");
+                PreparedStatement consultaObtenerID= conexion.getConnection().prepareStatement(
+                     "SELECT MAX(id_calculo) + 1 AS SIGUIENTE FROM calculos");
              
             
                      
             ResultSet resultado = consultaObtenerID.executeQuery();
+           
             while (resultado.next()) {
-                      Id_calculo =  resultado.getInt("id");
-
+             Id_calculo =  resultado.getInt("SIGUIENTE");
+           
             }
             
-            if(Id_calculo == -1)
-            {
-                //ABORTAR
-            }
-         
-               String queryVariables = "INSERT INTO historialcalculo (propiedad, valor, variable, id_calculo) VALUES (0,'','','',0)";
+                     
+               
+            // Guardado del cálculo
+             PreparedStatement consultaCalculo = conexion.getConnection().prepareStatement(
+                    "INSERT INTO calculos (id_calculo, id_paciente, id_radionuclido, id_phantom, fecha_calculo, "
+                    + "resultado_calculo, observaciones, hash_code, formula_mat, formula_tex, id_organo) "
+                    + "VALUES(?,?,?,?,?,?,?,?,?,?,?)");
+            
+            consultaCalculo.setInt(1, Id_calculo);
+            consultaCalculo.setInt(2, calculo.getIdPaciente());
+            consultaCalculo.setInt(3, calculo.getIdRadionuclido());
+            consultaCalculo.setInt(4, calculo.getIdPhantom());
+
+            consultaCalculo.setLong(5, calculo.getFecha());
+            consultaCalculo.setBlob(6, calculo.getResultado());
+            consultaCalculo.setString(7, calculo.getObservaciones());
+            consultaCalculo.setString(8, calculo.getHashCode());
+            consultaCalculo.setString(9, calculo.getFormula());
+            consultaCalculo.setString(10, calculo.getFormulaTex());
+            consultaCalculo.setInt(11, calculo.getIdOrgano());
+
+            consultaCalculo.executeUpdate(); //Ejecucion de la consulta
+            
+            //Obtengo el id del calculo
+           
+           
+           
+               String queryVariables = "INSERT INTO historialcalculo (propiedad, valor, variable, id_calculo) VALUES";
                
             List<VariableCalculo> variables  = calculo.getVariables();
             for (int i=0;i<variables.size();i++) {
                 
-               queryVariables = queryVariables+ (",('" + variables.get(i).getDescripcion()+
+               if (i==0)
+               {
+                         queryVariables = queryVariables+ ("('" + variables.get(i).getDescripcion()+
                                                  "','" + variables.get(i).getValor()    +
                                                  "','" + variables.get(i).getVariable() +
                                                  "','" + Id_calculo+"')");
+               }else
+               {
+                     queryVariables = queryVariables+ (",('" + variables.get(i).getDescripcion()+
+                                                 "','" + variables.get(i).getValor()    +
+                                                 "','" + variables.get(i).getvariable() +
+                                                 "','" + Id_calculo+"')");
+               }
+             
             }
             
             
             PreparedStatement consultaVariables = conexion.getConnection().prepareStatement(queryVariables);
                   
-            consultaVariables.executeQuery();
+            consultaVariables.executeUpdate();
                      
+             conexion.getConnection().commit();
+            conexion.getConnection().setAutoCommit(true);
+            
              consultaCalculo.close();
             // JOptionPane.showMessageDialog(null, "La propiedad "+vd.getDescripcion()+ " fué agregada con éxito!","Información",JOptionPane.INFORMATION_MESSAGE);
             conexion.desconectar();
             
-            conexion.getConnection().commit();
-            conexion.getConnection().setAutoCommit(true);
+  
 
             // Mensaje de confirmacion
             Alert alerta = new Alert(Alert.AlertType.INFORMATION);
@@ -221,6 +235,18 @@ public class CalculoDAOsql implements ICalculoDAO {
 
         } catch (SQLException e) {
             CodigosErrorSQL.analizarExepcion(e);
+       
+             
+         if (conexion != null) {
+            try {
+                System.err.print("Transaction is being rolled back");
+                conexion.getConnection().rollback();
+            } catch(SQLException excep) {
+               
+               
+            }
+        }
+        
             //System.out.println("Ocurrió un error al guardar el cálculo " + e.getMessage());
             //JOptionPane.showMessageDialog(null, "Ocurrió un error al guardar el cálculo " + e.getMessage(), "Información", JOptionPane.INFORMATION_MESSAGE);
         }
