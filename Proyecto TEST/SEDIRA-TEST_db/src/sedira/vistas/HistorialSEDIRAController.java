@@ -6,22 +6,15 @@
 package sedira.vistas;
 
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.chart.CategoryAxis;
-import javafx.scene.chart.ScatterChart;
-import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import sedira.FuncionesGenerales;
 import sedira.model.CalculoDAOsql;
 import sedira.model.CalculoMuestra;
@@ -40,6 +33,10 @@ public class HistorialSEDIRAController implements Initializable {
 
     @FXML
     private Label lblPaciente;
+    @FXML
+    private TextField txtFormula;
+    @FXML
+    private TextField txtResultado;
     @FXML
     private Label lblPhantom;
     @FXML
@@ -66,11 +63,15 @@ public class HistorialSEDIRAController implements Initializable {
     private TableColumn<VariableCalculo, String> clVariable;
 
     private Paciente pacienteActual = new Paciente();
-    //private int IdPacienteActual = pacienteActual.getIdPaciente();
+   
     //Instancia de objeto tipo ICalculoDAO. Se inicializa como CalculoDAOsql.  
     private ICalculoDAO cal = new CalculoDAOsql();
+     //Instancia de objeto tipo IVariableCalculoDAO. Se inicializa como VariableCalculoDAOsql.  
     private IVariableCalculoDAO var = new VariableCalculoDAOsql();
+    
+    //Arreglos de calculos realizados a una persona. 
     private ObservableList<CalculoMuestra> calculoData = FXCollections.observableArrayList();
+    //Arreglo de variables que contiene un calculo. 
     private ObservableList<VariableCalculo> varCalculoData = FXCollections.observableArrayList();
 
     /**
@@ -80,7 +81,8 @@ public class HistorialSEDIRAController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         pacienteActual = FuncionesGenerales.getPacienteActual();
         int idPaciente = pacienteActual.getIdPaciente();
-
+        
+        //Obtengo los calculos realizados a un paciente determinado 
         calculoData = cal.getCalculoPaciente(idPaciente);
 
         //actualizo el grid
@@ -98,19 +100,30 @@ public class HistorialSEDIRAController implements Initializable {
         clVariable.setCellValueFactory(cellData -> cellData.getValue().variableProperty());
 
     }
-
+    /**
+     * Método que se activa al seleccionar un cálculo de la lista de cálculos
+     * @param calculoSeleccionado 
+     */
     private void SeleccionCalculo(CalculoMuestra calculoSeleccionado) {
-     
-       
+        //Objeto aux de tipo calculo. 
+        CalculoMuestra detalleItem = new CalculoMuestra();
+        
+        //Obtengo los detalles de un calculo en particular. 
+        detalleItem = cal.getCalculoSeleccionado(calculoSeleccionado.getIdCalculoMuestra());
+
         if (calculoSeleccionado != null) {
             //Completo la grilla de variables del calculo. 
             varCalculoData = var.obtenerVariables(calculoSeleccionado.getIdCalculoMuestra());
-            griVariableCalculo.setItems(varCalculoData)
-            ;//Info RadNuclido
-            //Info Phantom
+            griVariableCalculo.setItems(varCalculoData);
 
+            
             //Completo la informacion de los labels. 
             lblPaciente.setText(pacienteActual.getApellido() + " " + pacienteActual.getNombre());
+            lblOrgano.setText(detalleItem.getOrgano());
+            lblPhantom.setText(detalleItem.getPhantom());
+            lblRadionuclido.setText(detalleItem.getRadionuclido());
+            txtFormula.setText(detalleItem.getFormula());
+            txtResultado.setText(String.valueOf(detalleItem.getResultado()));
 
         } else {
 

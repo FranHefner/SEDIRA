@@ -6,8 +6,6 @@
 package sedira.model;
 
 import java.sql.Blob;
-import java.text.Format;
-import java.text.SimpleDateFormat;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.LongProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -24,6 +22,7 @@ public class CalculoMuestra {
     private IntegerProperty idCalculoMuestra;
     private LongProperty Fecha;
     private StringProperty Paciente;
+    private StringProperty Organo;
     private StringProperty Phantom;
     private StringProperty Radionuclido;
     private StringProperty Observaciones;
@@ -44,11 +43,12 @@ public class CalculoMuestra {
      * @param pformula
      * @param pformulaTex
      */
-    public CalculoMuestra(int idCalculoM, long pfecha, String ppaciente, String pphantom, String pradionuclido, String pobservaciones, Blob presultado, String pformula, String pformulaTex) {
+    public CalculoMuestra(int idCalculoM, long pfecha, String ppaciente, String pphantom, String porgano, String pradionuclido, String pobservaciones, Blob presultado, String pformula, String pformulaTex) {
         this.idCalculoMuestra = new SimpleIntegerProperty(idCalculoM);
         this.Fecha = new SimpleLongProperty(pfecha);
         this.Paciente = new SimpleStringProperty(ppaciente);
         this.Phantom = new SimpleStringProperty(pphantom);
+        this.Organo = new SimpleStringProperty(porgano);
         this.Radionuclido = new SimpleStringProperty(pradionuclido);
         this.Observaciones = new SimpleStringProperty(pobservaciones);
         this.Resultado = presultado;
@@ -62,6 +62,7 @@ public class CalculoMuestra {
         this.Fecha = new SimpleLongProperty(0);
         this.Paciente = new SimpleStringProperty("");
         this.Phantom = new SimpleStringProperty("");
+        this.Organo = new SimpleStringProperty("");
         this.Radionuclido = new SimpleStringProperty("");
         this.Observaciones = new SimpleStringProperty("");
         this.Resultado = Resultado;
@@ -107,17 +108,108 @@ public class CalculoMuestra {
 
     /*public StringProperty getFechaDB() {
         
-        Format formatter;
+     Format formatter;
 
-        if ((Fecha == 0)) {
-            return null;
-        } else {
-            formatter = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss");
-            a=formatter.format(Fecha);
-            return a;
+     if ((Fecha == 0)) {
+     return null;
+     } else {
+     formatter = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss");
+     a=formatter.format(Fecha);
+     return a;
 
-        }
+     }
 
-    }*/
+     }*/
+    public StringProperty getPhantomProperty() {
+        return Phantom;
+    }
+
+    public String getPhantom() {
+        return Phantom.get();
+    }
+
+    public void setPhantom(String Phantom) {
+        this.Phantom.set(Phantom);
+    }
+
+    public StringProperty getOrganoProperty() {
+        return Organo;
+    }
+
+    public String getOrgano() {
+        return Organo.get();
+    }
+
+    public void setOrgano(String Organo) {
+        this.Organo.set(Organo);
+    }
+
+    public StringProperty getRadionuclidoProperty() {
+        return Radionuclido;
+    }
+
+    public String getRadionuclido() {
+        return Radionuclido.get();
+    }
+
+    public void setRadionuclido(String Radionuclido) {
+        this.Radionuclido.set(Radionuclido);
+    }
+
+    public StringProperty getObservacionesProperty() {
+        return Observaciones;
+    }
+
+    public String getObservaciones() {
+        return Observaciones.get();
+    }
+
+    public void setObservaciones(String Observaciones) {
+        this.Observaciones.set(Observaciones);
+    }
+
+    public Blob getResultado() {
+        return Resultado;
+    }
+
+    public void setResultado(Blob Resultado) {
+        this.Resultado = Resultado;
+    }
+
+    public StringProperty getHashValidadoProperty() {
+        return HashValidado;
+    }
+
+    public String getHashValidado() {
+        return HashValidado.get();
+    }
+
+    public void setHashValidado(String HashValidado) {
+        this.HashValidado.set(HashValidado);
+    }
+
+    public StringProperty getFormulaProperty() {
+        return Formula;
+    }
+
+    public String getFormula() {
+        return Formula.get();
+    }
+
+    public void setFormula(String Formula) {
+        this.Formula.set(Formula);
+    }
+
+    public StringProperty getFormulaTexProperty() {
+        return FormulaTex;
+    }
+
+    public String getFormulaTex() {
+        return FormulaTex.get();
+    }
+
+    public void setFormulaTex(String FormulaTex) {
+        this.FormulaTex.set(FormulaTex);
+    }
 
 }
