@@ -218,6 +218,11 @@ public class Calculo {
     public String getObservaciones() {
         return observaciones;
     }
+    
+    public  List<VariableCalculo> getVariables()
+    {
+        return  VariablesCalculo;
+    }
 
     /* Por ahora no se necesitan */
     /*
