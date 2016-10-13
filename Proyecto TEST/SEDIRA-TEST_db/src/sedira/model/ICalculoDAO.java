@@ -21,5 +21,5 @@ public interface ICalculoDAO {
     void setCalculo(Calculo calculo);
 
     void setCalculoBasico(Calculo calculo);
-
+    public CalculoMuestra getCalculoSeleccionado(int idCalculo);
 }
