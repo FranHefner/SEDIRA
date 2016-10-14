@@ -52,7 +52,7 @@ public class CalculoRapidoController implements Initializable {
     @FXML
     private Button btnCerrar;
     @FXML
-    private TableColumn<ValorDescripcion, Double> clVdValor;
+    private TableColumn<ValorDescripcion, String> clVdValor;
     @FXML
     private TableColumn<ValorDescripcion, String> clVdDescripcion;
     @FXML
@@ -85,7 +85,7 @@ public class CalculoRapidoController implements Initializable {
         //Inicializo la tabla de Propiedad Valor, correspondiente a la informacion de los radioNuclidos .
 
         clVdValor.setCellValueFactory(
-                cellData -> cellData.getValue().valorProperty().asObject());
+                cellData -> cellData.getValue().valorProperty());
         clVdDescripcion.setCellValueFactory(
                 cellData -> cellData.getValue().descripcionProperty());
         clVdUnidad.setCellValueFactory(

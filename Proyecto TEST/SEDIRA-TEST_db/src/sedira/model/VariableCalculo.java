@@ -20,7 +20,7 @@ public class VariableCalculo {
     
       IntegerProperty vdId; 
       StringProperty descripcion;
-      DoubleProperty valor;
+      StringProperty valor;
       StringProperty variable;
        
     /**
@@ -31,16 +31,16 @@ public class VariableCalculo {
      * @param variable se especifica la variable. Debido a la pluralidad de elementos que existen.
      */
       
-    public VariableCalculo(int id, String descripcion, double valor, String variable) {
+    public VariableCalculo(int id, String descripcion, String valor, String variable) {
         this.vdId = new SimpleIntegerProperty (id);
         this.descripcion = new SimpleStringProperty (descripcion);
-        this.valor = new SimpleDoubleProperty(valor);
+        this.valor = new SimpleStringProperty(valor);
         this.variable = new SimpleStringProperty (variable);
     }
     public VariableCalculo(){
         this.vdId = new SimpleIntegerProperty (-1);
         this.descripcion = new SimpleStringProperty ("");
-        this.valor = new SimpleDoubleProperty(0.0);
+        this.valor = new SimpleStringProperty("");
         this.variable = new SimpleStringProperty ("");
     }
     
@@ -63,14 +63,14 @@ public class VariableCalculo {
     public StringProperty  descripcionProperty (){
         return descripcion;
     }
-    public Double getValor() {
+    public String getValor() {
         return valor.get();
     }
 
-    public void setValor(Double valor) {
+    public void setValor(String valor) {
         this.valor.set(valor);
     }
-    public DoubleProperty valorProperty (){
+    public StringProperty valorProperty (){
         return valor;
     }
 

@@ -41,7 +41,7 @@ public class ValorDescripcionDAOsql implements IValorDescripcionDAO {
                     "INSERT INTO valordescripcion (descripcion, valor, unidad, id_radionuclido,id_phantom) "
                     + "VALUES(?,?,?,?,?)");
             consulta.setString(1, vd.getDescripcion());
-            consulta.setDouble(2, vd.getValor());
+            consulta.setString(2, vd.getValor());
             consulta.setString(3, vd.getUnidad());
 
             if (phantom) { //Agrega item a un phantom
@@ -98,7 +98,7 @@ public class ValorDescripcionDAOsql implements IValorDescripcionDAO {
                         + ",id_phantom = ? "
                         + "WHERE id_valordescripcion = ?");
                 consulta.setString(1, vd.getDescripcion());
-                consulta.setDouble(2, vd.getValor());
+                consulta.setString(2, vd.getValor());
                 consulta.setString(3, vd.getUnidad());
 
                 if (phantom) { //Modifica item a un phantom

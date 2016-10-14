@@ -52,9 +52,9 @@
       <Button layoutX="323.0" layoutY="135.0" mnemonicParsing="false" onMouseClicked="#eliminarVariable" prefHeight="35.0" prefWidth="50.0" text="X" />
       <Label fx:id="lblOrgano" layoutX="32.0" layoutY="276.0" text="Sin datos" />
       <Label layoutX="404.0" layoutY="41.0" text="Variables requeridas:" />
-      <ComboBox disable="true" layoutX="461.0" layoutY="4.0" prefHeight="25.0" prefWidth="181.0" />
+      <ComboBox fx:id="cbFormulas" layoutX="461.0" layoutY="4.0" onAction="#seleccionFormula" prefHeight="25.0" prefWidth="181.0" promptText="Seleccionar Fórmula.." />
       <Label layoutX="404.0" layoutY="10.0" text="Formula" />
       <Button id="btnCalcular" fx:id="btnGuardarFormula" disable="true" layoutX="536.0" layoutY="321.0" mnemonicParsing="false" onMouseClicked="#GuardarFormula" prefHeight="35.0" prefWidth="114.0" text="Guardar Formula" />
-      <Button disable="true" layoutX="650.0" layoutY="4.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="37.0" text="X" />
+      <Button fx:id="btnEliminarFormula" disable="true" layoutX="650.0" layoutY="4.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="37.0" text="X" />
    </children>
 </AnchorPane>

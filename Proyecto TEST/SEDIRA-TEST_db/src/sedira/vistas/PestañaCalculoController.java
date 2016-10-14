@@ -29,11 +29,13 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -50,6 +52,7 @@ import org.scilab.forge.jlatexmath.TeXFormula;
 import org.scilab.forge.jlatexmath.TeXIcon;
 import sedira.FuncionesGenerales;
 import sedira.MathJS;
+import sedira.model.Formula;
 import sedira.model.FormulaDAOsql;
 import sedira.model.IFormulaDAO;
 import sedira.model.ValorDescripcion;
@@ -77,8 +80,6 @@ public class PestañaCalculoController implements Initializable {
     private Label lblOrgano;
     @FXML
     private TextField txtOrganoMasa;
-
-    private IDatosValidaciones dValidaciones;
     @FXML
     private TableView<ValorDescripcion> griValorDescripcionPhantom;
     @FXML
@@ -89,14 +90,14 @@ public class PestañaCalculoController implements Initializable {
     @FXML
     private Pane pnFuncion;
     @FXML
-    private TableColumn<ValorDescripcion, Double> clVdValorPhantom;
+    private TableColumn<ValorDescripcion, String> clVdValorPhantom;
     @FXML
     private TableColumn<ValorDescripcion, String> clVdDescripcionPhantom;
     @FXML
     private TableColumn<ValorDescripcion, String> clVdUnidadPhantom;
 
     @FXML
-    private TableColumn<ValorDescripcion, Double> clVdValorRadionuclido;
+    private TableColumn<ValorDescripcion, String> clVdValorRadionuclido;
     @FXML
     private TableColumn<ValorDescripcion, String> clVdDescripcionRadionuclido;
     @FXML
@@ -105,15 +106,17 @@ public class PestañaCalculoController implements Initializable {
     @FXML
     private TableColumn<VariableCalculo, String> clDescripcionVariable;
     @FXML
-    private TableColumn<VariableCalculo, Double> clValorVariable;
+    private TableColumn<VariableCalculo, String> clValorVariable;
     @FXML
     private TableColumn<VariableCalculo, String> clLetraVariable;
     @FXML
     private Button btnGuardar;
     @FXML
     private Button btnGuardarFormula;
-   
-            
+    @FXML
+    private ComboBox cbFormulas;
+    @FXML
+    private Button btnEliminarFormula;
 
     private String formulEnTex;
     private String formulaOriginal;
@@ -125,7 +128,10 @@ public class PestañaCalculoController implements Initializable {
     boolean guardadoOK = false;
 
     private ValorDescripcion variableSeleccionada = null;
+    private IDatosValidaciones dValidaciones;
+    private IFormulaDAO intFormulas;
     private boolean grillaSeleccionada = false;
+    List<Formula> FormulasActuales;
     private char letra = 'A';
     private ObservableList<VariableCalculo> listaVariables = FXCollections.observableArrayList();
     private MathJS math = MenuPrincipalController.math;
@@ -140,13 +146,22 @@ public class PestañaCalculoController implements Initializable {
             RealizarCalculo(newValue);
         });
         // Se realiza una pequeña pre-carga para cargar archivos a memoria
-        txtEntrada.setText("0");
-        txtEntrada.setText("");
+         ReiniciarTextoEntrada();
 
+        intFormulas = new FormulaDAOsql();
+
+        FormulasActuales = intFormulas.getFormulas();
+
+        for (int i = 0; i < FormulasActuales.size(); i++) {
+            cbFormulas.getItems().add(FormulasActuales.get(i).getNombre());
+
+        }
 
         /* Se inicializa la interface para que se adapte al tipo de cálculo actual */
         if (MenuPrincipalController.TipoUsuario == "Cientifico") {
             dValidaciones = new DatosValidacionesCalculo();
+            cbFormulas.setDisable(false);
+            btnEliminarFormula.setDisable(false);
         }
         if (MenuPrincipalController.TipoUsuario == "Medico") {
             dValidaciones = new DatosValidacionesCalculoBasico();
@@ -157,7 +172,7 @@ public class PestañaCalculoController implements Initializable {
 
         //Inicializo la tabla de Propiedad Valor, correspondiente a los Phantoms. 
         clVdValorPhantom.setCellValueFactory(
-                cellData -> cellData.getValue().valorProperty().asObject());
+                cellData -> cellData.getValue().valorProperty());
         clVdDescripcionPhantom.setCellValueFactory(
                 cellData -> cellData.getValue().descripcionProperty());
         clVdUnidadPhantom.setCellValueFactory(
@@ -177,7 +192,7 @@ public class PestañaCalculoController implements Initializable {
         // Muestro las propiedades del radionuclido seleccionado
         //Inicializo la tabla de Propiedad Valor, correspondiente a la informacion de los radioNuclidos . 
         clVdValorRadionuclido.setCellValueFactory(
-                cellData -> cellData.getValue().valorProperty().asObject());
+                cellData -> cellData.getValue().valorProperty());
         clVdDescripcionRadionuclido.setCellValueFactory(
                 cellData -> cellData.getValue().descripcionProperty());
         clVdUnidadRadionuclido.setCellValueFactory(
@@ -194,7 +209,7 @@ public class PestañaCalculoController implements Initializable {
                 cellData -> cellData.getValue().descripcionProperty());
 
         clValorVariable.setCellValueFactory(
-                cellData -> cellData.getValue().valorProperty().asObject());
+                cellData -> cellData.getValue().valorProperty());
 
         clLetraVariable.setCellValueFactory(
                 cellData -> cellData.getValue().variableProperty());
@@ -217,6 +232,32 @@ public class PestañaCalculoController implements Initializable {
 
     }
 
+     public void ReiniciarTextoEntrada()
+     {
+        String TextoOriginal = txtEntrada.getText();
+        txtEntrada.setText("0");
+        txtEntrada.setText("");
+        txtEntrada.setText(TextoOriginal);
+     
+     }
+    @FXML
+    public void seleccionFormula() {
+
+       String formulaSelecionada= cbFormulas.getValue().toString();
+
+        for (int i = 0; i < FormulasActuales.size(); i++) {
+           if (formulaSelecionada.equals( FormulasActuales.get(i).getNombre()))
+           {
+                listaVariables = intFormulas.getPropiedadesFormula( FormulasActuales.get(i).getId_calculo());
+           }
+
+        }
+       griVariables.setItems(listaVariables);
+        ReiniciarTextoEntrada();
+      
+
+    }
+
     @FXML
     public void eliminarVariable() {
 
@@ -235,31 +276,27 @@ public class PestañaCalculoController implements Initializable {
     @FXML
     public void seleccionMasa() {
 
-        variableSeleccionada = new ValorDescripcion(0, "Masa órgano/tejido", dValidaciones.getOrganoActual().getOrganMass(), "grs");
+        variableSeleccionada = new ValorDescripcion(0, "Masa órgano/tejido", dValidaciones.getOrganoActual().getOrganMass().toString(), "grs");
 
     }
 
     @FXML
     public void GuardarFormula() {
 
-            TextInputDialog dialog = new TextInputDialog("");
-            
-           
-            dialog.setTitle("Guardado de Formula");
-            dialog.setHeaderText("La formula se usará como plantilla para nuevos cáclulos.\n¿Qué nombre desea utilizar?");
-            dialog.setContentText("Por favor, ingrese el nombre:");
+        TextInputDialog dialog = new TextInputDialog("");
 
-          
-            Optional<String> result = dialog.showAndWait();
-            if (result.isPresent()){
-            
-                     formu.setFormula( result.get() , txtEntrada.getText(),dValidaciones.getIdCalgulo() );
-            }
+        dialog.setTitle("Guardado de Formula");
+        dialog.setHeaderText("La formula se usará como plantilla para nuevos cáclulos.\n¿Qué nombre desea utilizar?");
+        dialog.setContentText("Por favor, ingrese el nombre:");
 
-          
-               
-                    
+        Optional<String> result = dialog.showAndWait();
+        if (result.isPresent()) {
+
+            formu.setFormula(result.get(), txtEntrada.getText(), dValidaciones.getIdCalgulo());
+        }
+
     }
+
     @FXML
     public void agregarVariables() {
 
@@ -294,19 +331,16 @@ public class PestañaCalculoController implements Initializable {
 
     @FXML
     public void GuardarResultado() throws IOException {
-        
-            
-             dValidaciones.finalizarCalculo(resultadoCalculo, formulaOriginal, formulEnTex, listaVariables);
 
-              guardadoOK =  dValidaciones.guardarCalculo();
-      
-              if (guardadoOK)
-              {
-                btnGuardarFormula.setDisable(false);
-              }else
-              {
-                 btnGuardarFormula.setDisable(true);
-              }
+        dValidaciones.finalizarCalculo(resultadoCalculo, formulaOriginal, formulEnTex, listaVariables);
+
+        guardadoOK = dValidaciones.guardarCalculo();
+
+        if (guardadoOK) {
+            btnGuardarFormula.setDisable(false);
+        } else {
+            btnGuardarFormula.setDisable(true);
+        }
 
     }
 

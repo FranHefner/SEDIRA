@@ -123,7 +123,6 @@ public class PacienteController implements Initializable {
         // TODO
         // Control de botones. 
 
-        
         ModoLectura();
         cbTipoDoc.getItems().addAll("DNI","PAS");
         cbSexo.getItems().addAll("F","M","O");

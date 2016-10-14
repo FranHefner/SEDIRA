@@ -46,7 +46,7 @@ public class VariableCalculoDAOsql implements IVariableCalculoDAO {
                 VariableCalculo var = new VariableCalculo();
                     
                 var.setDescripcion(resultado.getString("propiedad"));
-                var.setValor(Double.parseDouble(resultado.getString("valor")));
+                var.setValor(resultado.getString(resultado.getString("valor")));
                 var.setVariable(resultado.getString("variable"));
                 var.setId(Integer.parseInt(resultado.getString("id_historial")));
                  

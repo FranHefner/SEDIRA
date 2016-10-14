@@ -58,7 +58,7 @@ public class PestañaPhantomController implements Initializable {
     @FXML
     private TableView <ValorDescripcion> griValorDescripcionPhantom;
     @FXML
-    private TableColumn <ValorDescripcion, Double> clVdValor;
+    private TableColumn <ValorDescripcion, String> clVdValor;
     @FXML
     private TableColumn <ValorDescripcion, String> clVdDescripcion;
     @FXML
@@ -115,7 +115,7 @@ public class PestañaPhantomController implements Initializable {
         
        //Inicializo la tabla de Propiedad Valor, correspondiente a los Phantoms. 
         clVdValor.setCellValueFactory(
-               cellData -> cellData.getValue().valorProperty().asObject());
+               cellData -> cellData.getValue().valorProperty());
         clVdDescripcion.setCellValueFactory(
                 cellData->cellData.getValue().descripcionProperty());
         clVdUnidad.setCellValueFactory(

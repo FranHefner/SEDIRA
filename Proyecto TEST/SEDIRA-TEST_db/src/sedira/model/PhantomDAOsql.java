@@ -131,12 +131,12 @@ public class PhantomDAOsql implements IPhantomDAO {
             ResultSet resultado = consulta.executeQuery();
             while (resultado.next()) {
                 //Ojeto Aux de tipo ValorDescripcion.
-                ValorDescripcion infoPhantom = new ValorDescripcion(-1, "", 0.0, "");
+                ValorDescripcion infoPhantom = new ValorDescripcion(-1, "", "", "");
 
                 //Completo el aux con la informacion obtenida de la BD
                 infoPhantom.setId(Integer.parseInt(resultado.getString("id_valordescripcion")));
                 infoPhantom.setDescripcion(resultado.getString("descripcion"));
-                infoPhantom.setValor(Double.parseDouble(resultado.getString("valor")));
+                infoPhantom.setValor(resultado.getString("valor"));
                 infoPhantom.setUnidad(resultado.getString("unidad"));
 
                 //agregro al arreglo de propiedades la nueva propiedad parseada

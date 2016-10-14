@@ -5,6 +5,9 @@
  */
 package sedira.model;
 
+import java.util.List;
+import javafx.collections.ObservableList;
+
 /**
  *
  * @author Pablo Quelin, Francisco Hefner
@@ -12,6 +15,8 @@ package sedira.model;
 public interface IFormulaDAO {
     
      boolean setFormula(String Formula, String Nombre, int Id_calculo);
+    List<Formula>  getFormulas();
+     public ObservableList<VariableCalculo> getPropiedadesFormula(int Id_calculo);
      
     
 }

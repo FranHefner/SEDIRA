@@ -76,7 +76,7 @@ public class HistorialSEDIRAController implements Initializable {
     @FXML
     private TableColumn<VariableCalculo, String> clPropiedad;
     @FXML
-    private TableColumn<VariableCalculo, Double> clValor;
+    private TableColumn<VariableCalculo, String> clValor;
     @FXML
     private TableColumn<VariableCalculo, String> clVariable;
 
@@ -119,7 +119,7 @@ public class HistorialSEDIRAController implements Initializable {
                 (observable, oldValue, newValue) -> SeleccionCalculo(newValue));
 
         clPropiedad.setCellValueFactory(cellData -> cellData.getValue().descripcionProperty());
-        clValor.setCellValueFactory(cellData -> cellData.getValue().valorProperty().asObject());
+        clValor.setCellValueFactory(cellData -> cellData.getValue().valorProperty());
         clVariable.setCellValueFactory(cellData -> cellData.getValue().variableProperty());
 
     }

@@ -164,7 +164,7 @@ public class AbmRadionuclidoController implements Initializable {
                 case "Modificar Items":
                     itemRadionuclido.setDescripcion(txtPropiedad.getText());
                     itemRadionuclido.setUnidad(txtUnidad.getText());
-                    itemRadionuclido.setValor(Double.parseDouble(txtValor.getText()));
+                    itemRadionuclido.setValor(txtValor.getText());
                     break;
             }
             //Si las validaciones son correctas se guardan los datos

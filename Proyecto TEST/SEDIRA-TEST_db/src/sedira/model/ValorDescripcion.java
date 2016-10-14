@@ -19,7 +19,7 @@ import javafx.beans.property.StringProperty;
 public class ValorDescripcion {
        IntegerProperty vdId; 
        StringProperty descripcion;
-       DoubleProperty valor;
+       StringProperty valor;
        StringProperty unidad;
      
      
@@ -32,10 +32,10 @@ public class ValorDescripcion {
      * @param unidad se especifica la unidad. Debido a la pluralidad de elementos que existen.
      */
       
-    public ValorDescripcion(int id, String descripcion, double valor, String unidad) {
+    public ValorDescripcion(int id, String descripcion, String valor, String unidad) {
         this.vdId = new SimpleIntegerProperty (id);
         this.descripcion = new SimpleStringProperty (descripcion);
-        this.valor = new SimpleDoubleProperty(valor);
+        this.valor = new SimpleStringProperty(valor);
         this.unidad = new SimpleStringProperty (unidad);
     }
     public ValorDescripcion(){
@@ -61,14 +61,14 @@ public class ValorDescripcion {
     public StringProperty  descripcionProperty (){
         return descripcion;
     }
-    public Double getValor() {
+    public String getValor() {
         return valor.get();
     }
 
-    public void setValor(Double valor) {
+    public void setValor(String valor) {
         this.valor.set(valor);
     }
-    public DoubleProperty valorProperty (){
+    public StringProperty valorProperty (){
         return valor;
     }
 

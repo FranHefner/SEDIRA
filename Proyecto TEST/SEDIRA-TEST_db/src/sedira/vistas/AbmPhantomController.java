@@ -165,7 +165,7 @@ public class AbmPhantomController implements Initializable {
                 case "Modificar Items":
                     itemPhantom.setDescripcion(txtPropiedad.getText());
                     itemPhantom.setUnidad(txtUnidad.getText());
-                    itemPhantom.setValor(Double.parseDouble(txtValor.getText()));
+                    itemPhantom.setValor(txtValor.getText());
                     break;
             }
             // Si las validaciones son correctas se guardan los datos. 

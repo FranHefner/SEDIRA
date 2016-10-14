@@ -125,11 +125,11 @@ public class RadionuclidoDAOsql implements IRadionuclidoDAO {
             ResultSet resultado = consulta.executeQuery();
             while (resultado.next()) {
                 //Ojeto Aux de tipo ValorDescripcion.
-                ValorDescripcion infoRadNuclido = new ValorDescripcion(-1, "", 0.0, "");
+                ValorDescripcion infoRadNuclido = new ValorDescripcion(-1, "", "", "");
                 //Completo el aux con la informacion obtenida de la BD
                 infoRadNuclido.setId(Integer.parseInt(resultado.getString("id_valordescripcion")));
                 infoRadNuclido.setDescripcion(resultado.getString("descripcion"));
-                infoRadNuclido.setValor(Double.parseDouble(resultado.getString("valor")));
+                infoRadNuclido.setValor(resultado.getString("valor"));
                 infoRadNuclido.setUnidad(resultado.getString("unidad"));
                 
                 //agregro al arreglo de propiedades la nueva propiedad parseada

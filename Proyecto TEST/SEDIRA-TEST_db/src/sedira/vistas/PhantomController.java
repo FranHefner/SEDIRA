@@ -66,7 +66,7 @@ public class PhantomController implements Initializable {
     @FXML
     private TableView<ValorDescripcion> griValorDescripcionPhantom;
     @FXML
-    private TableColumn<ValorDescripcion, Double> clVdValor;
+    private TableColumn<ValorDescripcion, String> clVdValor;
     @FXML
     private TableColumn<ValorDescripcion, String> clVdDescripcion;
     @FXML
@@ -144,7 +144,7 @@ public class PhantomController implements Initializable {
 
         //Inicializo la tabla de Propiedad Valor, correspondiente a los Phantoms. 
         clVdValor.setCellValueFactory(
-                cellData -> cellData.getValue().valorProperty().asObject());
+                cellData -> cellData.getValue().valorProperty());
         clVdDescripcion.setCellValueFactory(
                 cellData -> cellData.getValue().descripcionProperty());
         clVdUnidad.setCellValueFactory(
@@ -601,7 +601,7 @@ public class PhantomController implements Initializable {
         //objeto auxiliar de tipo Phantom. Phantom actual seleccionado en el GriPhamtom
         Phantom auxPhantom = FuncionesGenerales.getPhantomActual();
         //Creacion de objeto auxiliar de tipo ValorDescripcion.
-        ValorDescripcion itemPhantom = new ValorDescripcion(-1, null, 0, null);
+        ValorDescripcion itemPhantom = new ValorDescripcion(-1, null, "", null);
         //Llamada al formulario
         boolean guardarCambiosClicked = mostrarItemPhantomEditDialog(itemPhantom);
         // identificador del phantom al cual se agregara el item. 
