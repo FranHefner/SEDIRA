@@ -22,10 +22,10 @@ import sedira.model.VariableCalculo;
 public interface IDatosValidaciones {
     
       void IniciarCalculo();
-      boolean finalizarCalculo(Blob resultado, String Formula, String FormulaTex, List<VariableCalculo> variablesCalculo);
+      boolean finalizarCalculo(String resultado, String Formula, String FormulaTex, List<VariableCalculo> variablesCalculo);
       boolean guardarCalculo();
       
-      Blob    getResultado();
+      String    getResultado();
       Phantom getPhantomActual();   
       Paciente getPacienteActual();
       String  GetTextoProgeso();

@@ -24,8 +24,10 @@ import sedira.IDatosValidaciones;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.Date;
 import java.util.Optional;
 import javafx.collections.FXCollections;
@@ -40,6 +42,7 @@ import javafx.scene.layout.Pane;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
+import javax.sql.rowset.serial.SerialBlob;
 import javax.swing.JLabel;
 import org.jfree.fx.FXGraphics2D;
 import org.scilab.forge.jlatexmath.TeXConstants;
@@ -107,12 +110,19 @@ public class PestañaCalculoController implements Initializable {
     private TableColumn<VariableCalculo, String> clLetraVariable;
     @FXML
     private Button btnGuardar;
+    @FXML
+    private Button btnGuardarFormula;
+   
+            
 
     private String formulEnTex;
+    private String formulaOriginal;
     private String formulaCalculo;
+    private String resultadoCalculo;
 
     boolean graficaOK = false;
     boolean calculoOK = false;
+    boolean guardadoOK = false;
 
     private ValorDescripcion variableSeleccionada = null;
     private boolean grillaSeleccionada = false;
@@ -239,11 +249,11 @@ public class PestañaCalculoController implements Initializable {
             dialog.setHeaderText("La formula se usará como plantilla para nuevos cáclulos.\n¿Qué nombre desea utilizar?");
             dialog.setContentText("Por favor, ingrese el nombre:");
 
-            // Traditional way to get the response value.
+          
             Optional<String> result = dialog.showAndWait();
             if (result.isPresent()){
             
-                     formu.setFormula( result.get() , formulaCalculo,dValidaciones.getIdCalgulo() );
+                     formu.setFormula( result.get() , txtEntrada.getText(),dValidaciones.getIdCalgulo() );
             }
 
           
@@ -283,44 +293,27 @@ public class PestañaCalculoController implements Initializable {
     }
 
     @FXML
-    public void GuardarResultado() {
+    public void GuardarResultado() throws IOException {
+        
+            
+             dValidaciones.finalizarCalculo(resultadoCalculo, formulaOriginal, formulEnTex, listaVariables);
 
-        if (calculoOK == true) {
-            /* Se convierte el RESULTADO A BLOB */
-            try {
-
-                float resultado_temp_float = Float.valueOf(txtResult.getText());
-
-                int bits = Float.floatToIntBits(resultado_temp_float);
-                byte[] bytes = new byte[4];
-                bytes[0] = (byte) (bits & 0xff);
-                bytes[1] = (byte) ((bits >> 8) & 0xff);
-                bytes[2] = (byte) ((bits >> 16) & 0xff);
-                bytes[3] = (byte) ((bits >> 24) & 0xff);
-
-                Blob resultado_temp_blob = new javax.sql.rowset.serial.SerialBlob(bytes);
-                
-                dValidaciones.finalizarCalculo(resultado_temp_blob, formulaCalculo, formulEnTex, listaVariables);
-
-                // DE UN FLOAT COMO RESULTADO DEL CALCULO PASA A UN BLOB Y DESPUES A UN FLOAT 
-                float f = ByteBuffer.wrap(bytes).order(ByteOrder.LITTLE_ENDIAN).getFloat();
-
-                String ResultString = String.valueOf(f);
-                //txtResult.setText(ResultString);
-
-            } catch (SQLException ex) {
-                Logger.getLogger(PestañaCalculoController.class.getName()).log(Level.SEVERE, null, ex);
-                System.out.println("No se pudo convertir a blob");
-            }
-        }
-
-        dValidaciones.guardarCalculo();
+              guardadoOK =  dValidaciones.guardarCalculo();
+      
+              if (guardadoOK)
+              {
+                btnGuardarFormula.setDisable(false);
+              }else
+              {
+                 btnGuardarFormula.setDisable(true);
+              }
 
     }
 
     @FXML
     public void RealizarCalculo(String NuevaFormula) {
 
+        btnGuardarFormula.setDisable(true);
         txtResult.setText("");
         pnFuncion.getChildren().clear();
         btnGuardar.setDisable(true);
@@ -329,6 +322,7 @@ public class PestañaCalculoController implements Initializable {
         if (!"".equals(NuevaFormula)) {
             try {
                 /* SE GRAFICA LA FÓRMULA */
+                formulaOriginal = NuevaFormula;
                 formulaCalculo = NuevaFormula;
 
                 for (VariableCalculo Variable : listaVariables) {
@@ -359,7 +353,8 @@ public class PestañaCalculoController implements Initializable {
                 /* SE CALCULA LA FÓRMULA */
                 try {
 
-                    txtResult.setText(math.eval(formulaCalculo));
+                    resultadoCalculo = math.eval(formulaCalculo);
+                    txtResult.setText(resultadoCalculo);
 
                     calculoOK = true;
                     btnGuardar.setDisable(false);

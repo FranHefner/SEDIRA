@@ -33,7 +33,7 @@
       <Label layoutX="20.0" layoutY="452.0" text="Resultado:" />
       <TextArea fx:id="txtEntrada" layoutX="98.0" layoutY="318.0" prefHeight="35.0" prefWidth="412.0" />
       <Label layoutX="19.0" layoutY="324.0" text="Formula:" />
-      <Button id="btnCalcular" fx:id="btnGuardar" layoutX="536.0" layoutY="370.0" mnemonicParsing="false" onMouseClicked="#GuardarResultado" prefHeight="35.0" prefWidth="114.0" text="Guardar Cálculo" />
+      <Button id="btnCalcular" fx:id="btnGuardar" disable="true" layoutX="536.0" layoutY="370.0" mnemonicParsing="false" onMouseClicked="#GuardarResultado" prefHeight="35.0" prefWidth="114.0" text="Guardar Cálculo" />
       <Pane fx:id="pnFuncion" layoutX="98.0" layoutY="363.0" prefHeight="66.0" prefWidth="412.0" style="-fx-background-color: white;" />
       <Label layoutX="29.0" layoutY="8.0" text="Propiedades del phantom" />
       <Label layoutX="32.0" layoutY="144.0" text="Propiedades Radionúclido" />
@@ -50,11 +50,11 @@
       <TextField fx:id="txtOrganoMasa" editable="false" layoutX="223.0" layoutY="272.0" onMouseClicked="#seleccionMasa" prefHeight="25.0" prefWidth="73.0" />
       <Label layoutX="19.0" layoutY="384.0" text="Vista Previa:" />
       <Button layoutX="323.0" layoutY="135.0" mnemonicParsing="false" onMouseClicked="#eliminarVariable" prefHeight="35.0" prefWidth="50.0" text="X" />
-      <Label fx:id="lblOrgano" layoutX="125.0" layoutY="276.0" text="[organo]" />
+      <Label fx:id="lblOrgano" layoutX="32.0" layoutY="276.0" text="Sin datos" />
       <Label layoutX="404.0" layoutY="41.0" text="Variables requeridas:" />
       <ComboBox disable="true" layoutX="461.0" layoutY="4.0" prefHeight="25.0" prefWidth="181.0" />
       <Label layoutX="404.0" layoutY="10.0" text="Formula" />
-      <Button id="btnCalcular" fx:id="btnGuardarFormula" layoutX="536.0" layoutY="321.0" mnemonicParsing="false" onMouseClicked="#GuardarFormula" prefHeight="35.0" prefWidth="114.0" text="Guardar Formula" />
+      <Button id="btnCalcular" fx:id="btnGuardarFormula" disable="true" layoutX="536.0" layoutY="321.0" mnemonicParsing="false" onMouseClicked="#GuardarFormula" prefHeight="35.0" prefWidth="114.0" text="Guardar Formula" />
       <Button disable="true" layoutX="650.0" layoutY="4.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="37.0" text="X" />
    </children>
 </AnchorPane>

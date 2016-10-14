@@ -31,7 +31,7 @@ public class DatosValidacionesCalculoBasico implements IDatosValidaciones {
     private static Calculo CalculoActual;
     public static String TextoProgreso;
     private static String Observaciones;
-   private static Blob Resultado;
+   private static String Resultado;
     private static Boolean ProcesoCompleto;
     private static String Formula;
     private static String FormulaTex;
@@ -70,7 +70,7 @@ public class DatosValidacionesCalculoBasico implements IDatosValidaciones {
 
  
    @Override
-    public boolean finalizarCalculo(Blob resultado, String formula,String formulaTex, List<VariableCalculo> variablesCalculo) {
+    public boolean finalizarCalculo(String resultado, String formula,String formulaTex, List<VariableCalculo> variablesCalculo) {
         Resultado = resultado;
         Formula = formula;
         FormulaTex = formulaTex;
@@ -120,12 +120,8 @@ public class DatosValidacionesCalculoBasico implements IDatosValidaciones {
     }
 
     @Override
-    public Blob getResultado() {
-        if (Resultado != null) {
-            return Resultado;
-        } else {
-            return null;
-        }
+    public String getResultado() {
+       return Resultado;
     }
     @Override
     public Paciente getPacienteActual() {

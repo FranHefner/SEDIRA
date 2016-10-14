@@ -36,22 +36,22 @@
                                     <TableColumn fx:id="clVariable" editable="false" prefWidth="85.0" text="Variable" />
                                  </columns>
                               </TableView>
-                              <Pane layoutX="19.0" layoutY="231.0" prefHeight="64.0" prefWidth="497.0" style="-fx-background-color: black;" />
+                              <Pane fx:id="pnFuncion" layoutX="19.0" layoutY="231.0" prefHeight="64.0" prefWidth="497.0" />
                               <Label layoutX="23.0" layoutY="203.0" text="Vista Previa Formula" />
                               <Label layoutX="26.0" layoutY="151.0" text="Formula" />
                               <Label layoutX="18.0" layoutY="38.0" text="Phantom:" />
                               <Label layoutX="19.0" layoutY="62.0" text="Órgano:" />
-                              <Label fx:id="lblPhantom" layoutX="84.0" layoutY="38.0" text="[phantom]" />
-                              <Label fx:id="lblOrgano" layoutX="89.0" layoutY="62.0" text="[organo]" />
+                              <Label fx:id="lblPhantom" layoutX="101.0" layoutY="38.0" text="Sin datos" />
+                              <Label fx:id="lblOrgano" layoutX="101.0" layoutY="62.0" text="Sin datos" />
                               <Label layoutX="18.0" layoutY="13.0" text="Paciente:" />
-                              <Label fx:id="lblPaciente" layoutX="84.0" layoutY="13.0" text="[persona]" />
-                              <Label layoutX="19.0" layoutY="89.0" text="Radionúclido" />
-                              <Label fx:id="lblRadionuclido" layoutX="94.0" layoutY="89.0" text="[radionuclido]" />
+                              <Label fx:id="lblPaciente" layoutX="101.0" layoutY="13.0" text="Sin datos" />
+                              <Label layoutX="19.0" layoutY="89.0" text="Radionúclido:" />
+                              <Label fx:id="lblRadionuclido" layoutX="101.0" layoutY="89.0" text="Sin datos" />
                               <TextField fx:id="txtFormula" editable="false" layoutX="20.0" layoutY="173.0" prefHeight="25.0" prefWidth="301.0" />
                               <Label layoutX="333.0" layoutY="151.0" text="Resultado:" />
                               <TextField fx:id="txtResultado" editable="false" layoutX="333.0" layoutY="173.0" prefHeight="25.0" prefWidth="172.0" />
                               <Label layoutX="19.0" layoutY="301.0" text="Cálculo Hash:" />
-                              <Label fx:id="lblhash" layoutX="96.0" layoutY="301.0" text="[hash]" />
+                              <Label fx:id="lblhash" layoutX="96.0" layoutY="301.0" text="Sin datos" />
                            </children>
                         </AnchorPane>
                      </content>

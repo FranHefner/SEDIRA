@@ -38,7 +38,7 @@ public class DatosValidacionesCalculo implements IDatosValidaciones {
     //Variable que se encarga de almacenar información recopilada durante el proceso de cálculo. 
     private static String TextoProgreso;
     private static String Observaciones;
-    private static Blob Resultado;
+    private static String Resultado;
     private static Boolean ProcesoCompleto;
     private static String Formula;
     private static String FormulaTex;
@@ -74,7 +74,7 @@ public class DatosValidacionesCalculo implements IDatosValidaciones {
     }
 
     @Override
-    public boolean finalizarCalculo(Blob resultado, String formula,String formulaTex, List<VariableCalculo> variablesCalculo) {
+    public boolean finalizarCalculo(String resultado, String formula,String formulaTex, List<VariableCalculo> variablesCalculo) {
         Resultado = resultado;
         Formula = formula;
         FormulaTex = formulaTex;
@@ -155,7 +155,16 @@ public class DatosValidacionesCalculo implements IDatosValidaciones {
         /* Una vez guardado, obtener el dato y aplicar Hash para ver si coinciden, como forma de asegurarse el resiltado*/
         /* ver en que tipo de dato se guarda, podria ser en binaio para asegurarnos que no van a existir casteos de la db 
          porque pude ser que cambie el motor de db        */
-        return true;
+       
+        if (IdCalculo != -1)
+        {
+            return true;
+          
+        }else
+        {
+              return false;
+        }
+      
     }
 
     private static boolean validarPaciente() {
@@ -263,12 +272,10 @@ public class DatosValidacionesCalculo implements IDatosValidaciones {
     }
 
     @Override
-    public Blob getResultado() {
-        if (Resultado != null) {
+    public String getResultado() {
+       
             return Resultado;
-        } else {
-            return null;
-        }
+      
     }
 
     @Override

@@ -71,6 +71,8 @@ public class CalculoDAOsql implements ICalculoDAO {
                 calculo.setOrgano(resultado.getString("Organo"));
                 calculo.setFormula(resultado.getString("Formula_Mat"));
                 calculo.setFormulaTex(resultado.getString("Formula_Tex"));
+                calculo.setResultado(resultado.getString("Resultado"));
+                calculo.setHashValidado(resultado.getString("Hash"));
                 calculosData.add(calculo);
 
             }
@@ -175,7 +177,7 @@ public class CalculoDAOsql implements ICalculoDAO {
             consultaCalculo.setInt(4, calculo.getIdPhantom());
 
             consultaCalculo.setLong(5, calculo.getFecha());
-            consultaCalculo.setBlob(6, calculo.getResultado());
+            consultaCalculo.setString(6, calculo.getResultado());
             consultaCalculo.setString(7, calculo.getObservaciones());
             consultaCalculo.setString(8, calculo.getHashCode());
             consultaCalculo.setString(9, calculo.getFormula());
@@ -257,7 +259,7 @@ public class CalculoDAOsql implements ICalculoDAO {
                     + "VALUES(?,?,?,?,?)");
             consulta.setInt(1, calculo.getIdPaciente());
             consulta.setLong(2, calculo.getFecha());
-            consulta.setBlob(3, calculo.getResultado());
+            consulta.setString(3, calculo.getResultado());
             consulta.setString(4, calculo.getObservaciones());
             consulta.setString(5, calculo.getHashCode());
 
@@ -307,7 +309,7 @@ public class CalculoDAOsql implements ICalculoDAO {
                     + "C.hash_code AS Hash, "
                     + "C.formula_mat AS Formula_Mat, "
                     + "C.formula_tex AS Formula_Tex, "
-                    + "P.id_paciente "
+                    + "P.id_paciente "                            
                     + "FROM calculos C "
                     + "JOIN radionuclidos R ON C.id_radionuclido = R.id_radionuclido "
                     + "JOIN phantoms PH ON C.id_phantom = PH.id_phantom "
@@ -327,7 +329,9 @@ public class CalculoDAOsql implements ICalculoDAO {
                 calculoSeleccionado.setRadionuclido(resultado.getString("Radionuclido"));
                 calculoSeleccionado.setOrgano(resultado.getString("Organo"));
                 calculoSeleccionado.setFormula(resultado.getString("Formula_Mat"));
-                calculoSeleccionado.setFormulaTex(resultado.getString("Formula_Tex"));
+                calculoSeleccionado.setFormulaTex(resultado.getString("Formula_Tex"));                
+                calculoSeleccionado.setResultado(resultado.getString("Resultado"));
+                calculoSeleccionado.setHashValidado(resultado.getString("Hash"));
 
             }
             //Cierre de consulta

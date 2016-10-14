@@ -6,7 +6,13 @@
 package sedira.vistas;
 
 import java.net.URL;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.sql.Blob;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -15,14 +21,21 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Pane;
+import javax.sql.rowset.serial.SerialBlob;
 import sedira.FuncionesGenerales;
+import sedira.Security;
 import sedira.model.CalculoDAOsql;
 import sedira.model.CalculoMuestra;
 import sedira.model.ICalculoDAO;
 import sedira.model.IVariableCalculoDAO;
+import sedira.model.MyCanvas;
 import sedira.model.Paciente;
 import sedira.model.VariableCalculo;
 import sedira.model.VariableCalculoDAOsql;
+import static sedira.vistas.MenuPrincipalController.math;
+
+
 
 /**
  * FXML Controller class
@@ -43,6 +56,11 @@ public class HistorialSEDIRAController implements Initializable {
     private Label lblOrgano;
     @FXML
     private Label lblRadionuclido;
+    @FXML
+    private Pane pnFuncion;
+    @FXML
+    private Label lblhash;
+      
 
     @FXML
     private TableView<CalculoMuestra> griListaCalculos;
@@ -63,6 +81,10 @@ public class HistorialSEDIRAController implements Initializable {
     private TableColumn<VariableCalculo, String> clVariable;
 
     private Paciente pacienteActual = new Paciente();
+    private MyCanvas canvas;
+    
+    
+   
    
     //Instancia de objeto tipo ICalculoDAO. Se inicializa como CalculoDAOsql.  
     private ICalculoDAO cal = new CalculoDAOsql();
@@ -73,6 +95,7 @@ public class HistorialSEDIRAController implements Initializable {
     private ObservableList<CalculoMuestra> calculoData = FXCollections.observableArrayList();
     //Arreglo de variables que contiene un calculo. 
     private ObservableList<VariableCalculo> varCalculoData = FXCollections.observableArrayList();
+
 
     /**
      * Initializes the controller class.
@@ -89,7 +112,7 @@ public class HistorialSEDIRAController implements Initializable {
         griListaCalculos.setItems(calculoData);
 
         clIdCalculo.setCellValueFactory(cellData -> cellData.getValue().getIdCalculoMuestraProperty().asObject());
-        clFechaCalculo.setCellValueFactory(cellData -> cellData.getValue().getFechaProperty().asString());
+        clFechaCalculo.setCellValueFactory(cellData -> cellData.getValue().getFechaSringProperty());
         clPaciente.setCellValueFactory(cellData -> cellData.getValue().getPacienteProperty());
 
         griListaCalculos.getSelectionModel().selectedItemProperty().addListener(
@@ -105,6 +128,10 @@ public class HistorialSEDIRAController implements Initializable {
      * @param calculoSeleccionado 
      */
     private void SeleccionCalculo(CalculoMuestra calculoSeleccionado) {
+       
+       String HashValidado="";
+        pnFuncion.getChildren().clear();
+                
         //Objeto aux de tipo calculo. 
         CalculoMuestra detalleItem = new CalculoMuestra();
         
@@ -122,8 +149,33 @@ public class HistorialSEDIRAController implements Initializable {
             lblOrgano.setText(detalleItem.getOrgano());
             lblPhantom.setText(detalleItem.getPhantom());
             lblRadionuclido.setText(detalleItem.getRadionuclido());
-            txtFormula.setText(detalleItem.getFormula());
-            txtResultado.setText(String.valueOf(detalleItem.getResultado()));
+            txtFormula.setText(detalleItem.getFormula());            
+            txtResultado.setText(detalleItem.getResultado());   
+            
+            
+                            
+                  
+                canvas = new MyCanvas(detalleItem.getFormulaTex());
+
+                canvas.widthProperty().bind(pnFuncion.widthProperty());
+                canvas.heightProperty().bind(pnFuncion.heightProperty());
+
+                pnFuncion.getChildren().add(canvas);
+                
+            try {
+               HashValidado=Security.md5(txtFormula.getText() + detalleItem.getFormulaTex()+ detalleItem.getResultado());
+            } catch (Exception ex) {
+             
+            }
+            if (HashValidado.equals(detalleItem.getHashValidado() ))
+            {
+                lblhash.setText(HashValidado + " - Validación: OK");
+            }else                
+            {
+               lblhash.setText(HashValidado + " - Validación: No pasó la validación ");
+            }
+          
+            
 
         } else {
 

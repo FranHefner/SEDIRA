@@ -12,6 +12,9 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import sedira.FuncionesGenerales;
 
 /**
  *
@@ -26,7 +29,7 @@ public class CalculoMuestra {
     private StringProperty Phantom;
     private StringProperty Radionuclido;
     private StringProperty Observaciones;
-    private Blob Resultado;
+    private StringProperty Resultado;
     private StringProperty HashValidado;
     private StringProperty Formula;
     private StringProperty FormulaTex;
@@ -43,7 +46,7 @@ public class CalculoMuestra {
      * @param pformula
      * @param pformulaTex
      */
-    public CalculoMuestra(int idCalculoM, long pfecha, String ppaciente, String pphantom, String porgano, String pradionuclido, String pobservaciones, Blob presultado, String pformula, String pformulaTex) {
+    public CalculoMuestra(int idCalculoM, long pfecha, String ppaciente, String pphantom, String porgano, String pradionuclido, String pobservaciones, String presultado, String pformula, String pformulaTex, String phashValidado) {
         this.idCalculoMuestra = new SimpleIntegerProperty(idCalculoM);
         this.Fecha = new SimpleLongProperty(pfecha);
         this.Paciente = new SimpleStringProperty(ppaciente);
@@ -51,9 +54,10 @@ public class CalculoMuestra {
         this.Organo = new SimpleStringProperty(porgano);
         this.Radionuclido = new SimpleStringProperty(pradionuclido);
         this.Observaciones = new SimpleStringProperty(pobservaciones);
-        this.Resultado = presultado;
+        this.Resultado = new SimpleStringProperty(presultado);
         this.Formula = new SimpleStringProperty(pformula);
         this.FormulaTex = new SimpleStringProperty(pformulaTex);
+        this.HashValidado = new SimpleStringProperty(phashValidado);
 
     }
 
@@ -65,9 +69,10 @@ public class CalculoMuestra {
         this.Organo = new SimpleStringProperty("");
         this.Radionuclido = new SimpleStringProperty("");
         this.Observaciones = new SimpleStringProperty("");
-        this.Resultado = Resultado;
+        this.Resultado = new SimpleStringProperty("");
         this.Formula = new SimpleStringProperty("");
         this.FormulaTex = new SimpleStringProperty("");
+        this.HashValidado = new SimpleStringProperty("");
     }
 
     public IntegerProperty getIdCalculoMuestraProperty() {
@@ -97,7 +102,13 @@ public class CalculoMuestra {
     public LongProperty getFechaProperty() {
         return Fecha;
     }
-
+    public StringProperty getFechaSringProperty()
+    {
+        StringProperty fecha = new SimpleStringProperty("");
+        fecha.set(FuncionesGenerales.LongToDateString(Fecha.getValue()));
+        return fecha;
+        
+    }
     public Long getFecha() {
         return Fecha.get();
     }
@@ -168,12 +179,12 @@ public class CalculoMuestra {
         this.Observaciones.set(Observaciones);
     }
 
-    public Blob getResultado() {
-        return Resultado;
+    public String getResultado() {
+        return Resultado.get();
     }
 
-    public void setResultado(Blob Resultado) {
-        this.Resultado = Resultado;
+    public void setResultado(String Resultado) {
+        this.Resultado.set( Resultado );
     }
 
     public StringProperty getHashValidadoProperty() {

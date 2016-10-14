@@ -31,7 +31,7 @@ public class Calculo {
     private int idOrgano;
     // private ObservableList <ValorDescripcion> DatosEntrada;
     private String observaciones;
-    private Blob resultado;
+    private String resultado;
     private String HashValidado;
     private String TipoCalculo;
     private String Formula;
@@ -49,7 +49,7 @@ public class Calculo {
      * @param presultado
      * @param variablesCalculo
      */
-    public Calculo(long pfecha, int pidPaciente, int pidPhantom, int pidRadionuclido, int pidOrgano, String pobservaciones, Blob presultado, String formula, String formulaTex, List<VariableCalculo> variablesCalculo) {
+    public Calculo(long pfecha, int pidPaciente, int pidPhantom, int pidRadionuclido, int pidOrgano, String pobservaciones, String presultado, String formula, String formulaTex, List<VariableCalculo> variablesCalculo) {
         Fecha = pfecha;
         idPaciente = pidPaciente;
         idPhantom = pidPhantom;
@@ -73,7 +73,7 @@ public class Calculo {
      * @param pobservaciones
      * @param presultado
      */
-    public Calculo(long pfecha, int pidPaciente, String pobservaciones, Blob presultado) {
+    public Calculo(long pfecha, int pidPaciente, String pobservaciones, String presultado) {
         Fecha = pfecha;
         idPaciente = pidPaciente;
         observaciones = pobservaciones;
@@ -90,7 +90,7 @@ public class Calculo {
      */
     public boolean Validar() {
 
-        String Resultado = String.valueOf(Fecha) + idPaciente + idPhantom + idRadionuclido + observaciones + Formula + FormulaTex + resultado.hashCode();
+        String Resultado = Formula + FormulaTex + resultado ;
 
         try {
        
@@ -217,7 +217,7 @@ public class Calculo {
      *
      * @return el resultado en tipo BLOB
      */
-    public Blob getResultado() {
+    public String getResultado() {
         return resultado;
     }
 

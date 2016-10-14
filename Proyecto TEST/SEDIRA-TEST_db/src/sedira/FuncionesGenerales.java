@@ -312,12 +312,13 @@ public class FuncionesGenerales {
 
     }
 
-    /* public static LocalDate DateToLocalDate(Date Fecha) {
-
-     LocalDate date = Fecha.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-
-     return date;
-     }*/
+    public static String LongToDateString (long FechaEnLong) {
+       
+        Date date=new Date(FechaEnLong);
+        SimpleDateFormat df2 = new SimpleDateFormat("HH:mm:ss dd/MM/yyyy");
+        String dateText = df2.format(date);
+       return dateText;
+    }
     public static LocalDate DateToLocalDate(Date date) {
         Instant instant = Instant.ofEpochMilli(date.getTime());
         return LocalDateTime.ofInstant(instant, ZoneId.systemDefault())
