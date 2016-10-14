@@ -30,10 +30,10 @@ public class VariableCalculoDAOsql implements IVariableCalculoDAO {
         try {
             PreparedStatement consulta = conexion.getConnection().prepareStatement(
                     "SELECT calculos.id_calculo, historialcalculo.id_calculo, historialcalculo.id_historial, "
-                            + "historialcalculo.propiedad, historialcalculo.valor, historialcalculo.variable from calculos "
+                        + "historialcalculo.propiedad, historialcalculo.valor, historialcalculo.variable from calculos "
                         + "INNER JOIN historialcalculo "
                         + "ON calculos.id_calculo = historialcalculo.id_calculo "
-                            + "WHERE calculos.id_calculo = ?");
+                        + "WHERE calculos.id_calculo = ?");
             
             // Parametros de la consulta. 
             consulta.setInt(1, IdCalculo);
@@ -42,11 +42,9 @@ public class VariableCalculoDAOsql implements IVariableCalculoDAO {
             ResultSet resultado = consulta.executeQuery();
            
             while (resultado.next()) {
-              
                 VariableCalculo var = new VariableCalculo();
-                    
                 var.setDescripcion(resultado.getString("propiedad"));
-                var.setValor(resultado.getString(resultado.getString("valor")));
+                var.setValor(resultado.getString("valor"));
                 var.setVariable(resultado.getString("variable"));
                 var.setId(Integer.parseInt(resultado.getString("id_historial")));
                  

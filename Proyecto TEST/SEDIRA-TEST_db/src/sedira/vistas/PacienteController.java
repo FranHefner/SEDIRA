@@ -37,6 +37,9 @@ import sedira.model.Paciente;
 import sedira.FuncionesGenerales;
 import sedira.ValidacionesGenerales;
 import javafx.scene.control.DatePicker;
+import sedira.model.CalculoDAOsql;
+import sedira.model.CalculoMuestra;
+import sedira.model.ICalculoDAO;
 import sedira.model.IPacienteDAO;
 import sedira.model.PacienteDAOsql;
 
@@ -58,7 +61,7 @@ public class PacienteController implements Initializable {
     @FXML
     private TableColumn<Paciente, String> clApellido;
     //@FXML
-   // private TextField txtIdPaciente;
+    // private TextField txtIdPaciente;
     @FXML
     private TextField txtNumeroDoc;
     @FXML
@@ -71,17 +74,17 @@ public class PacienteController implements Initializable {
     private ImageView imgPaciente;
     @FXML
     private ComboBox cbTipoDoc;
-     @FXML
+    @FXML
     private ComboBox cbSexo;
     @FXML
-    private Button btnCancelar;   
+    private Button btnCancelar;
     @FXML
     private DatePicker txtFechaNacimiento;
 
     boolean editarClicked = false;
-    
+
     //Instancia de objeto tipo IPacienteDAO. Se inicializa como PacienteDAOsql.  
-    private IPacienteDAO pac = new PacienteDAOsql(); 
+    private IPacienteDAO pac = new PacienteDAOsql();
 
     /**
      * Inicializacion de la clase Controlador.
@@ -114,9 +117,9 @@ public class PacienteController implements Initializable {
     // public ObservableList<TipoDocumento> getDocumentosData() {
     //    return DocumentosData;
     // }
-    
+
     private int IdPacienteActual;
-     // Paciente PacienteActual = new Paciente();
+    // Paciente PacienteActual = new Paciente();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -124,12 +127,11 @@ public class PacienteController implements Initializable {
         // Control de botones. 
 
         ModoLectura();
-        cbTipoDoc.getItems().addAll("DNI","PAS");
-        cbSexo.getItems().addAll("F","M","O");
-        
-               FuncionesGenerales.setPacienteActual(new Paciente());
-     
-          
+        cbTipoDoc.getItems().addAll("DNI", "PAS");
+        cbSexo.getItems().addAll("F", "M", "O");
+
+        FuncionesGenerales.setPacienteActual(new Paciente());
+
         clNombre.setCellValueFactory(cellData -> cellData.getValue().getNombreProperty());
         clApellido.setCellValueFactory(cellData -> cellData.getValue().getApellidoProperty());
         clTipoDoc.setCellValueFactory(cellData -> cellData.getValue().getTipoDocProperty());
@@ -201,9 +203,9 @@ public class PacienteController implements Initializable {
         btnAceptar.setDisable(false);
         btnEditar.setDisable(true);
 
-        btnMediciones.setDisable(false);
-        btnHistorialSEDIRA.setDisable(false);
-        btnContacto.setDisable(false);
+        btnMediciones.setDisable(true);
+        btnHistorialSEDIRA.setDisable(true);
+        btnContacto.setDisable(true);
         btnNuevo.setDisable(true);
 
     }
@@ -214,22 +216,22 @@ public class PacienteController implements Initializable {
             //Control de botones.               
 
             FuncionesGenerales.setPacienteActual(pacienteSeleccionado);
-            
+
             IdPacienteActual = pacienteSeleccionado.getIdPaciente();
-        //    txtIdPaciente.setText(String.valueOf(pacienteSeleccionado.getIdPaciente()));
+            //    txtIdPaciente.setText(String.valueOf(pacienteSeleccionado.getIdPaciente()));
             txtNombre.setText(String.valueOf(pacienteSeleccionado.getNombre()));
             txtApellido.setText(String.valueOf(pacienteSeleccionado.getApellido()));
             txtNumeroDoc.setText(String.valueOf(pacienteSeleccionado.getNumeroDoc()));
-            cbTipoDoc.setValue(String.valueOf(pacienteSeleccionado.getTipoDoc()));  
-            cbSexo.setValue(String.valueOf(pacienteSeleccionado.getSexo()));  
+            cbTipoDoc.setValue(String.valueOf(pacienteSeleccionado.getTipoDoc()));
+            cbSexo.setValue(String.valueOf(pacienteSeleccionado.getSexo()));
             txtFechaNacimiento.setValue(FuncionesGenerales.DateToLocalDate(pacienteSeleccionado.getFechaNacimientoDATE()));
             System.out.print(pacienteSeleccionado.getIdPaciente());
             System.out.print(pacienteSeleccionado.getApellido());
-             FuncionesGenerales.pacienteActual.setEsNuevo(false);
+            FuncionesGenerales.pacienteActual.setEsNuevo(false);
 
         } else {
             IdPacienteActual = -1;
-          //  txtIdPaciente.setText("");
+            //  txtIdPaciente.setText("");
             txtNombre.setText("");
             txtApellido.setText("");
             txtNumeroDoc.setText("");
@@ -244,21 +246,17 @@ public class PacienteController implements Initializable {
      */
     @FXML
     private void btnNuevo_click() {
-        
-       
-         
+
         //Validar si los atributos estan vacios. 
         //prendo boton aceptar y cancelar.     
-
         txtNombre.setText("");
         txtApellido.setText("");
         txtNumeroDoc.setText("");
         txtFechaNacimiento.setValue(null);
-          IdPacienteActual = pac.getLastId();
+        IdPacienteActual = pac.getLastId();
        // txtIdPaciente.setText(String.valueOf(pac.getLastId()));
-       
+
      //  FuncionesGenerales.pacienteActual.setEsNuevo(true);
-     
         //Comportamiento de Textfiedls
         ModoEdicion();
 
@@ -296,7 +294,7 @@ public class PacienteController implements Initializable {
     @FXML
     private void btnAceptar_click() throws SQLException {
         //para editar. 
-       Paciente PacienteActual = FuncionesGenerales.getPacienteActual();
+        Paciente PacienteActual = FuncionesGenerales.getPacienteActual();
         if (editarClicked) {
 
             PacienteActual.setIdPaciente(IdPacienteActual);
@@ -304,7 +302,7 @@ public class PacienteController implements Initializable {
             PacienteActual.setNombre(txtNombre.getText());
             PacienteActual.setNumeroDoc(Integer.valueOf(txtNumeroDoc.getText()));
             PacienteActual.setTipoDoc(cbTipoDoc.getValue().toString());
-            PacienteActual.setSexo(cbSexo.getValue().toString() );
+            PacienteActual.setSexo(cbSexo.getValue().toString());
             PacienteActual.setFechaNacimiento(txtFechaNacimiento.getValue().toString());
             //Llamada a la clase de acceso de datos de pacientes. PacienteDAO. 
             pac.modificarPaciente(PacienteActual);
@@ -320,9 +318,9 @@ public class PacienteController implements Initializable {
             //  Falta validacion para atributos vacios. 
             Paciente PacienteTemp = new Paciente(
                     IdPacienteActual,
-                    cbTipoDoc.getValue().toString(), 
+                    cbTipoDoc.getValue().toString(),
                     Integer.valueOf(txtNumeroDoc.getText()),
-                    txtApellido.getText(), 
+                    txtApellido.getText(),
                     txtNombre.getText(),
                     Date.from(txtFechaNacimiento.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()),
                     PacienteActual.getDireccion(),
@@ -333,9 +331,8 @@ public class PacienteController implements Initializable {
                     cbSexo.getValue().toString(),
                     true,
                     true
-            );            
-     
-                    
+            );
+
             //Llamada a Control de acceso de datos de paciente. PacienteDAO
             //pacienteData.add(PacienteTemp);
             pac.agregarPaciente(PacienteTemp);
@@ -357,9 +354,8 @@ public class PacienteController implements Initializable {
         editarClicked = true;
 
         // Id paciente. 
-        
-        IdPacienteActual =paciente.getIdPaciente();
-      //  txtIdPaciente.setText(String.valueOf(paciente.getIdPaciente()));
+        IdPacienteActual = paciente.getIdPaciente();
+        //  txtIdPaciente.setText(String.valueOf(paciente.getIdPaciente()));
         SeleccionPaciente(paciente);
 
         ModoEdicion();
@@ -380,7 +376,7 @@ public class PacienteController implements Initializable {
                     + "Los datos ingresados se descartarán!  ");
 
             Optional<ButtonType> result = alert.showAndWait();
-            if (result.get() == ButtonType.OK) {                
+            if (result.get() == ButtonType.OK) {
                 Stage stage = (Stage) btnCerrar.getScene().getWindow();
                 stage.close();
             } else {
@@ -402,13 +398,24 @@ public class PacienteController implements Initializable {
      */
     @FXML
     private void btnHistorialSEDIRA_click() throws IOException {
-        Stage stage = new Stage();
-        Parent root = FXMLLoader.load(getClass().getResource("HistorialSEDIRA.fxml"));
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-
-        stage.setTitle("Cálculos SEDIRA");
-        stage.show();
+        
+        ObservableList<CalculoMuestra> calculoData = FXCollections.observableArrayList();
+        ICalculoDAO cal = new CalculoDAOsql();
+        calculoData = cal.getCalculoPaciente(IdPacienteActual);
+        if (calculoData.size() == 0) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Cálculos realizados = 0");
+            alert.setHeaderText("Paciente - Cálculos");
+            alert.setContentText("El paciente seleccionado no posee cálculos asignados");
+            alert.showAndWait();
+        } else {
+            Stage stage = new Stage();
+            Parent root = FXMLLoader.load(getClass().getResource("HistorialSEDIRA.fxml"));
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.setTitle("Cálculos SEDIRA");
+            stage.show();
+        }
     }
 
     @FXML

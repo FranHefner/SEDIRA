@@ -6,13 +6,7 @@
 package sedira.vistas;
 
 import java.net.URL;
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.sql.Blob;
-import java.sql.SQLException;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -21,19 +15,11 @@ import javafx.scene.control.TextField;
 import sedira.DatosValidacionesCalculo;
 import sedira.DatosValidacionesCalculoBasico;
 import sedira.IDatosValidaciones;
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -41,15 +27,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.Pane;
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
-import javax.sql.rowset.serial.SerialBlob;
-import javax.swing.JLabel;
-import org.jfree.fx.FXGraphics2D;
-import org.scilab.forge.jlatexmath.TeXConstants;
-import org.scilab.forge.jlatexmath.TeXFormula;
-import org.scilab.forge.jlatexmath.TeXIcon;
 import sedira.FuncionesGenerales;
 import sedira.MathJS;
 import sedira.model.Formula;
@@ -148,15 +126,14 @@ public class PestañaCalculoController implements Initializable {
         // Se realiza una pequeña pre-carga para cargar archivos a memoria
          ReiniciarTextoEntrada();
 
-        intFormulas = new FormulaDAOsql();
-
+        /*intFormulas = new FormulaDAOsql();
         FormulasActuales = intFormulas.getFormulas();
 
         for (int i = 0; i < FormulasActuales.size(); i++) {
             cbFormulas.getItems().add(FormulasActuales.get(i).getNombre());
 
-        }
-
+        }*/
+        llenarFormulas();
         /* Se inicializa la interface para que se adapte al tipo de cálculo actual */
         if (MenuPrincipalController.TipoUsuario == "Cientifico") {
             dValidaciones = new DatosValidacionesCalculo();
@@ -285,8 +262,8 @@ public class PestañaCalculoController implements Initializable {
 
         TextInputDialog dialog = new TextInputDialog("");
 
-        dialog.setTitle("Guardado de Formula");
-        dialog.setHeaderText("La formula se usará como plantilla para nuevos cáclulos.\n¿Qué nombre desea utilizar?");
+        dialog.setTitle("Guardado de Fórmula");
+        dialog.setHeaderText("La fórmula se usará como plantilla para nuevos cálculos.\n¿Qué nombre desea utilizar?");
         dialog.setContentText("Por favor, ingrese el nombre:");
 
         Optional<String> result = dialog.showAndWait();
@@ -294,6 +271,8 @@ public class PestañaCalculoController implements Initializable {
 
             formu.setFormula(result.get(), txtEntrada.getText(), dValidaciones.getIdCalgulo());
         }
+        llenarFormulas();
+        
 
     }
 
@@ -401,5 +380,16 @@ public class PestañaCalculoController implements Initializable {
         } else {
         }
 
+    }
+
+    private void llenarFormulas() {
+        
+        intFormulas = new FormulaDAOsql();
+        FormulasActuales = intFormulas.getFormulas();
+
+        for (int i = 0; i < FormulasActuales.size(); i++) {
+            cbFormulas.getItems().add(FormulasActuales.get(i).getNombre());
+
+        }
     }
 }
