@@ -44,27 +44,22 @@
                               </Pane>
                               <Pane layoutX="101.0" layoutY="159.0" prefHeight="284.0" prefWidth="501.0">
                                  <children>
+                                    <ComboBox fx:id="cbTipoDoc" disable="true" layoutX="136.0" layoutY="33.0" prefHeight="25.0" prefWidth="149.0" />
+                                    <TextField fx:id="txtNumeroDoc" editable="false" layoutX="136.0" layoutY="67.0" onKeyReleased="#txtNumeroDoc_KeyPress" />
                                     <TextField fx:id="txtNombre" editable="false" layoutX="136.0" layoutY="105.0" onKeyReleased="#txtNombre_KeyPress" />
                                     <TextField fx:id="txtApellido" editable="false" layoutX="136.0" layoutY="140.0" onKeyReleased="#txtApellido_KeyPress" />
+                                    <DatePicker fx:id="txtFechaNacimiento" disable="true" editable="false" layoutX="136.0" layoutY="176.0" prefHeight="25.0" prefWidth="149.0" />
                                     <Label layoutX="27.0" layoutY="144.0" text="Apellido:" />
                                     <Label layoutX="27.0" layoutY="109.0" text="Nombre:" />
                                     <Label layoutX="27.0" layoutY="37.0" text="Tipo Documento:" />
                                     <Label layoutX="27.0" layoutY="71.0" text="N° Documento:" />
-                                    <TextField fx:id="txtNumeroDoc" editable="false" layoutX="136.0" layoutY="67.0" onKeyReleased="#txtNumeroDoc_KeyPress" />
                                     <Label layoutX="26.0" layoutY="180.0" text="Fecha Nacimiento:" />
-                                    <ComboBox fx:id="cbTipoDoc" disable="true" layoutX="136.0" layoutY="33.0" prefHeight="25.0" prefWidth="149.0" />
                                     <Button fx:id="btnHistorialSEDIRA" layoutX="333.0" layoutY="178.0" mnemonicParsing="false" onAction="#btnHistorialSEDIRA_click" prefHeight="25.0" prefWidth="133.0" text="Historial SEDIRA" />
                                     <Button fx:id="btnContacto" layoutX="333.0" layoutY="143.0" mnemonicParsing="false" onAction="#btnContacto_click" prefHeight="25.0" prefWidth="133.0" text="Contacto" />
-                                    <CheckBox fx:id="chkTratamiento" allowIndeterminate="true" layoutX="437.0" layoutY="250.0" mnemonicParsing="false" />
-                                    <Label layoutX="333.0" layoutY="250.0" text="En tratamiento" />
-                                    <ImageView fx:id="imgPaciente" fitHeight="116.0" fitWidth="160.0" layoutX="343.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@/sedira/FotoPaciente.jpg" />
-                                       </image>
-                                    </ImageView>
+                                    <CheckBox fx:id="chkTratamiento" allowIndeterminate="true" layoutX="437.0" layoutY="250.0" mnemonicParsing="false" visible="false" />
+                                    <Label layoutX="333.0" layoutY="250.0" text="En tratamiento" visible="false" />
                                     <Button fx:id="btnMediciones" layoutX="333.0" layoutY="214.0" mnemonicParsing="false" onAction="#btnMediciones_click" prefHeight="25.0" prefWidth="133.0" text="Mediciones" visible="false" />
-                                    <DatePicker fx:id="txtFechaNacimiento" disable="true" editable="false" layoutX="136.0" layoutY="176.0" prefHeight="25.0" prefWidth="149.0" />
-                                    <ComboBox fx:id="cbSexo" disable="true" layoutX="136.0" layoutY="208.0" prefHeight="25.0" prefWidth="40.0" />
+                                    <ComboBox fx:id="cbSexo" disable="true" layoutX="136.0" layoutY="208.0" prefHeight="25.0" prefWidth="149.0" />
                                     <Label layoutX="26.0" layoutY="212.0" text="Sexo:" />
                                  </children>
                               </Pane>

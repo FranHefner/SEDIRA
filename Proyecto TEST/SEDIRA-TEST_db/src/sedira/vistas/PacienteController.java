@@ -191,7 +191,8 @@ public class PacienteController implements Initializable {
     }
 
     private void ModoEdicion() {
-
+        griListaPacientes.setDisable(true);
+        
         txtNombre.setEditable(true);
         txtApellido.setEditable(true);
         txtNumeroDoc.setEditable(true);
@@ -207,6 +208,8 @@ public class PacienteController implements Initializable {
         btnHistorialSEDIRA.setDisable(true);
         btnContacto.setDisable(true);
         btnNuevo.setDisable(true);
+        
+        
 
     }
 
