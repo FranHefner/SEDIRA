@@ -98,7 +98,7 @@ public class FormulaDAOsql implements IFormulaDAO {
 
     }
     @Override
-    public ObservableList<VariableCalculo> getPropiedadesFormula(int Id_calculo) {
+    public ObservableList<VariableCalculo> getPropiedadesFormula(int Id_calculo, boolean ConValores) {
      
                 
                      //Instancia de conexion
@@ -119,9 +119,18 @@ public class FormulaDAOsql implements IFormulaDAO {
 
                 //  public Formula(int pId_formula, String pNombre, String pFormula_mat, int pId_calculo
           //       public VariableCalculo(int id, String descripcion, double valor, String variable) {
-     
-                 VariableCalculo variable = new VariableCalculo(resultado.getInt("id_historial"), resultado.getString("propiedad"), resultado.getString("valor"), resultado.getString("variable"));
-                propiedadesCalculo.add(variable);
+                  VariableCalculo variable =null;
+                if (ConValores)
+                {
+                      variable = new VariableCalculo(resultado.getInt("id_historial"), resultado.getString("propiedad"), resultado.getString("valor"), resultado.getString("variable"));
+               
+                }else
+                {
+                     variable = new VariableCalculo(resultado.getInt("id_historial"), resultado.getString("propiedad"), "", resultado.getString("variable"));
+               
+                }
+                
+                 propiedadesCalculo.add(variable);
             }
             //Cierre de consulta
             resultado.close();

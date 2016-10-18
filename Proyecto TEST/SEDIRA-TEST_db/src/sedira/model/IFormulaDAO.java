@@ -16,7 +16,7 @@ public interface IFormulaDAO {
     
      boolean setFormula(String Formula, String Nombre, int Id_calculo);
     List<Formula>  getFormulas();
-     public ObservableList<VariableCalculo> getPropiedadesFormula(int Id_calculo);
+     public ObservableList<VariableCalculo> getPropiedadesFormula(int Id_calculo, boolean ConValores);
      
     
 }

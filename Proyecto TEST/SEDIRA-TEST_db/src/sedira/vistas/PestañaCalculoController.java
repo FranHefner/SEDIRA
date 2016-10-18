@@ -17,6 +17,7 @@ import sedira.DatosValidacionesCalculo;
 import sedira.DatosValidacionesCalculoBasico;
 import sedira.IDatosValidaciones;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import javafx.collections.FXCollections;
@@ -228,11 +229,12 @@ public class PestañaCalculoController implements Initializable {
         for (int i = 0; i < FormulasActuales.size(); i++) {
            if (formulaSelecionada.equals( FormulasActuales.get(i).getNombre()))
            {
-                listaVariables = iFormulas.getPropiedadesFormula( FormulasActuales.get(i).getId_calculo());
+                listaVariables = iFormulas.getPropiedadesFormula( FormulasActuales.get(i).getId_calculo(), false);
                 IndiceFormula= i;
            }
 
         }
+        
         
         //Busco las propiedades del phantom 
        /*  for (int i=0; i<  dValidaciones.getPhantomActual().getPropiedades().size(); i++)
@@ -246,53 +248,61 @@ public class PestañaCalculoController implements Initializable {
          //
               //       ValorDescripcion
                  
-              List<VariableCalculo> VariablesEncontradas = null;
-        for (VariableCalculo vc : listaVariables) {
+           
+            List<String> ListaValores = new ArrayList<String>();
+        int indexVariables=-1;
+            for (VariableCalculo vc : listaVariables) {
+            indexVariables++;
+            ListaValores.clear();
             for (ValorDescripcion variablePhantom : dValidaciones.getPhantomActual().getPropiedades()) {
                 if (vc.getDescripcion().equals(variablePhantom.getDescripcion())) {                    
                     
-                    VariablesEncontradas.add(vc);
+                      ListaValores.add(variablePhantom.getValor());
                 }
             }
-            for (ValorDescripcion variablePhantom : dValidaciones.getRadionuClidoActual().getPropiedades()) {
-                if (vc.getDescripcion().equals(variablePhantom.getDescripcion())) {                    
+            for (ValorDescripcion variableRadionuclido : dValidaciones.getRadionuClidoActual().getPropiedades()) {
+                if (vc.getDescripcion().equals(variableRadionuclido.getDescripcion())) {                    
                     
-                    VariablesEncontradas.add(vc);
+                    ListaValores.add(variableRadionuclido.getValor());
                 }
             }
             
-            if (VariablesEncontradas.size() > 1)
+            if (ListaValores.size() > 1)
             {
                 
                     TextInputDialog dialog = new TextInputDialog("");
-
-                    dialog.setTitle("Confirmar Valor");
-                    dialog.setHeaderText("Se encontraró más de un valor de esa propiedad. Seleccione el valor deseado");
                     
-                    String MuestraVariables="";
-                    for (int i = 1; i<VariablesEncontradas.size()+1; i++)
+                      String MuestraVariables="";
+                    for (int i = 1; i<ListaValores.size()+1; i++)
                     {
-                        MuestraVariables+= "Opcion "+i+": "+VariablesEncontradas.get(i-1).getValor() +"\n";
+                        MuestraVariables+= "Opcion "+i+": "+ListaValores.get(i-1) +"\n";
                     }
                     
-                    dialog.setContentText("Opción deseada: \n"+MuestraVariables );
+
+                    dialog.setTitle("Confirmar Valor");
+                    dialog.setHeaderText("Se encontraró más de un valor de la propiedad '"+vc.getDescripcion()+"'. Seleccione el valor deseado \n"+MuestraVariables);
+                                                          
+                    dialog.setContentText("Opción deseada:" );
 
                     Optional<String> result = dialog.showAndWait();
                     if (result.isPresent()) {
                       
                         
-                        if(ValidacionesGenerales.ValidarNumero( result.toString()))
+                        if(ValidacionesGenerales.ValidarNumero( result.get()))
                         {
-                             int indice = Integer.parseInt(result.get());
-                             vc.setValor(VariablesEncontradas.get(indice).getValor());   
-                        }
-                     
+                            int index = Integer.parseInt( result.get());
+                            
+                          listaVariables.get(indexVariables).setValor(ListaValores.get( index-1 ));                          
+                        }                     
                        
                     }else
                     {
                         //cancelar seleccion fórmla
                     }
                 
+            }else
+            {
+               listaVariables.get(indexVariables).setValor(ListaValores.get(0));
             }
         }
 
