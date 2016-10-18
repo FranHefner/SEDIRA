@@ -5,6 +5,7 @@
  */
 package sedira.vistas;
 
+import com.mysql.jdbc.StringUtils;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -30,6 +31,7 @@ import javafx.scene.layout.Pane;
 import javax.script.ScriptException;
 import sedira.FuncionesGenerales;
 import sedira.MathJS;
+import sedira.ValidacionesGenerales;
 import sedira.model.Formula;
 import sedira.model.FormulaDAOsql;
 import sedira.model.IFormulaDAO;
@@ -107,7 +109,7 @@ public class PestañaCalculoController implements Initializable {
 
     private ValorDescripcion variableSeleccionada = null;
     private IDatosValidaciones dValidaciones;
-    private IFormulaDAO intFormulas;
+    private IFormulaDAO iFormulas;
     private boolean grillaSeleccionada = false;
     List<Formula> FormulasActuales;
     private char letra = 'A';
@@ -220,16 +222,87 @@ public class PestañaCalculoController implements Initializable {
     @FXML
     public void seleccionFormula() {
 
+        int IndiceFormula = -1;
        String formulaSelecionada= cbFormulas.getValue().toString();
 
         for (int i = 0; i < FormulasActuales.size(); i++) {
            if (formulaSelecionada.equals( FormulasActuales.get(i).getNombre()))
            {
-                listaVariables = intFormulas.getPropiedadesFormula( FormulasActuales.get(i).getId_calculo());
+                listaVariables = iFormulas.getPropiedadesFormula( FormulasActuales.get(i).getId_calculo());
+                IndiceFormula= i;
            }
 
         }
-       griVariables.setItems(listaVariables);
+        
+        //Busco las propiedades del phantom 
+       /*  for (int i=0; i<  dValidaciones.getPhantomActual().getPropiedades().size(); i++)
+         {
+               for (int j =0; j< listaVariables.size(); j++)
+               {
+                 ObservableList<VariableCalculo> lista = listaVariables.filtered( p -> p.getDescripcion().equals(dValidaciones.getPhantomActual().getPropiedades().get(i).getDescripcion()));
+                         
+               }
+         }*/
+         //
+              //       ValorDescripcion
+                 
+              List<VariableCalculo> VariablesEncontradas = null;
+        for (VariableCalculo vc : listaVariables) {
+            for (ValorDescripcion variablePhantom : dValidaciones.getPhantomActual().getPropiedades()) {
+                if (vc.getDescripcion().equals(variablePhantom.getDescripcion())) {                    
+                    
+                    VariablesEncontradas.add(vc);
+                }
+            }
+            for (ValorDescripcion variablePhantom : dValidaciones.getRadionuClidoActual().getPropiedades()) {
+                if (vc.getDescripcion().equals(variablePhantom.getDescripcion())) {                    
+                    
+                    VariablesEncontradas.add(vc);
+                }
+            }
+            
+            if (VariablesEncontradas.size() > 1)
+            {
+                
+                    TextInputDialog dialog = new TextInputDialog("");
+
+                    dialog.setTitle("Confirmar Valor");
+                    dialog.setHeaderText("Se encontraró más de un valor de esa propiedad. Seleccione el valor deseado");
+                    
+                    String MuestraVariables="";
+                    for (int i = 1; i<VariablesEncontradas.size()+1; i++)
+                    {
+                        MuestraVariables+= "Opcion "+i+": "+VariablesEncontradas.get(i-1).getValor() +"\n";
+                    }
+                    
+                    dialog.setContentText("Opción deseada: \n"+MuestraVariables );
+
+                    Optional<String> result = dialog.showAndWait();
+                    if (result.isPresent()) {
+                      
+                        
+                        if(ValidacionesGenerales.ValidarNumero( result.toString()))
+                        {
+                             int indice = Integer.parseInt(result.get());
+                             vc.setValor(VariablesEncontradas.get(indice).getValor());   
+                        }
+                     
+                       
+                    }else
+                    {
+                        //cancelar seleccion fórmla
+                    }
+                
+            }
+        }
+
+                
+        if(IndiceFormula != -1)
+        {
+             griVariables.setItems(listaVariables);
+             txtEntrada.setText( FormulasActuales.get(IndiceFormula).getFormula_mat());
+        }
+
         ReiniciarTextoEntrada();
       
 
@@ -384,8 +457,8 @@ public class PestañaCalculoController implements Initializable {
 
     private void llenarFormulas() {
         
-        intFormulas = new FormulaDAOsql();
-        FormulasActuales = intFormulas.getFormulas();
+        iFormulas = new FormulaDAOsql();
+        FormulasActuales = iFormulas.getFormulas();
 
         for (int i = 0; i < FormulasActuales.size(); i++) {
             cbFormulas.getItems().add(FormulasActuales.get(i).getNombre());
