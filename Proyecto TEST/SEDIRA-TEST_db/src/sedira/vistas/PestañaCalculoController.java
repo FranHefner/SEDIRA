@@ -23,6 +23,7 @@ import java.util.Optional;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -127,7 +128,7 @@ public class PestañaCalculoController implements Initializable {
             RealizarCalculo(newValue);
         });
         // Se realiza una pequeña pre-carga para cargar archivos a memoria
-         ReiniciarTextoEntrada();
+        ReiniciarTextoEntrada();
 
         /*intFormulas = new FormulaDAOsql();
         FormulasActuales = intFormulas.getFormulas();
@@ -212,109 +213,127 @@ public class PestañaCalculoController implements Initializable {
 
     }
 
-     public void ReiniciarTextoEntrada()
-     {
+    public void ReiniciarTextoEntrada() {
         String TextoOriginal = txtEntrada.getText();
         txtEntrada.setText("0");
         txtEntrada.setText("");
         txtEntrada.setText(TextoOriginal);
-     
-     }
+
+    }
+
     @FXML
     public void seleccionFormula() {
 
         int IndiceFormula = -1;
-       String formulaSelecionada= cbFormulas.getValue().toString();
 
-        for (int i = 0; i < FormulasActuales.size(); i++) {
-           if (formulaSelecionada.equals( FormulasActuales.get(i).getNombre()))
-           {
-                listaVariables = iFormulas.getPropiedadesFormula( FormulasActuales.get(i).getId_calculo(), false);
-                IndiceFormula= i;
-           }
+        if (cbFormulas.getSelectionModel().isEmpty()) {
+            // NO SE SELECCIONO UNA FORMULA;
+        } else {
+            boolean FaltanPropiedades = false;
+            boolean FaltanDefinirPropiedades = false;
+            String formulaSelecionada = cbFormulas.getValue().toString();
 
-        }
-        
-        
-        //Busco las propiedades del phantom 
-       /*  for (int i=0; i<  dValidaciones.getPhantomActual().getPropiedades().size(); i++)
-         {
-               for (int j =0; j< listaVariables.size(); j++)
-               {
-                 ObservableList<VariableCalculo> lista = listaVariables.filtered( p -> p.getDescripcion().equals(dValidaciones.getPhantomActual().getPropiedades().get(i).getDescripcion()));
-                         
-               }
-         }*/
-         //
-              //       ValorDescripcion
-                 
-           
+            for (int i = 0; i < FormulasActuales.size(); i++) {
+                if (formulaSelecionada.equals(FormulasActuales.get(i).getNombre())) {
+                    listaVariables = iFormulas.getPropiedadesFormula(FormulasActuales.get(i).getId_calculo(), false);
+                    IndiceFormula = i;
+                }
+
+            }
+          
             List<String> ListaValores = new ArrayList<String>();
-        int indexVariables=-1;
+            int indexVariables = -1;
             for (VariableCalculo vc : listaVariables) {
-            indexVariables++;
-            ListaValores.clear();
-            for (ValorDescripcion variablePhantom : dValidaciones.getPhantomActual().getPropiedades()) {
-                if (vc.getDescripcion().equals(variablePhantom.getDescripcion())) {                    
-                    
-                      ListaValores.add(variablePhantom.getValor());
-                }
-            }
-            for (ValorDescripcion variableRadionuclido : dValidaciones.getRadionuClidoActual().getPropiedades()) {
-                if (vc.getDescripcion().equals(variableRadionuclido.getDescripcion())) {                    
-                    
-                    ListaValores.add(variableRadionuclido.getValor());
-                }
-            }
-            
-            if (ListaValores.size() > 1)
-            {
-                
-                    TextInputDialog dialog = new TextInputDialog("");
-                    
-                      String MuestraVariables="";
-                    for (int i = 1; i<ListaValores.size()+1; i++)
-                    {
-                        MuestraVariables+= "Opcion "+i+": "+ListaValores.get(i-1) +"\n";
+                indexVariables++;
+                ListaValores.clear();
+                for (ValorDescripcion variablePhantom : dValidaciones.getPhantomActual().getPropiedades()) {
+                    if (vc.getDescripcion().equals(variablePhantom.getDescripcion())) {
+
+                        ListaValores.add(variablePhantom.getValor());
                     }
-                    
+                }
+                for (ValorDescripcion variableRadionuclido : dValidaciones.getRadionuClidoActual().getPropiedades()) {
+                    if (vc.getDescripcion().equals(variableRadionuclido.getDescripcion())) {
+
+                        ListaValores.add(variableRadionuclido.getValor());
+                    }
+                }
+
+                if (ListaValores.size() > 1) {
+
+                    TextInputDialog dialog = new TextInputDialog("");
+
+                    String MuestraVariables = "";
+                    for (int i = 1; i < ListaValores.size() + 1; i++) {
+                        MuestraVariables += "" + i + ": " + ListaValores.get(i - 1) + "\n";
+                    }
 
                     dialog.setTitle("Confirmar Valor");
-                    dialog.setHeaderText("Se encontraró más de un valor de la propiedad '"+vc.getDescripcion()+"'. Seleccione el valor deseado \n"+MuestraVariables);
-                                                          
-                    dialog.setContentText("Opción deseada:" );
+                    dialog.setHeaderText("Se encontraró más de un valor de la propiedad '" + vc.getDescripcion() + "'. Seleccione el valor deseado \n" + MuestraVariables);
+
+                    dialog.setContentText("Opción deseada:");
 
                     Optional<String> result = dialog.showAndWait();
                     if (result.isPresent()) {
-                      
-                        
-                        if(ValidacionesGenerales.ValidarNumero( result.get()))
-                        {
-                            int index = Integer.parseInt( result.get());
-                            
-                          listaVariables.get(indexVariables).setValor(ListaValores.get( index-1 ));                          
-                        }                     
-                       
-                    }else
-                    {
-                        //cancelar seleccion fórmla
+
+                        if (ValidacionesGenerales.ValidarNumero(result.get())) {
+                            int index = Integer.parseInt(result.get());
+
+                            listaVariables.get(indexVariables).setValor(ListaValores.get(index - 1));
+                        } else {
+                            FaltanDefinirPropiedades = true;
+                        }
+
+                    } else {
+                        FaltanDefinirPropiedades = true;
+
                     }
-                
-            }else
-            {
-               listaVariables.get(indexVariables).setValor(ListaValores.get(0));
+
+                } else if (ListaValores.size() == 1) {
+                    listaVariables.get(indexVariables).setValor(ListaValores.get(0));
+                } else {
+                    FaltanPropiedades = true;
+                }
             }
-        }
 
-                
-        if(IndiceFormula != -1)
-        {
-             griVariables.setItems(listaVariables);
-             txtEntrada.setText( FormulasActuales.get(IndiceFormula).getFormula_mat());
-        }
+            if (FaltanPropiedades == true) {
 
-        ReiniciarTextoEntrada();
-      
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Faltan propiedades");
+                alert.setHeaderText("Atención!");
+                alert.setContentText("La fórmula seleccionada requiere propiedades que no están disponibles en los elemtnos seleccionados. \n"
+                        + "Por favor, seleccione otra fórmula...  ");
+
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.get() == ButtonType.OK) {
+                }
+                    cbFormulas.getSelectionModel().clearSelection();
+
+            } else if (FaltanDefinirPropiedades == true) {
+
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Faltan definir propiedades");
+                alert.setHeaderText("Atención!");
+                alert.setContentText("La fórmula seleccionada encontró más de una propiedad con un mismo nombre entre los elementos seleccionados \n"
+                        + "Por favor, seleccione nuevamente la formula y elija un valor para dicha propiedad ");
+
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.get() == ButtonType.OK) {
+                }
+
+                   cbFormulas.getSelectionModel().clearSelection();
+            } else {
+                if (IndiceFormula != -1) {
+                    griVariables.setItems(listaVariables);
+                    txtEntrada.setText(FormulasActuales.get(IndiceFormula).getFormula_mat());
+                } else {
+                         cbFormulas.getSelectionModel().clearSelection();
+                }
+
+                ReiniciarTextoEntrada();
+            }
+
+        }
 
     }
 
@@ -355,7 +374,6 @@ public class PestañaCalculoController implements Initializable {
             formu.setFormula(result.get(), txtEntrada.getText(), dValidaciones.getIdCalgulo());
         }
         llenarFormulas();
-        
 
     }
 
@@ -466,7 +484,8 @@ public class PestañaCalculoController implements Initializable {
     }
 
     private void llenarFormulas() {
-        
+
+   
         iFormulas = new FormulaDAOsql();
         FormulasActuales = iFormulas.getFormulas();
 
