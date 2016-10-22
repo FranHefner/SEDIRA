@@ -18,7 +18,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
@@ -60,12 +62,19 @@ public class PestañaPacienteController implements Initializable {
     private TableColumn<Paciente, String> clApellido;
     @FXML
     private Button btnHistorialSEDIRA;
+    
+    @FXML
+    private Label cantCaracteres;
+
+    /**
+     *
+     */
     @FXML
     private TextArea txtObservaciones;
         
     private Paciente pacienteActual;
     private ObservableList<Paciente> pacienteData = FXCollections.observableArrayList();
-     private IDatosValidaciones dValidaciones;
+    private IDatosValidaciones dValidaciones;
     
      
     
@@ -98,6 +107,7 @@ public class PestañaPacienteController implements Initializable {
         } catch (SQLException ex) {
             Logger.getLogger(PestañaPacienteController.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
         griListaPacientes.setItems(pacienteData);
     }    
     
@@ -109,6 +119,8 @@ public class PestañaPacienteController implements Initializable {
     {         
         griListaPacientes.setItems(FuncionesGenerales.FiltroListaPaciente(griListaPacientes, pacienteData, txtBusqueda));
     }
+     
+    
     private void SeleccionPaciente(Paciente PacienteActual) 
     {  
     
@@ -119,13 +131,10 @@ public class PestañaPacienteController implements Initializable {
             txtNombrePaciente.setText(String.valueOf(PacienteActual.getApellido())+", "+ String.valueOf(PacienteActual.getNombre()));
             btnHistorialSEDIRA.setDisable(false);
             txtObservaciones.setDisable(false);
+            txtObservaciones.setText("");
             txtNombrePaciente.setDisable(false);
-            
             dValidaciones.setPaciente(PacienteActual);
          
-          
-            
-            
         } else {
             txtNombrePaciente.setText("");
             txtObservaciones.setText("");
@@ -136,6 +145,10 @@ public class PestañaPacienteController implements Initializable {
         }
     }
     
+    /**
+     * Comportamiento para el botón Historial SEDIRA. 
+     * @throws IOException 
+     */
     @FXML
     private void btnHistorialSEDIRA_click() throws IOException
     { 
@@ -147,6 +160,30 @@ public class PestañaPacienteController implements Initializable {
         stage.setTitle("Progreso Paciente");
         stage.show();   
     }
+   
+    /**
+     * Método que controla el ingreso de texto en el 
+     */
+   @FXML
+   private void getTextoObservaciones(){
+       int count = 499-txtObservaciones.getText().length();
+       
+       String text=txtObservaciones.getText();
+      
+       if (txtObservaciones.getText().length()<500){
+           
+       dValidaciones.setObservaciones(txtObservaciones.getText());
+       cantCaracteres.setText(String.valueOf(count));
+       } else{
+           Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Cuidado!");
+            alert.setHeaderText("Se excedió el limite de caracteres para el campo Observaciones. ");
+            alert.setContentText("Se han ingresado demasiados caracteres.");
+
+            alert.showAndWait();
+       }
+       
+   }
     
   
     

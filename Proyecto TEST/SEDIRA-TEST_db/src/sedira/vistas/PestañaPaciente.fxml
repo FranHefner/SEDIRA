@@ -20,7 +20,7 @@
                   <TableView fx:id="griListaPacientes" layoutX="89.0" layoutY="6.0" prefHeight="151.0" prefWidth="501.0">
                      <columns>
                         <TableColumn fx:id="clTipoDoc" prefWidth="98.0" text="Tipo Doc" />
-                        <TableColumn fx:id="clNumeroDoc" prefWidth="152.0" text="Numero Doc" />
+                        <TableColumn fx:id="clNumeroDoc" prefWidth="152.0" text="Número Doc" />
                         <TableColumn fx:id="clNombre" prefWidth="113.0" text="Nombre" />
                         <TableColumn fx:id="clApellido" prefWidth="159.0" text="Apellido" />
                      </columns>
@@ -29,11 +29,12 @@
                      </columnResizePolicy>
                   </TableView>
                   <Label layoutX="89.0" layoutY="180.0" text="Paciente" />
-                  <CheckBox allowIndeterminate="true" disable="true" layoutX="302.0" layoutY="179.0" mnemonicParsing="false" style="-fx-opacity: 1;" text="En tratamiento" />
-                  <TextField fx:id="txtNombrePaciente" disable="true" editable="false" layoutX="155.0" layoutY="167.0" prefHeight="36.0" prefWidth="140.0" />
-                  <Label layoutX="89.0" layoutY="212.0" text="Obervaciones:" />
-                  <TextArea fx:id="txtObservaciones" disable="true" layoutX="89.0" layoutY="232.0" prefHeight="173.0" prefWidth="501.0" />
-                  <Button fx:id="btnHistorialSEDIRA" disable="true" layoutX="439.0" layoutY="176.0" mnemonicParsing="false" onAction="#btnHistorialSEDIRA_click" prefHeight="23.0" prefWidth="105.0" text="Historial SEDIRA" />
+                  <CheckBox allowIndeterminate="true" disable="true" layoutX="468.0" layoutY="179.0" mnemonicParsing="false" style="-fx-opacity: 1;" text="En tratamiento" visible="false" />
+                  <TextField fx:id="txtNombrePaciente" disable="true" editable="false" layoutX="155.0" layoutY="167.0" prefHeight="36.0" prefWidth="303.0" />
+                  <Label layoutX="89.0" layoutY="212.0" text="Observaciones:" />
+                  <TextArea fx:id="txtObservaciones" disable="true" layoutX="89.0" layoutY="232.0" onKeyTyped="#getTextoObservaciones" prefHeight="173.0" prefWidth="501.0" wrapText="true" />
+                  <Button fx:id="btnHistorialSEDIRA" disable="true" layoutX="561.0" layoutY="176.0" mnemonicParsing="false" onAction="#btnHistorialSEDIRA_click" prefHeight="23.0" prefWidth="105.0" text="Historial SEDIRA" visible="false" />
+                  <Label fx:id="cantCaracteres" layoutX="546.0" layoutY="219.0" prefHeight="14.0" prefWidth="41.0" text="0" />
                </children>
             </AnchorPane>
          </items>

@@ -40,6 +40,7 @@ public interface IDatosValidaciones {
       boolean setOrgano(Organo miOrgano);
       boolean setRadionuclido(Radionuclido miRadionuclido);
       void setProcesoCompleto(boolean esCompleto);
+      public void setObservaciones (String observaciones);
  
     
 }

@@ -39,7 +39,6 @@ public class CalculoController implements Initializable {
 
     @FXML
     private TabPane tabPaneCalculo;
-
     @FXML
     private TableView<?> griListaPacientes;
     @FXML
@@ -80,6 +79,7 @@ public class CalculoController implements Initializable {
     private Button btnCancelar;
 
     public static String pestañaActual;
+    
     
    
 
@@ -153,6 +153,8 @@ public class CalculoController implements Initializable {
             tabCalcular.setDisable(true);
             
             if (adelante) {
+                
+               
                 Node NodoPhantom;
                 NodoPhantom = (Node) FXMLLoader.load(getClass().getResource("PestañaPhantom.fxml"));
                 pnlPhantom.getChildren().setAll(NodoPhantom);

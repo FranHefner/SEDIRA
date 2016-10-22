@@ -390,5 +390,10 @@ public class DatosValidacionesCalculo implements IDatosValidaciones {
         }
 
     }
+    
+    @Override
+    public void setObservaciones (String observaciones){
+        Observaciones = observaciones;
+    }
 
 }

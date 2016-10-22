@@ -196,6 +196,11 @@ public class DatosValidacionesCalculoBasico implements IDatosValidaciones {
     public boolean setRadionuclido(Radionuclido miRadionuclido) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+    
+    @Override
+    public void setObservaciones (String observaciones){
+        Observaciones = observaciones;
+    }
 
   
 
