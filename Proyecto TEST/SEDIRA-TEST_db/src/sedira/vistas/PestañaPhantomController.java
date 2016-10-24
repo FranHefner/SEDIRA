@@ -90,14 +90,14 @@ public class PestañaPhantomController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         
         /* Se inicializa la interface para que se adapte al tipo de cálculo actual */
-        if( "Cientifico".equals(MenuPrincipalController.TipoUsuario))
-        {
+      //  if( "Cientifico".equals(MenuPrincipalController.TipoUsuario))
+       // {
            dValidaciones = new DatosValidacionesCalculo();
-        }
-        if ("Medico".equals(MenuPrincipalController.TipoUsuario))
-        {
-           dValidaciones = new DatosValidacionesCalculoBasico();
-        }
+       // }
+      //  if ("Medico".equals(MenuPrincipalController.TipoUsuario))
+       // {
+       //    dValidaciones = new DatosValidacionesCalculoBasico();
+        //}
         
         // Inicializo la tabla de Organos
         clOrganoNombre.setCellValueFactory(

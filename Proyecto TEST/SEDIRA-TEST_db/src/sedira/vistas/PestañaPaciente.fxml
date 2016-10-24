@@ -34,7 +34,7 @@
                   <Label layoutX="89.0" layoutY="212.0" text="Observaciones:" />
                   <TextArea fx:id="txtObservaciones" disable="true" layoutX="89.0" layoutY="232.0" onKeyTyped="#getTextoObservaciones" prefHeight="173.0" prefWidth="501.0" wrapText="true" />
                   <Button fx:id="btnHistorialSEDIRA" disable="true" layoutX="561.0" layoutY="176.0" mnemonicParsing="false" onAction="#btnHistorialSEDIRA_click" prefHeight="23.0" prefWidth="105.0" text="Historial SEDIRA" visible="false" />
-                  <Label fx:id="cantCaracteres" layoutX="546.0" layoutY="219.0" prefHeight="14.0" prefWidth="41.0" text="0" />
+                  <Label fx:id="cantCaracteres" layoutX="546.0" layoutY="212.0" prefHeight="14.0" prefWidth="41.0" text="0" />
                </children>
             </AnchorPane>
          </items>

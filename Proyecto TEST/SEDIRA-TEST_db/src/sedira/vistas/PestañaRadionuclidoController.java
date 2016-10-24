@@ -74,12 +74,12 @@ public class PestañaRadionuclidoController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
 
         /* Se inicializa la interface para que se adapte al tipo de cálculo actual */
-        if (MenuPrincipalController.TipoUsuario == "Cientifico") {
+      //  if (MenuPrincipalController.TipoUsuario == "Cientifico") {
             dValidaciones = new DatosValidacionesCalculo();
-        }
-        if (MenuPrincipalController.TipoUsuario == "Medico") {
-            dValidaciones = new DatosValidacionesCalculoBasico();
-        }
+       // }
+        //if (MenuPrincipalController.TipoUsuario == "Medico") {
+         //   dValidaciones = new DatosValidacionesCalculoBasico();
+      //  }
 
         //Inicializo la tabla de Propiedad Valor, correspondiente a la informacion de los radioNuclidos . 
         clVdValor.setCellValueFactory(

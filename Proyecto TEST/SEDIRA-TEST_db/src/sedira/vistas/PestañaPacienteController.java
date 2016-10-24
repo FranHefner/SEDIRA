@@ -83,14 +83,14 @@ public class PestañaPacienteController implements Initializable {
         
         
         /* Se inicializa la interface para que se adapte al tipo de cálculo actual */
-        if( MenuPrincipalController.TipoUsuario == "Cientifico")
-        {
+     //   if( MenuPrincipalController.TipoUsuario == "Cientifico")
+        //{
            dValidaciones = new DatosValidacionesCalculo();
-        }
-        if (MenuPrincipalController.TipoUsuario == "Medico")
-        {
-           dValidaciones = new DatosValidacionesCalculoBasico();
-        }
+        //}
+       // if (MenuPrincipalController.TipoUsuario == "Medico")
+       // {
+         //  dValidaciones = new DatosValidacionesCalculoBasico();
+       // }
         /****************************************************************************/
         
         clNombre.setCellValueFactory(cellData -> cellData.getValue().getNombreProperty());

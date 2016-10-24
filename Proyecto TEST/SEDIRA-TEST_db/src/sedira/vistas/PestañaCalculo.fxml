@@ -39,7 +39,7 @@
       <Label layoutX="32.0" layoutY="144.0" text="Propiedades Radionúclido" />
       <TextField fx:id="txtResult" editable="false" layoutX="98.0" layoutY="443.0" prefHeight="25.0" prefWidth="412.0" />
       <Label layoutX="186.0" layoutY="276.0" text="Masa:" />
-      <Button layoutX="323.0" layoutY="75.0" mnemonicParsing="false" onMouseClicked="#agregarVariables" prefHeight="35.0" prefWidth="50.0" text="=&gt;" />
+      <Button fx:id="btnAgregarPropiedad" layoutX="323.0" layoutY="75.0" mnemonicParsing="false" onMouseClicked="#agregarVariables" prefHeight="35.0" prefWidth="50.0" text="=&gt;" />
       <TableView fx:id="griVariables" layoutX="404.0" layoutY="63.0" prefHeight="234.0" prefWidth="264.0">
         <columns>
           <TableColumn fx:id="clDescripcionVariable" prefWidth="100.0" text="Propiedad" />
@@ -49,7 +49,7 @@
       </TableView>
       <TextField fx:id="txtOrganoMasa" editable="false" layoutX="223.0" layoutY="272.0" onMouseClicked="#seleccionMasa" prefHeight="25.0" prefWidth="73.0" />
       <Label layoutX="19.0" layoutY="384.0" text="Vista Previa:" />
-      <Button layoutX="323.0" layoutY="135.0" mnemonicParsing="false" onMouseClicked="#eliminarVariable" prefHeight="35.0" prefWidth="50.0" text="X" />
+      <Button fx:id="btnSacarPropiedad" layoutX="323.0" layoutY="135.0" mnemonicParsing="false" onMouseClicked="#eliminarVariable" prefHeight="35.0" prefWidth="50.0" text="X" />
       <Label fx:id="lblOrgano" layoutX="32.0" layoutY="276.0" text="Sin datos" />
       <Label layoutX="404.0" layoutY="41.0" text="Variables requeridas:" />
       <ComboBox fx:id="cbFormulas" layoutX="461.0" layoutY="4.0" onAction="#seleccionFormula" prefHeight="25.0" prefWidth="181.0" promptText="Seleccionar Fórmula.." />

@@ -114,7 +114,7 @@ public class MenuPrincipalController implements Initializable {
      */
     @FXML
     private void mniIniciarCalculo_click() throws IOException {
-        if ("Cientifico".equals(TipoUsuario) ||"Administrador".equals(TipoUsuario)  ) {
+     
             Stage stage = new Stage();
             Parent root = FXMLLoader.load(getClass().getResource("Calculo.fxml"));
             Scene scene = new Scene(root);
@@ -129,23 +129,20 @@ public class MenuPrincipalController implements Initializable {
             stage.initModality(Modality.APPLICATION_MODAL);
             //  stage.setAlwaysOnTop(true);
             stage.show();
-        }
+        
+    /*   No se usa más, ahora en la pestaña del cálculo verifica el tipo de usuario
         if ("Medico".equals(TipoUsuario)) {
             Stage stage = new Stage();
             Parent root = FXMLLoader.load(getClass().getResource("CalculoRapido.fxml"));
             Scene scene = new Scene(root);
-            /*
-             stage.setMaxWidth(682);        
-             stage.setMaxHeight(671);
-             stage.setMinWidth(682);        
-             stage.setMinHeight(671);*/
+        
             stage.setResizable(false);
             stage.setScene(scene);
             stage.setTitle("Calcular Dosis Administrada");
             stage.initModality(Modality.APPLICATION_MODAL);
-            //  stage.setAlwaysOnTop(true);
+  
             stage.show();
-        }
+        }*/
 
     }
 

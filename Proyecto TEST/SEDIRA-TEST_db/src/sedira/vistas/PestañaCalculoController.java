@@ -96,6 +96,10 @@ public class PestañaCalculoController implements Initializable {
     @FXML
     private Button btnGuardarFormula;
     @FXML
+    private Button btnAgregarPropiedad;
+    @FXML
+    private Button btnSacarPropiedad;
+    @FXML
     private ComboBox cbFormulas;
     @FXML
     private Button btnEliminarFormula;
@@ -139,13 +143,19 @@ public class PestañaCalculoController implements Initializable {
         }*/
         llenarFormulas();
         /* Se inicializa la interface para que se adapte al tipo de cálculo actual */
+        
+         dValidaciones = new DatosValidacionesCalculo();
+         
         if (MenuPrincipalController.TipoUsuario == "Cientifico") {
-            dValidaciones = new DatosValidacionesCalculo();
+           
             cbFormulas.setDisable(false);
             btnEliminarFormula.setDisable(false);
         }
         if (MenuPrincipalController.TipoUsuario == "Medico") {
-            dValidaciones = new DatosValidacionesCalculoBasico();
+           
+            btnSacarPropiedad.setDisable(true);
+            btnAgregarPropiedad.setDisable(true);
+            btnEliminarFormula.setDisable(true);
         }
         /**
          * *************************************************************************
@@ -417,8 +427,13 @@ public class PestañaCalculoController implements Initializable {
         guardadoOK = dValidaciones.guardarCalculo();
 
         if (guardadoOK) {
-            btnGuardarFormula.setDisable(false);
-        } else {
+            
+            if(MenuPrincipalController.TipoUsuario == "Cientifico")
+            {
+                 btnGuardarFormula.setDisable(false);
+            }
+           
+        } else {            
             btnGuardarFormula.setDisable(true);
         }
 
