@@ -5,7 +5,9 @@
  */
 package sedira.vistas;
 
+import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.Optional;
@@ -264,6 +266,14 @@ public class PhantomController implements Initializable {
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.initOwner(primaryStage);
             Scene scene = new Scene(page);
+     
+          
+           try {
+            scene.getStylesheets().add((new File("tools/autoCompletado.css")).toURI().toURL().toExternalForm());
+        } catch (MalformedURLException ex) {
+            
+        }
+                 
             dialogStage.setScene(scene);
 
             // Pone el organo en el controlador AbmOrganoController. 
@@ -305,6 +315,11 @@ public class PhantomController implements Initializable {
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.initOwner(primaryStage);
             Scene scene = new Scene(page);
+            try {
+            scene.getStylesheets().add((new File("tools/autoCompletado.css")).toURI().toURL().toExternalForm());
+        } catch (MalformedURLException ex) {
+            
+        }
             dialogStage.setScene(scene);
 
             // Pone el organo en el controlador AbmOrganoController. 

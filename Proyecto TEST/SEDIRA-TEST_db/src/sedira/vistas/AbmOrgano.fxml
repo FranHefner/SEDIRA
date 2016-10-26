@@ -26,6 +26,7 @@
                   <HBox alignment="CENTER" layoutX="9.0" layoutY="547.0" prefHeight="25.0" prefWidth="540.0" spacing="20.0" />
                   <Label fx:id="phantomInfo" layoutX="17.0" layoutY="6.0" prefHeight="17.0" prefWidth="395.0" />
                   <Label fx:id="lblOrganoId" layoutX="20.0" layoutY="30.0" prefHeight="14.0" prefWidth="410.0" />
+                  <HBox fx:id="txtOrganosSugeridos" layoutX="150.0" layoutY="22.0" prefHeight="27.0" prefWidth="184.0" />
                </children></AnchorPane>
         </content>
       </TitledPane>

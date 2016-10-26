@@ -5,10 +5,14 @@
  */
 package sedira.vistas;
 
+import java.io.File;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -17,11 +21,14 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import sedira.FuncionesGenerales;
 import sedira.ValidacionesGenerales;
 import sedira.model.IOrganoDAO;
+import np.com.ngopal.control.AutoFillTextBox;
+
 
 import sedira.model.Organo;
 import sedira.model.OrganoDAOsql;
@@ -41,6 +48,8 @@ public class AbmOrganoController implements Initializable {
     private TextField txtOrganoMasa;
     @FXML
     private Label phantomInfo;
+    @FXML
+    private HBox txtOrganosSugeridos;
 
     //******************** variables 
     //Objeto ListaOrgano auxiliar. 
@@ -77,6 +86,21 @@ public class AbmOrganoController implements Initializable {
         this.dialogStage = dialogStage;
         dialogStage.initModality(Modality.APPLICATION_MODAL);
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+          HBox hbox = new HBox();
+          txtOrganosSugeridos.setSpacing(10);
+          
+          
+             ObservableList data = FXCollections.observableArrayList();
+
+             // ACA SE REMPLAZA POR LA LISTA OBTENIDA DE LA VISTA 
+        String[] s = new String[]{"organo1","organo2","organo3"};
+            for(int j=0; j<s.length; j++){
+
+                data.add(s[j]);
+            }
+          final AutoFillTextBox box = new AutoFillTextBox(data);
+          txtOrganosSugeridos.getChildren().add(0, box);        
     }
 
     /**
