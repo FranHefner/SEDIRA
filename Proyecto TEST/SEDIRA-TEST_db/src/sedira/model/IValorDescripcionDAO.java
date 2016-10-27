@@ -6,6 +6,8 @@
 package sedira.model;
 
 import java.sql.SQLException;
+import javafx.collections.ObservableList;
+
 
 /**
  * Interface para ValorDescripcionDAOsql
@@ -21,5 +23,7 @@ public interface IValorDescripcionDAO {
     public void eliminarItem(int id);
 
     public boolean buscaNombre(String propiedad) throws SQLException;
+    
+    public ObservableList listadoPropiedades();
 
 }

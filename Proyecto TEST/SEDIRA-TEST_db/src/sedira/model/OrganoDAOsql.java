@@ -8,6 +8,8 @@ package sedira.model;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import sedira.CodigosErrorSQL;
 
@@ -175,5 +177,33 @@ public class OrganoDAOsql implements IOrganoDAO {
             //JOptionPane.showMessageDialog(null, "Ocurrio un error! " + e);
             return false;
         }
+    }
+    @Override
+    public ObservableList listadoOrganos(){
+    
+          //Instancia de conexion
+        ConexionDB conexion = new ConexionDB();
+        ObservableList listado = FXCollections.observableArrayList();
+        
+
+        try {
+           PreparedStatement consulta = conexion.getConnection().prepareStatement(
+                    "SELECT * FROM lista_organos");
+
+            //Ejecucion de la consulta. 
+            ResultSet resultado = consulta.executeQuery();
+            //obtencion de los datos desde la bd.
+            while (resultado.next()) {
+                listado.add(   resultado.getString("nombre_organo"));
+              
+            }
+
+        } catch (SQLException e) {
+            CodigosErrorSQL.analizarExepcion(e);
+            //System.out.println(e.getMessage());
+            //JOptionPane.showMessageDialog(null, "Ocurrio un error! " + e);
+   
+        }
+        return listado;
     }
 }

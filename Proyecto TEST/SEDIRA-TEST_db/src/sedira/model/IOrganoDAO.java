@@ -6,6 +6,7 @@
 package sedira.model;
 
 import java.sql.SQLException;
+import javafx.collections.ObservableList;
 
 /**
  * Interface para OrganoDAO
@@ -20,4 +21,8 @@ public interface IOrganoDAO {
     void eliminarOrgano(int id);
 
     boolean buscaNombre(String nombreOrgano, int idPhantom) throws SQLException;
+    
+    public ObservableList listadoOrganos();
+    
+  
 }

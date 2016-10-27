@@ -13,17 +13,25 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javax.swing.event.DocumentEvent;
 import sedira.FuncionesGenerales;
 import sedira.ValidacionesGenerales;
 import sedira.model.IOrganoDAO;
@@ -48,8 +56,10 @@ public class AbmOrganoController implements Initializable {
     private TextField txtOrganoMasa;
     @FXML
     private Label phantomInfo;
-    @FXML
-    private HBox txtOrganosSugeridos;
+
+   @FXML
+    private VBox boxControles;
+
 
     //******************** variables 
     //Objeto ListaOrgano auxiliar. 
@@ -64,6 +74,11 @@ public class AbmOrganoController implements Initializable {
     private boolean guardarDatos = false;
     //Instancia de objeto IOrganoDAO. Inicializado como OrganoDAOsql. Para implementacion en MySql.  
     private IOrganoDAO org = new OrganoDAOsql();
+   
+    ObservableList<String>  data;
+       ListView listaSugerida = new ListView();
+         FilteredList<String> filteredData;
+        
 
     /**
      * Initializes the controller class.
@@ -85,23 +100,52 @@ public class AbmOrganoController implements Initializable {
     public void setDialogStage(Stage dialogStage) {
         this.dialogStage = dialogStage;
         dialogStage.initModality(Modality.APPLICATION_MODAL);
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                                         
+          data = org.listadoOrganos();    
+                listaSugerida.setItems(data);
         
-          HBox hbox = new HBox();
-          txtOrganosSugeridos.setSpacing(10);
-          
-          
-             ObservableList data = FXCollections.observableArrayList();
 
-             // ACA SE REMPLAZA POR LA LISTA OBTENIDA DE LA VISTA 
-        String[] s = new String[]{"organo1","organo2","organo3"};
-            for(int j=0; j<s.length; j++){
+        txtOrganoNombre.textProperty().addListener(
+                    (observable, oldValue, newValue) -> actualizarListaSugerida(newValue));
 
-                data.add(s[j]);
-            }
-          final AutoFillTextBox box = new AutoFillTextBox(data);
-          txtOrganosSugeridos.getChildren().add(0, box);        
+        boxControles.getChildren().addAll(txtOrganoNombre,listaSugerida);
+
+
+
+        listaSugerida.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+        @Override
+        public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+             seleccionarItem(newValue);
+        }
+    });
+    
+        
     }
+  
+    private void seleccionarItem ( String itemSeleccionado)
+    {      
+          txtOrganoNombre.setText(itemSeleccionado);
+    }
+            
+    private void actualizarListaSugerida( String filtro)
+    {
+       
+         if(filtro == null || filtro.length() == 0) {
+           listaSugerida.setItems(data);
+        }
+        else {
+            
+                        ObservableList<String> dataFiltrada=  data.filtered(s -> s.toLowerCase().contains(filtro.toLowerCase()));
+                     listaSugerida.setItems( dataFiltrada );
+                 
+                  listaSugerida.refresh();
+              
+      
+              
+    
+        }                     
+    }
+    
 
     /**
      * Setea el Phantom a editar. Se edita el phantom porque lo órganos están
@@ -142,6 +186,7 @@ public class AbmOrganoController implements Initializable {
         if (organo != null) {
 
             txtOrganoNombre.setText(organo.getNombreOrgano());
+           
             txtOrganoMasa.setText(organo.getOrganMass().toString());
 
         } else {
