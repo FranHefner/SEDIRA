@@ -120,14 +120,14 @@ public class AbmOrganoController implements Initializable {
            bandera = true;
            if ( listaSugerida.getSelectionModel().getSelectedIndex() ==-1)
            {
-               listaSugerida.getSelectionModel().clearSelection();
-                  listaSugerida.setItems(data);                  
+               
+                        
            }
            else
             {
                    seleccionarItem(newValue);  
            }
-                      bandera = false;
+             bandera = false;
           
         }
     });        
@@ -135,8 +135,11 @@ public class AbmOrganoController implements Initializable {
   
     private void seleccionarItem ( String itemSeleccionado)
     {      
-       
-          txtOrganoNombre.setText(itemSeleccionado);
+      
+        
+        txtOrganoNombre.setText(itemSeleccionado);
+    listaSugerida.getSelectionModel().clearSelection();
+        
           
     }
             
@@ -149,22 +152,14 @@ public class AbmOrganoController implements Initializable {
 
                   listaSugerida.setItems(data);
 
-
              }
              else {
-
                              ObservableList<String> dataFiltrada=  data.filtered(s -> s.toLowerCase().contains(filtro.toLowerCase()));
-                          listaSugerida.setItems( dataFiltrada );
-                       
+                          listaSugerida.setItems( dataFiltrada );                       
 
              }   
-        }
-           
-       
-                        
+        } 
     }
-    
-
     /**
      * Setea el Phantom a editar. Se edita el phantom porque lo órganos están
      * incluidos dentro de un phantom en particular.
