@@ -118,19 +118,25 @@ public class AbmOrganoController implements Initializable {
         @Override
         public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
            bandera = true;
-            seleccionarItem(newValue);
-              bandera = false;
+           if ( listaSugerida.getSelectionModel().getSelectedIndex() ==-1)
+           {
+               listaSugerida.getSelectionModel().clearSelection();
+                  listaSugerida.setItems(data);                  
+           }
+           else
+            {
+                   seleccionarItem(newValue);  
+           }
+                      bandera = false;
           
         }
-    });
-    
-        
+    });        
     }
   
     private void seleccionarItem ( String itemSeleccionado)
     {      
        
-          txtOrganoNombre.setText("");
+          txtOrganoNombre.setText(itemSeleccionado);
           
     }
             
@@ -149,8 +155,7 @@ public class AbmOrganoController implements Initializable {
 
                              ObservableList<String> dataFiltrada=  data.filtered(s -> s.toLowerCase().contains(filtro.toLowerCase()));
                           listaSugerida.setItems( dataFiltrada );
-
-                       listaSugerida.refresh();
+                       
 
              }   
         }
