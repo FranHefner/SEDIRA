@@ -78,7 +78,9 @@ public class AbmOrganoController implements Initializable {
     ObservableList<String>  data;
        ListView listaSugerida = new ListView();
          FilteredList<String> filteredData;
-        
+         
+    boolean bandera = false;
+      
 
     /**
      * Initializes the controller class.
@@ -115,7 +117,10 @@ public class AbmOrganoController implements Initializable {
         listaSugerida.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
         @Override
         public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-             seleccionarItem(newValue);
+           bandera = true;
+            seleccionarItem(newValue);
+              bandera = false;
+          
         }
     });
     
@@ -124,26 +129,34 @@ public class AbmOrganoController implements Initializable {
   
     private void seleccionarItem ( String itemSeleccionado)
     {      
-          txtOrganoNombre.setText(itemSeleccionado);
+       
+          txtOrganoNombre.setText("");
+          
     }
             
     private void actualizarListaSugerida( String filtro)
     {
-       
-         if(filtro == null || filtro.length() == 0) {
-           listaSugerida.setItems(data);
+     
+        if (bandera == false)
+        {
+            if(filtro == null || filtro.length() == 0) {
+
+                  listaSugerida.setItems(data);
+
+
+             }
+             else {
+
+                             ObservableList<String> dataFiltrada=  data.filtered(s -> s.toLowerCase().contains(filtro.toLowerCase()));
+                          listaSugerida.setItems( dataFiltrada );
+
+                       listaSugerida.refresh();
+
+             }   
         }
-        else {
-            
-                        ObservableList<String> dataFiltrada=  data.filtered(s -> s.toLowerCase().contains(filtro.toLowerCase()));
-                     listaSugerida.setItems( dataFiltrada );
-                 
-                  listaSugerida.refresh();
-              
-      
-              
-    
-        }                     
+           
+       
+                        
     }
     
 
@@ -203,20 +216,31 @@ public class AbmOrganoController implements Initializable {
      */
     @FXML
     public void btnGuardarDatos() throws SQLException {
+        
+        
         //Obtengo el phantom actual. El phantom contiene la lista de órganos. 
         phantom = FuncionesGenerales.getPhantomActual();
+        String NombreOrgano;
 
+        // Me fijo si hay un órgano seleccionado o es un nuevo órgano
+        if (listaSugerida.getSelectionModel().getSelectedIndex() ==-1)
+        {
+            NombreOrgano = txtOrganoNombre.getText();
+        }else
+        {
+           NombreOrgano= listaSugerida.getSelectionModel().getSelectedItem().toString();
+        }
         // La llamada a la base de datos se realiza desde PhantomController. Editar/Nuevo
         if (validarDatosEntrada()) {
 
             if ("Agregar Organo".equals(this.dialogStage.getTitle())) {
 
-                organo.setNombreOrgano(txtOrganoNombre.getText());
+                organo.setNombreOrgano(NombreOrgano);
                 organo.setOrganMass(Double.valueOf(txtOrganoMasa.getText()));
 
             } else {
                 // el organo ya existe, por lo tanto se edita. 
-                organo.setNombreOrgano(txtOrganoNombre.getText());
+                organo.setNombreOrgano(NombreOrgano);
                 organo.setOrganMass(Double.valueOf(txtOrganoMasa.getText()));
             }
             guardarDatos = true;
