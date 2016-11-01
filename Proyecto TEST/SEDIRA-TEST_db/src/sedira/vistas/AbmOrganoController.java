@@ -134,18 +134,14 @@ public class AbmOrganoController implements Initializable {
     }
   
     private void seleccionarItem ( String itemSeleccionado)
-    {      
-      
-        
+    {              
         txtOrganoNombre.setText(itemSeleccionado);
-    listaSugerida.getSelectionModel().clearSelection();
-        
           
     }
             
     private void actualizarListaSugerida( String filtro)
     {
-     
+         listaSugerida.getSelectionModel().clearSelection();
         if (bandera == false)
         {
             if(filtro == null || filtro.length() == 0) {

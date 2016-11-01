@@ -226,7 +226,7 @@ public class ValorDescripcionDAOsql implements IValorDescripcionDAO {
             ResultSet resultado = consulta.executeQuery();
             //obtencion de los datos desde la bd.
             while (resultado.next()) {
-                listado.add(   resultado.getString("propiedad"));
+                listado.add(   resultado.getString("nombre_propiedad"));
               
             }
 

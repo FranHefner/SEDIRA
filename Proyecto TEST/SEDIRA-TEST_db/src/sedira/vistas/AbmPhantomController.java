@@ -9,24 +9,31 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import sedira.FuncionesGenerales;
 import sedira.ValidacionesGenerales;
 import sedira.model.IPhantomDAO;
+import sedira.model.IValorDescripcionDAO;
 import sedira.model.Phantom;
 import sedira.model.PhantomDAOsql;
 
 import sedira.model.ValorDescripcion;
+import sedira.model.ValorDescripcionDAOsql;
 
 /**
  * FXML Controller class Clase controladora para el Abm de Phantoms.
@@ -51,6 +58,8 @@ public class AbmPhantomController implements Initializable {
     private TextField txtNombrePhantom;
     @FXML
     private TextField txtIdPhantom;
+      @FXML
+    private VBox boxControles;
 
     //Objeto Phantom auxiliar. 
     private Phantom phantom;
@@ -64,6 +73,13 @@ public class AbmPhantomController implements Initializable {
     private ObservableList<ValorDescripcion> listaAtributoPhantom = FXCollections.observableArrayList();
     //Se cambia el PhantomDAOsql por la implementacion Correcta para otro motor. 
     private IPhantomDAO ph = new PhantomDAOsql();
+    private IValorDescripcionDAO vd = new ValorDescripcionDAOsql();
+    
+    ObservableList<String>  data;
+    ListView listaSugerida = new ListView();
+    FilteredList<String> filteredData;
+       boolean bandera = false;
+            
 
     /**
      * Initializes the controller class.
@@ -83,8 +99,62 @@ public class AbmPhantomController implements Initializable {
         this.dialogStage = dialogStage;
         dialogStage.initModality(Modality.APPLICATION_MODAL);
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+                                              
+          data = vd.listadoPropiedades();    
+                listaSugerida.setItems(data);
+        
+
+        txtPropiedad.textProperty().addListener(
+                    (observable, oldValue, newValue) -> actualizarListaSugerida(newValue));
+
+        boxControles.getChildren().addAll(txtPropiedad,listaSugerida);
+
+
+
+        listaSugerida.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+        @Override
+        public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+           bandera = true;
+           if ( listaSugerida.getSelectionModel().getSelectedIndex() ==-1)
+           {
+               
+                        
+           }
+           else
+            {
+                   seleccionarItem(newValue);  
+           }
+            bandera = false;
+          
+        }
+    });    
     }
 
+     private void seleccionarItem ( String itemSeleccionado)
+    {              
+        txtPropiedad.setText(itemSeleccionado);
+          
+    }
+            
+    private void actualizarListaSugerida( String filtro)
+    {
+         listaSugerida.getSelectionModel().clearSelection();
+        if (bandera == false)
+        {
+            if(filtro == null || filtro.length() == 0) {
+
+                  listaSugerida.setItems(data);
+
+             }
+             else {
+                             ObservableList<String> dataFiltrada=  data.filtered(s -> s.toLowerCase().contains(filtro.toLowerCase()));
+                          listaSugerida.setItems( dataFiltrada );                       
+
+             }   
+        } 
+    }
+    
     /**
      * Setea el Phantom a editar dentro del Formulario de edicion. Si el Phanton
      * que viene por parametros tiene el id = -1, significa que el usuario busca
@@ -150,6 +220,18 @@ public class AbmPhantomController implements Initializable {
      */
     @FXML
     public void btnGuardarDatos() throws SQLException {
+        
+         String NombrePropiedad;
+
+        // Me fijo si hay un órgano seleccionado o es un nuevo órgano
+        if (listaSugerida.getSelectionModel().getSelectedIndex() ==-1)
+        {
+            NombrePropiedad = txtPropiedad.getText();
+        }else
+        {
+           NombrePropiedad= listaSugerida.getSelectionModel().getSelectedItem().toString();
+        }
+        
         // TODO: VALIDACIONES.  
         // La llamada a la base de datos se realiza desde PhantomController. Editar/Nuevo
         if (validarDatosEntrada()) {
@@ -163,7 +245,7 @@ public class AbmPhantomController implements Initializable {
                     phantom.setPhantomNombre(txtNombrePhantom.getText());
                     break;
                 case "Modificar Items":
-                    itemPhantom.setDescripcion(txtPropiedad.getText());
+                    itemPhantom.setDescripcion(NombrePropiedad);
                     itemPhantom.setUnidad(txtUnidad.getText());
                     itemPhantom.setValor(txtValor.getText());
                     break;

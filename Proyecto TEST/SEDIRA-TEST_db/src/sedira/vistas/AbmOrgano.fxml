@@ -18,9 +18,9 @@
                   <TextField fx:id="txtOrganoMasa" layoutX="360.0" layoutY="37.0" prefHeight="33.0" prefWidth="63.0" />
                   <VBox alignment="CENTER" layoutX="438.0" layoutY="8.0" spacing="15.0">
                      <children>
-                        <Button fx:id="btnLimpiarValores" layoutX="438.0" layoutY="8.0" mnemonicParsing="false" onAction="#btnLimpiarValores" text="Limpiar valores" />
+                        <Button fx:id="btnLimpiarValores" layoutX="438.0" layoutY="8.0" mnemonicParsing="false" onAction="#btnLimpiarValores" prefHeight="25.0" prefWidth="104.0" text="Limpiar valores" />
                         <Button fx:id="btnGuardarCambios" mnemonicParsing="false" onAction="#btnGuardarDatos" text="Guardar cambios" />
-                        <Button fx:id="btnCancelar" mnemonicParsing="false" onAction="#btnCancel_click" text="Cancelar" />
+                        <Button fx:id="btnCancelar" mnemonicParsing="false" onAction="#btnCancel_click" prefHeight="25.0" prefWidth="101.0" text="Cancelar" />
                      </children>
                   </VBox>
                   <HBox alignment="CENTER" layoutX="9.0" layoutY="547.0" prefHeight="25.0" prefWidth="540.0" spacing="20.0" />
