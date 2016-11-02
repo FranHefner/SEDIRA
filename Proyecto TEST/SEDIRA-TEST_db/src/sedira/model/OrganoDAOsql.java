@@ -49,11 +49,11 @@ public class OrganoDAOsql implements IOrganoDAO {
                 conexion.desconectar();
 
                 // Mensaje de confirmacion
-                Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+               /* Alert alerta = new Alert(Alert.AlertType.INFORMATION);
                 alerta.setTitle("Confirmación");
                 alerta.setHeaderText(null);
                 alerta.setContentText("El órgano fué agregado.");
-                alerta.showAndWait();
+                alerta.showAndWait();*/
             } else {
 
             }
@@ -125,11 +125,11 @@ public class OrganoDAOsql implements IOrganoDAO {
             conexion.desconectar();
 
             // Mensaje de confirmacion
-            Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+            /*Alert alerta = new Alert(Alert.AlertType.INFORMATION);
             alerta.setTitle("Confirmación");
             alerta.setHeaderText(null);
             alerta.setContentText("El órgano fué eliminado. ");
-            alerta.showAndWait();
+            alerta.showAndWait();*/
 
         } catch (SQLException e) {
             CodigosErrorSQL.analizarExepcion(e);

@@ -172,13 +172,13 @@ public class RadionuclidoDAOsql implements IRadionuclidoDAO {
                 conexion.desconectar();
 
                 // Mensaje de confirmacion
-                Alert alerta = new Alert(AlertType.INFORMATION);
+               /* Alert alerta = new Alert(AlertType.INFORMATION);
                 alerta.setTitle("Confirmación");
                 alerta.setHeaderText(null);
                 alerta.setContentText("El radionúclido "
                         + ""+nombreRadNuclido+" "
                         + "fué agregado.");
-                alerta.showAndWait();
+                alerta.showAndWait();*/
             } else {
                  /**
                   * Mensaje por error esta detallado en el metodo validarDatosEntrada. ABMRadionuclidos
@@ -212,11 +212,11 @@ public class RadionuclidoDAOsql implements IRadionuclidoDAO {
             
             
             // Mensaje de confirmacion
-            Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+            /*Alert alerta = new Alert(Alert.AlertType.INFORMATION);
             alerta.setTitle("Confirmación");
             alerta.setHeaderText(null);
             alerta.setContentText("El radionúclido fué eliminado. ");
-            alerta.showAndWait();
+            alerta.showAndWait();*/
 
         } catch (SQLException e) {
             CodigosErrorSQL.analizarExepcion(e);
@@ -253,11 +253,11 @@ public class RadionuclidoDAOsql implements IRadionuclidoDAO {
                 consulta.close();
                 
                 //Mensaje de confirmacion.
-                Alert alerta = new Alert(AlertType.INFORMATION);
+                /*Alert alerta = new Alert(AlertType.INFORMATION);
                 alerta.setTitle("Confirmación");
                 alerta.setHeaderText(null);
                 alerta.setContentText("El radionúclido fué modificado.");
-                alerta.showAndWait();
+                alerta.showAndWait();*/
                 
             } else {
              /**

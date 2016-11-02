@@ -62,11 +62,11 @@ public class ValorDescripcionDAOsql implements IValorDescripcionDAO {
             // JOptionPane.showMessageDialog(null, "La propiedad "+vd.getDescripcion()+ " fué agregada con éxito!","Información",JOptionPane.INFORMATION_MESSAGE);
             
             // Mensaje de confirmacion
-            Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+           /* Alert alerta = new Alert(Alert.AlertType.INFORMATION);
             alerta.setTitle("Confirmación");
             alerta.setHeaderText(null);
             alerta.setContentText("El item: \n " +vd.getDescripcion() +"\n fué agregado.");
-            alerta.showAndWait();
+            alerta.showAndWait();*/
             
         } catch (SQLException e) {
             CodigosErrorSQL.analizarExepcion(e);
@@ -120,11 +120,11 @@ public class ValorDescripcionDAOsql implements IValorDescripcionDAO {
                 conexion.desconectar();
 
                 // Mensaje de confirmacion
-                Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+               /* Alert alerta = new Alert(Alert.AlertType.INFORMATION);
                 alerta.setTitle("Confirmación");
                 alerta.setHeaderText(null);
                 alerta.setContentText("El item: \n " +vd.getDescripcion() +"\n fué modificado.");
-                alerta.showAndWait();
+                alerta.showAndWait();*/
                 // JOptionPane.showMessageDialog(null, "La propiedad " + vd.getDescripcion() + " fué agregada con éxito!", "Información", JOptionPane.INFORMATION_MESSAGE); 
             //}
 
@@ -157,11 +157,11 @@ public class ValorDescripcionDAOsql implements IValorDescripcionDAO {
             
             
             // Mensaje de confirmacion
-            Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+           /* Alert alerta = new Alert(Alert.AlertType.INFORMATION);
             alerta.setTitle("Confirmación");
             alerta.setHeaderText(null);
             alerta.setContentText("El ítem fué eliminado. ");
-            alerta.showAndWait();
+            alerta.showAndWait();*/
 
         } catch (SQLException e) {
             CodigosErrorSQL.analizarExepcion((SQLException) e);

@@ -80,7 +80,7 @@ public class PhantomDAOsql implements IPhantomDAO {
                     + "INNER JOIN valordescripcion "
                     + "ON phantoms.id_phantom = valordescripcion.id_phantom "
                     + "GROUP BY phantoms.id_phantom");
-            
+
             ResultSet resultado = consulta.executeQuery();
             while (resultado.next()) {
                 //objeto auxiliar
@@ -98,7 +98,7 @@ public class PhantomDAOsql implements IPhantomDAO {
             conexion.desconectar();
 
         } catch (Exception e) {
-             CodigosErrorSQL.analizarExepcion((SQLException) e);
+            CodigosErrorSQL.analizarExepcion((SQLException) e);
             //JOptionPane.showMessageDialog(null, "no se pudo consultar el phantom /n" + e);
             //System.out.print(e);
         }
@@ -107,7 +107,7 @@ public class PhantomDAOsql implements IPhantomDAO {
     }
 
     /**
-     * Metodo que retorna la informacion completa de tipo valor descripcion que
+     * Método que retorna la información completa de tipo valor descripción que
      * contiene un phantom.
      *
      * @param phantomSeleccionado
@@ -149,7 +149,7 @@ public class PhantomDAOsql implements IPhantomDAO {
             conexion.desconectar();
 
         } catch (Exception e) {
-             CodigosErrorSQL.analizarExepcion((SQLException) e);
+            CodigosErrorSQL.analizarExepcion((SQLException) e);
             //JOptionPane.showMessageDialog(null, "no se pudo consultar el phantom /n" + e);
             //System.out.print(e);
         }
@@ -175,18 +175,18 @@ public class PhantomDAOsql implements IPhantomDAO {
                 consulta.close();
                 conexion.desconectar();
                 //Mensaje de confirmacion
-                Alert alerta = new Alert(Alert.AlertType.INFORMATION);
-                alerta.setTitle("Confirmación");
-                alerta.setHeaderText(null);
-                alerta.setContentText("El phantom fué " + nombrePhantom + " agregado.");
-                alerta.showAndWait();
+                /*Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+                 alerta.setTitle("Confirmación");
+                 alerta.setHeaderText(null);
+                 alerta.setContentText("El phantom fué " + nombrePhantom + " agregado.");
+                 alerta.showAndWait();*/
 
             } else {
                 //Las validaciones se encuentran en ABMphantomController 
                 //JOptionPane.showMessageDialog(null, "El phantom " + nombrePhantom + " ya existe!", "Información", JOptionPane.INFORMATION_MESSAGE);
             }
         } catch (SQLException e) {
-             CodigosErrorSQL.analizarExepcion((SQLException) e);
+            CodigosErrorSQL.analizarExepcion((SQLException) e);
             //JOptionPane.showMessageDialog(null, "no se pudo consultar el phantom /n" + e);
             //System.out.print(e);
         }
@@ -219,18 +219,17 @@ public class PhantomDAOsql implements IPhantomDAO {
                 conexion.desconectar();
 
                 //Mensaje de confirmacion
-                Alert alerta = new Alert(Alert.AlertType.INFORMATION);
-                alerta.setTitle("Confirmación");
-                alerta.setHeaderText(null);
-                alerta.setContentText("El phantom fué modificado");
-                alerta.showAndWait();
-
+                /*Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+                 alerta.setTitle("Confirmación");
+                 alerta.setHeaderText(null);
+                 alerta.setContentText("El phantom fué modificado");
+                 alerta.showAndWait();*/
             } else {
                 //Las validaciones se encuentran en ABMphantomController 
                 //JOptionPane.showMessageDialog(null, "El phantom " + nombrePhantom + " ya existe!", "Información", JOptionPane.INFORMATION_MESSAGE);
             }
         } catch (SQLException e) {
-             CodigosErrorSQL.analizarExepcion((SQLException) e);
+            CodigosErrorSQL.analizarExepcion((SQLException) e);
             //JOptionPane.showMessageDialog(null, "no se pudo consultar el phantom /n" + e);
             //System.out.print(e);
         }
@@ -258,12 +257,11 @@ public class PhantomDAOsql implements IPhantomDAO {
             conexion.desconectar();
 
             // Mensaje de confirmacion
-            Alert alerta = new Alert(Alert.AlertType.INFORMATION);
-            alerta.setTitle("Confirmación");
-            alerta.setHeaderText(null);
-            alerta.setContentText("El phantom fué eliminado. ");
-            alerta.showAndWait();
-
+            /*Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+             alerta.setTitle("Confirmación");
+             alerta.setHeaderText(null);
+             alerta.setContentText("El phantom fué eliminado. ");
+             alerta.showAndWait();*/
         } catch (SQLException e) {
             CodigosErrorSQL.analizarExepcion((SQLException) e);
             //JOptionPane.showMessageDialog(null, "no se pudo consultar el phantom /n" + e);
@@ -300,7 +298,7 @@ public class PhantomDAOsql implements IPhantomDAO {
             }
 
         } catch (SQLException e) {
-             CodigosErrorSQL.analizarExepcion((SQLException) e);
+            CodigosErrorSQL.analizarExepcion((SQLException) e);
             //JOptionPane.showMessageDialog(null, "no se pudo consultar el phantom /n" + e);
             //System.out.print(e);
             return false;
@@ -349,7 +347,7 @@ public class PhantomDAOsql implements IPhantomDAO {
             conexion.desconectar();
 
         } catch (Exception e) {
-             CodigosErrorSQL.analizarExepcion((SQLException) e);
+            CodigosErrorSQL.analizarExepcion((SQLException) e);
             //JOptionPane.showMessageDialog(null, "no se pudo consultar el phantom /n" + e);
             //System.out.print(e);
         }
