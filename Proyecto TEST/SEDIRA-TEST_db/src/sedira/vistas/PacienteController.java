@@ -176,6 +176,7 @@ public class PacienteController implements Initializable {
         txtApellido.setEditable(false);
         txtNumeroDoc.setEditable(false);
         txtFechaNacimiento.setEditable(false);
+        griListaPacientes.setDisable(false);
 
         if (FuncionesGenerales.pacienteActual != null) {
             btnMediciones.setDisable(false);
