@@ -22,6 +22,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TitledPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -57,8 +58,9 @@ public class AbmPhantomController implements Initializable {
     @FXML
     private TextField txtNombrePhantom;
     @FXML
-    private TextField txtIdPhantom;
-      @FXML
+    private TitledPane titledEdicion;
+    
+    @FXML
     private VBox boxControles;
 
     //Objeto Phantom auxiliar. 
@@ -74,12 +76,11 @@ public class AbmPhantomController implements Initializable {
     //Se cambia el PhantomDAOsql por la implementacion Correcta para otro motor. 
     private IPhantomDAO ph = new PhantomDAOsql();
     private IValorDescripcionDAO vd = new ValorDescripcionDAOsql();
-    
-    ObservableList<String>  data;
+
+    ObservableList<String> data;
     ListView listaSugerida = new ListView();
     FilteredList<String> filteredData;
-       boolean bandera = false;
-            
+    boolean bandera = false;
 
     /**
      * Initializes the controller class.
@@ -99,62 +100,54 @@ public class AbmPhantomController implements Initializable {
         this.dialogStage = dialogStage;
         dialogStage.initModality(Modality.APPLICATION_MODAL);
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        
-                                              
-          data = vd.listadoPropiedades();    
-                listaSugerida.setItems(data);
-        
+
+        data = vd.listadoPropiedades();
+        listaSugerida.setItems(data);
 
         txtPropiedad.textProperty().addListener(
-                    (observable, oldValue, newValue) -> actualizarListaSugerida(newValue));
+                (observable, oldValue, newValue) -> actualizarListaSugerida(newValue));
 
-        boxControles.getChildren().addAll(txtPropiedad,listaSugerida);
-
-
+        boxControles.getChildren().addAll(txtPropiedad, listaSugerida);
 
         listaSugerida.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
-        @Override
-        public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-           bandera = true;
-           if ( listaSugerida.getSelectionModel().getSelectedIndex() ==-1)
-           {
-               
-                        
-           }
-           else
-            {
-                   seleccionarItem(newValue);  
-           }
-            bandera = false;
-          
-        }
-    });    
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                bandera = true;
+                if (listaSugerida.getSelectionModel().getSelectedIndex() == -1) {
+
+                } else {
+                    seleccionarItem(newValue);
+                }
+                bandera = false;
+
+            }
+        });
     }
 
-     private void seleccionarItem ( String itemSeleccionado)
-    {              
+    public void seleccionarItem(String itemSeleccionado) {
         txtPropiedad.setText(itemSeleccionado);
-          
+
     }
-            
-    private void actualizarListaSugerida( String filtro)
-    {
-         listaSugerida.getSelectionModel().clearSelection();
-        if (bandera == false)
-        {
-            if(filtro == null || filtro.length() == 0) {
 
-                  listaSugerida.setItems(data);
+    /**
+     * Método que actualiza la lista de propiedades al completar el textField
+     *
+     * @param filtro
+     */
+    private void actualizarListaSugerida(String filtro) {
+        listaSugerida.getSelectionModel().clearSelection();
+        if (bandera == false) {
+            if (filtro == null || filtro.length() == 0) {
 
-             }
-             else {
-                             ObservableList<String> dataFiltrada=  data.filtered(s -> s.toLowerCase().contains(filtro.toLowerCase()));
-                          listaSugerida.setItems( dataFiltrada );                       
+                listaSugerida.setItems(data);
+            } else {
+                ObservableList<String> dataFiltrada = data.filtered(s -> s.toLowerCase().contains(filtro.toLowerCase()));
+                listaSugerida.setItems(dataFiltrada);
 
-             }   
-        } 
+            }
+        }
     }
-    
+
     /**
      * Setea el Phantom a editar dentro del Formulario de edicion. Si el Phanton
      * que viene por parametros tiene el id = -1, significa que el usuario busca
@@ -173,10 +166,8 @@ public class AbmPhantomController implements Initializable {
             //Atributos de nombre y id. 
             txtNombrePhantom.setEditable(true);
             txtNombrePhantom.setText(phantom.getPhantomNombre());
-            txtIdPhantom.setText(String.valueOf(phantom.getIdPhantom()));
-            txtIdPhantom.setEditable(false);
-            txtIdPhantom.setDisable(true);
-
+            listaSugerida.setDisable(true);
+            listaSugerida.setVisible(false);
             txtPropiedad.setDisable(true);
             txtValor.setDisable(true);
             txtUnidad.setDisable(true);
@@ -186,14 +177,15 @@ public class AbmPhantomController implements Initializable {
 
             //Cambio Nombre en el formulario. 
             this.dialogStage.setTitle("Crear un Phantom");
+            listaSugerida.setDisable(true);
+            listaSugerida.setVisible(false);
+            
             //Apago los TextField
             txtNombrePhantom.setEditable(true);
-            txtIdPhantom.setDisable(true);
             txtPropiedad.setDisable(true);
             txtValor.setDisable(true);
             txtUnidad.setDisable(true);
 
-            //Prendo los botones. 
         }
 
     }
@@ -206,10 +198,10 @@ public class AbmPhantomController implements Initializable {
     public void setItemPhantom(ValorDescripcion itemPhantom) {
         Phantom phantomActual = FuncionesGenerales.getPhantomActual();
         this.itemPhantom = itemPhantom;
-        txtIdPhantom.setText(String.valueOf(phantomActual.getIdPhantom()));
+       
         txtNombrePhantom.setText(phantomActual.getPhantomNombre());
         txtPropiedad.setText(itemPhantom.getDescripcion());
-        txtValor.setText(itemPhantom.getValor().toString());
+        txtValor.setText(itemPhantom.getValor());
         txtUnidad.setText(itemPhantom.getUnidad());
     }
 
@@ -220,18 +212,16 @@ public class AbmPhantomController implements Initializable {
      */
     @FXML
     public void btnGuardarDatos() throws SQLException {
-        
-         String NombrePropiedad;
+
+        String NombrePropiedad;
 
         // Me fijo si hay un órgano seleccionado o es un nuevo órgano
-        if (listaSugerida.getSelectionModel().getSelectedIndex() ==-1)
-        {
+        if (listaSugerida.getSelectionModel().getSelectedIndex() == -1) {
             NombrePropiedad = txtPropiedad.getText();
-        }else
-        {
-           NombrePropiedad= listaSugerida.getSelectionModel().getSelectedItem().toString();
+        } else {
+            NombrePropiedad = listaSugerida.getSelectionModel().getSelectedItem().toString();
         }
-        
+
         // TODO: VALIDACIONES.  
         // La llamada a la base de datos se realiza desde PhantomController. Editar/Nuevo
         if (validarDatosEntrada()) {

@@ -238,7 +238,6 @@ public class PhantomController implements Initializable {
             //Return
             return controladorAbmPhantom.isGuardarDatosClicked();
         } catch (IOException e) {
-            e.printStackTrace();
             return false;
         }
 
