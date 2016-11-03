@@ -26,18 +26,18 @@
                      </columnResizePolicy>
                   </TableView>
                   <Button fx:id="btnNuevoPhantom" layoutX="157.0" layoutY="69.0" mnemonicParsing="false" onAction="#btnNuevoPhantom_click" prefHeight="25.0" prefWidth="112.0" text="Crear phantom" />
-                  <Button fx:id="btnEditarPhantom" disable="true" layoutX="157.0" layoutY="108.0" mnemonicParsing="false" onAction="#btnEditarPhantom_click" prefHeight="25.0" prefWidth="112.0" text="Modificar phantom" />
+                  <Button fx:id="btnEditarPhantom" disable="true" layoutX="157.0" layoutY="106.0" mnemonicParsing="false" onAction="#btnEditarPhantom_click" prefHeight="25.0" prefWidth="112.0" text="Modificar phantom" />
                   <Button fx:id="btnEliminarPhantom" disable="true" layoutX="157.0" layoutY="143.0" mnemonicParsing="false" onAction="#btnEliminarPhantom" prefHeight="25.0" prefWidth="112.0" text="Eliminar phantom" />
                </children>
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="495.0" prefWidth="895.0">
                <children>
-                  <TitledPane animated="false" collapsible="false" layoutX="14.0" layoutY="7.0" prefHeight="430.0" prefWidth="396.0" text="Información del phantom">
+                  <TitledPane animated="false" collapsible="false" focusTraversable="false" layoutX="14.0" layoutY="7.0" prefHeight="430.0" prefWidth="396.0" text="Información del phantom">
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="400.0" prefWidth="394.0">
                            <children>
                               <Text layoutX="18.0" layoutY="25.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Peso Total:" />
-                              <TextField fx:id="txtPesoTotal" editable="false" layoutX="73.0" layoutY="10.0" />
+                              <TextField fx:id="txtPesoTotal" editable="false" focusTraversable="false" layoutX="73.0" layoutY="10.0" />
                               <TableView fx:id="griValorDescripcionPhantom" layoutX="7.0" layoutY="36.0" onMouseClicked="#getSelectedItemFromTabla" prefHeight="321.0" prefWidth="379.0">
                                 <columns>
                                   <TableColumn fx:id="clVdDescripcion" prefWidth="75.0" text="Propiedad" />
@@ -59,7 +59,7 @@
                         </AnchorPane>
                     </content>
                   </TitledPane>
-                  <TitledPane animated="false" collapsible="false" layoutX="431.0" layoutY="7.0" prefHeight="430.0" prefWidth="396.0" text="Órganos pertenecientes al phantom seleccionado">
+                  <TitledPane animated="false" collapsible="false" focusTraversable="false" layoutX="431.0" layoutY="7.0" prefHeight="430.0" prefWidth="396.0" text="Órganos pertenecientes al phantom seleccionado">
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="397.0" prefWidth="394.0">
                            <children>

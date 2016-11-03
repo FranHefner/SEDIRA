@@ -90,6 +90,7 @@ public class AbmRadionuclidoController implements Initializable {
     public void setDialogStage(Stage dialogStage) {
         this.dialogStage = dialogStage;
         dialogStage.initModality(Modality.APPLICATION_MODAL); //To change body of generated methods, choose Tools | Templates.
+        dialogStage.setResizable(false);
     }
 
     /**

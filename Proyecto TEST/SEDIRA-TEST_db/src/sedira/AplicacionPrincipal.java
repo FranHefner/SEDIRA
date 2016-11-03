@@ -13,6 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import sedira.model.ConexionDB;
 
 /**
@@ -52,6 +53,8 @@ public class AplicacionPrincipal extends Application {
             primaryStage.setMinHeight(185);
 
         primaryStage.setScene(scene);
+        primaryStage.setTitle("Iniciar Sesión");
+        primaryStage.setResizable(false);
         primaryStage.show();
         }else{
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -59,7 +62,7 @@ public class AplicacionPrincipal extends Application {
             alert.setHeaderText("Ocurrio un error al iniciar el programa ");
             alert.setContentText("Siga estos pasos: \n"
                     + "Asegúrese que el software SEDIRA está correctamente instalado.\n"
-                    + "Revisé la configuración del servidor de base de datos.");
+                    + "Revise la configuración del servidor de base de datos.");
             alert.showAndWait();
             primaryStage.close();
         }

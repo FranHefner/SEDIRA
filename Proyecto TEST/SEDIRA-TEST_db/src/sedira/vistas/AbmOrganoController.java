@@ -21,6 +21,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -63,10 +64,13 @@ public class AbmOrganoController implements Initializable {
     private boolean guardarDatos = false;
     //Instancia de objeto IOrganoDAO. Inicializado como OrganoDAOsql. Para implementacion en MySql.  
     private IOrganoDAO org = new OrganoDAOsql();
+    final private int LIMIT_NOMBRE = 45;
+    final private int LIMIT_MASA = 14;
 
-    ObservableList<String>  data = FXCollections.observableArrayList();
-    ListView <String> listaSugerida = new ListView <String>();
+    ObservableList<String> data = FXCollections.observableArrayList();
+    ListView<String> listaSugerida = new ListView<String>();
     FilteredList<String> filteredData;
+    ObservableList<String> dataFiltrada = FXCollections.observableArrayList();
 
     boolean bandera = false;
 
@@ -78,7 +82,39 @@ public class AbmOrganoController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        //Inicializo los botones. 
+        //Listener para la cantidad de caracteres en el nombre 
+        txtOrganoNombre.lengthProperty().addListener(new ChangeListener<Number>() {
+
+            @Override
+            public void changed(ObservableValue<? extends Number> observable,
+                    Number oldValue, Number newValue) {
+                if (newValue.intValue() > oldValue.intValue()) {
+                    // Check if the new character is greater than LIMIT
+                    if (txtOrganoNombre.getText().length() >= LIMIT_NOMBRE) {
+
+                        txtOrganoNombre.setText(txtOrganoNombre.getText().substring(0, LIMIT_NOMBRE));
+                    }
+                }
+            }
+        });
+
+        //Listener para la cantidad de caracteres en el valor 
+        txtOrganoMasa.lengthProperty().addListener(new ChangeListener<Number>() {
+
+            @Override
+            public void changed(ObservableValue<? extends Number> observable,
+                    Number oldValue, Number newValue) {
+                if (newValue.intValue() > oldValue.intValue()) {
+                    // Check if the new character is greater than LIMIT
+                    if (txtOrganoMasa.getText().length() >= LIMIT_MASA) {
+
+                        // if it's 11th character then just setText to previous
+                        // one
+                        txtOrganoMasa.setText(txtOrganoMasa.getText().substring(0, LIMIT_MASA));
+                    }
+                }
+            }
+        });
 
     }
 
@@ -90,6 +126,7 @@ public class AbmOrganoController implements Initializable {
     public void setDialogStage(Stage dialogStage) {
         this.dialogStage = dialogStage;
         dialogStage.initModality(Modality.APPLICATION_MODAL);
+        dialogStage.setResizable(false);
 
         data = org.listadoOrganos();
         listaSugerida.setItems(data);
@@ -104,30 +141,41 @@ public class AbmOrganoController implements Initializable {
     }
 
     public void seleccionarItem(String itemSeleccionado) {
-               
-        bandera = true;
-                if (listaSugerida.getSelectionModel().getSelectedIndex() == -1) {
-                    bandera = false;
-                } else {
-                    txtOrganoNombre.setText(itemSeleccionado); 
-                }
-                
 
-            
-       
+        bandera = true;
+        if (listaSugerida.getSelectionModel().getSelectedIndex() == -1) {
+            bandera = false;
+        } else {
+            txtOrganoNombre.setText(itemSeleccionado);
+        }
 
     }
 
     private void actualizarListaSugerida(String filtro) {
         listaSugerida.getSelectionModel().clearSelection();
+        //Comportamiento de la lista sugerida. 
+        if (listaSugerida.getSelectionModel().isEmpty()) {
+            listaSugerida.setFocusTraversable(false);
+
+        } else {
+            listaSugerida.setFocusTraversable(true);
+
+        }
+        //FIn Comportamiento de la lista sugerida.
+
         if (bandera == false) {
             if (filtro == null || filtro.length() == 0) {
-
                 listaSugerida.setItems(data);
-
+                listaSugerida.setVisible(true);
             } else {
-                ObservableList<String> dataFiltrada = data.filtered(s -> s.toLowerCase().contains(filtro.toLowerCase()));
-                listaSugerida.setItems(dataFiltrada);
+
+                dataFiltrada = data.filtered(s -> s.toLowerCase().contains(filtro.toLowerCase()));
+                if (dataFiltrada.size() == 0) {
+                    listaSugerida.setVisible(false);
+                } else {
+                    listaSugerida.setItems(dataFiltrada);
+                    listaSugerida.setVisible(true);
+                }
 
             }
         }
@@ -273,6 +321,7 @@ public class AbmOrganoController implements Initializable {
         if (nombre == null || nombre.length() == 0) {
             mensajeError += "Nombre del órgano invalido!\n";
         }
+
         if (!"Editar Organo".equals(this.dialogStage.getTitle())) {
 
             if (org.buscaNombre(nombre, idPhantom) == false) {
@@ -289,9 +338,10 @@ public class AbmOrganoController implements Initializable {
             } catch (NumberFormatException e) {
                 if (ValidacionesGenerales.ValidarNumericoFloat(masa)) {
                     double d = Double.parseDouble(masa);
-                    /*if (d == 0.0) {
-                     mensajeError += "El campo Masa no debe ser 0.0 !\n";
-                     }*/
+                    if (d == 0.0) {
+                        mensajeError += "El campo peso no debe ser 0.0 !\n"
+                                + "Por favor agrege un valor de peso correcto.";
+                    }
                     //double routine
 
                 } else {

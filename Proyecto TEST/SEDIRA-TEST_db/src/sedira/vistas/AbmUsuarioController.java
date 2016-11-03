@@ -89,6 +89,11 @@ public class AbmUsuarioController implements Initializable {
     public void setDialogStage(Stage dialogStage) {
         this.dialogStage = dialogStage;
         dialogStage.initModality(Modality.APPLICATION_MODAL);
+        //dialogStage.setResizable(false);
+        dialogStage.setMinHeight(330);
+        dialogStage.setMinWidth(330);
+        dialogStage.setMaxHeight(400);
+        dialogStage.setMaxWidth(400);
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

@@ -22,7 +22,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import sedira.ConsultasSQL;
 import sedira.FuncionesGenerales;
 import sedira.Security;
 import sedira.model.IUsuarioDAO;
@@ -141,6 +140,7 @@ public class UsuarioController implements Initializable {
 
             // Creo el Stage para el Dialogo Editar. 
             Stage dialogStage = new Stage();
+            
             dialogStage.setTitle("Modificar Usuario");
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.initOwner(primaryStage);

@@ -44,7 +44,7 @@ public class AyudaController implements Initializable {
     @FXML
     private void btnCerrar_click(ActionEvent event) {
         Stage stage = (Stage) btnCerrar.getScene().getWindow();
-
+        
         stage.close();
     }
    

@@ -22,8 +22,7 @@ public class CodigosErrorSQL {
 
         switch (e.getErrorCode()) {
             case 1062:
-                mensajeError = "El registro que se intenta agregar/modificar ya encuentra en la base de datos \n "
-                        + "Error SQL: \n" + e.getMessage();
+                mensajeError = "El registro que se intenta agregar/modificar ya encuentra en la base de datos \n";
                 break;
             case 1451:
                 mensajeError = "El registro que se intenta eliminar esta siendo referenciado. "
@@ -50,7 +49,7 @@ public class CodigosErrorSQL {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(titulo);
         alert.setHeaderText(mensajeError);
-        alert.setContentText(String.valueOf(e));
+        //alert.setContentText(String.valueOf(e));
         alert.showAndWait();
 
         //JOptionPane.showMessageDialog(null, mensajeError, titulo, JOptionPane.INFORMATION_MESSAGE);

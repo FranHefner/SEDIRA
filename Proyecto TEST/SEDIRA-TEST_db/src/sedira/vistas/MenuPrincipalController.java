@@ -55,13 +55,12 @@ public class MenuPrincipalController implements Initializable {
      */
     // Variable para definir el comportamiento del menu segun el tipo de usuario.
     public static String TipoUsuario = "";
-     public static MathJS math;
+    public static MathJS math;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         AdministrarMenu(TipoUsuario);
-        
-        
+
         try {
             math = new MathJS();
         } catch (FileNotFoundException ex) {
@@ -70,7 +69,7 @@ public class MenuPrincipalController implements Initializable {
             Logger.getLogger(MenuPrincipalController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     /**
      * Declaración del menu
      */
@@ -114,36 +113,35 @@ public class MenuPrincipalController implements Initializable {
      */
     @FXML
     private void mniIniciarCalculo_click() throws IOException {
-     
-            Stage stage = new Stage();
-            Parent root = FXMLLoader.load(getClass().getResource("Calculo.fxml"));
-            Scene scene = new Scene(root);
-            /*
-             stage.setMaxWidth(682);        
-             stage.setMaxHeight(671);
-             stage.setMinWidth(682);        
-             stage.setMinHeight(671);*/
-            stage.setResizable(false);
-            stage.setScene(scene);
-            stage.setTitle("Calcular Dosis Administrada");
-            stage.initModality(Modality.APPLICATION_MODAL);
-            //  stage.setAlwaysOnTop(true);
-            stage.show();
-        
-    /*   No se usa más, ahora en la pestaña del cálculo verifica el tipo de usuario
-        if ("Medico".equals(TipoUsuario)) {
-            Stage stage = new Stage();
-            Parent root = FXMLLoader.load(getClass().getResource("CalculoRapido.fxml"));
-            Scene scene = new Scene(root);
-        
-            stage.setResizable(false);
-            stage.setScene(scene);
-            stage.setTitle("Calcular Dosis Administrada");
-            stage.initModality(Modality.APPLICATION_MODAL);
-  
-            stage.show();
-        }*/
 
+        Stage stage = new Stage();
+        Parent root = FXMLLoader.load(getClass().getResource("Calculo.fxml"));
+        Scene scene = new Scene(root);
+        /*
+         stage.setMaxWidth(682);        
+         stage.setMaxHeight(671);
+         stage.setMinWidth(682);        
+         stage.setMinHeight(671);*/
+        stage.setResizable(false);
+        stage.setScene(scene);
+        stage.setTitle("Calcular Dosis Administrada");
+        stage.initModality(Modality.APPLICATION_MODAL);
+        //  stage.setAlwaysOnTop(true);
+        stage.show();
+
+        /*   No se usa más, ahora en la pestaña del cálculo verifica el tipo de usuario
+         if ("Medico".equals(TipoUsuario)) {
+         Stage stage = new Stage();
+         Parent root = FXMLLoader.load(getClass().getResource("CalculoRapido.fxml"));
+         Scene scene = new Scene(root);
+        
+         stage.setResizable(false);
+         stage.setScene(scene);
+         stage.setTitle("Calcular Dosis Administrada");
+         stage.initModality(Modality.APPLICATION_MODAL);
+  
+         stage.show();
+         }*/
     }
 
     /**
@@ -154,6 +152,7 @@ public class MenuPrincipalController implements Initializable {
     @FXML
     private void mniPhantomAdministrar_click() throws IOException {
         Stage stage = new Stage();
+        stage.setResizable(false);
         Parent root = FXMLLoader.load(getClass().getResource("Phantom.fxml"));
         Scene scene = new Scene(root);
         stage.initModality(Modality.APPLICATION_MODAL);
@@ -171,6 +170,7 @@ public class MenuPrincipalController implements Initializable {
     @FXML
     private void mniRadionuclidosAdministrar_click() throws IOException {
         Stage stage = new Stage();
+        stage.setResizable(false);
         Parent root = FXMLLoader.load(getClass().getResource("Radionuclido.fxml"));
         Scene scene = new Scene(root);
         stage.initModality(Modality.APPLICATION_MODAL);
@@ -190,6 +190,7 @@ public class MenuPrincipalController implements Initializable {
         if ("Administrador".equals(TipoUsuario)) {
 
             Stage stage = new Stage();
+            stage.setResizable(false);
             Parent root = FXMLLoader.load(getClass().getResource("Usuario.fxml"));
             Scene scene = new Scene(root);
             stage.initModality(Modality.APPLICATION_MODAL);
@@ -233,42 +234,45 @@ public class MenuPrincipalController implements Initializable {
 
         }
     }
+
     /**
      * Método que se inicia al momento de seleccionar el menú Ayuda
-     * @throws IOException 
+     *
+     * @throws IOException
      */
     @FXML
-    private void ayudaClick() throws IOException{
+    private void ayudaClick() throws IOException {
         Stage stage = new Stage();
-            Parent root = FXMLLoader.load(getClass().getResource("ayuda.fxml"));
-            Scene scene = new Scene(root);
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.setScene(scene);
-            stage.setTitle("Ayuda");
-            stage.show();
+        stage.setResizable(false);
+        Parent root = FXMLLoader.load(getClass().getResource("ayuda.fxml"));
+        Scene scene = new Scene(root);
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setScene(scene);
+        stage.setTitle("Ayuda");
+        stage.show();
     }
-    /**
-     * Método para el módulo de inteligencia artificial. 
-     * @throws IOException 
-     */
-    @FXML
-    private void mniIaClick() throws IOException{
-        Stage stage = new Stage();
-            Parent root = FXMLLoader.load(getClass().getResource("Ia.fxml"));
-            Scene scene = new Scene(root);
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.setScene(scene);
-            stage.setTitle("Inteligencia Artificial");
-            stage.show();
-    }
-    
-    @FXML
-    private void Cerrar_click()
-    {
-        
-             System.exit(0);
-    }
-    
-  
 
+    /**
+     * Método para el módulo de inteligencia artificial.
+     *
+     * @throws IOException
+     */
+    @FXML
+    private void mniIaClick() throws IOException {
+        Stage stage = new Stage();
+        stage.setResizable(false);
+        Parent root = FXMLLoader.load(getClass().getResource("Ia.fxml"));
+        Scene scene = new Scene(root);
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setScene(scene);
+        stage.setTitle("Inteligencia Artificial");
+        stage.show();
     }
+
+    @FXML
+    private void Cerrar_click() {
+
+        System.exit(0);
+    }
+
+}

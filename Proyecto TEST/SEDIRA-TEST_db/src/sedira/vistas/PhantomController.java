@@ -12,6 +12,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -265,14 +266,13 @@ public class PhantomController implements Initializable {
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.initOwner(primaryStage);
             Scene scene = new Scene(page);
-     
-          
-           try {
-            scene.getStylesheets().add((new File("tools/autoCompletado.css")).toURI().toURL().toExternalForm());
-        } catch (MalformedURLException ex) {
-            
-        }
-                 
+
+            try {
+                scene.getStylesheets().add((new File("tools/autoCompletado.css")).toURI().toURL().toExternalForm());
+            } catch (MalformedURLException ex) {
+
+            }
+
             dialogStage.setScene(scene);
 
             // Pone el organo en el controlador AbmOrganoController. 
@@ -315,10 +315,10 @@ public class PhantomController implements Initializable {
             dialogStage.initOwner(primaryStage);
             Scene scene = new Scene(page);
             try {
-            scene.getStylesheets().add((new File("tools/autoCompletado.css")).toURI().toURL().toExternalForm());
-        } catch (MalformedURLException ex) {
-            
-        }
+                scene.getStylesheets().add((new File("tools/autoCompletado.css")).toURI().toURL().toExternalForm());
+            } catch (MalformedURLException ex) {
+
+            }
             dialogStage.setScene(scene);
 
             // Pone el organo en el controlador AbmOrganoController. 
@@ -345,6 +345,25 @@ public class PhantomController implements Initializable {
     @FXML
     public void buscarPhantom() {
         griPhantom.setItems(FuncionesGenerales.FiltroListaPhantom(griPhantom, phantomData, txtCampoBusqueda));
+
+        //Comportamiento para la busqueda y no encuentro de info. 
+        if (griPhantom.getSelectionModel().isEmpty()) {
+            btnAgregarOrgano.setDisable(true);
+            btnEliminarOrgano.setDisable(true);
+            btnModificarOrgano.setDisable(true);
+
+            btnAgregarItem.setDisable(true);
+            btnEliminarItem.setDisable(true);
+            btnModificarItem.setDisable(true);
+
+            btnEditarPhantom.setDisable(true);
+            btnEliminarPhantom.setDisable(true);
+
+            griValorDescripcionPhantom.setItems(null);
+            griOrgano.setItems(null);
+            txtPesoTotal.setText("");
+        }
+
     }
 
     /**
@@ -353,7 +372,13 @@ public class PhantomController implements Initializable {
      * @param phantomActual
      */
     public void seleccionPhantom(Phantom phantomActual) {
-        //Se setea el phantom seleccionado como el PhantomActual. 
+        //Se setea el phantom seleccionado como el PhantomActual.
+        btnEliminarOrgano.setDisable(true);
+        btnModificarOrgano.setDisable(true);
+
+        btnEliminarItem.setDisable(true);
+        btnModificarItem.setDisable(true);
+
         FuncionesGenerales.setPhantomActual(phantomActual);
         if (phantomActual != null) {
             //Completo la lista de organos. 
@@ -397,6 +422,7 @@ public class PhantomController implements Initializable {
             griPhantom.setItems(phantomData);
             //Comportamiento de botones 
             btnEditarPhantom.setDisable(true);
+            txtCampoBusqueda.setText("");
         }
 
     }
@@ -430,6 +456,7 @@ public class PhantomController implements Initializable {
             //Actualizo el GridView de Phantoms.
             phantomData = ph.obtenerListaPhantom();
             griPhantom.setItems(phantomData);
+            txtCampoBusqueda.setText("");
 
         }
     }
@@ -494,7 +521,13 @@ public class PhantomController implements Initializable {
 
                 ///Actualizo el GridView de Phantoms.
                 phantomData = ph.obtenerListaPhantom();
+                //Actualizo los demas gridview
                 griPhantom.setItems(phantomData);
+                griValorDescripcionPhantom.setItems(null);
+                griOrgano.setItems(null);
+                txtPesoTotal.setText("");
+                txtCampoBusqueda.setText("");
+               
             } else {
 
             }
@@ -586,11 +619,11 @@ public class PhantomController implements Initializable {
             } else {
                 //Cancelacion de la eliminacion
                 //Mensaje de confirmacion.
-                Alert alerta = new Alert(AlertType.INFORMATION);
-                alerta.setTitle("Confirmación");
-                alerta.setHeaderText(null);
-                alerta.setContentText("Se cancelo la eliminación del ítem  - " + selectedItem.getDescripcion() + " ");
-                alerta.showAndWait();
+                /*Alert alerta = new Alert(AlertType.INFORMATION);
+                 alerta.setTitle("Confirmación");
+                 alerta.setHeaderText(null);
+                 alerta.setContentText("Se cancelo la eliminación del ítem  - " + selectedItem.getDescripcion() + " ");
+                 alerta.showAndWait();*/
             }
 
         } else {
@@ -724,13 +757,17 @@ public class PhantomController implements Initializable {
      */
     @FXML
     public void getSelectedItemFromTabla() {
-
+        griOrgano.getSelectionModel().clearSelection();
+        btnEliminarOrgano.setDisable(true);
+        btnModificarOrgano.setDisable(true);
         ValorDescripcion selectedItem = griValorDescripcionPhantom.getSelectionModel().getSelectedItem();
-        if (selectedItem != null) {
+        if (griValorDescripcionPhantom.getSelectionModel().isEmpty()) {
+            btnEliminarItem.setDisable(true);
+            btnModificarItem.setDisable(true);
+        } else {
             btnEliminarItem.setDisable(false);
             btnModificarItem.setDisable(false);
         }
-
     }
 
     /**
@@ -738,15 +775,17 @@ public class PhantomController implements Initializable {
      */
     @FXML
     public void getSelectedItemFromTablaOrgano() {
-        Organo selectedItem = griOrgano.getSelectionModel().getSelectedItem();
-        if (selectedItem != null) {
-            btnEliminarOrgano.setDisable(false);
-            btnModificarOrgano.setDisable(false);
-        } else {
+        griValorDescripcionPhantom.getSelectionModel().clearSelection();
+        btnEliminarItem.setDisable(true);
+        btnModificarItem.setDisable(true);
+
+        if (griOrgano.getSelectionModel().isEmpty()) {
             btnEliminarOrgano.setDisable(true);
             btnModificarOrgano.setDisable(true);
+        } else {
+            btnEliminarOrgano.setDisable(false);
+            btnModificarOrgano.setDisable(false);
         }
-
     }
 
     /**
