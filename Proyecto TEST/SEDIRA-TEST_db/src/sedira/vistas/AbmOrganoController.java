@@ -246,7 +246,7 @@ public class AbmOrganoController implements Initializable {
         if (listaSugerida.getSelectionModel().getSelectedIndex() == -1) {
             NombreOrgano = txtOrganoNombre.getText();
         } else {
-            NombreOrgano = listaSugerida.getSelectionModel().getSelectedItem().toString();
+            NombreOrgano = listaSugerida.getSelectionModel().getSelectedItem();
         }
         // La llamada a la base de datos se realiza desde PhantomController. Editar/Nuevo
         if (validarDatosEntrada()) {
@@ -310,6 +310,7 @@ public class AbmOrganoController implements Initializable {
      * Validación de los datos de entrada para Organos.
      *
      * @return
+     * @throws java.sql.SQLException
      */
     public boolean validarDatosEntrada() throws SQLException {
         String mensajeError = "";
@@ -322,12 +323,12 @@ public class AbmOrganoController implements Initializable {
             mensajeError += "Nombre del órgano invalido!\n";
         }
 
-        if (!"Editar Organo".equals(this.dialogStage.getTitle())) {
+        /*if (!"Editar Organo".equals(this.dialogStage.getTitle())) {
 
             if (org.buscaNombre(nombre, idPhantom) == false) {
                 mensajeError += "El órgano que desea agregar ya existe! \n";
             }
-        }
+        }*/
         if (masa == null || masa.length() == 0) {
             mensajeError += "Valor inválido! \n";
         } else {

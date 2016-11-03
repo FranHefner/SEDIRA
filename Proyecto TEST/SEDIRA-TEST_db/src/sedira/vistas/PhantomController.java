@@ -13,6 +13,8 @@ import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -114,6 +116,8 @@ public class PhantomController implements Initializable {
     //Instancia de objeto tipo IValorDescripcionDAO. Se inicializa como ValorDescripcionDAOsql.  
     private IValorDescripcionDAO vd = new ValorDescripcionDAOsql();
 
+    private static int LIMIT_NOMBRE = 45;
+
     /**
      * Initializes la clase controlador. El método setCellValueFactory(...) que
      * aplicamos sobre las columnas de la tabla se usa para determinar qué
@@ -159,6 +163,21 @@ public class PhantomController implements Initializable {
         griPhantom.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> seleccionPhantom(newValue));
 
+        //Listener para la cantidad de caracteres en el nombre en el campo busqueda 
+        txtCampoBusqueda.lengthProperty().addListener(new ChangeListener<Number>() {
+
+            @Override
+            public void changed(ObservableValue<? extends Number> observable,
+                    Number oldValue, Number newValue) {
+                if (newValue.intValue() > oldValue.intValue()) {
+                    // Check if the new character is greater than LIMIT
+                    if (txtCampoBusqueda.getText().length() >= LIMIT_NOMBRE) {
+
+                        txtCampoBusqueda.setText(txtCampoBusqueda.getText().substring(0, LIMIT_NOMBRE));
+                    }
+                }
+            }
+        });
     }
 
     /**
@@ -490,6 +509,9 @@ public class PhantomController implements Initializable {
             griOrgano.setItems(organosData);
             //Completo el textfield del pesototal
             txtPesoTotal.setText(String.valueOf(selectedPhantom.getPesoTotal()));
+            griOrgano.getSelectionModel().clearSelection();
+            btnEliminarOrgano.setDisable(true);
+            btnModificarOrgano.setDisable(true);
 
         } else {
             // Nothing selected.
@@ -527,7 +549,7 @@ public class PhantomController implements Initializable {
                 griOrgano.setItems(null);
                 txtPesoTotal.setText("");
                 txtCampoBusqueda.setText("");
-               
+
             } else {
 
             }
@@ -570,6 +592,7 @@ public class PhantomController implements Initializable {
                 organosData = ph.obtenerInfoOrgano(selectedPhantom);
                 griOrgano.setItems(organosData);
                 txtPesoTotal.setText(String.valueOf(selectedPhantom.getPesoTotal()));
+                griOrgano.getSelectionModel().clearSelection();
             } else {
 
             }
@@ -615,6 +638,7 @@ public class PhantomController implements Initializable {
                 infoPhantom = ph.obtenerInfoPhantom(selectedPhantom);
                 //actualizacion de la tabla ValorDescripcionPhantom.
                 griValorDescripcionPhantom.setItems(infoPhantom);
+                griValorDescripcionPhantom.getSelectionModel().clearSelection();
 
             } else {
                 //Cancelacion de la eliminacion
@@ -639,13 +663,15 @@ public class PhantomController implements Initializable {
 
     /**
      * Método que controla el comportamiento del boton modificar item.
+     *
+     * @throws java.sql.SQLException
      */
     @FXML
     public void btnAgregarItem() throws SQLException {
         //objeto auxiliar de tipo Phantom. Phantom actual seleccionado en el GriPhamtom
         Phantom auxPhantom = FuncionesGenerales.getPhantomActual();
         //Creacion de objeto auxiliar de tipo ValorDescripcion.
-        ValorDescripcion itemPhantom = new ValorDescripcion(-1, null, "", null);
+        ValorDescripcion itemPhantom = new ValorDescripcion(-1, "", "0.0", "");
         //Llamada al formulario
         boolean guardarCambiosClicked = mostrarItemPhantomEditDialog(itemPhantom);
         // identificador del phantom al cual se agregara el item. 
@@ -661,6 +687,9 @@ public class PhantomController implements Initializable {
             infoPhantom = ph.obtenerInfoPhantom(auxPhantom);
             //actualizacion de la tabla ValorDescripcionPhantom.
             griValorDescripcionPhantom.setItems(infoPhantom);
+            griValorDescripcionPhantom.getSelectionModel().clearSelection();
+            btnEliminarItem.setDisable(true);
+            btnModificarItem.setDisable(true);
 
         }
     }
@@ -688,6 +717,9 @@ public class PhantomController implements Initializable {
                 //Actualizacion de la informacion del radionuclido
                 infoPhantom = ph.obtenerInfoPhantom(phantomActual);
                 griValorDescripcionPhantom.setItems(infoPhantom);
+                griValorDescripcionPhantom.getSelectionModel().clearSelection();
+                btnEliminarItem.setDisable(true);
+                btnModificarItem.setDisable(true);
 
             }
 
@@ -727,6 +759,9 @@ public class PhantomController implements Initializable {
                 griOrgano.setItems(organosData);
                 //Completo el textfield del pesototal
                 txtPesoTotal.setText(String.valueOf(auxPhantom.getPesoTotal()));
+                griOrgano.getSelectionModel().clearSelection();
+                btnEliminarOrgano.setDisable(true);
+                btnModificarOrgano.setDisable(true);
             }
         } else {
             // No se selecciono ningun item. 

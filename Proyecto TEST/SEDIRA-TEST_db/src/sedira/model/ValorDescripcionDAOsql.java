@@ -210,8 +210,8 @@ public class ValorDescripcionDAOsql implements IValorDescripcionDAO {
         }
     }
     
-     @Override
-    public ObservableList listadoPropiedades(){
+    @Override
+    public ObservableList listadoPropiedadesPhantom(){
     
           //Instancia de conexion
         ConexionDB conexion = new ConexionDB();
@@ -220,7 +220,36 @@ public class ValorDescripcionDAOsql implements IValorDescripcionDAO {
 
         try {
            PreparedStatement consulta = conexion.getConnection().prepareStatement(
-                    "SELECT * FROM lista_propiedades");
+                    "SELECT * FROM lista_propiedades_phantom");
+
+            //Ejecucion de la consulta. 
+            ResultSet resultado = consulta.executeQuery();
+            //obtencion de los datos desde la bd.
+            while (resultado.next()) {
+                listado.add(   resultado.getString("nombre_propiedad"));
+              
+            }
+
+        } catch (SQLException e) {
+            CodigosErrorSQL.analizarExepcion(e);
+            //System.out.println(e.getMessage());
+            //JOptionPane.showMessageDialog(null, "Ocurrio un error! " + e);
+   
+        }
+        return listado;
+    }
+    
+    @Override
+    public ObservableList listadoPropiedadesRadionuclido(){
+    
+          //Instancia de conexion
+        ConexionDB conexion = new ConexionDB();
+        ObservableList listado = FXCollections.observableArrayList();
+        
+
+        try {
+           PreparedStatement consulta = conexion.getConnection().prepareStatement(
+                    "SELECT * FROM lista_propiedades_radionuclido");
 
             //Ejecucion de la consulta. 
             ResultSet resultado = consulta.executeQuery();

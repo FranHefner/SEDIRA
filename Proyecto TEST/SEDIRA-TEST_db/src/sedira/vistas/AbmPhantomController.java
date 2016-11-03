@@ -59,7 +59,7 @@ public class AbmPhantomController implements Initializable {
     private TextField txtNombrePhantom;
     @FXML
     private TitledPane titledEdicion;
-    
+
     @FXML
     private VBox boxControles;
 
@@ -75,11 +75,16 @@ public class AbmPhantomController implements Initializable {
     private ObservableList<ValorDescripcion> listaAtributoPhantom = FXCollections.observableArrayList();
     //Se cambia el PhantomDAOsql por la implementacion Correcta para otro motor. 
     private IPhantomDAO ph = new PhantomDAOsql();
+
     private IValorDescripcionDAO vd = new ValorDescripcionDAOsql();
+    private static int LIMIT_NOMBRE = 45;
+    private static int LIMIT_VALOR = 14;
+    private static int LIMIT_UNIDAD = 255;
 
     ObservableList<String> data;
     ListView listaSugerida = new ListView();
     FilteredList<String> filteredData;
+    ObservableList<String> dataFiltrada = FXCollections.observableArrayList();
     boolean bandera = false;
 
     /**
@@ -87,7 +92,54 @@ public class AbmPhantomController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        //Inicializo la tabla de Propiedad Valor, correspondiente a los Phantoms. 
+        btnLimpiarValores.setDisable(false);
+        //Listener para la cantidad de caracteres en el nombre en el campo busqueda 
+        txtPropiedad.lengthProperty().addListener(new ChangeListener<Number>() {
+
+            @Override
+            public void changed(ObservableValue<? extends Number> observable,
+                    Number oldValue, Number newValue) {
+                if (newValue.intValue() > oldValue.intValue()) {
+                    // Check if the new character is greater than LIMIT
+                    if (txtPropiedad.getText().length() >= LIMIT_NOMBRE) {
+
+                        txtPropiedad.setText(txtPropiedad.getText().substring(0, LIMIT_NOMBRE));
+                    }
+                }
+            }
+        });
+
+        //Listener para la cantidad de caracteres en el nombre en el valor 
+        txtValor.lengthProperty().addListener(new ChangeListener<Number>() {
+
+            @Override
+            public void changed(ObservableValue<? extends Number> observable,
+                    Number oldValue, Number newValue) {
+                if (newValue.intValue() > oldValue.intValue()) {
+                    // Check if the new character is greater than LIMIT
+                    if (txtValor.getText().length() >= LIMIT_VALOR) {
+
+                        txtValor.setText(txtValor.getText().substring(0, LIMIT_VALOR));
+                    }
+                }
+            }
+        });
+
+        //Listener para la cantidad de caracteres en el nombre en el campo unidad 
+        txtUnidad.lengthProperty().addListener(new ChangeListener<Number>() {
+
+            @Override
+            public void changed(ObservableValue<? extends Number> observable,
+                    Number oldValue, Number newValue) {
+                if (newValue.intValue() > oldValue.intValue()) {
+                    // Check if the new character is greater than LIMIT
+                    if (txtUnidad.getText().length() >= LIMIT_UNIDAD) {
+
+                        txtUnidad.setText(txtUnidad.getText().substring(0, LIMIT_UNIDAD));
+                    }
+                }
+            }
+        });
 
     }
 
@@ -102,9 +154,8 @@ public class AbmPhantomController implements Initializable {
         dialogStage.setResizable(false);
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 
-        data = vd.listadoPropiedades();
+        data = vd.listadoPropiedadesPhantom();
         listaSugerida.setItems(data);
-        
 
         txtPropiedad.textProperty().addListener(
                 (observable, oldValue, newValue) -> actualizarListaSugerida(newValue));
@@ -138,13 +189,29 @@ public class AbmPhantomController implements Initializable {
      */
     private void actualizarListaSugerida(String filtro) {
         listaSugerida.getSelectionModel().clearSelection();
+        //Comportamiento de la lista sugerida. 
+        if (listaSugerida.getSelectionModel().isEmpty()) {
+            listaSugerida.setFocusTraversable(false);
+
+        } else {
+            listaSugerida.setFocusTraversable(true);
+
+        }
+        //FIn Comportamiento de la lista sugerida.
+
         if (bandera == false) {
             if (filtro == null || filtro.length() == 0) {
-
                 listaSugerida.setItems(data);
+                listaSugerida.setVisible(true);
             } else {
-                ObservableList<String> dataFiltrada = data.filtered(s -> s.toLowerCase().contains(filtro.toLowerCase()));
-                listaSugerida.setItems(dataFiltrada);
+
+                dataFiltrada = data.filtered(s -> s.toLowerCase().contains(filtro.toLowerCase()));
+                if (dataFiltrada.size() == 0) {
+                    listaSugerida.setVisible(false);
+                } else {
+                    listaSugerida.setItems(dataFiltrada);
+                    listaSugerida.setVisible(true);
+                }
 
             }
         }
@@ -167,6 +234,7 @@ public class AbmPhantomController implements Initializable {
              */
             //Atributos de nombre y id. 
             txtNombrePhantom.setEditable(true);
+
             txtNombrePhantom.setText(phantom.getPhantomNombre());
             listaSugerida.setDisable(true);
             listaSugerida.setVisible(false);
@@ -181,7 +249,7 @@ public class AbmPhantomController implements Initializable {
             this.dialogStage.setTitle("Crear un Phantom");
             listaSugerida.setDisable(true);
             listaSugerida.setVisible(false);
-            
+
             //Apago los TextField
             txtNombrePhantom.setEditable(true);
             txtPropiedad.setDisable(true);
@@ -200,11 +268,12 @@ public class AbmPhantomController implements Initializable {
     public void setItemPhantom(ValorDescripcion itemPhantom) {
         Phantom phantomActual = FuncionesGenerales.getPhantomActual();
         this.itemPhantom = itemPhantom;
-       
+        txtNombrePhantom.setFocusTraversable(false);
+        txtNombrePhantom.setEditable(false);
         txtNombrePhantom.setText(phantomActual.getPhantomNombre());
-        txtPropiedad.setText(itemPhantom.getDescripcion());
-        txtValor.setText(itemPhantom.getValor());
-        txtUnidad.setText(itemPhantom.getUnidad());
+        txtPropiedad.setText(this.itemPhantom.getDescripcion());
+        txtValor.setText(String.valueOf(this.itemPhantom.getValor()));
+        txtUnidad.setText(this.itemPhantom.getUnidad());
     }
 
     /**
@@ -243,6 +312,7 @@ public class AbmPhantomController implements Initializable {
                     break;
             }
             // Si las validaciones son correctas se guardan los datos. 
+            
             guardarDatos = true;
             dialogStage.close();
         }
@@ -360,6 +430,7 @@ public class AbmPhantomController implements Initializable {
                 }
 
             }
+            
             //Validacion Unidad. 
             // Al no saber con ciencia cierta lo que el usuario seleccionara como unidad. Este campo solo valida que el 
             // no este vacio o sin caracteres. 
