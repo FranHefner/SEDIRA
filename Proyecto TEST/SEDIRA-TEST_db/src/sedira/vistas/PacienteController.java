@@ -209,7 +209,7 @@ public class PacienteController implements Initializable {
         btnHistorialSEDIRA.setDisable(true);
         btnContacto.setDisable(true);
         btnNuevo.setDisable(true);
-        
+    
         
 
     }
@@ -232,17 +232,17 @@ public class PacienteController implements Initializable {
             System.out.print(pacienteSeleccionado.getIdPaciente());
             System.out.print(pacienteSeleccionado.getApellido());
             FuncionesGenerales.pacienteActual.setEsNuevo(false);
+            ModoLectura();
 
         } else {
-            IdPacienteActual = -1;
-            //  txtIdPaciente.setText("");
+            IdPacienteActual = -1;      
             txtNombre.setText("");
             txtApellido.setText("");
             txtNumeroDoc.setText("");
 
             FuncionesGenerales.pacienteActual = null;
         }
-        ModoLectura();
+     
     }
 
     /**
@@ -316,7 +316,7 @@ public class PacienteController implements Initializable {
             griListaPacientes.setItems(pacienteData);
 
             // Se carga los datos nuevamente  
-            SeleccionPaciente(PacienteActual);
+           // SeleccionPaciente(PacienteActual);
 
         } else {
             //  Falta validacion para atributos vacios. 

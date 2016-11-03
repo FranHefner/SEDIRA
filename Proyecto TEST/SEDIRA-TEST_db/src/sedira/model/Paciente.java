@@ -70,8 +70,7 @@ public class Paciente {
         this.numeroAsociado = numeroAsociado;
         this.email = new SimpleStringProperty(email);
         this.telefono = new SimpleStringProperty(telefono);
-        this.celular = new SimpleStringProperty(celular);
-        this.foto = foto;
+        this.celular = new SimpleStringProperty(celular);  
         this.sexo = new SimpleStringProperty(sexo);
         this.enTratamiento = enTratamiento;
         this.esNuevo = esNuevo;
@@ -93,7 +92,6 @@ public class Paciente {
         this.email = new SimpleStringProperty("");
         this.telefono = new SimpleStringProperty("");
         this.celular = new SimpleStringProperty("");
-        this.foto = foto;
         this.sexo = new SimpleStringProperty("");
         this.enTratamiento = true;
         this.esNuevo = true;
@@ -303,7 +301,7 @@ public class Paciente {
     }
 
     public void setSexo(String sexo) {
-        this.sexo.get();
+        this.sexo.set(sexo);
     }
 
     public String getSexo() {

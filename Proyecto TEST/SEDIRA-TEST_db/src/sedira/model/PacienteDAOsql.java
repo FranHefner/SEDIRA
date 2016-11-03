@@ -269,7 +269,7 @@ public class PacienteDAOsql implements IPacienteDAO {
                 paciente.setNombre(resultado.getString("nombre"));
                 //paciente.setNumeroAsociado(Integer.parseInt(resultado.getString("numero_asociado")));
                 paciente.setNumeroDoc(Integer.parseInt(resultado.getString("numero_doc")));
-                //paciente.setSexo(resultado.getString("sexo"));
+                paciente.setSexo(resultado.getString("sexo"));
                 paciente.setTelefono(resultado.getString("telefono"));
                 paciente.setcelular(resultado.getString("celular"));
                 paciente.setTipoDoc(resultado.getString("tipo_doc"));
