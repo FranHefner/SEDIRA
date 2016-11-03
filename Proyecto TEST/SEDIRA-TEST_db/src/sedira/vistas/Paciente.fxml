@@ -54,8 +54,8 @@
                                     <Label layoutX="27.0" layoutY="37.0" text="Tipo Documento:" />
                                     <Label layoutX="27.0" layoutY="71.0" text="N° Documento:" />
                                     <Label layoutX="26.0" layoutY="180.0" text="Fecha Nacimiento:" />
-                                    <Button fx:id="btnHistorialSEDIRA" layoutX="345.0" layoutY="69.0" mnemonicParsing="false" onAction="#btnHistorialSEDIRA_click" prefHeight="25.0" prefWidth="133.0" text="Historial SEDIRA" />
-                                    <Button fx:id="btnContacto" layoutX="345.0" layoutY="34.0" mnemonicParsing="false" onAction="#btnContacto_click" prefHeight="25.0" prefWidth="133.0" text="Contacto" />
+                                    <Button fx:id="btnHistorialSEDIRA" disable="true" layoutX="345.0" layoutY="69.0" mnemonicParsing="false" onAction="#btnHistorialSEDIRA_click" prefHeight="25.0" prefWidth="133.0" text="Historial SEDIRA" />
+                                    <Button fx:id="btnContacto" disable="true" layoutX="345.0" layoutY="34.0" mnemonicParsing="false" onAction="#btnContacto_click" prefHeight="25.0" prefWidth="133.0" text="Contacto" />
                                     <CheckBox fx:id="chkTratamiento" allowIndeterminate="true" layoutX="437.0" layoutY="250.0" mnemonicParsing="false" visible="false" />
                                     <Label layoutX="333.0" layoutY="250.0" text="En tratamiento" visible="false" />
                                     <Button fx:id="btnMediciones" layoutX="333.0" layoutY="214.0" mnemonicParsing="false" onAction="#btnMediciones_click" prefHeight="25.0" prefWidth="133.0" text="Mediciones" visible="false" />

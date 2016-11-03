@@ -157,6 +157,51 @@ public class PacienteController implements Initializable {
     /**
      * Método que se activa al escribir un texto en el campo de busqueda.
      */
+    private boolean validarCampos() {
+        boolean ValidacionOK = true;
+        String Error = "";
+        if (cbTipoDoc.getSelectionModel().getSelectedIndex() == -1) {
+            Error += "\n Falta seleccionar el tipo de documento.";
+            ValidacionOK = false;
+
+        }
+        if (txtNumeroDoc.getText().length() > 9) {
+            Error += "\n El número de documento ingresado excede la cantidad de digitos establecida.";
+            ValidacionOK = false;
+        }
+        if (txtNumeroDoc.getText().length() ==0 ) {
+            Error += "\n Falta ingresar el número de documento";
+            ValidacionOK = false;
+        }
+        if (txtNombre.getText().length() == 0)
+        {
+            Error += "\n Falta ingresar el nombre de la persona";
+            ValidacionOK = false;
+        }
+        if (txtApellido.getText().length() == 0)
+        {
+            Error += "\n Falta ingresar el apellido de la persona";
+            ValidacionOK = false;
+        }
+        if (txtFechaNacimiento.getValue() == null) {
+            Error += "\n Falta seleccionar la fecha de nacimiento.";
+            ValidacionOK = false;
+        }
+        if (cbSexo.getSelectionModel().getSelectedIndex() == -1) {
+            Error += "\n Falta seleccionar el sexo de la persona.";
+            ValidacionOK = false;
+        }
+        if (ValidacionOK == false) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Validación");
+            alert.setHeaderText("Se han detectado los siguientes errores que impiden realizar la operación. ");
+            alert.setContentText(Error);
+            alert.showAndWait();
+        }
+        return ValidacionOK;
+
+    }
+
     @FXML
     private void btnBuscar_click() {
         griListaPacientes.setItems(FuncionesGenerales.FiltroListaPaciente(griListaPacientes, pacienteData, txtCampoBusqueda));
@@ -193,7 +238,7 @@ public class PacienteController implements Initializable {
 
     private void ModoEdicion() {
         griListaPacientes.setDisable(true);
-        
+
         txtNombre.setEditable(true);
         txtApellido.setEditable(true);
         txtNumeroDoc.setEditable(true);
@@ -207,10 +252,7 @@ public class PacienteController implements Initializable {
 
         btnMediciones.setDisable(true);
         btnHistorialSEDIRA.setDisable(true);
-        btnContacto.setDisable(true);
         btnNuevo.setDisable(true);
-    
-        
 
     }
 
@@ -235,14 +277,18 @@ public class PacienteController implements Initializable {
             ModoLectura();
 
         } else {
-            IdPacienteActual = -1;      
+            IdPacienteActual = -1;
             txtNombre.setText("");
             txtApellido.setText("");
             txtNumeroDoc.setText("");
+            txtFechaNacimiento.setValue(null);
+            cbTipoDoc.setValue(null);
+            cbSexo.setValue(null);
 
             FuncionesGenerales.pacienteActual = null;
+                ModoLectura();
         }
-     
+
     }
 
     /**
@@ -253,14 +299,18 @@ public class PacienteController implements Initializable {
 
         //Validar si los atributos estan vacios. 
         //prendo boton aceptar y cancelar.     
+        editarClicked = false;
         txtNombre.setText("");
         txtApellido.setText("");
         txtNumeroDoc.setText("");
         txtFechaNacimiento.setValue(null);
         IdPacienteActual = pac.getLastId();
-       // txtIdPaciente.setText(String.valueOf(pac.getLastId()));
+        cbTipoDoc.setValue(null);
+        cbSexo.setValue(null);
+          btnContacto.setDisable(false);
 
-     //  FuncionesGenerales.pacienteActual.setEsNuevo(true);
+        // txtIdPaciente.setText(String.valueOf(pac.getLastId()));
+        //  FuncionesGenerales.pacienteActual.setEsNuevo(true);
         //Comportamiento de Textfiedls
         ModoEdicion();
 
@@ -281,7 +331,17 @@ public class PacienteController implements Initializable {
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK) {
 
-            SeleccionPaciente(FuncionesGenerales.pacienteActual);
+           
+         if(   FuncionesGenerales.pacienteActual.getIdPaciente() == 0)
+         {
+                  SeleccionPaciente(null);
+         }else
+         {
+                 SeleccionPaciente(FuncionesGenerales.pacienteActual);
+         }
+         
+         
+           
             ModoLectura();
             //   griListaPacientes.getSelectionModel().select(FuncionesGenerales.pacienteActual);
             // griListaPacientes.getSelectionModel().select( g );
@@ -298,51 +358,55 @@ public class PacienteController implements Initializable {
     @FXML
     private void btnAceptar_click() throws SQLException {
         //para editar. 
-        Paciente PacienteActual = FuncionesGenerales.getPacienteActual();
-        if (editarClicked) {
 
-            PacienteActual.setIdPaciente(IdPacienteActual);
-            PacienteActual.setApellido(txtApellido.getText());
-            PacienteActual.setNombre(txtNombre.getText());
-            PacienteActual.setNumeroDoc(Integer.valueOf(txtNumeroDoc.getText()));
-            PacienteActual.setTipoDoc(cbTipoDoc.getValue().toString());
-            PacienteActual.setSexo(cbSexo.getValue().toString());
-            PacienteActual.setFechaNacimiento(txtFechaNacimiento.getValue().toString());
-            //Llamada a la clase de acceso de datos de pacientes. PacienteDAO. 
-            pac.modificarPaciente(PacienteActual);
-            //Actualiza la informacion de pacientes
-            pacienteData = pac.obtenerPacientes();
-            //Actualiza la grilla. 
-            griListaPacientes.setItems(pacienteData);
+        if (validarCampos()) {
+            Paciente PacienteActual = FuncionesGenerales.getPacienteActual();
+            if (editarClicked) {
 
-            // Se carga los datos nuevamente  
-           // SeleccionPaciente(PacienteActual);
+                PacienteActual.setIdPaciente(IdPacienteActual);
+                PacienteActual.setApellido(txtApellido.getText());
+                PacienteActual.setNombre(txtNombre.getText());
+                PacienteActual.setNumeroDoc(Integer.valueOf(txtNumeroDoc.getText()));
+                PacienteActual.setTipoDoc(cbTipoDoc.getValue().toString());
+                PacienteActual.setSexo(cbSexo.getValue().toString());
+                PacienteActual.setFechaNacimiento(txtFechaNacimiento.getValue().toString());
+                //Llamada a la clase de acceso de datos de pacientes. PacienteDAO. 
+                pac.modificarPaciente(PacienteActual);
+                //Actualiza la informacion de pacientes
+                pacienteData = pac.obtenerPacientes();
+                //Actualiza la grilla. 
+                griListaPacientes.setItems(pacienteData);
 
-        } else {
-            //  Falta validacion para atributos vacios. 
-            Paciente PacienteTemp = new Paciente(
-                    IdPacienteActual,
-                    cbTipoDoc.getValue().toString(),
-                    Integer.valueOf(txtNumeroDoc.getText()),
-                    txtApellido.getText(),
-                    txtNombre.getText(),
-                    Date.from(txtFechaNacimiento.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()),
-                    PacienteActual.getDireccion(),
-                    0,
-                    PacienteActual.getEmail(),
-                    PacienteActual.getTelefono(),
-                    PacienteActual.getcelular(),
-                    cbSexo.getValue().toString(),
-                    true,
-                    true
-            );
+                // Se carga los datos nuevamente  
+                SeleccionPaciente(PacienteActual);
+                //     ModoLectura();
 
-            //Llamada a Control de acceso de datos de paciente. PacienteDAO
-            //pacienteData.add(PacienteTemp);
-            pac.agregarPaciente(PacienteTemp);
-            pacienteData = pac.obtenerPacientes();
-            griListaPacientes.setItems(pacienteData);
+            } else {
+                //  Falta validacion para atributos vacios. 
+                Paciente PacienteTemp = new Paciente(
+                        IdPacienteActual,
+                        cbTipoDoc.getValue().toString(),
+                        Integer.valueOf(txtNumeroDoc.getText()),
+                        txtApellido.getText(),
+                        txtNombre.getText(),
+                        Date.from(txtFechaNacimiento.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()),
+                        PacienteActual.getDireccion(),
+                        0,
+                        PacienteActual.getEmail(),
+                        PacienteActual.getTelefono(),
+                        PacienteActual.getcelular(),
+                        cbSexo.getValue().toString(),
+                        true,
+                        true
+                );
 
+                //Llamada a Control de acceso de datos de paciente. PacienteDAO
+                //pacienteData.add(PacienteTemp);
+                pac.agregarPaciente(PacienteTemp);
+                pacienteData = pac.obtenerPacientes();
+                griListaPacientes.setItems(pacienteData);
+                SeleccionPaciente(PacienteTemp);
+            }
         }
 
     }
@@ -402,7 +466,7 @@ public class PacienteController implements Initializable {
      */
     @FXML
     private void btnHistorialSEDIRA_click() throws IOException {
-        
+
         ObservableList<CalculoMuestra> calculoData = FXCollections.observableArrayList();
         ICalculoDAO cal = new CalculoDAOsql();
         calculoData = cal.getCalculoPaciente(IdPacienteActual);
@@ -459,6 +523,7 @@ public class PacienteController implements Initializable {
                 alert.showAndWait();
                 txtNumeroDoc.positionCaret(txtNumeroDoc.getText().length());
             }
+
         }
 
     }
