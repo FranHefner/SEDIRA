@@ -79,6 +79,8 @@ public class IaController implements Initializable {
         txtTasa.setText(String.valueOf(SliTasa.getValue()));
         txtInfo.setText(null);
         btnRecalcular.setDisable(true);
+        
+       
         //Salidas esperadas
         /**
          * Los objetivos son las salidas esperadas. En este caso para poder

@@ -6,33 +6,31 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="283.0" prefWidth="574.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sedira.vistas.AbmPhantomController">
+<AnchorPane id="AnchorPane" prefHeight="260.0" prefWidth="574.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sedira.vistas.AbmPhantomController">
    <children>
-      <TitledPane animated="false" collapsible="false" layoutX="13.0" layoutY="80.0" prefHeight="192.0" prefWidth="549.0" text="Edición de phantom">
+      <TextField fx:id="txtNombrePhantom" editable="false" layoutX="127.0" layoutY="14.0" prefHeight="25.0" prefWidth="301.0" />
+      <TitledPane fx:id="titledEdicion" animated="false" collapsible="false" focusTraversable="false" layoutX="13.0" layoutY="54.0" prefHeight="192.0" prefWidth="549.0" text="Edición de phantom">
          <content>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="552.0" prefWidth="547.0">
                <children>
-                  <TextField fx:id="txtPropiedad" layoutX="86.0" layoutY="14.0" prefHeight="33.0" prefWidth="156.0" />
+                  <VBox fx:id="boxControles" layoutX="83.0" layoutY="25.0" prefHeight="137.0" prefWidth="162.0" />
+                  <TextField fx:id="txtPropiedad" layoutX="86.0" layoutY="19.0" prefHeight="33.0" prefWidth="156.0" />
                   <TextField fx:id="txtValor" layoutX="297.0" layoutY="14.0" prefHeight="33.0" prefWidth="107.0" />
                   <TextField fx:id="txtUnidad" layoutX="297.0" layoutY="59.0" prefHeight="33.0" prefWidth="107.0" />
-                  <Label layoutX="20.0" layoutY="20.0" text="Propiedad:" />
-                  <Label layoutX="258.0" layoutY="22.0" text="Valor:" />
-                  <Label layoutX="253.0" layoutY="64.0" text="Unidad:" />
                   <VBox alignment="TOP_CENTER" layoutX="421.0" layoutY="15.0" spacing="20.0">
                      <children>
-                        <Button fx:id="btnLimpiarValores" disable="true" layoutX="369.0" layoutY="18.0" mnemonicParsing="false" onAction="#btnLimpiarValores_click" prefHeight="25.0" prefWidth="111.0" text="Limpiar valores" />
                         <Button fx:id="btnGuardarCambios" layoutX="372.0" layoutY="59.0" mnemonicParsing="false" onAction="#btnGuardarDatos" prefHeight="25.0" prefWidth="112.0" text="Guardar cambios" />
                         <Button fx:id="btnCancelar" layoutX="372.0" layoutY="97.0" mnemonicParsing="false" onAction="#btnCancel_click" prefHeight="25.0" prefWidth="110.0" text="Cancelar" textAlignment="CENTER" />
+                        <Button fx:id="btnLimpiarValores" disable="true" layoutX="369.0" layoutY="18.0" mnemonicParsing="false" onAction="#btnLimpiarValores_click" prefHeight="25.0" prefWidth="111.0" text="Limpiar valores" />
                      </children>
                   </VBox>
-                  <VBox fx:id="boxControles" layoutX="83.0" layoutY="11.0" prefHeight="150.0" prefWidth="162.0" />
+                  <Label layoutX="23.0" layoutY="23.0" text="Propiedad:" />
+                  <Label layoutX="258.0" layoutY="24.0" text="Valor:" />
+                  <Label layoutX="250.0" layoutY="69.0" text="Unidad:" />
                </children>
             </AnchorPane>
          </content>
       </TitledPane>
-      <TextField fx:id="txtNombrePhantom" editable="false" layoutX="159.0" layoutY="14.0" prefHeight="25.0" prefWidth="396.0" />
-      <Label layoutX="37.0" layoutY="20.0" text="Nombre del Phantom:" />
-      <Label layoutX="91.0" layoutY="50.0" text="idPhantom:" />
-      <TextField fx:id="txtIdPhantom" editable="false" layoutX="159.0" layoutY="46.0" prefHeight="22.0" prefWidth="107.0" />
+      <Label layoutX="14.0" layoutY="20.0" text="Nombre del Phantom:" />
    </children>
 </AnchorPane>
