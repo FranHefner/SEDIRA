@@ -118,7 +118,7 @@ public class PestañaCalculoController implements Initializable {
     private IFormulaDAO iFormulas;
     private boolean grillaSeleccionada = false;
     List<Formula> FormulasActuales;
-    private char letra = 'A';
+    public char letra = 'A';
     private ObservableList<VariableCalculo> listaVariables = FXCollections.observableArrayList();
     private MathJS math = MenuPrincipalController.math;
     private MyCanvas canvas;
@@ -302,6 +302,7 @@ public class PestañaCalculoController implements Initializable {
                 } else if (ListaValores.size() == 1) {
                     listaVariables.get(indexVariables).setValor(ListaValores.get(0));
                 } else {
+                    
                     FaltanPropiedades = true;
                 }
             }
@@ -318,6 +319,7 @@ public class PestañaCalculoController implements Initializable {
                 if (result.get() == ButtonType.OK) {
                 }
                     cbFormulas.getSelectionModel().clearSelection();
+                    listaVariables.clear();
 
             } else if (FaltanDefinirPropiedades == true) {
 
@@ -386,10 +388,33 @@ public class PestañaCalculoController implements Initializable {
         llenarFormulas();
 
     }
+    
+     void encontrarVariableLibre()
+    {
+         letra ='A';
+            boolean encontrada = false;
+            for (int i=0;i< griVariables.getItems().size(); i++)
+            {
+                  for (int j=0;j< griVariables.getItems().size(); j++)
+                    {
+                        if (griVariables.getItems().get(j).getVariable().equals(String.valueOf(letra) ))
+                        {
+                           encontrada = true;
+                        }
+                    }               
+                  if (encontrada ==true)
+                  {
+                        letra++;
+                  }
+            }
+                
+    }
 
     @FXML
     public void agregarVariables() {
 
+        encontrarVariableLibre();
+        
         if (variableSeleccionada == null) {
 
             Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -405,7 +430,8 @@ public class PestañaCalculoController implements Initializable {
             alert.setContentText("No es posible agregar más variables al cálculo");
             alert.show();
         } else {
-            VariableCalculo nuevaVariable = new VariableCalculo(variableSeleccionada.getId(), variableSeleccionada.getDescripcion(), variableSeleccionada.getValor(), String.valueOf(letra++));
+          
+            VariableCalculo nuevaVariable = new VariableCalculo(variableSeleccionada.getId(), variableSeleccionada.getDescripcion(), variableSeleccionada.getValor(), String.valueOf( letra));
 
             listaVariables.add(nuevaVariable);
 
