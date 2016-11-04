@@ -10,7 +10,7 @@
    <children>
       <MenuBar fx:id="mnbPrincipal" layoutX="14.0" layoutY="14.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <menus>
-          <Menu fx:id="menuInicio" mnemonicParsing="false" text="Inicio">
+          <Menu fx:id="menuInicio" mnemonicParsing="false" text="Inicio" visible="false">
             <items>
               <MenuItem fx:id="btnCerrar" mnemonicParsing="false" onAction="#Cerrar_click" text="Cerrar" />
             </items>
