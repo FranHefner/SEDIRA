@@ -12,7 +12,6 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -467,11 +466,12 @@ public class PhantomController implements Initializable {
         boolean guardarCambiosClicked = mostrarPhantomEditDialog(tempPhantom);
         String nombrePhantom = tempPhantom.getPhantomNombre();
         if (guardarCambiosClicked) {
-            //tempPhantom.setIdPhantom(ConsultasDB.getNewIdPhantom());
+            
             tempPhantom.setPropiedades(propiedadesPhantom);
             tempPhantom.setOrgano(organosPhantom);
-            //ConsultasDB.agregarPhantom(tempPhantom);
+            
             ph.agregarPhantom(tempPhantom);
+            
             //Actualizo el GridView de Phantoms.
             phantomData = ph.obtenerListaPhantom();
             griPhantom.setItems(phantomData);
@@ -619,15 +619,17 @@ public class PhantomController implements Initializable {
         int selectedIndex = griValorDescripcionPhantom.getSelectionModel().getSelectedIndex();
 
         if (selectedItem != null) {
+            //Identificador del item a eliminar. 
             int idItem = selectedItem.getId();
+            
             String mensaje = griValorDescripcionPhantom.getSelectionModel().getSelectedItem().getDescripcion() + "  "
                     + griValorDescripcionPhantom.getSelectionModel().getSelectedItem().getValor() + "  "
                     + griValorDescripcionPhantom.getSelectionModel().getSelectedItem().getUnidad();
 
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Eliminar Item");
+            alert.setTitle("Eliminar Ítem");
             alert.setHeaderText("Atención!");
-            alert.setContentText("Esta seguro que desea eliminar el item seleccionado? \n" + mensaje);
+            alert.setContentText("Está seguro que desea eliminar el ítem seleccionado? \n" + mensaje);
 
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == ButtonType.OK) {
@@ -655,7 +657,7 @@ public class PhantomController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Error!");
             alert.setHeaderText("Error!");
-            alert.setContentText("No hay items para eliminar");
+            alert.setContentText("Se debe seleccionar un ítem para eliminar");
 
             alert.showAndWait();
         }
@@ -728,7 +730,7 @@ public class PhantomController implements Initializable {
             Alert alert = new Alert(AlertType.WARNING);
             alert.setTitle("Error!");
             alert.setHeaderText("Error!");
-            alert.setContentText("No existen items para modificar");
+            alert.setContentText("Se debe seleccionar un ítem para eliminar");
 
             alert.showAndWait();
 
@@ -796,6 +798,7 @@ public class PhantomController implements Initializable {
         btnEliminarOrgano.setDisable(true);
         btnModificarOrgano.setDisable(true);
         ValorDescripcion selectedItem = griValorDescripcionPhantom.getSelectionModel().getSelectedItem();
+        
         if (griValorDescripcionPhantom.getSelectionModel().isEmpty()) {
             btnEliminarItem.setDisable(true);
             btnModificarItem.setDisable(true);

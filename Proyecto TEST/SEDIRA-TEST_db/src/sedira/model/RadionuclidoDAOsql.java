@@ -167,7 +167,7 @@ public class RadionuclidoDAOsql implements IRadionuclidoDAO {
             //Antes de insertar corrobora que no exista el nombre
             if (buscaNombre(radionuclido.getNombreRadNuclido())) {
                 Statement consulta = conexion.getConnection().createStatement();
-                consulta.executeUpdate("INSERT INTO radionuclidos (nombre_radionuclido) VALUES ('" + radionuclido.getNombreRadNuclido() + "')");
+                consulta.executeUpdate("INSERT INTO radionuclidos (nombre_radionuclido) VALUES ('" + nombreRadNuclido + "')");
                 consulta.close();
                 conexion.desconectar();
 

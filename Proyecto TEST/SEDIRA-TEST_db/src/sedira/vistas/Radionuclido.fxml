@@ -33,7 +33,7 @@
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                <children>
-                  <TitledPane animated="false" collapsible="false" layoutX="23.0" layoutY="14.0" prefHeight="501.0" prefWidth="584.0" text="Información del radionúclido" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <TitledPane animated="false" collapsible="false" focusTraversable="false" layoutX="23.0" layoutY="14.0" prefHeight="501.0" prefWidth="584.0" text="Información del radionúclido" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="397.0" prefWidth="526.0">
                            <children>

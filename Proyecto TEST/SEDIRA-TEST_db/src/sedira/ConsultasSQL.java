@@ -10,7 +10,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javafx.scene.control.Alert;
-import javafx.stage.Modality;
 import javax.swing.JOptionPane;
 import sedira.model.ConexionDB;
 import sedira.model.Usuario;

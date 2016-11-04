@@ -93,7 +93,7 @@ public class AbmPhantomController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         btnLimpiarValores.setDisable(false);
-        //Listener para la cantidad de caracteres en el nombre en el campo busqueda 
+        //Listener para la cantidad de caracteres en el nombre en las propiedades
         txtPropiedad.lengthProperty().addListener(new ChangeListener<Number>() {
 
             @Override
@@ -152,7 +152,6 @@ public class AbmPhantomController implements Initializable {
         this.dialogStage = dialogStage;
         dialogStage.initModality(Modality.APPLICATION_MODAL);
         dialogStage.setResizable(false);
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 
         data = vd.listadoPropiedadesPhantom();
         listaSugerida.setItems(data);
@@ -234,7 +233,6 @@ public class AbmPhantomController implements Initializable {
              */
             //Atributos de nombre y id. 
             txtNombrePhantom.setEditable(true);
-
             txtNombrePhantom.setText(phantom.getPhantomNombre());
             listaSugerida.setDisable(true);
             listaSugerida.setVisible(false);
@@ -286,7 +284,7 @@ public class AbmPhantomController implements Initializable {
 
         String NombrePropiedad;
 
-        // Me fijo si hay un órgano seleccionado o es un nuevo órgano
+        // Me fijo si hay una propiedad seleccionada o es un nuevo
         if (listaSugerida.getSelectionModel().getSelectedIndex() == -1) {
             NombrePropiedad = txtPropiedad.getText();
         } else {
@@ -312,7 +310,7 @@ public class AbmPhantomController implements Initializable {
                     break;
             }
             // Si las validaciones son correctas se guardan los datos. 
-            
+
             guardarDatos = true;
             dialogStage.close();
         }
@@ -367,9 +365,20 @@ public class AbmPhantomController implements Initializable {
      */
     @FXML
     public void btnLimpiarValores_click() {
-        txtUnidad.setText("");
-        txtPropiedad.setText("");
-        txtValor.setText("");
+
+        switch (dialogStage.getTitle()) {
+            case "Crear un Phantom":
+                txtNombrePhantom.setText("");
+                break;
+            case "Modificar nombre del Phantom":
+                txtNombrePhantom.setText("");
+                break;
+            case "Modificar Items":
+                txtUnidad.setText("");
+                txtPropiedad.setText("");
+                txtValor.setText("");
+                break;
+        }
     }
 
     /**
@@ -379,6 +388,7 @@ public class AbmPhantomController implements Initializable {
      * @throws SQLException
      */
     public boolean validarDatosEntrada() throws SQLException {
+
         String mensajeError = "";
         String valor = txtValor.getText();
         String propiedad = txtPropiedad.getText();
@@ -430,7 +440,7 @@ public class AbmPhantomController implements Initializable {
                 }
 
             }
-            
+
             //Validacion Unidad. 
             // Al no saber con ciencia cierta lo que el usuario seleccionara como unidad. Este campo solo valida que el 
             // no este vacio o sin caracteres. 
