@@ -402,6 +402,7 @@ public class PestañaCalculoController implements Initializable {
 
             formu.setFormula(result.get(), txtEntrada.getText(), dValidaciones.getIdCalgulo());
         }
+        cbFormulas.getItems().clear();
         llenarFormulas();
 
     }
