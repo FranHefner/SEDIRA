@@ -53,9 +53,10 @@
                               <TextField fx:id="txtFormula" editable="false" layoutX="20.0" layoutY="173.0" prefHeight="25.0" prefWidth="301.0" />
                               <Label layoutX="359.0" layoutY="158.0" text="Resultado:" />
                               <TextField fx:id="txtResultado" editable="false" layoutX="359.0" layoutY="173.0" prefHeight="25.0" prefWidth="172.0" />
-                              <Label layoutX="19.0" layoutY="301.0" text="Cálculo Hash:" />
-                              <Label fx:id="lblhash" layoutX="96.0" layoutY="301.0" text="Sin datos" />
-                              <TextArea fx:id="comentarios" editable="false" layoutX="11.0" layoutY="334.0" prefHeight="181.0" prefWidth="534.0" />
+                              <Label layoutX="14.0" layoutY="489.0" text="Cálculo Hash:" />
+                              <Label fx:id="lblhash" layoutX="91.0" layoutY="489.0" text="Sin datos" />
+                              <TextArea fx:id="comentarios" editable="false" layoutX="11.0" layoutY="319.0" prefHeight="161.0" prefWidth="534.0" wrapText="true" />
+                              <Label layoutX="20.0" layoutY="302.0" text="Observaciones:" />
                            </children>
                         </AnchorPane>
                      </content>
