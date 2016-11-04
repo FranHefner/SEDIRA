@@ -378,7 +378,7 @@ public class PestañaCalculoController implements Initializable {
         } else {
             griVariables.getItems().remove(griVariables.getSelectionModel().getSelectedItem());
         }
-
+        ReiniciarTextoEntrada();
     }
 
     @FXML
@@ -467,6 +467,7 @@ public class PestañaCalculoController implements Initializable {
             griValorDescripcionRadionuclido.getSelectionModel().clearSelection();
             griValorDescripcionPhantom.getSelectionModel().clearSelection();
             variableSeleccionada = null;
+            ReiniciarTextoEntrada();
         }
 
     }
