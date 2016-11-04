@@ -392,20 +392,38 @@ public class PestañaCalculoController implements Initializable {
      void encontrarVariableLibre()
     {
          letra ='A';
-            boolean encontrada = false;
+            boolean encontrada = true;
+          int cantidad=0;
+          boolean variableLibre= false;
+               
             for (int i=0;i< griVariables.getItems().size(); i++)
             {
+              if (variableLibre== false )
+              {
+                     encontrada= false;
+                     
                   for (int j=0;j< griVariables.getItems().size(); j++)
                     {
-                        if (griVariables.getItems().get(j).getVariable().equals(String.valueOf(letra) ))
+                     
+                         if (griVariables.getItems().get(j).getVariable().equals(String.valueOf(letra) ))
                         {
                            encontrada = true;
+                      
                         }
+                         
+                       
                     }               
-                  if (encontrada ==true)
-                  {
-                        letra++;
-                  }
+                 if (encontrada == true)
+                 {
+                       letra++;
+                 }else                     
+                 {
+                  variableLibre = true;
+                 }
+              }
+              
+                
+                
             }
                 
     }
@@ -431,7 +449,7 @@ public class PestañaCalculoController implements Initializable {
             alert.show();
         } else {
           
-            VariableCalculo nuevaVariable = new VariableCalculo(variableSeleccionada.getId(), variableSeleccionada.getDescripcion(), variableSeleccionada.getValor(), String.valueOf( letra));
+            VariableCalculo nuevaVariable = new VariableCalculo(variableSeleccionada.getId(), variableSeleccionada.getDescripcion(), variableSeleccionada.getValor(), String.valueOf(letra++));
 
             listaVariables.add(nuevaVariable);
 
