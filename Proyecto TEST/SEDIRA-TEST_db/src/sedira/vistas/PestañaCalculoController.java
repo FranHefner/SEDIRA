@@ -347,6 +347,25 @@ public class PestañaCalculoController implements Initializable {
 
     }
 
+    
+    @FXML
+    public void eliminarFormula() {
+        
+        if (cbFormulas.getSelectionModel().getSelectedIndex() == -1) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Falta selección");
+            alert.setHeaderText("Atención!");
+            alert.setContentText("Falta seleccionar la fórmula que se desea eliminar");
+            alert.show();
+        } else {
+            formu.eliminarFormula(cbFormulas.getSelectionModel().getSelectedItem().toString());
+            cbFormulas.getItems().clear();
+            llenarFormulas();
+      
+        }
+
+        
+    }
     @FXML
     public void eliminarVariable() {
 

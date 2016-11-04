@@ -64,6 +64,41 @@ public class FormulaDAOsql implements IFormulaDAO {
     }
 
     @Override
+    public void eliminarFormula(String Formula)
+    {
+        
+           //Instancia de conexion
+        ConexionDB conexion = new ConexionDB();
+
+        try {
+
+            PreparedStatement consulta = conexion.getConnection().prepareStatement(
+                    " DELETE FROM formulas WHERE nombre = ?");
+                  
+            consulta.setString(1, Formula);
+         
+
+            consulta.executeUpdate(); //Ejecucion de la consulta
+            consulta.close();
+            // JOptionPane.showMessageDialog(null, "La propiedad "+vd.getDescripcion()+ " fué agregada con éxito!","Información",JOptionPane.INFORMATION_MESSAGE);
+            conexion.desconectar();
+
+            // Mensaje de confirmacion
+            Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+            alerta.setTitle("Confirmación");
+            alerta.setHeaderText(null);
+            alerta.setContentText("La fórmula fué eliminada con éxito.");
+            alerta.showAndWait();
+
+        } catch (SQLException e) {
+            CodigosErrorSQL.analizarExepcion(e);
+            //System.out.println("Ocurrió un error al guardar el cálculo " + e.getMessage());
+            //JOptionPane.showMessageDialog(null, "Ocurrió un error al guardar el cálculo " + e.getMessage(), "Información", JOptionPane.INFORMATION_MESSAGE);
+        }
+        
+        
+    }
+    @Override
     public List<Formula> getFormulas() {
         //Instancia de conexion
         ConexionDB conexion = new ConexionDB();
