@@ -332,7 +332,7 @@ public class CalculoDAOsql implements ICalculoDAO {
                 calculoSeleccionado.setFormulaTex(resultado.getString("Formula_Tex"));                
                 calculoSeleccionado.setResultado(resultado.getString("Resultado"));
                 calculoSeleccionado.setHashValidado(resultado.getString("Hash"));
-
+                calculoSeleccionado.setObservaciones(resultado.getString("Observaciones"));
             }
             //Cierre de consulta
             resultado.close();

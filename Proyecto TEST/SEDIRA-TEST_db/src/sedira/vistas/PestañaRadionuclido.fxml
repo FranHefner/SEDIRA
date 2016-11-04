@@ -24,7 +24,7 @@
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <TableView fx:id="griInfoRadNuclido" layoutX="28.6" layoutY="27.6" prefHeight="320.0" prefWidth="525.0" AnchorPane.bottomAnchor="19.0" AnchorPane.leftAnchor="19.0" AnchorPane.rightAnchor="134.0" AnchorPane.topAnchor="18.0">
+                              <TableView fx:id="griInfoRadNuclido" layoutX="71.0" layoutY="35.0" prefHeight="308.0" prefWidth="554.0" AnchorPane.bottomAnchor="34.60000000000002" AnchorPane.leftAnchor="71.0" AnchorPane.rightAnchor="70.59999999999991" AnchorPane.topAnchor="35.0">
                                  <columns>
                                     <TableColumn fx:id="clVdDescripcion" prefWidth="206.99999392032623" text="Propiedad" />
                                     <TableColumn fx:id="clVdValor" prefWidth="127.99996948242188" text="Valor" />

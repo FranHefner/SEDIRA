@@ -9,7 +9,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="403.0" prefWidth="790.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sedira.vistas.HistorialSEDIRAController">
+<AnchorPane id="AnchorPane" prefHeight="582.0" prefWidth="790.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sedira.vistas.HistorialSEDIRAController">
    <children>
       <TitledPane animated="false" collapsible="false" layoutX="28.0" layoutY="14.0" prefHeight="326.0" prefWidth="546.0" text="Historial de Cálculos" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <content>
@@ -20,25 +20,28 @@
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                      </columnResizePolicy>
                      <columns>
-                        <TableColumn fx:id="clIdCalculo" editable="false" prefWidth="75.0" text="Id" />
-                        <TableColumn fx:id="clFechaCalculo" editable="false" prefWidth="87.0" text="Fecha" />
-                        <TableColumn fx:id="clPaciente" editable="false" prefWidth="90.0" text="Paciente" visible="false" />
+                        <TableColumn fx:id="clIdCalculo" editable="false" prefWidth="40.0" resizable="false" text="Id" />
+                        <TableColumn fx:id="clFechaCalculo" editable="false" prefWidth="137.0" resizable="false" text="Fecha" />
+                        <TableColumn fx:id="clPaciente" editable="false" prefWidth="90.0" resizable="false" text="Paciente" visible="false" />
                      </columns>
                   </TableView>
                   <TitledPane animated="false" collapsible="false" layoutX="211.0" layoutY="4.6" prefHeight="319.0" prefWidth="558.0" text="Información del cálculo seleccionado" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <TableView fx:id="griVariableCalculo" layoutX="278.0" layoutY="19.6" prefHeight="133.0" prefWidth="241.0" AnchorPane.topAnchor="0.0">
+                              <TableView fx:id="griVariableCalculo" layoutX="278.0" layoutY="17.8" prefHeight="133.0" prefWidth="268.0" AnchorPane.topAnchor="9.0">
                                  <columns>
                                     <TableColumn fx:id="clPropiedad" editable="false" prefWidth="75.0" text="Propiedad" />
                                     <TableColumn fx:id="clValor" editable="false" prefWidth="85.0" text="Valor" />
                                     <TableColumn fx:id="clVariable" editable="false" prefWidth="85.0" text="Variable" />
                                  </columns>
+                                 <columnResizePolicy>
+                                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                 </columnResizePolicy>
                               </TableView>
                               <Pane fx:id="pnFuncion" layoutX="19.0" layoutY="231.0" prefHeight="64.0" prefWidth="497.0" />
                               <Label layoutX="23.0" layoutY="203.0" text="Vista Previa Formula" />
-                              <Label layoutX="26.0" layoutY="151.0" text="Formula" />
+                              <Label layoutX="20.0" layoutY="158.0" text="Formula:" />
                               <Label layoutX="18.0" layoutY="38.0" text="Phantom:" />
                               <Label layoutX="19.0" layoutY="62.0" text="Órgano:" />
                               <Label fx:id="lblPhantom" layoutX="101.0" layoutY="38.0" text="Sin datos" />
@@ -48,10 +51,11 @@
                               <Label layoutX="19.0" layoutY="89.0" text="Radionúclido:" />
                               <Label fx:id="lblRadionuclido" layoutX="101.0" layoutY="89.0" text="Sin datos" />
                               <TextField fx:id="txtFormula" editable="false" layoutX="20.0" layoutY="173.0" prefHeight="25.0" prefWidth="301.0" />
-                              <Label layoutX="333.0" layoutY="151.0" text="Resultado:" />
-                              <TextField fx:id="txtResultado" editable="false" layoutX="333.0" layoutY="173.0" prefHeight="25.0" prefWidth="172.0" />
+                              <Label layoutX="359.0" layoutY="158.0" text="Resultado:" />
+                              <TextField fx:id="txtResultado" editable="false" layoutX="359.0" layoutY="173.0" prefHeight="25.0" prefWidth="172.0" />
                               <Label layoutX="19.0" layoutY="301.0" text="Cálculo Hash:" />
                               <Label fx:id="lblhash" layoutX="96.0" layoutY="301.0" text="Sin datos" />
+                              <TextArea fx:id="comentarios" editable="false" layoutX="11.0" layoutY="334.0" prefHeight="181.0" prefWidth="534.0" />
                            </children>
                         </AnchorPane>
                      </content>

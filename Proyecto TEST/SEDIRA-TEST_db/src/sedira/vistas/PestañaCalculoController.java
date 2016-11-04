@@ -5,7 +5,6 @@
  */
 package sedira.vistas;
 
-import com.mysql.jdbc.StringUtils;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -14,7 +13,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import sedira.DatosValidacionesCalculo;
-import sedira.DatosValidacionesCalculoBasico;
 import sedira.IDatosValidaciones;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -135,24 +133,24 @@ public class PestañaCalculoController implements Initializable {
         ReiniciarTextoEntrada();
 
         /*intFormulas = new FormulaDAOsql();
-        FormulasActuales = intFormulas.getFormulas();
+         FormulasActuales = intFormulas.getFormulas();
 
-        for (int i = 0; i < FormulasActuales.size(); i++) {
-            cbFormulas.getItems().add(FormulasActuales.get(i).getNombre());
+         for (int i = 0; i < FormulasActuales.size(); i++) {
+         cbFormulas.getItems().add(FormulasActuales.get(i).getNombre());
 
-        }*/
+         }*/
         llenarFormulas();
         /* Se inicializa la interface para que se adapte al tipo de cálculo actual */
-        
-         dValidaciones = new DatosValidacionesCalculo();
-         
+
+        dValidaciones = new DatosValidacionesCalculo();
+
         if (MenuPrincipalController.TipoUsuario == "Cientifico") {
-           
+
             cbFormulas.setDisable(false);
             btnEliminarFormula.setDisable(false);
         }
         if (MenuPrincipalController.TipoUsuario == "Medico") {
-           
+
             btnSacarPropiedad.setDisable(true);
             btnAgregarPropiedad.setDisable(true);
             btnEliminarFormula.setDisable(true);
@@ -250,7 +248,7 @@ public class PestañaCalculoController implements Initializable {
                 }
 
             }
-          
+
             List<String> ListaValores = new ArrayList<String>();
             int indexVariables = -1;
             for (VariableCalculo vc : listaVariables) {
@@ -279,7 +277,7 @@ public class PestañaCalculoController implements Initializable {
                     }
 
                     dialog.setTitle("Confirmar Valor");
-                    dialog.setHeaderText("Se encontraró más de un valor de la propiedad '" + vc.getDescripcion() + "'. Seleccione el valor deseado \n" + MuestraVariables);
+                    dialog.setHeaderText("Se encontró más de un valor para la propiedad '" + vc.getDescripcion() + "'. Seleccione el valor deseado \n" + MuestraVariables);
 
                     dialog.setContentText("Opción deseada:");
 
@@ -302,7 +300,7 @@ public class PestañaCalculoController implements Initializable {
                 } else if (ListaValores.size() == 1) {
                     listaVariables.get(indexVariables).setValor(ListaValores.get(0));
                 } else {
-                    
+
                     FaltanPropiedades = true;
                 }
             }
@@ -312,14 +310,14 @@ public class PestañaCalculoController implements Initializable {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("Faltan propiedades");
                 alert.setHeaderText("Atención!");
-                alert.setContentText("La fórmula seleccionada requiere propiedades que no están disponibles en los elemtnos seleccionados. \n"
+                alert.setContentText("La fórmula seleccionada requiere propiedades que no están disponibles en los elementos seleccionados. \n"
                         + "Por favor, seleccione otra fórmula...  ");
 
                 Optional<ButtonType> result = alert.showAndWait();
                 if (result.get() == ButtonType.OK) {
                 }
-                    cbFormulas.getSelectionModel().clearSelection();
-                    listaVariables.clear();
+                cbFormulas.getSelectionModel().clearSelection();
+                listaVariables.clear();
 
             } else if (FaltanDefinirPropiedades == true) {
 
@@ -327,19 +325,19 @@ public class PestañaCalculoController implements Initializable {
                 alert.setTitle("Faltan definir propiedades");
                 alert.setHeaderText("Atención!");
                 alert.setContentText("La fórmula seleccionada encontró más de una propiedad con un mismo nombre entre los elementos seleccionados \n"
-                        + "Por favor, seleccione nuevamente la formula y elija un valor para dicha propiedad ");
+                        + "Por favor, seleccione nuevamente la fórmula y elija un valor para dicha propiedad ");
 
                 Optional<ButtonType> result = alert.showAndWait();
                 if (result.get() == ButtonType.OK) {
                 }
 
-                   cbFormulas.getSelectionModel().clearSelection();
+                cbFormulas.getSelectionModel().clearSelection();
             } else {
                 if (IndiceFormula != -1) {
                     griVariables.setItems(listaVariables);
                     txtEntrada.setText(FormulasActuales.get(IndiceFormula).getFormula_mat());
                 } else {
-                         cbFormulas.getSelectionModel().clearSelection();
+                    cbFormulas.getSelectionModel().clearSelection();
                 }
 
                 ReiniciarTextoEntrada();
@@ -388,51 +386,41 @@ public class PestañaCalculoController implements Initializable {
         llenarFormulas();
 
     }
-    
-     void encontrarVariableLibre()
-    {
-         letra ='A';
-            boolean encontrada = true;
-          int cantidad=0;
-          boolean variableLibre= false;
-               
-            for (int i=0;i< griVariables.getItems().size(); i++)
-            {
-              if (variableLibre== false )
-              {
-                     encontrada= false;
-                     
-                  for (int j=0;j< griVariables.getItems().size(); j++)
-                    {
-                     
-                         if (griVariables.getItems().get(j).getVariable().equals(String.valueOf(letra) ))
-                        {
-                           encontrada = true;
-                      
-                        }
-                         
-                       
-                    }               
-                 if (encontrada == true)
-                 {
-                       letra++;
-                 }else                     
-                 {
-                  variableLibre = true;
-                 }
-              }
-              
-                
-                
+
+    void encontrarVariableLibre() {
+        letra = 'A';
+        boolean encontrada = true;
+        int cantidad = 0;
+        boolean variableLibre = false;
+
+        for (int i = 0; i < griVariables.getItems().size(); i++) {
+            if (variableLibre == false) {
+                encontrada = false;
+
+                for (int j = 0; j < griVariables.getItems().size(); j++) {
+
+                    if (griVariables.getItems().get(j).getVariable().equals(String.valueOf(letra))) {
+                        encontrada = true;
+
+                    }
+
+                }
+                if (encontrada == true) {
+                    letra++;
+                } else {
+                    variableLibre = true;
+                }
             }
-                
+
+        }
+
     }
 
     @FXML
     public void agregarVariables() {
 
         encontrarVariableLibre();
-        
+
         if (variableSeleccionada == null) {
 
             Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -448,7 +436,7 @@ public class PestañaCalculoController implements Initializable {
             alert.setContentText("No es posible agregar más variables al cálculo");
             alert.show();
         } else {
-          
+
             VariableCalculo nuevaVariable = new VariableCalculo(variableSeleccionada.getId(), variableSeleccionada.getDescripcion(), variableSeleccionada.getValor(), String.valueOf(letra++));
 
             listaVariables.add(nuevaVariable);
@@ -471,13 +459,12 @@ public class PestañaCalculoController implements Initializable {
         guardadoOK = dValidaciones.guardarCalculo();
 
         if (guardadoOK) {
-            
-            if(MenuPrincipalController.TipoUsuario == "Cientifico")
-            {
-                 btnGuardarFormula.setDisable(false);
+
+            if (MenuPrincipalController.TipoUsuario.equals("Cientifico")) {
+                btnGuardarFormula.setDisable(false);
             }
-           
-        } else {            
+
+        } else {
             btnGuardarFormula.setDisable(true);
         }
 
@@ -500,7 +487,7 @@ public class PestañaCalculoController implements Initializable {
 
                 for (VariableCalculo Variable : listaVariables) {
 
-                    formulaCalculo = formulaCalculo.replace(Variable.getVariable(), Variable.getValor().toString());
+                    formulaCalculo = formulaCalculo.replace(Variable.getVariable(), Variable.getValor());
 
                 }
 
@@ -544,7 +531,6 @@ public class PestañaCalculoController implements Initializable {
 
     private void llenarFormulas() {
 
-   
         iFormulas = new FormulaDAOsql();
         FormulasActuales = iFormulas.getFormulas();
 

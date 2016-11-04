@@ -14,6 +14,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import sedira.FuncionesGenerales;
@@ -50,6 +51,8 @@ public class HistorialSEDIRAController implements Initializable {
     private Pane pnFuncion;
     @FXML
     private Label lblhash;
+    @FXML
+    private TextArea comentarios; 
 
     @FXML
     private TableView<CalculoMuestra> griListaCalculos;
@@ -87,6 +90,8 @@ public class HistorialSEDIRAController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        
+        
         pacienteActual = FuncionesGenerales.getPacienteActual();
         int idPaciente = pacienteActual.getIdPaciente();
 
@@ -129,7 +134,7 @@ public class HistorialSEDIRAController implements Initializable {
             //Completo la grilla de variables del calculo. 
             varCalculoData = var.obtenerVariables(calculoSeleccionado.getIdCalculoMuestra());
             griVariableCalculo.setItems(varCalculoData);
-
+            
             //Completo la informacion de los labels. 
             lblPaciente.setText(pacienteActual.getApellido() + " " + pacienteActual.getNombre());
             lblOrgano.setText(detalleItem.getOrgano());
@@ -137,7 +142,8 @@ public class HistorialSEDIRAController implements Initializable {
             lblRadionuclido.setText(detalleItem.getRadionuclido());
             txtFormula.setText(detalleItem.getFormula());
             txtResultado.setText(detalleItem.getResultado());
-
+            
+            comentarios.setText(detalleItem.getObservaciones());
             canvas = new MyCanvas(detalleItem.getFormulaTex());
 
             canvas.widthProperty().bind(pnFuncion.widthProperty());
