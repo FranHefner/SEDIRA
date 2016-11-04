@@ -12,7 +12,7 @@
          <items>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="25.0" prefWidth="696.0" SplitPane.resizableWithParent="false">
                <children>
-                  <TextField fx:id="txtBusqueda" layoutX="246.0" layoutY="3.0" onKeyPressed="#btnBuscar_click" prefHeight="36.0" prefWidth="205.0" promptText="Búsqueda ..." />
+                  <TextField fx:id="txtBusqueda" layoutX="246.0" layoutY="3.0" onKeyTyped="#btnBuscar_click" prefHeight="36.0" prefWidth="205.0" promptText="Búsqueda ..." />
                </children>
             </AnchorPane>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="363.0" prefWidth="696.0">

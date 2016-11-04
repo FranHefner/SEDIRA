@@ -16,7 +16,7 @@
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="138.0" prefWidth="750.0">
                <children>
-                  <TextField fx:id="txtCampoBusqueda" layoutX="9.0" layoutY="22.0" onKeyPressed="#buscarPhantom" prefHeight="33.0" prefWidth="271.0" promptText="Búsqueda ..." />
+                  <TextField fx:id="txtCampoBusqueda" layoutX="9.0" layoutY="22.0" onKeyTyped="#buscarPhantom" prefHeight="33.0" prefWidth="271.0" promptText="Búsqueda ..." />
                   <TableView fx:id="griPhantom" layoutX="294.0" layoutY="24.0" onMouseClicked="#getSelectedPhantom" prefHeight="150.0" prefWidth="297.0">
                     <columns>
                       <TableColumn fx:id="clPhantomNombre" prefWidth="136.0" text="Phantom" />

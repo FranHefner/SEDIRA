@@ -34,7 +34,7 @@ public class PacienteDAOsql implements IPacienteDAO {
         int dni = paciente.getNumeroDoc();
 
         try {
-            if (buscaDni(dni)) {
+            
                 PreparedStatement consulta = conexion.getConnection().prepareStatement(
                         " INSERT INTO pacientes ("
                         + "tipo_doc"
@@ -84,9 +84,7 @@ public class PacienteDAOsql implements IPacienteDAO {
                 alerta.setHeaderText(null);
                 alerta.setContentText("El paciente fué agregado.");
                 alerta.showAndWait();
-            } else {
-
-            }
+            
         } catch (SQLException e) {
             CodigosErrorSQL.analizarExepcion(e);
            // System.out.println("Ocurrió un error en la inserción del paciente " + e.getMessage());

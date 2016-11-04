@@ -20,47 +20,47 @@
                     <items>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                            <children>
-                              <TextField fx:id="txtCampoBusqueda" layoutX="251.0" layoutY="38.0" onKeyPressed="#btnBuscar_click" prefHeight="33.0" prefWidth="213.0" promptText="Búsqueda ..." />
+                              <TextField fx:id="txtCampoBusqueda" layoutX="251.0" layoutY="38.0" onKeyTyped="#btnBuscar_click" prefHeight="33.0" prefWidth="213.0" promptText="Búsqueda ..." />
                            </children>
                         </AnchorPane>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="529.0" prefWidth="658.0">
                            <children>
-                              <TableView fx:id="griListaPacientes" layoutX="101.0" layoutY="25.0" prefHeight="127.0" prefWidth="501.0">
+                              <TableView fx:id="griListaPacientes" disable="true" layoutX="27.0" layoutY="25.0" prefHeight="145.0" prefWidth="608.0">
                                 <columns>
                                   <TableColumn fx:id="clTipoDoc" prefWidth="75.0" text="Tipo Doc" />
-                                    <TableColumn fx:id="clNumeroDoc" prefWidth="141.0" text="Numero Doc" />
-                                  <TableColumn fx:id="clNombre" prefWidth="132.0" text="Nombre" />
-                                    <TableColumn fx:id="clApellido" prefWidth="152.0" text="Apellido" />
+                                    <TableColumn fx:id="clNumeroDoc" prefWidth="184.0" text="Numero Doc" />
+                                  <TableColumn fx:id="clNombre" prefWidth="176.0" text="Nombre" />
+                                    <TableColumn fx:id="clApellido" prefWidth="172.0" text="Apellido" />
                                 </columns>                                 
                               </TableView>
-                              <Pane fx:id="grbBotones" layoutX="123.0" layoutY="443.0" prefHeight="72.0" prefWidth="524.0">
+                              <Pane layoutX="101.0" layoutY="177.0" prefHeight="284.0" prefWidth="501.0">
                                  <children>
-                                    <Button fx:id="btnNuevo" layoutX="7.0" layoutY="24.0" mnemonicParsing="false" onAction="#btnNuevo_click" text="Nuevo" />
-                                    <Button fx:id="btnEditar" layoutX="68.0" layoutY="24.0" mnemonicParsing="false" onAction="#btnEditar_click" text="Editar" />
-                                    <Button fx:id="btnAceptar" layoutX="327.0" layoutY="25.0" mnemonicParsing="false" onAction="#btnAceptar_click" text="Aceptar" />
-                                    <Button fx:id="btnCerrar" layoutX="463.0" layoutY="25.0" mnemonicParsing="false" onAction="#btnCerrar_click" text="Cerrar" />
-                                    <Button fx:id="btnCancelar" layoutX="390.0" layoutY="25.0" mnemonicParsing="false" onAction="#btnCancelar_click" text="Cancelar" />
-                                 </children>
-                              </Pane>
-                              <Pane layoutX="101.0" layoutY="159.0" prefHeight="284.0" prefWidth="501.0">
-                                 <children>
-                                    <ComboBox fx:id="cbTipoDoc" disable="true" layoutX="136.0" layoutY="33.0" prefHeight="25.0" prefWidth="149.0" />
+                                    <ComboBox fx:id="cbTipoDoc" disable="true" layoutX="136.0" layoutY="33.0" prefHeight="25.0" prefWidth="149.0" stylesheets="@../../MyStyle.css" />
                                     <TextField fx:id="txtNumeroDoc" editable="false" layoutX="136.0" layoutY="67.0" onKeyReleased="#txtNumeroDoc_KeyPress" />
                                     <TextField fx:id="txtNombre" editable="false" layoutX="136.0" layoutY="105.0" onKeyReleased="#txtNombre_KeyPress" />
                                     <TextField fx:id="txtApellido" editable="false" layoutX="136.0" layoutY="140.0" onKeyReleased="#txtApellido_KeyPress" />
-                                    <DatePicker fx:id="txtFechaNacimiento" disable="true" editable="false" layoutX="136.0" layoutY="176.0" prefHeight="25.0" prefWidth="149.0" />
+                                    <DatePicker fx:id="txtFechaNacimiento" disable="true" editable="false" layoutX="136.0" layoutY="176.0" prefHeight="25.0" prefWidth="149.0" stylesheets="@../../MyStyle.css" />
+                                    <ComboBox fx:id="cbSexo" disable="true" layoutX="136.0" layoutY="208.0" prefHeight="25.0" prefWidth="149.0" stylesheets="@../../MyStyle.css" />
                                     <Label layoutX="27.0" layoutY="144.0" text="Apellido:" />
                                     <Label layoutX="27.0" layoutY="109.0" text="Nombre:" />
                                     <Label layoutX="27.0" layoutY="37.0" text="Tipo Documento:" />
                                     <Label layoutX="27.0" layoutY="71.0" text="N° Documento:" />
                                     <Label layoutX="26.0" layoutY="180.0" text="Fecha Nacimiento:" />
-                                    <Button fx:id="btnHistorialSEDIRA" disable="true" layoutX="345.0" layoutY="69.0" mnemonicParsing="false" onAction="#btnHistorialSEDIRA_click" prefHeight="25.0" prefWidth="133.0" text="Historial SEDIRA" />
                                     <Button fx:id="btnContacto" disable="true" layoutX="345.0" layoutY="34.0" mnemonicParsing="false" onAction="#btnContacto_click" prefHeight="25.0" prefWidth="133.0" text="Contacto" />
+                                    <Button fx:id="btnHistorialSEDIRA" disable="true" layoutX="345.0" layoutY="69.0" mnemonicParsing="false" onAction="#btnHistorialSEDIRA_click" prefHeight="25.0" prefWidth="133.0" text="Historial SEDIRA" />
                                     <CheckBox fx:id="chkTratamiento" allowIndeterminate="true" layoutX="437.0" layoutY="250.0" mnemonicParsing="false" visible="false" />
                                     <Label layoutX="333.0" layoutY="250.0" text="En tratamiento" visible="false" />
                                     <Button fx:id="btnMediciones" layoutX="333.0" layoutY="214.0" mnemonicParsing="false" onAction="#btnMediciones_click" prefHeight="25.0" prefWidth="133.0" text="Mediciones" visible="false" />
-                                    <ComboBox fx:id="cbSexo" disable="true" layoutX="136.0" layoutY="208.0" prefHeight="25.0" prefWidth="149.0" />
                                     <Label layoutX="26.0" layoutY="212.0" text="Sexo:" />
+                                 </children>
+                              </Pane>
+                              <Pane fx:id="grbBotones" layoutX="123.0" layoutY="443.0" prefHeight="72.0" prefWidth="524.0">
+                                 <children>
+                                    <Button fx:id="btnNuevo" layoutX="7.0" layoutY="24.0" mnemonicParsing="false" onAction="#btnNuevo_click" text="Nuevo" />
+                                    <Button fx:id="btnEditar" layoutX="68.0" layoutY="24.0" mnemonicParsing="false" onAction="#btnEditar_click" text="Editar" />
+                                    <Button fx:id="btnAceptar" layoutX="327.0" layoutY="25.0" mnemonicParsing="false" onAction="#btnAceptar_click" text="Aceptar" />
+                                    <Button fx:id="btnCancelar" layoutX="390.0" layoutY="25.0" mnemonicParsing="false" onAction="#btnCancelar_click" text="Cancelar" />
+                                    <Button fx:id="btnCerrar" layoutX="463.0" layoutY="25.0" mnemonicParsing="false" onAction="#btnCerrar_click" text="Cerrar" />
                                  </children>
                               </Pane>
                            </children>
