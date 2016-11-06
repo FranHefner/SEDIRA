@@ -11,8 +11,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javax.swing.JOptionPane;
 import sedira.CodigosErrorSQL;
 
@@ -117,11 +115,15 @@ public class RadionuclidoDAOsql implements IRadionuclidoDAO {
         int idRadNuclido = radioNuclidoSeleccionado.getIdRadNuclido();
         try {
             PreparedStatement consulta = conexion.getConnection().prepareStatement(
-                    "SELECT * FROM radionuclidos "
-                            + "INNER JOIN valordescripcion "
-                            + "ON radionuclidos.id_radionuclido = valordescripcion.id_radionuclido "
-                            + "WHERE radionuclidos.id_radionuclido =" + idRadNuclido + ";"
+                " select valordescripcion.id_valordescripcion, radionuclidos_valordescripcion.id_radionuclido, "
+                        + "radionuclidos.nombre_radionuclido, valordescripcion.descripcion, valordescripcion.valor, "
+                        + "valordescripcion.unidad, valordescripcion.entidad_padre "
+                        + "FROM radionuclidos "
+                        + "inner join radionuclidos_valordescripcion ON radionuclidos_valordescripcion.id_radionuclido = radionuclidos.id_radionuclido "
+                        + "inner join valordescripcion ON radionuclidos_valordescripcion.id_valordescripcion = valordescripcion.id_valordescripcion "
+                        + "WHERE radionuclidos.id_radionuclido = ?"
             );
+            consulta.setInt(1, idRadNuclido);
             ResultSet resultado = consulta.executeQuery();
             while (resultado.next()) {
                 //Ojeto Aux de tipo ValorDescripcion.

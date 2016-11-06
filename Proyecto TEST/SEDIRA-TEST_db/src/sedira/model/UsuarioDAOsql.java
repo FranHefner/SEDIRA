@@ -251,17 +251,19 @@ public class UsuarioDAOsql implements IUsuarioDAO {
     public String obtenerTipoUsuario(int id) {
         //Instancia de conexion
         ConexionDB conexion = new ConexionDB();
-        String tipoUsuario = "0";
+        String tipoUsuario = "";
         try {
-            PreparedStatement consulta = conexion.getConnection().prepareStatement("SELECT id_usuarioTipos FROM Usuarios"
-                    + " WHERE id_usuario = ?");
+            PreparedStatement consulta = conexion.getConnection().prepareStatement("SELECT usuariotipos.descripcion FROM usuarios "
+                    + "JOIN usuariotipos "
+                    + "ON usuarios.id_usuarioTipos = usuariotipos.id_usuarioTipos "
+                    + "where usuarios.id_usuario = ?");
             consulta.setInt(1, id);
             ResultSet resultado = consulta.executeQuery();
             while (resultado.next()) {
                 //objeto auxiliar
 
                 //obtencion de los datos desde la bd.
-                tipoUsuario = resultado.getString("id_usuarioTipos");
+                tipoUsuario = resultado.getString("usuariotipos.descripcion");
 
             }
 

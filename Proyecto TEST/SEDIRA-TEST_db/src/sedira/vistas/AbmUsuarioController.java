@@ -63,7 +63,7 @@ public class AbmUsuarioController implements Initializable {
     private boolean guardarDatos = false;
 
     IUsuarioDAO usr = new UsuarioDAOsql();
-    int tipoUsuario = 0;
+  
 
     /**
      * Initializes the controller class.
@@ -72,13 +72,8 @@ public class AbmUsuarioController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
 
         ObservableList<String> strTipoUsuario = FXCollections.observableArrayList();
-
-        strTipoUsuario.add(0, "Científico");
-        strTipoUsuario.add(1, "Médico");
-        strTipoUsuario.add(2, "Administrador");
-
-        cBtipoUsuario.setItems(strTipoUsuario);
-
+        cBtipoUsuario.getItems().addAll("Cientifico", "Médico", "Administrador");
+        
     }
 
     /**
@@ -107,13 +102,16 @@ public class AbmUsuarioController implements Initializable {
      */
     public void setUsuario(Usuario usuario) throws Exception {
         this.usuario = usuario;
+        String tipoDeUsuario; 
 
         if (usuario.getIdUsuario() != -1) {
             /**
              * Obtiente el Usuario seleccionado en Usuario.fxml.
              */
             //Atributos de nombre y id. 
-            txtIdUsuario.setText(String.valueOf(usuario.getIdUsuario()));
+            //txtIdUsuario.setText(String.valueOf(usuario.getIdUsuario()));
+            tipoDeUsuario = usr.obtenerTipoUsuario(usuario.getIdUsuario());
+            System.out.print(tipoDeUsuario);
             txtNombreUsuario.setEditable(true);
             txtNombreUsuario.setText(Security.decrypt(usuario.getLogin()));
 
@@ -122,6 +120,7 @@ public class AbmUsuarioController implements Initializable {
 
             txtDescripcion.setEditable(true);
             txtDescripcion.setText(usuario.getDescripcion());
+            cBtipoUsuario.setValue(String.valueOf(tipoDeUsuario));
 
             //Comportamiento de botones. 
         } else {
@@ -131,6 +130,7 @@ public class AbmUsuarioController implements Initializable {
             //Apago los TextField
             txtNombreUsuario.setEditable(true);
             txtIdUsuario.setDisable(true);
+            
 
             //Prendo los botones. 
         }
@@ -218,6 +218,7 @@ public class AbmUsuarioController implements Initializable {
         txtDescripcion.setText("");
         txtPass.setText("");
         txtNombreUsuario.setText("");
+        cBtipoUsuario.getSelectionModel().clearSelection();
 
     }
 

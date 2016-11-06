@@ -318,6 +318,9 @@ public class PestañaCalculoController implements Initializable {
                 }
                 cbFormulas.getSelectionModel().clearSelection();
                 listaVariables.clear();
+               
+                  griVariables.setItems(listaVariables);
+                
 
             } else if (FaltanDefinirPropiedades == true) {
 
@@ -327,11 +330,15 @@ public class PestañaCalculoController implements Initializable {
                 alert.setContentText("La fórmula seleccionada encontró más de una propiedad con un mismo nombre entre los elementos seleccionados \n"
                         + "Por favor, seleccione nuevamente la fórmula y elija un valor para dicha propiedad ");
 
+                
+                 cbFormulas.getSelectionModel().clearSelection();
+                 listaVariables.clear();
+                 
                 Optional<ButtonType> result = alert.showAndWait();
                 if (result.get() == ButtonType.OK) {
                 }
 
-                cbFormulas.getSelectionModel().clearSelection();
+               
             } else {
                 if (IndiceFormula != -1) {
                     griVariables.setItems(listaVariables);
