@@ -10,6 +10,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import sedira.CodigosErrorSQL;
@@ -53,13 +55,17 @@ public class ConexionDB {
 
             }
         } catch (SQLException e) {
-            System.out.println(e.getErrorCode());
-            CodigosErrorSQL.analizarExepcion(e);
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Dificultades al iniciar");
+            alert.setHeaderText("Por favor, revise los parámetros de conexión a la base de datos  ");
+            alert.setContentText("");
+            alert.showAndWait();
             setError(true);
+          
         } catch (ClassNotFoundException e) {
             System.out.println(e);
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error!");
+            alert.setTitle("Dificultades al iniciar");
             alert.setHeaderText("Ocurrio un error al conectarse con la base de datos. ");
             alert.setContentText(String.valueOf(e));
             alert.showAndWait();
@@ -67,13 +73,57 @@ public class ConexionDB {
         } catch (Exception e) {
             System.out.println(e);
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error!");
+            alert.setTitle("Dificultades al iniciar");
             alert.setHeaderText("Ocurrio un error al conectarse con la base de datos. ");
             alert.setContentText(String.valueOf(e));
             alert.showAndWait();
             setError(true);
         }
     }
+       public ConexionDB(String pbd, String plogin, String ppassword,String purl)
+       {
+              bd =pbd;
+               login=plogin;
+                password=ppassword;
+                url=purl;
+                
+                  try {
+            //obtenemos el driver de para mysql
+            Class.forName("com.mysql.jdbc.Driver");
+            //obtenemos la conexión
+            connection = DriverManager.getConnection(url, login, password);
+
+            if (connection != null) {
+                System.out.println("Conexión a base de datos " + bd + " OK\n");
+
+            }
+        } catch (SQLException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Dificultades al iniciar");
+            alert.setHeaderText("Por favor, revise los parámetros de conexión a la base de datos  ");
+            alert.setContentText("");
+            alert.showAndWait();
+            setError(true);
+          
+        } catch (ClassNotFoundException e) {
+            System.out.println(e);
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Dificultades al iniciar");
+            alert.setHeaderText("Ocurrio un error al conectarse con la base de datos. ");
+            alert.setContentText(String.valueOf(e));
+            alert.showAndWait();
+            setError(true);
+        } catch (Exception e) {
+            System.out.println(e);
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Dificultades al iniciar");
+            alert.setHeaderText("Ocurrio un error al conectarse con la base de datos. ");
+            alert.setContentText(String.valueOf(e));
+            alert.showAndWait();
+            setError(true);
+        }
+       }
+               
     
     @FXML
     public void setConfig(){

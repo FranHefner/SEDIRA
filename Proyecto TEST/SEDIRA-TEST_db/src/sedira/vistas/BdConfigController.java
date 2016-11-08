@@ -11,8 +11,13 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -20,7 +25,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import sedira.Security;
 import sedira.model.ConexionDB;
+import static sedira.model.ConexionDB.bd;
 
 /**
  * FXML Controller class
@@ -53,14 +60,19 @@ public class BdConfigController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        btnTest.setDisable(true);
+        //btnTest.setDisable(true);
         try {
             Scanner s = new Scanner(new File(FILE_NAME)).useDelimiter("\\s+");
             while (s.hasNext()) {
                 textLog.appendText("Archivo de configuración encontrado. \n");
                 txtNombreBaseDatos.appendText(s.next()); // else read the next token
-                txtNombreUsuario.appendText(s.next());
-                txtPass.appendText(s.next());
+              
+               txtNombreUsuario.appendText(s.next());               
+                try {
+                    txtPass.appendText( Security.decrypt(s.next()));
+                } catch (Exception ex) {
+                
+                }
                 txtUrl.appendText(s.next());
             }
             s.close();
@@ -71,13 +83,20 @@ public class BdConfigController implements Initializable {
 
     }
 
+    
+    
+            
     public void getParametros() {
         try {
             Scanner s = new Scanner(new File(FILE_NAME)).useDelimiter("\\s+");
             while (s.hasNext()) {
                 ConexionDB.setBd(s.next()); // else read the next token
                 ConexionDB.setLogin(s.next());
-                ConexionDB.setPassword(s.next());
+                try {
+                    ConexionDB.setPassword(Security.decrypt(s.next()));
+                } catch (Exception ex) {
+                   //Error al desencriptar
+                }
                 ConexionDB.setUrl(s.next());
             }
             s.close();
@@ -94,12 +113,15 @@ public class BdConfigController implements Initializable {
 
     @FXML
     public void btnTest() {
-        ConexionDB nuevaConexion = new ConexionDB();
+            
+     
+         ConexionDB nuevaConexion = new ConexionDB(txtNombreBaseDatos.getText(), txtNombreUsuario.getText(),txtPass.getText(), txtUrl.getText());
+         
         if (!nuevaConexion.getError()) {
             textLog.appendText("CONEXIÓN ESTABLECIDA. \n");
             textLog.appendText("REINICIE LA APLICACIÓN \n");
-            btnGuardarCambios.setDisable(true);
-            btnTest.setDisable(true);
+         //   btnGuardarCambios.setDisable(true);
+          //  btnTest.setDisable(true);
         } else {
             textLog.appendText("FALLO LA CONEXIÓN, REVISE LOS PARAMETROS. \n");
         }
@@ -108,7 +130,7 @@ public class BdConfigController implements Initializable {
 
     @FXML
     public void btnGuardarConfiguracion() {
-        btnTest.setDisable(false);
+     
         String nombreBaseDatos = txtNombreBaseDatos.getText();
         String nombreUsuario = txtNombreUsuario.getText();
         String pass = txtPass.getText();
@@ -123,7 +145,10 @@ public class BdConfigController implements Initializable {
             fw.write("\n");
             fw.write(nombreUsuario);
             fw.write("\n");
-            fw.write(pass);
+            try {
+                fw.write(Security.encrypt(pass));
+            } catch (Exception ex) {             
+            }
             fw.write("\n");
             fw.write(url);
             fw.close();

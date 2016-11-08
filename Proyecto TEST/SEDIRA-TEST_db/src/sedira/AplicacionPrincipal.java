@@ -59,7 +59,7 @@ public class AplicacionPrincipal extends Application {
             primaryStage.setResizable(false);
             primaryStage.show();
         } else {
-            if (CodigosErrorSQL.getErrorCode() == 1045/* || CodigosErrorSQL.getErrorCode() == 0  */) {
+      //      if (CodigosErrorSQL.getErrorCode() == 1045/* || CodigosErrorSQL.getErrorCode() == 0  */) {
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                 alert.setTitle("Iniciar configuración");
                 alert.setHeaderText("Atención!");
@@ -77,7 +77,7 @@ public class AplicacionPrincipal extends Application {
                     primaryStage.setResizable(false);
                     primaryStage.show();
                 }
-            }
+  //          }
         }
 
     }

@@ -26,7 +26,7 @@
          <children>
             <TextField fx:id="txtNombreBaseDatos" layoutX="155.0" layoutY="59.0" prefHeight="22.0" prefWidth="203.0" />
             <TextField fx:id="txtNombreUsuario" layoutX="155.0" layoutY="82.0" prefHeight="22.0" prefWidth="203.0" />
-            <TextField fx:id="txtPass" layoutX="155.0" layoutY="105.0" prefHeight="22.0" prefWidth="203.0" />
+            <PasswordField fx:id="txtPass" />
             <TextField fx:id="txtUrl" layoutX="155.0" layoutY="130.0" prefHeight="22.0" prefWidth="203.0" />
          </children>
       </VBox>
