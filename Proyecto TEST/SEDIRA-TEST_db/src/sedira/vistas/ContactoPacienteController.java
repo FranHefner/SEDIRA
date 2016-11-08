@@ -8,12 +8,16 @@ package sedira.vistas;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import sedira.FuncionesGenerales;
+import sedira.ValidacionesGenerales;
 import sedira.model.IPacienteDAO;
 import sedira.model.Paciente;
 import sedira.model.PacienteDAOsql;
@@ -70,6 +74,46 @@ public class ContactoPacienteController implements Initializable {
 
         ModoLectura();
 
+                txtCelular.textProperty().addListener(new ChangeListener<String>() {
+        @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                 if (txtCelular.isEditable()) {
+                   if (!ValidacionesGenerales.ValidarNumero(txtCelular.getText())) {
+
+                       //  txtNumeroDoc.setText(txtNumeroDoc.getText().substring(0, txtNumeroDoc.getText().length() - 1));
+                       txtCelular.setText(ValidacionesGenerales.DejarSoloNumeros(txtCelular.getText()));
+                       Alert alert = new Alert(Alert.AlertType.WARNING);
+                       alert.setTitle("Ingreso de datos inválido");
+                       alert.setHeaderText("Solo se permiten números ");
+                       alert.setContentText("El caracter ingresado fué borrado");
+                       alert.showAndWait();
+                       txtCelular.positionCaret(txtCelular.getText().length());
+                   }
+
+               }
+            }
+        });
+                
+                txtTelefono.textProperty().addListener(new ChangeListener<String>() {
+        @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                 if (txtTelefono.isEditable()) {
+                   if (!ValidacionesGenerales.ValidarNumero(txtTelefono.getText())) {
+
+                       //  txtNumeroDoc.setText(txtNumeroDoc.getText().substring(0, txtNumeroDoc.getText().length() - 1));
+                       txtTelefono.setText(ValidacionesGenerales.DejarSoloNumeros(txtTelefono.getText()));
+                       Alert alert = new Alert(Alert.AlertType.WARNING);
+                       alert.setTitle("Ingreso de datos inválido");
+                       alert.setHeaderText("Solo se permiten números ");
+                       alert.setContentText("El caracter ingresado fué borrado");
+                       alert.showAndWait();
+                       txtTelefono.positionCaret(txtTelefono.getText().length());
+                   }
+
+               }
+            }
+        });
+       
     }
 
     private void ModoLectura() {

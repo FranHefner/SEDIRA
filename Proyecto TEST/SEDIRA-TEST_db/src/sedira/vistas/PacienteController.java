@@ -15,6 +15,8 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.SortedList;
@@ -154,6 +156,73 @@ public class PacienteController implements Initializable {
 
         //DocumentosData = ConsultasDB.ListaTipoDocumento();
         //cbTipoDoc.setItems(DocumentosData);
+        
+        
+       
+         txtNumeroDoc.textProperty().addListener(new ChangeListener<String>() {
+        @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                 if (txtNumeroDoc.isEditable()) {
+                   if (!ValidacionesGenerales.ValidarNumero(txtNumeroDoc.getText())) {
+
+                       //  txtNumeroDoc.setText(txtNumeroDoc.getText().substring(0, txtNumeroDoc.getText().length() - 1));
+                       txtNumeroDoc.setText(ValidacionesGenerales.DejarSoloNumeros(txtNumeroDoc.getText()));
+                       Alert alert = new Alert(Alert.AlertType.WARNING);
+                       alert.setTitle("Ingreso de datos inválido");
+                       alert.setHeaderText("Solo se permiten números ");
+                       alert.setContentText("El caracter ingresado fué borrado");
+                       alert.showAndWait();
+                       txtNumeroDoc.positionCaret(txtNumeroDoc.getText().length());
+                   }
+
+               }
+            }
+        });
+         
+           txtNombre.textProperty().addListener(new ChangeListener<String>() {
+        @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                
+                if (txtNombre.isEditable()) {
+                    if (!ValidacionesGenerales.ValidarNombre(txtNombre.getText())) {
+
+                        //  txtNombre.setText(txtNombre.getText().substring(0, txtNombre.getText().length() - 1));
+                        txtNombre.setText(ValidacionesGenerales.DejarSoloLetras(txtNombre.getText()));
+                        Alert alert = new Alert(Alert.AlertType.WARNING);
+                        alert.setTitle("Ingreso de datos inválido");
+                        alert.setHeaderText("Solo se permiten letras ");
+                        alert.setContentText("El caracter ingresado fué borrado");
+                        alert.showAndWait();
+                        txtNombre.positionCaret(txtNombre.getText().length());
+                    }
+                }
+                    
+            }
+        });
+                txtApellido.textProperty().addListener(new ChangeListener<String>() {
+        @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                
+                   if (txtApellido.isEditable()) {
+            if (!ValidacionesGenerales.ValidarNombre(txtApellido.getText())) {
+
+                // txtApellido.setText(txtApellido.getText().substring(0, txtApellido.getText().length() - 1));
+                txtApellido.setText(ValidacionesGenerales.DejarSoloLetras(txtApellido.getText()));
+
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Ingreso de datos inválido");
+                alert.setHeaderText("Solo se permiten letras ");
+                alert.setContentText("El caracter ingresado fué borrado");
+                alert.showAndWait();
+
+                txtApellido.positionCaret(txtApellido.getText().length());
+            }
+        }
+            }
+        });
+      
+         
+         
     }
 
     /**

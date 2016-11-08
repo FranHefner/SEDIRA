@@ -36,10 +36,10 @@
                               <Pane layoutX="101.0" layoutY="177.0" prefHeight="284.0" prefWidth="501.0">
                                  <children>
                                     <ComboBox fx:id="cbTipoDoc" disable="true" layoutX="136.0" layoutY="33.0" prefHeight="25.0" prefWidth="149.0" stylesheets="@../../MyStyle.css" />
-                                    <TextField fx:id="txtNumeroDoc" editable="false" layoutX="136.0" layoutY="67.0" onKeyReleased="#txtNumeroDoc_KeyPress" />
-                                    <TextField fx:id="txtNombre" editable="false" layoutX="136.0" layoutY="105.0" onKeyReleased="#txtNombre_KeyPress" />
-                                    <TextField fx:id="txtApellido" editable="false" layoutX="136.0" layoutY="140.0" onKeyReleased="#txtApellido_KeyPress" />
-                                    <DatePicker fx:id="txtFechaNacimiento" disable="true" editable="false" layoutX="136.0" layoutY="176.0" prefHeight="25.0" prefWidth="149.0" stylesheets="@../../MyStyle.css" />
+                                    <TextField fx:id="txtNumeroDoc" editable="false" layoutX="136.0" layoutY="67.0" />
+                                    <TextField fx:id="txtNombre" editable="false" layoutX="136.0" layoutY="105.0" />
+                                    <TextField fx:id="txtApellido" editable="false" layoutX="136.0" layoutY="140.0" />
+                                    <DatePicker fx:id="txtFechaNacimiento" disable="true" editable="false" layoutX="136.0" layoutY="176.0" prefHeight="25.0" prefWidth="149.0" promptText="dd/mm/aaaa" stylesheets="@../../MyStyle.css" />
                                     <ComboBox fx:id="cbSexo" disable="true" layoutX="136.0" layoutY="208.0" prefHeight="25.0" prefWidth="149.0" stylesheets="@../../MyStyle.css" />
                                     <Label layoutX="27.0" layoutY="144.0" text="Apellido:" />
                                     <Label layoutX="27.0" layoutY="109.0" text="Nombre:" />
