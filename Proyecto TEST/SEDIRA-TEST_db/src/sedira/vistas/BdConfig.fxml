@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="344.0" prefWidth="406.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sedira.vistas.BdConfigController">
+    <stylesheets>
+        <URL value="@bdconfig.css" />
+    </stylesheets>
+   <children>
+      <Label layoutX="63.0" layoutY="23.0" text="Herramienta de configuración de base de datos">
+         <font>
+            <Font name="Consolas Bold" size="11.0" />
+         </font>
+      </Label>
+      <Label layoutX="22.0" layoutY="63.0" text="Nombre de base de datos: " />
+      <Label layoutX="92.0" layoutY="127.0" text="Contraseña: " />
+      <Label layoutX="55.0" layoutY="95.0" text="Nombre de usuario: " />
+      <Label layoutX="90.0" layoutY="159.0" text="Url servidor: " />
+      <VBox layoutX="155.0" layoutY="59.0" spacing="10.0">
+         <children>
+            <TextField fx:id="txtNombreBaseDatos" layoutX="155.0" layoutY="59.0" prefHeight="22.0" prefWidth="203.0" />
+            <TextField fx:id="txtNombreUsuario" layoutX="155.0" layoutY="82.0" prefHeight="22.0" prefWidth="203.0" />
+            <TextField fx:id="txtPass" layoutX="155.0" layoutY="105.0" prefHeight="22.0" prefWidth="203.0" />
+            <TextField fx:id="txtUrl" layoutX="155.0" layoutY="130.0" prefHeight="22.0" prefWidth="203.0" />
+         </children>
+      </VBox>
+      <HBox layoutX="76.0" layoutY="196.0" spacing="20.0">
+         <children>
+            <Button fx:id="btnTest" layoutX="117.0" layoutY="194.0" mnemonicParsing="false" onAction="#btnTest" text="Test" />
+            <Button fx:id="btnGuardarCambios" layoutX="167.0" layoutY="194.0" mnemonicParsing="false" onAction="#btnGuardarConfiguracion" text="Guardar configuración" />
+            <Button fx:id="btnCerrar" layoutX="302.0" layoutY="194.0" mnemonicParsing="false" onAction="#btnCerrar" text="Cerrar" />
+         </children>
+      </HBox>
+      <TextArea fx:id="textLog" layoutX="15.0" layoutY="229.0" prefHeight="95.0" prefWidth="376.0" />
+   </children>
+</AnchorPane>

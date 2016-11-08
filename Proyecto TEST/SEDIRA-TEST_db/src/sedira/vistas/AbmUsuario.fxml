@@ -7,32 +7,30 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="330.0" prefWidth="330.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sedira.vistas.AbmUsuarioController">
+<AnchorPane id="AnchorPane" prefHeight="247.0" prefWidth="330.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sedira.vistas.AbmUsuarioController">
    <children>
-      <VBox layoutX="142.0" layoutY="57.0" spacing="20.0">
+      <Text layoutX="39.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre de usuario" />
+      <Text layoutX="77.0" layoutY="96.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Contraseña" />
+      <Text layoutX="77.0" layoutY="138.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Descripción" />
+      <Text layoutX="56.0" layoutY="177.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tipo de usuario" />
+      <Text fontSmoothingType="LCD" layoutX="280.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-text-fill: red;" text="*" textAlignment="CENTER" />
+      <Text fontSmoothingType="LCD" layoutX="280.0" layoutY="96.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-text-fill: red;" text="*" textAlignment="CENTER" />
+      <Text fontSmoothingType="LCD" layoutX="280.0" layoutY="138.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-text-fill: red;" text="*" textAlignment="CENTER" />
+      <Text layoutX="42.0" layoutY="18.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Todos los campos marcados con * son obligatorios" />
+      <VBox layoutX="142.0" layoutY="39.0" spacing="20.0">
          <children>
-            <TextField fx:id="txtIdUsuario" editable="false" layoutX="20.0" layoutY="57.0" />
             <TextField fx:id="txtNombreUsuario" layoutX="20.0" layoutY="97.0" />
             <TextField fx:id="txtPass" layoutX="20.0" layoutY="138.0" />
             <TextField fx:id="txtDescripcion" layoutX="20.0" layoutY="178.0" />
          </children>
       </VBox>
-      <ChoiceBox fx:id="cBtipoUsuario" layoutX="142.0" layoutY="228.0" prefHeight="22.0" prefWidth="134.0" />
-      <HBox layoutX="39.0" layoutY="269.0" spacing="20.0">
+      <ChoiceBox fx:id="cBtipoUsuario" layoutX="142.0" layoutY="162.0" prefHeight="22.0" prefWidth="134.0" />
+      <HBox layoutX="43.0" layoutY="208.0" spacing="20.0">
          <children>
             <Button fx:id="btnGuardar" layoutX="87.0" layoutY="271.0" mnemonicParsing="false" onAction="#btnGuardarDatos" text="Guardar" />
             <Button fx:id="btnCancelar" layoutX="154.0" layoutY="271.0" mnemonicParsing="false" onAction="#btnCancel_click" text="Cancelar" />
             <Button fx:id="btnLimpiar" layoutX="220.0" layoutY="271.0" mnemonicParsing="false" onAction="#btnLimpiarValores_click" text="Limpiar valores" />
          </children>
       </HBox>
-      <Text layoutX="81.0" layoutY="75.0" strokeType="OUTSIDE" strokeWidth="0.0" text="usuario_id" />
-      <Text layoutX="39.0" layoutY="116.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre de usuario" />
-      <Text layoutX="77.0" layoutY="158.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Contraseña" />
-      <Text layoutX="77.0" layoutY="200.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Descripción" />
-      <Text layoutX="58.0" layoutY="243.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tipo de usuario" />
-      <Text fontSmoothingType="LCD" layoutX="283.0" layoutY="116.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-text-fill: red;" text="*" textAlignment="CENTER" />
-      <Text fontSmoothingType="LCD" layoutX="283.0" layoutY="158.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-text-fill: red;" text="*" textAlignment="CENTER" />
-      <Text fontSmoothingType="LCD" layoutX="283.0" layoutY="243.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-text-fill: red;" text="*" textAlignment="CENTER" />
-      <Text layoutX="43.0" layoutY="25.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Todos los campos marcados con * son obligatorios" />
    </children>
 </AnchorPane>

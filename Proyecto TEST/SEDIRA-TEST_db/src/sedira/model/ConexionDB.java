@@ -5,11 +5,15 @@
  */
 package sedira.model;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Scanner;
+import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import sedira.CodigosErrorSQL;
+import sedira.vistas.BdConfigController;
 
 /**
  * Clase que controla la conexión a la Base de Datos. Implementada sobre JDBC.
@@ -18,21 +22,26 @@ import sedira.CodigosErrorSQL;
  * @author Quelin Pablo, Francisto Hefner
  */
 public class ConexionDB {
-
+    
+    
+    
     /**
      * +++++++++++++++++++++++++DB++++++++++++++++++++++ Atributos
      */
-    static String bd = "sedira";
-    static String login = "root";
-    static String password = "root";
-    static String url = "jdbc:mysql://localhost:3306/" + bd;
+    public static String bd = "";
+    public static String login = "";
+    public static String password = "";
+    //public String url = "jdbc:mysql://localhost:3306/" + bd;
+    //public static String url = ""+bd;
+    public static String url = "";
     private boolean error = false;
     Connection connection = null;
-
+    BdConfigController initDB = new BdConfigController();
     /**
      * Contructor para la conexion
      */
     public ConexionDB() {
+       initDB.getParametros();
         try {
             //obtenemos el driver de para mysql
             Class.forName("com.mysql.jdbc.Driver");
@@ -44,7 +53,7 @@ public class ConexionDB {
 
             }
         } catch (SQLException e) {
-             System.out.println(e.getErrorCode());
+            System.out.println(e.getErrorCode());
             CodigosErrorSQL.analizarExepcion(e);
             setError(true);
         } catch (ClassNotFoundException e) {
@@ -65,7 +74,13 @@ public class ConexionDB {
             setError(true);
         }
     }
-
+    
+    @FXML
+    public void setConfig(){
+        
+    }
+    
+    
     /**
      * Método que retorna la conexión establecida.
      *
@@ -95,4 +110,39 @@ public class ConexionDB {
         this.error = error;
     }
 
+    public static String getBd() {
+        return  bd;
+    }
+
+    public static void setBd(String bd) {
+        ConexionDB.bd = bd;
+    }
+
+    public static String getLogin() {
+        return login;
+    }
+
+    public static void setLogin(String login) {
+        ConexionDB.login = login;
+    }
+
+    public static String getPassword() {
+        return password;
+    }
+
+    public static void setPassword(String password) {
+        ConexionDB.password = password;
+    }
+
+    public static String getUrl() {
+        return url;
+    }
+
+    public static void setUrl(String url) {
+        ConexionDB.url = url + ConexionDB.getBd();
+    }
+    
+
+     
+    
 }

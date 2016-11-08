@@ -14,13 +14,18 @@ import javafx.scene.control.Alert;
  * @author Hefner Francisco, Quelin Pablo
  */
 public class CodigosErrorSQL {
-
+    public  static int errorCode;
+    
     public static void analizarExepcion(SQLException e) {
         String mensajeError = "";
         Boolean errorConocido = false;
         String titulo = "Error!";
 
         switch (e.getErrorCode()) {
+            case 1045: 
+                mensajeError= "Ocurrio un error en el acceso a la base de datos. Por favor revise los datos de acceso";
+                setErrorCode(1045);
+                break;
             case 1062:
                 mensajeError = "El registro que se intenta agregar/modificar ya encuentra en la base de datos \n";
                 break;
@@ -54,5 +59,15 @@ public class CodigosErrorSQL {
 
         //JOptionPane.showMessageDialog(null, mensajeError, titulo, JOptionPane.INFORMATION_MESSAGE);
     }
+
+    public static int getErrorCode() {
+        return errorCode;
+    }
+
+    public static void setErrorCode(int errorCode) {
+        CodigosErrorSQL.errorCode = errorCode;
+    }
+    
+    
 
 }
