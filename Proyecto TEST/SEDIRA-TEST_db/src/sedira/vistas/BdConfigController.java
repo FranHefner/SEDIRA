@@ -56,7 +56,7 @@ public class BdConfigController implements Initializable {
     TextArea textLog;
     
     final String DB_NAME="sedira";
-    final static String FILE_NAME = "C:\\dbConfig.txt";
+    final static String FILE_NAME = "dbConfig.txt";
 
     /**
      * Initializes the controller class.
@@ -81,7 +81,7 @@ public class BdConfigController implements Initializable {
             }
             s.close();
         } catch (FileNotFoundException ex) {
-            textLog.appendText("No se encontro el archivo de configuración en c:\\SEDIRA. \n");
+            textLog.appendText("No se encontro el archivo de configuración. \n");
 
         }
 
@@ -117,7 +117,7 @@ public class BdConfigController implements Initializable {
             }
             s.close();
         } catch (FileNotFoundException ex) {
-            textLog.appendText("No se encontro el archivo de configuración en c:\\SEDIRA. \n");
+            textLog.appendText("No se encontro el archivo de configuración. \n");
         }
     }
 

@@ -1,0 +1,3 @@
+root
+LoeBD+M1SB91S3z4txitWw==
+jdbc:mysql://localhost:3306/
