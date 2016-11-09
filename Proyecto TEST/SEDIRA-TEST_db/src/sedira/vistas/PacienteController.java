@@ -5,7 +5,6 @@
  */
 package sedira.vistas;
 
-import java.awt.KeyboardFocusManager;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -15,11 +14,11 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -156,33 +155,30 @@ public class PacienteController implements Initializable {
 
         //DocumentosData = ConsultasDB.ListaTipoDocumento();
         //cbTipoDoc.setItems(DocumentosData);
-        
-        
-       
-         txtNumeroDoc.textProperty().addListener(new ChangeListener<String>() {
-        @Override
+        txtNumeroDoc.textProperty().addListener(new ChangeListener<String>() {
+            @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                 if (txtNumeroDoc.isEditable()) {
-                   if (!ValidacionesGenerales.ValidarNumero(txtNumeroDoc.getText())) {
+                if (txtNumeroDoc.isEditable()) {
+                    if (!ValidacionesGenerales.ValidarNumero(txtNumeroDoc.getText())) {
 
-                       //  txtNumeroDoc.setText(txtNumeroDoc.getText().substring(0, txtNumeroDoc.getText().length() - 1));
-                       txtNumeroDoc.setText(ValidacionesGenerales.DejarSoloNumeros(txtNumeroDoc.getText()));
-                       Alert alert = new Alert(Alert.AlertType.WARNING);
-                       alert.setTitle("Ingreso de datos inválido");
-                       alert.setHeaderText("Solo se permiten números ");
-                       alert.setContentText("El caracter ingresado fué borrado");
-                       alert.showAndWait();
-                       txtNumeroDoc.positionCaret(txtNumeroDoc.getText().length());
-                   }
+                        //  txtNumeroDoc.setText(txtNumeroDoc.getText().substring(0, txtNumeroDoc.getText().length() - 1));
+                        txtNumeroDoc.setText(ValidacionesGenerales.DejarSoloNumeros(txtNumeroDoc.getText()));
+                        Alert alert = new Alert(Alert.AlertType.WARNING);
+                        alert.setTitle("Ingreso de datos inválido");
+                        alert.setHeaderText("Solo se permiten números ");
+                        alert.setContentText("El caracter ingresado fué borrado");
+                        alert.showAndWait();
+                        txtNumeroDoc.positionCaret(txtNumeroDoc.getText().length());
+                    }
 
-               }
+                }
             }
         });
-         
-           txtNombre.textProperty().addListener(new ChangeListener<String>() {
-        @Override
+
+        txtNombre.textProperty().addListener(new ChangeListener<String>() {
+            @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                
+
                 if (txtNombre.isEditable()) {
                     if (!ValidacionesGenerales.ValidarNombre(txtNombre.getText())) {
 
@@ -196,33 +192,31 @@ public class PacienteController implements Initializable {
                         txtNombre.positionCaret(txtNombre.getText().length());
                     }
                 }
-                    
+
             }
         });
-                txtApellido.textProperty().addListener(new ChangeListener<String>() {
-        @Override
+        txtApellido.textProperty().addListener(new ChangeListener<String>() {
+            @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                
-                   if (txtApellido.isEditable()) {
-            if (!ValidacionesGenerales.ValidarNombre(txtApellido.getText())) {
 
-                // txtApellido.setText(txtApellido.getText().substring(0, txtApellido.getText().length() - 1));
-                txtApellido.setText(ValidacionesGenerales.DejarSoloLetras(txtApellido.getText()));
+                if (txtApellido.isEditable()) {
+                    if (!ValidacionesGenerales.ValidarNombre(txtApellido.getText())) {
 
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("Ingreso de datos inválido");
-                alert.setHeaderText("Solo se permiten letras ");
-                alert.setContentText("El caracter ingresado fué borrado");
-                alert.showAndWait();
+                        // txtApellido.setText(txtApellido.getText().substring(0, txtApellido.getText().length() - 1));
+                        txtApellido.setText(ValidacionesGenerales.DejarSoloLetras(txtApellido.getText()));
 
-                txtApellido.positionCaret(txtApellido.getText().length());
-            }
-        }
+                        Alert alert = new Alert(Alert.AlertType.WARNING);
+                        alert.setTitle("Ingreso de datos inválido");
+                        alert.setHeaderText("Solo se permiten letras ");
+                        alert.setContentText("El caracter ingresado fué borrado");
+                        alert.showAndWait();
+
+                        txtApellido.positionCaret(txtApellido.getText().length());
+                    }
+                }
             }
         });
-      
-         
-         
+
     }
 
     /**
@@ -310,7 +304,14 @@ public class PacienteController implements Initializable {
     }
 
     private void ModoEdicion() {
-
+        Platform.runLater(new Runnable() {
+        @Override
+            public void run() {
+                cbTipoDoc.requestFocus();
+            }
+        });
+        
+        cbTipoDoc.requestFocus();
         griListaPacientes.setFocusTraversable(false);
         griListaPacientes.setDisable(true);
 
@@ -413,18 +414,22 @@ public class PacienteController implements Initializable {
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK) {
+            btnNuevo.setDisable(false);
+            
             txtCampoBusqueda.setDisable(false);
-            if (FuncionesGenerales.pacienteActual.getIdPaciente() == 0) {
+            //Cuando no existen pacientes- Primer uso. 
+            if (FuncionesGenerales.getPacienteActual() != null) {
+                if (FuncionesGenerales.pacienteActual.getIdPaciente() == 0) {
 
-                SeleccionPaciente(null);
-            } else {
-                SeleccionPaciente(FuncionesGenerales.pacienteActual);
-            }
+                    SeleccionPaciente(null);
+                } else {
+                    SeleccionPaciente(FuncionesGenerales.pacienteActual);
+                }
 
-            ModoLectura();
+                ModoLectura();
             //   griListaPacientes.getSelectionModel().select(FuncionesGenerales.pacienteActual);
-            // griListaPacientes.getSelectionModel().select( g );
-
+                // griListaPacientes.getSelectionModel().select( g );
+            }
         } else {
 
         }
@@ -462,7 +467,7 @@ public class PacienteController implements Initializable {
 
             } else {
                 // Nuevo Pacientes  
-                
+
                 Paciente PacienteTemp = new Paciente();
                 PacienteTemp.setIdPaciente(IdPacienteActual);
                 PacienteTemp.setTipoDoc(cbTipoDoc.getValue().toString());

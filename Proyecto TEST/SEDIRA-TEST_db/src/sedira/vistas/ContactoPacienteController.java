@@ -8,6 +8,7 @@ package sedira.vistas;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -133,6 +134,12 @@ public class ContactoPacienteController implements Initializable {
     }
 
     private void ModoEdicion() {
+         Platform.runLater(new Runnable() {
+        @Override
+            public void run() {
+                txtDireccion.requestFocus();
+            }
+        });
 
         txtDireccion.setDisable(false);
         txtTelefono.setDisable(false);

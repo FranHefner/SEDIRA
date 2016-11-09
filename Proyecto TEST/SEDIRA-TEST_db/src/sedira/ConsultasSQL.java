@@ -33,8 +33,6 @@ public class ConsultasSQL {
         String UsuarioEnc = Security.encrypt(Usuario);
         Usuario UsuarioLogin;
         
-        
-
         try {
 
             PreparedStatement consulta = conexion.getConnection().prepareStatement(

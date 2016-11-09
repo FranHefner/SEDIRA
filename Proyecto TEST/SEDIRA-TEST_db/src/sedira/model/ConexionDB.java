@@ -5,16 +5,12 @@
  */
 package sedira.model;
 
-import java.io.File;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
-import sedira.CodigosErrorSQL;
 import sedira.vistas.BdConfigController;
 
 /**
@@ -30,7 +26,8 @@ public class ConexionDB {
     /**
      * +++++++++++++++++++++++++DB++++++++++++++++++++++ Atributos
      */
-    public static String bd = "";
+    final static String DB_NAME="sedira";
+    public static String bd = DB_NAME;
     public static String login = "";
     public static String password = "";
     //public String url = "jdbc:mysql://localhost:3306/" + bd;
@@ -39,6 +36,7 @@ public class ConexionDB {
     private boolean error = false;
     Connection connection = null;
     BdConfigController initDB = new BdConfigController();
+     
     /**
      * Contructor para la conexion
      */
