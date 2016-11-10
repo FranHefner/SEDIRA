@@ -339,7 +339,7 @@ public class PacienteController implements Initializable {
         this.pacienteActual = pacienteSeleccionado;
         if (pacienteActual != null) {
             //Control de botones.  
-            btnEditar.setDisable(true);
+         
             FuncionesGenerales.setPacienteActual(pacienteActual);
 
             IdPacienteActual = pacienteActual.getIdPaciente();
@@ -427,14 +427,14 @@ public class PacienteController implements Initializable {
                     SeleccionPaciente(FuncionesGenerales.pacienteActual);
                 }
 
-                ModoLectura();
+               
             //   griListaPacientes.getSelectionModel().select(FuncionesGenerales.pacienteActual);
                 // griListaPacientes.getSelectionModel().select( g );
             }
         } else {
 
         }
-
+            ModoLectura();
     }
 
     /**
@@ -456,15 +456,22 @@ public class PacienteController implements Initializable {
                 PacienteActual.setSexo(cbSexo.getValue().toString());
                 PacienteActual.setFechaNacimiento(txtFechaNacimiento.getValue().toString());
                 //Llamada a la clase de acceso de datos de pacientes. PacienteDAO. 
-                pac.modificarPaciente(PacienteActual);
-                //Actualiza la informacion de pacientes
-                pacienteData = pac.obtenerPacientes();
-                //Actualiza la grilla. 
-                griListaPacientes.setItems(pacienteData);
+             
+                if (pac.modificarPaciente(PacienteActual))
+                 {
+                            //Actualiza la informacion de pacientes
+                         pacienteData = pac.obtenerPacientes();
+                         //Actualiza la grilla. 
+                         griListaPacientes.setItems(pacienteData);
 
-                // Se carga los datos nuevamente  
-                SeleccionPaciente(PacienteActual);
-                //     ModoLectura();
+                         // Se carga los datos nuevamente  
+                         SeleccionPaciente(PacienteActual);
+                         //     ModoLectura();
+                 }else                    
+                {
+                    // Ocurrio un error al actualizar
+                }
+              
 
             } else {
                 // Nuevo Pacientes  
@@ -485,12 +492,18 @@ public class PacienteController implements Initializable {
 
                 //Llamada a Control de acceso de datos de paciente. PacienteDAO
                 //pacienteData.add(PacienteTemp);
-                pac.agregarPaciente(PacienteTemp);
-                pacienteData = pac.obtenerPacientes();
-                griListaPacientes.setItems(pacienteData);
+               if ( pac.agregarPaciente(PacienteTemp))
+               {
+                   pacienteData = pac.obtenerPacientes();
+                     griListaPacientes.setItems(pacienteData);
 
-                txtCampoBusqueda.setDisable(false);
-                SeleccionPaciente(PacienteTemp);
+                        txtCampoBusqueda.setDisable(false);
+                     SeleccionPaciente(PacienteTemp);
+               }else
+               {
+                   //Ocurrio un error al guardar
+               }
+            
             }
         }
 

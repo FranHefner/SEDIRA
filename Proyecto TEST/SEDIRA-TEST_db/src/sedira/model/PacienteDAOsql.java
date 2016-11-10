@@ -28,7 +28,7 @@ public class PacienteDAOsql implements IPacienteDAO {
      * @param paciente a agregar
      */
     @Override
-    public void agregarPaciente(Paciente paciente) {
+    public boolean agregarPaciente(Paciente paciente) {
         //Instancia de conexion
         ConexionDB conexion = new ConexionDB();
         int dni = paciente.getNumeroDoc();
@@ -79,8 +79,10 @@ public class PacienteDAOsql implements IPacienteDAO {
                 alerta.setContentText("El paciente fué agregado.");
                 alerta.showAndWait();
             
+                return true;
         } catch (SQLException e) {
             CodigosErrorSQL.analizarExepcion(e);
+               return false;
            // System.out.println("Ocurrió un error en la inserción del paciente " + e.getMessage());
             // JOptionPane.showMessageDialog(null, "Ocurrió un error en la inserción del paciente " + e.getMessage(), "Información", JOptionPane.INFORMATION_MESSAGE);
         }
@@ -127,7 +129,7 @@ public class PacienteDAOsql implements IPacienteDAO {
      * @param paciente
      */
     @Override
-    public void modificarPaciente(Paciente paciente) {
+    public boolean modificarPaciente(Paciente paciente) {
         //Instancia de conexion
         ConexionDB conexion = new ConexionDB();
 
@@ -175,9 +177,11 @@ public class PacienteDAOsql implements IPacienteDAO {
             alerta.setContentText("El paciente fué modificado.");
             alerta.showAndWait();
 
+            return true;
         } catch (SQLException e) {
             CodigosErrorSQL.analizarExepcion(e);
 
+              return false;
             //System.out.println("Ocurrió un error en la modificación  del paciente " + e.getMessage());
             //JOptionPane.showMessageDialog(null, "Ocurrió un error en la modificación del paciente " + e.getMessage(), "Información", JOptionPane.INFORMATION_MESSAGE);
         }

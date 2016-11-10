@@ -27,7 +27,7 @@ public class CodigosErrorSQL {
                 setErrorCode(1045);
                 break;
             case 1062:
-                mensajeError = "El registro que se intenta agregar/modificar ya encuentra en la base de datos \n";
+                mensajeError = "El registro que se intenta agregar/modificar ya encuentra en la base de datos. \n Por favor, verifique los datos ingresados.";
                 break;
             case 1451:
                 mensajeError = "El registro que se intenta eliminar esta siendo referenciado. "

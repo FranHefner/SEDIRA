@@ -15,11 +15,11 @@ import javafx.collections.ObservableList;
  */
 public interface IPacienteDAO {
 
-    void agregarPaciente(Paciente paciente);
+    boolean agregarPaciente(Paciente paciente);
 
     void eliminarPaciente(int id);
 
-    void modificarPaciente(Paciente paciente);
+    boolean modificarPaciente(Paciente paciente);
 
     boolean buscaDni(int dni);
 
