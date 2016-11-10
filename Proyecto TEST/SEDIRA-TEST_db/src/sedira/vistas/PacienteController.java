@@ -129,6 +129,7 @@ public class PacienteController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         // Control de botones. 
+        FuncionesGenerales.pacienteActual = null;
         btnEditar.setDisable(true);
         try {
             //Obtengo la lista de pacientes desde la base de datos. 
@@ -479,9 +480,7 @@ public class PacienteController implements Initializable {
                 PacienteTemp.setTelefono("");
                 PacienteTemp.setEmail("");
                 PacienteTemp.setcelular("");
-                PacienteTemp.setSexo(cbSexo.getValue().toString());
-                PacienteTemp.setNumeroAsociado(0);
-                PacienteTemp.setEnTratamiento(true);
+                PacienteTemp.setSexo(cbSexo.getValue().toString());      
                 PacienteTemp.setEsNuevo(true);
 
                 //Llamada a Control de acceso de datos de paciente. PacienteDAO

@@ -8,6 +8,8 @@ package sedira.vistas;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -50,6 +52,9 @@ public class ContactoPacienteController implements Initializable {
     String TelefonoAux;
     String CelularAux;
     String EmailAux;
+    
+    public static final Pattern VALID_EMAIL_ADDRESS_REGEX = 
+    Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
 
       private IPacienteDAO pac = new PacienteDAOsql(); 
       
@@ -117,6 +122,19 @@ public class ContactoPacienteController implements Initializable {
        
     }
 
+
+     public static boolean validarEmail(String emailStr) {
+         if (emailStr.equals(""))
+         {
+             return true;
+         }else
+         {
+                Matcher matcher = VALID_EMAIL_ADDRESS_REGEX .matcher(emailStr);
+               return matcher.find();
+         }
+     
+     }
+
     private void ModoLectura() {
 
         txtDireccion.setDisable(false);
@@ -156,14 +174,37 @@ public class ContactoPacienteController implements Initializable {
 
     }
 
+    public boolean ValidarDatos() {
+        boolean ValidacionOK = true;
+        String Error = "";
+        if (!(validarEmail(txtEmail.getText()))) {
+            Error += "\n El email ingresado no es correcto";
+            ValidacionOK = false;
+
+        }
+
+        if (ValidacionOK == false) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Validación");
+            alert.setHeaderText("Se han detectado los siguientes errores que impiden realizar la operación. ");
+            alert.setContentText(Error);
+            alert.showAndWait();
+        }
+        return ValidacionOK;
+
+    }
     /**
      * Método para el comportamiento del boton Aceptar.
      */
     @FXML
     private void btnAceptar_click() throws SQLException {
         //para editar. 
-        Paciente PacienteActual = FuncionesGenerales.getPacienteActual();
-        if (btnEditar.isDisable()) {
+        
+        if ( ValidarDatos())
+        {
+            
+             Paciente PacienteActual = FuncionesGenerales.getPacienteActual();
+            if (btnEditar.isDisable()) {
 
             PacienteActual.setDireccion(txtDireccion.getText());
             PacienteActual.setTelefono(txtTelefono.getText());
@@ -179,7 +220,11 @@ public class ContactoPacienteController implements Initializable {
           
             ModoLectura();
 
+          }
+        
         }
+        
+    
 
     }
 

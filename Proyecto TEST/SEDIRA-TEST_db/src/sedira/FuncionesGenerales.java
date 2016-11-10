@@ -50,6 +50,8 @@ public class FuncionesGenerales {
     public static void setIndice(int indice) {
         FuncionesGenerales.indice = indice;
     }
+  
+ 
 
     /**
      * Método SetTer para el radionuclido actual.

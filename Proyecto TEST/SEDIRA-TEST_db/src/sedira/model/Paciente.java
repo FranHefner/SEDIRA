@@ -30,14 +30,12 @@ public class Paciente {
     private StringProperty apellido;
     private StringProperty nombre;
     private Date fechaNacimiento;
-    private StringProperty direccion;
-    private int numeroAsociado;
+    private StringProperty direccion;   
     private StringProperty email;
     private StringProperty telefono;
     private StringProperty celular;
     private Blob foto;
-    private StringProperty sexo;
-    private boolean enTratamiento;
+    private StringProperty sexo;  
     private ProgresoPaciente estadoActual;
     private Boolean esNuevo;
     // private List<ProgresoPaciente> Progreso;
@@ -59,20 +57,18 @@ public class Paciente {
      * @param sexo
      * @param enTratamiento
      */
-    public Paciente(int idPaciente, String tipoDoc, int numeroDoc, String apellido, String nombre, Date fechaNacimiento, String direccion, int numeroAsociado, String email, String telefono, String celular,/* Blob foto,*/ String sexo, boolean enTratamiento, Boolean esNuevo) {
+    public Paciente(int idPaciente, String tipoDoc, int numeroDoc, String apellido, String nombre, Date fechaNacimiento, String direccion, String email, String telefono, String celular, String sexo, Boolean esNuevo) {
         this.idPaciente = new SimpleIntegerProperty(idPaciente);
         this.tipoDoc = new SimpleStringProperty(tipoDoc);
         this.numeroDoc = new SimpleIntegerProperty(numeroDoc);
         this.apellido = new SimpleStringProperty(apellido);
         this.nombre = new SimpleStringProperty(nombre);
         this.fechaNacimiento = fechaNacimiento;
-        this.direccion = new SimpleStringProperty(direccion);
-        this.numeroAsociado = numeroAsociado;
+        this.direccion = new SimpleStringProperty(direccion);       
         this.email = new SimpleStringProperty(email);
         this.telefono = new SimpleStringProperty(telefono);
         this.celular = new SimpleStringProperty(celular);  
-        this.sexo = new SimpleStringProperty(sexo);
-        this.enTratamiento = enTratamiento;
+        this.sexo = new SimpleStringProperty(sexo);     
         this.esNuevo = esNuevo;
         
     }
@@ -87,13 +83,11 @@ public class Paciente {
         this.apellido = new SimpleStringProperty("");
         this.nombre = new SimpleStringProperty("");
         this.fechaNacimiento = null;
-        this.direccion = new SimpleStringProperty("");
-        this.numeroAsociado = 0;
+        this.direccion = new SimpleStringProperty("");     
         this.email = new SimpleStringProperty("");
         this.telefono = new SimpleStringProperty("");
         this.celular = new SimpleStringProperty("");
-        this.sexo = new SimpleStringProperty("");
-        this.enTratamiento = true;
+        this.sexo = new SimpleStringProperty("");      
         this.esNuevo = true;
     }
 
@@ -238,15 +232,7 @@ public class Paciente {
         return direccion.get();
     }
 
-    //Numero asociado
-    public int getNumeroAsociado() {
-        return numeroAsociado;
-    }
-
-    public void setNumeroAsociado(int numeroAsociado) {
-        this.numeroAsociado = numeroAsociado;
-    }
-
+      
     //Email
     public StringProperty getEmailProperty() {
         return email;
@@ -307,16 +293,7 @@ public class Paciente {
     public String getSexo() {
         return sexo.get();
     }
-
-    //Entratamiento
-    public boolean enEnTratamiento() {
-        return enTratamiento;
-    }
-
-    public void setEnTratamiento(boolean enTratamiento) {
-        this.enTratamiento = enTratamiento;
-    }
-
+    
     public ProgresoPaciente getEstadoActual() {
         return estadoActual;
     }

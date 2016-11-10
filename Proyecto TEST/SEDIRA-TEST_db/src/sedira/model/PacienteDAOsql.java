@@ -42,15 +42,12 @@ public class PacienteDAOsql implements IPacienteDAO {
                         + ",apellido"
                         + ",nombre"
                         + ",fecha_nacimiento"
-                        + ",direccion"
-                        + ",numero_asociado"
+                        + ",direccion"                      
                         + ",email"
-                        + ",telefono"
-                        + ",foto"
-                        + ",sexo"
-                        + ",en_tratamiento"
+                        + ",telefono"                     
+                        + ",sexo"                  
                         + ",celular)"
-                        + " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)"
+                        + " VALUES (?,?,?,?,?,?,?,?,?,?)"
                 );
 
                 /**
@@ -65,14 +62,11 @@ public class PacienteDAOsql implements IPacienteDAO {
                 consulta.setString(3, paciente.getApellido());
                 consulta.setString(4, paciente.getNombre());
                 consulta.setString(5, paciente.getFechaNacimientoDB());
-                consulta.setString(6, paciente.getDireccion());
-                consulta.setInt(7, paciente.getNumeroAsociado());
-                consulta.setString(8, paciente.getEmail());
-                consulta.setString(9, paciente.getTelefono());
-                consulta.setBlob(10, paciente.getFoto());
-                consulta.setString(11, paciente.getSexo());
-                consulta.setBoolean(12, paciente.enEnTratamiento());
-                consulta.setString(13, paciente.getcelular());
+                consulta.setString(6, paciente.getDireccion());           
+                consulta.setString(7, paciente.getEmail());
+                consulta.setString(8, paciente.getTelefono());              
+                consulta.setString(9, paciente.getSexo());               
+                consulta.setString(10, paciente.getcelular());
                 consulta.executeUpdate(); //Ejecucion de la consulta
                 consulta.close();
                 // JOptionPane.showMessageDialog(null, "La propiedad "+vd.getDescripcion()+ " fué agregada con éxito!","Información",JOptionPane.INFORMATION_MESSAGE);
@@ -147,13 +141,10 @@ public class PacienteDAOsql implements IPacienteDAO {
                     + "apellido = ?,"
                     + "nombre = ?,"
                     + "fecha_nacimiento = ?,"
-                    + "direccion = ?,"
-                    + "numero_asociado =?,"
+                    + "direccion = ?,"                  
                     + "email = ?,"
-                    + "telefono = ?,"
-                    + "foto = ?,"
-                    + "sexo = ?,"
-                    + "en_tratamiento = ?,"
+                    + "telefono = ?,"              
+                    + "sexo = ?,"                 
                     + "celular = ?"
                     + " WHERE id_paciente = ?");
             /**
@@ -164,16 +155,12 @@ public class PacienteDAOsql implements IPacienteDAO {
             consulta.setString(3, paciente.getApellido());
             consulta.setString(4, paciente.getNombre());
             consulta.setString(5, paciente.getFechaNacimientoDB());
-            consulta.setString(6, paciente.getDireccion());
-            consulta.setInt(7, paciente.getNumeroAsociado());
-            consulta.setString(8, paciente.getEmail());
-            consulta.setString(9, paciente.getTelefono());
-            consulta.setBlob(10, paciente.getFoto());
-            consulta.setString(11, paciente.getSexo());
-            consulta.setBoolean(12, paciente.enEnTratamiento());
-            consulta.setString(13, paciente.getcelular());
-
-            consulta.setInt(14, paciente.getIdPaciente());
+            consulta.setString(6, paciente.getDireccion());          
+            consulta.setString(7, paciente.getEmail());
+            consulta.setString(8, paciente.getTelefono());           
+            consulta.setString(9, paciente.getSexo());        
+            consulta.setString(10, paciente.getcelular());
+            consulta.setInt(11, paciente.getIdPaciente());
             //parametros acotados para simplicidad del test 
 
             consulta.executeUpdate(); //Ejecucion de la consulta
@@ -260,12 +247,9 @@ public class PacienteDAOsql implements IPacienteDAO {
                 paciente.setIdPaciente(Integer.parseInt(resultado.getString("id_paciente")));
                 paciente.setApellido(resultado.getString("apellido"));
                 paciente.setDireccion(resultado.getString("direccion"));
-                paciente.setEmail(resultado.getString("email"));
-                paciente.setEnTratamiento(resultado.getBoolean("en_tratamiento"));
-                paciente.setFechaNacimiento(resultado.getDate("fecha_nacimiento"));
-                //paciente.setFoto(resultado.getBlob("foto"));
-                paciente.setNombre(resultado.getString("nombre"));
-                //paciente.setNumeroAsociado(Integer.parseInt(resultado.getString("numero_asociado")));
+                paciente.setEmail(resultado.getString("email"));              
+                paciente.setFechaNacimiento(resultado.getDate("fecha_nacimiento"));           
+                paciente.setNombre(resultado.getString("nombre"));        
                 paciente.setNumeroDoc(Integer.parseInt(resultado.getString("numero_doc")));
                 paciente.setSexo(resultado.getString("sexo"));
                 paciente.setTelefono(resultado.getString("telefono"));
