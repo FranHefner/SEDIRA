@@ -14,9 +14,9 @@ import javafx.collections.ObservableList;
  */
 public interface IFormulaDAO {
     
-     boolean setFormula(String Formula, String Nombre, int Id_calculo);
+     boolean setFormula(String Formula, String Nombre, int Id_historial);
     List<Formula>  getFormulas();
-     public ObservableList<VariableCalculo> getPropiedadesFormula(int Id_calculo, boolean ConValores);
+     public ObservableList<VariableCalculo> getPropiedadesFormula(int Id_historial, boolean ConValores);
      public void eliminarFormula(String Formula);
     
 }

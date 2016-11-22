@@ -75,10 +75,10 @@ public class PhantomDAOsql implements IPhantomDAO {
 
         try {
             PreparedStatement consulta = conexion.getConnection().prepareStatement("SELECT * FROM phantoms "
-                    + "INNER JOIN organos "
-                    + "ON phantoms.id_phantom = organos.id_phantom "
-                    + "INNER JOIN valordescripcion "
-                    + "ON phantoms.id_phantom = valordescripcion.id_phantom "
+                    + "INNER JOIN organos_phantoms "
+                    + "ON phantoms.id_phantom = organos_phantoms.id_phantom "
+                    + "INNER JOIN phantoms_valordescripcion "
+                    + "ON phantoms.id_phantom = phantoms_valordescripcion.id_phantom "
                     + "GROUP BY phantoms.id_phantom");
 
             ResultSet resultado = consulta.executeQuery();
@@ -123,10 +123,14 @@ public class PhantomDAOsql implements IPhantomDAO {
         int idPhantom = phantomSeleccionado.getIdPhantom();
         try {
             PreparedStatement consulta = conexion.getConnection().prepareStatement(
-                    "SELECT * FROM phantoms "
-                    + "INNER JOIN valordescripcion "
-                    + "ON phantoms.id_phantom = valordescripcion.id_phantom "
-                    + "WHERE phantoms.id_phantom =" + idPhantom + ";"
+                     " SELECT * FROM "
+                   + " phantoms "
+                   + " INNER JOIN phantoms_valordescripcion "
+                   + " ON phantoms_valordescripcion.id_phantom = phantoms.id_phantom "
+                   + " INNER JOIN valordescripcion "
+                   + " ON phantoms_valordescripcion.id_valordescripcion = "
+                   + " valordescripcion.id_valordescripcion "
+                   + " WHERE phantoms.id_phantom = " + idPhantom + ";"                   
             );
             ResultSet resultado = consulta.executeQuery();
             while (resultado.next()) {
@@ -322,7 +326,7 @@ public class PhantomDAOsql implements IPhantomDAO {
         try {
             PreparedStatement consulta = conexion.getConnection().prepareStatement(
                     "SELECT * FROM phantoms "
-                    + "INNER JOIN organos "
+                    + "INNER JOIN organos_phantoms "
                     + "ON phantoms.id_phantom = organos.id_phantom "
                     + "WHERE phantoms.id_phantom =" + idPhantom + ";"
             );

@@ -28,7 +28,7 @@ public class FormulaDAOsql implements IFormulaDAO {
      * @return
      */
     @Override
-    public boolean setFormula(String Nombre, String Formula_mat, int Id_calculo) {
+    public boolean setFormula(String Nombre, String Formula_mat, int Id_historial) {
 
         //Instancia de conexion
         ConexionDB conexion = new ConexionDB();
@@ -36,11 +36,11 @@ public class FormulaDAOsql implements IFormulaDAO {
         try {
 
             PreparedStatement consulta = conexion.getConnection().prepareStatement(
-                    " INSERT INTO formulas(nombre, formula_mat, id_calculo)"
+                    " INSERT INTO formulas(nombre, formula_mat, id_historial)"
                     + "VALUES(?,?,?)");
             consulta.setString(1, Nombre);
             consulta.setString(2, Formula_mat);
-            consulta.setInt(3, Id_calculo);
+            consulta.setInt(3, Id_historial);
 
             consulta.executeUpdate(); //Ejecucion de la consulta
             consulta.close();
@@ -115,7 +115,7 @@ public class FormulaDAOsql implements IFormulaDAO {
             while (resultado.next()) {
 
                 //  public Formula(int pId_formula, String pNombre, String pFormula_mat, int pId_calculo)
-                 Formula f = new Formula(resultado.getInt("id_formulas"),resultado.getString("nombre"),resultado.getString( "formula_mat"),resultado.getInt("id_calculo"));
+                 Formula f = new Formula(resultado.getInt("id_historial"),resultado.getString("nombre"),resultado.getString( "formula_mat"),resultado.getInt("id_historial"));
                 formulas.add(f);
             }
             //Cierre de consulta
@@ -133,7 +133,7 @@ public class FormulaDAOsql implements IFormulaDAO {
 
     }
     @Override
-    public ObservableList<VariableCalculo> getPropiedadesFormula(int Id_calculo, boolean ConValores) {
+    public ObservableList<VariableCalculo> getPropiedadesFormula(int Id_historial, boolean ConValores) {
      
                 
                      //Instancia de conexion
@@ -143,10 +143,10 @@ public class FormulaDAOsql implements IFormulaDAO {
 
         try {
             PreparedStatement consulta = conexion.getConnection().prepareStatement(
-                    "SELECT * FROM historialcalculo WHERE id_calculo = ?");
+                    "SELECT * FROM historialcalculo WHERE id_historial = ?");
 
             
-               consulta.setInt(1, Id_calculo);
+               consulta.setInt(1, Id_historial);
             //Ejecucion de la consulta. 
             ResultSet resultado = consulta.executeQuery();
 

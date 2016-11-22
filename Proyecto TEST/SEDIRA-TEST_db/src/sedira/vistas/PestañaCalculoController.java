@@ -243,7 +243,7 @@ public class PestañaCalculoController implements Initializable {
 
             for (int i = 0; i < FormulasActuales.size(); i++) {
                 if (formulaSelecionada.equals(FormulasActuales.get(i).getNombre())) {
-                    listaVariables = iFormulas.getPropiedadesFormula(FormulasActuales.get(i).getId_calculo(), false);
+                    listaVariables = iFormulas.getPropiedadesFormula(FormulasActuales.get(i).getId_Historial(), false);
                     IndiceFormula = i;
                 }
 
