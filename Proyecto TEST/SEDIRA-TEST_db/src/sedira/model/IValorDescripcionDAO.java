@@ -16,9 +16,9 @@ import javafx.collections.ObservableList;
  */
 public interface IValorDescripcionDAO {
 
-    public void agregarItem(ValorDescripcion vd, int id, boolean phantom, boolean radionuclido) throws SQLException;
+    public void agregarItem(ValorDescripcion vd, int id, String Tabla) throws SQLException;
 
-    public void modificarItem(ValorDescripcion vd, int id, boolean phantom, boolean radionuclido);
+    public void modificarItem(ValorDescripcion vd, int id, String Tabla);
 
     public void eliminarItem(int id);
 

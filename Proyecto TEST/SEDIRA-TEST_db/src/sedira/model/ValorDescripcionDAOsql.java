@@ -31,41 +31,88 @@ public class ValorDescripcionDAOsql implements IValorDescripcionDAO {
      * @throws SQLException
      */
     @Override
-    public void agregarItem(ValorDescripcion vd, int id, boolean phantom, boolean radionuclido) throws SQLException {
+    public void agregarItem(ValorDescripcion vd, int id, String Tabla) throws SQLException {
         //Instancia de conexion
         ConexionDB conexion = new ConexionDB();
         String unidad = vd.getUnidad();
-        
+
+        /// FALTA PRREGUNTAR EL PROXIMO ID
         try {
-            PreparedStatement consulta = conexion.getConnection().prepareStatement(
-                    "INSERT INTO valordescripcion (descripcion, valor, unidad, id_radionuclido,id_phantom) "
-                    + "VALUES(?,?,?,?,?)");
-            consulta.setString(1, vd.getDescripcion());
-            consulta.setString(2, vd.getValor());
-            consulta.setString(3, vd.getUnidad());
+            PreparedStatement sqlValorDescripcion = conexion.getConnection().prepareStatement(
+                    "  INSERT INTO valordescripcion ( "
+                    + "     id_valordescripcion "
+                    + "     ,descripcion "
+                    + "     ,valor "
+                    + "     ,unidad "
+                    + "   ) VALUES ( "
+                    + "     ?  "
+                    + "    ,?  "
+                    + "    ,?  "
+                    + "    ,? )");
 
-            if (phantom) { //Agrega item a un phantom
-                consulta.setNull(4, java.sql.Types.NULL);
-                consulta.setInt(5, id);
+            sqlValorDescripcion.setInt(1, itemId);
+            sqlValorDescripcion.setString(2, vd.getDescripcion());
+            sqlValorDescripcion.setString(3, vd.getValor());
+            sqlValorDescripcion.setString(4, vd.getUnidad());
+
+            PreparedStatement sqlTabla_valordescripcion;
+
+            if (Tabla.equals("organos")) {
+                sqlTabla_valordescripcion = conexion.getConnection().prepareStatement(
+                        "   INSERT INTO organos_valordescripcion ( "
+                        + "     id_organo_valordescripcion "
+                        + "     ,id_organo "
+                        + "     ,id_valordescripcion "
+                        + "    ) VALUES ( "
+                        + "       0   -- id_organo_valordescripcion "
+                        + "      ,0   -- id_organo "
+                        + "      ,0   -- id_valordescripcion "
+                        + "     ) ");
+
+                sqlTabla_valordescripcion.setInt(1, itemId);
+                sqlTabla_valordescripcion.setString(2, vd.getDescripcion());
+                sqlTabla_valordescripcion.setString(3, vd.getValor());
+                sqlTabla_valordescripcion.setString(4, vd.getUnidad());
+
             }
-            if (radionuclido) { //Agrega item a un radionuclido
-                consulta.setInt(4, id);
-                consulta.setNull(5, java.sql.Types.NULL);
+            if (Tabla.equals("phantoms")) {
+
+                sqlTabla_valordescripcion = conexion.getConnection().prepareStatement(
+                        "  INSERT INTO phantoms_valordescripcion ( "
+                        + "   id_phantom_valordescripcion "
+                        + "    ,id_phantom "
+                        + "    ,id_valordescripcion "
+                        + "    ) VALUES ( "
+                        + "     0   -- id_phantom_valordescripcion "
+                        + "    ,0   -- id_phantom "
+                        + "     ,0   -- id_valordescripcion "
+                        + "   ) ");
+
+                sqlTabla_valordescripcion.setInt(1, itemId);
+                sqlTabla_valordescripcion.setString(2, vd.getDescripcion());
+                sqlTabla_valordescripcion.setString(3, vd.getValor());
+                sqlTabla_valordescripcion.setString(4, vd.getUnidad());
+
+            }
+            if (Tabla.equals("radionuclidos")) {
+                sqlTabla_valordescripcion = conexion.getConnection().prepareStatement(
+                        "   INSERT INTO radionuclidos_valordescripcion ( "
+                        + "    id_radionuclido_valordescripcion "
+                        + "    ,id_radionuclido "
+                        + "     ,id_valordescripcion "
+                        + "   ) VALUES ( "
+                        + "     0   -- id_radionuclido_valordescripcion "
+                        + "    ,0   -- id_radionuclido "
+                        + "    ,0   -- id_valordescripcion "
+                        + "  ) ");
+
+                sqlTabla_valordescripcion.setInt(1, itemId);
+                sqlTabla_valordescripcion.setString(2, vd.getDescripcion());
+                sqlTabla_valordescripcion.setString(3, vd.getValor());
+                sqlTabla_valordescripcion.setString(4, vd.getUnidad());
 
             }
 
-            consulta.executeUpdate(); //Ejecucion de la consulta
-            consulta.close();
-            conexion.desconectar();
-            // JOptionPane.showMessageDialog(null, "La propiedad "+vd.getDescripcion()+ " fué agregada con éxito!","Información",JOptionPane.INFORMATION_MESSAGE);
-            
-            // Mensaje de confirmacion
-           /* Alert alerta = new Alert(Alert.AlertType.INFORMATION);
-            alerta.setTitle("Confirmación");
-            alerta.setHeaderText(null);
-            alerta.setContentText("El item: \n " +vd.getDescripcion() +"\n fué agregado.");
-            alerta.showAndWait();*/
-            
         } catch (SQLException e) {
             CodigosErrorSQL.analizarExepcion(e);
             //System.out.println("Ocurrió un error en la inserción de la propiedad " + e.getMessage());
@@ -83,51 +130,34 @@ public class ValorDescripcionDAOsql implements IValorDescripcionDAO {
      * @param radionuclido
      */
     @Override
-    public void modificarItem(ValorDescripcion vd, int id, boolean phantom, boolean radionuclido) {
+    public void modificarItem(ValorDescripcion vd, int id, String Tabla) {
         //Instancia de conexion
         ConexionDB conexion = new ConexionDB();
         //Identificador del item a modificar.
         int itemId = vd.getId();
         try {
-            //if (buscaNombre(vd.getDescripcion())) {
-                PreparedStatement consulta = conexion.getConnection().prepareStatement(
-                        "UPDATE valordescripcion SET descripcion = ?"
-                        + ",valor = ?"
-                        + ",unidad = ?"
-                        + ",id_radionuclido = ?"
-                        + ",id_phantom = ? "
-                        + "WHERE id_valordescripcion = ?");
-                consulta.setString(1, vd.getDescripcion());
-                consulta.setString(2, vd.getValor());
-                consulta.setString(3, vd.getUnidad());
+                            //if (buscaNombre(vd.getDescripcion())) {
+         PreparedStatement consulta = conexion.getConnection().prepareStatement(
+                  "  UPDATE valordescripcion SET "
+               + "       id_valordescripcion = 0 "
+               + "        ,descripcion = '' "
+               + "          ,valor = 0 "
+               + "          ,unidad = '' "
+                + "        WHERE id_valordescripcion = 0 ");
+                        
+            consulta.setInt(1, id);
+            //System.out.print(id);
+            consulta.executeUpdate(); //Ejecucion de la consulta.
+            consulta.close();
+            conexion.desconectar();
+            
+            
+          
+            conexion.desconectar();
 
-                if (phantom) { //Modifica item a un phantom
-                    consulta.setNull(4, java.sql.Types.NULL);
-                    consulta.setInt(5, id);
-                    consulta.setInt(6, itemId);
-                }
-                if (radionuclido) { //Modifica item a un radionuclido
-                    consulta.setInt(4, id);
-                    consulta.setNull(5, java.sql.Types.NULL);
-                    consulta.setInt(6, itemId);
-
-                }
-
-                consulta.executeUpdate(); //Ejecucion de la consulta
-                consulta.close();
-                conexion.desconectar();
-
-                // Mensaje de confirmacion
-               /* Alert alerta = new Alert(Alert.AlertType.INFORMATION);
-                alerta.setTitle("Confirmación");
-                alerta.setHeaderText(null);
-                alerta.setContentText("El item: \n " +vd.getDescripcion() +"\n fué modificado.");
-                alerta.showAndWait();*/
-                // JOptionPane.showMessageDialog(null, "La propiedad " + vd.getDescripcion() + " fué agregada con éxito!", "Información", JOptionPane.INFORMATION_MESSAGE); 
-            //}
-
+            
         } catch (SQLException e) {
-             CodigosErrorSQL.analizarExepcion((SQLException) e);
+            CodigosErrorSQL.analizarExepcion((SQLException) e);
             //JOptionPane.showMessageDialog(null, "no se pudo consultar el phantom /n" + e);
             //System.out.print(e);
         }
@@ -142,7 +172,7 @@ public class ValorDescripcionDAOsql implements IValorDescripcionDAO {
     public void eliminarItem(int id) {
         //Instancia de conexion
         ConexionDB conexion = new ConexionDB();
-        
+
         try {
 
             PreparedStatement consulta = conexion.getConnection().prepareStatement(
@@ -152,28 +182,26 @@ public class ValorDescripcionDAOsql implements IValorDescripcionDAO {
             consulta.executeUpdate(); //Ejecucion de la consulta.
             consulta.close();
             conexion.desconectar();
-            
-            
+
             // Mensaje de confirmacion
-           /* Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+            /* Alert alerta = new Alert(Alert.AlertType.INFORMATION);
             alerta.setTitle("Confirmación");
             alerta.setHeaderText(null);
             alerta.setContentText("El ítem fué eliminado. ");
             alerta.showAndWait();*/
-
         } catch (SQLException e) {
             CodigosErrorSQL.analizarExepcion((SQLException) e);
             //JOptionPane.showMessageDialog(null, "no se pudo consultar el phantom /n" + e);
             //System.out.print(e);
         }
     }
-    
+
     /**
      * Método que busca si una propiedad ya existe.
      *
      * @param propiedad
-     * @return True si no hay coincidencias. False si el nombre existe. 
-     * @throws java.sql.SQLException 
+     * @return True si no hay coincidencias. False si el nombre existe.
+     * @throws java.sql.SQLException
      */
     @Override
     public boolean buscaNombre(String propiedad) throws SQLException {
@@ -192,7 +220,7 @@ public class ValorDescripcionDAOsql implements IValorDescripcionDAO {
                 //System.out.println();
                 resultado.close();
                 conexion.desconectar();
-                
+
                 return false;
             } else {
                 //Si no hay coincidencias. o sea, la cantidad de tuplas es 0 entonces EL nombre no existe
@@ -200,72 +228,68 @@ public class ValorDescripcionDAOsql implements IValorDescripcionDAO {
             }
 
         } catch (SQLException e) {
-             CodigosErrorSQL.analizarExepcion((SQLException) e);
+            CodigosErrorSQL.analizarExepcion((SQLException) e);
             //JOptionPane.showMessageDialog(null, "no se pudo consultar el phantom /n" + e);
             //System.out.print(e);
-           
+
             return false;
         }
     }
-    
+
     @Override
-    public ObservableList listadoPropiedadesPhantom(){
-    
-          //Instancia de conexion
+    public ObservableList listadoPropiedadesPhantom() {
+
+        //Instancia de conexion
         ConexionDB conexion = new ConexionDB();
         ObservableList listado = FXCollections.observableArrayList();
-        
 
         try {
-           PreparedStatement consulta = conexion.getConnection().prepareStatement(
+            PreparedStatement consulta = conexion.getConnection().prepareStatement(
                     "SELECT * FROM lista_propiedades_phantom");
 
             //Ejecucion de la consulta. 
             ResultSet resultado = consulta.executeQuery();
             //obtencion de los datos desde la bd.
             while (resultado.next()) {
-                listado.add(   resultado.getString("nombre_propiedad"));
-              
+                listado.add(resultado.getString("nombre_propiedad"));
+
             }
 
         } catch (SQLException e) {
             CodigosErrorSQL.analizarExepcion(e);
             //System.out.println(e.getMessage());
             //JOptionPane.showMessageDialog(null, "Ocurrio un error! " + e);
-   
+
         }
         return listado;
     }
-    
+
     @Override
-    public ObservableList listadoPropiedadesRadionuclido(){
-    
-          //Instancia de conexion
+    public ObservableList listadoPropiedadesRadionuclido() {
+
+        //Instancia de conexion
         ConexionDB conexion = new ConexionDB();
         ObservableList listado = FXCollections.observableArrayList();
-        
 
         try {
-           PreparedStatement consulta = conexion.getConnection().prepareStatement(
+            PreparedStatement consulta = conexion.getConnection().prepareStatement(
                     "SELECT * FROM lista_propiedades_radionuclido");
 
             //Ejecucion de la consulta. 
             ResultSet resultado = consulta.executeQuery();
             //obtencion de los datos desde la bd.
             while (resultado.next()) {
-                listado.add(   resultado.getString("nombre_propiedad"));
-              
+                listado.add(resultado.getString("nombre_propiedad"));
+
             }
 
         } catch (SQLException e) {
             CodigosErrorSQL.analizarExepcion(e);
             //System.out.println(e.getMessage());
             //JOptionPane.showMessageDialog(null, "Ocurrio un error! " + e);
-   
+
         }
         return listado;
     }
-   
-    
-    
+
 }
