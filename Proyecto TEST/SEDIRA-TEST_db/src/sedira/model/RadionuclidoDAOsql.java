@@ -42,7 +42,7 @@ public class RadionuclidoDAOsql implements IRadionuclidoDAO {
                 Radionuclido radionuclido = new Radionuclido(0, "", null);
                 
                 radionuclido.setIdRadNuclido(Integer.parseInt(resultado.getString("id_radionuclido")));
-                radionuclido.setNombreRadNuclido(resultado.getString("nombre_radionuclido"));
+                radionuclido.setNombreRadNuclido(resultado.getString("nombre"));
                 radionuclidoData.add(radionuclido);
             }
             resultado.close();
@@ -70,18 +70,26 @@ public class RadionuclidoDAOsql implements IRadionuclidoDAO {
         ConexionDB conexion = new ConexionDB();
         
         try {
-            PreparedStatement consulta = conexion.getConnection().prepareStatement(""
-                    + "SELECT * FROM radionuclidos "
-                    + "INNER JOIN valordescripcion "
-                    + "ON radionuclidos.id_radionuclido = valordescripcion.id_radionuclido "
-                    + "GROUP BY radionuclidos.id_radionuclido");
-            ResultSet resultado = consulta.executeQuery();
+            PreparedStatement consulta = conexion.getConnection().prepareStatement(""                            
+                  + " SELECT"
+                  + " * "
+                  + " FROM"
+                  + " radionuclidos R"
+                  + " WHERE"
+                  + " EXISTS"
+                  + " (SELECT"
+                  + "    *"
+                  + "  FROM"
+                  + "   radionuclidos_valordescripcion RV"
+                  + " WHERE"
+                  + "   RV.id_radionuclido = R.id_radionuclido)");
+                   ResultSet resultado = consulta.executeQuery();
             while (resultado.next()) {
                 //objeto auxiliar
                 Radionuclido radionuclido = new Radionuclido(0, "", null);
                 
                 radionuclido.setIdRadNuclido(Integer.parseInt(resultado.getString("id_radionuclido")));
-                radionuclido.setNombreRadNuclido(resultado.getString("nombre_radionuclido"));
+                radionuclido.setNombreRadNuclido(resultado.getString("nombre"));
                 radionuclidoData.add(radionuclido);
             }
             resultado.close();
@@ -114,14 +122,21 @@ public class RadionuclidoDAOsql implements IRadionuclidoDAO {
         
         int idRadNuclido = radioNuclidoSeleccionado.getIdRadNuclido();
         try {
-            PreparedStatement consulta = conexion.getConnection().prepareStatement(
-                " select valordescripcion.id_valordescripcion, radionuclidos_valordescripcion.id_radionuclido, "
-                        + "radionuclidos.nombre_radionuclido, valordescripcion.descripcion, valordescripcion.valor, "
-                        + "valordescripcion.unidad, valordescripcion.entidad_padre "
-                        + "FROM radionuclidos "
-                        + "inner join radionuclidos_valordescripcion ON radionuclidos_valordescripcion.id_radionuclido = radionuclidos.id_radionuclido "
-                        + "inner join valordescripcion ON radionuclidos_valordescripcion.id_valordescripcion = valordescripcion.id_valordescripcion "
-                        + "WHERE radionuclidos.id_radionuclido = ?"
+            PreparedStatement consulta = conexion.getConnection().prepareStatement(      
+                  "  SELECT"
+                  + "    V.id_valordescripcion,"
+                  + "    V.descripcion,"
+                  + "    V.valor,"
+                  + "    V.unidad"
+                  + "   FROM"
+                  + "     radionuclidos R"
+                  + "     JOIN radionuclidos_valordescripcion RV"
+                  + "      ON R.id_radionuclido ="
+                  + "         RV.id_radionuclido"
+                  + "     JOIN valordescripcion V"
+                  + "      ON RV.id_valordescripcion ="
+                  + "          V.id_valordescripcion "
+                  + "   WHERE R.id_radionuclido = ?"
             );
             consulta.setInt(1, idRadNuclido);
             ResultSet resultado = consulta.executeQuery();
@@ -169,7 +184,7 @@ public class RadionuclidoDAOsql implements IRadionuclidoDAO {
             //Antes de insertar corrobora que no exista el nombre
             if (buscaNombre(radionuclido.getNombreRadNuclido())) {
                 Statement consulta = conexion.getConnection().createStatement();
-                consulta.executeUpdate("INSERT INTO radionuclidos (nombre_radionuclido) VALUES ('" + nombreRadNuclido + "')");
+                consulta.executeUpdate("INSERT INTO radionuclidos (nombre) VALUES ('" + nombreRadNuclido + "')");
                 consulta.close();
                 conexion.desconectar();
 
@@ -244,7 +259,7 @@ public class RadionuclidoDAOsql implements IRadionuclidoDAO {
             //verificacion de la existencia.
             if (buscaNombre(radionuclido.getNombreRadNuclido())) {
                 PreparedStatement consulta = conexion.getConnection().prepareStatement(
-                        "UPDATE radionuclidos SET nombre_radionuclido = ? WHERE id_radionuclido = ?");
+                        "UPDATE radionuclidos SET nombre = ? WHERE id_radionuclido = ?");
                 //JOptionPane.showMessageDialog(null, "El radionúclido ha sido modificado!", "Información", JOptionPane.INFORMATION_MESSAGE);
                 
                 //Seteo las variables para la consulta.
@@ -288,7 +303,7 @@ public class RadionuclidoDAOsql implements IRadionuclidoDAO {
 
         try {
             PreparedStatement consulta = conexion.getConnection().prepareStatement(
-                    "SELECT nombre_radionuclido FROM radionuclidos WHERE nombre_radionuclido = ?");
+                    "SELECT nombre FROM radionuclidos WHERE nombre = ?");
             consulta.setString(1, nombreRadionuclido);
             
             ResultSet resultado = consulta.executeQuery();

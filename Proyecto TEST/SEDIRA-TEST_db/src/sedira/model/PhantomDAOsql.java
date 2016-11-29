@@ -43,7 +43,7 @@ public class PhantomDAOsql implements IPhantomDAO {
                 Phantom phantom = new Phantom(0, "", 0, null, null);
                 //obtencion de los datos desde la bd.
                 phantom.setIdPhantom(Integer.parseInt(resultado.getString("id_phantom")));
-                phantom.setPhantomNombre(resultado.getString("nombre_phantom"));
+                phantom.setPhantomNombre(resultado.getString("nombre"));
                 //agrego el objeto a la lista de phantom. Esta se retornada para completar la vista.
                 phantomData.add(phantom);
 
@@ -74,12 +74,19 @@ public class PhantomDAOsql implements IPhantomDAO {
         ConexionDB conexion = new ConexionDB();
 
         try {
-            PreparedStatement consulta = conexion.getConnection().prepareStatement("SELECT * FROM phantoms "
-                    + "INNER JOIN organos_phantoms "
-                    + "ON phantoms.id_phantom = organos_phantoms.id_phantom "
-                    + "INNER JOIN phantoms_valordescripcion "
-                    + "ON phantoms.id_phantom = phantoms_valordescripcion.id_phantom "
-                    + "GROUP BY phantoms.id_phantom");
+            PreparedStatement consulta = conexion.getConnection().prepareStatement(""              
+                                + " SELECT "
+                                + " * "
+                                + " FROM "
+                                + "     phantoms P "
+                                + " WHERE "
+                                + " EXISTS "
+                                + " (SELECT "
+                                + "   * "
+                                + "  FROM "
+                                + "   phantoms_valordescripcion PV "
+                                + "  WHERE "
+                                + "    PV.id_phantom = P.id_phantom)");
 
             ResultSet resultado = consulta.executeQuery();
             while (resultado.next()) {
@@ -88,7 +95,7 @@ public class PhantomDAOsql implements IPhantomDAO {
                 Phantom phantom = new Phantom(0, "", 0, null, null);
                 //obtencion de los datos desde la bd.
                 phantom.setIdPhantom(Integer.parseInt(resultado.getString("id_phantom")));
-                phantom.setPhantomNombre(resultado.getString("nombre_phantom"));
+                phantom.setPhantomNombre(resultado.getString("nombre"));
                 //agrego el objeto a la lista de phantom. Esta se retornada para completar la vista.
                 phantomData.add(phantom);
 
@@ -123,15 +130,21 @@ public class PhantomDAOsql implements IPhantomDAO {
         int idPhantom = phantomSeleccionado.getIdPhantom();
         try {
             PreparedStatement consulta = conexion.getConnection().prepareStatement(
-                     " SELECT * FROM "
-                   + " phantoms "
-                   + " INNER JOIN phantoms_valordescripcion "
-                   + " ON phantoms_valordescripcion.id_phantom = phantoms.id_phantom "
-                   + " INNER JOIN valordescripcion "
-                   + " ON phantoms_valordescripcion.id_valordescripcion = "
-                   + " valordescripcion.id_valordescripcion "
-                   + " WHERE phantoms.id_phantom = " + idPhantom + ";"                   
-            );
+                     "   SELECT  "
+                     + "    V.id_valordescripcion, "
+                     + "    V.descripcion,"
+                     + "    V.valor,"
+                     + "    V.unidad"
+                     + " FROM"
+                     + "    phantoms P"
+                     + " JOIN phantoms_valordescripcion PV"
+                     + "   ON P.id_phantom = "
+                     + "      PV.id_phantom "
+                     + " JOIN valordescripcion V "
+                     + "   ON PV.id_valordescripcion = "
+                     + "      V.id_valordescripcion "
+                     + " WHERE P.id_phantom = " + idPhantom + ";"     );           
+        
             ResultSet resultado = consulta.executeQuery();
             while (resultado.next()) {
                 //Ojeto Aux de tipo ValorDescripcion.
@@ -175,7 +188,7 @@ public class PhantomDAOsql implements IPhantomDAO {
             //Antes de insertar corrobora que no exista el nombre
             if (buscaNombre(nombrePhantom)) {
                 Statement consulta = conexion.getConnection().createStatement();
-                consulta.executeUpdate("INSERT INTO phantoms (nombre_phantom) VALUES ('" + nombrePhantom + "')");
+                consulta.executeUpdate("INSERT INTO phantoms (nombre) VALUES ('" + nombrePhantom + "')");
                 consulta.close();
                 conexion.desconectar();
                 //Mensaje de confirmacion
@@ -212,7 +225,7 @@ public class PhantomDAOsql implements IPhantomDAO {
             //Antes de insertar corrobora que no exista el nombre
             if (buscaNombre(nombrePhantom)) {
                 PreparedStatement consulta = conexion.getConnection().prepareStatement(
-                        "UPDATE phantoms SET nombre_phantom = ?"
+                        "UPDATE phantoms SET nombre = ?"
                         + "WHERE id_phantom=?");
 
                 consulta.setString(1, nombrePhantom);
@@ -288,7 +301,7 @@ public class PhantomDAOsql implements IPhantomDAO {
 
         try {
             PreparedStatement consulta = conexion.getConnection().prepareStatement(
-                    "SELECT nombre_phantom FROM phantoms WHERE nombre_phantom = ?");
+                    "SELECT nombre FROM phantoms WHERE nombre = ?");
             consulta.setString(1, nombrePhantom);
 
             ResultSet resultado = consulta.executeQuery();
@@ -337,7 +350,7 @@ public class PhantomDAOsql implements IPhantomDAO {
 
                 //Completo el aux con la informacion obtenida de la BD
                 organoPhantom.setIdOrgano(Integer.parseInt(resultado.getString("id_organo")));
-                organoPhantom.setNombreOrgano(resultado.getString("nombre_organo"));
+                organoPhantom.setNombreOrgano(resultado.getString("nombre"));
                 organoPhantom.setOrganMass(Double.parseDouble(resultado.getString("masa_organo")));
                 organoPhantom.setTotalMass(Double.parseDouble(resultado.getString("masa_total")));
 
