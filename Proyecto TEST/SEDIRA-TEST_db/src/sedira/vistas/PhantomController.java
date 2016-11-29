@@ -587,7 +587,7 @@ public class PhantomController implements Initializable {
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == ButtonType.OK) {
                 //Llamada a la clase de acceso de datos de Organo. 
-                org.eliminarOrgano(idOrgano);
+                org.eliminarOrgano(idOrgano,selectedPhantom.getIdPhantom() );
                 //Actualizacion de la informacion de organos
                 organosData = ph.obtenerInfoOrgano(selectedPhantom);
                 griOrgano.setItems(organosData);

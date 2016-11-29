@@ -338,11 +338,26 @@ public class PhantomDAOsql implements IPhantomDAO {
         int idPhantom = phantomSeleccionado.getIdPhantom();
         try {
             PreparedStatement consulta = conexion.getConnection().prepareStatement(
-                    "SELECT * FROM phantoms "
-                    + "INNER JOIN organos_phantoms "
-                    + "ON phantoms.id_phantom = organos.id_phantom "
-                    + "WHERE phantoms.id_phantom =" + idPhantom + ";"
-            );
+                          " SELECT "
+                        + " O.id_organo, "
+                        + " O.nombre, "
+                        + " OP.masa_organo, "
+                        + " (SELECT "
+                        + " SUM(organos_phantoms.masa_organo)  "
+                        + " FROM "
+                        + " organos_phantoms "
+                        + " WHERE "
+                        + " id_phantom =" + idPhantom 
+                        + " GROUP BY "
+                        + " id_phantom) AS masa_total   "
+                        + " FROM "
+                        + " phantoms P "
+                        + " JOIN organos_phantoms OP "
+                        + "  ON OP.id_phantom = P.id_phantom "
+                        + " JOIN organos O "
+                        + " ON OP.id_organo = O.id_organo "
+                        + " WHERE P.id_phantom =" + idPhantom + ";" );
+            
             ResultSet resultado = consulta.executeQuery();
             while (resultado.next()) {
                 //Ojeto Aux de tipo ValorDescripcion.

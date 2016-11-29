@@ -18,11 +18,12 @@ public interface IOrganoDAO {
 
     void modificarOrgano(Organo organo, int idPhantom);
 
-    void eliminarOrgano(int id);
-
-    boolean buscaNombre(String nombreOrgano, int idPhantom) throws SQLException;
-    
+    void eliminarOrgano(int idOrgano, int idPhantom);
+     
+    boolean buscaNombre(String nombreOrgano) throws SQLException;
+       
     public ObservableList listadoOrganos();
     
-  
+    boolean buscarReferenciaOrgano(int idOrgano) throws SQLException ;
+     
 }
