@@ -683,8 +683,8 @@ public class PhantomController implements Initializable {
             auxPhantom.setPropiedades(infoPhantom);
             // Llamada a la Clase de Acceso de datos de ValorDescripcion.
             // Parametros. Item auxiliar , identificador del phantom que hace la llamada a la funcion, False para radionuclido, false para Radionuclido
-            vd.agregarItem(itemPhantom, idPhantom, true, false);
-
+            vd.agregarItem(itemPhantom, idPhantom, "phantoms");
+ 
             //actualizacion de la informacion del phantom.
             infoPhantom = ph.obtenerInfoPhantom(auxPhantom);
             //actualizacion de la tabla ValorDescripcionPhantom.
@@ -715,7 +715,7 @@ public class PhantomController implements Initializable {
             if (guardarCambiosClicked) {
                 //True para Phantom,
                 //False para Radionuclido
-                vd.modificarItem(selectedItem, idPhantom, true, false);
+                vd.modificarItem(selectedItem, idPhantom,"phantoms");
                 //Actualizacion de la informacion del radionuclido
                 infoPhantom = ph.obtenerInfoPhantom(phantomActual);
                 griValorDescripcionPhantom.setItems(infoPhantom);

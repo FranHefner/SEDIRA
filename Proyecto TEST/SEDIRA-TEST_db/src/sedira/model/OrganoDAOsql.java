@@ -39,7 +39,7 @@ public class OrganoDAOsql implements IOrganoDAO {
 
         try {
             
-                           
+            conexion.getConnection().setAutoCommit(false);
           
            PreparedStatement sqlOrgano = conexion.getConnection().prepareStatement(
                           "  INSERT INTO organos (  nombre ) "

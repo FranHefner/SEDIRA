@@ -25,9 +25,6 @@ public class ValorDescripcionDAOsql implements IValorDescripcionDAO {
      *
      * @param vd item a agregar
      * @param id Identificador de la entidad que hace la llamada al metodo
-     * @param phantom Si se trata de un phantom que hace la llamada, True
-     * @param radionuclido Si se trata de un radionuclido que hace la llamda,
-     * False
      * @throws SQLException
      */
     @Override
@@ -36,7 +33,8 @@ public class ValorDescripcionDAOsql implements IValorDescripcionDAO {
         ConexionDB conexion = new ConexionDB();
         String unidad = vd.getUnidad();
 
-        /// FALTA PRREGUNTAR EL PROXIMO ID
+        int itemId = getLastId();
+
         try {
             PreparedStatement sqlValorDescripcion = conexion.getConnection().prepareStatement(
                     "  INSERT INTO valordescripcion ( "
@@ -55,63 +53,60 @@ public class ValorDescripcionDAOsql implements IValorDescripcionDAO {
             sqlValorDescripcion.setString(3, vd.getValor());
             sqlValorDescripcion.setString(4, vd.getUnidad());
 
-            PreparedStatement sqlTabla_valordescripcion;
+            PreparedStatement sqlTabla_valordescripcion = conexion.getConnection().prepareStatement("");
 
             if (Tabla.equals("organos")) {
                 sqlTabla_valordescripcion = conexion.getConnection().prepareStatement(
                         "   INSERT INTO organos_valordescripcion ( "
-                        + "     id_organo_valordescripcion "
-                        + "     ,id_organo "
+                        + "     id_organo "
                         + "     ,id_valordescripcion "
                         + "    ) VALUES ( "
-                        + "       0   -- id_organo_valordescripcion "
-                        + "      ,0   -- id_organo "
-                        + "      ,0   -- id_valordescripcion "
+                        + "       ?    "
+                        + "      ,?   "
                         + "     ) ");
 
-                sqlTabla_valordescripcion.setInt(1, itemId);
-                sqlTabla_valordescripcion.setString(2, vd.getDescripcion());
-                sqlTabla_valordescripcion.setString(3, vd.getValor());
-                sqlTabla_valordescripcion.setString(4, vd.getUnidad());
+                sqlTabla_valordescripcion.setInt(1, id);
+                sqlTabla_valordescripcion.setInt(2, itemId);
 
             }
             if (Tabla.equals("phantoms")) {
 
                 sqlTabla_valordescripcion = conexion.getConnection().prepareStatement(
                         "  INSERT INTO phantoms_valordescripcion ( "
-                        + "   id_phantom_valordescripcion "
                         + "    ,id_phantom "
                         + "    ,id_valordescripcion "
                         + "    ) VALUES ( "
-                        + "     0   -- id_phantom_valordescripcion "
-                        + "    ,0   -- id_phantom "
-                        + "     ,0   -- id_valordescripcion "
+                        + "      ?   "
+                        + "     ,?    "
                         + "   ) ");
 
-                sqlTabla_valordescripcion.setInt(1, itemId);
-                sqlTabla_valordescripcion.setString(2, vd.getDescripcion());
-                sqlTabla_valordescripcion.setString(3, vd.getValor());
-                sqlTabla_valordescripcion.setString(4, vd.getUnidad());
+                sqlTabla_valordescripcion.setInt(1, id);
+                sqlTabla_valordescripcion.setInt(2, itemId);
 
             }
             if (Tabla.equals("radionuclidos")) {
                 sqlTabla_valordescripcion = conexion.getConnection().prepareStatement(
                         "   INSERT INTO radionuclidos_valordescripcion ( "
-                        + "    id_radionuclido_valordescripcion "
-                        + "    ,id_radionuclido "
+                        + "     id_radionuclido "
                         + "     ,id_valordescripcion "
                         + "   ) VALUES ( "
-                        + "     0   -- id_radionuclido_valordescripcion "
-                        + "    ,0   -- id_radionuclido "
-                        + "    ,0   -- id_valordescripcion "
+                        + "    ,?    "
+                        + "    ,?   "
                         + "  ) ");
 
-                sqlTabla_valordescripcion.setInt(1, itemId);
-                sqlTabla_valordescripcion.setString(2, vd.getDescripcion());
-                sqlTabla_valordescripcion.setString(3, vd.getValor());
-                sqlTabla_valordescripcion.setString(4, vd.getUnidad());
+                sqlTabla_valordescripcion.setInt(1, id);
+                sqlTabla_valordescripcion.setInt(2, itemId);
 
             }
+
+            sqlValorDescripcion.executeUpdate();
+            sqlTabla_valordescripcion.executeUpdate();
+
+            conexion.getConnection().commit();
+            conexion.getConnection().setAutoCommit(true);
+
+            sqlValorDescripcion.close();
+            sqlTabla_valordescripcion.close();
 
         } catch (SQLException e) {
             CodigosErrorSQL.analizarExepcion(e);
@@ -136,26 +131,25 @@ public class ValorDescripcionDAOsql implements IValorDescripcionDAO {
         //Identificador del item a modificar.
         int itemId = vd.getId();
         try {
-                            //if (buscaNombre(vd.getDescripcion())) {
-         PreparedStatement consulta = conexion.getConnection().prepareStatement(
-                  "  UPDATE valordescripcion SET "
-               + "       id_valordescripcion = 0 "
-               + "        ,descripcion = '' "
-               + "          ,valor = 0 "
-               + "          ,unidad = '' "
-                + "        WHERE id_valordescripcion = 0 ");
-                        
-            consulta.setInt(1, id);
+            //if (buscaNombre(vd.getDescripcion())) {
+            PreparedStatement consulta = conexion.getConnection().prepareStatement(
+                    "  UPDATE valordescripcion SET "                
+                    + "        descripcion = ? "
+                    + "        ,valor = ? "
+                    + "        ,unidad = ? "
+                    + "   WHERE id_valordescripcion = ? ");
+            
+
+            consulta.setString(1, vd.getDescripcion());
+            consulta.setString(2, vd.getValor());
+            consulta.setString(3, vd.getUnidad());
+            consulta.setInt(4, id);
+            
             //System.out.print(id);
             consulta.executeUpdate(); //Ejecucion de la consulta.
             consulta.close();
             conexion.desconectar();
-            
-            
-          
-            conexion.desconectar();
 
-            
         } catch (SQLException e) {
             CodigosErrorSQL.analizarExepcion((SQLException) e);
             //JOptionPane.showMessageDialog(null, "no se pudo consultar el phantom /n" + e);
@@ -290,6 +284,33 @@ public class ValorDescripcionDAOsql implements IValorDescripcionDAO {
 
         }
         return listado;
+    }
+
+    @Override
+    public int getLastId() {
+        // aux 
+        int insertId = -1;
+        //Instancia de conexion
+        ConexionDB conexion = new ConexionDB();
+
+        try {
+
+            PreparedStatement consulta = conexion.getConnection().prepareStatement(
+                    "select Table_name, auto_increment from Information_Schema.TABLES where TABLE_NAME = 'valordescripcion'");
+
+            ResultSet resultado = consulta.executeQuery();
+            if (resultado.next()) {
+                insertId = resultado.getInt("auto_increment");
+                consulta.close();
+
+            }
+        } catch (SQLException e) {
+            CodigosErrorSQL.analizarExepcion(e);
+            //System.out.println(e.getMessage());
+            //JOptionPane.showMessageDialog(null, "Ocurrio un error! " + e);
+
+        }
+        return insertId;
     }
 
 }

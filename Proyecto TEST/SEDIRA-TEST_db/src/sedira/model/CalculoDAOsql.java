@@ -150,10 +150,37 @@ public class CalculoDAOsql implements ICalculoDAO {
         ConexionDB conexion = new ConexionDB();
 
         int Id_calculo = -1;
+        int Id_formula = -1;
+        int Id_propiedad = -1;
 
         try {
 
             conexion.getConnection().setAutoCommit(false);
+
+            PreparedStatement consultaObtenerIDFormula = conexion.getConnection().prepareStatement(
+                    "SELECT IFNULL(MAX(id_formula) + 1,1) AS SIGUIENTE FROM formulas");
+
+            ResultSet rsIdFormula = consultaObtenerIDFormula.executeQuery();
+
+            while (rsIdFormula.next()) {
+                Id_formula = rsIdFormula.getInt("SIGUIENTE");
+
+            }
+
+            PreparedStatement guardarFormula = conexion.getConnection().prepareStatement(
+                    " INSERT INTO formulas ( "
+                    + "     id_formula "
+                    + "    ,formula_mat "
+                    + "    ,formula_tex "
+                    + "   ) VALUES (  "
+                    + "     ?    "
+                    + "    ,?  "
+                    + "    ,?  "
+                    + "   ) ");
+
+            guardarFormula.setInt(1, Id_formula);
+            guardarFormula.setString(2, calculo.getFormula());
+            guardarFormula.setString(3, calculo.getFormulaTex());
 
             PreparedStatement consultaObtenerID = conexion.getConnection().prepareStatement(
                     "SELECT IFNULL(MAX(id_calculo) + 1,1) AS SIGUIENTE FROM calculos");
@@ -167,48 +194,94 @@ public class CalculoDAOsql implements ICalculoDAO {
 
             // Guardado del cálculo
             PreparedStatement consultaCalculo = conexion.getConnection().prepareStatement(
-                    "INSERT INTO calculos (id_calculo, id_paciente, id_radionuclido, id_phantom, fecha_calculo, "
-                    + "resultado_calculo, observaciones, hash_code, formula_mat, formula_tex, id_organo) "
-                    + "VALUES(?,?,?,?,?,?,?,?,?,?,?)");
+                    " INSERT INTO calculos ( "
+                    + "    id_calculo "
+                    + "   ,id_paciente "
+                    + "   ,id_radionuclido "
+                    + "   ,id_phantom "
+                    + "   ,id_organo "
+                    + "   ,fecha_calculo "
+                    + "   ,resultado_calculo "
+                    + "   ,observaciones "
+                    + "   ,hash_code "
+                    + "   ,id_formula "
+                    + " ) VALUES ( "
+                    + "    ?  "
+                    + "   ,? "
+                    + "   ,? "
+                    + "   ,? "
+                    + "   ,? "
+                    + "   ,? "
+                    + "   ,? "
+                    + "   ,? "
+                    + "   ,? "
+                    + "   ,? )");
 
             consultaCalculo.setInt(1, Id_calculo);
             consultaCalculo.setInt(2, calculo.getIdPaciente());
             consultaCalculo.setInt(3, calculo.getIdRadionuclido());
             consultaCalculo.setInt(4, calculo.getIdPhantom());
+            consultaCalculo.setInt(5, calculo.getIdOrgano());
 
-            consultaCalculo.setLong(5, calculo.getFecha());
-            consultaCalculo.setString(6, calculo.getResultado());
-            consultaCalculo.setString(7, calculo.getObservaciones());
-            consultaCalculo.setString(8, calculo.getHashCode());
-            consultaCalculo.setString(9, calculo.getFormula());
-            consultaCalculo.setString(10, calculo.getFormulaTex());
-            consultaCalculo.setInt(11, calculo.getIdOrgano());
+            consultaCalculo.setLong(6, calculo.getFecha());
+            consultaCalculo.setString(7, calculo.getResultado());
+            consultaCalculo.setString(8, calculo.getObservaciones());
+            consultaCalculo.setString(9, calculo.getHashCode());
+            consultaCalculo.setInt(10, Id_formula);
 
-            consultaCalculo.executeUpdate(); //Ejecucion de la consulta
+                     
+            String queryPropiedades = "   INSERT INTO propiedades ("
+                    + "  id_propiedad"
+                    + " ,nombre"
+                    + " ,valor"
+                    + " ,variable"
+                    + " ) VALUES ";
+            
+            String queryCalculoPropiedades =  "   INSERT INTO calculospropiedades ("
+                        + "         id_calculo"
+                        + "        ,id_propiedad"
+                        + "      ) VALUES ";
 
-            //Obtengo el id del calculo
-            String queryVariables = "INSERT INTO historialcalculo (propiedad, valor, variable, id_calculo) VALUES";
+            PreparedStatement consultaObtenerIdPropiedad = conexion.getConnection().prepareStatement(
+                    "SELECT IFNULL(MAX(id_propiedad) + 1,1) AS SIGUIENTE FROM propiedades");
 
-            List<VariableCalculo> variables = calculo.getVariables();
-            for (int i = 0; i < variables.size(); i++) {
+            ResultSet rsIdPropiedad = consultaObtenerIDFormula.executeQuery();
 
-                if (i == 0) {
-                    queryVariables = queryVariables + ("('" + variables.get(i).getDescripcion()
-                            + "','" + variables.get(i).getValor()
-                            + "','" + variables.get(i).getVariable()
-                            + "','" + Id_calculo + "')");
-                } else {
-                    queryVariables = queryVariables + (",('" + variables.get(i).getDescripcion()
-                            + "','" + variables.get(i).getValor()
-                            + "','" + variables.get(i).getVariable()
-                            + "','" + Id_calculo + "')");
-                }
+            while (rsIdPropiedad.next()) {
+                Id_propiedad = rsIdPropiedad.getInt("SIGUIENTE");
 
             }
 
-            PreparedStatement consultaVariables = conexion.getConnection().prepareStatement(queryVariables);
+            List<VariableCalculo> variables = calculo.getVariables();
+            String coma = "";
+            for (int i = 0; i < variables.size(); i++) {
 
-            consultaVariables.executeUpdate();
+                if (i == 0) {
+                    coma = "";
+                } else {
+                    coma = ",";
+                }
+
+                queryPropiedades = queryPropiedades + coma + ("('" + Id_propiedad
+                        + "','" + variables.get(i).getDescripcion()
+                        + "','" + variables.get(i).getValor()
+                        + "','" + variables.get(i).getVariable() + "')");
+
+                queryCalculoPropiedades = queryCalculoPropiedades + coma + ("('" + Id_calculo                   
+                        + "','" +Id_propiedad + "')");
+
+                        
+                Id_propiedad++;
+
+            }
+
+            PreparedStatement consultaPropiedades = conexion.getConnection().prepareStatement(queryPropiedades);
+            PreparedStatement consultaPropiedadesCalculo = conexion.getConnection().prepareStatement(queryCalculoPropiedades);
+
+            guardarFormula.executeUpdate();
+            consultaCalculo.executeUpdate();
+            consultaPropiedades.executeUpdate();
+            consultaPropiedadesCalculo.executeUpdate();
 
             conexion.getConnection().commit();
             conexion.getConnection().setAutoCommit(true);
@@ -223,8 +296,7 @@ public class CalculoDAOsql implements ICalculoDAO {
             alerta.setHeaderText(null);
             alerta.setContentText("El cálculo fué guardado con éxito.");
             alerta.showAndWait();
-            
- 
+
         } catch (SQLException e) {
             CodigosErrorSQL.analizarExepcion(e);
 
@@ -236,9 +308,9 @@ public class CalculoDAOsql implements ICalculoDAO {
 
                 }
             }
-              
-        }      
-          return Id_calculo;
+
+        }
+        return Id_calculo;
     }
 
     /**
@@ -309,7 +381,7 @@ public class CalculoDAOsql implements ICalculoDAO {
                     + "C.hash_code AS Hash, "
                     + "C.formula_mat AS Formula_Mat, "
                     + "C.formula_tex AS Formula_Tex, "
-                    + "P.id_paciente "                            
+                    + "P.id_paciente "
                     + "FROM calculos C "
                     + "JOIN radionuclidos R ON C.id_radionuclido = R.id_radionuclido "
                     + "JOIN phantoms PH ON C.id_phantom = PH.id_phantom "
@@ -329,7 +401,7 @@ public class CalculoDAOsql implements ICalculoDAO {
                 calculoSeleccionado.setRadionuclido(resultado.getString("Radionuclido"));
                 calculoSeleccionado.setOrgano(resultado.getString("Organo"));
                 calculoSeleccionado.setFormula(resultado.getString("Formula_Mat"));
-                calculoSeleccionado.setFormulaTex(resultado.getString("Formula_Tex"));                
+                calculoSeleccionado.setFormulaTex(resultado.getString("Formula_Tex"));
                 calculoSeleccionado.setResultado(resultado.getString("Resultado"));
                 calculoSeleccionado.setHashValidado(resultado.getString("Hash"));
                 calculoSeleccionado.setObservaciones(resultado.getString("Observaciones"));

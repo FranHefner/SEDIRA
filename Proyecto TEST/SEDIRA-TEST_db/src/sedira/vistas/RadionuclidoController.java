@@ -303,7 +303,7 @@ public class RadionuclidoController implements Initializable {
             if (guardarCambiosClicked) {
                 //False para Phantom,
                 //True para Radionuclido
-                vd.modificarItem(selectedItem, idRadionuclido, false, true);
+                vd.modificarItem(selectedItem, idRadionuclido,"radionuclidos");
                 //actualizacion de la informacion del radionuclido.
                 infoRadNuclido = rad.obtenerInfoRadNuclido(radionuclidoActual);
                 //actualizacion de la tabla InfoRadNuclido.
@@ -454,7 +454,7 @@ public class RadionuclidoController implements Initializable {
             // Llamada a la Clase de Acceso de datos de ValorDescripcion.
             // Parametros. Item auxiliar , identificador del radionuclido que hace la llamda a la funcion, False para Phantom, True para Radionuclido
 
-            vd.agregarItem(itemRadionuclido, idRadNuclido, false, true);
+            vd.agregarItem(itemRadionuclido, idRadNuclido, "radionuclidos");
             //actualizacion de la informacion del radionuclido.
             infoRadNuclido = rad.obtenerInfoRadNuclido(radionuclidoActual);
             //actualizacion de la tabla InfoRadNuclido.
