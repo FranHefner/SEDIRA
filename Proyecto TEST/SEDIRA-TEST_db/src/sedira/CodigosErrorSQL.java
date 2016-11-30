@@ -41,11 +41,13 @@ public class CodigosErrorSQL {
                         + "POR FAVOR, REINICIE LA APLICACIÓN ";
                         //muy largo el mensaje. 
                 //+ "Error SQL: \n" + e.getMessage();
-
+                System.out.print(e);
+                
                 break;
             default: 
                 mensajeError = "Ocurrio un error! \n"
                         + "POR FAVOR REINICE LA APLICACIÓN";
+                System.out.print(e);
 
         }
         /*if (errorConocido == false) {

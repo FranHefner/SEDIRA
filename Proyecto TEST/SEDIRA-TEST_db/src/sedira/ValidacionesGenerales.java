@@ -90,6 +90,8 @@ public class ValidacionesGenerales {
      */
     public static boolean ValidarNombre(String Nombre) {
         for (int i = 0; i < Nombre.length(); i++) {
+            //^[\\p{L} .'-]+$
+            
             if (!Nombre.substring(i, i + 1).toLowerCase().matches("[a-z]")) {
                 return false;
             }
@@ -113,5 +115,9 @@ public class ValidacionesGenerales {
     public static boolean ValidarNombreRadNuclido (String Numero){
         return Numero.matches("[a-z,A-Z]*-[0-9]*");
     }
+   
+    // regex para email 
+    // ^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$  
 
+    
 }
