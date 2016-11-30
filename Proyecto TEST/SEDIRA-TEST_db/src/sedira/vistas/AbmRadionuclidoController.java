@@ -150,7 +150,7 @@ public class AbmRadionuclidoController implements Initializable {
         dialogStage.initModality(Modality.APPLICATION_MODAL); //To change body of generated methods, choose Tools | Templates.
         dialogStage.setResizable(false);
 
-        data = vd.listadoPropiedadesRadionuclido();
+        data = vd.listadoPropiedades("radionuclidos");
         listaSugerida.setItems(data);
 
         txtPropiedad.textProperty().addListener(

@@ -153,7 +153,7 @@ public class AbmPhantomController implements Initializable {
         dialogStage.initModality(Modality.APPLICATION_MODAL);
         dialogStage.setResizable(false);
 
-        data = vd.listadoPropiedadesPhantom();
+        data = vd.listadoPropiedades("phantoms");
         listaSugerida.setItems(data);
 
         txtPropiedad.textProperty().addListener(

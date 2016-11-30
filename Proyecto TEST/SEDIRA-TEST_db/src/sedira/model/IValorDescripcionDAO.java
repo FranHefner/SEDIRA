@@ -24,9 +24,7 @@ public interface IValorDescripcionDAO {
 
     public boolean buscaNombre(String propiedad) throws SQLException;
     
-    public ObservableList listadoPropiedadesPhantom();
-    
-    public ObservableList listadoPropiedadesRadionuclido();
+    public ObservableList listadoPropiedades(String Entidad);
     
     public int getLastId();
 

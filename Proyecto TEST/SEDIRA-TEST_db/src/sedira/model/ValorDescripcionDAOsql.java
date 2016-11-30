@@ -231,21 +231,29 @@ public class ValorDescripcionDAOsql implements IValorDescripcionDAO {
     }
 
     @Override
-    public ObservableList listadoPropiedadesPhantom() {
+    public ObservableList listadoPropiedades(String Entidad) {
 
         //Instancia de conexion
         ConexionDB conexion = new ConexionDB();
         ObservableList listado = FXCollections.observableArrayList();
 
         try {
-            PreparedStatement consulta = conexion.getConnection().prepareStatement(
-                    "SELECT * FROM lista_propiedades_phantom");
-
+            PreparedStatement consulta = conexion.getConnection().prepareStatement(               
+                " SELECT "
+                  + "   valordescripcion.descripcion  AS nombre"
+                  + "  FROM "
+                  + "   "+ Entidad+ "_valordescripcion "
+                  + "   JOIN "
+                  + "   valordescripcion "
+                  + "   ON phantoms_valordescripcion.id_valordescripcion = "
+                  + "       valordescripcion.id_valordescripcion "
+                  + "  GROUP BY descripcion  ");            
+            
             //Ejecucion de la consulta. 
             ResultSet resultado = consulta.executeQuery();
             //obtencion de los datos desde la bd.
             while (resultado.next()) {
-                listado.add(resultado.getString("nombre_propiedad"));
+                listado.add(resultado.getString("nombre"));
 
             }
 
@@ -258,33 +266,7 @@ public class ValorDescripcionDAOsql implements IValorDescripcionDAO {
         return listado;
     }
 
-    @Override
-    public ObservableList listadoPropiedadesRadionuclido() {
-
-        //Instancia de conexion
-        ConexionDB conexion = new ConexionDB();
-        ObservableList listado = FXCollections.observableArrayList();
-
-        try {
-            PreparedStatement consulta = conexion.getConnection().prepareStatement(
-                    "SELECT * FROM lista_propiedades_radionuclido");
-
-            //Ejecucion de la consulta. 
-            ResultSet resultado = consulta.executeQuery();
-            //obtencion de los datos desde la bd.
-            while (resultado.next()) {
-                listado.add(resultado.getString("nombre_propiedad"));
-
-            }
-
-        } catch (SQLException e) {
-            CodigosErrorSQL.analizarExepcion(e);
-            //System.out.println(e.getMessage());
-            //JOptionPane.showMessageDialog(null, "Ocurrio un error! " + e);
-
-        }
-        return listado;
-    }
+  
 
     @Override
     public int getLastId() {
