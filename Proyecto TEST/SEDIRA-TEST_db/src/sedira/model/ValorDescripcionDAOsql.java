@@ -21,7 +21,7 @@ public class ValorDescripcionDAOsql implements IValorDescripcionDAO {
 
     /**
      * Método que modifica un ítem para las tablas de Valor Descripcion.
-     * Funciona tanto para radionúclidos como para Phantoms
+     * Funciona tanto para radionúclidos, phantoms, organos.  
      *
      * @param vd item a agregar
      * @param id Identificador de la entidad que hace la llamada al metodo

@@ -231,7 +231,6 @@ public class OrganoDAOsql implements IOrganoDAO {
      * Método para buscar en la base de datos el nombre de un órgano
      *
      * @param nombreOrgano
-     * @param idPhantom
      * @return True si el nombre no existe. False si el nombre existe
      * @throws SQLException
      */
@@ -315,14 +314,18 @@ public class OrganoDAOsql implements IOrganoDAO {
                 listado.add(resultado.getString("nombre"));
 
             }
-
+            resultado.close();
+            consulta.close();
+            conexion.desconectar();
         } catch (SQLException e) {
             CodigosErrorSQL.analizarExepcion(e);
             //System.out.println(e.getMessage());
             //JOptionPane.showMessageDialog(null, "Ocurrio un error! " + e);
 
         }
+        
         return listado;
+         
     }
     
     @Override
@@ -375,6 +378,42 @@ public class OrganoDAOsql implements IOrganoDAO {
         }
 
         return infoOrganoData;
+    }
+    /**
+     * Método que obtiene el id de un organo en la relacion organos_phantoms.
+     * @param idOrgano
+     * @return 
+     */
+    @Override
+    public int obtenerIdOrganoPhantom(int idOrgano) {
+        //Creo una lista auxiliar
+        ObservableList<ValorDescripcion> infoOrganoData = FXCollections.observableArrayList();
+        //Instancia de conexion
+        ConexionDB conexion = new ConexionDB();
+        int id = -1;
+        try {
+            PreparedStatement consulta = conexion.getConnection().prepareStatement(
+                     "SELECT id_organo_phantom FROM organos_phantoms "
+                             + "WHERE organos_phantoms.id_organo = ?");           
+            consulta.setInt(1, idOrgano);
+            
+            ResultSet resultado = consulta.executeQuery();
+            while (resultado.next()) {
+                id = resultado.getInt("id_organo_phantom");
+                
+                
+            }
+            resultado.close();
+            consulta.close();
+            conexion.desconectar();
+
+        } catch (Exception e) {
+            CodigosErrorSQL.analizarExepcion((SQLException) e);
+            //JOptionPane.showMessageDialog(null, "no se pudo consultar el phantom /n" + e);
+            //System.out.print(e);
+        }
+
+        return id;
     }
 
 }

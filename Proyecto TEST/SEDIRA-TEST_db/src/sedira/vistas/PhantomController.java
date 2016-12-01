@@ -789,6 +789,7 @@ public class PhantomController implements Initializable {
     public void getSelectedItemFromTablaOrgano() {
         
         griValorDescripcionPhantom.getSelectionModel().clearSelection();
+        FuncionesGenerales.setOrganoActual(griOrgano.getSelectionModel().getSelectedItem());
         btnEliminarItem.setDisable(true);
         btnModificarItem.setDisable(true);
 
@@ -797,7 +798,7 @@ public class PhantomController implements Initializable {
             btnModificarOrgano.setDisable(true);
         } else {
             //Organo a modificar 
-            FuncionesGenerales.setOrganoActual(griOrgano.getSelectionModel().getSelectedItem());
+            
             btnEliminarOrgano.setDisable(false);
             btnModificarOrgano.setDisable(false);
             btnAdministrar.setDisable(false);   

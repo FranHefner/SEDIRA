@@ -27,5 +27,7 @@ public interface IOrganoDAO {
     boolean buscarReferenciaOrgano(int idOrgano) throws SQLException ;
     
     public ObservableList<ValorDescripcion> obtenerInfoOrgano(Organo organoSeleccionado);
+   
+    public int obtenerIdOrganoPhantom(int idOrgano);
      
 }

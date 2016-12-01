@@ -15,8 +15,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -35,7 +33,7 @@ import sedira.model.ValorDescripcionDAOsql;
 
 /**
  * FXML Controller class
- *
+ * Clase controladora de interfaz gráfica CaracteristicasOrgano.fxml
  * @author Quelin Pablo, Hefner Francisco.
  * 
  */
@@ -85,7 +83,7 @@ public class CaracteristicasOrganoController implements Initializable {
         txtPhantom.setFocusTraversable(false);
         //Consulta a la base de datos
         infoOrgano=org.obtenerInfoOrgano(organoActual);
-        
+        System.out.print(organoActual.getIdOrgano());
         iniciarDatosBasicos();
         //llenarTablaOrgano();
         
@@ -110,25 +108,28 @@ public class CaracteristicasOrganoController implements Initializable {
     
    
     /**
-     * Método que controla el comportamiento del boton modificar item.
+     * Método que controla el comportamiento del boton Agregar item.
      * @throws java.sql.SQLException
      */
     @FXML
     public void btnAgregarItem() throws SQLException {
         //objeto auxiliar de tipo organo. Organo actual seleccionado en el GriOrgano
         Organo auxOrgano    = FuncionesGenerales.getOrganoActual();
+        //obtengo el id del organo seleccionado. 
+        int idOrgano = auxOrgano.getIdOrgano();
+       
         //Creacion de objeto auxiliar de tipo ValorDescripcion.
         ValorDescripcion itemOrgano = new ValorDescripcion(-1, "", "0.0","");
         //Llamada al formulario
         boolean guardarCambiosClicked = mostrarItemOrganoEditDialog(itemOrgano);
-        // identificador del phantom al cual se agregara el item. 
-        int idOrgano = auxOrgano.getIdOrgano();
+        // Obtengo el id de la relacion phantomOrgano.. 
+        int idOrganoPhantom = org.obtenerIdOrganoPhantom(idOrgano);
         if (guardarCambiosClicked) {
             infoOrgano.add(itemOrgano);
             auxOrgano.setPropiedades(infoOrgano);
             // Llamada a la Clase de Acceso de datos de ValorDescripcion.
-            // Parametros. Item auxiliar , identificador del phantom que hace la llamada a la funcion, False para radionuclido, false para Radionuclido
-            vd.agregarItem(itemOrgano, idOrgano, "organos");
+            // Parametros. Item auxiliar , id del organo dentro del Phantom. 
+            vd.agregarItem(itemOrgano, idOrganoPhantom, "organos");
 
             //actualizacion de la informacion del organo.
             infoOrgano=org.obtenerInfoOrgano(organoActual);
