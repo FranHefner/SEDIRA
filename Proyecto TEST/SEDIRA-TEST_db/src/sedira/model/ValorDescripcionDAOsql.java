@@ -107,7 +107,7 @@ public class ValorDescripcionDAOsql implements IValorDescripcionDAO {
         //Instancia de conexion
         ConexionDB conexion = new ConexionDB();
         //Identificador del item a modificar.
-        int itemId = vd.getId();
+     
         try {
             //if (buscaNombre(vd.getDescripcion())) {
             PreparedStatement consulta = conexion.getConnection().prepareStatement(
@@ -120,7 +120,7 @@ public class ValorDescripcionDAOsql implements IValorDescripcionDAO {
             consulta.setString(1, vd.getDescripcion());
             consulta.setString(2, vd.getValor());
             consulta.setString(3, vd.getUnidad());
-            consulta.setInt(4, itemId);
+            consulta.setInt(4, id);
             
             //System.out.print(id);
             consulta.executeUpdate(); //Ejecucion de la consulta.
