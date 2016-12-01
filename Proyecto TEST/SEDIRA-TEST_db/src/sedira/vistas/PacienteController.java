@@ -630,7 +630,7 @@ public class PacienteController implements Initializable {
     @FXML
     private void txtNombre_KeyPress() throws IOException {
         if (txtNombre.isEditable()) {
-            if (!ValidacionesGenerales.ValidarNombre(txtNombre.getText())) {
+            if (!ValidacionesGenerales.ValidarNombreConEspacios(txtNombre.getText())) {
 
                 //  txtNombre.setText(txtNombre.getText().substring(0, txtNombre.getText().length() - 1));
                 txtNombre.setText(ValidacionesGenerales.DejarSoloLetras(txtNombre.getText()));
@@ -647,7 +647,7 @@ public class PacienteController implements Initializable {
     @FXML
     private void txtApellido_KeyPress() throws IOException {
         if (txtApellido.isEditable()) {
-            if (!ValidacionesGenerales.ValidarNombre(txtApellido.getText())) {
+            if (!ValidacionesGenerales.ValidarNombreConEspacios(txtApellido.getText())) {
 
                 // txtApellido.setText(txtApellido.getText().substring(0, txtApellido.getText().length() - 1));
                 txtApellido.setText(ValidacionesGenerales.DejarSoloLetras(txtApellido.getText()));

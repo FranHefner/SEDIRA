@@ -163,7 +163,7 @@ public class AbmRadionuclidoController implements Initializable {
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 bandera = true;
                 if (listaSugerida.getSelectionModel().getSelectedIndex() == -1) {
-
+                
                 } else {
                     seleccionarItem(newValue);
                 }
@@ -185,10 +185,11 @@ public class AbmRadionuclidoController implements Initializable {
      */
     private void actualizarListaSugerida(String filtro) {
         listaSugerida.getSelectionModel().clearSelection();
+        
         //Comportamiento de la lista sugerida. 
         if (listaSugerida.getSelectionModel().isEmpty()) {
             listaSugerida.setFocusTraversable(false);
-
+            
         } else {
             listaSugerida.setFocusTraversable(true);
 

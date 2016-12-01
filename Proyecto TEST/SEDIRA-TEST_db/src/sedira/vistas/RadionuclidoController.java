@@ -26,9 +26,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import sedira.FuncionesGenerales;
@@ -301,8 +298,6 @@ public class RadionuclidoController implements Initializable {
             boolean guardarCambiosClicked = mostrarItemRadionuclidoEditDialog(selectedItem);
 
             if (guardarCambiosClicked) {
-                //False para Phantom,
-                //True para Radionuclido
                 vd.modificarItem(selectedItem, idRadionuclido,"radionuclidos");
                 //actualizacion de la informacion del radionuclido.
                 infoRadNuclido = rad.obtenerInfoRadNuclido(radionuclidoActual);
@@ -476,10 +471,9 @@ public class RadionuclidoController implements Initializable {
     @FXML
     public void btnAgregarRadionuclido() throws SQLException {
         /**
-         * Este metodo crea una objeto de tipo Phantom Vacio. Luego le asigna
-         * las propiedades y los organos que en la primer instancia tambien
-         * estan vacios. Las propiedades y los organos se agregan posteriormente
-         * con la utilizacion de los botones. Agregar item y Agregar organo.
+         * Este metodo crea una objeto de tipo Radionuclido Vacio. 
+         * Luego le asigna las propiedades con la utilizacion de los botones. 
+         * Agregar item y Agregar organo.
          *
          */
 

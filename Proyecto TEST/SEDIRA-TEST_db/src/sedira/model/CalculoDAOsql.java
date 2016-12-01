@@ -39,9 +39,9 @@ public class CalculoDAOsql implements ICalculoDAO {
             PreparedStatement consulta = conexion.getConnection().prepareStatement(
                     "SELECT  CONCAT(P.apellido,\", \", P.nombre) AS Paciente, "
                     + "R.nombre_radionuclido AS Radionuclido, "
-                    + "PH.nombre_phantom AS Phantom, "
+                    + "PH.nombre AS Phantom, "
                     + "C.fecha_calculo AS Fecha, "
-                    + "O.nombre_organo AS Organo, "
+                    + "O.nombre AS Organo, "
                     + "C.id_calculo, "
                     + "C.resultado_calculo AS Resultado, "
                     + "C.observaciones AS Observaciones, "

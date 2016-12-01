@@ -217,23 +217,34 @@ public class RadionuclidoDAOsql implements IRadionuclidoDAO {
     public void eliminarRadionuclido (int idRadionuclido){
         //Instancia de conexion
         ConexionDB conexion = new ConexionDB();
-
+        
         try {
-            PreparedStatement consulta = conexion.getConnection().prepareStatement(
+            conexion.getConnection().setAutoCommit(false);
+            PreparedStatement consultaQueryValorDescripcion = conexion.getConnection().prepareStatement(
+                      "DELETE FROM valordescripcion "
+                    + "WHERE id_valordescripcion "
+                    + "IN (SELECT radionuclidos_valordescripcion.id_valordescripcion " 
+                    + "FROM radionuclidos_valordescripcion " 
+                    + "WHERE radionuclidos_valordescripcion.id_radionuclido = ?)");
+            
+            consultaQueryValorDescripcion.setInt(1, idRadionuclido);
+          
+            
+            PreparedStatement consultaQueryRadNuclido = conexion.getConnection().prepareStatement(
                     "DELETE FROM radionuclidos WHERE id_radionuclido = ?");
-            consulta.setInt(1, idRadionuclido);
+            consultaQueryRadNuclido.setInt(1, idRadionuclido);
             //System.out.print(id);
-            consulta.executeUpdate(); //Ejecucion de la consulta.
-            consulta.close();
+            
+            consultaQueryValorDescripcion.executeUpdate(); //Ejecucion de la consulta.
+            consultaQueryRadNuclido.executeUpdate(); //Ejecucion de la consulta.
+            
+                      
+            conexion.getConnection().commit();
+            conexion.getConnection().setAutoCommit(true);
+            
+            consultaQueryRadNuclido.close();
+            consultaQueryValorDescripcion.close();
             conexion.desconectar();
-            
-            
-            // Mensaje de confirmacion
-            /*Alert alerta = new Alert(Alert.AlertType.INFORMATION);
-            alerta.setTitle("Confirmación");
-            alerta.setHeaderText(null);
-            alerta.setContentText("El radionúclido fué eliminado. ");
-            alerta.showAndWait();*/
 
         } catch (SQLException e) {
             CodigosErrorSQL.analizarExepcion(e);
