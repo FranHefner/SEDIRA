@@ -135,7 +135,7 @@ public class PhantomController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
+        btnAdministrar.setDisable(true);
         //Traigo los datos de los phantoms existentes. 
         phantomData = ph.obtenerListaPhantom();
 
@@ -445,7 +445,7 @@ public class PhantomController implements Initializable {
         //objeto auxiliar de tipo Phantom. Phantom actual seleccionado en el GriPhamtom
         Phantom selectedPhantom = FuncionesGenerales.getPhantomActual();
         //Objeto nuevo de tipo Organo 
-        Organo organo = new Organo(-1, "", 0.0, 0.0);
+        Organo organo = new Organo(-1, "", 0.0, 0.0,null);
         // identificador del phantom al cual se agregara el item. 
         int idPhantom = selectedPhantom.getIdPhantom();
 
@@ -741,8 +741,6 @@ public class PhantomController implements Initializable {
     public void btnAdministrar() throws IOException {
         //Phantom auxiliar. 
         Phantom auxPhantom = FuncionesGenerales.getPhantomActual();
-        
-
         Stage stage = new Stage();
         Parent root = FXMLLoader.load(getClass().getResource("CaracteristicasOrgano.fxml"));
         Scene scene = new Scene(root);
@@ -802,6 +800,7 @@ public class PhantomController implements Initializable {
             FuncionesGenerales.setOrganoActual(griOrgano.getSelectionModel().getSelectedItem());
             btnEliminarOrgano.setDisable(false);
             btnModificarOrgano.setDisable(false);
+            btnAdministrar.setDisable(false);   
         }
     }
 

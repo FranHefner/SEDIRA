@@ -11,6 +11,7 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.collections.ObservableList;
 
 /**
  * Clase que describe a un órgano. Un phantom esta constituido por una lista de órganos. 
@@ -23,6 +24,7 @@ public class Organo {
     private StringProperty nombreOrgano; 
     private DoubleProperty organMass; // masa de un organo en particular. 
     private DoubleProperty totalMass; // masa total del cuerpo. Sumatoria de todos los organos y tejidos 
+    private ObservableList<ValorDescripcion> propiedades;
 
     /**
      * @param idOrgano Identificador unico de la clase Organo. 
@@ -30,11 +32,12 @@ public class Organo {
      * @param organMass masa/peso en gramos del organos. 
      * @param totalMass sumatoria de las masas. Determina el peso total del Humano (Phantom)
      */
-    public Organo(int idOrgano, String nombreOrgano, double organMass, double totalMass) {
+    public Organo(int idOrgano, String nombreOrgano, double organMass, double totalMass, ObservableList<ValorDescripcion> propiedades) {
         this.idOrgano = new SimpleIntegerProperty (idOrgano);
         this.nombreOrgano = new SimpleStringProperty(nombreOrgano);
         this.organMass = new SimpleDoubleProperty (organMass);
         this.totalMass = new SimpleDoubleProperty (totalMass);
+        this.propiedades = propiedades;
     }
     
     //**********************************idOrgano GETters and SETters 
@@ -80,6 +83,15 @@ public class Organo {
     }
    public DoubleProperty getTotalMassProperty(){
         return totalMass;
+    }
+   
+    //******************************propiedades GETters and SETters
+    public ObservableList<ValorDescripcion> getPropiedades() {
+        return propiedades;
+    }
+
+    public void setPropiedades(ObservableList<ValorDescripcion> propiedades) {
+        this.propiedades = propiedades;
     }
 
    

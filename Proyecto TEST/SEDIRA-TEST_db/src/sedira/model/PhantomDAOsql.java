@@ -360,8 +360,8 @@ public class PhantomDAOsql implements IPhantomDAO {
             
             ResultSet resultado = consulta.executeQuery();
             while (resultado.next()) {
-                //Ojeto Aux de tipo ValorDescripcion.
-                Organo organoPhantom = new Organo(-1, "", 0.0, 0.0);
+                //Ojeto Aux de tipo Organo.
+                Organo organoPhantom = new Organo(-1, "", 0.0, 0.0,null);
 
                 //Completo el aux con la informacion obtenida de la BD
                 organoPhantom.setIdOrgano(Integer.parseInt(resultado.getString("id_organo")));

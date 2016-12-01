@@ -324,4 +324,59 @@ public class OrganoDAOsql implements IOrganoDAO {
         }
         return listado;
     }
+    
+    @Override
+    public ObservableList<ValorDescripcion> obtenerInfoOrgano(Organo organoSeleccionado) {
+        //Creo una lista auxiliar
+        ObservableList<ValorDescripcion> infoOrganoData = FXCollections.observableArrayList();
+        //Instancia de conexion
+        ConexionDB conexion = new ConexionDB();
+        //objeto auxiliar
+        int idOrgano = organoSeleccionado.getIdOrgano();
+        try {
+            PreparedStatement consulta = conexion.getConnection().prepareStatement(
+                     "   SELECT  "
+                     + "    VD.id_valordescripcion, "
+                     + "    VD.descripcion,"
+                     + "    VD.valor,"
+                     + "    VD.unidad"
+                     + " FROM "
+                     + "    organos_phantoms OP"
+                     + " JOIN organos_valordescripcion OVD"
+                     + "   ON OP.id_organo_phantom = OVD.id_organo_phantom "
+                     + " JOIN valordescripcion VD "
+                     + "   ON VD.id_valordescripcion = OVD.id_valordescripcion "
+                     + " WHERE OP.id_organo = " + idOrgano + ";"     );           
+        
+            ResultSet resultado = consulta.executeQuery();
+            while (resultado.next()) {
+                //Ojeto Aux de tipo ValorDescripcion.
+                ValorDescripcion infoOrgano = new ValorDescripcion(-1, "", "", "");
+
+                //Completo el aux con la informacion obtenida de la BD
+                infoOrgano.setId(Integer.parseInt(resultado.getString("id_valordescripcion")));
+                infoOrgano.setDescripcion(resultado.getString("descripcion"));
+                infoOrgano.setValor(resultado.getString("valor"));
+                infoOrgano.setUnidad(resultado.getString("unidad"));
+
+                //agregro al arreglo de propiedades la nueva propiedad parseada
+                infoOrganoData.add(infoOrgano);
+                //agrego al phantom seleccionado la lista de propiedades
+                organoSeleccionado.setPropiedades(infoOrganoData);
+            }
+            resultado.close();
+            consulta.close();
+            conexion.desconectar();
+
+        } catch (Exception e) {
+            CodigosErrorSQL.analizarExepcion((SQLException) e);
+            //JOptionPane.showMessageDialog(null, "no se pudo consultar el phantom /n" + e);
+            //System.out.print(e);
+        }
+
+        return infoOrganoData;
+    }
+
 }
+        
+

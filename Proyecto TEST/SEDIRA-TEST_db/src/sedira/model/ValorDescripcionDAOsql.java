@@ -51,7 +51,7 @@ public class ValorDescripcionDAOsql implements IValorDescripcionDAO {
 
             if (Tabla.equals("organos")) {
                 sqlTabla_valordescripcion = conexion.getConnection().prepareStatement(
-                        "   INSERT INTO organos_valordescripcion (id_organo,id_valordescripcion) "
+                        "   INSERT INTO organos_valordescripcion (id_organo_phantom,id_valordescripcion) "
                                 + "VALUES (?,?)");
 
                 sqlTabla_valordescripcion.setInt(1, id);

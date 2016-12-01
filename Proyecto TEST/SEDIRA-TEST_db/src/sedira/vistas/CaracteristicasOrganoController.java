@@ -5,19 +5,33 @@
  */
 package sedira.vistas;
 
+import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import sedira.FuncionesGenerales;
+import sedira.model.IOrganoDAO;
+import sedira.model.IValorDescripcionDAO;
+import sedira.model.Organo;
+import sedira.model.OrganoDAOsql;
+import sedira.model.Phantom;
 import sedira.model.ValorDescripcion;
+import sedira.model.ValorDescripcionDAOsql;
 
 /**
  * FXML Controller class
@@ -50,16 +64,31 @@ public class CaracteristicasOrganoController implements Initializable {
     @FXML
     private Button btnCerrar;
     
+    Phantom phantomActual = FuncionesGenerales.getPhantomActual();
+    Organo organoActual = FuncionesGenerales.getOrganoActual();
+    private Stage primaryStage;
     
     //Lista Observable para el manejo de la informacion de los phantoms
     private ObservableList<ValorDescripcion> infoOrgano = FXCollections.observableArrayList();
+    //Instancia de objeto IOrganoDAO. Inicializado como OrganoDAOsql. Para implementacion en MySql.  
+    private IOrganoDAO org = new OrganoDAOsql();
+    //Instancia de objeto tipo IValorDescripcionDAO. Se inicializa como ValorDescripcionDAOsql.  
+    private IValorDescripcionDAO vd = new ValorDescripcionDAOsql();
+    
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        btnAgregarItem.setDisable(false);
         txtOrgano.setFocusTraversable(false);
         txtPhantom.setFocusTraversable(false);
+        //Consulta a la base de datos
+        infoOrgano=org.obtenerInfoOrgano(organoActual);
+        
+        iniciarDatosBasicos();
+        //llenarTablaOrgano();
+        
         
         clVdValor.setCellValueFactory(
                 cellData -> cellData.getValue().valorProperty());
@@ -67,17 +96,49 @@ public class CaracteristicasOrganoController implements Initializable {
                 cellData -> cellData.getValue().descripcionProperty());
         clVdUnidad.setCellValueFactory(
                 cellData -> cellData.getValue().unidadProperty());
-        
+        // Limpieza de los detalles de Phantoms. 
+        FuncionesGenerales.mostrarDetalleTablaValorDescripcion(null, griValorDescripcion);
+        griValorDescripcion.setItems(infoOrgano);
         
         
     }
+    public void iniciarDatosBasicos(){
+        txtPhantom.setText(phantomActual.getPhantomNombre());
+        txtOrgano.setText(organoActual.getNombreOrgano());
+        
+    }
     
+   
     /**
      * Método que controla el comportamiento del boton modificar item.
+     * @throws java.sql.SQLException
      */
     @FXML
-    public void btnAgregarItem() {
-        
+    public void btnAgregarItem() throws SQLException {
+        //objeto auxiliar de tipo organo. Organo actual seleccionado en el GriOrgano
+        Organo auxOrgano    = FuncionesGenerales.getOrganoActual();
+        //Creacion de objeto auxiliar de tipo ValorDescripcion.
+        ValorDescripcion itemOrgano = new ValorDescripcion(-1, "", "0.0","");
+        //Llamada al formulario
+        boolean guardarCambiosClicked = mostrarItemOrganoEditDialog(itemOrgano);
+        // identificador del phantom al cual se agregara el item. 
+        int idOrgano = auxOrgano.getIdOrgano();
+        if (guardarCambiosClicked) {
+            infoOrgano.add(itemOrgano);
+            auxOrgano.setPropiedades(infoOrgano);
+            // Llamada a la Clase de Acceso de datos de ValorDescripcion.
+            // Parametros. Item auxiliar , identificador del phantom que hace la llamada a la funcion, False para radionuclido, false para Radionuclido
+            vd.agregarItem(itemOrgano, idOrgano, "organos");
+
+            //actualizacion de la informacion del organo.
+            infoOrgano=org.obtenerInfoOrgano(organoActual);
+            //actualizacion de la tabla ValorDescripcionPhantom.
+            griValorDescripcion.setItems(infoOrgano);
+            griValorDescripcion.getSelectionModel().clearSelection();
+            btnEliminarItem.setDisable(true);
+            btnModificarItem.setDisable(true);
+
+        }
     }
     
     /**
@@ -98,13 +159,65 @@ public class CaracteristicasOrganoController implements Initializable {
     }
     
     /**
-     * Método que controla el comportamiento del boton Quitar Item.
+     * Método para el control de los botones.
+     */
+    @FXML
+    public void getSelectedItemFromTabla() {
+        
+        ValorDescripcion selectedItem = griValorDescripcion.getSelectionModel().getSelectedItem();
+
+        if (griValorDescripcion.getSelectionModel().isEmpty()) {
+            btnEliminarItem.setDisable(true);
+            btnModificarItem.setDisable(true);
+        } else {
+            btnEliminarItem.setDisable(false);
+            btnModificarItem.setDisable(false);
+        }
+    }
+    
+    
+    public boolean mostrarItemOrganoEditDialog(ValorDescripcion itemOrgano) {
+
+        // cargo el nuevo FXML para crear un ventana tipo PopUp
+        try {
+
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(PhantomController.class.getResource("AbmItemOrgano.fxml"));
+            AnchorPane page = (AnchorPane) loader.load();
+
+            // Creo el Stage para el Dialogo Editar. 
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Modificar Items");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(primaryStage);
+            Scene scene = new Scene(page);
+            dialogStage.setScene(scene);
+
+            
+            AbmItemOrganoController controladorAbmItemOrgano = loader.getController();
+            controladorAbmItemOrgano.setDialogStage(dialogStage);
+            controladorAbmItemOrgano.setItemOrgano(itemOrgano);
+
+            // Muestra el formulario y espera hasta que el usuario lo cierre. 
+            dialogStage.showAndWait();
+
+            //Return
+            return controladorAbmItemOrgano.isGuardarDatosClicked();
+        } catch (IOException e) {
+            return false;
+        }
+
+    }
+    /**
+     * Método para el control de botón cerrar.
      */
     @FXML
     public void btnCerrar() {
-        
+        Stage stage = (Stage) btnCerrar.getScene().getWindow();
+
+        stage.close();
     }
-    
+
     
     
     
