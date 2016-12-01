@@ -19,6 +19,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -98,6 +99,8 @@ public class PhantomController implements Initializable {
     private Button btnModificarOrgano;
     @FXML
     private Button btnCerrar;
+    @FXML
+    private Button btnAdministrar;
 
     //Lista Observable para el manejo de phantoms
     private ObservableList<Phantom> phantomData = FXCollections.observableArrayList();
@@ -312,52 +315,6 @@ public class PhantomController implements Initializable {
     }
 
     /**
-     * Muestra el formulario para la edicion de un organo ya creado.
-     *
-     * @param selectedOrgano
-     * @return
-     */
-    public boolean mostrarItemOrganoEditDialog(Organo selectedOrgano) {
-
-        // cargo el nuevo FXML para crear un ventana tipo PopUp
-        try {
-
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(PhantomController.class.getResource("AbmOrgano.fxml"));
-            AnchorPane page = (AnchorPane) loader.load();
-
-            // Creo el Stage para el Dialogo Editar. 
-            Stage dialogStage = new Stage();
-            dialogStage.setTitle("Editar Organo");
-            dialogStage.initModality(Modality.WINDOW_MODAL);
-            dialogStage.initOwner(primaryStage);
-            Scene scene = new Scene(page);
-            try {
-                scene.getStylesheets().add((new File("tools/autoCompletado.css")).toURI().toURL().toExternalForm());
-            } catch (MalformedURLException ex) {
-
-            }
-            dialogStage.setScene(scene);
-
-            // Pone el organo en el controlador AbmOrganoController. 
-            AbmOrganoController controladorAbmOrgano = loader.getController();
-            controladorAbmOrgano.setDialogStage(dialogStage);
-            // El paramaetro para el controlador de organos sera un Organo. 
-            controladorAbmOrgano.setOrgano(selectedOrgano);
-
-            // Muestra el formulario y espera hasta que el usuario lo cierre. 
-            dialogStage.showAndWait();
-
-            //Return
-            return controladorAbmOrgano.isGuardarDatosClicked();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        }
-
-    }
-
-    /**
      * Al buscar el phantom , los muestra en la lista para su seleccion.
      */
     @FXML
@@ -466,12 +423,12 @@ public class PhantomController implements Initializable {
         boolean guardarCambiosClicked = mostrarPhantomEditDialog(tempPhantom);
         String nombrePhantom = tempPhantom.getPhantomNombre();
         if (guardarCambiosClicked) {
-            
+
             tempPhantom.setPropiedades(propiedadesPhantom);
             tempPhantom.setOrgano(organosPhantom);
-            
+
             ph.agregarPhantom(tempPhantom);
-            
+
             //Actualizo el GridView de Phantoms.
             phantomData = ph.obtenerListaPhantom();
             griPhantom.setItems(phantomData);
@@ -587,7 +544,7 @@ public class PhantomController implements Initializable {
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == ButtonType.OK) {
                 //Llamada a la clase de acceso de datos de Organo. 
-                org.eliminarOrgano(idOrgano,selectedPhantom.getIdPhantom() );
+                org.eliminarOrgano(idOrgano, selectedPhantom.getIdPhantom());
                 //Actualizacion de la informacion de organos
                 organosData = ph.obtenerInfoOrgano(selectedPhantom);
                 griOrgano.setItems(organosData);
@@ -621,7 +578,7 @@ public class PhantomController implements Initializable {
         if (selectedItem != null) {
             //Identificador del item a eliminar. 
             int idItem = selectedItem.getId();
-            
+
             String mensaje = griValorDescripcionPhantom.getSelectionModel().getSelectedItem().getDescripcion() + "  "
                     + griValorDescripcionPhantom.getSelectionModel().getSelectedItem().getValor() + "  "
                     + griValorDescripcionPhantom.getSelectionModel().getSelectedItem().getUnidad();
@@ -684,7 +641,7 @@ public class PhantomController implements Initializable {
             // Llamada a la Clase de Acceso de datos de ValorDescripcion.
             // Parametros. Item auxiliar , identificador del phantom que hace la llamada a la funcion, False para radionuclido, false para Radionuclido
             vd.agregarItem(itemPhantom, idPhantom, "phantoms");
- 
+
             //actualizacion de la informacion del phantom.
             infoPhantom = ph.obtenerInfoPhantom(auxPhantom);
             //actualizacion de la tabla ValorDescripcionPhantom.
@@ -715,7 +672,7 @@ public class PhantomController implements Initializable {
             if (guardarCambiosClicked) {
                 //True para Phantom,
                 //False para Radionuclido
-                vd.modificarItem(selectedItem, idPhantom,"phantoms");
+                vd.modificarItem(selectedItem, idPhantom, "phantoms");
                 //Actualizacion de la informacion del radionuclido
                 infoPhantom = ph.obtenerInfoPhantom(phantomActual);
                 griValorDescripcionPhantom.setItems(infoPhantom);
@@ -750,7 +707,7 @@ public class PhantomController implements Initializable {
         int idPhantom = auxPhantom.getIdPhantom();
 
         if (selectedOrgano != null) {
-            boolean guardarCambiosClicked = mostrarItemOrganoEditDialog(selectedOrgano);
+            boolean guardarCambiosClicked = mostrarOrganoEditDialog(selectedOrgano,auxPhantom);
             if (guardarCambiosClicked) {
                 //Bd Modificar Phantom
                 //ConsultasDB.modificarPhantom(auxPhantom,griPhantom.getSelectionModel().getSelectedIndex() );
@@ -777,6 +734,25 @@ public class PhantomController implements Initializable {
         }
     }
 
+    @FXML
+    /**
+     * Método que contiene el comportamiento del boton Administrar Organo.
+     */
+    public void btnAdministrar() throws IOException {
+        //Phantom auxiliar. 
+        Phantom auxPhantom = FuncionesGenerales.getPhantomActual();
+        
+
+        Stage stage = new Stage();
+        Parent root = FXMLLoader.load(getClass().getResource("CaracteristicasOrgano.fxml"));
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.setTitle("Administrar caracteristicas del órgano");
+        stage.setResizable(false);
+        stage.show();
+
+    }
+
     /**
      * Método para el control de botones.
      */
@@ -798,7 +774,7 @@ public class PhantomController implements Initializable {
         btnEliminarOrgano.setDisable(true);
         btnModificarOrgano.setDisable(true);
         ValorDescripcion selectedItem = griValorDescripcionPhantom.getSelectionModel().getSelectedItem();
-        
+
         if (griValorDescripcionPhantom.getSelectionModel().isEmpty()) {
             btnEliminarItem.setDisable(true);
             btnModificarItem.setDisable(true);
@@ -813,6 +789,7 @@ public class PhantomController implements Initializable {
      */
     @FXML
     public void getSelectedItemFromTablaOrgano() {
+        
         griValorDescripcionPhantom.getSelectionModel().clearSelection();
         btnEliminarItem.setDisable(true);
         btnModificarItem.setDisable(true);
@@ -821,6 +798,8 @@ public class PhantomController implements Initializable {
             btnEliminarOrgano.setDisable(true);
             btnModificarOrgano.setDisable(true);
         } else {
+            //Organo a modificar 
+            FuncionesGenerales.setOrganoActual(griOrgano.getSelectionModel().getSelectedItem());
             btnEliminarOrgano.setDisable(false);
             btnModificarOrgano.setDisable(false);
         }

@@ -37,6 +37,7 @@ public class FuncionesGenerales {
     public static Radionuclido radionuclidoActual;
     public static Paciente pacienteActual;
     public static Usuario usuarioActual;
+    public static Organo organoActual;
     public static int indice;
     public static int tipoUsuario;
     public static String pattern = "dd-MM-yyyy";
@@ -50,9 +51,17 @@ public class FuncionesGenerales {
     public static void setIndice(int indice) {
         FuncionesGenerales.indice = indice;
     }
+
+    public static Organo getOrganoActual() {
+        return organoActual;
+    }
+
+    public static void setOrganoActual(Organo organoActual) {
+        FuncionesGenerales.organoActual = organoActual;
+    }
   
  
-
+    
     /**
      * Método SetTer para el radionuclido actual.
      *
