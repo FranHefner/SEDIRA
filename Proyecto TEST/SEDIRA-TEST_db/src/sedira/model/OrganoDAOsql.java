@@ -31,79 +31,81 @@ public class OrganoDAOsql implements IOrganoDAO {
     public void agregarOrgano(Organo organo, int idPhantom) {
         //Instancia de conexion
         ConexionDB conexion = new ConexionDB();
-        
-         boolean nuevoOrgano = false;
-        
-        
+
+        boolean nuevoOrgano = false;
+        int Id_organo = 1;
+
         String nombreOrgano = organo.getNombreOrgano();
 
         try {
-            
             conexion.getConnection().setAutoCommit(false);
-          
-           PreparedStatement sqlOrgano = conexion.getConnection().prepareStatement(
-                          "  INSERT INTO organos (  nombre ) "
-                          + "  VALUES ( ? )");
-                  
-            if (buscaNombre(nombreOrgano)) {
-                
+
+            PreparedStatement sqlOrgano = conexion.getConnection().prepareStatement(
+                    "  INSERT INTO organos ( id_organo, nombre ) "
+                    + "  VALUES ( ?,? )");
+
+            if (buscaNombre(nombreOrgano) == false) {
+
                 nuevoOrgano = true;
-            
-  
-                sqlOrgano.setString(1, organo.getNombreOrgano());
-                sqlOrgano.setDouble(2, organo.getOrganMass());
-                //Se calcula
-             //   consulta.setDouble(3, organo.getTotalMass());
-                sqlOrgano.setInt(4, idPhantom);
-                
+
+                PreparedStatement consultaObtenerIdOrgano = conexion.getConnection().prepareStatement(
+                        "SELECT IFNULL(MAX(id_organo) + 1,1) AS SIGUIENTE FROM organos");
+
+                ResultSet rsIdOrgano = consultaObtenerIdOrgano.executeQuery();
+
+                while (rsIdOrgano.next()) {
+                    Id_organo = rsIdOrgano.getInt("SIGUIENTE");
+
+                }
+
+                sqlOrgano.setInt(1, Id_organo);
+                sqlOrgano.setString(2, organo.getNombreOrgano());
+
+                sqlOrgano.executeUpdate();
+            } else {
+                PreparedStatement buscarId = conexion.getConnection().prepareStatement(
+                        " SELECT id_organo FROM organos "
+                        + " WHERE nombre = ?");
+
+                buscarId.setString(1, organo.getNombreOrgano());
+
+                ResultSet IdOrganoExistente = buscarId.executeQuery();
+
+                while (IdOrganoExistente.next()) {
+                    Id_organo = IdOrganoExistente.getInt("id_organo");
+
+                }
 
             }
-                
-          
-                // JOptionPane.showMessageDialog(null, "La propiedad "+vd.getDescripcion()+ " fué agregada con éxito!","Información",JOptionPane.INFORMATION_MESSAGE);
-           
 
-             PreparedStatement sqlOrganoPhantom = conexion.getConnection().prepareStatement(             
-                     " INSERT INTO organos_phantoms ( "
-                        + " id_organo_phantom "
-                       + " ,id_organo "
-                       + " ,id_phantom "
-                       + "  ,masa_organo "
-                       + " ) VALUES ( "                   
-                       + " ?  "
-                       + " ,?  "
-                       + " ,?  "
-                       + " )");
+            // JOptionPane.showMessageDialog(null, "La propiedad "+vd.getDescripcion()+ " fué agregada con éxito!","Información",JOptionPane.INFORMATION_MESSAGE);
+            PreparedStatement sqlOrganoPhantom = conexion.getConnection().prepareStatement(
+                    " INSERT INTO organos_phantoms ( "                  
+                    + " id_organo "
+                    + " ,id_phantom "
+                    + "  ,masa_organo "
+                    + " ) VALUES ( "
+                    + " ?  "
+                    + " ,?  "
+                    + " ,?  "
+                    + " )");
 
-            sqlOrganoPhantom.setInt(1, organo.getIdOrgano());
+            sqlOrganoPhantom.setInt(1, Id_organo);
             sqlOrganoPhantom.setInt(2, idPhantom);
             sqlOrganoPhantom.setDouble(3, organo.getOrganMass());
-               
-            
-            if (nuevoOrgano)
-            {
-             sqlOrgano.executeUpdate(); 
-            }
-          
-            
-            sqlOrganoPhantom.executeUpdate();      
-            
+
+            sqlOrganoPhantom.executeUpdate();
+
             conexion.getConnection().commit();
             conexion.getConnection().setAutoCommit(true);
-            
-             if (nuevoOrgano)
-            {
-                sqlOrgano.close();                
-                sqlOrganoPhantom.close();
+
+            if (nuevoOrgano) {
+                sqlOrgano.close();
             }
-             
-         
-            
+            sqlOrganoPhantom.close();
+
             conexion.desconectar();
 
-            
-            
-         
         } catch (SQLException e) {
             CodigosErrorSQL.analizarExepcion(e);
             //System.out.println("Ocurrió un error en la inserción de la propiedad " + e.getMessage());
@@ -125,44 +127,37 @@ public class OrganoDAOsql implements IOrganoDAO {
         String nombreOrgano = organo.getNombreOrgano();
 
         try {
-            
-              conexion.getConnection().setAutoCommit(false);
-              
-            
-            PreparedStatement sqlOrgano = conexion.getConnection().prepareStatement(    
-                    
-                    "  UPDATE organos SET  " 
-                   + " nombre = ?"
-                   + " WHERE  id_organo = ?" );            
-            
-            sqlOrgano.setString(1, organo.getNombreOrgano());            
+
+            conexion.getConnection().setAutoCommit(false);
+
+            PreparedStatement sqlOrgano = conexion.getConnection().prepareStatement(
+                    "  UPDATE organos SET  "
+                    + " nombre = ?"
+                    + " WHERE  id_organo = ?");
+
+            sqlOrgano.setString(1, organo.getNombreOrgano());
             sqlOrgano.setInt(2, organo.getIdOrgano());
-            
-            
-            PreparedStatement sqlOrganoPhantom = conexion.getConnection().prepareStatement(  
-                 "  UPDATE organos_phantoms SET  " 
-                 + "  masa_organo = ? "
-                 + "  WHERE id_phantom = ? AND  id_organo = ? " ); 
-        
-            
-             sqlOrganoPhantom.setDouble(1, organo.getOrganMass());            
+
+            PreparedStatement sqlOrganoPhantom = conexion.getConnection().prepareStatement(
+                    "  UPDATE organos_phantoms SET  "
+                    + "  masa_organo = ? "
+                    + "  WHERE id_phantom = ? AND  id_organo = ? ");
+
+            sqlOrganoPhantom.setDouble(1, organo.getOrganMass());
             sqlOrganoPhantom.setInt(2, idPhantom);
             sqlOrganoPhantom.setInt(3, organo.getIdOrgano());
-            
-            
-               
-            sqlOrgano.executeUpdate(); 
-            sqlOrganoPhantom.executeUpdate();      
-            
+
+            sqlOrgano.executeUpdate();
+            sqlOrganoPhantom.executeUpdate();
+
             conexion.getConnection().commit();
             conexion.getConnection().setAutoCommit(true);
-            
-            sqlOrgano.close();                
+
+            sqlOrgano.close();
             sqlOrganoPhantom.close();
-            
+
             conexion.desconectar();
             // JOptionPane.showMessageDialog(null, "La propiedad "+vd.getDescripcion()+ " fué agregada con éxito!","Información",JOptionPane.INFORMATION_MESSAGE);
-         
 
         } catch (SQLException e) {
             CodigosErrorSQL.analizarExepcion(e);
@@ -178,48 +173,44 @@ public class OrganoDAOsql implements IOrganoDAO {
      * @param id identificador del órgano a eliminar.
      */
     @Override
-    public void eliminarOrgano( int idOrgano, int idPhantom) {
+    public void eliminarOrgano(int idOrgano, int idPhantom) {
         //Instancia de conexion
         ConexionDB conexion = new ConexionDB();
 
-          boolean OrganoEliminado = false;
+        boolean OrganoEliminado = false;
         try {
-  
-              conexion.getConnection().setAutoCommit(false);
-              
+
+            conexion.getConnection().setAutoCommit(false);
+
             PreparedStatement sqlOrganoPhantom = conexion.getConnection().prepareStatement(
                     "DELETE FROM organos_phantoms WHERE id_organo = ? AND id_phantom = ? ");
             sqlOrganoPhantom.setInt(1, idOrgano);
             sqlOrganoPhantom.setInt(2, idPhantom);
-            
+
             PreparedStatement sqlOrgano = conexion.getConnection().prepareStatement(
-                            "DELETE FROM organos WHERE id_organo = ?");
+                    "DELETE FROM organos WHERE id_organo = ?");
             sqlOrgano.setInt(1, idOrgano);
-                     
-            
-              if ( buscarReferenciaOrgano(idOrgano)) {
-                  
-                    // Si existe referencias no se elimina el organo
-              }else                  
-              {                    
-                       OrganoEliminado = true;
-                       sqlOrgano.executeUpdate(); 
-                       
-              }
-              
-             
-            sqlOrganoPhantom.executeUpdate();      
-            
+
+            if (buscarReferenciaOrgano(idOrgano)) {
+
+                // Si existe referencias no se elimina el organo
+            } else {
+                OrganoEliminado = true;
+                sqlOrgano.executeUpdate();
+
+            }
+
+            sqlOrganoPhantom.executeUpdate();
+
             conexion.getConnection().commit();
             conexion.getConnection().setAutoCommit(true);
-            
-            if(OrganoEliminado)
-            {
-                 sqlOrgano.close();   
+
+            if (OrganoEliminado) {
+                sqlOrgano.close();
             }
-                        
+
             sqlOrganoPhantom.close();
-            
+
             conexion.desconectar();
 
             // Mensaje de confirmacion
@@ -228,7 +219,6 @@ public class OrganoDAOsql implements IOrganoDAO {
             alerta.setHeaderText(null);
             alerta.setContentText("El órgano fué eliminado. ");
             alerta.showAndWait();*/
-
         } catch (SQLException e) {
             CodigosErrorSQL.analizarExepcion(e);
             //System.out.println("Ocurrió un error al eliminar el órgano \n" + e.getMessage());
@@ -254,9 +244,8 @@ public class OrganoDAOsql implements IOrganoDAO {
             PreparedStatement consulta = conexion.getConnection().prepareStatement(
                     "SELECT nombre FROM organos "
                     + "WHERE nombre = ?");
-          
+
             consulta.setString(1, nombreOrgano);
-          
 
             ResultSet resultado = consulta.executeQuery();
             if (resultado.next()) {
@@ -276,7 +265,8 @@ public class OrganoDAOsql implements IOrganoDAO {
             return false;
         }
     }
-     @Override
+
+    @Override
     public boolean buscarReferenciaOrgano(int idOrgano) throws SQLException {
         //Instancia de conexion
         ConexionDB conexion = new ConexionDB();
@@ -285,9 +275,8 @@ public class OrganoDAOsql implements IOrganoDAO {
             PreparedStatement consulta = conexion.getConnection().prepareStatement(
                     " SELECT * FROM organos_phantoms  "
                     + " WHERE id_organo = ?");
-          
+
             consulta.setInt(1, idOrgano);
-          
 
             ResultSet resultado = consulta.executeQuery();
             if (resultado.next()) {
@@ -307,31 +296,31 @@ public class OrganoDAOsql implements IOrganoDAO {
             return false;
         }
     }
+
     @Override
-    public ObservableList listadoOrganos(){
-    
-          //Instancia de conexion
+    public ObservableList listadoOrganos() {
+
+        //Instancia de conexion
         ConexionDB conexion = new ConexionDB();
         ObservableList listado = FXCollections.observableArrayList();
-        
 
         try {
-           PreparedStatement consulta = conexion.getConnection().prepareStatement(
+            PreparedStatement consulta = conexion.getConnection().prepareStatement(
                     "SELECT * FROM organos");
 
             //Ejecucion de la consulta. 
             ResultSet resultado = consulta.executeQuery();
             //obtencion de los datos desde la bd.
             while (resultado.next()) {
-                listado.add(   resultado.getString("nombre"));
-              
+                listado.add(resultado.getString("nombre"));
+
             }
 
         } catch (SQLException e) {
             CodigosErrorSQL.analizarExepcion(e);
             //System.out.println(e.getMessage());
             //JOptionPane.showMessageDialog(null, "Ocurrio un error! " + e);
-   
+
         }
         return listado;
     }
