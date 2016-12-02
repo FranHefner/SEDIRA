@@ -292,7 +292,7 @@ public class ValorDescripcionDAOsql implements IValorDescripcionDAO {
         try {
 
             PreparedStatement consulta = conexion.getConnection().prepareStatement(
-                    "select Table_name, auto_increment from Information_Schema.TABLES where TABLE_NAME = 'valordescripcion'");
+                    "select Table_name, auto_increment from Information_Schema.TABLES where TABLE_NAME = 'valordescripcion' AND TABLE_SCHEMA ='sedira'");
 
             ResultSet resultado = consulta.executeQuery();
             if (resultado.next()) {
