@@ -82,7 +82,7 @@ public class CaracteristicasOrganoController implements Initializable {
         txtOrgano.setFocusTraversable(false);
         txtPhantom.setFocusTraversable(false);
         //Consulta a la base de datos
-        infoOrgano=org.obtenerInfoOrgano(organoActual);
+        infoOrgano=org.obtenerInfoOrgano(organoActual,phantomActual.getIdPhantom());
         System.out.print(organoActual.getIdOrgano());
         iniciarDatosBasicos();
         //llenarTablaOrgano();
@@ -132,7 +132,7 @@ public class CaracteristicasOrganoController implements Initializable {
             vd.agregarItem(itemOrgano, idOrganoPhantom, "organos");
 
             //actualizacion de la informacion del organo.
-            infoOrgano=org.obtenerInfoOrgano(organoActual);
+            infoOrgano=org.obtenerInfoOrgano(organoActual,phantomActual.getIdPhantom());
             //actualizacion de la tabla ValorDescripcionPhantom.
             griValorDescripcion.setItems(infoOrgano);
             griValorDescripcion.getSelectionModel().clearSelection();
@@ -162,7 +162,7 @@ public class CaracteristicasOrganoController implements Initializable {
                 //False para Radionuclido
                 vd.modificarItem(selectedItem, idItem, "organos");
                 //Actualizacion de la informacion del radionuclido
-                infoOrgano = org.obtenerInfoOrgano(organoActual);
+                infoOrgano = org.obtenerInfoOrgano(organoActual,phantomActual.getIdPhantom());
                 griValorDescripcion.setItems(infoOrgano);
                 griValorDescripcion.getSelectionModel().clearSelection();
                 btnEliminarItem.setDisable(true);

@@ -329,7 +329,7 @@ public class OrganoDAOsql implements IOrganoDAO {
     }
     
     @Override
-    public ObservableList<ValorDescripcion> obtenerInfoOrgano(Organo organoSeleccionado) {
+    public ObservableList<ValorDescripcion> obtenerInfoOrgano(Organo organoSeleccionado, int Id_Phantom) {
         //Creo una lista auxiliar
         ObservableList<ValorDescripcion> infoOrganoData = FXCollections.observableArrayList();
         //Instancia de conexion
@@ -349,7 +349,7 @@ public class OrganoDAOsql implements IOrganoDAO {
                      + "   ON OP.id_organo_phantom = OVD.id_organo_phantom "
                      + " JOIN valordescripcion VD "
                      + "   ON VD.id_valordescripcion = OVD.id_valordescripcion "
-                     + " WHERE OP.id_organo = " + idOrgano + ";"     );           
+                     + " WHERE OP.id_organo = " + idOrgano + "  AND OP.id_phantom ="+ Id_Phantom +";"     );           
         
             ResultSet resultado = consulta.executeQuery();
             while (resultado.next()) {

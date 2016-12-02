@@ -14,11 +14,17 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import sedira.DatosValidacionesCalculo;
+import sedira.FuncionesGenerales;
 import sedira.IDatosValidaciones;
+import sedira.model.IOrganoDAO;
 
 import sedira.model.Organo;
+import sedira.model.OrganoDAOsql;
+import sedira.model.ValorDescripcion;
 
 /**
  * FXML Controller class Clase controladora para la interfaz de Organo/Tejido
@@ -38,12 +44,30 @@ public class PestañaOrganoController implements Initializable {
     private TextField txtMasaOrgano;
     @FXML
     private TextField txtPhantomSeleccionado;
+    
+    
+    @FXML
+    private TableView<ValorDescripcion> griValorDescripcionOrgano;
+    
+    @FXML
+    private TableColumn<ValorDescripcion, String> clVdValorOrgano;
+    @FXML
+    private TableColumn<ValorDescripcion, String> clVdDescripcionOrgano;
+    @FXML
+    private TableColumn<ValorDescripcion, String> clVdUnidadOrgano;
+    
+   
 
     // Declaracion de variables. 
     private Organo organoActual;
     int aux;
 
+    
+   private ObservableList<ValorDescripcion> infoOrgano = FXCollections.observableArrayList();
+            
     private IDatosValidaciones dValidaciones;
+    
+    private IOrganoDAO org = new OrganoDAOsql();
 
     /**
      * Inicializa la clase controladora.
@@ -54,20 +78,26 @@ public class PestañaOrganoController implements Initializable {
         /* Se inicializa la interface para que se adapte al tipo de cálculo actual */
      //   if( MenuPrincipalController.TipoUsuario == "Cientifico")
         //  {
+         
+           
+        
+
         dValidaciones = new DatosValidacionesCalculo();
-      //  }
-        // if (MenuPrincipalController.TipoUsuario == "Medico")
-        //{
-        //   dValidaciones = new DatosValidacionesCalculoBasico();
-        //}
-        /**
-         * *************************************************************************
-         */
-        /**
-         * OJO. metodo init y el metodo seleccion del choiceBox genera
-         * indexOfBounds.
-         *
-         */
+    
+        
+        //Inicializo la tabla de Propiedad Valor, correspondiente a la informacion de los organos . 
+        clVdValorOrgano.setCellValueFactory(
+                cellData -> cellData.getValue().valorProperty());
+        clVdDescripcionOrgano.setCellValueFactory(
+                cellData -> cellData.getValue().descripcionProperty());
+        clVdUnidadOrgano.setCellValueFactory(
+                cellData -> cellData.getValue().unidadProperty());
+        
+        
+          //Completo tabla de Info Organo
+       
+
+        
         initListaOrgano();
 
     }
@@ -109,6 +139,11 @@ public class PestañaOrganoController implements Initializable {
                 organoActual = dValidaciones.getPhantomActual().getOrgano().get(index);
                 //Al seleccionar el organo, se debe guardar el id en datosValidacionesCalculo.setOrgano
                 //Completo tabla de Organos
+                
+               infoOrgano=org.obtenerInfoOrgano(organoActual,dValidaciones.getPhantomActual().getIdPhantom());
+               FuncionesGenerales.mostrarDetalleTablaValorDescripcion(infoOrgano, griValorDescripcionOrgano);
+
+                 
                 mostrarDetalleSeleccion(organoActual, txtNombreOrgano, txtMasaOrgano, txtIdOrgano);
 
                 /* Selección del organo para el cálculo */

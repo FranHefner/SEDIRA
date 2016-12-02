@@ -65,6 +65,9 @@ public class PestañaCalculoController implements Initializable {
     @FXML
     private TableView<ValorDescripcion> griValorDescripcionRadionuclido;
     @FXML
+    private TableView<ValorDescripcion> griValorDescripcionOrgano;
+    
+    @FXML
     private TableView<VariableCalculo> griVariables;
 
     @FXML
@@ -82,6 +85,15 @@ public class PestañaCalculoController implements Initializable {
     private TableColumn<ValorDescripcion, String> clVdDescripcionRadionuclido;
     @FXML
     private TableColumn<ValorDescripcion, String> clVdUnidadRadionuclido;
+    
+    
+    @FXML
+    private TableColumn<ValorDescripcion, String> clVdValorOrgano;
+    @FXML
+    private TableColumn<ValorDescripcion, String> clVdDescripcionOrgano;
+    @FXML
+    private TableColumn<ValorDescripcion, String> clVdUnidadOrgano;
+    
 
     @FXML
     private TableColumn<VariableCalculo, String> clDescripcionVariable;
@@ -89,6 +101,8 @@ public class PestañaCalculoController implements Initializable {
     private TableColumn<VariableCalculo, String> clValorVariable;
     @FXML
     private TableColumn<VariableCalculo, String> clLetraVariable;
+    
+    
     @FXML
     private Button btnGuardar;
     @FXML
@@ -167,7 +181,7 @@ public class PestañaCalculoController implements Initializable {
         clVdUnidadPhantom.setCellValueFactory(
                 cellData -> cellData.getValue().unidadProperty());
         // Limpieza de los detalles de Phantoms. 
-        // FuncionesGenerales.mostrarDetalleTablaValorDescripcion(null,griValorDescripcionPhantom);
+       
 
         // Muestro las propiedades del phantom selecionado
         FuncionesGenerales.mostrarDetalleTablaValorDescripcion(dValidaciones.getPhantomActual().getPropiedades(), griValorDescripcionPhantom);
@@ -186,13 +200,31 @@ public class PestañaCalculoController implements Initializable {
                 cellData -> cellData.getValue().descripcionProperty());
         clVdUnidadRadionuclido.setCellValueFactory(
                 cellData -> cellData.getValue().unidadProperty());
-
-        //Completo tabla de Info Radionuclido
+        
+         //Completo tabla de Info Radionuclido
         FuncionesGenerales.mostrarDetalleTablaValorDescripcion(dValidaciones.getRadionuClidoActual().getPropiedades(), griValorDescripcionRadionuclido);
 
         griValorDescripcionRadionuclido.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> seleccionPropiedadRadionuclido(newValue));
 
+          // Muestro las propiedades del Organo seleccionado
+        //Inicializo la tabla de Propiedad Valor, correspondiente a la informacion de los organos . 
+        clVdValorOrgano.setCellValueFactory(
+                cellData -> cellData.getValue().valorProperty());
+        clVdDescripcionOrgano.setCellValueFactory(
+                cellData -> cellData.getValue().descripcionProperty());
+        clVdUnidadOrgano.setCellValueFactory(
+                cellData -> cellData.getValue().unidadProperty());
+        
+        //Completo tabla de Info Organo
+       
+        FuncionesGenerales.mostrarDetalleTablaValorDescripcion(dValidaciones.getOrganoActual().getPropiedades_Masa(), griValorDescripcionOrgano);
+
+        
+        griValorDescripcionOrgano.getSelectionModel().selectedItemProperty().addListener(
+                (observable, oldValue, newValue) -> seleccionPropiedadOrgano(newValue));
+        
+       
         //Inicializo la tabla de Variables, correspondiente a la informacion de las variables . 
         clDescripcionVariable.setCellValueFactory(
                 cellData -> cellData.getValue().descripcionProperty());
@@ -216,6 +248,13 @@ public class PestañaCalculoController implements Initializable {
 
     @FXML
     public void seleccionPropiedadRadionuclido(ValorDescripcion datoSeleccionado) {
+
+        variableSeleccionada = datoSeleccionado;
+
+    }
+    
+    @FXML
+    public void seleccionPropiedadOrgano(ValorDescripcion datoSeleccionado) {
 
         variableSeleccionada = datoSeleccionado;
 
@@ -473,6 +512,7 @@ public class PestañaCalculoController implements Initializable {
 
             griValorDescripcionRadionuclido.getSelectionModel().clearSelection();
             griValorDescripcionPhantom.getSelectionModel().clearSelection();
+            griValorDescripcionOrgano.getSelectionModel().clearSelection();
             variableSeleccionada = null;
             ReiniciarTextoEntrada();
         }

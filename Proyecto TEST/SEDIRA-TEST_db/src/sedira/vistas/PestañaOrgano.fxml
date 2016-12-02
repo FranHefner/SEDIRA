@@ -16,9 +16,9 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
          <columns>
-            <TableColumn fx:id="clVdDescripcionRadionuclido1" prefWidth="118.0" text="Propiedad" />
-            <TableColumn fx:id="clVdValorRadionuclido1" prefWidth="73.0" text="Valor" />
-            <TableColumn fx:id="clVdUnidadRadionuclido1" editable="false" prefWidth="71.0" text="Unidad" />
+            <TableColumn fx:id="clVdDescripcionOrgano" prefWidth="118.0" text="Propiedad" />
+            <TableColumn fx:id="clVdValorOrgano" prefWidth="73.0" text="Valor" />
+            <TableColumn fx:id="clVdUnidadOrgano" editable="false" prefWidth="71.0" text="Unidad" />
          </columns>
       </TableView>
       <Label layoutX="38.0" layoutY="35.0" text="Seleccione el órgano/tejido  objetivo " />
