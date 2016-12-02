@@ -336,12 +336,9 @@ public class AbmItemOrganoController implements Initializable {
             if (propiedad == null || propiedad.length() == 0) {
                 mensajeError += "El campo Propiedad no puede estar vacio. \n";
             } else {
-                if (vd.buscaNombre(propiedad, tabla)){
-                mensajeError += "La propiedad ya existe. \n";
-                }
-                if (!ValidacionesGenerales.ValidarNombreConEspacios(propiedad)) {
-                    mensajeError += "El campo Propiedad debe contener solo letras.\n";
-                }
+                    if (vd.buscaNombre(propiedad, tabla)){
+                    mensajeError += "La propiedad ya existe. \n";
+                    } 
                 }
             
             //Validacion Valor

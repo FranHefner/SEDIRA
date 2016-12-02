@@ -175,8 +175,8 @@ public class ValorDescripcionDAOsql implements IValorDescripcionDAO {
                     "SELECT valordescripcion.descripcion "
                             + "FROM "+Entidad+"_valordescripcion "
                             + "JOIN valordescripcion"
-                                 + "ON "+Entidad+"_valordescripcion.id_valordescripcion = valordescripcion_id_valordescripcion "
-                                    + "WHERE valordescripcion_descripcion = ?");
+                                 + " ON "+Entidad+"_valordescripcion.id_valordescripcion = valordescripcion.id_valordescripcion "
+                                    + "WHERE valordescripcion.descripcion = ?");
             
             
             consulta.setString(1, propiedad);
@@ -189,10 +189,10 @@ public class ValorDescripcionDAOsql implements IValorDescripcionDAO {
                 resultado.close();
                 conexion.desconectar();
 
-                return false;
+                return true;
             } else {
                 //Si no hay coincidencias. o sea, la cantidad de tuplas es 0 entonces EL nombre no existe
-                return true;
+                return false;
             }
 
         } catch (SQLException e) {

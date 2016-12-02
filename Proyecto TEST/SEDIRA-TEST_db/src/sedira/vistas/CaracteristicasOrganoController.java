@@ -107,7 +107,18 @@ public class CaracteristicasOrganoController implements Initializable {
     }
     
    
+    public void RecargarGrilla()
+    {
+      infoOrgano=org.obtenerInfoOrgano(organoActual,phantomActual.getIdPhantom());
+            //actualizacion de la tabla ValorDescripcionPhantom.
+            griValorDescripcion.setItems(infoOrgano);
+            griValorDescripcion.getSelectionModel().clearSelection();
+            btnEliminarItem.setDisable(true);
+            btnModificarItem.setDisable(true);
+    
+    }
     /**
+     * 
      * Método que controla el comportamiento del boton Agregar item.
      * @throws java.sql.SQLException
      */
@@ -132,13 +143,8 @@ public class CaracteristicasOrganoController implements Initializable {
             vd.agregarItem(itemOrgano, idOrganoPhantom, "organos");
 
             //actualizacion de la informacion del organo.
-            infoOrgano=org.obtenerInfoOrgano(organoActual,phantomActual.getIdPhantom());
-            //actualizacion de la tabla ValorDescripcionPhantom.
-            griValorDescripcion.setItems(infoOrgano);
-            griValorDescripcion.getSelectionModel().clearSelection();
-            btnEliminarItem.setDisable(true);
-            btnModificarItem.setDisable(true);
-
+          
+                RecargarGrilla();
         }
     }
     
@@ -162,11 +168,8 @@ public class CaracteristicasOrganoController implements Initializable {
                 //False para Radionuclido
                 vd.modificarItem(selectedItem, idItem, "organos");
                 //Actualizacion de la informacion del radionuclido
-                infoOrgano = org.obtenerInfoOrgano(organoActual,phantomActual.getIdPhantom());
-                griValorDescripcion.setItems(infoOrgano);
-                griValorDescripcion.getSelectionModel().clearSelection();
-                btnEliminarItem.setDisable(true);
-                btnModificarItem.setDisable(true);
+                        
+                  RecargarGrilla();
 
             }
 
@@ -183,6 +186,11 @@ public class CaracteristicasOrganoController implements Initializable {
     @FXML
     public void btnEliminarItem() {
         
+              ValorDescripcion selectedItem = griValorDescripcion.getSelectionModel().getSelectedItem();
+        int idItem = selectedItem.getId();
+        vd.eliminarItem(idItem );
+        
+          RecargarGrilla();
     }
     
     /**

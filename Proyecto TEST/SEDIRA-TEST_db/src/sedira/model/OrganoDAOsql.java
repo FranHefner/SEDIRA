@@ -241,8 +241,8 @@ public class OrganoDAOsql implements IOrganoDAO {
 
         try {
             PreparedStatement consulta = conexion.getConnection().prepareStatement(
-                    "SELECT nombre FROM organos "
-                    + "WHERE nombre = ?");
+                    " SELECT nombre FROM organos "
+                    + " WHERE nombre = ?");
 
             consulta.setString(1, nombreOrgano);
 

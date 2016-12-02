@@ -12,9 +12,11 @@
         <content>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="602.0" prefWidth="557.0">
                <children>
-                  <VBox fx:id="boxControles" layoutX="111.0" layoutY="41.0" prefHeight="102.0" prefWidth="181.0" />
-                  <TextField fx:id="txtOrganoMasa" layoutX="353.0" layoutY="34.0" prefHeight="33.0" prefWidth="63.0" />
-                  <TextField fx:id="txtOrganoNombre" layoutX="111.0" layoutY="41.0" prefHeight="33.0" prefWidth="57.0" />
+                  <VBox fx:id="boxControles" layoutX="124.0" layoutY="34.0" prefHeight="102.0" prefWidth="181.0">
+                     <children>
+                        <TextField fx:id="txtOrganoNombre" prefHeight="33.0" prefWidth="57.0" />
+                     </children></VBox>
+                  <TextField fx:id="txtOrganoMasa" layoutX="363.0" layoutY="34.0" prefHeight="33.0" prefWidth="63.0" />
                   <VBox alignment="CENTER" layoutX="438.0" layoutY="8.0" spacing="15.0">
                      <children>
                         <Button fx:id="btnGuardarCambios" mnemonicParsing="false" onAction="#btnGuardarDatos" prefHeight="30.0" prefWidth="99.0" text="Guardar cambios" />

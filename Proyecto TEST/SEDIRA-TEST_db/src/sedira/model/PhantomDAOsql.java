@@ -188,7 +188,7 @@ public class PhantomDAOsql implements IPhantomDAO {
             //Antes de insertar corrobora que no exista el nombre
             if (buscaNombre(nombrePhantom)) {
                 Statement consulta = conexion.getConnection().createStatement();
-                consulta.executeUpdate("INSERT INTO phantoms (nombre) VALUES ('" + nombrePhantom + "')");
+                consulta.executeUpdate(" INSERT INTO phantoms (nombre) VALUES ('" + nombrePhantom + "')");
                 consulta.close();
                 conexion.desconectar();
                 //Mensaje de confirmacion
@@ -225,8 +225,8 @@ public class PhantomDAOsql implements IPhantomDAO {
             //Antes de insertar corrobora que no exista el nombre
             if (buscaNombre(nombrePhantom)) {
                 PreparedStatement consulta = conexion.getConnection().prepareStatement(
-                        "UPDATE phantoms SET nombre = ?"
-                        + "WHERE id_phantom=?");
+                        " UPDATE phantoms SET nombre = ? "
+                        + " WHERE id_phantom=? ");
 
                 consulta.setString(1, nombrePhantom);
                 consulta.setInt(2, id);
