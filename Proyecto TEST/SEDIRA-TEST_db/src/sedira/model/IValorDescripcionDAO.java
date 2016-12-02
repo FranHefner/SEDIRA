@@ -22,7 +22,7 @@ public interface IValorDescripcionDAO {
 
     public void eliminarItem(int id);
 
-    public boolean buscaNombre(String propiedad) throws SQLException;
+    public boolean buscaNombre(String propiedad, String tabla) throws SQLException;
     
     public ObservableList listadoPropiedades(String Entidad);
     

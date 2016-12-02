@@ -80,6 +80,7 @@ public class AbmItemOrganoController implements Initializable {
     private static int LIMIT_NOMBRE = 45;
     private static int LIMIT_VALOR = 14;
     private static int LIMIT_UNIDAD = 255;
+    private String tabla = "organos";
 
     ObservableList<String> data;
     ListView listaSugerida = new ListView();
@@ -329,17 +330,21 @@ public class AbmItemOrganoController implements Initializable {
         String valor = txtValor.getText();
         String propiedad = txtPropiedad.getText();
         String unidad = txtUnidad.getText();
-       
+        
+            
             // Validacion propiedad
             if (propiedad == null || propiedad.length() == 0) {
                 mensajeError += "El campo Propiedad no puede estar vacio. \n";
             } else {
+                if (vd.buscaNombre(propiedad, tabla)){
+                mensajeError += "La propiedad ya existe. \n";
+                }
                 if (!ValidacionesGenerales.ValidarNombreConEspacios(propiedad)) {
                     mensajeError += "El campo Propiedad debe contener solo letras.\n";
                 }
-            }
+                }
+            
             //Validacion Valor
-
             if (valor == null || valor.length() == 0) {
                 mensajeError += "El campo Valor no puede estar vacio. \n";
             } else {
@@ -362,7 +367,7 @@ public class AbmItemOrganoController implements Initializable {
                     }
                 }
 
-            }
+            } //fin else valor
 
             //Validacion Unidad. 
             // Al no saber con ciencia cierta lo que el usuario seleccionara como unidad. Este campo solo valida que el 

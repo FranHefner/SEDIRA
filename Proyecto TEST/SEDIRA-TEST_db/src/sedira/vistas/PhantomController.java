@@ -445,7 +445,7 @@ public class PhantomController implements Initializable {
         //objeto auxiliar de tipo Phantom. Phantom actual seleccionado en el GriPhamtom
         Phantom selectedPhantom = FuncionesGenerales.getPhantomActual();
         //Objeto nuevo de tipo Organo 
-        Organo organo = new Organo(-1, "", 0.0, 0.0,null);
+        Organo organo = new Organo(-1, "", 0.0, 0.0, null);
         // identificador del phantom al cual se agregara el item. 
         int idPhantom = selectedPhantom.getIdPhantom();
 
@@ -595,9 +595,17 @@ public class PhantomController implements Initializable {
                 vd.eliminarItem(idItem);
                 //actualizacion de la informacion del phantom.
                 infoPhantom = ph.obtenerInfoPhantom(selectedPhantom);
-                //actualizacion de la tabla ValorDescripcionPhantom.
-                griValorDescripcionPhantom.setItems(infoPhantom);
-                griValorDescripcionPhantom.getSelectionModel().clearSelection();
+                
+                //actualizacion de la tabla ValorDescripcionPhantom. 
+                //Comportamiento de los botones al eliminar todos los items. 
+                if (infoPhantom.size() != 0) {
+                    griValorDescripcionPhantom.setItems(infoPhantom);
+                    griValorDescripcionPhantom.getSelectionModel().clearSelection();
+                } else {
+                    apagarBotones();
+                    griValorDescripcionPhantom.setItems(infoPhantom);
+                    griValorDescripcionPhantom.getSelectionModel().clearSelection();
+                }
 
             } else {
                 //Cancelacion de la eliminacion
@@ -661,10 +669,11 @@ public class PhantomController implements Initializable {
     public void btnModificarItem() {
         //Objeto phantom que contiene el atributo
         Phantom phantomActual = FuncionesGenerales.getPhantomActual();
-        // id del phantom a editar  
-        int idPhantom = phantomActual.getIdPhantom();
+
         //Atributo a editar
         ValorDescripcion selectedItem = griValorDescripcionPhantom.getSelectionModel().getSelectedItem();
+        // id del item a editar  
+        int idItem = selectedItem.getId();
 
         if (selectedItem != null) {
             boolean guardarCambiosClicked = mostrarItemPhantomEditDialog(selectedItem);
@@ -672,7 +681,7 @@ public class PhantomController implements Initializable {
             if (guardarCambiosClicked) {
                 //True para Phantom,
                 //False para Radionuclido
-                vd.modificarItem(selectedItem, idPhantom, "phantoms");
+                vd.modificarItem(selectedItem, idItem, "phantoms");
                 //Actualizacion de la informacion del radionuclido
                 infoPhantom = ph.obtenerInfoPhantom(phantomActual);
                 griValorDescripcionPhantom.setItems(infoPhantom);
@@ -707,7 +716,7 @@ public class PhantomController implements Initializable {
         int idPhantom = auxPhantom.getIdPhantom();
 
         if (selectedOrgano != null) {
-            boolean guardarCambiosClicked = mostrarOrganoEditDialog(selectedOrgano,auxPhantom);
+            boolean guardarCambiosClicked = mostrarOrganoEditDialog(selectedOrgano, auxPhantom);
             if (guardarCambiosClicked) {
                 //Bd Modificar Phantom
                 //ConsultasDB.modificarPhantom(auxPhantom,griPhantom.getSelectionModel().getSelectedIndex() );
@@ -787,7 +796,7 @@ public class PhantomController implements Initializable {
      */
     @FXML
     public void getSelectedItemFromTablaOrgano() {
-        
+
         griValorDescripcionPhantom.getSelectionModel().clearSelection();
         FuncionesGenerales.setOrganoActual(griOrgano.getSelectionModel().getSelectedItem());
         btnEliminarItem.setDisable(true);
@@ -798,10 +807,10 @@ public class PhantomController implements Initializable {
             btnModificarOrgano.setDisable(true);
         } else {
             //Organo a modificar 
-            
+
             btnEliminarOrgano.setDisable(false);
             btnModificarOrgano.setDisable(false);
-            btnAdministrar.setDisable(false);   
+            btnAdministrar.setDisable(false);
         }
     }
 
@@ -813,6 +822,11 @@ public class PhantomController implements Initializable {
         Stage stage = (Stage) btnCerrar.getScene().getWindow();
 
         stage.close();
+    }
+
+    private void apagarBotones() {
+       btnModificarItem.setDisable(true);
+       btnEliminarItem.setDisable(true);
     }
 
 }

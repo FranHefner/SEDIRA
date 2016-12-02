@@ -20,27 +20,28 @@ import sedira.CodigosErrorSQL;
 public class ValorDescripcionDAOsql implements IValorDescripcionDAO {
 
     /**
-     * Método que modifica un ítem para las tablas de Valor Descripcion.
-     * Funciona tanto para radionúclidos, phantoms, organos.  
+     * Método que agrega un ítem para las tablas de valordescripcion
+     * organos_valordescripcion phantoms_valordescripcion
+     * radionuclidos_valordescripcion
      *
      * @param vd item a agregar
      * @param id Identificador de la entidad que hace la llamada al metodo
+     * @param Tabla
      * @throws SQLException
      */
     @Override
     public void agregarItem(ValorDescripcion vd, int id, String Tabla) throws SQLException {
         //Instancia de conexion
         ConexionDB conexion = new ConexionDB();
-        String unidad = vd.getUnidad();
         int itemId = getLastId();
-        
+
         conexion.getConnection().setAutoCommit(false);
-        
+
         try {
             PreparedStatement sqlValorDescripcion = conexion.getConnection().prepareStatement(
                     "  INSERT INTO valordescripcion ("
-                            + "descripcion ,valor,unidad) "
-                            + "VALUES (?,?,?)");
+                    + "descripcion ,valor,unidad) "
+                    + "VALUES (?,?,?)");
 
             //sqlValorDescripcion.setInt(1, itemId);
             sqlValorDescripcion.setString(1, vd.getDescripcion());
@@ -52,17 +53,16 @@ public class ValorDescripcionDAOsql implements IValorDescripcionDAO {
             if (Tabla.equals("organos")) {
                 sqlTabla_valordescripcion = conexion.getConnection().prepareStatement(
                         "   INSERT INTO organos_valordescripcion (id_organo_phantom,id_valordescripcion) "
-                                + "VALUES (?,?)");
+                        + "VALUES (?,?)");
 
                 sqlTabla_valordescripcion.setInt(1, id);
                 sqlTabla_valordescripcion.setInt(2, itemId);
 
             }
             if (Tabla.equals("phantoms")) {
-
                 sqlTabla_valordescripcion = conexion.getConnection().prepareStatement(
                         "  INSERT INTO phantoms_valordescripcion (id_phantom,id_valordescripcion) "
-                                + "VALUES (?,?)");
+                        + "VALUES (?,?)");
 
                 sqlTabla_valordescripcion.setInt(1, id);
                 sqlTabla_valordescripcion.setInt(2, itemId);
@@ -71,7 +71,7 @@ public class ValorDescripcionDAOsql implements IValorDescripcionDAO {
             if (Tabla.equals("radionuclidos")) {
                 sqlTabla_valordescripcion = conexion.getConnection().prepareStatement(
                         "   INSERT INTO radionuclidos_valordescripcion (id_radionuclido,id_valordescripcion) "
-                                + "VALUES (?,?)");
+                        + "VALUES (?,?)");
 
                 sqlTabla_valordescripcion.setInt(1, id);
                 sqlTabla_valordescripcion.setInt(2, itemId);
@@ -89,40 +89,38 @@ public class ValorDescripcionDAOsql implements IValorDescripcionDAO {
 
         } catch (SQLException e) {
             CodigosErrorSQL.analizarExepcion(e);
-            //System.out.println("Ocurrió un error en la inserción de la propiedad " + e.getMessage());
-            //JOptionPane.showMessageDialog(null, "Ocurrió un error en la inserción de la propiedad " + e.getMessage(), "Información", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
     /**
-     * Método que modifica un ítem para las tablas de Valor-Descripcion.
-     * Funciona tanto para radionúclidos como para Phantoms
+     * Método que modifica un ítem para las tablas valordescripcion
+     * organos_valordescripcion phantoms_valordescripcion
+     * radionuclidos_valordescripcion
      *
      * @param vd item a modificar
      * @param id Identificador del item a modificar. .
-     
+     * @param Tabla Relacion que hace el llamado de modificacion.      *
      */
     @Override
     public void modificarItem(ValorDescripcion vd, int id, String Tabla) {
         //Instancia de conexion
         ConexionDB conexion = new ConexionDB();
         //Identificador del item a modificar.
-     
+
         try {
-            //if (buscaNombre(vd.getDescripcion())) {
+
             PreparedStatement consulta = conexion.getConnection().prepareStatement(
-                    "  UPDATE valordescripcion SET descripcion = ?,"
+                    "  UPDATE valordescripcion "
+                    + "SET descripcion = ?,"
                     + "valor = ?,"
                     + "unidad = ?"
                     + "WHERE id_valordescripcion = ?");
-            
 
             consulta.setString(1, vd.getDescripcion());
             consulta.setString(2, vd.getValor());
             consulta.setString(3, vd.getUnidad());
             consulta.setInt(4, id);
-            
-            //System.out.print(id);
+
             consulta.executeUpdate(); //Ejecucion de la consulta.
             consulta.close();
             conexion.desconectar();
@@ -154,10 +152,9 @@ public class ValorDescripcionDAOsql implements IValorDescripcionDAO {
             consulta.close();
             conexion.desconectar();
 
-            
         } catch (SQLException e) {
             CodigosErrorSQL.analizarExepcion((SQLException) e);
-            
+
         }
     }
 
@@ -169,13 +166,19 @@ public class ValorDescripcionDAOsql implements IValorDescripcionDAO {
      * @throws java.sql.SQLException
      */
     @Override
-    public boolean buscaNombre(String propiedad) throws SQLException {
+    public boolean buscaNombre(String propiedad,String Entidad) throws SQLException {
         //Instancia de conexion
         ConexionDB conexion = new ConexionDB();
 
         try {
             PreparedStatement consulta = conexion.getConnection().prepareStatement(
-                    "SELECT descripcion FROM valordescripcion WHERE descripcion = ?");
+                    "SELECT valordescripcion.descripcion "
+                            + "FROM "+Entidad+"_valordescripcion "
+                            + "JOIN valordescripcion"
+                                 + "ON "+Entidad+"_valordescripcion.id_valordescripcion = valordescripcion_id_valordescripcion "
+                                    + "WHERE valordescripcion_descripcion = ?");
+            
+            
             consulta.setString(1, propiedad);
 
             ResultSet resultado = consulta.executeQuery();
@@ -209,17 +212,17 @@ public class ValorDescripcionDAOsql implements IValorDescripcionDAO {
         ObservableList listado = FXCollections.observableArrayList();
 
         try {
-            PreparedStatement consulta = conexion.getConnection().prepareStatement(               
-                " SELECT "
-                  + "   valordescripcion.descripcion  AS nombre"
-                  + "  FROM "
-                  + "   "+ Entidad+ "_valordescripcion "
-                  + "   JOIN "
-                  + "   valordescripcion "
-                  + "   ON "+ Entidad+ "_valordescripcion.id_valordescripcion = "
-                  + "       valordescripcion.id_valordescripcion "
-                  + "  GROUP BY descripcion  ");            
-            
+            PreparedStatement consulta = conexion.getConnection().prepareStatement(
+                    " SELECT "
+                    + "   valordescripcion.descripcion  AS nombre"
+                    + "  FROM "
+                    + "   " + Entidad + "_valordescripcion "
+                    + "   JOIN "
+                    + "   valordescripcion "
+                    + "   ON " + Entidad + "_valordescripcion.id_valordescripcion = "
+                    + "       valordescripcion.id_valordescripcion "
+                    + "  GROUP BY descripcion  ");
+
             //Ejecucion de la consulta. 
             ResultSet resultado = consulta.executeQuery();
             //obtencion de los datos desde la bd.
@@ -236,8 +239,6 @@ public class ValorDescripcionDAOsql implements IValorDescripcionDAO {
         }
         return listado;
     }
-
-  
 
     @Override
     public int getLastId() {

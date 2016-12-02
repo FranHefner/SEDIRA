@@ -114,7 +114,7 @@ public class CaracteristicasOrganoController implements Initializable {
     @FXML
     public void btnAgregarItem() throws SQLException {
         //objeto auxiliar de tipo organo. Organo actual seleccionado en el GriOrgano
-        Organo auxOrgano    = FuncionesGenerales.getOrganoActual();
+        Organo auxOrgano  = FuncionesGenerales.getOrganoActual();
         //obtengo el id del organo seleccionado. 
         int idOrgano = auxOrgano.getIdOrgano();
        
@@ -148,6 +148,32 @@ public class CaracteristicasOrganoController implements Initializable {
      */
     @FXML
     public void btnModificarItem() {
+        //Objeto Organo que contiene el atributo
+        organoActual = FuncionesGenerales.getOrganoActual();
+        
+        //Atributo a editar
+        ValorDescripcion selectedItem = griValorDescripcion.getSelectionModel().getSelectedItem();
+        int idItem = selectedItem.getId();
+        if (selectedItem != null) {
+            boolean guardarCambiosClicked = mostrarItemOrganoEditDialog(selectedItem);
+
+            if (guardarCambiosClicked) {
+                //True para Phantom,
+                //False para Radionuclido
+                vd.modificarItem(selectedItem, idItem, "organos");
+                //Actualizacion de la informacion del radionuclido
+                infoOrgano = org.obtenerInfoOrgano(organoActual);
+                griValorDescripcion.setItems(infoOrgano);
+                griValorDescripcion.getSelectionModel().clearSelection();
+                btnEliminarItem.setDisable(true);
+                btnModificarItem.setDisable(true);
+
+            }
+
+        } else {
+            //No se selecciono ningun item
+
+        }
         
     }  
     
