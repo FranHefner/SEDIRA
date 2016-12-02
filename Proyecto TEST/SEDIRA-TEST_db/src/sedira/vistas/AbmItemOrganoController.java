@@ -64,7 +64,7 @@ public class AbmItemOrganoController implements Initializable {
     private VBox boxControles;
 
     //Objeto Organo auxiliar. 
-    private Organo organo;
+    private Organo organoActual = FuncionesGenerales.getOrganoActual();
     // Stage aux
     private Stage dialogStage;
     // Valor Descripcion aux para items de Organo 
@@ -80,7 +80,7 @@ public class AbmItemOrganoController implements Initializable {
     private static int LIMIT_NOMBRE = 45;
     private static int LIMIT_VALOR = 14;
     private static int LIMIT_UNIDAD = 255;
-    private String tabla = "organos";
+    
 
     ObservableList<String> data;
     ListView listaSugerida = new ListView();
@@ -336,8 +336,8 @@ public class AbmItemOrganoController implements Initializable {
             if (propiedad == null || propiedad.length() == 0) {
                 mensajeError += "El campo Propiedad no puede estar vacio. \n";
             } else {
-                    if (vd.buscaNombre(propiedad, tabla)){
-                    mensajeError += "La propiedad ya existe. \n";
+                    if (vd.buscaNombre(propiedad, "organos",organoActual.getIdOrgano())){
+                    mensajeError += "La nombre de la propiedad ya existe. \n";
                     } 
                 }
             

@@ -99,7 +99,7 @@ public class ValorDescripcionDAOsql implements IValorDescripcionDAO {
      *
      * @param vd item a modificar
      * @param id Identificador del item a modificar. .
-     * @param Tabla Relacion que hace el llamado de modificacion.      *
+     * @param Tabla Relacion que hace el llamado de modificacion. *
      */
     @Override
     public void modificarItem(ValorDescripcion vd, int id, String Tabla) {
@@ -162,30 +162,72 @@ public class ValorDescripcionDAOsql implements IValorDescripcionDAO {
      * Método que busca si una propiedad ya existe.
      *
      * @param propiedad
-     * @return True si no hay coincidencias. False si el nombre existe.
+     * @param Entidad
+     * @param idEntidad
+     * @return True si el nombre exixte. False si el nombre no existe.
      * @throws java.sql.SQLException
      */
     @Override
-    public boolean buscaNombre(String propiedad,String Entidad) throws SQLException {
+    public boolean buscaNombre(String propiedad, String Entidad, int idEntidad) throws SQLException {
         //Instancia de conexion
         ConexionDB conexion = new ConexionDB();
 
         try {
-            PreparedStatement consulta = conexion.getConnection().prepareStatement(
-                    "SELECT valordescripcion.descripcion "
-                            + "FROM "+Entidad+"_valordescripcion "
-                            + "JOIN valordescripcion"
-                                 + " ON "+Entidad+"_valordescripcion.id_valordescripcion = valordescripcion.id_valordescripcion "
-                                    + "WHERE valordescripcion.descripcion = ?");
-            
-            
-            consulta.setString(1, propiedad);
+            PreparedStatement consulta = conexion.getConnection().prepareStatement("");
+            //IF (Entidad = radionuclidos)
+            // if (Entidad  = phantoms) 
+            if (Entidad.equals("radionuclidos")) {
+                consulta = conexion.getConnection().prepareStatement(
+                        "SELECT valordescripcion.descripcion "
+                        + "FROM radionuclidos_valordescripcion "
+                        + "JOIN valordescripcion "
+                        + "ON valordescripcion.id_valordescripcion = radionuclidos_valordescripcion.id_valordescripcion "
+                        + "JOIN radionuclidos "
+                        + "ON radionuclidos.id_radionuclido = radionuclidos_valordescripcion.id_radionuclido "
+                        + "WHERE valordescripcion.descripcion = ? "
+                        + "AND radionuclidos.id_radionuclido = ?");
+
+                consulta.setString(1, propiedad);
+                consulta.setInt(2, idEntidad);
+
+            }
+            if (Entidad.equals("phantoms")) {
+                consulta = conexion.getConnection().prepareStatement(
+                        "SELECT valordescripcion.descripcion "
+                        + "FROM phantoms_valordescripcion "
+                        + "JOIN valordescripcion "
+                        + "ON valordescripcion.id_valordescripcion = phantoms_valordescripcion.id_valordescripcion "
+                        + "JOIN phantoms "
+                        + "ON phantoms.id_phantom = phantoms_valordescripcion.id_phantom "
+                        + "WHERE valordescripcion.descripcion = ? "
+                        + "AND phantoms.id_phantom = ?");
+
+                consulta.setString(1, propiedad);
+                consulta.setInt(2, idEntidad);
+
+            }
+            if (Entidad.equals("organos")) {
+                consulta = conexion.getConnection().prepareStatement(
+                        "SELECT organos.id_organo, valordescripcion.descripcion "
+                        + "FROM organos_valordescripcion "
+                        + "JOIN valordescripcion "
+                        + "ON valordescripcion.id_valordescripcion = organos_valordescripcion.id_valordescripcion "
+                        + "JOIN organos_phantoms "
+                        + "ON organos_phantoms.id_organo_phantom = organos_valordescripcion.id_organo_phantom "
+                        + "JOIN organos "
+                        + "ON organos.id_organo = organos_phantoms.id_organo "
+                        + "WHERE organos.id_organo = ? "
+                        + "AND valordescripcion.descripcion = ?");
+
+                
+                consulta.setInt(1, idEntidad);
+                consulta.setString(2, propiedad);
+
+            }
 
             ResultSet resultado = consulta.executeQuery();
             if (resultado.next()) {
                 consulta.close();
-                //JOptionPane.showMessageDialog(null, "El radionúclido que desea insertar ya existe","Información",JOptionPane.INFORMATION_MESSAGE);
-                //System.out.println();
                 resultado.close();
                 conexion.desconectar();
 

@@ -68,6 +68,7 @@ public class AbmRadionuclidoController implements Initializable {
     //Objeto radionuclido auxiliar. 
     private Radionuclido radionuclido;
     private ValorDescripcion itemRadionuclido;
+    private Radionuclido radionuclidoActual = FuncionesGenerales.getRadioNuclidoActual();
     // Stage aux
     private Stage dialogStage;
     // boleano para controlar cuando el usuario clickea ok 
@@ -216,7 +217,6 @@ public class AbmRadionuclidoController implements Initializable {
 
     /**
      * Setea el Radionúclido a editar.
-     *
      * @param radionuclido a editar.
      */
     public void setRadionuclido(Radionuclido radionuclido) {
@@ -263,7 +263,7 @@ public class AbmRadionuclidoController implements Initializable {
      */
     public void setItemRadionuclido(ValorDescripcion itemRadionuclido) {
 
-        Radionuclido radionuclidoActual = FuncionesGenerales.getRadioNuclidoActual();
+        
         this.itemRadionuclido = itemRadionuclido;
 
         txtRadNuclidoNombre.setText(radionuclidoActual.getNombreRadNuclido());
@@ -417,6 +417,11 @@ public class AbmRadionuclidoController implements Initializable {
             if (propiedad == null || propiedad.length() == 0) {
                 mensajeError += "El campo Propiedad no puede estar vacio. \n";
             } else {
+                
+                //Parametros de busca nombre
+                if (vd.buscaNombre(propiedad, "radionuclidos",radionuclidoActual.getIdRadNuclido())){
+                    mensajeError += "El nombre de la propiedad ya existe. \n";
+                }
                 if (!ValidacionesGenerales.ValidarNombreConEspacios(propiedad)) {
                     mensajeError += "El campo Propiedad debe contener solo letras.\n";
                 }

@@ -65,6 +65,7 @@ public class AbmPhantomController implements Initializable {
 
     //Objeto Phantom auxiliar. 
     private Phantom phantom;
+    private Phantom phantomActual = FuncionesGenerales.getPhantomActual();
     // Stage aux
     private Stage dialogStage;
     // Valor Descripcion aux para items de phantom 
@@ -411,6 +412,10 @@ public class AbmPhantomController implements Initializable {
             if (propiedad == null || propiedad.length() == 0) {
                 mensajeError += "El campo Propiedad no puede estar vacio. \n";
             } else {
+                //Parametros de busca nombre
+                if (vd.buscaNombre(propiedad, "phantoms",phantomActual.getIdPhantom())){
+                    mensajeError += "El nombre de la propiedad ya existe. \n";
+                }
                 if (!ValidacionesGenerales.ValidarNombreConEspacios(propiedad)) {
                     mensajeError += "El campo Propiedad debe contener solo letras.\n";
                 }
