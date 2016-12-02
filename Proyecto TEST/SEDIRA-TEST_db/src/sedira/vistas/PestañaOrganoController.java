@@ -86,7 +86,7 @@ public class PestañaOrganoController implements Initializable {
                 listaOrganoString.add(dValidaciones.getPhantomActual().getOrgano().get(i).getNombreOrgano());
             }
             choiceOrgano.setItems(listaOrganoString);
-            txtPhantomSeleccionado.setText(dValidaciones.getPhantomActual().getPhantomNombre());
+     //       txtPhantomSeleccionado.setText(dValidaciones.getPhantomActual().getPhantomNombre());
             aux = 1;
         }
 
@@ -135,7 +135,7 @@ public class PestañaOrganoController implements Initializable {
         //btnQuitar.setDisable(false);
         if (organo != null) {
             //organoId.setText(String.valueOf(organo.getIdOrgano()));
-            organoNombre.setText(organo.getNombreOrgano());
+            //organoNombre.setText(organo.getNombreOrgano());
             organoMasa.setText(organo.getOrganMass().toString());
 
         } else {

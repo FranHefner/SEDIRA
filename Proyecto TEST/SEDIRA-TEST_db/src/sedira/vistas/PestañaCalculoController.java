@@ -173,7 +173,7 @@ public class PestañaCalculoController implements Initializable {
         FuncionesGenerales.mostrarDetalleTablaValorDescripcion(dValidaciones.getPhantomActual().getPropiedades(), griValorDescripcionPhantom);
         // Muestro el nombre del órgano Seleccionado
 
-        lblOrgano.setText(dValidaciones.getOrganoActual().getNombreOrgano());
+     //   lblOrgano.setText(dValidaciones.getOrganoActual().getNombreOrgano());
 
         griValorDescripcionPhantom.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> seleccionPropiedadPhantom(newValue));
@@ -203,7 +203,7 @@ public class PestañaCalculoController implements Initializable {
         clLetraVariable.setCellValueFactory(
                 cellData -> cellData.getValue().variableProperty());
 
-        txtOrganoMasa.setText(dValidaciones.getOrganoActual().getOrganMass().toString());
+//        txtOrganoMasa.setText(dValidaciones.getOrganoActual().getOrganMass().toString());
 
     }
 
