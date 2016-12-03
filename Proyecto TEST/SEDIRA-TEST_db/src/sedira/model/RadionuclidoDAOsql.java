@@ -51,8 +51,7 @@ public class RadionuclidoDAOsql implements IRadionuclidoDAO {
             
         } catch (SQLException e) {
             CodigosErrorSQL.analizarExepcion(e);
-            //JOptionPane.showMessageDialog(null, "no se pudo consultar el radionuclido /n" + e);
-            //System.out.print(e);
+          
         }
         
         return radionuclidoData;
@@ -98,8 +97,6 @@ public class RadionuclidoDAOsql implements IRadionuclidoDAO {
             
         } catch (SQLException e) {
             CodigosErrorSQL.analizarExepcion(e);
-            //JOptionPane.showMessageDialog(null, "no se pudo consultar el radionuclido /n" + e);
-            //System.out.print(e);
         }
         
         return radionuclidoData;
@@ -188,14 +185,7 @@ public class RadionuclidoDAOsql implements IRadionuclidoDAO {
                 consulta.close();
                 conexion.desconectar();
 
-                // Mensaje de confirmacion
-               /* Alert alerta = new Alert(AlertType.INFORMATION);
-                alerta.setTitle("Confirmación");
-                alerta.setHeaderText(null);
-                alerta.setContentText("El radionúclido "
-                        + ""+nombreRadNuclido+" "
-                        + "fué agregado.");
-                alerta.showAndWait();*/
+                
             } else {
                  /**
                   * Mensaje por error esta detallado en el metodo validarDatosEntrada. ABMRadionuclidos
@@ -204,9 +194,6 @@ public class RadionuclidoDAOsql implements IRadionuclidoDAO {
             }
         } catch (SQLException e) {
             CodigosErrorSQL.analizarExepcion(e);
-            //System.out.println(e.getMessage());
-            //JOptionPane.showMessageDialog(null, "Ocurrio un error en la creación");
-            
         }
     }
     /**
@@ -248,8 +235,7 @@ public class RadionuclidoDAOsql implements IRadionuclidoDAO {
 
         } catch (SQLException e) {
             CodigosErrorSQL.analizarExepcion(e);
-            //System.out.println("Ocurrió un error al eliminar el radionúclido \n" + e.getErrorCode());
-            //JOptionPane.showMessageDialog(null, "Ocurrió un error al eliminar el radionúclido \n" + e.getMessage(), "Información", JOptionPane.INFORMATION_MESSAGE);
+          
         }
         
     }
@@ -280,12 +266,6 @@ public class RadionuclidoDAOsql implements IRadionuclidoDAO {
                 consulta.executeUpdate();
                 consulta.close();
                 
-                //Mensaje de confirmacion.
-                /*Alert alerta = new Alert(AlertType.INFORMATION);
-                alerta.setTitle("Confirmación");
-                alerta.setHeaderText(null);
-                alerta.setContentText("El radionúclido fué modificado.");
-                alerta.showAndWait();*/
                 
             } else {
              /**
@@ -296,13 +276,10 @@ public class RadionuclidoDAOsql implements IRadionuclidoDAO {
         } catch (SQLException e) {
             CodigosErrorSQL.analizarExepcion(e);
             
-            
-            //System.out.println(e.getMessage());
-            //JOptionPane.showMessageDialog(null, "Ocurrio un error en la modificación, " + e);
         }
     }
     /**
-     * Método que busca valida si un radionúclido ya existe.
+     * Método que busca si un radionúclido ya existe.
      *
      * @param nombreRadionuclido
      * @return True si no hay coincidencias. False si el nombre existe. 
@@ -320,8 +297,6 @@ public class RadionuclidoDAOsql implements IRadionuclidoDAO {
             ResultSet resultado = consulta.executeQuery();
             if (resultado.next()) {
                 consulta.close();
-                //JOptionPane.showMessageDialog(null, "El radionúclido que desea insertar ya existe","Información",JOptionPane.INFORMATION_MESSAGE);
-                //System.out.println();
                 resultado.close();
                 conexion.desconectar();
                 return false;
@@ -332,8 +307,6 @@ public class RadionuclidoDAOsql implements IRadionuclidoDAO {
             
         } catch (SQLException e) {
             CodigosErrorSQL.analizarExepcion(e);
-            //System.out.println(e.getMessage());
-            //JOptionPane.showMessageDialog(null, "Ocurrio un error! " + e);
             return false;
         }
     }

@@ -164,7 +164,7 @@ public class AbmRadionuclidoController implements Initializable {
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 bandera = true;
                 if (listaSugerida.getSelectionModel().getSelectedIndex() == -1) {
-                
+
                 } else {
                     seleccionarItem(newValue);
                 }
@@ -186,11 +186,11 @@ public class AbmRadionuclidoController implements Initializable {
      */
     private void actualizarListaSugerida(String filtro) {
         listaSugerida.getSelectionModel().clearSelection();
-        
+
         //Comportamiento de la lista sugerida. 
         if (listaSugerida.getSelectionModel().isEmpty()) {
             listaSugerida.setFocusTraversable(false);
-            
+
         } else {
             listaSugerida.setFocusTraversable(true);
 
@@ -217,6 +217,7 @@ public class AbmRadionuclidoController implements Initializable {
 
     /**
      * Setea el Radionúclido a editar.
+     *
      * @param radionuclido a editar.
      */
     public void setRadionuclido(Radionuclido radionuclido) {
@@ -230,7 +231,7 @@ public class AbmRadionuclidoController implements Initializable {
             txtRadNuclidoNombre.setEditable(true);
             txtRadNuclidoNombre.setFocusTraversable(true);
             txtRadNuclidoNombre.setText(radionuclido.getNombreRadNuclido());
-            
+
             txtPropiedad.setDisable(true);
             txtValor.setDisable(true);
             txtUnidad.setDisable(true);
@@ -247,7 +248,7 @@ public class AbmRadionuclidoController implements Initializable {
             //apago los textFields.
             txtRadNuclidoNombre.setEditable(true);
             txtRadNuclidoNombre.setFocusTraversable(true);
-            
+
             txtPropiedad.setDisable(true);
             txtValor.setDisable(true);
             txtUnidad.setDisable(true);
@@ -263,7 +264,6 @@ public class AbmRadionuclidoController implements Initializable {
      */
     public void setItemRadionuclido(ValorDescripcion itemRadionuclido) {
 
-        
         this.itemRadionuclido = itemRadionuclido;
 
         txtRadNuclidoNombre.setText(radionuclidoActual.getNombreRadNuclido());
@@ -331,7 +331,7 @@ public class AbmRadionuclidoController implements Initializable {
         Alert alert = new Alert(AlertType.CONFIRMATION);
         switch (dialogStage.getTitle()) {
             case "Crear un radionúclido":
-                
+
                 alert.setTitle("Cancelar creación");
                 alert.setHeaderText("Atención!");
                 alert.setContentText("Está seguro de cancelar la creación del radionúclido? ");
@@ -376,7 +376,6 @@ public class AbmRadionuclidoController implements Initializable {
                 break;
         }
     }
-      
 
     /**
      * Método que se encarga de la validación de los datos ingresados por el
@@ -403,9 +402,9 @@ public class AbmRadionuclidoController implements Initializable {
                 if (!ValidacionesGenerales.ValidarNombreRadNuclido(nombreRadNuclido)) {
                     mensajeError += "Nombre del radionúclido inválido \n Ej: Yodo-131";
                 }
-                /*if (!rad.buscaNombre(nombreRadNuclido)) {
-                 mensajeError += "El nombre del radionúclido ya existe! \n";
-                 }*/
+                if (!rad.buscaNombre(nombreRadNuclido)) {
+                    mensajeError += "El nombre del radionúclido ya existe! \n";
+                }
             }
         } else {
             /*
@@ -417,14 +416,13 @@ public class AbmRadionuclidoController implements Initializable {
             if (propiedad == null || propiedad.length() == 0) {
                 mensajeError += "El campo Propiedad no puede estar vacio. \n";
             } else {
+                //Si el nombre no cambia en modo edicion
+                if (!propiedad.equals(this.itemRadionuclido.getDescripcion())) {
+                    if (vd.buscaNombre(propiedad, "radionuclidos", radionuclidoActual.getIdRadNuclido())) {
+                        mensajeError += "El nombre de la propiedad ya existe. \n";
+                    }
+                }
                 
-                //Parametros de busca nombre
-                if (vd.buscaNombre(propiedad, "radionuclidos",radionuclidoActual.getIdRadNuclido())){
-                    mensajeError += "El nombre de la propiedad ya existe. \n";
-                }
-                if (!ValidacionesGenerales.ValidarNombreConEspacios(propiedad)) {
-                    mensajeError += "El campo Propiedad debe contener solo letras.\n";
-                }
             }
             //Validacion Valor
             if (valor == null || valor.length() == 0) {

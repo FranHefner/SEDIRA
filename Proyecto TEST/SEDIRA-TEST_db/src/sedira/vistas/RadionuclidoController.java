@@ -122,7 +122,7 @@ public class RadionuclidoController implements Initializable {
         griRadionuclido.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> seleccionRadionuclido(newValue));
 
-        //Listener para la seleccion del radionuclido en la lista de radionuclidos que trae la busqueda.
+        //Listener para la seleccion del item radionuclido en la lista de radionuclidos
         griInfoRadNuclido.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> getSelectedItemFromTabla(newValue));
 
@@ -162,6 +162,7 @@ public class RadionuclidoController implements Initializable {
      * radionuclidos.
      */
     public void seleccionRadionuclido(Radionuclido radionuclidoActual) {
+        griInfoRadNuclido.getSelectionModel().clearSelection();
         FuncionesGenerales.setRadioNuclidoActual(radionuclidoActual);
         if (radionuclidoActual != null) {
             //Obtengo de la Base de datos la lista de propiedades 
@@ -266,15 +267,18 @@ public class RadionuclidoController implements Initializable {
 
     /**
      * Método que obtiene el item seleccionado de la tabla de Radionúclidos.
+     *
+     * @param vd
      */
     public void getSelectedItemFromTabla(ValorDescripcion vd) {
-       
+
         ValorDescripcion selectedItem = griInfoRadNuclido.getSelectionModel().getSelectedItem();
-        
+
         if (griInfoRadNuclido.getSelectionModel().isEmpty()) {
             btnEliminarItem.setDisable(true);
             btnEditarItem.setDisable(true);
         } else {
+
             btnEliminarItem.setDisable(false);
             btnEditarItem.setDisable(false);
         }
@@ -292,13 +296,13 @@ public class RadionuclidoController implements Initializable {
         //Radionuclido que contiene al item a editar 
         Radionuclido radionuclidoActual = FuncionesGenerales.getRadioNuclidoActual();
         // Identificador del radionuclido que contiene el item 
-        int idRadionuclido = FuncionesGenerales.getRadioNuclidoActual().getIdRadNuclido();
+        int idItem = selectedItem.getId();
 
         if (selectedItem != null) {
             boolean guardarCambiosClicked = mostrarItemRadionuclidoEditDialog(selectedItem);
 
             if (guardarCambiosClicked) {
-                vd.modificarItem(selectedItem, idRadionuclido,"radionuclidos");
+                vd.modificarItem(selectedItem, idItem, "radionuclidos");
                 //actualizacion de la informacion del radionuclido.
                 infoRadNuclido = rad.obtenerInfoRadNuclido(radionuclidoActual);
                 //actualizacion de la tabla InfoRadNuclido.
@@ -338,7 +342,7 @@ public class RadionuclidoController implements Initializable {
             String mensaje = griInfoRadNuclido.getSelectionModel().getSelectedItem().getDescripcion() + "  "
                     + griInfoRadNuclido.getSelectionModel().getSelectedItem().getValor() + "  "
                     + griInfoRadNuclido.getSelectionModel().getSelectedItem().getUnidad();
-            
+
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Eliminar Ítem");
             alert.setHeaderText("Atención!");
@@ -379,6 +383,7 @@ public class RadionuclidoController implements Initializable {
     /**
      * Método que elimina un radionúclido. Tambien elimina los items asociados.
      */
+    @FXML
     public void btnEliminarRadionuclido() {
         //Radionuclido seleccionado.
         Radionuclido radionuclidoActual = FuncionesGenerales.getRadioNuclidoActual();
@@ -387,7 +392,7 @@ public class RadionuclidoController implements Initializable {
         int idRadionuclido = radionuclidoActual.getIdRadNuclido();
         //Comportamiento para el cartel de advertencia. 
         String nombreRadNuclido = radionuclidoActual.getNombreRadNuclido();
-        
+
         if (radionuclidoActual != null) {
             String mensaje = radionuclidoActual.getNombreRadNuclido();
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -414,7 +419,7 @@ public class RadionuclidoController implements Initializable {
 
             } else {
                 //Cancelacion de la eliminacion
-                
+
             }
 
         } else {
@@ -471,9 +476,9 @@ public class RadionuclidoController implements Initializable {
     @FXML
     public void btnAgregarRadionuclido() throws SQLException {
         /**
-         * Este metodo crea una objeto de tipo Radionuclido Vacio. 
-         * Luego le asigna las propiedades con la utilizacion de los botones. 
-         * Agregar item y Agregar organo.
+         * Este metodo crea una objeto de tipo Radionuclido Vacio. Luego le
+         * asigna las propiedades con la utilizacion de los botones. Agregar
+         * item y Agregar organo.
          *
          */
 

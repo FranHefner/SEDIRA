@@ -98,11 +98,11 @@ public class ValorDescripcionDAOsql implements IValorDescripcionDAO {
      * radionuclidos_valordescripcion
      *
      * @param vd item a modificar
-     * @param id Identificador del item a modificar. .
+     * @param itemId Identificador del item a modificar. .
      * @param Tabla Relacion que hace el llamado de modificacion. *
      */
     @Override
-    public void modificarItem(ValorDescripcion vd, int id, String Tabla) {
+    public void modificarItem(ValorDescripcion vd, int itemId, String Tabla) {
         //Instancia de conexion
         ConexionDB conexion = new ConexionDB();
         //Identificador del item a modificar.
@@ -111,15 +111,15 @@ public class ValorDescripcionDAOsql implements IValorDescripcionDAO {
 
             PreparedStatement consulta = conexion.getConnection().prepareStatement(
                     "  UPDATE valordescripcion "
-                    + "SET descripcion = ?,"
-                    + "valor = ?,"
-                    + "unidad = ?"
+                    + "SET descripcion = ?, "
+                    + "valor = ?, "
+                    + "unidad = ? "
                     + "WHERE id_valordescripcion = ?");
 
             consulta.setString(1, vd.getDescripcion());
             consulta.setString(2, vd.getValor());
             consulta.setString(3, vd.getUnidad());
-            consulta.setInt(4, id);
+            consulta.setInt(4, itemId);
 
             consulta.executeUpdate(); //Ejecucion de la consulta.
             consulta.close();
