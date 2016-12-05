@@ -33,7 +33,7 @@
       <Label layoutX="20.0" layoutY="452.0" text="Resultado:" />
       <TextArea fx:id="txtEntrada" layoutX="98.0" layoutY="328.0" prefHeight="25.0" prefWidth="412.0" />
       <Label layoutX="19.0" layoutY="330.0" text="Formula:" />
-      <Button id="btnCalcular" fx:id="btnGuardar" disable="true" layoutX="536.0" layoutY="370.0" mnemonicParsing="false" onMouseClicked="#GuardarResultado" prefHeight="35.0" prefWidth="114.0" text="Guardar Cálculo" />
+      <Button id="btnCalcular" fx:id="btnGuardar" disable="true" layoutX="536.0" layoutY="323.0" mnemonicParsing="false" onMouseClicked="#GuardarResultado" prefHeight="35.0" prefWidth="114.0" text="Guardar Cálculo" />
       <Pane fx:id="pnFuncion" layoutX="98.0" layoutY="379.0" prefHeight="50.0" prefWidth="412.0" style="-fx-background-color: white;" />
       <Label layoutX="33.0" layoutY="2.0" text="Phantom" />
       <Label layoutX="32.0" layoutY="109.0" text="Radionúclido" />
@@ -51,7 +51,6 @@
       <Label layoutX="404.0" layoutY="41.0" text="Variables requeridas:" />
       <ComboBox fx:id="cbFormulas" layoutX="461.0" layoutY="4.0" onAction="#seleccionFormula" prefHeight="25.0" prefWidth="181.0" promptText="Seleccionar Fórmula.." />
       <Label layoutX="404.0" layoutY="10.0" text="Formula" />
-      <Button id="btnCalcular" fx:id="btnGuardarFormula" disable="true" layoutX="536.0" layoutY="321.0" mnemonicParsing="false" onMouseClicked="#GuardarFormula" prefHeight="35.0" prefWidth="114.0" text="Guardar Formula" />
       <Button fx:id="btnEliminarFormula" layoutX="650.0" layoutY="4.0" mnemonicParsing="false" onAction="#eliminarFormula" prefHeight="25.0" prefWidth="37.0" text="X" />
       <Label layoutX="29.0" layoutY="217.0" text="Órgano" />
       <TableView fx:id="griValorDescripcionOrgano" layoutX="29.0" layoutY="234.0" prefHeight="84.0" prefWidth="264.0">

@@ -28,7 +28,7 @@ public class FormulaDAOsql implements IFormulaDAO {
      * @return
      */
     @Override
-    public boolean setFormula(String Nombre, String Formula_mat, int Id_historial) {
+    public boolean setFormula(int id_formula, String Formula_mat, String formula_tex) {
 
         //Instancia de conexion
         ConexionDB conexion = new ConexionDB();
@@ -36,11 +36,18 @@ public class FormulaDAOsql implements IFormulaDAO {
         try {
 
             PreparedStatement consulta = conexion.getConnection().prepareStatement(
-                    " INSERT INTO formulas(nombre, formula_mat, id_historial)"
-                    + "VALUES(?,?,?)");
-            consulta.setString(1, Nombre);
+                            "   INSERT INTO formulas ("
+                            + "   id_formula"
+                            + "  ,formula_mat"
+                            + "  ,formula_tex"
+                            + " ) VALUES ("
+                            + "   ? "
+                            + "  ,? "
+                            + "  ,? ");
+
+            consulta.setInt(1, id_formula);
             consulta.setString(2, Formula_mat);
-            consulta.setInt(3, Id_historial);
+            consulta.setString(3, formula_tex);
 
             consulta.executeUpdate(); //Ejecucion de la consulta
             consulta.close();
@@ -98,8 +105,48 @@ public class FormulaDAOsql implements IFormulaDAO {
         
         
     }
+    
+     @Override
+     public boolean SetFormulaPlantilla( int Id_formula, String Nombre)
+     {
+             ConexionDB conexion = new ConexionDB();
+
+        try {
+
+            PreparedStatement consulta = conexion.getConnection().prepareStatement(                  
+            "  INSERT INTO plantillas ("       
+                + " nombre"
+                + " ,id_formula "
+                + " ) VALUES ("        
+                + "  ?  "
+                + "  ,?  )");
+  
+
+            consulta.setString(1, Nombre);
+            consulta.setInt(2, Id_formula);
+      
+            consulta.executeUpdate(); //Ejecucion de la consulta
+            consulta.close();
+            // JOptionPane.showMessageDialog(null, "La propiedad "+vd.getDescripcion()+ " fué agregada con éxito!","Información",JOptionPane.INFORMATION_MESSAGE);
+            conexion.desconectar();
+
+            // Mensaje de confirmacion
+            Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+            alerta.setTitle("Confirmación");
+            alerta.setHeaderText(null);
+            alerta.setContentText("La fórmula fué guardada con éxito.");
+            alerta.showAndWait();
+
+        } catch (SQLException e) {
+            CodigosErrorSQL.analizarExepcion(e);
+            //System.out.println("Ocurrió un error al guardar el cálculo " + e.getMessage());
+            //JOptionPane.showMessageDialog(null, "Ocurrió un error al guardar el cálculo " + e.getMessage(), "Información", JOptionPane.INFORMATION_MESSAGE);
+        }
+
+        return true;
+     }
     @Override
-    public List<Formula> getFormulas() {
+    public List<Formula> getFormulasPlantillas() {
         //Instancia de conexion
         ConexionDB conexion = new ConexionDB();
         //Creo una lista auxiliar
@@ -107,7 +154,12 @@ public class FormulaDAOsql implements IFormulaDAO {
 
         try {
             PreparedStatement consulta = conexion.getConnection().prepareStatement(
-                    "SELECT * FROM formulas");
+                  " SELECT "
+                  + " F.id_formula, "
+                  + " P.nombre, "
+                  + " F.formula_mat "
+                  + " FROM "
+                  + " plantillas P JOIN formulas F ON P.id_formula = F.id_formula ");
 
             //Ejecucion de la consulta. 
             ResultSet resultado = consulta.executeQuery();
@@ -115,7 +167,7 @@ public class FormulaDAOsql implements IFormulaDAO {
             while (resultado.next()) {
 
                 //  public Formula(int pId_formula, String pNombre, String pFormula_mat, int pId_calculo)
-                 Formula f = new Formula(resultado.getInt("id_historial"),resultado.getString("nombre"),resultado.getString( "formula_mat"),resultado.getInt("id_historial"));
+                 Formula f = new Formula(resultado.getInt("id_formula"),resultado.getString("nombre"),resultado.getString( "formula_mat"));
                 formulas.add(f);
             }
             //Cierre de consulta
@@ -133,7 +185,7 @@ public class FormulaDAOsql implements IFormulaDAO {
 
     }
     @Override
-    public ObservableList<VariableCalculo> getPropiedadesFormula(int Id_historial, boolean ConValores) {
+    public ObservableList<VariableCalculo> getPropiedadesFormula(int id_formula, boolean ConValores) {
      
                 
                      //Instancia de conexion
@@ -143,25 +195,23 @@ public class FormulaDAOsql implements IFormulaDAO {
 
         try {
             PreparedStatement consulta = conexion.getConnection().prepareStatement(
-                    "SELECT * FROM historialcalculo WHERE id_historial = ?");
+                    "SELECT * FROM formulasPropiedades WHERE id_formula =  ?");
 
             
-               consulta.setInt(1, Id_historial);
+               consulta.setInt(1, id_formula);
             //Ejecucion de la consulta. 
             ResultSet resultado = consulta.executeQuery();
 
             while (resultado.next()) {
-
-                //  public Formula(int pId_formula, String pNombre, String pFormula_mat, int pId_calculo
-          //       public VariableCalculo(int id, String descripcion, double valor, String variable) {
+             
                   VariableCalculo variable =null;
                 if (ConValores)
                 {
-                      variable = new VariableCalculo(resultado.getInt("id_historial"), resultado.getString("propiedad"), resultado.getString("valor"), resultado.getString("variable"));
+                      variable = new VariableCalculo(resultado.getInt("id_propiedad"), resultado.getString("nombre"), resultado.getString("valor"), resultado.getString("variable"));
                
                 }else
                 {
-                     variable = new VariableCalculo(resultado.getInt("id_historial"), resultado.getString("propiedad"), "", resultado.getString("variable"));
+                     variable = new VariableCalculo(resultado.getInt("id_propiedad"), resultado.getString("nombre"), "", resultado.getString("variable"));
                
                 }
                 

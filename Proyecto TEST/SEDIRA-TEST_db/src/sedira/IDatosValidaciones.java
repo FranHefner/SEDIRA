@@ -23,7 +23,7 @@ public interface IDatosValidaciones {
     
       void IniciarCalculo();
       boolean finalizarCalculo(String resultado, String Formula, String FormulaTex, List<VariableCalculo> variablesCalculo);
-      boolean guardarCalculo();
+      int guardarCalculo();
       
       String    getResultado();
       Phantom getPhantomActual();   

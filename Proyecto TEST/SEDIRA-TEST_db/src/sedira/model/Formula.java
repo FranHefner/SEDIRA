@@ -14,18 +14,16 @@ public class Formula {
     int Id_formula;
     String Nombre;
     String Formula_mat;
-    int Id_historial;
+
     
     
     
      public Formula(){}
-     public Formula(int pId_formula, String pNombre, String pFormula_mat, int pId_historial)
+     public Formula(int pId_formula, String pNombre, String pFormula_mat)
      {
          this.Id_formula= pId_formula;
          this.Nombre = pNombre;
-         this.Formula_mat= pFormula_mat;
-         this.Id_historial = pId_historial;
-         
+         this.Formula_mat= pFormula_mat;              
      }
      
      public String getNombre()
@@ -36,9 +34,9 @@ public class Formula {
      {
          return Formula_mat;
      }
-       public int getId_Historial()
+      public int getId_Formula()
      {
-         return Id_historial;
+         return Id_formula;
      }
     
 }

@@ -29,11 +29,11 @@ public class VariableCalculoDAOsql implements IVariableCalculoDAO {
         
         try {
             PreparedStatement consulta = conexion.getConnection().prepareStatement(
-                    "SELECT calculos.id_calculo, historialcalculo.id_calculo, historialcalculo.id_historial, "
-                        + "historialcalculo.propiedad, historialcalculo.valor, historialcalculo.variable from calculos "
-                        + "INNER JOIN historialcalculo "
-                        + "ON calculos.id_calculo = historialcalculo.id_calculo "
-                        + "WHERE calculos.id_calculo = ?");
+                    "  SELECT calculos.id_calculo, historialcalculo.id_calculo, historialcalculo.id_historial, "
+                   + "      historialcalculo.propiedad, historialcalculo.valor, historialcalculo.variable from calculos "
+                   + " INNER JOIN historialcalculo "
+                   + "       ON calculos.id_calculo = historialcalculo.id_calculo "
+                   + " WHERE calculos.id_calculo = ?");
             
             // Parametros de la consulta. 
             consulta.setInt(1, IdCalculo);

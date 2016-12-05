@@ -21,6 +21,7 @@ import java.util.Optional;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -106,8 +107,6 @@ public class PestañaCalculoController implements Initializable {
     @FXML
     private Button btnGuardar;
     @FXML
-    private Button btnGuardarFormula;
-    @FXML
     private Button btnAgregarPropiedad;
     @FXML
     private Button btnSacarPropiedad;
@@ -123,7 +122,7 @@ public class PestañaCalculoController implements Initializable {
 
     boolean graficaOK = false;
     boolean calculoOK = false;
-    boolean guardadoOK = false;
+    int guardadoIdCalculo = -1;
 
     private ValorDescripcion variableSeleccionada = null;
     private IDatosValidaciones dValidaciones;
@@ -282,7 +281,7 @@ public class PestañaCalculoController implements Initializable {
 
             for (int i = 0; i < FormulasActuales.size(); i++) {
                 if (formulaSelecionada.equals(FormulasActuales.get(i).getNombre())) {
-                    listaVariables = iFormulas.getPropiedadesFormula(FormulasActuales.get(i).getId_Historial(), false);
+                    listaVariables = iFormulas.getPropiedadesFormula(FormulasActuales.get(i).getId_Formula(), false);
                     IndiceFormula = i;
                 }
 
@@ -300,6 +299,12 @@ public class PestañaCalculoController implements Initializable {
                     }
                 }
                 for (ValorDescripcion variableRadionuclido : dValidaciones.getRadionuClidoActual().getPropiedades()) {
+                    if (vc.getDescripcion().equals(variableRadionuclido.getDescripcion())) {
+
+                        ListaValores.add(variableRadionuclido.getValor());
+                    }
+                }
+                for (ValorDescripcion variableRadionuclido : dValidaciones.getOrganoActual().getPropiedades()) {
                     if (vc.getDescripcion().equals(variableRadionuclido.getDescripcion())) {
 
                         ListaValores.add(variableRadionuclido.getValor());
@@ -434,19 +439,19 @@ public class PestañaCalculoController implements Initializable {
 
     }
 
-    @FXML
-    public void GuardarFormula() {
+  
+    public void GuardarFormulaPlantilla(int IdFormula) {
 
         TextInputDialog dialog = new TextInputDialog("");
 
         dialog.setTitle("Guardado de Fórmula");
-        dialog.setHeaderText("La fórmula se usará como plantilla para nuevos cálculos.\n¿Qué nombre desea utilizar?");
-        dialog.setContentText("Por favor, ingrese el nombre:");
+        dialog.setHeaderText("Si desea que la fórmula se utilice como plantilla para nuevos cálculos complete el nombre. \n De lo contrario presione el boton 'Cancelar'");
+        dialog.setContentText("Nombre de la fórmula:");
 
         Optional<String> result = dialog.showAndWait();
         if (result.isPresent()) {
-
-            formu.setFormula(result.get(), txtEntrada.getText(), dValidaciones.getIdCalgulo());
+               
+                formu.SetFormulaPlantilla(IdFormula, result.get());
         }
         cbFormulas.getItems().clear();
         llenarFormulas();
@@ -524,9 +529,16 @@ public class PestañaCalculoController implements Initializable {
 
         dValidaciones.finalizarCalculo(resultadoCalculo, formulaOriginal, formulEnTex, listaVariables);
 
-        guardadoOK = dValidaciones.guardarCalculo();
+        guardadoIdCalculo = dValidaciones.guardarCalculo();
 
-        if (guardadoOK) {
+        if ( cbFormulas.getSelectionModel().isEmpty() && guardadoIdCalculo != -1 )
+        {
+                 GuardarFormulaPlantilla(guardadoIdCalculo);
+        }else            
+        {
+         // Error en el guardado
+        }
+      /*  if (guardadoOK) {
 
             if (MenuPrincipalController.TipoUsuario.equals("Cientifico")) {
                 btnGuardarFormula.setDisable(false);
@@ -534,14 +546,14 @@ public class PestañaCalculoController implements Initializable {
 
         } else {
             btnGuardarFormula.setDisable(true);
-        }
+        }*/
 
     }
 
     @FXML
     public void RealizarCalculo(String NuevaFormula) {
 
-        btnGuardarFormula.setDisable(true);
+     
         txtResult.setText("");
         pnFuncion.getChildren().clear();
         btnGuardar.setDisable(true);
@@ -600,7 +612,7 @@ public class PestañaCalculoController implements Initializable {
     private void llenarFormulas() {
 
         iFormulas = new FormulaDAOsql();
-        FormulasActuales = iFormulas.getFormulas();
+        FormulasActuales = iFormulas.getFormulasPlantillas();
 
         for (int i = 0; i < FormulasActuales.size(); i++) {
             cbFormulas.getItems().add(FormulasActuales.get(i).getNombre());

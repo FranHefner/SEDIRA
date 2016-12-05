@@ -84,9 +84,9 @@ public class PhantomDAOsql implements IPhantomDAO {
                                 + " (SELECT "
                                 + "   * "
                                 + "  FROM "
-                                + "   phantoms_valordescripcion PV "
+                                + "     organos_phantoms OP     "
                                 + "  WHERE "
-                                + "    PV.id_phantom = P.id_phantom)");
+                                + "     OP.id_phantom = P.id_phantom)");
 
             ResultSet resultado = consulta.executeQuery();
             while (resultado.next()) {

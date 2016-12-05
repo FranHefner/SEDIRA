@@ -79,7 +79,7 @@ public class DatosValidacionesCalculoBasico implements IDatosValidaciones {
         return true;
     }
     @Override
-    public  boolean guardarCalculo() {
+    public int guardarCalculo() {
 
         Date Ahora = new Date();
 
@@ -93,16 +93,16 @@ public class DatosValidacionesCalculoBasico implements IDatosValidaciones {
              */
             nuevoCalculo.Validar();
 
-            cal.setCalculoBasico(nuevoCalculo);
+           cal.setCalculoBasico(nuevoCalculo);
 
         } else {
-            return false;
+          return -1;
         }
 
         /* Una vez guardado, obtener el dato y aplicar Hash para ver si coinciden, como forma de asegurarse el resiltado*/
         /* ver en que tipo de dato se guarda, podria ser en binaio para asegurarnos que no van a existir casteos de la db 
         porque pude ser que cambie el motor de db        */
-        return true;
+           return 1;
     }
 
     private static boolean validarPaciente() {

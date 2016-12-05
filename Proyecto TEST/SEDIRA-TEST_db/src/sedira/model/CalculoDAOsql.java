@@ -245,7 +245,7 @@ public class CalculoDAOsql implements ICalculoDAO {
             PreparedStatement consultaObtenerIdPropiedad = conexion.getConnection().prepareStatement(
                     "SELECT IFNULL(MAX(id_propiedad) + 1,1) AS SIGUIENTE FROM propiedades");
 
-            ResultSet rsIdPropiedad = consultaObtenerIDFormula.executeQuery();
+            ResultSet rsIdPropiedad = consultaObtenerIdPropiedad.executeQuery();
 
             while (rsIdPropiedad.next()) {
                 Id_propiedad = rsIdPropiedad.getInt("SIGUIENTE");
