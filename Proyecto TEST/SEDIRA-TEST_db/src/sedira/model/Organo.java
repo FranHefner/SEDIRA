@@ -11,6 +11,7 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 /**
@@ -91,14 +92,25 @@ public class Organo {
     }
      public ObservableList<ValorDescripcion> getPropiedades_Masa() {
        
-          ObservableList<ValorDescripcion> PropiedadesMasa;
-          
-         ValorDescripcion MasaPropiedad = new ValorDescripcion(propiedades.size()+1,"Masa",organMass.getValue().toString(),"Gr.");     
-  
-        PropiedadesMasa =propiedades;
-        
-        PropiedadesMasa.add(MasaPropiedad);
-        
+             int IndexPropiedad;
+              ValorDescripcion MasaPropiedad =null;
+           
+                ObservableList<ValorDescripcion> PropiedadesMasa = FXCollections.observableArrayList();
+         if (propiedades != null)
+         {    
+             IndexPropiedad = propiedades.size()+1;
+               PropiedadesMasa =propiedades;
+               
+         }else
+         {
+             IndexPropiedad = 1;
+            
+         }
+         
+          MasaPropiedad = new ValorDescripcion(IndexPropiedad,"Masa",organMass.getValue().toString(),"Gr.");     
+         PropiedadesMasa.add(MasaPropiedad);
+                
+            
          return PropiedadesMasa;
     }
 

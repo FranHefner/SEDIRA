@@ -304,10 +304,10 @@ public class PestañaCalculoController implements Initializable {
                         ListaValores.add(variableRadionuclido.getValor());
                     }
                 }
-                for (ValorDescripcion variableRadionuclido : dValidaciones.getOrganoActual().getPropiedades()) {
-                    if (vc.getDescripcion().equals(variableRadionuclido.getDescripcion())) {
+                for (ValorDescripcion variableOrgano : dValidaciones.getOrganoActual().getPropiedades_Masa()) {
+                    if (vc.getDescripcion().equals(variableOrgano.getDescripcion())) {
 
-                        ListaValores.add(variableRadionuclido.getValor());
+                        ListaValores.add(variableOrgano.getValor());
                     }
                 }
 
@@ -364,8 +364,8 @@ public class PestañaCalculoController implements Initializable {
                 listaVariables.clear();
                
                   griVariables.setItems(listaVariables);
-                
-
+                 
+                 txtEntrada.setText("");
             } else if (FaltanDefinirPropiedades == true) {
 
                 Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -381,7 +381,7 @@ public class PestañaCalculoController implements Initializable {
                 Optional<ButtonType> result = alert.showAndWait();
                 if (result.get() == ButtonType.OK) {
                 }
-
+                        txtEntrada.setText("");
                
             } else {
                 if (IndiceFormula != -1) {

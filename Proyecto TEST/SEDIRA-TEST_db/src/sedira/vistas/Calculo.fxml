@@ -68,7 +68,7 @@
                   <Pane layoutX="119.0" prefHeight="52.0" prefWidth="444.0">
                      <children>
                         <Button fx:id="btnAtras" disable="true" layoutX="14.0" layoutY="8.0" mnemonicParsing="false" onAction="#btnAtras_click" prefHeight="36.0" prefWidth="117.0" text="Atras" />
-                        <Button fx:id="btnSiguiente" layoutX="164.0" layoutY="8.0" mnemonicParsing="false" onAction="#btnSiguiente_click" onMouseClicked="#btnSiguiente_click" prefHeight="36.0" prefWidth="117.0" text="Siguiente" />
+                        <Button fx:id="btnSiguiente" layoutX="164.0" layoutY="8.0" mnemonicParsing="false" onAction="#btnSiguiente_click" prefHeight="36.0" prefWidth="117.0" text="Siguiente" />
                         <Button fx:id="btnCancelar" layoutX="313.0" layoutY="8.0" mnemonicParsing="false" onAction="#btnCancelar_click" prefHeight="36.0" prefWidth="117.0" text="Cancelar" />
                      </children>
                   </Pane>
