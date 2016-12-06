@@ -16,7 +16,7 @@ public interface IFormulaDAO {
     
      boolean setFormula(int id_formula, String Formula_mat, String formula_tex) ;
      List<Formula>  getFormulasPlantillas();
-     public ObservableList<VariableCalculo> getPropiedadesFormula(int Id_historial, boolean ConValores);
+     public ObservableList<VariableCalculo> getPropiedadesFormulaCalculo(int id_formula, int id_calculo, boolean ConValores);
      public void eliminarFormula(String Formula);
       public boolean SetFormulaPlantilla( int Id_formula, String Nombre);
 }

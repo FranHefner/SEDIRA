@@ -37,24 +37,30 @@ public class CalculoDAOsql implements ICalculoDAO {
 
         try {
             PreparedStatement consulta = conexion.getConnection().prepareStatement(
-                    "SELECT  CONCAT(P.apellido,\", \", P.nombre) AS Paciente, "
-                    + "R.nombre_radionuclido AS Radionuclido, "
-                    + "PH.nombre AS Phantom, "
-                    + "C.fecha_calculo AS Fecha, "
-                    + "O.nombre AS Organo, "
-                    + "C.id_calculo, "
-                    + "C.resultado_calculo AS Resultado, "
-                    + "C.observaciones AS Observaciones, "
-                    + "C.hash_code AS Hash, "
-                    + "C.formula_mat AS Formula_Mat, "
-                    + "C.formula_tex AS Formula_Tex, "
-                    + "P.id_paciente "
-                    + "FROM calculos C "
-                    + "JOIN radionuclidos R ON C.id_radionuclido = R.id_radionuclido "
-                    + "JOIN phantoms PH ON C.id_phantom = PH.id_phantom "
-                    + "JOIN organos O ON C.id_organo = O.id_organo "
-                    + "JOIN pacientes P ON C.id_paciente = P.id_paciente "
-                    + "WHERE P.id_paciente = ?");
+                      " SELECT "
+                    + " CONCAT(P.apellido,\", \", P.nombre) AS Paciente, "
+                    + "    P.nombre "
+                    + "    AS Paciente, "
+                    + "  P.id_paciente,   "
+                    + "  C.fecha_calculo AS Fecha, "
+                    + "  C.hash_code AS Hash, "
+                    + "  C.id_calculo, "
+                    + "  C.observaciones AS Observaciones, "
+                    + "  C.resultado_calculo AS Resultado, "
+                    + "  PH.nombre AS Phantom, "
+                    + "  R.nombre AS Radionuclido, "
+                    + "  O.nombre AS Organo, "
+                    + "  F.formula_mat AS Formula_Mat, "
+                    + "  F.formula_tex AS Formula_Tex   "
+                    + " FROM "
+                    + "  calculos C JOIN formulas F ON C.id_formula = F.id_formula "
+                    + "             JOIN pacientes P ON C.id_paciente = P.id_paciente "
+                    + "            JOIN phantoms PH ON C.id_phantom = PH.id_phantom "
+                    + "             JOIN radionuclidos R ON C.id_radionuclido = R.id_radionuclido "
+                    + "            JOIN organos O ON C.id_organo = O.id_organo "
+                    + " WHERE "
+                    + "  C.id_paciente = ? ");
+          
             consulta.setInt(1, idPaciente);
             //Ejecucion de la consulta. 
             ResultSet resultado = consulta.executeQuery();
@@ -370,24 +376,29 @@ public class CalculoDAOsql implements ICalculoDAO {
 
         try {
             PreparedStatement consulta = conexion.getConnection().prepareStatement(
-                    "SELECT  CONCAT(P.apellido,\", \", P.nombre) AS Paciente, "
-                    + "R.nombre_radionuclido AS Radionuclido, "
-                    + "PH.nombre_phantom AS Phantom, "
-                    + "C.fecha_calculo AS Fecha, "
-                    + "O.nombre_organo AS Organo, "
-                    + "C.id_calculo, "
-                    + "C.resultado_calculo AS Resultado, "
-                    + "C.observaciones AS Observaciones, "
-                    + "C.hash_code AS Hash, "
-                    + "C.formula_mat AS Formula_Mat, "
-                    + "C.formula_tex AS Formula_Tex, "
-                    + "P.id_paciente "
-                    + "FROM calculos C "
-                    + "JOIN radionuclidos R ON C.id_radionuclido = R.id_radionuclido "
-                    + "JOIN phantoms PH ON C.id_phantom = PH.id_phantom "
-                    + "JOIN organos O ON C.id_organo = O.id_organo "
-                    + "JOIN pacientes P ON C.id_paciente = P.id_paciente "
+                       " SELECT "
+                    + " CONCAT(P.apellido,\", \", P.nombre) AS Paciente, "
+                    + "    P.nombre "
+                    + "    AS Paciente, "
+                    + "  P.id_paciente,   "
+                    + "  C.fecha_calculo AS Fecha, "
+                    + "  C.hash_code AS Hash, "
+                    + "  C.id_calculo, "
+                    + "  C.observaciones AS Observaciones, "
+                    + "  C.resultado_calculo AS Resultado, "
+                    + "  PH.nombre AS Phantom, "
+                    + "  R.nombre AS Radionuclido, "
+                    + "  O.nombre AS Organo, "
+                    + "  F.formula_mat AS Formula_Mat, "
+                    + "  F.formula_tex AS Formula_Tex "               
+                    + " FROM "
+                    + "  calculos C JOIN formulas F ON C.id_formula = F.id_formula "
+                    + "             JOIN pacientes P ON C.id_paciente = P.id_paciente "
+                    + "            JOIN phantoms PH ON C.id_phantom = PH.id_phantom "
+                    + "             JOIN radionuclidos R ON C.id_radionuclido = R.id_radionuclido "
+                    + "            JOIN organos O ON C.id_organo = O.id_organo "                  
                     + "WHERE C.id_calculo = ?");
+            
             consulta.setInt(1, idCalculo);
             //Ejecucion de la consulta. 
             ResultSet resultado = consulta.executeQuery();

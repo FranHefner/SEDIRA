@@ -217,7 +217,7 @@ public class PestañaCalculoController implements Initializable {
         
         //Completo tabla de Info Organo
        
-        FuncionesGenerales.mostrarDetalleTablaValorDescripcion(dValidaciones.getOrganoActual().getPropiedades_Masa(), griValorDescripcionOrgano);
+        FuncionesGenerales.mostrarDetalleTablaValorDescripcion(dValidaciones.getOrganoActual().getPropiedades(), griValorDescripcionOrgano);
 
         
         griValorDescripcionOrgano.getSelectionModel().selectedItemProperty().addListener(
@@ -281,7 +281,7 @@ public class PestañaCalculoController implements Initializable {
 
             for (int i = 0; i < FormulasActuales.size(); i++) {
                 if (formulaSelecionada.equals(FormulasActuales.get(i).getNombre())) {
-                    listaVariables = iFormulas.getPropiedadesFormula(FormulasActuales.get(i).getId_Formula(), false);
+                    listaVariables = iFormulas.getPropiedadesFormulaCalculo(FormulasActuales.get(i).getId_Formula(), -1, false);
                     IndiceFormula = i;
                 }
 
@@ -304,7 +304,7 @@ public class PestañaCalculoController implements Initializable {
                         ListaValores.add(variableRadionuclido.getValor());
                     }
                 }
-                for (ValorDescripcion variableOrgano : dValidaciones.getOrganoActual().getPropiedades_Masa()) {
+                for (ValorDescripcion variableOrgano : dValidaciones.getOrganoActual().getPropiedades()) {
                     if (vc.getDescripcion().equals(variableOrgano.getDescripcion())) {
 
                         ListaValores.add(variableOrgano.getValor());

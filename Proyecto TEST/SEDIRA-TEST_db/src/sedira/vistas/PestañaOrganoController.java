@@ -41,14 +41,11 @@ public class PestañaOrganoController implements Initializable {
     @FXML
     private TextField txtNombreOrgano;
     @FXML
-    private TextField txtMasaOrgano;
-    @FXML
     private TextField txtPhantomSeleccionado;
     
     
     @FXML
-    private TableView<ValorDescripcion> griValorDescripcionOrgano;
-    
+    private TableView<ValorDescripcion> griValorDescripcionOrgano;    
     @FXML
     private TableColumn<ValorDescripcion, String> clVdValorOrgano;
     @FXML
@@ -141,13 +138,16 @@ public class PestañaOrganoController implements Initializable {
                 //Completo tabla de Organos
                 
                infoOrgano=org.obtenerInfoOrgano(organoActual,dValidaciones.getPhantomActual().getIdPhantom());
+               
+               organoActual.setPropiedades_Masa(infoOrgano );
+               
+               
                FuncionesGenerales.mostrarDetalleTablaValorDescripcion(infoOrgano, griValorDescripcionOrgano);
 
                  
-                mostrarDetalleSeleccion(organoActual, txtNombreOrgano, txtMasaOrgano, txtIdOrgano);
-
                 /* Selección del organo para el cálculo */
                 dValidaciones.setOrgano(organoActual);
+             
                 /**
                  * *
                  */

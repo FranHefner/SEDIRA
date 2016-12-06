@@ -21,12 +21,12 @@ import sedira.FuncionesGenerales;
 import sedira.Security;
 import sedira.model.CalculoDAOsql;
 import sedira.model.CalculoMuestra;
+import sedira.model.FormulaDAOsql;
 import sedira.model.ICalculoDAO;
-import sedira.model.IVariableCalculoDAO;
+import sedira.model.IFormulaDAO;
 import sedira.model.MyCanvas;
 import sedira.model.Paciente;
 import sedira.model.VariableCalculo;
-import sedira.model.VariableCalculoDAOsql;
 
 /**
  * FXML Controller class
@@ -78,7 +78,9 @@ public class HistorialSEDIRAController implements Initializable {
     //Instancia de objeto tipo ICalculoDAO. Se inicializa como CalculoDAOsql.  
     private ICalculoDAO cal = new CalculoDAOsql();
     //Instancia de objeto tipo IVariableCalculoDAO. Se inicializa como VariableCalculoDAOsql.  
-    private IVariableCalculoDAO var = new VariableCalculoDAOsql();
+  //  private IVariableCalculoDAO var = new VariableCalculoDAOsql();
+    
+    private IFormulaDAO f = new FormulaDAOsql();
 
     //Arreglos de calculos realizados a una persona. 
     private ObservableList<CalculoMuestra> calculoData = FXCollections.observableArrayList();
@@ -132,7 +134,10 @@ public class HistorialSEDIRAController implements Initializable {
 
         if (calculoSeleccionado != null) {
             //Completo la grilla de variables del calculo. 
-            varCalculoData = var.obtenerVariables(calculoSeleccionado.getIdCalculoMuestra());
+         
+            
+            
+           varCalculoData =  f.getPropiedadesFormulaCalculo(-1, calculoSeleccionado.getIdCalculoMuestra(), true);
             griVariableCalculo.setItems(varCalculoData);
             
             //Completo la informacion de los labels. 

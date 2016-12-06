@@ -185,7 +185,7 @@ public class FormulaDAOsql implements IFormulaDAO {
 
     }
     @Override
-    public ObservableList<VariableCalculo> getPropiedadesFormula(int id_formula, boolean ConValores) {
+    public ObservableList<VariableCalculo> getPropiedadesFormulaCalculo(int id_formula, int id_calculo, boolean ConValores) {
      
                 
                      //Instancia de conexion
@@ -193,12 +193,30 @@ public class FormulaDAOsql implements IFormulaDAO {
         //Creo una lista auxiliar
         ObservableList<VariableCalculo>  propiedadesCalculo = FXCollections.observableArrayList();
 
+             String SQL="";
+             int IndexBusqueda =-1 ;
+                
+            if(id_formula != -1)
+            {
+                SQL=  "SELECT * FROM formulasPropiedades WHERE id_formula =  ?";
+                IndexBusqueda =id_formula;
+              
+            }
+            if(id_calculo != -1)
+            {
+                 SQL=  "SELECT * FROM formulasPropiedades WHERE id_calculo =  ?";
+                  IndexBusqueda =id_calculo;
+            }
+             
+       
         try {
-            PreparedStatement consulta = conexion.getConnection().prepareStatement(
-                    "SELECT * FROM formulasPropiedades WHERE id_formula =  ?");
+           
 
-            
-               consulta.setInt(1, id_formula);
+             PreparedStatement consulta = conexion.getConnection().prepareStatement(
+                   SQL);
+        
+           consulta.setInt(1, IndexBusqueda);
+              
             //Ejecucion de la consulta. 
             ResultSet resultado = consulta.executeQuery();
 

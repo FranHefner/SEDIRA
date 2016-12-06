@@ -117,6 +117,20 @@ public class Organo {
     public void setPropiedades(ObservableList<ValorDescripcion> propiedades) {
         this.propiedades = propiedades;
     }
+    
+    public void setPropiedades_Masa(ObservableList<ValorDescripcion> propiedades) {
+       
+          int IndexPropiedad;
+                       
+         IndexPropiedad = propiedades.size()+1;         
+     
+         ValorDescripcion MasaPropiedad  = new ValorDescripcion(IndexPropiedad,"Masa",organMass.getValue().toString(),"Gr.");
+         
+         propiedades.add(MasaPropiedad);
+         
+         this.propiedades = propiedades;
+         
+    }
 
    
     
