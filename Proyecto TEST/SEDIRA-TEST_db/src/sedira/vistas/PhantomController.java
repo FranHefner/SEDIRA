@@ -118,7 +118,7 @@ public class PhantomController implements Initializable {
     //Instancia de objeto tipo IValorDescripcionDAO. Se inicializa como ValorDescripcionDAOsql.  
     private IValorDescripcionDAO vd = new ValorDescripcionDAOsql();
 
-    private static int LIMIT_NOMBRE = 45;
+    private final int LIMIT_NOMBRE = 45;
 
     /**
      * Initializes la clase controlador. El método setCellValueFactory(...) que

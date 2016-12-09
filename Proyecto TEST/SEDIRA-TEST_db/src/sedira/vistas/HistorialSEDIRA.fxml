@@ -9,7 +9,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="582.0" prefWidth="790.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sedira.vistas.HistorialSEDIRAController">
+<AnchorPane id="AnchorPane" prefHeight="604.0" prefWidth="790.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sedira.vistas.HistorialSEDIRAController">
    <children>
       <TitledPane animated="false" collapsible="false" layoutX="28.0" layoutY="14.0" prefHeight="326.0" prefWidth="546.0" text="Historial de Cálculos" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <content>
@@ -25,9 +25,9 @@
                         <TableColumn fx:id="clPaciente" editable="false" prefWidth="90.0" resizable="false" text="Paciente" visible="false" />
                      </columns>
                   </TableView>
-                  <TitledPane animated="false" collapsible="false" layoutX="211.0" layoutY="4.6" prefHeight="319.0" prefWidth="558.0" text="Información del cálculo seleccionado" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <TitledPane animated="false" collapsible="false" layoutX="211.0" layoutY="17.8" prefHeight="551.0" prefWidth="558.0" text="Información del cálculo seleccionado" AnchorPane.bottomAnchor="21.0" AnchorPane.topAnchor="9.0">
                      <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="510.0" prefWidth="556.0">
                            <children>
                               <TableView fx:id="griVariableCalculo" layoutX="278.0" layoutY="17.8" prefHeight="133.0" prefWidth="268.0" AnchorPane.topAnchor="9.0">
                                  <columns>
@@ -61,6 +61,7 @@
                         </AnchorPane>
                      </content>
                   </TitledPane>
+                  <Button fx:id="btnCerrar" layoutX="711.0" layoutY="556.0" mnemonicParsing="false" onAction="#btnCerrar_click" prefHeight="22.0" prefWidth="58.0" text="Cerrar" />
                </children>
             </AnchorPane>
          </content>

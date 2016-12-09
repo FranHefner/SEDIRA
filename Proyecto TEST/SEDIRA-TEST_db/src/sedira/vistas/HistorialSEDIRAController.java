@@ -11,12 +11,14 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 import sedira.FuncionesGenerales;
 import sedira.Security;
 import sedira.model.CalculoDAOsql;
@@ -35,6 +37,8 @@ import sedira.model.VariableCalculo;
  */
 public class HistorialSEDIRAController implements Initializable {
 
+    @FXML
+    private Button btnCerrar;
     @FXML
     private Label lblPaciente;
     @FXML
@@ -171,6 +175,14 @@ public class HistorialSEDIRAController implements Initializable {
 
         }
 
+    }
+     /**
+     * Método para el comportamiento del boton Cerrar.
+     */
+    @FXML
+    private void btnCerrar_click() {
+        Stage stage = (Stage) btnCerrar.getScene().getWindow();
+        stage.close();
     }
 
 }

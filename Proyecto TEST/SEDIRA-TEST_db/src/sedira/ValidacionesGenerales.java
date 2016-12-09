@@ -91,33 +91,49 @@ public class ValidacionesGenerales {
     public static boolean ValidarNombre(String Nombre) {
         for (int i = 0; i < Nombre.length(); i++) {
             //^[\\p{L} .'-]+$
-            
+
             if (!Nombre.substring(i, i + 1).toLowerCase().matches("[a-z]")) {
                 return false;
             }
         }
         return true;
     }
+
     /**
-     * Método que controla si un nombre es aceptado. En este caso acepta espacios entre caracteres. 
-     * Utiliza expresiones regulares. 
+     * Método que controla si un nombre es aceptado. En este caso acepta
+     * espacios entre caracteres. Utiliza expresiones regulares.
+     *
      * @param Nombre
-     * @return True si acepta. False si no 
+     * @return True si acepta. False si no
      */
     public static boolean ValidarNombreConEspacios(String Nombre) {
         return Nombre.matches("^[\\p{L} '-]+$");
-              
+
     }
-    
-    public static boolean ValidarNumericoFloat (String Numero){
+
+    public static boolean ValidarNumericoFloat(String Numero) {
         return Numero.matches("-?\\d+(\\.\\d+)?");
     }
-    public static boolean ValidarNombreRadNuclido (String Numero){
+
+    public static boolean ValidarNombreRadNuclido(String Numero) {
         return Numero.matches("[a-z,A-Z]*-[0-9]*");
     }
-   
-    // regex para email 
-    // ^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$  
 
-    
-}
+    /**
+     * Método para validar los números de telefono
+     * @param phoneNo
+     * @return 
+     */
+    public static boolean validarNumeroTelefono(String phoneNo) {
+        //Solo numero separados por guiones
+        if (phoneNo.matches("([0-9]|-)*")) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    // regex para email 
+        // ^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$  
+    }

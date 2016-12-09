@@ -40,6 +40,7 @@ import sedira.model.Paciente;
 import sedira.FuncionesGenerales;
 import sedira.ValidacionesGenerales;
 import javafx.scene.control.DatePicker;
+import javafx.stage.Modality;
 import sedira.model.CalculoDAOsql;
 import sedira.model.CalculoMuestra;
 import sedira.model.ICalculoDAO;
@@ -167,7 +168,7 @@ public class PacienteController implements Initializable {
                         Alert alert = new Alert(Alert.AlertType.WARNING);
                         alert.setTitle("Ingreso de datos inválido");
                         alert.setHeaderText("Solo se permiten números ");
-                        alert.setContentText("El caracter ingresado fué borrado");
+                        alert.setContentText("El carácter ingresado fué borrado");
                         alert.showAndWait();
                         txtNumeroDoc.positionCaret(txtNumeroDoc.getText().length());
                     }
@@ -188,7 +189,7 @@ public class PacienteController implements Initializable {
                         Alert alert = new Alert(Alert.AlertType.WARNING);
                         alert.setTitle("Ingreso de datos inválido");
                         alert.setHeaderText("Solo se permiten letras ");
-                        alert.setContentText("El caracter ingresado fué borrado");
+                        alert.setContentText("El carácter ingresado fué borrado");
                         alert.showAndWait();
                         txtNombre.positionCaret(txtNombre.getText().length());
                     }
@@ -209,7 +210,7 @@ public class PacienteController implements Initializable {
                         Alert alert = new Alert(Alert.AlertType.WARNING);
                         alert.setTitle("Ingreso de datos inválido");
                         alert.setHeaderText("Solo se permiten letras ");
-                        alert.setContentText("El caracter ingresado fué borrado");
+                        alert.setContentText("El carácter ingresado fué borrado");
                         alert.showAndWait();
 
                         txtApellido.positionCaret(txtApellido.getText().length());
@@ -580,6 +581,7 @@ public class PacienteController implements Initializable {
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.setTitle("Cálculos SEDIRA");
+            stage.initModality(Modality.APPLICATION_MODAL);
             stage.setResizable(false);
             stage.show();
         }
@@ -604,6 +606,8 @@ public class PacienteController implements Initializable {
         stage.setScene(scene);
 
         stage.setTitle("Contacto Paciente");
+        stage.initModality(Modality.APPLICATION_MODAL);
+        
         stage.show();
     }
 
@@ -618,7 +622,7 @@ public class PacienteController implements Initializable {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("Ingreso de datos inválido");
                 alert.setHeaderText("Solo se permiten números ");
-                alert.setContentText("El caracter ingresado fué borrado");
+                alert.setContentText("El carácter ingresado fué borrado");
                 alert.showAndWait();
                 txtNumeroDoc.positionCaret(txtNumeroDoc.getText().length());
             }
@@ -631,13 +635,11 @@ public class PacienteController implements Initializable {
     private void txtNombre_KeyPress() throws IOException {
         if (txtNombre.isEditable()) {
             if (!ValidacionesGenerales.ValidarNombreConEspacios(txtNombre.getText())) {
-
-                //  txtNombre.setText(txtNombre.getText().substring(0, txtNombre.getText().length() - 1));
                 txtNombre.setText(ValidacionesGenerales.DejarSoloLetras(txtNombre.getText()));
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("Ingreso de datos inválido");
                 alert.setHeaderText("Solo se permiten letras ");
-                alert.setContentText("El caracter ingresado fué borrado");
+                alert.setContentText("El carácter ingresado fué borrado");
                 alert.showAndWait();
                 txtNombre.positionCaret(txtNombre.getText().length());
             }
@@ -655,7 +657,7 @@ public class PacienteController implements Initializable {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("Ingreso de datos inválido");
                 alert.setHeaderText("Solo se permiten letras ");
-                alert.setContentText("El caracter ingresado fué borrado");
+                alert.setContentText("El carácter ingresado fué borrado");
                 alert.showAndWait();
 
                 txtApellido.positionCaret(txtApellido.getText().length());

@@ -11,7 +11,6 @@ import java.sql.SQLException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
-import javax.swing.JOptionPane;
 import sedira.CodigosErrorSQL;
 
 /**
@@ -26,6 +25,7 @@ public class PacienteDAOsql implements IPacienteDAO {
      * Método que agrega un paciente a la base de datos
      *
      * @param paciente a agregar
+     * @return 
      */
     @Override
     public boolean agregarPaciente(Paciente paciente) {
@@ -75,7 +75,7 @@ public class PacienteDAOsql implements IPacienteDAO {
                 // Mensaje de confirmacion
                 Alert alerta = new Alert(Alert.AlertType.INFORMATION);
                 alerta.setTitle("Confirmación");
-                alerta.setHeaderText(null);
+                alerta.setHeaderText("Agregar paciente");
                 alerta.setContentText("El paciente fué agregado.");
                 alerta.showAndWait();
             
@@ -111,7 +111,7 @@ public class PacienteDAOsql implements IPacienteDAO {
             // Mensaje de confirmacion
             Alert alerta = new Alert(Alert.AlertType.INFORMATION);
             alerta.setTitle("Confirmación");
-            alerta.setHeaderText(null);
+            alerta.setHeaderText("Eliminar Paciente");
             alerta.setContentText("El paciente fué eliminado. ");
             alerta.showAndWait();
 
@@ -126,7 +126,8 @@ public class PacienteDAOsql implements IPacienteDAO {
     /**
      * Método que modifica un paciente que ya existe en la base de datos.
      *
-     * @param paciente
+     *
+     * @return  @param paciente
      */
     @Override
     public boolean modificarPaciente(Paciente paciente) {
@@ -173,7 +174,7 @@ public class PacienteDAOsql implements IPacienteDAO {
             // Mensaje de confirmacion
             Alert alerta = new Alert(Alert.AlertType.INFORMATION);
             alerta.setTitle("Confirmación");
-            alerta.setHeaderText(null);
+            alerta.setHeaderText("Modificar paciente");
             alerta.setContentText("El paciente fué modificado.");
             alerta.showAndWait();
 

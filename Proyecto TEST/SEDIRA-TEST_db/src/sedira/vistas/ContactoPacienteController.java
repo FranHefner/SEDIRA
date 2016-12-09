@@ -48,16 +48,18 @@ public class ContactoPacienteController implements Initializable {
     @FXML
     private Button btnCerrar;
 
-    String DireccionAux;
-    String TelefonoAux;
-    String CelularAux;
-    String EmailAux;
-    
-    public static final Pattern VALID_EMAIL_ADDRESS_REGEX = 
-    Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+    private String DireccionAux;
+    private String TelefonoAux;
+    private String CelularAux;
+    private String EmailAux;
 
-      private IPacienteDAO pac = new PacienteDAOsql(); 
-      
+    private final int LIMIT_DIRECCION = 45;
+
+    public static final Pattern VALID_EMAIL_ADDRESS_REGEX
+            = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+
+    private IPacienteDAO pac = new PacienteDAOsql();
+
     /**
      * Initializes the controller class.
      */
@@ -71,7 +73,6 @@ public class ContactoPacienteController implements Initializable {
             txtTelefono.setText(PacienteActual.getTelefono());
             txtCelular.setText(PacienteActual.getcelular());
             txtEmail.setText(PacienteActual.getEmail());
-
             DireccionAux = PacienteActual.getDireccion();
             TelefonoAux = PacienteActual.getTelefono();
             CelularAux = PacienteActual.getcelular();
@@ -80,60 +81,74 @@ public class ContactoPacienteController implements Initializable {
 
         ModoLectura();
 
-                txtCelular.textProperty().addListener(new ChangeListener<String>() {
-        @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                 if (txtCelular.isEditable()) {
-                   if (!ValidacionesGenerales.ValidarNumero(txtCelular.getText())) {
+        //Listener para la cantidad de caracteres en el campo direccion.  
+        txtDireccion.lengthProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable,
+                    Number oldValue, Number newValue) {
+                if (newValue.intValue() > oldValue.intValue()) {
+                    // Check if the new character is greater than LIMIT
+                    if (txtDireccion.getText().length() >= LIMIT_DIRECCION) {
 
-                       //  txtNumeroDoc.setText(txtNumeroDoc.getText().substring(0, txtNumeroDoc.getText().length() - 1));
-                       txtCelular.setText(ValidacionesGenerales.DejarSoloNumeros(txtCelular.getText()));
-                       Alert alert = new Alert(Alert.AlertType.WARNING);
-                       alert.setTitle("Ingreso de datos inválido");
-                       alert.setHeaderText("Solo se permiten números ");
-                       alert.setContentText("El caracter ingresado fué borrado");
-                       alert.showAndWait();
-                       txtCelular.positionCaret(txtCelular.getText().length());
-                   }
-
-               }
+                        txtDireccion.setText(txtDireccion.getText().substring(0, LIMIT_DIRECCION));
+                    }
+                }
             }
         });
-                
-                txtTelefono.textProperty().addListener(new ChangeListener<String>() {
-        @Override
+
+        txtCelular.textProperty().addListener(new ChangeListener<String>() {
+            @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                 if (txtTelefono.isEditable()) {
-                   if (!ValidacionesGenerales.ValidarNumero(txtTelefono.getText())) {
-
-                       //  txtNumeroDoc.setText(txtNumeroDoc.getText().substring(0, txtNumeroDoc.getText().length() - 1));
-                       txtTelefono.setText(ValidacionesGenerales.DejarSoloNumeros(txtTelefono.getText()));
-                       Alert alert = new Alert(Alert.AlertType.WARNING);
-                       alert.setTitle("Ingreso de datos inválido");
-                       alert.setHeaderText("Solo se permiten números ");
-                       alert.setContentText("El caracter ingresado fué borrado");
-                       alert.showAndWait();
-                       txtTelefono.positionCaret(txtTelefono.getText().length());
-                   }
-
-               }
+                if (txtCelular.isEditable()) {
+                    if (!ValidacionesGenerales.ValidarNumero(txtCelular.getText())) {
+                        txtCelular.setText(ValidacionesGenerales.DejarSoloNumeros(txtCelular.getText()));
+                        Alert alert = new Alert(Alert.AlertType.WARNING);
+                        alert.setTitle("Ingreso de datos inválido");
+                        alert.setHeaderText("Solo se permiten números ");
+                        alert.setContentText("El carácter ingresado fué borrado");
+                        alert.showAndWait();
+                        txtCelular.positionCaret(txtCelular.getText().length());
+                    }
+                }
             }
         });
-       
+
+       /* txtTelefono.textProperty().addListener(new ChangeListener<String>() {
+
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (txtTelefono.isEditable()) {
+                    if (!ValidacionesGenerales.ValidarNumero(txtTelefono.getText())) {
+                        txtTelefono.setText(ValidacionesGenerales.DejarSoloNumeros(txtTelefono.getText()));
+                        Alert alert = new Alert(Alert.AlertType.WARNING);
+                        alert.setTitle("Ingreso de datos inválido");
+                        alert.setHeaderText("Solo se permiten números ");
+                        alert.setContentText("El carácter ingresado fué borrado");
+                        alert.showAndWait();
+                        txtTelefono.positionCaret(txtTelefono.getText().length());
+                    }
+
+                }
+            }
+        });*/
+
     }
 
+    /**
+     * Método para la valicación del email.
+     *
+     * @param emailStr
+     * @return
+     */
+    public static boolean validarEmail(String emailStr) {
+        if (emailStr.equals("")) {
+            return true;
+        } else {
+            Matcher matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(emailStr);
+            return matcher.find();
+        }
 
-     public static boolean validarEmail(String emailStr) {
-         if (emailStr.equals(""))
-         {
-             return true;
-         }else
-         {
-                Matcher matcher = VALID_EMAIL_ADDRESS_REGEX .matcher(emailStr);
-               return matcher.find();
-         }
-     
-     }
+    }
 
     private void ModoLectura() {
 
@@ -146,14 +161,14 @@ public class ContactoPacienteController implements Initializable {
         txtTelefono.setEditable(false);
         txtCelular.setEditable(false);
         txtEmail.setEditable(false);
-        
+
         btnAceptar.setDisable(true);
         btnEditar.setDisable(false);
     }
 
     private void ModoEdicion() {
-         Platform.runLater(new Runnable() {
-        @Override
+        Platform.runLater(new Runnable() {
+            @Override
             public void run() {
                 txtDireccion.requestFocus();
             }
@@ -182,6 +197,18 @@ public class ContactoPacienteController implements Initializable {
             ValidacionOK = false;
 
         }
+        if (!ValidacionesGenerales.validarNumeroTelefono(txtTelefono.getText())) {
+            Error += "\n El formato del número de teléfono es invalido"
+                    + "\n Se aceptan solo número separados por guiones. (-)"
+                    + "\n Ej: 2944-154-123421";
+            ValidacionOK = false;
+        }
+        if (!ValidacionesGenerales.validarNumeroTelefono(txtCelular.getText())) {
+            Error += "\n El formato del número de teléfono es invalido"
+                    + "\n Se aceptan solo número separados por guiones. (-)"
+                    + "\n Ej: 2944-154-123421";
+            ValidacionOK = false;
+        }
 
         if (ValidacionOK == false) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -193,38 +220,35 @@ public class ContactoPacienteController implements Initializable {
         return ValidacionOK;
 
     }
+
     /**
      * Método para el comportamiento del boton Aceptar.
      */
     @FXML
     private void btnAceptar_click() throws SQLException {
         //para editar. 
-        
-        if ( ValidarDatos())
-        {
-            
-             Paciente PacienteActual = FuncionesGenerales.getPacienteActual();
+
+        if (ValidarDatos()) {
+
+            Paciente PacienteActual = FuncionesGenerales.getPacienteActual();
             if (btnEditar.isDisable()) {
 
-            PacienteActual.setDireccion(txtDireccion.getText());
-            PacienteActual.setTelefono(txtTelefono.getText());
-            PacienteActual.setEmail(txtEmail.getText());
-            PacienteActual.setcelular(txtCelular.getText());
+                PacienteActual.setDireccion(txtDireccion.getText());
+                PacienteActual.setTelefono(txtTelefono.getText());
+                PacienteActual.setEmail(txtEmail.getText());
+                PacienteActual.setcelular(txtCelular.getText());
 
-            FuncionesGenerales.setPacienteActual(PacienteActual);
-                
-            if (PacienteActual.getEsNuevo() == false)
-            {
-              pac.modificarPaciente(PacienteActual);
+                FuncionesGenerales.setPacienteActual(PacienteActual);
+
+                if (PacienteActual.getEsNuevo() == false) {
+                    pac.modificarPaciente(PacienteActual);
+                }
+
+                ModoLectura();
+
             }
-          
-            ModoLectura();
 
-          }
-        
         }
-        
-    
 
     }
 
@@ -233,9 +257,7 @@ public class ContactoPacienteController implements Initializable {
      */
     @FXML
     private void btnEditar_click() {
-
         ModoEdicion();
-
     }
 
     /**
@@ -243,10 +265,8 @@ public class ContactoPacienteController implements Initializable {
      */
     @FXML
     private void btnCerrar_click() {
-
         Stage stage = (Stage) btnCerrar.getScene().getWindow();
         stage.close();
-
     }
 
 }

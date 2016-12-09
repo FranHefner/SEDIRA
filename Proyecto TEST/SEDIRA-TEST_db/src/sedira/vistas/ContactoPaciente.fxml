@@ -15,8 +15,8 @@
       <Button fx:id="btnEditar" layoutX="108.0" layoutY="192.0" mnemonicParsing="false" onAction="#btnEditar_click" text="Editar" />
       <Button fx:id="btnAceptar" layoutX="172.0" layoutY="192.0" mnemonicParsing="false" onAction="#btnAceptar_click" text="Aceptar" />
       <Button fx:id="btnCerrar" layoutX="315.0" layoutY="192.0" mnemonicParsing="false" onAction="#btnCerrar_click" text="Cerrar" />
-      <Label layoutX="81.0" layoutY="33.0" text="Direccion:" />
-      <Label layoutX="81.0" layoutY="68.0" text="Telefono:" />
+      <Label layoutX="81.0" layoutY="33.0" text="Dirección:" />
+      <Label layoutX="81.0" layoutY="68.0" text="Teléfono:" />
       <Label layoutX="92.0" layoutY="137.0" text="Email:" />
       <Label layoutX="88.0" layoutY="104.0" text="Celular:" />
    </children>
