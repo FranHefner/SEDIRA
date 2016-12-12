@@ -74,19 +74,19 @@ public class PhantomDAOsql implements IPhantomDAO {
         ConexionDB conexion = new ConexionDB();
 
         try {
-            PreparedStatement consulta = conexion.getConnection().prepareStatement(""              
-                                + " SELECT "
-                                + " * "
-                                + " FROM "
-                                + "     phantoms P "
-                                + " WHERE "
-                                + " EXISTS "
-                                + " (SELECT "
-                                + "   * "
-                                + "  FROM "
-                                + "     organos_phantoms OP     "
-                                + "  WHERE "
-                                + "     OP.id_phantom = P.id_phantom)");
+            PreparedStatement consulta = conexion.getConnection().prepareStatement(""
+                    + " SELECT "
+                    + " * "
+                    + " FROM "
+                    + "     phantoms P "
+                    + " WHERE "
+                    + " EXISTS "
+                    + " (SELECT "
+                    + "   * "
+                    + "  FROM "
+                    + "     organos_phantoms OP     "
+                    + "  WHERE "
+                    + "     OP.id_phantom = P.id_phantom)");
 
             ResultSet resultado = consulta.executeQuery();
             while (resultado.next()) {
@@ -130,21 +130,21 @@ public class PhantomDAOsql implements IPhantomDAO {
         int idPhantom = phantomSeleccionado.getIdPhantom();
         try {
             PreparedStatement consulta = conexion.getConnection().prepareStatement(
-                     "   SELECT  "
-                     + "    V.id_valordescripcion, "
-                     + "    V.descripcion,"
-                     + "    V.valor,"
-                     + "    V.unidad"
-                     + " FROM"
-                     + "    phantoms P"
-                     + " JOIN phantoms_valordescripcion PV"
-                     + "   ON P.id_phantom = "
-                     + "      PV.id_phantom "
-                     + " JOIN valordescripcion V "
-                     + "   ON PV.id_valordescripcion = "
-                     + "      V.id_valordescripcion "
-                     + " WHERE P.id_phantom = " + idPhantom + ";"     );           
-        
+                    "   SELECT  "
+                    + "    V.id_valordescripcion, "
+                    + "    V.descripcion,"
+                    + "    V.valor,"
+                    + "    V.unidad"
+                    + " FROM"
+                    + "    phantoms P"
+                    + " JOIN phantoms_valordescripcion PV"
+                    + "   ON P.id_phantom = "
+                    + "      PV.id_phantom "
+                    + " JOIN valordescripcion V "
+                    + "   ON PV.id_valordescripcion = "
+                    + "      V.id_valordescripcion "
+                    + " WHERE P.id_phantom = " + idPhantom + ";");
+
             ResultSet resultado = consulta.executeQuery();
             while (resultado.next()) {
                 //Ojeto Aux de tipo ValorDescripcion.
@@ -265,12 +265,63 @@ public class PhantomDAOsql implements IPhantomDAO {
         ConexionDB conexion = new ConexionDB();
 
         try {
-            PreparedStatement consulta = conexion.getConnection().prepareStatement(
-                    "DELETE FROM phantoms WHERE id_phantom = ?");
-            consulta.setInt(1, id);
-            //System.out.print(id);
-            consulta.executeUpdate(); //Ejecucion de la consulta.
-            consulta.close();
+
+            conexion.getConnection().setAutoCommit(false);
+
+            PreparedStatement organos_valordescripcion = conexion.getConnection().prepareStatement(
+                    "   DELETE "
+                    + "   FROM "
+                    + "   valordescripcion "
+                    + "   WHERE "
+                    + "   id_valordescripcion IN "
+                    + "   (SELECT "
+                    + "      id_valordescripcion "
+                    + "    FROM "
+                    + "       organos_valordescripcion "
+                    + "     WHERE "
+                    + "       organos_valordescripcion.id_organo_phantom IN "
+                    + "       (SELECT "
+                    + "           id_organo_phantom "
+                    + "         FROM "
+                    + "          organos_phantoms "
+                    + "        WHERE "
+                    + "         organos_phantoms.id_phantom = ?)) ");
+
+            PreparedStatement organos_phantoms = conexion.getConnection().prepareStatement(
+                    " DELETE FROM organos_phantoms WHERE organos_phantoms.id_phantom = ? ");
+
+            PreparedStatement phantoms = conexion.getConnection().prepareStatement(
+                    " DELETE FROM phantoms WHERE phantoms.id_phantom = ? ");
+
+            PreparedStatement phantoms_propiedades = conexion.getConnection().prepareStatement(
+                    "    DELETE FROM "
+                    + "    valordescripcion "
+                    + "   WHERE "
+                    + "   id_valordescripcion IN (SELECT "
+                    + "            id_valordescripcion "
+                    + "         FROM "
+                    + "            phantoms_valordescripcion "
+                    + "         WHERE "
+                    + "           phantoms_valordescripcion.id_phantom = ? ) ");
+
+            organos_valordescripcion.setInt(1, id);
+            organos_phantoms.setInt(1, id);
+            phantoms_propiedades.setInt(1, id);
+            phantoms.setInt(1, id);
+          
+
+            organos_valordescripcion.executeUpdate();
+            organos_phantoms.executeUpdate();
+            phantoms_propiedades.executeUpdate();
+            phantoms.executeUpdate();
+
+            conexion.getConnection().commit();
+            conexion.getConnection().setAutoCommit(true);
+
+            organos_valordescripcion.close();
+            organos_phantoms.close();
+            phantoms.close();
+
             conexion.desconectar();
 
             // Mensaje de confirmacion
@@ -338,30 +389,30 @@ public class PhantomDAOsql implements IPhantomDAO {
         int idPhantom = phantomSeleccionado.getIdPhantom();
         try {
             PreparedStatement consulta = conexion.getConnection().prepareStatement(
-                          " SELECT "
-                        + " O.id_organo, "
-                        + " O.nombre, "
-                        + " OP.masa_organo, "
-                        + " (SELECT "
-                        + " SUM(organos_phantoms.masa_organo)  "
-                        + " FROM "
-                        + " organos_phantoms "
-                        + " WHERE "
-                        + " id_phantom =" + idPhantom 
-                        + " GROUP BY "
-                        + " id_phantom) AS masa_total   "
-                        + " FROM "
-                        + " phantoms P "
-                        + " JOIN organos_phantoms OP "
-                        + "  ON OP.id_phantom = P.id_phantom "
-                        + " JOIN organos O "
-                        + " ON OP.id_organo = O.id_organo "
-                        + " WHERE P.id_phantom =" + idPhantom + ";" );
-            
+                    " SELECT "
+                    + " O.id_organo, "
+                    + " O.nombre, "
+                    + " OP.masa_organo, "
+                    + " (SELECT "
+                    + " SUM(organos_phantoms.masa_organo)  "
+                    + " FROM "
+                    + " organos_phantoms "
+                    + " WHERE "
+                    + " id_phantom =" + idPhantom
+                    + " GROUP BY "
+                    + " id_phantom) AS masa_total   "
+                    + " FROM "
+                    + " phantoms P "
+                    + " JOIN organos_phantoms OP "
+                    + "  ON OP.id_phantom = P.id_phantom "
+                    + " JOIN organos O "
+                    + " ON OP.id_organo = O.id_organo "
+                    + " WHERE P.id_phantom =" + idPhantom + ";");
+
             ResultSet resultado = consulta.executeQuery();
             while (resultado.next()) {
                 //Ojeto Aux de tipo Organo.
-                Organo organoPhantom = new Organo(-1, "", 0.0, 0.0,null);
+                Organo organoPhantom = new Organo(-1, "", 0.0, 0.0, null);
 
                 //Completo el aux con la informacion obtenida de la BD
                 organoPhantom.setIdOrgano(Integer.parseInt(resultado.getString("id_organo")));
