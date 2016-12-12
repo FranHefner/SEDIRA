@@ -31,6 +31,19 @@ public class ValidacionesGenerales {
         return Resultado.replace("*", "");
 
     }
+       public static String SacarNumeros(String Texto) {
+        String Resultado = "";
+        Resultado = Texto;
+        for (int i = 0; i < Texto.length(); i++) {
+          
+            if (Texto.substring(i, i + 1).matches("[0-9]")) {
+                Resultado = Resultado.replace(Resultado.substring(i, i + 1), "*");
+            }
+        }
+
+        return Resultado.replace("*", "");
+
+    }
 
     /**
      * Método que solo deja letras de una cadena de caracteres pasada por
@@ -92,7 +105,7 @@ public class ValidacionesGenerales {
         for (int i = 0; i < Nombre.length(); i++) {
             //^[\\p{L} .'-]+$
 
-            if (!Nombre.substring(i, i + 1).toLowerCase().matches("[a-z]")) {
+            if (Nombre.substring(i, i + 1).toLowerCase().matches("[0-9]")) {
                 return false;
             }
         }
@@ -110,6 +123,7 @@ public class ValidacionesGenerales {
         return Nombre.matches("^[\\p{L} '-]+$");
 
     }
+      
 
     public static boolean ValidarNumericoFloat(String Numero) {
         return Numero.matches("-?\\d+(\\.\\d+)?");

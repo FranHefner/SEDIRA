@@ -185,7 +185,7 @@ public class PacienteController implements Initializable {
                     if (!ValidacionesGenerales.ValidarNombre(txtNombre.getText())) {
 
                         //  txtNombre.setText(txtNombre.getText().substring(0, txtNombre.getText().length() - 1));
-                        txtNombre.setText(ValidacionesGenerales.DejarSoloLetras(txtNombre.getText()));
+                        txtNombre.setText(ValidacionesGenerales.SacarNumeros(txtNombre.getText()));
                         Alert alert = new Alert(Alert.AlertType.WARNING);
                         alert.setTitle("Ingreso de datos inválido");
                         alert.setHeaderText("Solo se permiten letras ");
@@ -205,11 +205,11 @@ public class PacienteController implements Initializable {
                     if (!ValidacionesGenerales.ValidarNombre(txtApellido.getText())) {
 
                         // txtApellido.setText(txtApellido.getText().substring(0, txtApellido.getText().length() - 1));
-                        txtApellido.setText(ValidacionesGenerales.DejarSoloLetras(txtApellido.getText()));
+                        txtApellido.setText(ValidacionesGenerales.SacarNumeros(txtApellido.getText()));
 
                         Alert alert = new Alert(Alert.AlertType.WARNING);
                         alert.setTitle("Ingreso de datos inválido");
-                        alert.setHeaderText("Solo se permiten letras ");
+                        alert.setHeaderText("No se permiten números ");
                         alert.setContentText("El carácter ingresado fué borrado");
                         alert.showAndWait();
 
