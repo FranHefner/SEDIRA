@@ -393,6 +393,9 @@ public class AbmRadionuclidoController implements Initializable {
         String nombreRadNuclido = txtRadNuclidoNombre.getText();
 
         if ("Crear un radionúclido".equals(this.dialogStage.getTitle()) || "Modificar nombre del radionúclido".equals(this.dialogStage.getTitle())) {
+            if (nombreRadNuclido.length()==0){
+                mensajeError += "Debe agregar un nombre para el radionúclido \n";
+            }
             if (!nombreRadNuclido.equals(this.radionuclido.getNombreRadNuclido())) {
                 // Solo valido
                 // campo en NULL y Campo con logitud 0
@@ -456,6 +459,7 @@ public class AbmRadionuclidoController implements Initializable {
                 mensajeError += "El campo Unidad es inválido! \n";
             }
         }
+            
 
         if (mensajeError.length() == 0) {
             return true;
