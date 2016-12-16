@@ -155,7 +155,13 @@ public class AbmItemOrganoController implements Initializable {
         dialogStage.setResizable(false);
 
         data = vd.listadoPropiedades("organos");
+        //Comportamiento de la lista sugerida. 
+        if (data.size()!=0){
         listaSugerida.setItems(data);
+        }else{
+                listaSugerida.setItems(data);
+                listaSugerida.setVisible(false);
+        }
 
         txtPropiedad.textProperty().addListener(
                 (observable, oldValue, newValue) -> actualizarListaSugerida(newValue));
@@ -201,8 +207,12 @@ public class AbmItemOrganoController implements Initializable {
 
         if (bandera == false) {
             if (filtro == null || filtro.length() == 0) {
+                if (data.size()!=0){
                 listaSugerida.setItems(data);
                 listaSugerida.setVisible(true);
+                }else{
+                    listaSugerida.setVisible(false);
+                }
             } else {
 
                 dataFiltrada = data.filtered(s -> s.toLowerCase().contains(filtro.toLowerCase()));

@@ -21,7 +21,6 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -127,9 +126,16 @@ public class AbmOrganoController implements Initializable {
         this.dialogStage = dialogStage;
         dialogStage.initModality(Modality.APPLICATION_MODAL);
         dialogStage.setResizable(false);
-
+        
+        
         data = org.listadoOrganos();
+        //Comportamiento de la lista sugerida. 
+        if (data.size()!=0){
         listaSugerida.setItems(data);
+        }else{
+                listaSugerida.setItems(data);
+                listaSugerida.setVisible(false);
+        }
 
         txtOrganoNombre.textProperty().addListener(
                 (observable, oldValue, newValue) -> actualizarListaSugerida(newValue));
@@ -141,14 +147,8 @@ public class AbmOrganoController implements Initializable {
     }
 
     public void seleccionarItem(String itemSeleccionado) {
-
-        bandera = true;
-        if (listaSugerida.getSelectionModel().getSelectedIndex() == -1) {
-            bandera = false;
-        } else {
             txtOrganoNombre.setText(itemSeleccionado);
-        }
-
+        
     }
 
     private void actualizarListaSugerida(String filtro) {
@@ -165,8 +165,12 @@ public class AbmOrganoController implements Initializable {
 
         if (bandera == false) {
             if (filtro == null || filtro.length() == 0) {
+                if (data.size()!=0){
                 listaSugerida.setItems(data);
                 listaSugerida.setVisible(true);
+                }else{
+                    listaSugerida.setVisible(false);
+                }
             } else {
 
                 dataFiltrada = data.filtered(s -> s.toLowerCase().contains(filtro.toLowerCase()));

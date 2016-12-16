@@ -17,7 +17,7 @@
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="138.0" prefWidth="750.0">
                <children>
                   <TextField fx:id="txtCampoBusqueda" layoutX="9.0" layoutY="22.0" onKeyTyped="#buscarPhantom" prefHeight="33.0" prefWidth="271.0" promptText="Búsqueda ..." />
-                  <TableView fx:id="griPhantom" layoutX="294.0" layoutY="24.0" onMouseClicked="#getSelectedPhantom" prefHeight="150.0" prefWidth="297.0">
+                  <TableView fx:id="griPhantom" layoutX="294.0" layoutY="24.0" prefHeight="150.0" prefWidth="297.0">
                     <columns>
                       <TableColumn fx:id="clPhantomNombre" prefWidth="136.0" text="Phantom" />
                     </columns>
@@ -38,7 +38,7 @@
                            <children>
                               <Text layoutX="18.0" layoutY="25.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Peso Total:" />
                               <TextField fx:id="txtPesoTotal" editable="false" focusTraversable="false" layoutX="73.0" layoutY="10.0" />
-                              <TableView fx:id="griValorDescripcionPhantom" layoutX="8.0" layoutY="51.0" onMouseClicked="#getSelectedItemFromTabla" prefHeight="339.0" prefWidth="379.0">
+                              <TableView fx:id="griValorDescripcionPhantom" layoutX="8.0" layoutY="51.0" prefHeight="339.0" prefWidth="379.0">
                                 <columns>
                                   <TableColumn fx:id="clVdDescripcion" prefWidth="75.0" text="Propiedad" />
                                   <TableColumn fx:id="clVdValor" prefWidth="75.0" text="Valor" />
@@ -63,7 +63,7 @@
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="397.0" prefWidth="394.0">
                            <children>
-                              <TableView fx:id="griOrgano" layoutX="6.0" layoutY="14.0" onMouseClicked="#getSelectedItemFromTablaOrgano" prefHeight="343.0" prefWidth="380.0">
+                              <TableView fx:id="griOrgano" layoutX="6.0" layoutY="14.0" prefHeight="343.0" prefWidth="380.0">
                                 <columns>
                                   <TableColumn fx:id="clOrganoNombre" prefWidth="75.0" text="Órgano" />
                                   <TableColumn fx:id="clOrganoMasa" prefWidth="75.0" text="Peso (gramos)" />

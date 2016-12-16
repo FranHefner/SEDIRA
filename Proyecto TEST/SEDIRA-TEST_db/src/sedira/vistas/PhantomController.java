@@ -16,6 +16,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -138,7 +139,7 @@ public class PhantomController implements Initializable {
         btnAdministrar.setDisable(true);
         //Traigo los datos de los phantoms existentes. 
         phantomData = ph.obtenerListaPhantom();
-
+        buscarPhantom();
         // Inicializo la tabla de Organos
         clOrganoNombre.setCellValueFactory(
                 cellData -> cellData.getValue().getNombreOrganoProperty());
@@ -161,10 +162,17 @@ public class PhantomController implements Initializable {
         //Inicializo la tabla de Phantom. 
         clPhantomNombre.setCellValueFactory(cellData -> cellData.getValue().phantomNombreProperty());
         //Listener para la seleccion del phantom en la lista de phantoms que trae la busqueda.
-        buscarPhantom();
         griPhantom.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> seleccionPhantom(newValue));
-
+        
+        //Listener para la seleccion del item phantom en la lista de informacion del phantom
+        griValorDescripcionPhantom.getSelectionModel().selectedItemProperty().addListener(
+                (observable, oldValue, newValue) -> getSelectedItemFromTabla(newValue));
+        
+        //Listener para la seleccion del organo en la lista de informacion de organos
+        griOrgano.getSelectionModel().selectedItemProperty().addListener(
+                (observable, oldValue, newValue) -> getSelectedItemFromTablaOrgano(newValue));
+        
         //Listener para la cantidad de caracteres en el nombre en el campo busqueda 
         txtCampoBusqueda.lengthProperty().addListener(new ChangeListener<Number>() {
 
@@ -319,24 +327,30 @@ public class PhantomController implements Initializable {
      */
     @FXML
     public void buscarPhantom() {
-        griPhantom.setItems(FuncionesGenerales.FiltroListaPhantom(griPhantom, phantomData, txtCampoBusqueda));
-
-        //Comportamiento para la busqueda y no encuentro de info. 
-        if (griPhantom.getSelectionModel().isEmpty()) {
-            btnAgregarOrgano.setDisable(true);
-            btnEliminarOrgano.setDisable(true);
-            btnModificarOrgano.setDisable(true);
-
-            btnAgregarItem.setDisable(true);
-            btnEliminarItem.setDisable(true);
-            btnModificarItem.setDisable(true);
-
-            btnEditarPhantom.setDisable(true);
-            btnEliminarPhantom.setDisable(true);
-
+        SortedList listaPhantom = FuncionesGenerales.FiltroListaPhantom(griPhantom, phantomData, txtCampoBusqueda);
+       
+        //Comportamiento para la busqueda y no encuentro de info.
+        if (listaPhantom.size() == 0) {
             griValorDescripcionPhantom.setItems(null);
             griOrgano.setItems(null);
-            txtPesoTotal.setText("");
+        } else {
+            griPhantom.setItems(listaPhantom);
+            if (griPhantom.getSelectionModel().isEmpty()) {
+                btnAgregarOrgano.setDisable(true);
+                btnEliminarOrgano.setDisable(true);
+                btnModificarOrgano.setDisable(true);
+
+                btnAgregarItem.setDisable(true);
+                btnEliminarItem.setDisable(true);
+                btnModificarItem.setDisable(true);
+
+                btnEditarPhantom.setDisable(true);
+                btnEliminarPhantom.setDisable(true);
+
+                griValorDescripcionPhantom.setItems(null);
+                griOrgano.setItems(null);
+                txtPesoTotal.setText("");
+            }
         }
 
     }
@@ -347,14 +361,13 @@ public class PhantomController implements Initializable {
      * @param phantomActual
      */
     public void seleccionPhantom(Phantom phantomActual) {
+        
+        griValorDescripcionPhantom.getSelectionModel().clearSelection();
+        griOrgano.getSelectionModel().clearSelection();
         //Se setea el phantom seleccionado como el PhantomActual.
-        btnEliminarOrgano.setDisable(true);
-        btnModificarOrgano.setDisable(true);
-
-        btnEliminarItem.setDisable(true);
-        btnModificarItem.setDisable(true);
-
         FuncionesGenerales.setPhantomActual(phantomActual);
+        
+           
         if (phantomActual != null) {
             //Completo la lista de organos. 
             organosData = ph.obtenerInfoOrgano(phantomActual);
@@ -364,18 +377,26 @@ public class PhantomController implements Initializable {
             infoPhantom = ph.obtenerInfoPhantom(phantomActual);
             //Completo la grilla de los items del phantom
             griValorDescripcionPhantom.setItems(infoPhantom);
-            //Prendo el boton de Editar phantom
-            btnEditarPhantom.setDisable(false);
-            //Prendo boton de Eliminar Phantom
-            btnEliminarPhantom.setDisable(false);
+           
             //Completo el textfield del pesototal
             txtPesoTotal.setText(String.valueOf(phantomActual.getPesoTotal()));
-
+            //Prendo botones
+            btnAgregarItem.setDisable(false);
+            btnEditarPhantom.setDisable(false);
+            btnEliminarPhantom.setDisable(false);
+            btnAgregarOrgano.setDisable(false);
         } else {
             //Todo si no se selecciona ningun phantom de la lista
             //Apago los botones.
             btnEditarPhantom.setDisable(true);
             btnEliminarPhantom.setDisable(true);
+            btnEliminarOrgano.setDisable(true);
+            btnModificarOrgano.setDisable(true);
+            btnEliminarItem.setDisable(true);
+            btnModificarItem.setDisable(true);
+            btnAgregarItem.setDisable(true);
+            btnAdministrar.setDisable(true);
+
         }
     }
 
@@ -512,11 +533,11 @@ public class PhantomController implements Initializable {
             }
 
         } else {
-            // No se selecciono ningun item. 
+            // No se selecciono ningun phantom. 
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Error!");
             alert.setHeaderText("Error!");
-            alert.setContentText("No hay items para eliminar");
+            alert.setContentText("Seleccione el phantom a eliminar");
 
             alert.showAndWait();
         }
@@ -547,19 +568,25 @@ public class PhantomController implements Initializable {
                 org.eliminarOrgano(idOrgano, selectedPhantom.getIdPhantom());
                 //Actualizacion de la informacion de organos
                 organosData = ph.obtenerInfoOrgano(selectedPhantom);
-                griOrgano.setItems(organosData);
-                txtPesoTotal.setText(String.valueOf(selectedPhantom.getPesoTotal()));
-                griOrgano.getSelectionModel().clearSelection();
-            } else {
-
-            }
+                //actualizacion de la tabla Organos. 
+                //Comportamiento de los botones al eliminar todos los items.
+                if (organosData.size() != 0) {
+                    griOrgano.setItems(organosData);
+                    txtPesoTotal.setText(String.valueOf(selectedPhantom.getPesoTotal()));
+                    griOrgano.getSelectionModel().clearSelection();
+                } else {
+                    griOrgano.setItems(organosData);
+                    griOrgano.getSelectionModel().clearSelection();
+                    apagarBotonesOrgano();
+                }
+            } 
 
         } else {
             // No se selecciono ningun item. 
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Error!");
             alert.setHeaderText("Error!");
-            alert.setContentText("No hay items para eliminar");
+            alert.setContentText("Seleccione el órgano a eliminar ");
 
             alert.showAndWait();
         }
@@ -595,7 +622,7 @@ public class PhantomController implements Initializable {
                 vd.eliminarItem(idItem);
                 //actualizacion de la informacion del phantom.
                 infoPhantom = ph.obtenerInfoPhantom(selectedPhantom);
-                
+
                 //actualizacion de la tabla ValorDescripcionPhantom. 
                 //Comportamiento de los botones al eliminar todos los items. 
                 if (infoPhantom.size() != 0) {
@@ -696,7 +723,7 @@ public class PhantomController implements Initializable {
             Alert alert = new Alert(AlertType.WARNING);
             alert.setTitle("Error!");
             alert.setHeaderText("Error!");
-            alert.setContentText("Se debe seleccionar un ítem para eliminar");
+            alert.setContentText("Se debe seleccionar un ítem para modificar");
 
             alert.showAndWait();
 
@@ -736,7 +763,7 @@ public class PhantomController implements Initializable {
             Alert alert = new Alert(AlertType.WARNING);
             alert.setTitle("Error!");
             alert.setHeaderText("Error!");
-            alert.setContentText("No existen items para modificar");
+            alert.setContentText("Se debe seleccionar un órgano para modificar");
 
             alert.showAndWait();
 
@@ -750,10 +777,12 @@ public class PhantomController implements Initializable {
     public void btnAdministrar() throws IOException {
         //Phantom auxiliar. 
         Phantom auxPhantom = FuncionesGenerales.getPhantomActual();
+        
         Stage stage = new Stage();
         Parent root = FXMLLoader.load(getClass().getResource("CaracteristicasOrgano.fxml"));
         Scene scene = new Scene(root);
         stage.setScene(scene);
+        stage.initModality(Modality.WINDOW_MODAL);
         stage.setTitle("Administrar caracteristicas del órgano");
         stage.setResizable(false);
         stage.show();
@@ -776,13 +805,8 @@ public class PhantomController implements Initializable {
      * Método para el control de los botones.
      */
     @FXML
-    public void getSelectedItemFromTabla() {
-        griOrgano.getSelectionModel().clearSelection();
-        btnEliminarOrgano.setDisable(true);
-        btnModificarOrgano.setDisable(true);
-        ValorDescripcion selectedItem = griValorDescripcionPhantom.getSelectionModel().getSelectedItem();
-
-        if (griValorDescripcionPhantom.getSelectionModel().isEmpty()) {
+    public void getSelectedItemFromTabla(ValorDescripcion vd) {
+        if (vd==null){
             btnEliminarItem.setDisable(true);
             btnModificarItem.setDisable(true);
         } else {
@@ -795,19 +819,15 @@ public class PhantomController implements Initializable {
      * Método para el control de los botones.
      */
     @FXML
-    public void getSelectedItemFromTablaOrgano() {
-
-        griValorDescripcionPhantom.getSelectionModel().clearSelection();
-        FuncionesGenerales.setOrganoActual(griOrgano.getSelectionModel().getSelectedItem());
-        btnEliminarItem.setDisable(true);
-        btnModificarItem.setDisable(true);
-
-        if (griOrgano.getSelectionModel().isEmpty()) {
+    public void getSelectedItemFromTablaOrgano(Organo organo) {
+        
+        if (organo==null) {
             btnEliminarOrgano.setDisable(true);
             btnModificarOrgano.setDisable(true);
+            btnAdministrar.setDisable(true);
         } else {
             //Organo a modificar 
-
+            FuncionesGenerales.setOrganoActual(organo);
             btnEliminarOrgano.setDisable(false);
             btnModificarOrgano.setDisable(false);
             btnAdministrar.setDisable(false);
@@ -825,8 +845,13 @@ public class PhantomController implements Initializable {
     }
 
     private void apagarBotones() {
-       btnModificarItem.setDisable(true);
-       btnEliminarItem.setDisable(true);
+        btnModificarItem.setDisable(true);
+        btnEliminarItem.setDisable(true);
     }
 
+    private void apagarBotonesOrgano() {
+        btnModificarOrgano.setDisable(true);
+        btnEliminarOrgano.setDisable(true);
+        btnAdministrar.setDisable(true);
+    }
 }

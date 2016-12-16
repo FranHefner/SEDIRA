@@ -152,6 +152,8 @@ public class RadionuclidoController implements Initializable {
         griRadionuclido.setItems(FuncionesGenerales.FiltroListaRadNuclido(griRadionuclido, radionuclidoData, txtCampoBusqueda));
         btnEliminarRadionuclido.setDisable(true);
         btnModificarRadioNuclido.setDisable(true);
+        griInfoRadNuclido.setItems(null);
+        griRadionuclido.getSelectionModel().clearSelection();
     }
 
     /**
@@ -167,7 +169,6 @@ public class RadionuclidoController implements Initializable {
         if (radionuclidoActual != null) {
             //Obtengo de la Base de datos la lista de propiedades 
             infoRadNuclido = rad.obtenerInfoRadNuclido(radionuclidoActual);
-            //griInfoRadNuclido.setItems(infoRadNuclido);
             griInfoRadNuclido.setItems(infoRadNuclido);
             //Prendo botones.
             btnModificarRadioNuclido.setDisable(false);
@@ -271,8 +272,6 @@ public class RadionuclidoController implements Initializable {
      * @param vd
      */
     public void getSelectedItemFromTabla(ValorDescripcion vd) {
-
-        ValorDescripcion selectedItem = griInfoRadNuclido.getSelectionModel().getSelectedItem();
 
         if (griInfoRadNuclido.getSelectionModel().isEmpty()) {
             btnEliminarItem.setDisable(true);

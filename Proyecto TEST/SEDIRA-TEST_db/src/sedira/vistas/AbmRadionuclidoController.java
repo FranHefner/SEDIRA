@@ -193,7 +193,6 @@ public class AbmRadionuclidoController implements Initializable {
      */
     private void actualizarListaSugerida(String filtro) {
         listaSugerida.getSelectionModel().clearSelection();
-
         //Comportamiento de la lista sugerida. 
         if (listaSugerida.getSelectionModel().isEmpty()) {
             listaSugerida.setFocusTraversable(false);
@@ -206,8 +205,12 @@ public class AbmRadionuclidoController implements Initializable {
 
         if (bandera == false) {
             if (filtro == null || filtro.length() == 0) {
+                if (data.size()!=0){
                 listaSugerida.setItems(data);
                 listaSugerida.setVisible(true);
+                }else{
+                    listaSugerida.setVisible(false);
+                }
             } else {
 
                 dataFiltrada = data.filtered(s -> s.toLowerCase().contains(filtro.toLowerCase()));

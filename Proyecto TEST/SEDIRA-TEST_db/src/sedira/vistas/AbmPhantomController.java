@@ -155,8 +155,14 @@ public class AbmPhantomController implements Initializable {
         dialogStage.setResizable(false);
 
         data = vd.listadoPropiedades("phantoms");
+        //Comportamiento de la lista sugerida. 
+        if (data.size()!=0){
         listaSugerida.setItems(data);
-
+        }else{
+                listaSugerida.setItems(data);
+                listaSugerida.setVisible(false);
+        }
+        
         txtPropiedad.textProperty().addListener(
                 (observable, oldValue, newValue) -> actualizarListaSugerida(newValue));
 
@@ -201,8 +207,12 @@ public class AbmPhantomController implements Initializable {
 
         if (bandera == false) {
             if (filtro == null || filtro.length() == 0) {
+                if (data.size()!=0){
                 listaSugerida.setItems(data);
                 listaSugerida.setVisible(true);
+                }else{
+                    listaSugerida.setVisible(false);
+                }
             } else {
 
                 dataFiltrada = data.filtered(s -> s.toLowerCase().contains(filtro.toLowerCase()));
@@ -378,6 +388,8 @@ public class AbmPhantomController implements Initializable {
                 txtUnidad.setText("");
                 txtPropiedad.setText("");
                 txtValor.setText("");
+                listaSugerida.getSelectionModel().clearSelection();
+                listaSugerida.setVisible(false);
                 break;
         }
     }
@@ -397,14 +409,16 @@ public class AbmPhantomController implements Initializable {
         String nombrePhantom = txtNombrePhantom.getText();
 
         if ("Crear un Phantom".equals(this.dialogStage.getTitle()) || "Modificar nombre del Phantom".equals(this.dialogStage.getTitle())) {
-            if (!nombrePhantom.equals(this.phantom.getPhantomNombre())) {
+            if (txtNombrePhantom.getText() == null || txtNombrePhantom.getText().length() == 0) {
+                mensajeError += "Debe agregar un nombre para el phantom \n";
+            } else {
+                if (!nombrePhantom.equals(this.phantom.getPhantomNombre())) {
                 // Solo valido
-                // campo en NULL y Campo con logitud 0
-                if (txtNombrePhantom.getText() == null || txtNombrePhantom.getText().length() == 0) {
-                    mensajeError += "Nombre del Phantom Inválido!";
-                }
-                if (ph.buscaNombre(nombrePhantom) == false) {
-                    mensajeError += "El nombre del phantom ya existe!";
+                    // campo en NULL y Campo con logitud 0
+
+                    if (ph.buscaNombre(nombrePhantom) == false) {
+                        mensajeError += "El nombre del phantom ya existe!";
+                    }
                 }
             }
         } else {
@@ -412,13 +426,14 @@ public class AbmPhantomController implements Initializable {
             if (propiedad == null || propiedad.length() == 0) {
                 mensajeError += "El campo Propiedad no puede estar vacio. \n";
             } else {
-                //Parametros de busca nombre
-                if (vd.buscaNombre(propiedad, "phantoms",phantomActual.getIdPhantom())){
-                    mensajeError += "El nombre de la propiedad ya existe. \n";
+                //Se chequea que si el usuario ingresa un nombre nuevo, en caso de edicion. Si el nombre no cambia no se busca la repeticion 
+                
+                if (!propiedad.equals(this.itemPhantom.getDescripcion())) {
+                    if (vd.buscaNombre(propiedad, "phantoms", phantomActual.getIdPhantom())) {
+                        mensajeError += "El nombre de la propiedad ya existe. \n";
+                    }
                 }
-                if (!ValidacionesGenerales.ValidarNombreConEspacios(propiedad)) {
-                    mensajeError += "El campo Propiedad debe contener solo letras.\n";
-                }
+
             }
             //Validacion Valor
 

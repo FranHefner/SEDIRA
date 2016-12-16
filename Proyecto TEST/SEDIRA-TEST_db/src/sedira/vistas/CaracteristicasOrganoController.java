@@ -83,7 +83,7 @@ public class CaracteristicasOrganoController implements Initializable {
         txtPhantom.setFocusTraversable(false);
         //Consulta a la base de datos
         infoOrgano=org.obtenerInfoOrgano(organoActual,phantomActual.getIdPhantom());
-        System.out.print(organoActual.getIdOrgano());
+        
         iniciarDatosBasicos();
         //llenarTablaOrgano();
         
