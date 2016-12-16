@@ -151,14 +151,21 @@ public class AbmRadionuclidoController implements Initializable {
         dialogStage.initModality(Modality.APPLICATION_MODAL); //To change body of generated methods, choose Tools | Templates.
         dialogStage.setResizable(false);
 
+        //Obtengo el listado de propiedades (valorDescripcion) que pertenecen aun radionuclido. 
         data = vd.listadoPropiedades("radionuclidos");
+        //Comportamiento de la lista sugerida. 
+        if (data.size()!=0){
         listaSugerida.setItems(data);
-
+        }else{
+                listaSugerida.setItems(data);
+                listaSugerida.setVisible(false);
+        }
+        
         txtPropiedad.textProperty().addListener(
                 (observable, oldValue, newValue) -> actualizarListaSugerida(newValue));
 
         boxControles.getChildren().addAll(txtPropiedad, listaSugerida);
-
+        
         listaSugerida.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -373,7 +380,8 @@ public class AbmRadionuclidoController implements Initializable {
                 txtUnidad.setText("");
                 txtPropiedad.setText("");
                 txtValor.setText("");
-                
+                listaSugerida.getSelectionModel().clearSelection();
+                listaSugerida.setVisible(false);
                 break;
         }
     }
