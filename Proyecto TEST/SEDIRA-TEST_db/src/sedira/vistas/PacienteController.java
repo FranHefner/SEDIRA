@@ -428,13 +428,17 @@ public class PacienteController implements Initializable {
                     SeleccionPaciente(FuncionesGenerales.pacienteActual);
                 }
 
-               
-            //   griListaPacientes.getSelectionModel().select(FuncionesGenerales.pacienteActual);
-                // griListaPacientes.getSelectionModel().select( g );
+             }else                
+            {
+                txtNombre.setText("");
+                txtApellido.setText("");
+                txtNumeroDoc.setText("");
+                
+                txtFechaNacimiento.setValue(null);
+                cbTipoDoc.setValue(null);
+                cbSexo.setValue(null);
             }
-        } else {
-
-        }
+        } 
             ModoLectura();
     }
 
