@@ -222,7 +222,7 @@ public class UsuarioController implements Initializable {
         usuarioActual = FuncionesGenerales.getUsuarioActual();
         int idUsuario = usuarioActual.getIdUsuario();
         if (usuarioActual != null) {
-            String mensaje = usuarioActual.getDescripcion() + " Nombre de usuario: " + Security.decrypt(usuarioActual.getLogin());
+            String mensaje = usuarioActual.getDescripcion();
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Eliminar Usuario");
             alert.setHeaderText("Atención!");
@@ -232,7 +232,7 @@ public class UsuarioController implements Initializable {
             if (result.get() == ButtonType.OK) {
                 usr.eliminarUsuario(idUsuario);
 
-                ///Actualizo el GridView de Phantoms.
+                ///Actualizo el GridView de Usuarios.
                 userData = usr.obtenerUsuarios();
                 griInfoUser.setItems(userData);
             } else {

@@ -399,8 +399,14 @@ public class RadionuclidoController implements Initializable {
             alert.setHeaderText("Atención!\n"
                     + "Esta seguro que desea eliminar el radionúclido seleccionado? ");
             alert.setContentText("Se eliminará el radionuclido con todas sus propiedades."
-                    + "\n Detalle:"
+                   
                     + "\n Nombre radionúclido: " + nombreRadNuclido);
+            
+            //if propiedades radionuclido != null 
+            //imprimo. 
+            //else 
+            //el radionuclido no tiene propiedades. 
+            
             Optional<ButtonType> result = alert.showAndWait();
 
             if (result.get() == ButtonType.OK) {
@@ -426,7 +432,7 @@ public class RadionuclidoController implements Initializable {
             Alert alert = new Alert(AlertType.WARNING);
             alert.setTitle("Error!");
             alert.setHeaderText("Error!");
-            alert.setContentText("Se debe seleccionar un radionúclido para eliminar");
+            alert.setContentText("Se debe seleccionar un radionúclido existente para poder continuar");
 
             alert.showAndWait();
         }

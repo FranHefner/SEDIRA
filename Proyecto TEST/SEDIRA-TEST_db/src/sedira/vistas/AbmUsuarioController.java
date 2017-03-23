@@ -129,7 +129,7 @@ public class AbmUsuarioController implements Initializable {
             this.dialogStage.setTitle("Crear Usuario");
             //Apago los TextField
             txtNombreUsuario.setEditable(true);
-            txtIdUsuario.setDisable(true);
+            //txtIdUsuario.setDisable(true);
             
 
             //Prendo los botones. 

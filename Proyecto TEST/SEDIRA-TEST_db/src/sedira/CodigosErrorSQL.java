@@ -30,8 +30,9 @@ public class CodigosErrorSQL {
                 mensajeError = "El registro que se intenta agregar/modificar ya encuentra en la base de datos. \n Por favor, verifique los datos ingresados.";
                 break;
             case 1451:
-                mensajeError = "El registro que se intenta eliminar esta siendo referenciado. "
-                        + "No puede ser eliminado mientras exista dicha referencia.  \n ";
+                mensajeError = "El registro que se intenta eliminar está siendo referenciado. "
+                        + "No puede ser eliminado mientras exista dicha referencia.  \n "
+                        + "Es probable que el ítem a eliminar haya sido utilizado en un proceso de cálculo";
                         //muy largo el mensaje. 
                 //+ "Error SQL: \n" + e.getMessage();
                 break;
