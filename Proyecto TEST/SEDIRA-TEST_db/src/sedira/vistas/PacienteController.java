@@ -412,7 +412,7 @@ public class PacienteController implements Initializable {
         alert.setTitle("Cancelar edición");
         alert.setHeaderText("Atención!");
         alert.setContentText("Está seguro que desea cancelar la edición? \n"
-                + "Los datos ingresados se descartarán!  ");
+                + "Los cambios sin guardar se decartarán ");
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK) {
@@ -541,10 +541,10 @@ public class PacienteController implements Initializable {
 
         if ((btnEditar.isDisable())) {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Cancelar edición");
+            alert.setTitle("Cerrar Ventana");
             alert.setHeaderText("Atención!");
             alert.setContentText("Está seguro que desea cerrar? \n"
-                    + "Los datos ingresados se descartarán!  ");
+                    + "Los cambios sin guardar se decartarán ");
 
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == ButtonType.OK) {
