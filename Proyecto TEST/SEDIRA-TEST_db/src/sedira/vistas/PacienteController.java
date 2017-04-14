@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.ZoneId;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -227,6 +228,12 @@ public class PacienteController implements Initializable {
     private boolean validarCampos() {
         boolean ValidacionOK = true;
         String Error = "";
+         
+        java.util.Date fechaActual = new Date();
+    
+       Date fechaIngresada = Date.from(txtFechaNacimiento.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
+     
+
         if (cbTipoDoc.getSelectionModel().getSelectedIndex() == -1) {
             Error += "\n Falta seleccionar el tipo de documento.";
             ValidacionOK = false;
@@ -234,6 +241,10 @@ public class PacienteController implements Initializable {
         }
         if (txtNumeroDoc.getText().length() > 9) {
             Error += "\n El número de documento ingresado excede la cantidad de digitos establecida.";
+            ValidacionOK = false;
+        }
+         if (txtNumeroDoc.getText().length() < 6) {
+            Error += "\n El número de documento ingresado es menor a la cantidad mínima establecida.";
             ValidacionOK = false;
         }
         if (txtNumeroDoc.getText().length() == 0) {
@@ -250,6 +261,10 @@ public class PacienteController implements Initializable {
         }
         if (txtFechaNacimiento.getValue() == null) {
             Error += "\n Falta seleccionar la fecha de nacimiento.";
+            ValidacionOK = false;
+        }
+        if (fechaActual.before(fechaIngresada)) {
+            Error += "\n La fechade nacimiento debe ser menor o igual a la fecha actual.";
             ValidacionOK = false;
         }
         if (cbSexo.getSelectionModel().getSelectedIndex() == -1) {
@@ -438,8 +453,9 @@ public class PacienteController implements Initializable {
                 cbTipoDoc.setValue(null);
                 cbSexo.setValue(null);
             }
-        } 
             ModoLectura();
+        } 
+            
     }
 
     /**
