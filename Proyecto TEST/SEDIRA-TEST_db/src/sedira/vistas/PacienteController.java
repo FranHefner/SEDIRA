@@ -229,18 +229,16 @@ public class PacienteController implements Initializable {
         boolean ValidacionOK = true;
         String Error = "";
          
-        java.util.Date fechaActual = new Date();
-    
-       Date fechaIngresada = Date.from(txtFechaNacimiento.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
-     
-
+        Date fechaActual = new Date();
+        Date fechaIngresada = new Date();
+       
         if (cbTipoDoc.getSelectionModel().getSelectedIndex() == -1) {
-            Error += "\n Falta seleccionar el tipo de documento.";
+            Error += "\n Se debe seleccionar el tipo de documento.";
             ValidacionOK = false;
 
         }
         if (txtNumeroDoc.getText().length() > 9) {
-            Error += "\n El número de documento ingresado excede la cantidad de digitos establecida.";
+            Error += "\n El número de documento ingresado excede la cantidad de dígitos establecida.";
             ValidacionOK = false;
         }
          if (txtNumeroDoc.getText().length() < 6) {
@@ -248,33 +246,35 @@ public class PacienteController implements Initializable {
             ValidacionOK = false;
         }
         if (txtNumeroDoc.getText().length() == 0) {
-            Error += "\n Falta ingresar el número de documento";
+            Error += "\n No se ingresó el número de documento";
             ValidacionOK = false;
         }
         if (txtNombre.getText().length() == 0) {
-            Error += "\n Falta ingresar el nombre de la persona";
+            Error += "\n No se ingresó el nombre del paciente";
             ValidacionOK = false;
         }
         if (txtApellido.getText().length() == 0) {
-            Error += "\n Falta ingresar el apellido de la persona";
+            Error += "\n No se ingresó el apellido del paciente";
             ValidacionOK = false;
         }
         if (txtFechaNacimiento.getValue() == null) {
-            Error += "\n Falta seleccionar la fecha de nacimiento.";
+            Error += "\n Se debe seleccionar una fecha de nacimiento válida.";
             ValidacionOK = false;
+        } else {
+             fechaIngresada = Date.from(txtFechaNacimiento.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
         }
         if (fechaActual.before(fechaIngresada)) {
-            Error += "\n La fechade nacimiento debe ser menor o igual a la fecha actual.";
+            Error += "\n La fecha de nacimiento debe ser menor o igual a la fecha actual.";
             ValidacionOK = false;
         }
         if (cbSexo.getSelectionModel().getSelectedIndex() == -1) {
-            Error += "\n Falta seleccionar el sexo de la persona.";
+            Error += "\n No se selecciono el sexo del paciente.";
             ValidacionOK = false;
         }
         if (ValidacionOK == false) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Validación");
-            alert.setHeaderText("Se han detectado los siguientes errores que impiden realizar la operación. ");
+            alert.setHeaderText("Se han detectado los siguientes errores que impiden realizar la operación: ");
             alert.setContentText(Error);
             alert.showAndWait();
         }
