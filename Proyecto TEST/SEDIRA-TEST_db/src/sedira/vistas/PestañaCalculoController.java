@@ -18,6 +18,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
@@ -55,8 +57,9 @@ public class PestañaCalculoController implements Initializable {
     @FXML
     private Button btnCalcular;
     @FXML
-
     private TextField txtResult;
+    @FXML
+    private TextField txtActividad;
     @FXML
     private Label lblOrgano;
     @FXML
@@ -236,6 +239,18 @@ public class PestañaCalculoController implements Initializable {
 
 //        txtOrganoMasa.setText(dValidaciones.getOrganoActual().getOrganMass().toString());
 
+            txtActividad.textProperty().addListener(new ChangeListener<String>() {
+                   @Override
+                public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                    if (txtActividad.getText().length() > 0) {
+
+                        ValorDescripcion Actividad = new ValorDescripcion(1, "Actividad", txtActividad.getText(), "Bq");
+                        variableSeleccionada = Actividad;
+                    } else {
+                        variableSeleccionada = null;
+                    }
+                }
+                 });
     }
 
     @FXML
@@ -256,6 +271,21 @@ public class PestañaCalculoController implements Initializable {
     public void seleccionPropiedadOrgano(ValorDescripcion datoSeleccionado) {
 
         variableSeleccionada = datoSeleccionado;
+
+    }
+     
+     
+        
+    @FXML
+    public void seleccionPropiedadActividad() {
+      
+        if (txtActividad.getText().length() > 0) {
+
+            ValorDescripcion Actividad = new ValorDescripcion(1, "Actividad", txtActividad.getText(), "Act");
+
+            variableSeleccionada = Actividad;
+        }
+
 
     }
 

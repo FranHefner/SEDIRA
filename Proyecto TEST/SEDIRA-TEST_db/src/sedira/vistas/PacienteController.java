@@ -228,10 +228,10 @@ public class PacienteController implements Initializable {
     private boolean validarCampos() {
         boolean ValidacionOK = true;
         String Error = "";
-         
+
         Date fechaActual = new Date();
         Date fechaIngresada = new Date();
-       
+
         if (cbTipoDoc.getSelectionModel().getSelectedIndex() == -1) {
             Error += "\n Se debe seleccionar el tipo de documento.";
             ValidacionOK = false;
@@ -241,7 +241,7 @@ public class PacienteController implements Initializable {
             Error += "\n El número de documento ingresado excede la cantidad de dígitos establecida.";
             ValidacionOK = false;
         }
-         if (txtNumeroDoc.getText().length() < 6) {
+        if (txtNumeroDoc.getText().length() < 6) {
             Error += "\n El número de documento ingresado es menor a la cantidad mínima establecida.";
             ValidacionOK = false;
         }
@@ -253,15 +253,47 @@ public class PacienteController implements Initializable {
             Error += "\n No se ingresó el nombre del paciente";
             ValidacionOK = false;
         }
+
+        char variableAnterior = '0';
+        int contadorCharRepetido = 0;
+        for (int x = 0; x < txtNombre.getText().length(); x++) {
+            if (txtNombre.getText().charAt(x) == variableAnterior) {
+                contadorCharRepetido++;
+            } else {
+                variableAnterior = txtNombre.getText().charAt(x);
+                contadorCharRepetido = 0;
+            }
+            if (contadorCharRepetido > 2) {
+                Error += "\n El nombre ingresado es incorrecto. Se repiten caracteres.";
+                ValidacionOK = false;
+            }
+        }
+
         if (txtApellido.getText().length() == 0) {
             Error += "\n No se ingresó el apellido del paciente";
             ValidacionOK = false;
         }
+
+        variableAnterior = '0';
+        contadorCharRepetido = 0;
+        for (int x = 0; x < txtApellido.getText().length(); x++) {
+            if (txtApellido.getText().charAt(x) == variableAnterior) {
+                contadorCharRepetido++;
+            } else {
+                variableAnterior = txtApellido.getText().charAt(x);
+                contadorCharRepetido = 0;
+            }
+            if (contadorCharRepetido > 2) {
+                Error += "\n El apellido ingresado es incorrecto. Se repiten caracteres.";
+                ValidacionOK = false;
+            }
+        }
+
         if (txtFechaNacimiento.getValue() == null) {
             Error += "\n Se debe seleccionar una fecha de nacimiento válida.";
             ValidacionOK = false;
         } else {
-             fechaIngresada = Date.from(txtFechaNacimiento.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
+            fechaIngresada = Date.from(txtFechaNacimiento.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
         }
         if (fechaActual.before(fechaIngresada)) {
             Error += "\n La fecha de nacimiento debe ser menor o igual a la fecha actual.";
@@ -322,12 +354,12 @@ public class PacienteController implements Initializable {
 
     private void ModoEdicion() {
         Platform.runLater(new Runnable() {
-        @Override
+            @Override
             public void run() {
                 cbTipoDoc.requestFocus();
             }
         });
-        
+
         cbTipoDoc.requestFocus();
         griListaPacientes.setFocusTraversable(false);
         griListaPacientes.setDisable(true);
@@ -355,7 +387,7 @@ public class PacienteController implements Initializable {
         this.pacienteActual = pacienteSeleccionado;
         if (pacienteActual != null) {
             //Control de botones.  
-         
+
             FuncionesGenerales.setPacienteActual(pacienteActual);
 
             IdPacienteActual = pacienteActual.getIdPaciente();
@@ -432,7 +464,7 @@ public class PacienteController implements Initializable {
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK) {
             btnNuevo.setDisable(false);
-            
+
             txtCampoBusqueda.setDisable(false);
             //Cuando no existen pacientes- Primer uso. 
             if (FuncionesGenerales.getPacienteActual() != null) {
@@ -443,19 +475,18 @@ public class PacienteController implements Initializable {
                     SeleccionPaciente(FuncionesGenerales.pacienteActual);
                 }
 
-             }else                
-            {
+            } else {
                 txtNombre.setText("");
                 txtApellido.setText("");
                 txtNumeroDoc.setText("");
-                
+
                 txtFechaNacimiento.setValue(null);
                 cbTipoDoc.setValue(null);
                 cbSexo.setValue(null);
             }
             ModoLectura();
-        } 
-            
+        }
+
     }
 
     /**
@@ -477,22 +508,19 @@ public class PacienteController implements Initializable {
                 PacienteActual.setSexo(cbSexo.getValue().toString());
                 PacienteActual.setFechaNacimiento(txtFechaNacimiento.getValue().toString());
                 //Llamada a la clase de acceso de datos de pacientes. PacienteDAO. 
-             
-                if (pac.modificarPaciente(PacienteActual))
-                 {
-                            //Actualiza la informacion de pacientes
-                         pacienteData = pac.obtenerPacientes();
-                         //Actualiza la grilla. 
-                         griListaPacientes.setItems(pacienteData);
 
-                         // Se carga los datos nuevamente  
-                         SeleccionPaciente(PacienteActual);
-                         //     ModoLectura();
-                 }else                    
-                {
+                if (pac.modificarPaciente(PacienteActual)) {
+                    //Actualiza la informacion de pacientes
+                    pacienteData = pac.obtenerPacientes();
+                    //Actualiza la grilla. 
+                    griListaPacientes.setItems(pacienteData);
+
+                    // Se carga los datos nuevamente  
+                    SeleccionPaciente(PacienteActual);
+                    //     ModoLectura();
+                } else {
                     // Ocurrio un error al actualizar
                 }
-              
 
             } else {
                 // Nuevo Pacientes  
@@ -508,23 +536,21 @@ public class PacienteController implements Initializable {
                 PacienteTemp.setTelefono("");
                 PacienteTemp.setEmail("");
                 PacienteTemp.setcelular("");
-                PacienteTemp.setSexo(cbSexo.getValue().toString());      
+                PacienteTemp.setSexo(cbSexo.getValue().toString());
                 PacienteTemp.setEsNuevo(true);
 
                 //Llamada a Control de acceso de datos de paciente. PacienteDAO
                 //pacienteData.add(PacienteTemp);
-               if ( pac.agregarPaciente(PacienteTemp))
-               {
-                   pacienteData = pac.obtenerPacientes();
-                     griListaPacientes.setItems(pacienteData);
+                if (pac.agregarPaciente(PacienteTemp)) {
+                    pacienteData = pac.obtenerPacientes();
+                    griListaPacientes.setItems(pacienteData);
 
-                        txtCampoBusqueda.setDisable(false);
-                     SeleccionPaciente(PacienteTemp);
-               }else
-               {
-                   //Ocurrio un error al guardar
-               }
-            
+                    txtCampoBusqueda.setDisable(false);
+                    SeleccionPaciente(PacienteTemp);
+                } else {
+                    //Ocurrio un error al guardar
+                }
+
             }
         }
 
@@ -627,7 +653,7 @@ public class PacienteController implements Initializable {
 
         stage.setTitle("Contacto Paciente");
         stage.initModality(Modality.APPLICATION_MODAL);
-        
+
         stage.show();
     }
 
