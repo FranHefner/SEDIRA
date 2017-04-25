@@ -124,7 +124,7 @@ public class Organo {
                        
          IndexPropiedad = propiedades.size()+1;         
      
-         ValorDescripcion MasaPropiedad  = new ValorDescripcion(IndexPropiedad,"Masa",organMass.getValue().toString(),"Gr.");
+         ValorDescripcion MasaPropiedad  = new ValorDescripcion(IndexPropiedad,"Masa",organMass.getValue().toString(),"g");
          
          propiedades.add(MasaPropiedad);
          

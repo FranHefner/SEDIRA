@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.ZoneId;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -41,6 +40,7 @@ import sedira.model.Paciente;
 import sedira.FuncionesGenerales;
 import sedira.ValidacionesGenerales;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import javafx.stage.Modality;
 import sedira.model.CalculoDAOsql;
 import sedira.model.CalculoMuestra;
@@ -85,6 +85,8 @@ public class PacienteController implements Initializable {
     private Button btnCancelar;
     @FXML
     private DatePicker txtFechaNacimiento;
+    @FXML
+    private Label lblModo;
 
     boolean editarClicked = false;
 
@@ -353,6 +355,7 @@ public class PacienteController implements Initializable {
     }
 
     private void ModoEdicion() {
+        lblModo.setText("Modo edición");
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
@@ -429,7 +432,7 @@ public class PacienteController implements Initializable {
      */
     @FXML
     private void btnNuevo_click() {
-
+        
         //Validar si los atributos estan vacios. 
         //prendo boton aceptar y cancelar.     
         editarClicked = false;
