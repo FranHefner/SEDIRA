@@ -5,10 +5,13 @@
  */
 package sedira.vistas;
 
+import java.awt.event.FocusEvent;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -18,11 +21,14 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import sedira.FuncionesGenerales;
 import sedira.Security;
+import sedira.ValidacionesGenerales;
 import sedira.model.IUsuarioDAO;
 import sedira.model.Usuario;
 import sedira.model.UsuarioDAOsql;
@@ -34,6 +40,15 @@ import sedira.model.UsuarioDAOsql;
  */
 public class AbmUsuarioController implements Initializable {
     //Declaracion de variables FXML
+
+    @FXML
+    private Label lblNombreUsuario;
+    @FXML
+    private Label lblContraseña;
+    @FXML
+    private Label lblDescripcion;
+    @FXML
+    private Label lblTipoUsuario;
 
     @FXML
     private TextField txtIdUsuario;
@@ -63,17 +78,44 @@ public class AbmUsuarioController implements Initializable {
     private boolean guardarDatos = false;
 
     IUsuarioDAO usr = new UsuarioDAOsql();
-  
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        btnGuardar.setDisable(true);
+        lblNombreUsuario.setText("");
+        lblContraseña.setText("");
+        lblDescripcion.setText("");
+        lblTipoUsuario.setText("");
 
         ObservableList<String> strTipoUsuario = FXCollections.observableArrayList();
         cBtipoUsuario.getItems().addAll("Cientifico", "Médico", "Administrador");
-        
+
+        txtNombreUsuario.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+            if (!newValue) { //when focus lost
+                if (!ValidacionesGenerales.ValidarNombreUsuario(txtNombreUsuario.getText())) {
+                    //when it not matches the pattern (1.0 - 6.0)
+                    //set the textField empty
+                    //lblNombreUsuario.setText("Debe contener mas de 5 caracteres, se aceptan letras, números y giones");
+                    //lblNombreUsuario.setTextFill(Color.web("red"));
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                        alert.setTitle("Ingreso de datos inválido");
+                        alert.setHeaderText("No se acepta el nombre de usuario ");
+                        alert.setContentText("El nombre de usuario debe contener como minimo 5 caracteres "
+                                + "\n se aceptan letras mayúsculas, minúsculas, numeros y guiones. ");
+                        alert.showAndWait();
+                    //ErrorFlag=true
+                    //Control boton Aceptar. 
+                }
+            }else{
+                lblNombreUsuario.setText("");
+                //ErrorFlag=false
+            }
+            
+
+        });
     }
 
     /**
@@ -102,7 +144,9 @@ public class AbmUsuarioController implements Initializable {
      */
     public void setUsuario(Usuario usuario) throws Exception {
         this.usuario = usuario;
-        String tipoDeUsuario; 
+        String tipoDeUsuario;
+        String UsuarioDec;
+        String passwordDec;
 
         if (usuario.getIdUsuario() != -1) {
             /**
@@ -111,12 +155,14 @@ public class AbmUsuarioController implements Initializable {
             //Atributos de nombre y id. 
             //txtIdUsuario.setText(String.valueOf(usuario.getIdUsuario()));
             tipoDeUsuario = usr.obtenerTipoUsuario(usuario.getIdUsuario());
-            System.out.print(tipoDeUsuario);
+            // System.out.print(tipoDeUsuario);
             txtNombreUsuario.setEditable(true);
-            txtNombreUsuario.setText(Security.decrypt(usuario.getLogin()));
+            UsuarioDec = Security.decrypt(usuario.getLogin());
+            txtNombreUsuario.setText(UsuarioDec);
 
             txtPass.setEditable(true);
-            txtPass.setText(Security.decrypt(usuario.getPass()));
+            passwordDec = Security.decrypt(usuario.getPass());
+            txtPass.setText(passwordDec);
 
             txtDescripcion.setEditable(true);
             txtDescripcion.setText(usuario.getDescripcion());
@@ -130,7 +176,6 @@ public class AbmUsuarioController implements Initializable {
             //Apago los TextField
             txtNombreUsuario.setEditable(true);
             //txtIdUsuario.setDisable(true);
-            
 
             //Prendo los botones. 
         }
@@ -230,13 +275,15 @@ public class AbmUsuarioController implements Initializable {
      * @throws SQLException
      */
     public boolean validarDatosEntrada() throws SQLException, Exception {
-        // CUIDADO CON LA ENCRIPTACION. 
 
         String mensajeError = "";
         String nombreUsuario = txtNombreUsuario.getText();
 
         if ("Crear Usuario".equals(this.dialogStage.getTitle()) || "Modificar Usuario".equals(this.dialogStage.getTitle())) {
             if (!nombreUsuario.equals(Security.decrypt(this.usuario.getLogin()))) { // verifico que si es modo edicion no entre en error por el nombre que no cambiara
+                if (cBtipoUsuario.getSelectionModel().getSelectedItem() == null) {
+                    mensajeError += "Debe seleccionar un tipo de usuario \n";
+                }
                 if (txtNombreUsuario.getText() == null || txtNombreUsuario.getText().length() == 0) {
                     mensajeError += "Nombre de usuario inválido!\n";
                 }
@@ -244,18 +291,17 @@ public class AbmUsuarioController implements Initializable {
                     mensajeError += "El nombre de usuario ya existe!\n";
                 }
                 if (txtPass.getText() == null || txtPass.getText().length() == 0) {
-                //mas validaciones con resperto al pass. 
+                    //mas validaciones con resperto al pass. 
                     // O llamar a funcion que verifique, cantidad de caracteres , largo y demas 
-                    mensajeError += "La contraseña es invalida\n";
+                    mensajeError += "La contraseña es inválida\n";
                 }
-                if (cBtipoUsuario.getSelectionModel().getSelectedItem() == null) {
-                    mensajeError += "Debe seleccionar un tipo de usuario \n";
-                }
+
             }
         }
         // TODO validacion Unidad. 
 
         if (mensajeError.length() == 0) {
+
             return true;
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);

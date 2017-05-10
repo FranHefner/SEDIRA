@@ -13,7 +13,6 @@ import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
-import javax.swing.JOptionPane;
 import sedira.CodigosErrorSQL;
 import sedira.Security;
 
@@ -41,29 +40,29 @@ public class UsuarioDAOsql implements IUsuarioDAO {
         try {
             String UsuarioEnc = Security.encrypt(usuario.getLogin());
             String passwordEnc = Security.encrypt(usuario.getPass());
-          
-                PreparedStatement consulta = conexion.getConnection().prepareStatement(
-                        "INSERT INTO usuarios (descripcion, login, pass, id_usuarioTipos) "
-                        + "VALUES(?,?,?,?)");
-                consulta.setString(1, usuario.getDescripcion());
-                consulta.setString(2, Security.encrypt(usuario.getLogin()));
-                consulta.setString(3, Security.encrypt(usuario.getPass()));
-                consulta.setInt(4, tipoUsuario);
 
-                consulta.executeUpdate(); //Ejecucion de la consulta
-                consulta.close();
+            PreparedStatement consulta = conexion.getConnection().prepareStatement(
+                    "INSERT INTO usuarios (descripcion, login, pass, id_usuarioTipos) "
+                    + "VALUES(?,?,?,?)");
+            consulta.setString(1, usuario.getDescripcion());
+            consulta.setString(2, Security.encrypt(usuario.getLogin()));
+            consulta.setString(3, Security.encrypt(usuario.getPass()));
+            consulta.setInt(4, tipoUsuario);
 
-                conexion.desconectar();
+            consulta.executeUpdate(); //Ejecucion de la consulta
+            consulta.close();
 
-                // Mensaje de confirmacion
-                Alert alerta = new Alert(Alert.AlertType.INFORMATION);
-                alerta.setTitle("Confirmación");
-                alerta.setHeaderText(null);
-                alerta.setContentText("El usuario fué agregado.");
-                alerta.showAndWait();
-          
+            conexion.desconectar();
+
+            // Mensaje de confirmacion
+            Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+            alerta.setTitle("Confirmación");
+            alerta.setHeaderText(null);
+            alerta.setContentText("El usuario fué agregado.");
+            alerta.showAndWait();
+
         } catch (SQLException e) {
-             CodigosErrorSQL.analizarExepcion((SQLException) e);
+            CodigosErrorSQL.analizarExepcion((SQLException) e);
             //JOptionPane.showMessageDialog(null, "no se pudo consultar el phantom /n" + e);
             //System.out.print(e);
         } catch (Exception ex) {
@@ -107,7 +106,7 @@ public class UsuarioDAOsql implements IUsuarioDAO {
 
             }
         } catch (SQLException e) {
-             CodigosErrorSQL.analizarExepcion((SQLException) e);
+            CodigosErrorSQL.analizarExepcion((SQLException) e);
             //JOptionPane.showMessageDialog(null, "no se pudo consultar el phantom /n" + e);
             //System.out.print(e);
         } catch (Exception ex) {
@@ -161,7 +160,7 @@ public class UsuarioDAOsql implements IUsuarioDAO {
     public boolean buscaUsuario(String usuario) {
         //Instancia de conexion
         ConexionDB conexion = new ConexionDB();
-        
+
         try {
 //            String decUsuario = Security.decrypt(usuario);
             PreparedStatement consulta = conexion.getConnection().prepareStatement(
@@ -172,13 +171,13 @@ public class UsuarioDAOsql implements IUsuarioDAO {
             ResultSet resultado = consulta.executeQuery();
             if (resultado.next()) {
                 consulta.close();
-                conexion.desconectar(); 
+                conexion.desconectar();
                 return true;
             } else {
                 //Si no hay coincidencias. o sea, la cantidad de tuplas es 0 entonces EL nombre no existe
                 conexion.desconectar();
                 return false;
-                
+
             }
 
         } catch (SQLException e) {
@@ -192,10 +191,8 @@ public class UsuarioDAOsql implements IUsuarioDAO {
             conexion.desconectar();
             return false;
         }
-       
-    }     
-    
-    
+
+    }
 
     /**
      * Método que retorna la informacion completa de la tabla de usuarios
@@ -220,8 +217,10 @@ public class UsuarioDAOsql implements IUsuarioDAO {
                 //obtencion de los datos desde la bd.
                 usuario.setIdUsuario(Integer.parseInt(resultado.getString("id_usuario")));
                 usuario.setDescripcion(resultado.getString("descripcion"));
-                usuario.setLogin(resultado.getString("login"));
-                usuario.setPass(resultado.getString("pass"));
+
+                usuario.setLogin(Security.decrypt((resultado.getString("login"))));
+
+                usuario.setPass(Security.decrypt((resultado.getString("pass"))));
                 //Join con Tipos de usuario para traer el tipo. 
 
                 usuarioData.add(usuario);
@@ -235,6 +234,8 @@ public class UsuarioDAOsql implements IUsuarioDAO {
             CodigosErrorSQL.analizarExepcion((SQLException) e);
             //JOptionPane.showMessageDialog(null, "no se pudo consultar el phantom /n" + e);
             //System.out.print(e);
+        } catch (Exception ex) {
+            Logger.getLogger(UsuarioDAOsql.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         return usuarioData;
@@ -272,7 +273,7 @@ public class UsuarioDAOsql implements IUsuarioDAO {
             conexion.desconectar();
 
         } catch (Exception e) {
-             CodigosErrorSQL.analizarExepcion((SQLException) e);
+            CodigosErrorSQL.analizarExepcion((SQLException) e);
             //JOptionPane.showMessageDialog(null, "no se pudo consultar el phantom /n" + e);
             //System.out.print(e);
         }

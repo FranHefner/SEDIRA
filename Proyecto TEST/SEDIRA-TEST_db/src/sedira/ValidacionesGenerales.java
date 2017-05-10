@@ -31,11 +31,12 @@ public class ValidacionesGenerales {
         return Resultado.replace("*", "");
 
     }
-       public static String SacarNumeros(String Texto) {
+
+    public static String SacarNumeros(String Texto) {
         String Resultado = "";
         Resultado = Texto;
         for (int i = 0; i < Texto.length(); i++) {
-          
+
             if (Texto.substring(i, i + 1).matches("[0-9]")) {
                 Resultado = Resultado.replace(Resultado.substring(i, i + 1), "*");
             }
@@ -113,6 +114,17 @@ public class ValidacionesGenerales {
     }
 
     /**
+     * Método test para comprobar nombres de usuario.
+     *
+     * @param nombreUsuario
+     * @return
+     */
+    public static boolean ValidarNombreUsuario(String nombreUsuario) {
+        return nombreUsuario.matches("^[a-zA-Z0-9._-]{5,}$");
+
+    }
+
+    /**
      * Método que controla si un nombre es aceptado. En este caso acepta
      * espacios entre caracteres. Utiliza expresiones regulares.
      *
@@ -123,7 +135,6 @@ public class ValidacionesGenerales {
         return Nombre.matches("^[\\p{L} '-]+$");
 
     }
-      
 
     public static boolean ValidarNumericoFloat(String Numero) {
         return Numero.matches("-?\\d+(\\.\\d+)?");
@@ -135,19 +146,19 @@ public class ValidacionesGenerales {
 
     /**
      * Método para validar los números de telefono
+     *
      * @param phoneNo
-     * @return 
+     * @return
      */
     public static boolean validarNumeroTelefono(String phoneNo) {
         //Solo numero separados por guiones
         if (phoneNo.matches("([0-9]|-)*")) {
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
 
     // regex para email 
-        // ^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$  
-    }
+    // ^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$  
+}

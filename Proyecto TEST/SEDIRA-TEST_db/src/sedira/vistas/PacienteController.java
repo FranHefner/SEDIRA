@@ -149,7 +149,7 @@ public class PacienteController implements Initializable {
         cbTipoDoc.getItems().addAll("DNI", "PAS");
         cbSexo.getItems().addAll("F", "M", "O");
 
-        //FuncionesGenerales.setPacienteActual(new Paciente());
+     
         clNombre.setCellValueFactory(cellData -> cellData.getValue().getNombreProperty());
         clApellido.setCellValueFactory(cellData -> cellData.getValue().getApellidoProperty());
         clTipoDoc.setCellValueFactory(cellData -> cellData.getValue().getTipoDocProperty());
@@ -158,8 +158,6 @@ public class PacienteController implements Initializable {
         griListaPacientes.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> SeleccionPaciente(newValue));
 
-        //DocumentosData = ConsultasDB.ListaTipoDocumento();
-        //cbTipoDoc.setItems(DocumentosData);
         txtNumeroDoc.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {

@@ -23,7 +23,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import sedira.FuncionesGenerales;
-import sedira.Security;
 import sedira.model.IUsuarioDAO;
 import sedira.model.Usuario;
 import sedira.model.UsuarioDAOsql;
@@ -182,7 +181,7 @@ public class UsuarioController implements Initializable {
           
             usr.modificarUsuario(usuario, tipoUsuario);
             userData = usr.obtenerUsuarios();
-            //Actualiza el GridView de los phantoms 
+            //Actualiza el GridView de los usuarios 
             griInfoUser.setItems(userData);
             //Comportamiento de botones 
             btnModificarUsuario.setDisable(true);
@@ -191,7 +190,7 @@ public class UsuarioController implements Initializable {
     }
 
     /**
-     * Metodo para el comportamiento del boton NUEVO.
+     * Método para el comportamiento del boton NUEVO.
      *
      * @throws java.lang.Exception
      */
@@ -226,7 +225,7 @@ public class UsuarioController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Eliminar Usuario");
             alert.setHeaderText("Atención!");
-            alert.setContentText("Esta seguro que desea eliminar el Usuario seleccionado? \n" + mensaje);
+            alert.setContentText("Está seguro que desea eliminar el usuario seleccionado? \n" + mensaje);
 
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == ButtonType.OK) {

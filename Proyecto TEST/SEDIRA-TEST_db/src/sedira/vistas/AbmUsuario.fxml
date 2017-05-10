@@ -7,30 +7,31 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="247.0" prefWidth="330.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sedira.vistas.AbmUsuarioController">
+<AnchorPane id="AnchorPane" prefHeight="269.0" prefWidth="330.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sedira.vistas.AbmUsuarioController">
    <children>
-      <Text layoutX="39.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre de usuario" />
-      <Text layoutX="77.0" layoutY="96.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Contraseña" />
-      <Text layoutX="77.0" layoutY="138.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Descripción" />
-      <Text layoutX="56.0" layoutY="177.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tipo de usuario" />
+      <Text layoutX="37.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre de usuario" />
+      <Text layoutX="75.0" layoutY="96.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Contraseña" />
+      <Text layoutX="76.0" layoutY="139.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Descripción" />
+      <Text layoutX="55.0" layoutY="185.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tipo de usuario" />
       <Text fontSmoothingType="LCD" layoutX="280.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-text-fill: red;" text="*" textAlignment="CENTER" />
       <Text fontSmoothingType="LCD" layoutX="280.0" layoutY="96.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-text-fill: red;" text="*" textAlignment="CENTER" />
-      <Text fontSmoothingType="LCD" layoutX="280.0" layoutY="138.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-text-fill: red;" text="*" textAlignment="CENTER" />
+      <Text fontSmoothingType="LCD" layoutX="280.0" layoutY="139.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-text-fill: red;" text="*" textAlignment="CENTER" />
       <Text layoutX="42.0" layoutY="18.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Todos los campos marcados con * son obligatorios" />
-      <VBox layoutX="142.0" layoutY="39.0" spacing="20.0">
-         <children>
-            <TextField fx:id="txtNombreUsuario" layoutX="20.0" layoutY="97.0" />
-            <TextField fx:id="txtPass" layoutX="20.0" layoutY="138.0" />
-            <TextField fx:id="txtDescripcion" layoutX="20.0" layoutY="178.0" />
-         </children>
-      </VBox>
-      <ChoiceBox fx:id="cBtipoUsuario" layoutX="142.0" layoutY="162.0" prefHeight="22.0" prefWidth="134.0" />
-      <HBox layoutX="43.0" layoutY="208.0" spacing="20.0">
+      <ChoiceBox fx:id="cBtipoUsuario" layoutX="141.0" layoutY="170.0" prefHeight="22.0" prefWidth="134.0" />
+      <HBox layoutX="43.0" layoutY="233.0" spacing="20.0">
          <children>
             <Button fx:id="btnGuardar" layoutX="87.0" layoutY="271.0" mnemonicParsing="false" onAction="#btnGuardarDatos" text="Guardar" />
             <Button fx:id="btnCancelar" layoutX="154.0" layoutY="271.0" mnemonicParsing="false" onAction="#btnCancel_click" text="Cancelar" />
             <Button fx:id="btnLimpiar" layoutX="220.0" layoutY="271.0" mnemonicParsing="false" onAction="#btnLimpiarValores_click" text="Limpiar valores" />
          </children>
       </HBox>
+      <TextField fx:id="txtNombreUsuario" layoutX="141.0" layoutY="39.0" />
+      <TextField fx:id="txtPass" layoutX="141.0" layoutY="81.0" />
+      <TextField fx:id="txtDescripcion" layoutX="142.0" layoutY="124.0" />
+      <Label fx:id="lblNombreUsuario" layoutX="72.0" layoutY="61.0" prefHeight="22.0" prefWidth="244.0" text="Label" />
+      <Text fontSmoothingType="LCD" layoutX="280.0" layoutY="178.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-text-fill: red;" text="*" textAlignment="CENTER" />
+      <Label fx:id="lblContraseña" layoutX="70.0" layoutY="108.0" prefHeight="14.0" prefWidth="244.0" text="Label" />
+      <Label fx:id="lblDescripcion" layoutX="70.0" layoutY="153.0" prefHeight="14.0" prefWidth="244.0" text="Label" />
+      <Label fx:id="lblTipoUsuario" layoutX="70.0" layoutY="202.0" prefHeight="14.0" prefWidth="244.0" text="Label" />
    </children>
 </AnchorPane>
