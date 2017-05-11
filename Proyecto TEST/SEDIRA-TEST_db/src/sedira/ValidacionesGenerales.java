@@ -114,13 +114,24 @@ public class ValidacionesGenerales {
     }
 
     /**
-     * Método test para comprobar nombres de usuario.
+     * Método para validar nombres de usuario.
      *
      * @param nombreUsuario
      * @return
      */
     public static boolean ValidarNombreUsuario(String nombreUsuario) {
         return nombreUsuario.matches("^[a-zA-Z0-9._-]{5,}$");
+        //Caracteres A-Z, a-z, 0-9, . _ - Longitud mayor a 5 caracteres. 
+
+    }
+    /**
+         * Método para validar contraseñas. 
+     * @param contrasena    
+     * @return 
+     */
+    public static boolean ValidarContrasenaUsuario(String contrasena) {
+        return contrasena.matches("^[a-zA-Z0-9._-]{5,}$");
+        //Caracteres A-Z, a-z, 0-9, . _ - Longitud mayor a 5 caracteres. 
 
     }
 

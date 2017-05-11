@@ -5,13 +5,12 @@
  */
 package sedira.vistas;
 
-import java.awt.event.FocusEvent;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -23,7 +22,6 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import sedira.FuncionesGenerales;
@@ -76,7 +74,7 @@ public class AbmUsuarioController implements Initializable {
     private Stage dialogStage;
     // boleano para controlar cuando el usuario clickea ok 
     private boolean guardarDatos = false;
-
+    private boolean cancelar = false;
     IUsuarioDAO usr = new UsuarioDAOsql();
 
     /**
@@ -93,29 +91,45 @@ public class AbmUsuarioController implements Initializable {
         ObservableList<String> strTipoUsuario = FXCollections.observableArrayList();
         cBtipoUsuario.getItems().addAll("Cientifico", "Médico", "Administrador");
 
-        txtNombreUsuario.focusedProperty().addListener((arg0, oldValue, newValue) -> {
-            if (!newValue) { //when focus lost
-                if (!ValidacionesGenerales.ValidarNombreUsuario(txtNombreUsuario.getText())) {
-                    //when it not matches the pattern (1.0 - 6.0)
-                    //set the textField empty
-                    //lblNombreUsuario.setText("Debe contener mas de 5 caracteres, se aceptan letras, números y giones");
-                    //lblNombreUsuario.setTextFill(Color.web("red"));
-                    Alert alert = new Alert(Alert.AlertType.WARNING);
-                        alert.setTitle("Ingreso de datos inválido");
-                        alert.setHeaderText("No se acepta el nombre de usuario ");
-                        alert.setContentText("El nombre de usuario debe contener como minimo 5 caracteres "
-                                + "\n se aceptan letras mayúsculas, minúsculas, numeros y guiones. ");
-                        alert.showAndWait();
-                    //ErrorFlag=true
-                    //Control boton Aceptar. 
+        txtNombreUsuario.focusedProperty().addListener((arg_User, oldValueUser, newValueUser) -> {
+            if (!newValueUser) {//when focus lost
+                if (!btnCancelar.isFocused()) {
+                    try {
+                        if (validarUsuario()) {
+                            //validacion correcta.
+                        } else {
+                            //validacion usuario erronea. 
+                            txtNombreUsuario.setText("");
+                            //txtNombreUsuario.requestFocus();
+                        }
+                    } catch (Exception ex) {
+                        Logger.getLogger(AbmUsuarioController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
-            }else{
-                lblNombreUsuario.setText("");
-                //ErrorFlag=false
+
             }
-            
 
         });
+        txtPass.focusedProperty().addListener((argPass, oldValuePass, newValuePass) -> {
+            if (!newValuePass) {//when focus lost
+                if (!btnCancelar.isFocused()) {
+                    try {
+                        if (validarPass()) {
+                            //validacion correcta. 
+                        } else {
+                            //validacion erronea. 
+                            txtPass.setText("");
+                            txtPass.requestFocus();
+                        }
+                    } catch (Exception ex) {
+                        Logger.getLogger(AbmUsuarioController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+
+            }
+
+        });
+
     }
 
     /**
@@ -126,12 +140,12 @@ public class AbmUsuarioController implements Initializable {
     public void setDialogStage(Stage dialogStage) {
         this.dialogStage = dialogStage;
         dialogStage.initModality(Modality.APPLICATION_MODAL);
-        //dialogStage.setResizable(false);
+
         dialogStage.setMinHeight(330);
         dialogStage.setMinWidth(330);
         dialogStage.setMaxHeight(400);
         dialogStage.setMaxWidth(400);
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
     }
 
     /**
@@ -157,12 +171,12 @@ public class AbmUsuarioController implements Initializable {
             tipoDeUsuario = usr.obtenerTipoUsuario(usuario.getIdUsuario());
             // System.out.print(tipoDeUsuario);
             txtNombreUsuario.setEditable(true);
-            UsuarioDec = Security.decrypt(usuario.getLogin());
-            txtNombreUsuario.setText(UsuarioDec);
+
+            txtNombreUsuario.setText(Security.decrypt(usuario.getLogin()));
 
             txtPass.setEditable(true);
-            passwordDec = Security.decrypt(usuario.getPass());
-            txtPass.setText(passwordDec);
+
+            txtPass.setText(Security.decrypt(usuario.getPass()));
 
             txtDescripcion.setEditable(true);
             txtDescripcion.setText(usuario.getDescripcion());
@@ -226,11 +240,17 @@ public class AbmUsuarioController implements Initializable {
         return this.guardarDatos;
     }
 
+    public boolean isCancelarClicked() {
+        return this.cancelar;
+    }
+
     /**
      * Metodo que se llama al presionar el boton cancelar.
+     *
      */
     @FXML
     public void btnCancel_click() {
+
         Alert alert = new Alert(AlertType.CONFIRMATION);
         switch (dialogStage.getTitle()) {
             case "Crear Usuario":
@@ -252,6 +272,7 @@ public class AbmUsuarioController implements Initializable {
         } else {
 
         }
+
     }
 
     /**
@@ -264,6 +285,59 @@ public class AbmUsuarioController implements Initializable {
         txtPass.setText("");
         txtNombreUsuario.setText("");
         cBtipoUsuario.getSelectionModel().clearSelection();
+
+    }
+
+    public boolean validarUsuario() throws Exception {
+        String mensajeError = "";
+        String nombreUsuario = txtNombreUsuario.getText();
+        String nombreUsuarioEnc = Security.encrypt(nombreUsuario);
+
+        if (!ValidacionesGenerales.ValidarNombreUsuario(nombreUsuario)) {
+            mensajeError = "El nombre de usuario debe contener como minimo 5 caracteres. \n"
+                    + "Se aceptan letras mayúsculas, minúsculas, números, puntos y guiones.";
+            txtNombreUsuario.setText("");
+
+        }
+        if (usr.buscaUsuario(nombreUsuarioEnc) == true) {
+            mensajeError += "El nombre de usuario ya existe!\n";
+
+        }
+        if (mensajeError.length() == 0) {
+            return true;
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error!");
+            alert.setHeaderText("Existe un error en los siguientes campos:");
+            alert.setContentText(mensajeError);
+
+            alert.showAndWait();
+            return false;
+        }
+
+    }
+
+    public boolean validarPass() throws Exception {
+        String mensajeError = "";
+        String pass = txtNombreUsuario.getText();
+
+        if (!ValidacionesGenerales.ValidarContrasenaUsuario(pass)) {
+            mensajeError = "La contraseña debe contener como minimo 5 caracteres. \n"
+                    + "Se aceptan letras mayúsculas, minúsculas, números, puntos y guiones.";
+            txtPass.setText("");
+
+        }
+        if (mensajeError.length() == 0) {
+            return true;
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error!");
+            alert.setHeaderText("Existe un error en los siguientes campos:");
+            alert.setContentText(mensajeError);
+
+            alert.showAndWait();
+            return false;
+        }
 
     }
 
