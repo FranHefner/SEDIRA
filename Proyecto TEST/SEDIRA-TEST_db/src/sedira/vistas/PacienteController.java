@@ -256,6 +256,7 @@ public class PacienteController implements Initializable {
 
         char variableAnterior = '0';
         int contadorCharRepetido = 0;
+        boolean nombreIncorrecto = false;
         for (int x = 0; x < txtNombre.getText().length(); x++) {
             if (txtNombre.getText().charAt(x) == variableAnterior) {
                 contadorCharRepetido++;
@@ -264,11 +265,14 @@ public class PacienteController implements Initializable {
                 contadorCharRepetido = 0;
             }
             if (contadorCharRepetido > 2) {
-                Error += "\n El nombre ingresado es incorrecto. Se repiten caracteres.";
                 ValidacionOK = false;
+                 nombreIncorrecto = true;
             }
         }
-
+            if (nombreIncorrecto = true)
+            {
+                 Error += "\n El nombre ingresado es incorrecto. Se repiten caracteres.";                
+            }
         if (txtApellido.getText().length() == 0) {
             Error += "\n No se ingresó el apellido del paciente";
             ValidacionOK = false;
@@ -276,6 +280,7 @@ public class PacienteController implements Initializable {
 
         variableAnterior = '0';
         contadorCharRepetido = 0;
+        boolean apellidoIncorrecto = false;
         for (int x = 0; x < txtApellido.getText().length(); x++) {
             if (txtApellido.getText().charAt(x) == variableAnterior) {
                 contadorCharRepetido++;
@@ -284,11 +289,15 @@ public class PacienteController implements Initializable {
                 contadorCharRepetido = 0;
             }
             if (contadorCharRepetido > 2) {
-                Error += "\n El apellido ingresado es incorrecto. Se repiten caracteres.";
+              apellidoIncorrecto = true;
                 ValidacionOK = false;
             }
         }
 
+        if (apellidoIncorrecto = true)
+        {
+          Error += "\n El apellido ingresado es incorrecto. Se repiten caracteres.";
+        }
         if (txtFechaNacimiento.getValue() == null) {
             Error += "\n Se debe seleccionar una fecha de nacimiento válida.";
             ValidacionOK = false;
