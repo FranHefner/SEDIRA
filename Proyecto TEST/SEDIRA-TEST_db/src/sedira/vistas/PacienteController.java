@@ -149,7 +149,6 @@ public class PacienteController implements Initializable {
         cbTipoDoc.getItems().addAll("DNI", "PAS");
         cbSexo.getItems().addAll("F", "M", "O");
 
-     
         clNombre.setCellValueFactory(cellData -> cellData.getValue().getNombreProperty());
         clApellido.setCellValueFactory(cellData -> cellData.getValue().getApellidoProperty());
         clTipoDoc.setCellValueFactory(cellData -> cellData.getValue().getTipoDocProperty());
@@ -178,6 +177,7 @@ public class PacienteController implements Initializable {
             }
         });
 
+        // TextField txtNumeroDoc = new TextField();
         txtNombre.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -220,6 +220,176 @@ public class PacienteController implements Initializable {
             }
         });
 
+        /**
+         * ********************* Validaciones lost focus***************************************************
+         */
+        txtNumeroDoc.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue) {
+
+                if (!newPropertyValue && txtNumeroDoc.isEditable() && txtNumeroDoc.getText().length() > 0 ) {
+
+                    boolean ValidacionOK = true;
+                    String Error = "";
+
+                    /**
+                     * *************************
+                     */
+                    if (txtNumeroDoc.getText().length() > 9) {
+                        Error += "\n El número de documento ingresado excede la cantidad de dígitos establecida.";
+                        ValidacionOK = false;
+                    }
+                    if (txtNumeroDoc.getText().length() < 6) {
+                        Error += "\n El número de documento ingresado es menor a la cantidad mínima establecida.";
+                        ValidacionOK = false;
+                    }
+
+                    /**
+                     * **************************
+                     */
+                    if (ValidacionOK == false) {
+                           txtNumeroDoc.setText("");
+                        Alert alert = new Alert(Alert.AlertType.WARNING);
+                        alert.setTitle("Validación");
+                        alert.setHeaderText("El dato ingreso es incorrecto y fué borrado, por favor ingrese uno válido");
+                        alert.setContentText(Error);
+                        alert.showAndWait();
+                    }
+                }
+            }
+        });
+
+        txtNombre.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue) {
+                if (!newPropertyValue && txtNombre.isEditable() && txtNombre.getText().length() > 0) {
+                    boolean ValidacionOK = true;
+                    String Error = "";
+
+                    /**
+                     * *************************
+                     */
+                    char variableAnterior = '0';
+                    int contadorCharRepetido = 0;
+                    boolean nombreIncorrecto = false;
+                    for (int x = 0; x < txtNombre.getText().length(); x++) {
+                        if (txtNombre.getText().charAt(x) == variableAnterior) {
+                            contadorCharRepetido++;
+                        } else {
+                            variableAnterior = txtNombre.getText().charAt(x);
+                            contadorCharRepetido = 0;
+                        }
+                        if (contadorCharRepetido > 2) {
+                            ValidacionOK = false;
+                            nombreIncorrecto = true;
+                        }
+                    }
+                    if (nombreIncorrecto = true) {
+                        Error += "\n El nombre ingresado es incorrecto. Se repiten caracteres.";
+                    }
+
+                    /**
+                     * **************************
+                     */
+                    if (ValidacionOK == false) {
+                         txtNombre.setText("");
+                        Alert alert = new Alert(Alert.AlertType.WARNING);
+                        alert.setTitle("Validación");
+                        alert.setHeaderText("El dato ingreso es incorrecto y fué borrado, por favor ingrese uno válido");
+                        alert.setContentText(Error);
+                        alert.showAndWait();
+                    }
+                }
+            }
+        });
+
+        txtApellido.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue) {
+                if (!newPropertyValue  && txtApellido.isEditable() && txtApellido.getText().length() > 0) {
+                    boolean ValidacionOK = true;
+                    String Error = "";
+
+                    /**
+                     * *************************
+                     */
+                    char variableAnterior = '0';
+                    int contadorCharRepetido = 0;
+                    boolean apellidoIncorrecto = false;
+                    for (int x = 0; x < txtApellido.getText().length(); x++) {
+                        if (txtApellido.getText().charAt(x) == variableAnterior) {
+                            contadorCharRepetido++;
+                        } else {
+                            variableAnterior = txtApellido.getText().charAt(x);
+                            contadorCharRepetido = 0;
+                        }
+                        if (contadorCharRepetido > 2) {
+                            apellidoIncorrecto = true;
+                            ValidacionOK = false;
+                        }
+                    }
+
+                    if (apellidoIncorrecto = true) {
+                        Error += "\n El apellido ingresado es incorrecto. Se repiten caracteres.";
+                    }
+                    /**
+                     * **************************
+                     */
+
+                    if (ValidacionOK == false) {
+                        txtApellido.setText("");
+                        Alert alert = new Alert(Alert.AlertType.WARNING);
+                        alert.setTitle("Validación");
+                        alert.setHeaderText("El dato ingreso es incorrecto y fué borrado, por favor ingrese uno válido");
+                        alert.setContentText(Error);
+                        alert.showAndWait();
+                    }
+                }
+            }
+        });
+
+        txtFechaNacimiento.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue) {
+                if (!newPropertyValue && txtFechaNacimiento.isEditable()&& txtFechaNacimiento.getValue() != null ) {
+                    Date fechaActual = new Date();
+                    Date fechaIngresada = new Date();
+
+                    boolean ValidacionOK = true;
+                    String Error = "";
+
+                    /**
+                     * *************************
+                     */
+                    if (txtFechaNacimiento.getValue() == null) {
+                        Error += "\n Se debe seleccionar una fecha de nacimiento válida.";
+                        ValidacionOK = false;
+                    } else {
+                        fechaIngresada = Date.from(txtFechaNacimiento.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
+                    }
+                    if (fechaActual.before(fechaIngresada)) {
+                        Error += "\n La fecha de nacimiento debe ser menor o igual a la fecha actual.";
+                        ValidacionOK = false;
+                    }
+
+                    /**
+                     * **************************
+                     */
+                    if (ValidacionOK == false) {
+                        txtFechaNacimiento.setValue(null); 
+                        Alert alert = new Alert(Alert.AlertType.WARNING);
+                        alert.setTitle("Validación");
+                        alert.setHeaderText("El dato ingreso es incorrecto y fué borrado, por favor ingrese uno válido");
+                        alert.setContentText(Error);
+                        alert.showAndWait();
+                    }
+                }
+            }
+        });
+
+        /**
+         * *************************************************************************
+         */
     }
 
     /**
@@ -237,14 +407,14 @@ public class PacienteController implements Initializable {
             ValidacionOK = false;
 
         }
-        if (txtNumeroDoc.getText().length() > 9) {
+      /*  if (txtNumeroDoc.getText().length() > 9) {
             Error += "\n El número de documento ingresado excede la cantidad de dígitos establecida.";
             ValidacionOK = false;
         }
         if (txtNumeroDoc.getText().length() < 6) {
             Error += "\n El número de documento ingresado es menor a la cantidad mínima establecida.";
             ValidacionOK = false;
-        }
+        }*/
         if (txtNumeroDoc.getText().length() == 0) {
             Error += "\n No se ingresó el número de documento";
             ValidacionOK = false;
@@ -253,7 +423,7 @@ public class PacienteController implements Initializable {
             Error += "\n No se ingresó el nombre del paciente";
             ValidacionOK = false;
         }
-
+/*
         char variableAnterior = '0';
         int contadorCharRepetido = 0;
         boolean nombreIncorrecto = false;
@@ -266,19 +436,18 @@ public class PacienteController implements Initializable {
             }
             if (contadorCharRepetido > 2) {
                 ValidacionOK = false;
-                 nombreIncorrecto = true;
+                nombreIncorrecto = true;
             }
         }
-            if (nombreIncorrecto = true)
-            {
-                 Error += "\n El nombre ingresado es incorrecto. Se repiten caracteres.";                
-            }
+        if (nombreIncorrecto = true) {
+            Error += "\n El nombre ingresado es incorrecto. Se repiten caracteres.";
+        }*/
         if (txtApellido.getText().length() == 0) {
             Error += "\n No se ingresó el apellido del paciente";
             ValidacionOK = false;
         }
 
-        variableAnterior = '0';
+      /*  variableAnterior = '0';
         contadorCharRepetido = 0;
         boolean apellidoIncorrecto = false;
         for (int x = 0; x < txtApellido.getText().length(); x++) {
@@ -289,25 +458,24 @@ public class PacienteController implements Initializable {
                 contadorCharRepetido = 0;
             }
             if (contadorCharRepetido > 2) {
-              apellidoIncorrecto = true;
+                apellidoIncorrecto = true;
                 ValidacionOK = false;
             }
         }
 
-        if (apellidoIncorrecto = true)
-        {
-          Error += "\n El apellido ingresado es incorrecto. Se repiten caracteres.";
-        }
-        if (txtFechaNacimiento.getValue() == null) {
+        if (apellidoIncorrecto = true) {
+            Error += "\n El apellido ingresado es incorrecto. Se repiten caracteres.";
+        }*/
+         if (txtFechaNacimiento.getValue() == null) {
             Error += "\n Se debe seleccionar una fecha de nacimiento válida.";
             ValidacionOK = false;
         } else {
             fechaIngresada = Date.from(txtFechaNacimiento.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
         }
-        if (fechaActual.before(fechaIngresada)) {
+      /*  if (fechaActual.before(fechaIngresada)) {
             Error += "\n La fecha de nacimiento debe ser menor o igual a la fecha actual.";
             ValidacionOK = false;
-        }
+        }*/
         if (cbSexo.getSelectionModel().getSelectedIndex() == -1) {
             Error += "\n No se selecciono el sexo del paciente.";
             ValidacionOK = false;
@@ -439,7 +607,7 @@ public class PacienteController implements Initializable {
      */
     @FXML
     private void btnNuevo_click() {
-        
+
         //Validar si los atributos estan vacios. 
         //prendo boton aceptar y cancelar.     
         editarClicked = false;
