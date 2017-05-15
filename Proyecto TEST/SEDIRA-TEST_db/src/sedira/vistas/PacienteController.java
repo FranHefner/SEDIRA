@@ -386,7 +386,6 @@ public class PacienteController implements Initializable {
                 }
             }
         });
-
         /**
          * *************************************************************************
          */
@@ -406,7 +405,7 @@ public class PacienteController implements Initializable {
             Error += "\n Se debe seleccionar el tipo de documento.";
             ValidacionOK = false;
 
-        }
+        }      
       /*  if (txtNumeroDoc.getText().length() > 9) {
             Error += "\n El número de documento ingresado excede la cantidad de dígitos establecida.";
             ValidacionOK = false;
