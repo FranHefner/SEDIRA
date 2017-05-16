@@ -248,12 +248,13 @@ public class PacienteController implements Initializable {
                      * **************************
                      */
                     if (ValidacionOK == false) {
-                           txtNumeroDoc.setText("");
+                        
                         Alert alert = new Alert(Alert.AlertType.WARNING);
                         alert.setTitle("Validación");
-                        alert.setHeaderText("El dato ingreso es incorrecto y fué borrado, por favor ingrese uno válido");
+                        alert.setHeaderText("El dato ingreso es incorrecto, por favor ingrese uno válido");
                         alert.setContentText(Error);
                         alert.showAndWait();
+                        txtNumeroDoc.requestFocus();
                     }
                 }
             }
@@ -262,7 +263,7 @@ public class PacienteController implements Initializable {
         txtNombre.focusedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue) {
-                if (!newPropertyValue && txtNombre.isEditable() && txtNombre.getText().length() > 0) {
+                if (!newPropertyValue && txtNombre.isEditable() && txtNombre.getText().length() > 0  ) {
                     boolean ValidacionOK = true;
                     String Error = "";
 
@@ -292,12 +293,13 @@ public class PacienteController implements Initializable {
                      * **************************
                      */
                     if (ValidacionOK == false) {
-                         txtNombre.setText("");
+                    
                         Alert alert = new Alert(Alert.AlertType.WARNING);
                         alert.setTitle("Validación");
-                        alert.setHeaderText("El dato ingreso es incorrecto y fué borrado, por favor ingrese uno válido");
+                        alert.setHeaderText("El dato ingreso es incorrecto, por favor ingrese uno válido");
                         alert.setContentText(Error);
                         alert.showAndWait();
+                        txtNombre.requestFocus();
                     }
                 }
             }
@@ -337,12 +339,13 @@ public class PacienteController implements Initializable {
                      */
 
                     if (ValidacionOK == false) {
-                        txtApellido.setText("");
+                     
                         Alert alert = new Alert(Alert.AlertType.WARNING);
                         alert.setTitle("Validación");
-                        alert.setHeaderText("El dato ingreso es incorrecto y fué borrado, por favor ingrese uno válido");
+                        alert.setHeaderText("El dato ingreso es incorrecto, por favor ingrese uno válido");
                         alert.setContentText(Error);
                         alert.showAndWait();
+                        txtApellido.requestFocus();
                     }
                 }
             }
@@ -375,13 +378,13 @@ public class PacienteController implements Initializable {
                     /**
                      * **************************
                      */
-                    if (ValidacionOK == false) {
-                        txtFechaNacimiento.setValue(null); 
+                    if (ValidacionOK == false) {                  
                         Alert alert = new Alert(Alert.AlertType.WARNING);
                         alert.setTitle("Validación");
-                        alert.setHeaderText("El dato ingreso es incorrecto y fué borrado, por favor ingrese uno válido");
+                        alert.setHeaderText("El dato ingreso es incorrecto, por favor ingrese uno válido");
                         alert.setContentText(Error);
                         alert.showAndWait();
+                        txtFechaNacimiento.requestFocus();
                     }
                 }
             }
