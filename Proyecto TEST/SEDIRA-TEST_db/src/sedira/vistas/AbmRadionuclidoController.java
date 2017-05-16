@@ -62,12 +62,14 @@ public class AbmRadionuclidoController implements Initializable {
     @FXML
     private VBox boxControles;
 
-    //******************** variables 
     //Objeto Lista de radionuclidos  auxiliar. 
     private ObservableList<ValorDescripcion> listaAtributoRadNuclido = FXCollections.observableArrayList();
+
     //Objeto radionuclido auxiliar. 
     private Radionuclido radionuclido;
+    //Objeto de tipo ValorDescripcion auxilizar, utilizado para los items que describen a un radionuclido
     private ValorDescripcion itemRadionuclido;
+    //RadionuclidoActual es el radionuclido seleccionado con el que se esta trabajando. 
     private Radionuclido radionuclidoActual = FuncionesGenerales.getRadioNuclidoActual();
     // Stage aux
     private Stage dialogStage;
@@ -140,7 +142,6 @@ public class AbmRadionuclidoController implements Initializable {
         });
 
     }
-
     /**
      * Setea el Stage para este Formulario o Dialog.
      *
@@ -154,18 +155,18 @@ public class AbmRadionuclidoController implements Initializable {
         //Obtengo el listado de propiedades (valorDescripcion) que pertenecen aun radionuclido. 
         data = vd.listadoPropiedades("radionuclidos");
         //Comportamiento de la lista sugerida. 
-        if (data.size()!=0){
-        listaSugerida.setItems(data);
-        }else{
-                listaSugerida.setItems(data);
-                listaSugerida.setVisible(false);
+        if (data.size() != 0) {
+            listaSugerida.setItems(data);
+        } else {
+            listaSugerida.setItems(data);
+            listaSugerida.setVisible(false);
         }
-        
+
         txtPropiedad.textProperty().addListener(
                 (observable, oldValue, newValue) -> actualizarListaSugerida(newValue));
 
         boxControles.getChildren().addAll(txtPropiedad, listaSugerida);
-        
+
         listaSugerida.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -180,12 +181,9 @@ public class AbmRadionuclidoController implements Initializable {
             }
         });
     }
-
     public void seleccionarItem(String itemSeleccionado) {
         txtPropiedad.setText(itemSeleccionado);
-
     }
-
     /**
      * Método que actualiza la lista de propiedades al completar el textField
      *
@@ -205,10 +203,10 @@ public class AbmRadionuclidoController implements Initializable {
 
         if (bandera == false) {
             if (filtro == null || filtro.length() == 0) {
-                if (data.size()!=0){
-                listaSugerida.setItems(data);
-                listaSugerida.setVisible(true);
-                }else{
+                if (data.size() != 0) {
+                    listaSugerida.setItems(data);
+                    listaSugerida.setVisible(true);
+                } else {
                     listaSugerida.setVisible(false);
                 }
             } else {
@@ -224,7 +222,6 @@ public class AbmRadionuclidoController implements Initializable {
             }
         }
     }
-
     /**
      * Setea el Radionúclido a editar.
      *
@@ -266,7 +263,6 @@ public class AbmRadionuclidoController implements Initializable {
 
         }
     }
-
     /**
      * Método SetTer para el item de radionúclido que se selecciono.
      *
@@ -284,7 +280,6 @@ public class AbmRadionuclidoController implements Initializable {
         txtValor.setText(itemRadionuclido.getValor());
         txtUnidad.setText(itemRadionuclido.getUnidad());
     }
-
     /**
      * Método llamado al momento de que el usuario presiona Guardar datos .
      *
@@ -319,11 +314,8 @@ public class AbmRadionuclidoController implements Initializable {
             //Si las validaciones son correctas se guardan los datos
             guardarDatos = true;
             dialogStage.close();
-
         }
-
     }
-
     /**
      * Método que retorna si el usuario presiono el boton Guardar Datos.
      *
@@ -332,7 +324,6 @@ public class AbmRadionuclidoController implements Initializable {
     public boolean isGuardarDatosClicked() {
         return this.guardarDatos;
     }
-
     /**
      * Método que se llama al presionar el boton cancelar.
      */
@@ -365,7 +356,6 @@ public class AbmRadionuclidoController implements Initializable {
         }
 
     }
-
     /**
      * Método para el control del Boton Limpiar Valores. limpia los datos
      * agregados en los textFields del formulario.
@@ -388,12 +378,11 @@ public class AbmRadionuclidoController implements Initializable {
                 break;
         }
     }
-
     /**
      * Método que se encarga de la validación de los datos ingresados por el
      * usuario.
      *
-     * @return
+     * @return True si acepta. False si falla
      * @throws SQLException
      */
     public boolean validarDatosEntrada() throws SQLException {
@@ -407,11 +396,11 @@ public class AbmRadionuclidoController implements Initializable {
         if ("Crear un radionúclido".equals(this.dialogStage.getTitle()) || "Modificar nombre del radionúclido".equals(this.dialogStage.getTitle())) {
             //COmo el formulario es reutilizable se pregunta pore nombre de dicho formulario. 
             if (txtRadNuclidoNombre.getText() == null || txtRadNuclidoNombre.getText().length() == 0) {
-                mensajeError += "Debe agregar un nombre para el radionúclido \n";
+                mensajeError += "Debe agregar un nombre para el radionúclido\n";
             } else {
 
                 if (!nombreRadNuclido.equals(this.radionuclido.getNombreRadNuclido())) {
-                // Solo valido
+                    // Solo valido
                     // campo en NULL y Campo con logitud 0
                 /*if (txtRadNuclidoNombre.getText() == null || txtRadNuclidoNombre.getText().length() == 0) {
                      mensajeError += "Debe agregar un nombre para el radionúclido \n";
@@ -431,13 +420,13 @@ public class AbmRadionuclidoController implements Initializable {
              Por eso se pregunta si estan prendidos los textfields*/
 
             // Validacion propiedad
-            if (propiedad == null || propiedad.length() == 0) {
-                mensajeError += "El campo Propiedad no puede estar vacio. \n";
+            if (propiedad == null || !ValidacionesGenerales.ValidarPropRadNuclido(propiedad)) {
+                mensajeError += "\nEl nombre de la propiedad debe contener como minimo 4 caracteres: Se aceptan letras mayúsculas, minúsculas, números, puntos y guiones. \n";
             } else {
                 //Si el nombre no cambia en modo edicion
                 if (!propiedad.equals(this.itemRadionuclido.getDescripcion())) {
                     if (vd.buscaNombre(propiedad, "radionuclidos", radionuclidoActual.getIdRadNuclido())) {
-                        mensajeError += "El nombre de la propiedad ya existe. \n";
+                        mensajeError += "El nombre de la propiedad ya existe en el radionúclido: " + nombreRadNuclido;
                     }
                 }
 
@@ -456,12 +445,11 @@ public class AbmRadionuclidoController implements Initializable {
                         if (d == 0.0) {
                             mensajeError += "El campo Valor no debe ser 0.0 \n";
                         }
-                        //double routine
-
+                        //Double routine 
                     } else {
-                        mensajeError += "El campo Valor debe ser númerico separado por . (punto) "
-                                + "  Ej: 12.30 \n";
-                        //throw new IllegalArgumentException();
+                        mensajeError += "El campo Valor debe ser de tipo númerico separado por . (punto) "
+                                + "  Ej: 12.30, por favor no utilize , (coma) \n";
+
                     }
                 }
 
@@ -471,7 +459,7 @@ public class AbmRadionuclidoController implements Initializable {
             // Al no saber con ciencia cierta lo que el usuario seleccionara como unidad. Este campo solo valida que el 
             // no este vacio o sin caracteres. 
             if (unidad == null || unidad.length() == 0) {
-                mensajeError += "El campo Unidad es inválido! \n";
+                mensajeError += "El campo Unidad es inválido. \n";
             }
         }
 
@@ -487,7 +475,6 @@ public class AbmRadionuclidoController implements Initializable {
         }
 
     }
-
     /**
      * Método para el comportamiento presionar enter.
      *
@@ -495,9 +482,7 @@ public class AbmRadionuclidoController implements Initializable {
      */
     @FXML
     public void onEnter() throws Exception {
-
         btnGuardarDatos();
-
     }
 
 }

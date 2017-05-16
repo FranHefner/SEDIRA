@@ -124,6 +124,7 @@ public class ValidacionesGenerales {
         //Caracteres A-Z, a-z, 0-9, . _ - Longitud mayor a 5 caracteres. 
 
     }
+    
     /**
          * Método para validar contraseñas. 
      * @param contrasena    
@@ -131,6 +132,17 @@ public class ValidacionesGenerales {
      */
     public static boolean ValidarContrasenaUsuario(String contrasena) {
         return contrasena.matches("^[a-zA-Z0-9._-]{5,}$");
+        //Caracteres A-Z, a-z, 0-9, . _ - Longitud mayor a 5 caracteres. 
+
+    }
+     /**
+     * Método para validar propiedades radionúclidos.
+     *
+     * @param propiedad
+     * @return
+     */
+    public static boolean ValidarPropRadNuclido(String propiedad) {
+        return propiedad.matches("^[a-zA-Z0-9._-]{3,}$");
         //Caracteres A-Z, a-z, 0-9, . _ - Longitud mayor a 5 caracteres. 
 
     }

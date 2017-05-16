@@ -54,10 +54,16 @@ public class Security {
         c.init(Cipher.DECRYPT_MODE, key);
         byte[] decordedValue = new BASE64Decoder().decodeBuffer(encryptedData);
         byte[] decValue = c.doFinal(decordedValue);
-        String decryptedValue = new String(decValue);
-        return decryptedValue;
+      //  String decryptedValue = new String(decValue);
+        return new String (decValue);
     }
-
+ /**
+  * 
+c.init(Cipher.DECRYPT_MODE, key)
+val decodedValue = new Base64().decode(encryptedValue.getBytes())
+val decryptedVal = c.doFinal(decodedValue)
+return new String(decryptedVal)
+  */
     /**
      * Método para generar el Key Utilizado en los métodos de encriptación y
      * desencriptación.

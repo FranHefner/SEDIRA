@@ -38,8 +38,8 @@ public class CodigosErrorSQL {
                 break;
             case 0:
                 mensajeError = "Ocurrio un error en la conexión con el servidor de base de datos.  "
-                        + "Por favor revise que el servicio de MySql se encuentre corriendo y encendido.  \n"
-                        + "POR FAVOR, REINICIE LA APLICACIÓN ";
+                        + "Por favor revise que el servicio de MySql se encuentre corriendo y encendido.  \n";
+                        
                         //muy largo el mensaje. 
                 //+ "Error SQL: \n" + e.getMessage();
                 System.out.print(e);
@@ -47,7 +47,7 @@ public class CodigosErrorSQL {
                 break;
             default: 
                 mensajeError = "Ocurrio un error! \n"
-                        + "POR FAVOR REINICE LA APLICACIÓN";
+                        + "Contacte al servicio técnico\n"+ e ;
                 System.out.print(e);
 
         }
