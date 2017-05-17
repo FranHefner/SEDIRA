@@ -14,9 +14,9 @@ import javafx.collections.ObservableList;
  */
 public interface IUsuarioDAO {
 
-    public void agregarUsuario(Usuario usuario, int tipoUsuario);
+    public void agregarUsuario(Usuario usuario);
 
-    public void modificarUsuario(Usuario usuario, int tipoUsuario);
+    public void modificarUsuario(Usuario usuario);
 
     public void eliminarUsuario(int idUsuario);
 
@@ -25,4 +25,6 @@ public interface IUsuarioDAO {
     public boolean buscaUsuario(String usuario);
 
     public ObservableList<Usuario> obtenerUsuarios();
+    
+   public String descripcionTipobyID(int id);
 }

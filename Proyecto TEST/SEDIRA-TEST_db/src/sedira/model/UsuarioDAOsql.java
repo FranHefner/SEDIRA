@@ -30,7 +30,7 @@ public class UsuarioDAOsql implements IUsuarioDAO {
      * @param tipoUsuario
      */
     @Override
-    public void agregarUsuario(Usuario usuario, int tipoUsuario) {
+    public void agregarUsuario(Usuario usuario) {
         //Instancia de conexion
         ConexionDB conexion = new ConexionDB();
         //obtengo el nombre de usuario para la busqueda. 
@@ -47,7 +47,7 @@ public class UsuarioDAOsql implements IUsuarioDAO {
             consulta.setString(1, usuario.getDescripcion());
             consulta.setString(2, Security.encrypt(usuario.getLogin()));
             consulta.setString(3, Security.encrypt(usuario.getPass()));
-            consulta.setInt(4, tipoUsuario);
+            consulta.setInt(4, usuario.getTipoUsuario());
 
             consulta.executeUpdate(); //Ejecucion de la consulta
             consulta.close();
@@ -77,7 +77,7 @@ public class UsuarioDAOsql implements IUsuarioDAO {
      * @param tipoUsuario
      */
     @Override
-    public void modificarUsuario(Usuario usuario, int tipoUsuario) {
+    public void modificarUsuario(Usuario usuario) {
         //Instancia de conexion
         ConexionDB conexion = new ConexionDB();
         String nombreUsuario = usuario.getLogin();
@@ -96,7 +96,7 @@ public class UsuarioDAOsql implements IUsuarioDAO {
                 consulta.setString(1, UsuarioEnc);
                 consulta.setString(2, passwordEnc);
                 consulta.setString(3, usuario.getDescripcion());
-                consulta.setInt(4, tipoUsuario);
+                consulta.setInt(4, usuario.getTipoUsuario());
                 consulta.setInt(5, usuario.getIdUsuario());
 
                 consulta.executeUpdate(); //Ejecucion de la consulta
@@ -217,6 +217,7 @@ public class UsuarioDAOsql implements IUsuarioDAO {
                 //obtencion de los datos desde la bd.
                 usuario.setIdUsuario(Integer.parseInt(resultado.getString("id_usuario")));
                 usuario.setDescripcion(resultado.getString("descripcion"));
+                usuario.seTipoUsuario(Integer.parseInt(resultado.getString("id_usuarioTipos")));
 
                 usuario.setLogin(Security.decrypt((resultado.getString("login"))));
 
@@ -258,6 +259,36 @@ public class UsuarioDAOsql implements IUsuarioDAO {
                     + "JOIN usuariotipos "
                     + "ON usuarios.id_usuarioTipos = usuariotipos.id_usuarioTipos "
                     + "where usuarios.id_usuario = ?");
+            consulta.setInt(1, id);
+            ResultSet resultado = consulta.executeQuery();
+            while (resultado.next()) {
+                //objeto auxiliar
+
+                //obtencion de los datos desde la bd.
+                tipoUsuario = resultado.getString("usuariotipos.descripcion");
+
+            }
+
+            resultado.close();
+            consulta.close();
+            conexion.desconectar();
+
+        } catch (Exception e) {
+            CodigosErrorSQL.analizarExepcion((SQLException) e);
+            //JOptionPane.showMessageDialog(null, "no se pudo consultar el phantom /n" + e);
+            //System.out.print(e);
+        }
+
+        return tipoUsuario;
+
+    }
+     @Override
+    public String descripcionTipobyID(int id) {
+        //Instancia de conexion
+        ConexionDB conexion = new ConexionDB();
+        String tipoUsuario = "";
+        try {
+            PreparedStatement consulta = conexion.getConnection().prepareStatement("SELECT * FROM usuariotipos WHERE id_usuarioTipos = ?" );
             consulta.setInt(1, id);
             ResultSet resultado = consulta.executeQuery();
             while (resultado.next()) {

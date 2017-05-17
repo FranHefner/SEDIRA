@@ -160,7 +160,8 @@ public class AbmUsuarioController implements Initializable {
      */
     public void setUsuario(Usuario usuario) throws Exception {
         this.usuario = usuario;
-        String tipoDeUsuario = usr.obtenerTipoUsuario(usuario.getIdUsuario());
+      //  String tipoDeUsuario = usr.obtenerTipoUsuario(usuario.getIdUsuario());
+       String tipoDeUsuario = usr.descripcionTipobyID(usuario.getTipoUsuario());
         String nombreUsuario = usuario.getLogin();
         String password = usuario.getPass();
 
@@ -210,14 +211,17 @@ public class AbmUsuarioController implements Initializable {
                     usuario.setLogin(txtNombreUsuario.getText());
                     usuario.setPass(txtPass.getText());
                     usuario.setDescripcion(txtDescripcion.getText());
-                    FuncionesGenerales.setTipoUsuario(cBtipoUsuario.getSelectionModel().getSelectedIndex() + 1);
+                   // FuncionesGenerales.setTipoUsuario(cBtipoUsuario.getSelectionModel().getSelectedIndex() + 1);
+                    usuario.seTipoUsuario( cBtipoUsuario.getSelectionModel().getSelectedIndex() + 1);
+                    
                     break;
                 case "Modificar Usuario":
                     usuario.setDescripcion(txtDescripcion.getText());
                     usuario.setLogin(txtNombreUsuario.getText());
                     usuario.setPass(txtPass.getText());
                     usuario.setDescripcion(txtDescripcion.getText());
-                    FuncionesGenerales.setTipoUsuario(cBtipoUsuario.getSelectionModel().getSelectedIndex() + 1);
+                 //   FuncionesGenerales.setTipoUsuario(cBtipoUsuario.getSelectionModel().getSelectedIndex() + 1);
+                     usuario.seTipoUsuario( cBtipoUsuario.getSelectionModel().getSelectedIndex() + 1);
                     break;
 
             }

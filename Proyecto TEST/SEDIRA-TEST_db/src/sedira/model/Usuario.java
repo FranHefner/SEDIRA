@@ -97,7 +97,9 @@ public class Usuario {
     {
         return idTipoUsuario;
     }
-    
+     public void seTipoUsuario(int tipo) {
+        this.idTipoUsuario =tipo;
+     }
     
     
 }

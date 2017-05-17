@@ -171,15 +171,13 @@ public class UsuarioController implements Initializable {
     @FXML
     public void btnEditarUsuario() throws IOException, Exception {
         Usuario usuario = FuncionesGenerales.getUsuarioActual();
-        int tipoUsuario = FuncionesGenerales.getTipoUsuario();
-       
         boolean guardarCambiosClicked = mostrarUsuarioEditDialog(usuario);
-
+         
         if (guardarCambiosClicked) {
             //Llamada a la Clase de acceso a datos de Usuario. 
             // Pasa el tipo de usuario seleccionado del ComboBox. 
           
-            usr.modificarUsuario(usuario, tipoUsuario);
+            usr.modificarUsuario(usuario);
             userData = usr.obtenerUsuarios();
             //Actualiza el GridView de los usuarios 
             griInfoUser.setItems(userData);
@@ -204,7 +202,7 @@ public class UsuarioController implements Initializable {
         if (guardarCambiosClicked) {
             //Harcodeado el tipo de usuario.
             int tipoUsuario = FuncionesGenerales.getTipoUsuario();
-            usr.agregarUsuario(tempUsuario, tipoUsuario);//.agregarUsuario(tempUsuario, 2);
+            usr.agregarUsuario(tempUsuario);//.agregarUsuario(tempUsuario, 2);
             //Actualizo el GridView de Phantoms.
             userData = usr.obtenerUsuarios();
             griInfoUser.setItems(userData);

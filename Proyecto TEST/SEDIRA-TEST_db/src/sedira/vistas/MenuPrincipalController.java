@@ -200,7 +200,7 @@ public class MenuPrincipalController implements Initializable {
     }
 
     private void AdministrarMenu(String TipoUsuario) {
-        if (TipoUsuario.equals("Cientifico")) {
+        if (TipoUsuario.equals("Científico")) {
             menuInicio.setDisable(false);
             menuDosis.setDisable(false);
             menuPacientes.setDisable(false);
@@ -209,7 +209,7 @@ public class MenuPrincipalController implements Initializable {
             menuAyuda.setDisable(false);
             menuUsuarios.setDisable(true);
         }
-        if (TipoUsuario.equals("Medico")) {
+        if (TipoUsuario.equals("Médico")) {
             menuInicio.setDisable(false);
             menuDosis.setDisable(false);
             menuPacientes.setDisable(true);
