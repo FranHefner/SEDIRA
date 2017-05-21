@@ -124,18 +124,20 @@ public class ValidacionesGenerales {
         //Caracteres A-Z, a-z, 0-9, . _ - Longitud mayor a 5 caracteres. 
 
     }
-    
+
     /**
-         * Método para validar contraseñas. 
-     * @param contrasena    
-     * @return 
+     * Método para validar contraseñas.
+     *
+     * @param contrasena
+     * @return
      */
     public static boolean ValidarContrasenaUsuario(String contrasena) {
         return contrasena.matches("^[a-zA-Z0-9._-]{5,}$");
         //Caracteres A-Z, a-z, 0-9, . _ - Longitud mayor a 5 caracteres. 
 
     }
-     /**
+
+    /**
      * Método para validar propiedades radionúclidos.
      *
      * @param propiedad
@@ -181,7 +183,33 @@ public class ValidacionesGenerales {
             return false;
         }
     }
+/**
+ * Método que valida si hay mas de 3 caracteres repetidos. 
+ * 
+ * @param palabra
+ * @return 
+ */
+    public static boolean validarCaracteresRepetidos(String palabra) {
+        char variableAnterior = '0';
+        int contadorCharRepetido = 0;
+       
+        for (int x = 0; x < palabra.length(); x++) {
+            if (palabra.charAt(x) == variableAnterior) {
+                contadorCharRepetido++;
+            } else {
+                variableAnterior = palabra.charAt(x);
+                contadorCharRepetido = 0;
+            }
+            if (contadorCharRepetido > 3) {
+                return false;
+
+            }
+        }
+        return true;
+    }
+
+    }
 
     // regex para email 
     // ^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$  
-}
+

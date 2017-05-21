@@ -9,6 +9,8 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -22,7 +24,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import sedira.FuncionesGenerales;
 import sedira.Security;
 import sedira.ValidacionesGenerales;
 import sedira.model.IUsuarioDAO;
@@ -88,21 +89,16 @@ public class AbmUsuarioController implements Initializable {
 
         ObservableList<String> strTipoUsuario = FXCollections.observableArrayList();
         cBtipoUsuario.getItems().addAll("Científico", "Médico", "Administrador");
-/*
+
         //Validacion al perder el Focus. 
         txtNombreUsuario.focusedProperty().addListener((arg_User, oldValueUser, newValueUser) -> {
-            if (!newValueUser) {//when focus lost
+            if (!newValueUser && txtNombreUsuario.getLength() > 0) {//when focus lost
                 //Pregunto si toco el boton cancelar. 
                 if (!btnCancelar.isPressed()) {
                     try {
-                        if (validarUsuario()) {
-                            //validacion correcta.
-                            
-                        } else {
+                        if (!validarUsuario()) {
                             //validacion usuario erronea. 
-                            //txtNombreUsuario.setText("");
-                            //txtNombreUsuario.requestFocus();
-                            txtNombreUsuario.positionCaret(txtNombreUsuario.getText().length());
+                            txtNombreUsuario.requestFocus();
                         }
                     } catch (Exception ex) {
                         Logger.getLogger(AbmUsuarioController.class.getName()).log(Level.SEVERE, null, ex);
@@ -112,17 +108,17 @@ public class AbmUsuarioController implements Initializable {
             }
 
         });
+
         txtPass.focusedProperty().addListener((argPass, oldValuePass, newValuePass) -> {
-            if (!newValuePass) {//when focus lost
-                if (!btnCancelar.isFocused()) {
+            if (!newValuePass && txtPass.getLength() > 0) {//when focus lost
+                //Pregunto si toco el boton cancelar. 
+                if (!btnCancelar.isPressed()) {
                     try {
-                        if (validarPass()) {
-                            //validacion correcta. 
-                        } else {
-                            //validacion erronea. 
-                            txtPass.setText("");
-                            txtPass.requestFocus();
+                        if (!validarPass()) {
+                            //validacion usuario erronea. 
+                            txtNombreUsuario.requestFocus();
                         }
+                        //La contraseña puede utilizar caracateres repetidos. 
                     } catch (Exception ex) {
                         Logger.getLogger(AbmUsuarioController.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -130,7 +126,7 @@ public class AbmUsuarioController implements Initializable {
 
             }
 
-        });*/
+        });
 
     }
 
@@ -160,8 +156,8 @@ public class AbmUsuarioController implements Initializable {
      */
     public void setUsuario(Usuario usuario) throws Exception {
         this.usuario = usuario;
-      //  String tipoDeUsuario = usr.obtenerTipoUsuario(usuario.getIdUsuario());
-       String tipoDeUsuario = usr.descripcionTipobyID(usuario.getTipoUsuario());
+        //  String tipoDeUsuario = usr.obtenerTipoUsuario(usuario.getIdUsuario());
+        String tipoDeUsuario = usr.descripcionTipobyID(usuario.getTipoUsuario());
         String nombreUsuario = usuario.getLogin();
         String password = usuario.getPass();
 
@@ -211,17 +207,17 @@ public class AbmUsuarioController implements Initializable {
                     usuario.setLogin(txtNombreUsuario.getText());
                     usuario.setPass(txtPass.getText());
                     usuario.setDescripcion(txtDescripcion.getText());
-                   // FuncionesGenerales.setTipoUsuario(cBtipoUsuario.getSelectionModel().getSelectedIndex() + 1);
-                    usuario.seTipoUsuario( cBtipoUsuario.getSelectionModel().getSelectedIndex() + 1);
-                    
+                    // FuncionesGenerales.setTipoUsuario(cBtipoUsuario.getSelectionModel().getSelectedIndex() + 1);
+                    usuario.seTipoUsuario(cBtipoUsuario.getSelectionModel().getSelectedIndex() + 1);
+
                     break;
                 case "Modificar Usuario":
                     usuario.setDescripcion(txtDescripcion.getText());
                     usuario.setLogin(txtNombreUsuario.getText());
                     usuario.setPass(txtPass.getText());
                     usuario.setDescripcion(txtDescripcion.getText());
-                 //   FuncionesGenerales.setTipoUsuario(cBtipoUsuario.getSelectionModel().getSelectedIndex() + 1);
-                     usuario.seTipoUsuario( cBtipoUsuario.getSelectionModel().getSelectedIndex() + 1);
+                    //   FuncionesGenerales.setTipoUsuario(cBtipoUsuario.getSelectionModel().getSelectedIndex() + 1);
+                    usuario.seTipoUsuario(cBtipoUsuario.getSelectionModel().getSelectedIndex() + 1);
                     break;
 
             }
@@ -304,17 +300,19 @@ public class AbmUsuarioController implements Initializable {
         if (!ValidacionesGenerales.ValidarNombreUsuario(nombreUsuario)) {
             mensajeError = "El nombre de usuario debe contener como minimo 5 caracteres. \n"
                     + "Se aceptan letras mayúsculas, minúsculas, números, puntos y guiones.";
-            txtNombreUsuario.setText("");
 
         }
         if (usr.buscaUsuario(nombreUsuarioEnc) == true) {
             mensajeError += "El nombre de usuario ya existe!\n";
 
         }
+        if (!ValidacionesGenerales.validarCaracteresRepetidos(nombreUsuario)) {
+            mensajeError += "\nExisten caracteres repetidos.\n";
+        }
         if (mensajeError.length() == 0) {
             return true;
         } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
+            Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Error!");
             alert.setHeaderText("Existe un error en los siguientes campos:");
             alert.setContentText(mensajeError);
