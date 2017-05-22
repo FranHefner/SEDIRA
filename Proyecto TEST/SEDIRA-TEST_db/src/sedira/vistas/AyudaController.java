@@ -32,8 +32,6 @@ public class AyudaController implements Initializable {
     @FXML
     private Button btnCerrar;
     @FXML
-    private Label lblTitulo;
-    @FXML
     private Label lblInfoTitulo;
     @FXML
     private Label lblVersion;
@@ -41,7 +39,7 @@ public class AyudaController implements Initializable {
     private TextField txtDbInfo;
     @FXML
     private TextField txtSystemInfo;
-    Hyperlink hyperlink = new Hyperlink("Departamento de Mecánica Computacional");
+   
 
     /**
      * Initializes the controller class.
@@ -69,8 +67,8 @@ public class AyudaController implements Initializable {
         //Instancia de conexion
         ConexionDB conexion = new ConexionDB();
         DatabaseMetaData meta = conexion.getConnection().getMetaData();
-        String Version = "Versión: "+meta.getDatabaseProductVersion();
-        txtDbInfo.setText(Version);
+        String Version = meta.getDatabaseProductVersion();
+        //txtDbInfo.setText(Version);
 
     }
      private void obtenerSystemInfo() throws SQLException {
