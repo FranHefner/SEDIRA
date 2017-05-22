@@ -120,7 +120,7 @@ public class ValidacionesGenerales {
      * @return
      */
     public static boolean ValidarNombreUsuario(String nombreUsuario) {
-        return nombreUsuario.matches("^[a-zA-Z0-9._-]{5,}$");
+        return nombreUsuario.matches("^[A-zñÑ0-9._-]{5,}$");
         //Caracteres A-Z, a-z, 0-9, . _ - Longitud mayor a 5 caracteres. 
 
     }
@@ -132,7 +132,7 @@ public class ValidacionesGenerales {
      * @return
      */
     public static boolean ValidarContrasenaUsuario(String contrasena) {
-        return contrasena.matches("^[a-zA-Z0-9._-]{5,}$");
+        return contrasena.matches("^[A-zñÑ0-9._-]{5,}$");
         //Caracteres A-Z, a-z, 0-9, . _ - Longitud mayor a 5 caracteres. 
 
     }

@@ -6,48 +6,78 @@
 package sedira.vistas;
 
 import java.net.URL;
+import java.sql.DatabaseMetaData;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.web.WebEngine;
-import javafx.scene.web.WebView;
+import javafx.scene.control.Hyperlink;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import sedira.model.ConexionDB;
 
 /**
  * FXML Controller class
  *
- * @author pablo
+ * @author Quelin Pablo. Hefner Francisco
  */
 public class AyudaController implements Initializable {
-    
-    @FXML
-    WebView navegador = new WebView();
+
     @FXML
     private Button btnCerrar;
-    
+    @FXML
+    private Label lblTitulo;
+    @FXML
+    private Label lblInfoTitulo;
+    @FXML
+    private Label lblVersion;
+    @FXML
+    private TextField txtDbInfo;
+    @FXML
+    private TextField txtSystemInfo;
+    Hyperlink hyperlink = new Hyperlink("Departamento de Mecánica Computacional");
+
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-        WebEngine engine = navegador.getEngine();
-        //url = getClass().getResource("file:///D:/Documents/NetBeansProjects/SEDIRA/Proyecto TEST/SEDIRA-TEST_db/dist/javadoc/index.html");
-          //  navegador.getEngine().load(url.toExternalForm());
-        //Descomentar esta linea con la ruta local del javadoc. 
-        //engine.load("file:///D:/Documents/NetBeansProjects/SEDIRA/Proyecto%20TEST/SEDIRA-TEST_db/dist/javadoc/index.htmla");
-        
-    }     
+
+        lblInfoTitulo.setText("Sistema para estimar la dosis interna de radiación absorbida en tratamientos de medicina nuclear");
+        lblVersion.setText("Versión 5.0");
+        try {
+            obtenerInfoDb();
+        } catch (SQLException ex) {
+            Logger.getLogger(AyudaController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     @FXML
     private void btnCerrar_click(ActionEvent event) {
         Stage stage = (Stage) btnCerrar.getScene().getWindow();
-        
+
         stage.close();
     }
-   
-   
+
+    private void obtenerInfoDb() throws SQLException {
+        //Instancia de conexion
+        ConexionDB conexion = new ConexionDB();
+        DatabaseMetaData meta = conexion.getConnection().getMetaData();
+        String Version = "Versión: "+meta.getDatabaseProductVersion();
+        txtDbInfo.setText(Version);
+
+    }
+     private void obtenerSystemInfo() throws SQLException {
+        
+
+    }
     
+    
+
 }

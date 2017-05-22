@@ -116,7 +116,7 @@ public class AbmUsuarioController implements Initializable {
                     try {
                         if (!validarPass()) {
                             //validacion usuario erronea. 
-                            txtNombreUsuario.requestFocus();
+                            txtPass.requestFocus();
                         }
                         //La contraseña puede utilizar caracateres repetidos. 
                     } catch (Exception ex) {
@@ -275,7 +275,7 @@ public class AbmUsuarioController implements Initializable {
     /**
      * Método para el control del Boton Limpiar Valores. limpia los datos
      * agregados en los textFields del formulario.
-     */
+     
     @FXML
     public void btnLimpiarValores_click() {
         txtDescripcion.setText("");
@@ -283,7 +283,7 @@ public class AbmUsuarioController implements Initializable {
         txtNombreUsuario.setText("");
         cBtipoUsuario.getSelectionModel().clearSelection();
 
-    }
+    }*/
 
     /**
      * Método que valida un usuario en caso de utilizar validacion por
@@ -302,8 +302,13 @@ public class AbmUsuarioController implements Initializable {
                     + "Se aceptan letras mayúsculas, minúsculas, números, puntos y guiones.";
 
         }
-        if (usr.buscaUsuario(nombreUsuarioEnc) == true) {
-            mensajeError += "El nombre de usuario ya existe!\n";
+        if ("Modificar Usuario".equals(this.dialogStage.getTitle())) {
+            if (!nombreUsuario.equals(usuario.getLogin())) { // verifico que si es modo edicion no entre en error por el nombre que no cambiara
+                if (usr.buscaUsuario(nombreUsuarioEnc) == true) { //separacion modo edicion
+                    mensajeError += "El nombre de usuario ya existe!\n";
+
+                }
+            }
 
         }
         if (!ValidacionesGenerales.validarCaracteresRepetidos(nombreUsuario)) {
@@ -332,7 +337,7 @@ public class AbmUsuarioController implements Initializable {
      */
     public boolean validarPass() throws Exception {
         String mensajeError = "";
-        String pass = txtNombreUsuario.getText();
+        String pass = txtPass.getText();
 
         if (!ValidacionesGenerales.ValidarContrasenaUsuario(pass)) {
             mensajeError = "La contraseña debe contener como minimo 5 caracteres. \n"
@@ -343,7 +348,7 @@ public class AbmUsuarioController implements Initializable {
         if (mensajeError.length() == 0) {
             return true;
         } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
+            Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Error!");
             alert.setHeaderText("Existe un error en los siguientes campos:");
             alert.setContentText(mensajeError);
@@ -365,6 +370,7 @@ public class AbmUsuarioController implements Initializable {
 
         String mensajeError = "";
         String nombreUsuario = txtNombreUsuario.getText();
+        String pass = txtPass.getText();
 
         if ("Crear Usuario".equals(this.dialogStage.getTitle())) {
 
@@ -376,7 +382,7 @@ public class AbmUsuarioController implements Initializable {
                 mensajeError += "\nEl nombre de usuario ya existe!\n";
             }
 
-            if (!ValidacionesGenerales.ValidarContrasenaUsuario(nombreUsuario)) {
+            if (!ValidacionesGenerales.ValidarContrasenaUsuario(pass)) {
                 mensajeError += "\nLa contraseña debe contener como minimo 5 caracteres: Se aceptan letras mayúsculas, minúsculas, números, puntos y guiones.";
 
             }
@@ -393,7 +399,7 @@ public class AbmUsuarioController implements Initializable {
                     mensajeError += "\nEl nombre de usuario ya existe!\n";
                 }
             }
-            if (!ValidacionesGenerales.ValidarContrasenaUsuario(nombreUsuario)) {
+            if (!ValidacionesGenerales.ValidarContrasenaUsuario(pass)) {
                 mensajeError += "\nLa contraseña debe contener como minimo 5 caracteres: Se aceptan letras mayúsculas, minúsculas, números, puntos y guiones.\n";
             }
             if (cBtipoUsuario.getSelectionModel().getSelectedItem() == null) {
