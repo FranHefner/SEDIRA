@@ -43,7 +43,7 @@
             </Menu>
           <Menu fx:id="menuAyuda" mnemonicParsing="false" text="Ayuda">
             <items>
-              <MenuItem mnemonicParsing="false" onAction="#ayudaClick" text="Manual" />
+              <MenuItem mnemonicParsing="false" onAction="#ayudaClick" text="Acerca de SEDIRA" />
             </items>
           </Menu>
         </menus>

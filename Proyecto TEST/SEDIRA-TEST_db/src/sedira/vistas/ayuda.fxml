@@ -18,9 +18,9 @@
                <children>
                   <Label layoutX="260.0" layoutY="14.0" text="S.E.D.I.R.A" />
                   <Label fx:id="lblInfoTitulo" layoutX="14.0" layoutY="31.0" prefHeight="23.0" prefWidth="555.0" text="InfoTitulo" />
-                  <Label fx:id="lblVersion" layoutX="14.0" layoutY="60.0" text="Version" />
-                  <Label layoutX="5.0" layoutY="275.0" prefHeight="14.0" prefWidth="307.0" text="Para mas información dirigirse al siguiente link:" />
-                  <Hyperlink layoutY="289.0" text="http://mecom.cnea.gov.ar/" />
+                  <Label fx:id="lblVersion" layoutX="14.0" layoutY="60.0" prefHeight="14.0" prefWidth="444.0" text="Version" />
+                  <TextArea fx:id="txtAreaInfo" editable="false" focusTraversable="false" layoutX="14.0" layoutY="80.0" prefHeight="173.0" prefWidth="544.0" wrapText="true" />
+                  <Label fx:id="lblActualizacion" layoutX="384.0" layoutY="302.0" text="Actualizacion" />
                </children>
             </AnchorPane>
         </content>
