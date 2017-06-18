@@ -15,6 +15,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import sedira.model.ConexionDB;
 
 /**
@@ -56,6 +57,7 @@ public class AplicacionPrincipal extends Application {
             primaryStage.setScene(scene);
             primaryStage.setTitle("Iniciar Sesión");
             primaryStage.setResizable(false);
+          
             primaryStage.show();
         } else {
       //      if (CodigosErrorSQL.getErrorCode() == 1045/* || CodigosErrorSQL.getErrorCode() == 0  */) {

@@ -17,11 +17,10 @@
                   <TextField fx:id="txtPropiedad" layoutX="86.0" layoutY="19.0" prefHeight="33.0" prefWidth="156.0" />
                   <TextField fx:id="txtValor" layoutX="297.0" layoutY="14.0" prefHeight="33.0" prefWidth="107.0" />
                   <TextField fx:id="txtUnidad" layoutX="297.0" layoutY="59.0" prefHeight="33.0" prefWidth="107.0" />
-                  <VBox alignment="TOP_CENTER" layoutX="421.0" layoutY="15.0" spacing="20.0">
+                  <VBox alignment="TOP_CENTER" layoutX="421.0" layoutY="48.0" prefHeight="71.0" prefWidth="112.0" spacing="20.0">
                      <children>
                         <Button fx:id="btnGuardarCambios" layoutX="372.0" layoutY="59.0" mnemonicParsing="false" onAction="#btnGuardarDatos" prefHeight="25.0" prefWidth="112.0" text="Guardar cambios" />
-                        <Button fx:id="btnCancelar" layoutX="372.0" layoutY="97.0" mnemonicParsing="false" onAction="#btnCancel_click" prefHeight="25.0" prefWidth="110.0" text="Cancelar" textAlignment="CENTER" />
-                        <Button fx:id="btnLimpiarValores" disable="true" layoutX="369.0" layoutY="18.0" mnemonicParsing="false" onAction="#btnLimpiarValores_click" prefHeight="25.0" prefWidth="111.0" text="Limpiar valores" />
+                        <Button fx:id="btnCancelar" cancelButton="true" layoutX="372.0" layoutY="97.0" mnemonicParsing="false" onAction="#btnCancel_click" prefHeight="25.0" prefWidth="110.0" text="Cancelar" textAlignment="CENTER" />
                      </children>
                   </VBox>
                   <Label layoutX="23.0" layoutY="23.0" text="Propiedad:" />

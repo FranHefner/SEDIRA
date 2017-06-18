@@ -144,8 +144,8 @@ public class ValidacionesGenerales {
      * @return
      */
     public static boolean ValidarPropRadNuclido(String propiedad) {
-        return propiedad.matches("^[a-zA-Z0-9._-]{3,}$");
-        //Caracteres A-Z, a-z, 0-9, . _ - Longitud mayor a 5 caracteres. 
+        return propiedad.matches("^[a-zA-Z0-9._-]{4,}$");
+        //Caracteres A-Z, a-z, 0-9, . _ - Longitud mayor a 4 caracteres. 
 
     }
 
@@ -166,7 +166,7 @@ public class ValidacionesGenerales {
     }
 
     public static boolean ValidarNombreRadNuclido(String Numero) {
-        return Numero.matches("[a-z,A-Z]*-[0-9]*");
+        return Numero.matches("[a-z,A-Z]*-[0-9]*{4,}");
     }
 
     /**

@@ -85,11 +85,11 @@ public class LoginController implements Initializable {
     private void IniByCode(int CodigoInicio) throws IOException {
 
         if (CodigoInicio == 1) {
-            MenuPrincipalController.TipoUsuario = "Cientifico";
+            MenuPrincipalController.TipoUsuario = "Científico";
             CodigoInicio = 219346217;
         }
         if (CodigoInicio == 2) {
-            MenuPrincipalController.TipoUsuario = "Medico";
+            MenuPrincipalController.TipoUsuario = "Médico";
             CodigoInicio = 219346217;
         }
         if (CodigoInicio == 3) {
@@ -129,6 +129,13 @@ public class LoginController implements Initializable {
     public void onEnter() throws Exception {
 
         btnAceptar_click();
+
+    }
+    
+    @FXML
+    public void onEscape() throws Exception {
+
+        btnCerrar_click();
 
     }
 

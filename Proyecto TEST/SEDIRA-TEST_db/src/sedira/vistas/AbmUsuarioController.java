@@ -11,6 +11,8 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -24,6 +26,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import sedira.Security;
 import sedira.ValidacionesGenerales;
 import sedira.model.IUsuarioDAO;
@@ -74,6 +77,9 @@ public class AbmUsuarioController implements Initializable {
     // boleano para controlar cuando el usuario clickea ok 
     private boolean guardarDatos = false;
     private boolean cancelar = false;
+    private static final int LIMIT_NOMBRE_USUARIO = 25;
+    private static final int LIMIT_PASS = 25;
+    private static final int DESCRIPCION = 50;
     IUsuarioDAO usr = new UsuarioDAOsql();
 
     /**
@@ -108,6 +114,20 @@ public class AbmUsuarioController implements Initializable {
             }
 
         });
+        //Listener para la cantidad de caracteres en el nombre de usuario
+        txtNombreUsuario.lengthProperty().addListener(new ChangeListener<Number>() {
+
+            @Override
+            public void changed(ObservableValue<? extends Number> observable,
+                    Number oldValue, Number newValue) {
+                if (newValue.intValue() > oldValue.intValue()) {
+                    // Check if the new character is greater than LIMIT
+                    if (txtNombreUsuario.getText().length() >= LIMIT_NOMBRE_USUARIO) {
+                        txtNombreUsuario.setText(txtNombreUsuario.getText().substring(0, LIMIT_NOMBRE_USUARIO));
+                    }
+                }
+            }
+        });
 
         txtPass.focusedProperty().addListener((argPass, oldValuePass, newValuePass) -> {
             if (!newValuePass && txtPass.getLength() > 0) {//when focus lost
@@ -127,6 +147,35 @@ public class AbmUsuarioController implements Initializable {
             }
 
         });
+        
+        //Listener para la cantidad de caracteres en el campo PassWord
+        txtPass.lengthProperty().addListener(new ChangeListener<Number>() {
+
+            @Override
+            public void changed(ObservableValue<? extends Number> observable,
+                    Number oldValue, Number newValue) {
+                if (newValue.intValue() > oldValue.intValue()) {
+                    // Check if the new character is greater than LIMIT
+                    if (txtPass.getText().length() >= LIMIT_PASS) {
+                        txtPass.setText(txtPass.getText().substring(0, LIMIT_PASS));
+                    }
+                }
+            }
+        });
+        //Listener para la cantidad de caracteres en el campo Descripcion
+        txtDescripcion.lengthProperty().addListener(new ChangeListener<Number>() {
+
+            @Override
+            public void changed(ObservableValue<? extends Number> observable,
+                    Number oldValue, Number newValue) {
+                if (newValue.intValue() > oldValue.intValue()) {
+                    // Check if the new character is greater than LIMIT
+                    if (txtDescripcion.getText().length() >= DESCRIPCION) {
+                        txtDescripcion.setText(txtDescripcion.getText().substring(0, DESCRIPCION));
+                    }
+                }
+            }
+        });
 
     }
 
@@ -138,7 +187,7 @@ public class AbmUsuarioController implements Initializable {
     public void setDialogStage(Stage dialogStage) {
         this.dialogStage = dialogStage;
         dialogStage.initModality(Modality.APPLICATION_MODAL);
-
+       
         dialogStage.setMinHeight(330);
         dialogStage.setMinWidth(330);
         dialogStage.setMaxHeight(400);

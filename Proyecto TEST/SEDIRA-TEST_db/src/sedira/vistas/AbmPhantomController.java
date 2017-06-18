@@ -93,7 +93,7 @@ public class AbmPhantomController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        btnLimpiarValores.setDisable(false);
+       
         //Listener para la cantidad de caracteres en el nombre en las propiedades
         txtPropiedad.lengthProperty().addListener(new ChangeListener<Number>() {
 
