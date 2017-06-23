@@ -19,7 +19,7 @@
                   <TextField fx:id="txtUnidad" layoutX="297.0" layoutY="59.0" prefHeight="33.0" prefWidth="107.0" />
                   <VBox alignment="TOP_CENTER" layoutX="421.0" layoutY="48.0" prefHeight="71.0" prefWidth="112.0" spacing="20.0">
                      <children>
-                        <Button fx:id="btnGuardarCambios" layoutX="372.0" layoutY="59.0" mnemonicParsing="false" onAction="#btnGuardarDatos" prefHeight="25.0" prefWidth="112.0" text="Guardar cambios" />
+                        <Button fx:id="btnGuardarCambios" defaultButton="true" layoutX="372.0" layoutY="59.0" mnemonicParsing="false" onAction="#btnGuardarDatos" prefHeight="25.0" prefWidth="112.0" text="Guardar cambios" />
                         <Button fx:id="btnCancelar" cancelButton="true" layoutX="372.0" layoutY="97.0" mnemonicParsing="false" onAction="#btnCancel_click" prefHeight="25.0" prefWidth="110.0" text="Cancelar" textAlignment="CENTER" />
                      </children>
                   </VBox>

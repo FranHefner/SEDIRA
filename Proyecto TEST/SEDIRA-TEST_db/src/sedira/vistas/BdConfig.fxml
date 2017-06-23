@@ -31,10 +31,10 @@
       <HBox layoutX="76.0" layoutY="161.0" spacing="20.0">
          <children>
             <Button fx:id="btnTest" layoutX="117.0" layoutY="194.0" mnemonicParsing="false" onAction="#btnTest" text="Test" />
-            <Button fx:id="btnGuardarCambios" layoutX="167.0" layoutY="194.0" mnemonicParsing="false" onAction="#btnGuardarConfiguracion" text="Guardar configuración" />
-            <Button fx:id="btnCerrar" layoutX="302.0" layoutY="194.0" mnemonicParsing="false" onAction="#btnCerrar" text="Cerrar" />
+            <Button fx:id="btnGuardarCambios" defaultButton="true" layoutX="167.0" layoutY="194.0" mnemonicParsing="false" onAction="#btnGuardarConfiguracion" text="Guardar configuración" />
+            <Button fx:id="btnCerrar" cancelButton="true" layoutX="302.0" layoutY="194.0" mnemonicParsing="false" onAction="#btnCerrar" text="Cerrar" />
          </children>
       </HBox>
-      <TextArea fx:id="textLog" layoutX="15.0" layoutY="197.0" prefHeight="95.0" prefWidth="376.0" />
+      <TextArea fx:id="textLog" editable="false" focusTraversable="false" layoutX="15.0" layoutY="197.0" prefHeight="95.0" prefWidth="376.0" />
    </children>
 </AnchorPane>

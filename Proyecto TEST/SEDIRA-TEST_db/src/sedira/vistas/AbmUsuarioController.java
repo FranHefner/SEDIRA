@@ -15,6 +15,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -26,7 +27,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import sedira.Security;
 import sedira.ValidacionesGenerales;
 import sedira.model.IUsuarioDAO;
@@ -66,7 +66,7 @@ public class AbmUsuarioController implements Initializable {
     @FXML
     private Button btnCancelar;
     @FXML
-    private Button btnLimpiar;
+    private Button btnCerrar;
     @FXML
     private ChoiceBox cBtipoUsuario;
 
@@ -187,6 +187,8 @@ public class AbmUsuarioController implements Initializable {
     public void setDialogStage(Stage dialogStage) {
         this.dialogStage = dialogStage;
         dialogStage.initModality(Modality.APPLICATION_MODAL);
+        dialogStage.setMaximized(false);
+        dialogStage.setResizable(false);
        
         dialogStage.setMinHeight(330);
         dialogStage.setMinWidth(330);
@@ -468,6 +470,12 @@ public class AbmUsuarioController implements Initializable {
             return false;
         }
 
+    }
+    
+     @FXML
+    private void btnCerrar_click(ActionEvent event) {
+        Stage stage = (Stage) btnCerrar.getScene().getWindow();
+        stage.close();
     }
 
 }

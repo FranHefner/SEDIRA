@@ -148,6 +148,17 @@ public class ValidacionesGenerales {
         //Caracteres A-Z, a-z, 0-9, . _ - Longitud mayor a 4 caracteres. 
 
     }
+    /**
+     * Método para validar propiedades phantoms .
+     *
+     * @param propiedad
+     * @return
+     */
+    public static boolean ValidarPropPhantom(String propiedad) {
+        return propiedad.matches("^[a-zA-Z0-9._-]{4,}$");
+        //Caracteres A-Z, a-z, 0-9, . _ - Longitud mayor a 4 caracteres. 
+
+    }
 
     /**
      * Método que controla si un nombre es aceptado. En este caso acepta
@@ -168,7 +179,18 @@ public class ValidacionesGenerales {
     public static boolean ValidarNombreRadNuclido(String Numero) {
         return Numero.matches("[a-z,A-Z]*-[0-9]*{4,}");
     }
+    
+     /**
+     * Método para validar nombres de Phantoms .
+     *
+     * @param nombrePhantom
+     * @return
+     */
+    public static boolean ValidarNombrePhantom(String nombrePhantom) {
+        return nombrePhantom.matches("^[a-zA-Z0-9._-]{4,}$");
+        //Caracteres A-Z, a-z, 0-9, . _ - Longitud mayor a 4 caracteres. 
 
+    }
     /**
      * Método para validar los números de telefono
      *

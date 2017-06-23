@@ -84,7 +84,7 @@
                         </AnchorPane>
                     </content>
                   </TitledPane>
-                  <Button fx:id="btnCerrar" layoutX="763.0" layoutY="480.0" mnemonicParsing="false" onAction="#btnCerrar_click" prefHeight="22.0" prefWidth="56.0" text="Cerrar" />
+                  <Button fx:id="btnCerrar" cancelButton="true" layoutX="763.0" layoutY="480.0" mnemonicParsing="false" onAction="#btnCerrar_click" prefHeight="22.0" prefWidth="56.0" text="Cerrar" />
                </children>
             </AnchorPane>
         </items>

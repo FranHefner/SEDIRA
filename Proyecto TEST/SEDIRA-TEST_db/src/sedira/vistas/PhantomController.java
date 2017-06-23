@@ -210,7 +210,7 @@ public class PhantomController implements Initializable {
 
             // Creo el Stage para el Dialogo Editar. 
             Stage dialogStage = new Stage();
-            dialogStage.setTitle("Modificar nombre del Phantom");
+         //  dialogStage.setTitle("Modificar nombre del Phantom");
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.initOwner(primaryStage);
             Scene scene = new Scene(page);
@@ -251,7 +251,7 @@ public class PhantomController implements Initializable {
 
             // Creo el Stage para el Dialogo Editar. 
             Stage dialogStage = new Stage();
-            dialogStage.setTitle("Modificar Items");
+            dialogStage.setTitle("Modificar ítems");
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.initOwner(primaryStage);
             Scene scene = new Scene(page);
@@ -444,12 +444,10 @@ public class PhantomController implements Initializable {
         boolean guardarCambiosClicked = mostrarPhantomEditDialog(tempPhantom);
         String nombrePhantom = tempPhantom.getPhantomNombre();
         if (guardarCambiosClicked) {
-
             tempPhantom.setPropiedades(propiedadesPhantom);
             tempPhantom.setOrgano(organosPhantom);
-
+            //Guardo el Phantom temporal con los nuevos datos. 
             ph.agregarPhantom(tempPhantom);
-
             //Actualizo el GridView de Phantoms.
             phantomData = ph.obtenerListaPhantom();
             griPhantom.setItems(phantomData);

@@ -20,12 +20,12 @@
       </TableView>
       <HBox alignment="CENTER" layoutX="75.0" layoutY="451.0" prefHeight="25.0" prefWidth="337.0" spacing="20.0">
          <children>
-            <Button fx:id="btnAgregarItem" disable="true" mnemonicParsing="false" onAction="#btnAgregarItem" text="Agregar Item" />
+            <Button fx:id="btnAgregarItem" defaultButton="true" disable="true" mnemonicParsing="false" onAction="#btnAgregarItem" text="Agregar Item" />
             <Button fx:id="btnModificarItem" disable="true" mnemonicParsing="false" onAction="#btnModificarItem" text="Modificar Item" />
             <Button fx:id="btnEliminarItem" disable="true" mnemonicParsing="false" onAction="#btnEliminarItem" text="Eliminar Item" />
          </children>
       </HBox>
-      <Button fx:id="btnCerrar" layoutX="421.0" layoutY="476.0" mnemonicParsing="false" onAction="#btnCerrar" prefHeight="22.0" prefWidth="58.0" text="Cerrar" />
+      <Button fx:id="btnCerrar" cancelButton="true" layoutX="421.0" layoutY="476.0" mnemonicParsing="false" onAction="#btnCerrar" prefHeight="22.0" prefWidth="58.0" text="Cerrar" />
       <TextField fx:id="txtPhantom" editable="false" layoutX="57.0" layoutY="42.0" prefHeight="22.0" prefWidth="276.0" />
       <Label layoutX="7.0" layoutY="7.0" text="Herramienta para la administración de caracteristicas de un órgano" />
       <TextField fx:id="txtOrgano" editable="false" layoutX="57.0" layoutY="73.0" prefHeight="22.0" prefWidth="276.0" />

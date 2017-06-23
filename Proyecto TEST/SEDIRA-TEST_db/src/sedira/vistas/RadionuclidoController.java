@@ -204,7 +204,7 @@ public class RadionuclidoController implements Initializable {
 
             // Creo el Stage para el Dialogo Editar.
             Stage dialogStage = new Stage();
-            dialogStage.setTitle("Modificar nombre del radionúclido");
+           // dialogStage.setTitle("Modificar nombre del radionúclido");
             //dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.initOwner(primaryStage);
             Scene scene = new Scene(page);
@@ -243,7 +243,7 @@ public class RadionuclidoController implements Initializable {
 
             // Creo el Stage para el Dialogo Editar.
             Stage dialogStage = new Stage();
-            dialogStage.setTitle("Agregar ítems");
+           // dialogStage.setTitle("Agregar ítems");
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.initOwner(primaryStage);
             Scene scene = new Scene(page);
@@ -400,7 +400,7 @@ public class RadionuclidoController implements Initializable {
                     + "Esta seguro que desea eliminar el radionúclido seleccionado? ");
             alert.setContentText("Se eliminará el radionúclido seleccionado con todas sus propiedades."
                    
-                    + "\n ATENCIÓN, EL RADIONÚCLIDO:  " + nombreRadNuclido +"SERÁ ELIMINADO");
+                    + "\n ATENCIÓN, EL RADIONÚCLIDO:  " + nombreRadNuclido +" SERÁ ELIMINADO");
             
             //if propiedades radionuclido != null 
             //imprimo. 

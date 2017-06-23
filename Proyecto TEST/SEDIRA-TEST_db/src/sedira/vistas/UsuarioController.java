@@ -10,6 +10,7 @@ import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -45,13 +46,16 @@ public class UsuarioController implements Initializable {
     private TableColumn<Usuario, String> clPass;
     @FXML
     private TableColumn<Usuario, String> clDescripcion;
-
+    @FXML 
+    private AnchorPane panel;
     @FXML
     private Button btnModificarUsuario;
     @FXML
     private Button btnInsertarUsuario;
     @FXML
     private Button btnEliminarUsuario;
+    @FXML
+    private Button btnCerrar;
 
     IUsuarioDAO usr = new UsuarioDAOsql();
     //Lista Observable para el manejo de phantoms
@@ -63,12 +67,15 @@ public class UsuarioController implements Initializable {
 
     /**
      * Initializes the controller class.
+     *
      * @param url
      * @param rb
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        panel.setFocusTraversable(true);
+        panel.requestFocus();
         btnInsertarUsuario.setDisable(false);
         // Inicializo la tabla de Usuarios
         clUser.setCellValueFactory(
@@ -139,7 +146,7 @@ public class UsuarioController implements Initializable {
 
             // Creo el Stage para el Dialogo Editar. 
             Stage dialogStage = new Stage();
-            
+
             dialogStage.setTitle("Modificar Usuario");
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.initOwner(primaryStage);
@@ -172,11 +179,11 @@ public class UsuarioController implements Initializable {
     public void btnEditarUsuario() throws IOException, Exception {
         Usuario usuario = FuncionesGenerales.getUsuarioActual();
         boolean guardarCambiosClicked = mostrarUsuarioEditDialog(usuario);
-         
+
         if (guardarCambiosClicked) {
             //Llamada a la Clase de acceso a datos de Usuario. 
             // Pasa el tipo de usuario seleccionado del ComboBox. 
-          
+
             usr.modificarUsuario(usuario);
             userData = usr.obtenerUsuarios();
             //Actualiza el GridView de los usuarios 
@@ -212,6 +219,7 @@ public class UsuarioController implements Initializable {
 
     /**
      * Método para el comportamiento del boton Eliminar.
+     *
      * @throws java.lang.Exception
      */
     @FXML
@@ -246,6 +254,12 @@ public class UsuarioController implements Initializable {
             alert.showAndWait();
         }
 
+    }
+
+    @FXML
+    private void btnCerrar_click(ActionEvent event) {
+        Stage stage = (Stage) btnCerrar.getScene().getWindow();
+        stage.close();
     }
 
 }

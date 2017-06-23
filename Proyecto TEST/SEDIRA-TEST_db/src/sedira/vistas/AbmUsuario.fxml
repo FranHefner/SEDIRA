@@ -22,8 +22,8 @@
       <ChoiceBox fx:id="cBtipoUsuario" layoutX="141.0" layoutY="170.0" prefHeight="22.0" prefWidth="134.0" />
       <HBox alignment="CENTER" layoutX="43.0" layoutY="233.0" prefHeight="22.0" prefWidth="247.0" spacing="20.0">
          <children>
-            <Button fx:id="btnGuardar" layoutX="87.0" layoutY="271.0" mnemonicParsing="false" onAction="#btnGuardarDatos" prefHeight="22.0" prefWidth="70.0" text="Guardar" />
-            <Button fx:id="btnCancelar" layoutX="154.0" layoutY="271.0" mnemonicParsing="false" onAction="#btnCancel_click" prefHeight="22.0" prefWidth="70.0" text="Cancelar" />
+            <Button fx:id="btnGuardar" defaultButton="true" layoutX="87.0" layoutY="271.0" mnemonicParsing="false" onAction="#btnGuardarDatos" prefHeight="22.0" prefWidth="70.0" text="Guardar" />
+            <Button fx:id="btnCancelar" cancelButton="true" layoutX="154.0" layoutY="271.0" mnemonicParsing="false" onAction="#btnCancel_click" prefHeight="22.0" prefWidth="70.0" text="Cancelar" />
          </children>
       </HBox>
       <Label fx:id="lblNombreUsuario" focusTraversable="false" layoutX="72.0" layoutY="61.0" prefHeight="22.0" prefWidth="244.0" text="Label" />

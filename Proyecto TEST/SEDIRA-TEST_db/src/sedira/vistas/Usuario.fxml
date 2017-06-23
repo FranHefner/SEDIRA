@@ -7,7 +7,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" pickOnBounds="false" prefHeight="390.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sedira.vistas.UsuarioController">
+<AnchorPane id="AnchorPane" fx:id="panel" focusTraversable="true" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" pickOnBounds="false" prefHeight="390.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sedira.vistas.UsuarioController">
    <children>
       <TableView fx:id="griInfoUser" layoutX="14.0" layoutY="73.0" prefHeight="305.0" prefWidth="470.0" tableMenuButtonVisible="true">
         <columns>
@@ -29,5 +29,6 @@
       </VBox>
       <Text layoutX="14.0" layoutY="25.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Administrador de usuarios de S.E.D.I.R.A" />
       <Text layoutX="14.0" layoutY="61.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Seleccione un ítem de la lista para activar los botones de comportamiento" />
+      <Button fx:id="btnCerrar" cancelButton="true" layoutX="507.0" layoutY="356.0" mnemonicParsing="false" onAction="#btnCerrar_click" prefHeight="22.0" prefWidth="62.0" text="Cerrar" />
    </children>
 </AnchorPane>

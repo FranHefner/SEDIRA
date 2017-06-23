@@ -104,7 +104,7 @@ public class AbmRadionuclidoController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-     
+
         //Listener para la cantidad de caracteres en el nombre del radionuclido 
         txtRadNuclidoNombre.lengthProperty().addListener(new ChangeListener<Number>() {
             @Override
@@ -206,7 +206,7 @@ public class AbmRadionuclidoController implements Initializable {
         this.dialogStage = dialogStage;
         dialogStage.initModality(Modality.APPLICATION_MODAL); //To change body of generated methods, choose Tools | Templates.
         //
-        
+
         dialogStage.setResizable(false);
 
         //Obtengo el listado de propiedades (valorDescripcion) que pertenecen aun radionuclido. 
@@ -295,6 +295,7 @@ public class AbmRadionuclidoController implements Initializable {
              * Obtiente el Radionuclido seleccionado en la busqueda del
              * formulario radionuclido.fxml
              */
+            this.dialogStage.setTitle("Modificar nombre del radionúclido");
             txtRadNuclidoNombre.setEditable(true);
             txtRadNuclidoNombre.setFocusTraversable(true);
             txtRadNuclidoNombre.setText(radionuclido.getNombreRadNuclido());
@@ -332,14 +333,26 @@ public class AbmRadionuclidoController implements Initializable {
     public void setItemRadionuclido(ValorDescripcion itemRadionuclido) {
 
         this.itemRadionuclido = itemRadionuclido;
+        if (itemRadionuclido.getId() != -1) {
+            this.dialogStage.setTitle("Modificar ítems");
+            txtRadNuclidoNombre.setText(radionuclidoActual.getNombreRadNuclido());
+            txtRadNuclidoNombre.setEditable(false);
+            txtRadNuclidoNombre.setFocusTraversable(false);
 
-        txtRadNuclidoNombre.setText(radionuclidoActual.getNombreRadNuclido());
-        txtRadNuclidoNombre.setEditable(false);
-        txtRadNuclidoNombre.setFocusTraversable(false);
+            txtPropiedad.setText(itemRadionuclido.getDescripcion());
+            txtValor.setText(itemRadionuclido.getValor());
+            txtUnidad.setText(itemRadionuclido.getUnidad());
+        } else {
+            this.dialogStage.setTitle("Agregar ítems");
+            txtRadNuclidoNombre.setText(radionuclidoActual.getNombreRadNuclido());
+            txtRadNuclidoNombre.setEditable(false);
+            txtRadNuclidoNombre.setFocusTraversable(false);
 
-        txtPropiedad.setText(itemRadionuclido.getDescripcion());
-        txtValor.setText(itemRadionuclido.getValor());
-        txtUnidad.setText(itemRadionuclido.getUnidad());
+            txtPropiedad.setText(itemRadionuclido.getDescripcion());
+            txtValor.setText(itemRadionuclido.getValor());
+            txtUnidad.setText(itemRadionuclido.getUnidad());
+        }
+
     }
 
     /**
@@ -400,7 +413,7 @@ public class AbmRadionuclidoController implements Initializable {
     @FXML
     public void btnCancel_click() {
         Alert alert = new Alert(AlertType.CONFIRMATION);
-        
+
         switch (dialogStage.getTitle()) {
             case "Crear un radionúclido":
                 alert.setTitle("Cancelar creación");
@@ -423,9 +436,9 @@ public class AbmRadionuclidoController implements Initializable {
                 alert.setContentText("Está seguro de cancelar la modificación del radionúclido? ");
                 break;
         }
-        
+
         Optional<ButtonType> result = alert.showAndWait();
-        
+
         if (result.get() == ButtonType.OK) {
             dialogStage.close();
         } else {
@@ -475,7 +488,6 @@ public class AbmRadionuclidoController implements Initializable {
         if ("Crear un radionúclido".equals((this.dialogStage.getTitle()))) {
             if (!rad.buscaNombre(nombreRadNuclido) == true) {
                 mensajeError = "\nEl nombre de radionúclido ingresado ya existe!\n";
-
             }
             if (!ValidacionesGenerales.ValidarNombreRadNuclido(nombreRadNuclido)) {
                 mensajeError = "\nNombre del radionúclido inválido \n Ejemplo: Yodo-131";
@@ -495,7 +507,7 @@ public class AbmRadionuclidoController implements Initializable {
         if ("Agregar ítems".equals(this.dialogStage.getTitle())) {
             if (!propiedad.equals(this.itemRadionuclido.getDescripcion())) {
                 if (vd.buscaNombre(propiedad, "radionuclidos", radionuclidoActual.getIdRadNuclido())) {
-                    mensajeError += "El nombre de la propiedad ya existe en el radionúclido: " + nombreRadNuclido;
+                    mensajeError += "El nombre de la propiedad ya existe en el radionúclido. ";
                 }
             }
             if (propiedad == null || !ValidacionesGenerales.ValidarPropRadNuclido(propiedad)) {
@@ -624,6 +636,9 @@ public class AbmRadionuclidoController implements Initializable {
             }
             if (!ValidacionesGenerales.ValidarNombreRadNuclido(nombreRadNuclido)) {
                 mensajeError = "\nNombre del radionúclido inválido \n Ejemplo: Yodo-131";
+            }
+            if (!ValidacionesGenerales.validarCaracteresRepetidos(nombreRadNuclido)) {
+                mensajeError += "\nExisten caracteres repetidos.\n";
             }
         }
 
