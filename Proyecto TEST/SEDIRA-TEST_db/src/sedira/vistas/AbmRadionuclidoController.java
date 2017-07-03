@@ -11,13 +11,11 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -26,14 +24,12 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListView;
-import javafx.scene.control.TabPane.TabClosingPolicy;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
-import javafx.stage.WindowEvent;
 import sedira.FuncionesGenerales;
 import sedira.ValidacionesGenerales;
 import sedira.model.IRadionuclidoDAO;
@@ -98,6 +94,7 @@ public class AbmRadionuclidoController implements Initializable {
     FilteredList<String> filteredData;
     ObservableList<String> dataFiltrada = FXCollections.observableArrayList();
     boolean bandera = false;
+    boolean escape = false;
 
     /**
      * Inicializa la clase initialize del controlador.
@@ -120,27 +117,39 @@ public class AbmRadionuclidoController implements Initializable {
         });
 
         //Validacion al perder el Focus. 
-        txtRadNuclidoNombre.focusedProperty().addListener((arg_User, oldValueUser, newValueUser) -> {
-            if (!newValueUser && txtRadNuclidoNombre.getLength() > 0) {
-
-                if (!btnCancelar.isPressed()) {
-                    try {
-                        if (!validarNombreRadNuclido()) {
-                            //validacion usuario erronea. 
-                            txtRadNuclidoNombre.requestFocus();
+        txtRadNuclidoNombre.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue) {
+                dialogStage.addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
+                    @Override
+                    public void handle(KeyEvent evt) {
+                        if (evt.getCode().equals(KeyCode.ESCAPE)) {
+                            escape = true;
                         }
-                    } catch (Exception ex) {
-                        Logger.getLogger(AbmUsuarioController.class.getName()).log(Level.SEVERE, null, ex);
                     }
+                });
+                if (!newPropertyValue && txtRadNuclidoNombre.getLength() > 0) {
+
+                    if (!btnCancelar.isPressed()||escape==true) {
+                        try {
+                            if (validarNombreRadNuclido()) {
+
+                            } else {
+                                txtRadNuclidoNombre.requestFocus();
+                            }
+                        } catch (SQLException ex) {
+                            Logger.getLogger(AbmRadionuclidoController.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+
                 }
             }
-
         });
+
         //Listener para la cantidad de caracteres en el nombre en las propiedades
         txtPropiedad.lengthProperty().addListener(new ChangeListener<Number>() {
             @Override
-            public void changed(ObservableValue<? extends Number> observable,
-                    Number oldValue, Number newValue) {
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                 if (newValue.intValue() > oldValue.intValue()) {
                     // Check if the new character is greater than LIMIT
                     if (txtPropiedad.getText().length() >= LIMIT_NOMBRE) {
@@ -148,52 +157,130 @@ public class AbmRadionuclidoController implements Initializable {
                     }
                 }
             }
-        });
+        }
+        );
 
         //Validacion al perder el Focus. 
-        txtPropiedad.focusedProperty().addListener((arg_User, oldValueUser, newValueUser) -> {
-            if (!newValueUser && txtPropiedad.getLength() > 0) {
-                if (!btnCancelar.isPressed()) {
-                    try {
-                        if (!validarPropiedad()) {
-                            //validacion usuario erronea. 
-                            txtPropiedad.requestFocus();
+        txtPropiedad.focusedProperty()
+                .addListener(new ChangeListener<Boolean>() {
+                    @Override
+                    public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue) {
+                        dialogStage.addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
+                            @Override
+                            public void handle(KeyEvent evt) {
+                                if (evt.getCode().equals(KeyCode.ESCAPE)) {
+                                    escape = true;
+                                }
+                            }
+                        });
+                        if (!newPropertyValue && txtPropiedad.getLength() > 0) {
+                            if (!btnCancelar.isPressed() || escape == true) {
+                                try {
+                                    if (validarPropiedad()) {
+                                    } else {
+                                        txtPropiedad.requestFocus();
+                                    }
+
+                                } catch (SQLException ex) {
+                                    Logger.getLogger(AbmRadionuclidoController.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+                            }
                         }
-                    } catch (Exception ex) {
-                        Logger.getLogger(AbmUsuarioController.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
-            }
-
-        });
+                );
         //Listener para la cantidad de caracteres en el nombre en el valor 
-        txtValor.lengthProperty().addListener(new ChangeListener<Number>() {
+        txtValor.lengthProperty()
+                .addListener(new ChangeListener<Number>() {
 
-            @Override
-            public void changed(ObservableValue<? extends Number> observable,
-                    Number oldValue, Number newValue) {
-                if (newValue.intValue() > oldValue.intValue()) {
-                    // Check if the new character is greater than LIMIT
-                    if (txtValor.getText().length() >= LIMIT_VALOR) {
-                        txtValor.setText(txtValor.getText().substring(0, LIMIT_VALOR));
+                    @Override
+                    public void changed(ObservableValue<? extends Number> observable,
+                            Number oldValue, Number newValue
+                    ) {
+                        if (newValue.intValue() > oldValue.intValue()) {
+                            // Check if the new character is greater than LIMIT
+                            if (txtValor.getText().length() >= LIMIT_VALOR) {
+                                txtValor.setText(txtValor.getText().substring(0, LIMIT_VALOR));
+                            }
+                        }
                     }
                 }
-            }
-        });
+                );
+        //Listener Validacion LostFocus Valor 
+        txtValor.focusedProperty()
+                .addListener(new ChangeListener<Boolean>() {
+                    @Override
+                    public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue
+                    ) {
+                        dialogStage.addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
+                            @Override
+                            public void handle(KeyEvent evt) {
+                                if (evt.getCode().equals(KeyCode.ESCAPE)) {
+                                    escape = true;
+                                }
+                            }
+                        });
+                        if (!newPropertyValue && txtValor.getLength() > 0) {
+                            if (!btnCancelar.isPressed()||escape==true) {
+                                try {
+                                    if (validarValor()) {
+                                    } else {
+                                        txtValor.requestFocus();
 
+                                    }
+                                } catch (SQLException ex) {
+                                    Logger.getLogger(AbmRadionuclidoController.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+                            }
+                        }
+                    }
+                }
+                );
         //Listener para la cantidad de caracteres en el nombre en el campo unidad 
-        txtUnidad.lengthProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observable,
-                    Number oldValue, Number newValue) {
-                if (newValue.intValue() > oldValue.intValue()) {
-                    // Check if the new character is greater than LIMIT
-                    if (txtUnidad.getText().length() >= LIMIT_UNIDAD) {
-                        txtUnidad.setText(txtUnidad.getText().substring(0, LIMIT_UNIDAD));
+        txtUnidad.lengthProperty()
+                .addListener(new ChangeListener<Number>() {
+                    @Override
+                    public void changed(ObservableValue<? extends Number> observable,
+                            Number oldValue, Number newValue
+                    ) {
+                        if (newValue.intValue() > oldValue.intValue()) {
+                            // Check if the new character is greater than LIMIT
+                            if (txtUnidad.getText().length() >= LIMIT_UNIDAD) {
+                                txtUnidad.setText(txtUnidad.getText().substring(0, LIMIT_UNIDAD));
+                            }
+                        }
                     }
                 }
-            }
-        });
+                );
+        //Listener Validacion LostFocus Unidad 
+        txtUnidad.focusedProperty()
+                .addListener(new ChangeListener<Boolean>() {
+                    @Override
+                    public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue
+                    ) {
+                        dialogStage.addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
+                            @Override
+                            public void handle(KeyEvent evt) {
+                                if (evt.getCode().equals(KeyCode.ESCAPE)) {
+                                    escape = true;
+                                }
+                            }
+                        });
+                        if (!newPropertyValue && txtUnidad.getLength() > 0) {
+                            if (!btnCancelar.isPressed()||escape==true) {
+                                try {
+                                    if (validarUnidad()) {
+                                    } else {
+                                        txtUnidad.requestFocus();
+                                    }
+                                } catch (SQLException ex) {
+                                    Logger.getLogger(AbmRadionuclidoController.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+                            }
+                        }
+                    }
+                }
+                );
 
     }
 
@@ -595,8 +682,7 @@ public class AbmRadionuclidoController implements Initializable {
             }
         }
 
-        if (mensajeError.length()
-                == 0) {
+        if (mensajeError.length() == 0) {
             return true;
         } else {
             Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -649,9 +735,12 @@ public class AbmRadionuclidoController implements Initializable {
                 }
             }
 
-        }
-        if (!ValidacionesGenerales.validarCaracteresRepetidos(nombreRadNuclido)) {
-            mensajeError += "\nExisten caracteres repetidos.\n";
+            if (!ValidacionesGenerales.ValidarNombreRadNuclido(nombreRadNuclido)) {
+                mensajeError = "\nNombre del radionúclido inválido \n Ejemplo: Yodo-131";
+            }
+            if (!ValidacionesGenerales.validarCaracteresRepetidos(nombreRadNuclido)) {
+                mensajeError += "\nExisten caracteres repetidos.\n";
+            }
         }
         if (mensajeError.length() == 0) {
             return true;
@@ -660,12 +749,19 @@ public class AbmRadionuclidoController implements Initializable {
             alert.setTitle("Error!");
             alert.setHeaderText("Existe un error en los siguientes campos:");
             alert.setContentText(mensajeError);
-
+          //  txtRadNuclidoNombre.requestFocus();
             alert.showAndWait();
+
             return false;
         }
     }
 
+    /**
+     * Método que valida el campo propiedad
+     *
+     * @return
+     * @throws SQLException
+     */
     private boolean validarPropiedad() throws SQLException {
         String mensajeError = "";
         String propiedad = txtPropiedad.getText();
@@ -703,7 +799,83 @@ public class AbmRadionuclidoController implements Initializable {
             alert.setTitle("Error!");
             alert.setHeaderText("Existe un error en los siguientes campos:");
             alert.setContentText(mensajeError);
+            //txtPropiedad.requestFocus();
+            alert.showAndWait();
 
+            return false;
+        }
+
+    }
+
+    /**
+     * Método que valida el campo Valor
+     *
+     * @return
+     * @throws SQLException
+     */
+    private boolean validarValor() throws SQLException {
+        String mensajeError = "";
+        String valor = txtValor.getText();
+        if ("Agregar ítems".equals(this.dialogStage.getTitle()) || "Modificar ítems".equals(this.dialogStage.getTitle())) {
+            // Validacion valor
+            if (valor == null || valor.length() == 0) {
+                mensajeError += "El campo Valor no puede estar vacio. \n";
+            } else {
+                try {
+                    int i = Integer.parseInt(valor);
+                    //int routine
+                    //Si puede se pasa el entero a Double. 
+                } catch (NumberFormatException e) {
+                    if (ValidacionesGenerales.ValidarNumericoFloat(valor)) {
+                        double d = Double.parseDouble(valor);
+                        if (d == 0.0) {
+                            mensajeError += "El campo Valor no debe ser 0.0 \n";
+                        }
+                        //Double routine 
+                    } else {
+                        mensajeError += "El campo Valor debe ser de tipo númerico separado por . (punto) "
+                                + "  Ej: 12.30, por favor no utilize , (coma) \n";
+                    }
+                }
+            }
+        }
+        if (mensajeError.length() == 0) {
+            return true;
+        } else {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Error!");
+            alert.setHeaderText("Existe un error en los siguientes campos:");
+            alert.setContentText(mensajeError);
+            //txtValor.requestFocus();
+            alert.showAndWait();
+            return false;
+        }
+
+    }
+
+    /**
+     * Método para validar el campo unidad.
+     *
+     * @return
+     * @throws SQLException
+     */
+    private boolean validarUnidad() throws SQLException {
+        String mensajeError = "";
+        String unidad = txtUnidad.getText();
+        if ("Agregar ítems".equals(this.dialogStage.getTitle()) || "Modificar ítems".equals(this.dialogStage.getTitle())) {
+            // Validacion valor
+            if (unidad == null || unidad.length() == 0) {
+                mensajeError += "El campo Unidad es inválido. \n";
+            }
+        }
+        if (mensajeError.length() == 0) {
+            return true;
+        } else {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Error!");
+            alert.setHeaderText("Existe un error en los siguientes campos:");
+            alert.setContentText(mensajeError);
+          //  txtUnidad.requestFocus();
             alert.showAndWait();
             return false;
         }
