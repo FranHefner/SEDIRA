@@ -94,7 +94,7 @@ public class AbmRadionuclidoController implements Initializable {
     FilteredList<String> filteredData;
     ObservableList<String> dataFiltrada = FXCollections.observableArrayList();
     boolean bandera = false;
-    boolean escape = false;
+    boolean escape;
 
     /**
      * Inicializa la clase initialize del controlador.
@@ -120,29 +120,17 @@ public class AbmRadionuclidoController implements Initializable {
         txtRadNuclidoNombre.focusedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue) {
-                dialogStage.addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
-                    @Override
-                    public void handle(KeyEvent evt) {
-                        if (evt.getCode().equals(KeyCode.ESCAPE)) {
-                            escape = true;
-                        }
-                    }
-                });
+
                 if (!newPropertyValue && txtRadNuclidoNombre.getLength() > 0) {
 
-                    if (!btnCancelar.isPressed()||escape==true) {
-                        try {
-                            if (validarNombreRadNuclido()) {
-
-                            } else {
-                                txtRadNuclidoNombre.requestFocus();
-                            }
-                        } catch (SQLException ex) {
-                            Logger.getLogger(AbmRadionuclidoController.class.getName()).log(Level.SEVERE, null, ex);
+                    if (btnCancelar.isPressed() == false) {
+                        if (!validarNombreRadNuclido()) {
+                            txtRadNuclidoNombre.requestFocus();
                         }
-                    }
 
+                    }
                 }
+
             }
         });
 
@@ -161,28 +149,15 @@ public class AbmRadionuclidoController implements Initializable {
         );
 
         //Validacion al perder el Focus. 
-        txtPropiedad.focusedProperty()
-                .addListener(new ChangeListener<Boolean>() {
+        txtPropiedad.focusedProperty().addListener(new ChangeListener<Boolean>() {
                     @Override
                     public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue) {
-                        dialogStage.addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
-                            @Override
-                            public void handle(KeyEvent evt) {
-                                if (evt.getCode().equals(KeyCode.ESCAPE)) {
-                                    escape = true;
-                                }
-                            }
-                        });
-                        if (!newPropertyValue && txtPropiedad.getLength() > 0) {
-                            if (!btnCancelar.isPressed() || escape == true) {
-                                try {
-                                    if (validarPropiedad()) {
-                                    } else {
-                                        txtPropiedad.requestFocus();
-                                    }
-
-                                } catch (SQLException ex) {
-                                    Logger.getLogger(AbmRadionuclidoController.class.getName()).log(Level.SEVERE, null, ex);
+                        if (!newPropertyValue) {
+                            if (!btnCancelar.isPressed()) {
+                                if (validarPropiedad()) {
+                                    //validacion correcta
+                                } else {
+                                    txtPropiedad.requestFocus();
                                 }
                             }
                         }
@@ -207,23 +182,14 @@ public class AbmRadionuclidoController implements Initializable {
                 }
                 );
         //Listener Validacion LostFocus Valor 
-        txtValor.focusedProperty()
-                .addListener(new ChangeListener<Boolean>() {
+        txtValor.focusedProperty().addListener(new ChangeListener<Boolean>() {
                     @Override
-                    public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue
-                    ) {
-                        dialogStage.addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
-                            @Override
-                            public void handle(KeyEvent evt) {
-                                if (evt.getCode().equals(KeyCode.ESCAPE)) {
-                                    escape = true;
-                                }
-                            }
-                        });
-                        if (!newPropertyValue && txtValor.getLength() > 0) {
-                            if (!btnCancelar.isPressed()||escape==true) {
+                    public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue) {
+                        if (!newPropertyValue) {
+                            if (!btnCancelar.isPressed()) {
                                 try {
                                     if (validarValor()) {
+                                        //validacion correcta
                                     } else {
                                         txtValor.requestFocus();
 
@@ -237,8 +203,7 @@ public class AbmRadionuclidoController implements Initializable {
                 }
                 );
         //Listener para la cantidad de caracteres en el nombre en el campo unidad 
-        txtUnidad.lengthProperty()
-                .addListener(new ChangeListener<Number>() {
+        txtUnidad.lengthProperty().addListener(new ChangeListener<Number>() {
                     @Override
                     public void changed(ObservableValue<? extends Number> observable,
                             Number oldValue, Number newValue
@@ -253,23 +218,14 @@ public class AbmRadionuclidoController implements Initializable {
                 }
                 );
         //Listener Validacion LostFocus Unidad 
-        txtUnidad.focusedProperty()
-                .addListener(new ChangeListener<Boolean>() {
+        txtUnidad.focusedProperty().addListener(new ChangeListener<Boolean>() {
                     @Override
-                    public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue
-                    ) {
-                        dialogStage.addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
-                            @Override
-                            public void handle(KeyEvent evt) {
-                                if (evt.getCode().equals(KeyCode.ESCAPE)) {
-                                    escape = true;
-                                }
-                            }
-                        });
-                        if (!newPropertyValue && txtUnidad.getLength() > 0) {
-                            if (!btnCancelar.isPressed()||escape==true) {
+                    public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue) {
+                        if (!newPropertyValue) {
+                            if (!btnCancelar.isPressed()) {
                                 try {
                                     if (validarUnidad()) {
+                                        //validacion correcta
                                     } else {
                                         txtUnidad.requestFocus();
                                     }
@@ -711,14 +667,18 @@ public class AbmRadionuclidoController implements Initializable {
      * @return
      * @throws SQLException
      */
-    private boolean validarNombreRadNuclido() throws SQLException {
+    private boolean validarNombreRadNuclido() {
         String mensajeError = "";
         String nombreRadNuclido = txtRadNuclidoNombre.getText();
 
         if ("Crear un radionúclido".equals((this.dialogStage.getTitle()))) {
-            if (!rad.buscaNombre(nombreRadNuclido) == true) {
-                mensajeError = "\nEl nombre de radionúclido ingresado ya existe!\n";
+            try {
+                if (!rad.buscaNombre(nombreRadNuclido) == true) {
+                    mensajeError = "\nEl nombre de radionúclido ingresado ya existe!\n";
 
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(AbmRadionuclidoController.class.getName()).log(Level.SEVERE, null, ex);
             }
             if (!ValidacionesGenerales.ValidarNombreRadNuclido(nombreRadNuclido)) {
                 mensajeError = "\nNombre del radionúclido inválido \n Ejemplo: Yodo-131";
@@ -729,9 +689,14 @@ public class AbmRadionuclidoController implements Initializable {
         }
 
         if ("Modificar nombre del radionúclido".equals(this.dialogStage.getTitle())) {
-            if (!nombreRadNuclido.equals(radionuclidoActual.getNombreRadNuclido())) { // verifico que si es modo edicion no entre en error por el nombre que no cambiara
-                if (!rad.buscaNombre(nombreRadNuclido) == true) { //separacion modo edicion
-                    mensajeError += "El nombre de radionúclido ingresado ya existe!\n";
+            if (!nombreRadNuclido.equals(radionuclidoActual.getNombreRadNuclido())) {
+                try {
+                    // verifico que si es modo edicion no entre en error por el nombre que no cambiara
+                    if (!rad.buscaNombre(nombreRadNuclido) == true) { //separacion modo edicion
+                        mensajeError += "El nombre de radionúclido ingresado ya existe!\n";
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(AbmRadionuclidoController.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
 
@@ -749,7 +714,7 @@ public class AbmRadionuclidoController implements Initializable {
             alert.setTitle("Error!");
             alert.setHeaderText("Existe un error en los siguientes campos:");
             alert.setContentText(mensajeError);
-          //  txtRadNuclidoNombre.requestFocus();
+            //  txtRadNuclidoNombre.requestFocus();
             alert.showAndWait();
 
             return false;
@@ -762,7 +727,7 @@ public class AbmRadionuclidoController implements Initializable {
      * @return
      * @throws SQLException
      */
-    private boolean validarPropiedad() throws SQLException {
+    private boolean validarPropiedad() {
         String mensajeError = "";
         String propiedad = txtPropiedad.getText();
 
@@ -772,8 +737,12 @@ public class AbmRadionuclidoController implements Initializable {
                 mensajeError += "\nEl nombre de la propiedad debe contener como minimo 4 caracteres: Se aceptan letras mayúsculas, minúsculas, números, puntos y guiones. \n";
             }
             if (!propiedad.equals(this.itemRadionuclido.getDescripcion())) {
-                if (vd.buscaNombre(propiedad, "radionuclidos", radionuclidoActual.getIdRadNuclido())) {
-                    mensajeError += "El nombre de la propiedad ya existe en el radionúclido: " + radionuclidoActual.getNombreRadNuclido();
+                try {
+                    if (vd.buscaNombre(propiedad, "radionuclidos", radionuclidoActual.getIdRadNuclido())) {
+                        mensajeError += "El nombre de la propiedad ya existe en el radionúclido: " + radionuclidoActual.getNombreRadNuclido();
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(AbmRadionuclidoController.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
 
@@ -785,8 +754,12 @@ public class AbmRadionuclidoController implements Initializable {
             } else {
                 //Si el nombre no cambia en modo edicion
                 if (!propiedad.equals(this.itemRadionuclido.getDescripcion())) {
-                    if (vd.buscaNombre(propiedad, "radionuclidos", radionuclidoActual.getIdRadNuclido())) {
-                        mensajeError += "El nombre de la propiedad ya existe en el radionúclido: " + radionuclidoActual.getNombreRadNuclido();
+                    try {
+                        if (vd.buscaNombre(propiedad, "radionuclidos", radionuclidoActual.getIdRadNuclido())) {
+                            mensajeError += "El nombre de la propiedad ya existe en el radionúclido: " + radionuclidoActual.getNombreRadNuclido();
+                        }
+                    } catch (SQLException ex) {
+                        Logger.getLogger(AbmRadionuclidoController.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
 
@@ -875,7 +848,7 @@ public class AbmRadionuclidoController implements Initializable {
             alert.setTitle("Error!");
             alert.setHeaderText("Existe un error en los siguientes campos:");
             alert.setContentText(mensajeError);
-          //  txtUnidad.requestFocus();
+            //  txtUnidad.requestFocus();
             alert.showAndWait();
             return false;
         }
