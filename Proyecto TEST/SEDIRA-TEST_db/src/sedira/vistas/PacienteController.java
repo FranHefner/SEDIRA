@@ -19,6 +19,9 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -55,6 +58,8 @@ import sedira.model.PacienteDAOsql;
  */
 public class PacienteController implements Initializable {
 
+ 
+  
     @FXML
     private TableView<Paciente> griListaPacientes;
     @FXML
@@ -125,6 +130,24 @@ public class PacienteController implements Initializable {
     //    return DocumentosData;
     // }
 
+    boolean IgnorarValidacion = false;
+    @FXML
+    public void IgnorarValidacion() {
+
+        System.out.println("IgnoraValidacion");
+         IgnorarValidacion = true;
+    }
+    @FXML
+    public void RetornarValidacion() {
+
+       System.out.println("RetornaValidacion");
+        IgnorarValidacion = false;
+    }
+
+    int UltimoFoco = 0;
+
+
+
     private int IdPacienteActual;
     private Paciente pacienteActual;
     // Paciente PacienteActual = new Paciente();
@@ -133,6 +156,11 @@ public class PacienteController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         // Control de botones. 
+        
+          
+           
+        
+        
         FuncionesGenerales.pacienteActual = null;
         btnEditar.setDisable(true);
         try {
@@ -226,9 +254,11 @@ public class PacienteController implements Initializable {
         txtNumeroDoc.focusedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue) {
+                   UltimoFoco =1;
+                     
+                if (!newPropertyValue && txtNumeroDoc.isEditable() && txtNumeroDoc.getText().length() > 0 && IgnorarValidacion == false ) {
 
-                if (!newPropertyValue && txtNumeroDoc.isEditable() && txtNumeroDoc.getText().length() > 0 ) {
-
+                     System.out.println("entro a validacion");
                     boolean ValidacionOK = true;
                     String Error = "";
 
@@ -259,11 +289,12 @@ public class PacienteController implements Initializable {
                 }
             }
         });
-
+            
         txtNombre.focusedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue) {
-                if (!newPropertyValue && txtNombre.isEditable() && txtNombre.getText().length() > 0  ) {
+                   UltimoFoco =2;
+                if (!newPropertyValue && txtNombre.isEditable() && txtNombre.getText().length() > 0  && IgnorarValidacion == false) {
                     boolean ValidacionOK = true;
                     String Error = "";
 
@@ -308,7 +339,9 @@ public class PacienteController implements Initializable {
         txtApellido.focusedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue) {
-                if (!newPropertyValue  && txtApellido.isEditable() && txtApellido.getText().length() > 0) {
+                
+                   UltimoFoco =3;
+                if (!newPropertyValue  && txtApellido.isEditable() && txtApellido.getText().length() > 0 && IgnorarValidacion == false) {
                     boolean ValidacionOK = true;
                     String Error = "";
 
@@ -354,7 +387,8 @@ public class PacienteController implements Initializable {
         txtFechaNacimiento.focusedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue) {
-                if (!newPropertyValue && txtFechaNacimiento.isEditable()&& txtFechaNacimiento.getValue() != null ) {
+                   UltimoFoco =4;
+                if (!newPropertyValue && txtFechaNacimiento.isEditable()&& txtFechaNacimiento.getValue() != null && IgnorarValidacion == false) {
                     Date fechaActual = new Date();
                     Date fechaIngresada = new Date();
 
@@ -643,6 +677,7 @@ public class PacienteController implements Initializable {
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK) {
+              IgnorarValidacion = true;
             btnNuevo.setDisable(false);
 
             txtCampoBusqueda.setDisable(false);
@@ -665,6 +700,12 @@ public class PacienteController implements Initializable {
                 cbSexo.setValue(null);
             }
             ModoLectura();
+        }else
+        { 
+              if (   UltimoFoco == 1){ txtNumeroDoc.requestFocus();}
+              if (   UltimoFoco == 2){ txtNombre.requestFocus();}
+              if (   UltimoFoco == 3){ txtApellido.requestFocus();}
+              if (   UltimoFoco == 4){ txtFechaNacimiento.requestFocus();}  
         }
 
     }
@@ -760,8 +801,8 @@ public class PacienteController implements Initializable {
      */
     @FXML
     private void btnCerrar_click() {
-
-        if ((btnEditar.isDisable())) {
+       
+        if (btnCancelar.isDisable() ==false) {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Cerrar Ventana");
             alert.setHeaderText("Atención!");
@@ -772,14 +813,19 @@ public class PacienteController implements Initializable {
             if (result.get() == ButtonType.OK) {
                 Stage stage = (Stage) btnCerrar.getScene().getWindow();
                 stage.close();
-            } else {
-
+            } else {            
+                    if (   UltimoFoco == 1){ txtNumeroDoc.requestFocus();}
+                    if (   UltimoFoco == 2){ txtNombre.requestFocus();}
+                    if (   UltimoFoco == 3){ txtApellido.requestFocus();}
+                    if (   UltimoFoco == 4){ txtFechaNacimiento.requestFocus();}               
             }
         } else {
 
             Stage stage = (Stage) btnCerrar.getScene().getWindow();
 
             stage.close();
+           
+             
         }
 
     }

@@ -53,7 +53,7 @@ public class LoginController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         try {
             // TODO
-            btnAceptar_click();
+            //btnAceptar_click();
         } catch (Exception ex) {
             Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -65,10 +65,9 @@ public class LoginController implements Initializable {
         String Usuario;
         String Contraseña;
 
-        //Usuario = txtUsuario.getText();
-        //Contraseña = txtPassword.getText();
-        Usuario = "admin";
-        Contraseña = "admin"; 
+        Usuario = txtUsuario.getText();
+        Contraseña = txtPassword.getText();
+      
         infoLogin = ConsultasSQL.VerificarUserPass(Usuario, Contraseña);
 
         IniByCode(infoLogin.getTipoUsuario());

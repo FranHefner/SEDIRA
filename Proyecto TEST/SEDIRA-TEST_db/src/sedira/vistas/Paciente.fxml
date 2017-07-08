@@ -10,7 +10,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" maxHeight="639.0" maxWidth="972.0" minHeight="637.0" minWidth="675.0" prefHeight="639.0" prefWidth="675.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sedira.vistas.PacienteController">
+<AnchorPane id="AnchorPane" maxHeight="639.0" maxWidth="972.0" minHeight="637.0" minWidth="675.0" onMouseEntered="#RetornarValidacion" onMouseExited="#IgnorarValidacion" prefHeight="639.0" prefWidth="675.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sedira.vistas.PacienteController">
    <children>
       <SplitPane layoutX="252.0" layoutY="100.0" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
@@ -60,8 +60,8 @@
                                     <Button fx:id="btnNuevo" layoutX="7.0" layoutY="24.0" mnemonicParsing="false" onAction="#btnNuevo_click" text="Nuevo" />
                                     <Button fx:id="btnEditar" layoutX="68.0" layoutY="24.0" mnemonicParsing="false" onAction="#btnEditar_click" text="Editar" />
                                     <Button fx:id="btnAceptar" defaultButton="true" layoutX="327.0" layoutY="25.0" mnemonicParsing="false" onAction="#btnAceptar_click" text="Aceptar" />
-                                    <Button fx:id="btnCancelar" layoutX="390.0" layoutY="25.0" mnemonicParsing="false" onAction="#btnCancelar_click" text="Cancelar" />
-                                    <Button fx:id="btnCerrar" cancelButton="true" layoutX="463.0" layoutY="25.0" mnemonicParsing="false" onAction="#btnCerrar_click" text="Cerrar" />
+                                    <Button fx:id="btnCancelar" layoutX="390.0" layoutY="25.0" mnemonicParsing="false" onAction="#btnCancelar_click" onMouseEntered="#IgnorarValidacion" onMouseExited="#RetornarValidacion" text="Cancelar" />
+                                    <Button fx:id="btnCerrar" cancelButton="true" layoutX="463.0" layoutY="25.0" mnemonicParsing="false" onAction="#btnCerrar_click" onMouseEntered="#IgnorarValidacion" onMouseExited="#RetornarValidacion" text="Cerrar" />
                                  </children>
                               </Pane>
                            </children>
