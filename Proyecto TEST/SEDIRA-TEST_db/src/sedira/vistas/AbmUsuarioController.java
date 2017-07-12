@@ -81,6 +81,8 @@ public class AbmUsuarioController implements Initializable {
     private static final int LIMIT_PASS = 25;
     private static final int DESCRIPCION = 50;
     IUsuarioDAO usr = new UsuarioDAOsql();
+    private boolean IgnorarValidacion = false;
+    private int UltimoFoco;
 
     /**
      * Initializes the controller class.
@@ -96,27 +98,8 @@ public class AbmUsuarioController implements Initializable {
         ObservableList<String> strTipoUsuario = FXCollections.observableArrayList();
         cBtipoUsuario.getItems().addAll("Científico", "Médico", "Administrador");
 
-        //Validacion al perder el Focus. 
-        txtNombreUsuario.focusedProperty().addListener((arg_User, oldValueUser, newValueUser) -> {
-            if (!newValueUser && txtNombreUsuario.getLength() > 0) {//when focus lost
-                //Pregunto si toco el boton cancelar. 
-                if (!btnCancelar.isPressed()) {
-                    try {
-                        if (!validarUsuario()) {
-                            //validacion usuario erronea. 
-                            txtNombreUsuario.requestFocus();
-                        }
-                    } catch (Exception ex) {
-                        Logger.getLogger(AbmUsuarioController.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
-
-            }
-
-        });
-        //Listener para la cantidad de caracteres en el nombre de usuario
+        //Listener para la cantidad de caracteres en el nombreUsuario
         txtNombreUsuario.lengthProperty().addListener(new ChangeListener<Number>() {
-
             @Override
             public void changed(ObservableValue<? extends Number> observable,
                     Number oldValue, Number newValue) {
@@ -128,32 +111,28 @@ public class AbmUsuarioController implements Initializable {
                 }
             }
         });
-
-        txtPass.focusedProperty().addListener((argPass, oldValuePass, newValuePass) -> {
-            if (!newValuePass && txtPass.getLength() > 0) {//when focus lost
-                //Pregunto si toco el boton cancelar. 
-                if (!btnCancelar.isPressed()) {
+        //Validacion al perder el Focus nombreUsuario. 
+        txtNombreUsuario.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue) {
+                UltimoFoco = 1;
+                if (!newPropertyValue && txtNombreUsuario.getLength() > 0 && IgnorarValidacion == false) {//when focus lost
                     try {
-                        if (!validarPass()) {
+                        if (!validarUsuario()) {
                             //validacion usuario erronea. 
-                            txtPass.requestFocus();
+                            txtNombreUsuario.requestFocus();
                         }
-                        //La contraseña puede utilizar caracateres repetidos. 
                     } catch (Exception ex) {
                         Logger.getLogger(AbmUsuarioController.class.getName()).log(Level.SEVERE, null, ex);
                     }
+
                 }
-
             }
-
         });
-        
         //Listener para la cantidad de caracteres en el campo PassWord
         txtPass.lengthProperty().addListener(new ChangeListener<Number>() {
-
             @Override
-            public void changed(ObservableValue<? extends Number> observable,
-                    Number oldValue, Number newValue) {
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                 if (newValue.intValue() > oldValue.intValue()) {
                     // Check if the new character is greater than LIMIT
                     if (txtPass.getText().length() >= LIMIT_PASS) {
@@ -162,12 +141,27 @@ public class AbmUsuarioController implements Initializable {
                 }
             }
         });
+        //Listener para el LostFocus de PassWord
+        txtPass.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue) {
+                UltimoFoco = 2;
+                if (!newPropertyValue && txtPass.getLength() > 0 && IgnorarValidacion == false) {//when focus lost
+                    try {
+                        if (!validarPass()) {
+                            //validacion usuario erronea. 
+                            txtPass.requestFocus();
+                        }
+                    } catch (Exception ex) {
+                        Logger.getLogger(AbmUsuarioController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            }
+        });
         //Listener para la cantidad de caracteres en el campo Descripcion
         txtDescripcion.lengthProperty().addListener(new ChangeListener<Number>() {
-
             @Override
-            public void changed(ObservableValue<? extends Number> observable,
-                    Number oldValue, Number newValue) {
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                 if (newValue.intValue() > oldValue.intValue()) {
                     // Check if the new character is greater than LIMIT
                     if (txtDescripcion.getText().length() >= DESCRIPCION) {
@@ -189,7 +183,7 @@ public class AbmUsuarioController implements Initializable {
         dialogStage.initModality(Modality.APPLICATION_MODAL);
         dialogStage.setMaximized(false);
         dialogStage.setResizable(false);
-       
+
         dialogStage.setMinHeight(330);
         dialogStage.setMinWidth(330);
         dialogStage.setMaxHeight(400);
@@ -214,11 +208,11 @@ public class AbmUsuarioController implements Initializable {
 
         /**
          * Si el id usuario es -1 significa que fue creado un usuario auxiliar.
-         * Esto significa que se traba de nuevo usuario.
+         * Esto significa que se trata de ls creacion de un nuevo usuario.
          */
         if (usuario.getIdUsuario() != -1) {
             /**
-             * Obtiente el Usuario seleccionado en Usuario.fxml.
+             * Obtiente el Usuario seleccionado en Usuario.fxml. Modificar
              */
 
             txtNombreUsuario.setEditable(true);
@@ -307,7 +301,6 @@ public class AbmUsuarioController implements Initializable {
                 alert.setContentText("Está seguro de cancelar la creación del usuario ? ");
                 break;
             case "Modificar Usuario":
-
                 alert.setTitle("Cancelar modificación");
                 alert.setHeaderText("Atención!");
                 alert.setContentText("Está seguro de cancelar la modificación del usuario? ");
@@ -316,9 +309,15 @@ public class AbmUsuarioController implements Initializable {
         }
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK) {
+            IgnorarValidacion = true;
             dialogStage.close();
         } else {
-
+            if (UltimoFoco == 1) {
+                txtNombreUsuario.requestFocus();
+            }
+            if (UltimoFoco == 2) {
+                txtPass.requestFocus();
+            }
         }
 
     }
@@ -326,16 +325,13 @@ public class AbmUsuarioController implements Initializable {
     /**
      * Método para el control del Boton Limpiar Valores. limpia los datos
      * agregados en los textFields del formulario.
-     
-    @FXML
-    public void btnLimpiarValores_click() {
-        txtDescripcion.setText("");
-        txtPass.setText("");
-        txtNombreUsuario.setText("");
-        cBtipoUsuario.getSelectionModel().clearSelection();
-
-    }*/
-
+     *
+     * @FXML public void btnLimpiarValores_click() { txtDescripcion.setText("");
+     * txtPass.setText(""); txtNombreUsuario.setText("");
+     * cBtipoUsuario.getSelectionModel().clearSelection();
+     *
+     * }
+     */
     /**
      * Método que valida un usuario en caso de utilizar validacion por
      * LostFocus.
@@ -471,11 +467,28 @@ public class AbmUsuarioController implements Initializable {
         }
 
     }
-    
-     @FXML
+
+    /**
+     * Método que controla el comportamiento para el botón cerrar
+     *
+     * @param event
+     */
+    @FXML
     private void btnCerrar_click(ActionEvent event) {
         Stage stage = (Stage) btnCerrar.getScene().getWindow();
         stage.close();
+    }
+
+    @FXML
+    public void IgnorarValidacion() {
+        //  System.out.println("IgnoraValidacion");
+        IgnorarValidacion = true;
+    }
+
+    @FXML
+    public void RetornarValidacion() {
+        // System.out.println("RetornaValidacion");
+        IgnorarValidacion = false;
     }
 
 }

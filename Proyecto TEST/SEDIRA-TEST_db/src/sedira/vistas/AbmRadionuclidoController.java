@@ -16,7 +16,6 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -86,15 +85,21 @@ public class AbmRadionuclidoController implements Initializable {
     private IValorDescripcionDAO vd = new ValorDescripcionDAOsql();
 
     private static final int LIMIT_NOMBRE = 45;
+    private static final int LIMIT_NOMBREPHANTOM = 45;
     private static final int LIMIT_VALOR = 14;
     private static final int LIMIT_UNIDAD = 255;
-
+    private static final String CREACION = "Crear un Phantom";
+    private static final String MODIFICACION = "Modificar nombre del Phantom";
+    private static final String CREACION_ITEM = "Agregar ítems";
+    private static final String MODIFICACION_ITEM = "Modificar ítems";
+    
     ObservableList<String> data;
     ListView listaSugerida = new ListView();
     FilteredList<String> filteredData;
     ObservableList<String> dataFiltrada = FXCollections.observableArrayList();
     boolean bandera = false;
-    boolean escape;
+    boolean IgnorarValidacion = false;
+    int UltimoFoco = 0;
 
     /**
      * Inicializa la clase initialize del controlador.
@@ -104,9 +109,9 @@ public class AbmRadionuclidoController implements Initializable {
 
         //Listener para la cantidad de caracteres en el nombre del radionuclido 
         txtRadNuclidoNombre.lengthProperty().addListener(new ChangeListener<Number>() {
+
             @Override
-            public void changed(ObservableValue<? extends Number> observable,
-                    Number oldValue, Number newValue) {
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                 if (newValue.intValue() > oldValue.intValue()) {
                     // Check if the new character is greater than LIMIT
                     if (txtRadNuclidoNombre.getText().length() >= LIMIT_NOMBRE) {
@@ -120,24 +125,25 @@ public class AbmRadionuclidoController implements Initializable {
         txtRadNuclidoNombre.focusedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue) {
-
-                if (!newPropertyValue && txtRadNuclidoNombre.getLength() > 0) {
-
-                    if (btnCancelar.isPressed() == false) {
-                        if (!validarNombreRadNuclido()) {
-                            txtRadNuclidoNombre.requestFocus();
-                        }
-
+                UltimoFoco = 1;
+                if (!newPropertyValue && txtRadNuclidoNombre.getText().length() > 0 && IgnorarValidacion == false) {
+                    if (!validarNombreRadNuclido()) {
+                        txtRadNuclidoNombre.requestFocus();
+                    } else {
+                        // System.out.println("entro a validacion");
                     }
+
                 }
 
             }
-        });
+        }
+        );
 
         //Listener para la cantidad de caracteres en el nombre en las propiedades
         txtPropiedad.lengthProperty().addListener(new ChangeListener<Number>() {
             @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue
+            ) {
                 if (newValue.intValue() > oldValue.intValue()) {
                     // Check if the new character is greater than LIMIT
                     if (txtPropiedad.getText().length() >= LIMIT_NOMBRE) {
@@ -150,93 +156,87 @@ public class AbmRadionuclidoController implements Initializable {
 
         //Validacion al perder el Focus. 
         txtPropiedad.focusedProperty().addListener(new ChangeListener<Boolean>() {
-                    @Override
-                    public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue) {
-                        if (!newPropertyValue) {
-                            if (!btnCancelar.isPressed()) {
-                                if (validarPropiedad()) {
-                                    //validacion correcta
-                                } else {
-                                    txtPropiedad.requestFocus();
-                                }
-                            }
-                        }
+            @Override
+            public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue) {
+                UltimoFoco = 2;
+                if (!newPropertyValue && txtPropiedad.getText().length() > 0 && IgnorarValidacion == false) {
+                    if (validarPropiedad()) {
+                        //validacion correcta
+                        System.out.println("Entro a validar propiedad");
+                    } else {
+                        txtPropiedad.requestFocus();
                     }
-                }
-                );
-        //Listener para la cantidad de caracteres en el nombre en el valor 
-        txtValor.lengthProperty()
-                .addListener(new ChangeListener<Number>() {
 
-                    @Override
-                    public void changed(ObservableValue<? extends Number> observable,
-                            Number oldValue, Number newValue
-                    ) {
-                        if (newValue.intValue() > oldValue.intValue()) {
-                            // Check if the new character is greater than LIMIT
-                            if (txtValor.getText().length() >= LIMIT_VALOR) {
-                                txtValor.setText(txtValor.getText().substring(0, LIMIT_VALOR));
-                            }
-                        }
+                }
+            }
+        }
+        );
+        //Listener para la cantidad de caracteres en el nombre en el valor 
+        txtValor.lengthProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable,Number oldValue, Number newValue) {
+                if (newValue.intValue() > oldValue.intValue()) {
+                    // Check if the new character is greater than LIMIT
+                    if (txtValor.getText().length() >= LIMIT_VALOR) {
+                        txtValor.setText(txtValor.getText().substring(0, LIMIT_VALOR));
                     }
                 }
-                );
+            }
+        }
+        );
         //Listener Validacion LostFocus Valor 
         txtValor.focusedProperty().addListener(new ChangeListener<Boolean>() {
-                    @Override
-                    public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue) {
-                        if (!newPropertyValue) {
-                            if (!btnCancelar.isPressed()) {
-                                try {
-                                    if (validarValor()) {
-                                        //validacion correcta
-                                    } else {
-                                        txtValor.requestFocus();
+            @Override
+            public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue) {
+                UltimoFoco = 3;
+                if (!newPropertyValue && txtValor.getText().length() > 0 && IgnorarValidacion == false) {
+                    try {
+                        if (validarValor()) {
+                            System.out.println("Entro a validar valor");
+                        } else {
+                            txtValor.requestFocus();
 
-                                    }
-                                } catch (SQLException ex) {
-                                    Logger.getLogger(AbmRadionuclidoController.class.getName()).log(Level.SEVERE, null, ex);
-                                }
-                            }
                         }
+                    } catch (SQLException ex) {
+                        Logger.getLogger(AbmRadionuclidoController.class.getName()).log(Level.SEVERE, null, ex);
                     }
+
                 }
-                );
+            }
+        }
+        );
         //Listener para la cantidad de caracteres en el nombre en el campo unidad 
         txtUnidad.lengthProperty().addListener(new ChangeListener<Number>() {
-                    @Override
-                    public void changed(ObservableValue<? extends Number> observable,
-                            Number oldValue, Number newValue
-                    ) {
-                        if (newValue.intValue() > oldValue.intValue()) {
-                            // Check if the new character is greater than LIMIT
-                            if (txtUnidad.getText().length() >= LIMIT_UNIDAD) {
-                                txtUnidad.setText(txtUnidad.getText().substring(0, LIMIT_UNIDAD));
-                            }
-                        }
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                if (newValue.intValue() > oldValue.intValue()) {
+                    // Check if the new character is greater than LIMIT
+                    if (txtUnidad.getText().length() >= LIMIT_UNIDAD) {
+                        txtUnidad.setText(txtUnidad.getText().substring(0, LIMIT_UNIDAD));
                     }
                 }
-                );
+            }
+        }
+        );
         //Listener Validacion LostFocus Unidad 
         txtUnidad.focusedProperty().addListener(new ChangeListener<Boolean>() {
                     @Override
                     public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue) {
-                        if (!newPropertyValue) {
-                            if (!btnCancelar.isPressed()) {
+                        UltimoFoco=4;
+                        if (!newPropertyValue && txtUnidad.getText().length() > 0 && IgnorarValidacion == false) {
                                 try {
                                     if (validarUnidad()) {
-                                        //validacion correcta
+                                      System.out.println("Entro a validar unidad");
                                     } else {
                                         txtUnidad.requestFocus();
                                     }
                                 } catch (SQLException ex) {
                                     Logger.getLogger(AbmRadionuclidoController.class.getName()).log(Level.SEVERE, null, ex);
                                 }
-                            }
+                            
                         }
                     }
-                }
-                );
+                });
 
     }
 
@@ -455,6 +455,7 @@ public class AbmRadionuclidoController implements Initializable {
      */
     @FXML
     public void btnCancel_click() {
+
         Alert alert = new Alert(AlertType.CONFIRMATION);
 
         switch (dialogStage.getTitle()) {
@@ -483,9 +484,21 @@ public class AbmRadionuclidoController implements Initializable {
         Optional<ButtonType> result = alert.showAndWait();
 
         if (result.get() == ButtonType.OK) {
+            IgnorarValidacion = true;
             dialogStage.close();
         } else {
-
+            if (UltimoFoco == 1) {
+                txtRadNuclidoNombre.requestFocus();
+            }
+            if (UltimoFoco == 2) {
+                txtPropiedad.requestFocus();
+            }
+            if (UltimoFoco == 3) {
+                txtValor.requestFocus();
+            }
+            if (UltimoFoco == 4) {
+                txtUnidad.requestFocus();
+            }
         }
 
     }
@@ -534,6 +547,9 @@ public class AbmRadionuclidoController implements Initializable {
             }
             if (!ValidacionesGenerales.ValidarNombreRadNuclido(nombreRadNuclido)) {
                 mensajeError = "\nNombre del radionúclido inválido \n Ejemplo: Yodo-131";
+            }
+            if (!ValidacionesGenerales.validarCaracteresRepetidos(nombreRadNuclido)) {
+                mensajeError += "\nExisten caracteres repetidos.\n";
             }
         }
         if ("Modificar nombre del radionúclido".equals(this.dialogStage.getTitle())) {
@@ -853,6 +869,33 @@ public class AbmRadionuclidoController implements Initializable {
             return false;
         }
 
+    }
+    /*
+     @FXML
+     boolean onEscape() {
+     KeyEvent event = null;
+     switch (event.getCode()) {
+     case ESCAPE:
+     btnCancelar.fire();
+     return true;
+
+     default:
+     return false;
+
+     }
+
+     }*/
+
+    @FXML
+    public void IgnorarValidacion() {
+        //  System.out.println("IgnoraValidacion");
+        IgnorarValidacion = true;
+    }
+
+    @FXML
+    public void RetornarValidacion() {
+        // System.out.println("RetornaValidacion");
+        IgnorarValidacion = false;
     }
 
 }

@@ -11,66 +11,66 @@
 <?import javafx.scene.layout.*?>
 
 <AnchorPane id="AnchorPane" maxHeight="639.0" maxWidth="972.0" minHeight="637.0" minWidth="675.0" onMouseEntered="#RetornarValidacion" onMouseExited="#IgnorarValidacion" prefHeight="639.0" prefWidth="675.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sedira.vistas.PacienteController">
-   <children>
-      <SplitPane layoutX="252.0" layoutY="100.0" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-        <items>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="542.0" prefWidth="617.0">
-               <children>
-                  <SplitPane dividerPositions="0.1618181818181818" layoutX="13.0" layoutY="26.0" maxHeight="552.0" maxWidth="617.0" minHeight="552.0" minWidth="617.0" orientation="VERTICAL" prefHeight="552.0" prefWidth="617.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                    <items>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
-                           <children>
-                              <TextField fx:id="txtCampoBusqueda" layoutX="251.0" layoutY="38.0" onKeyTyped="#btnBuscar_click" prefHeight="33.0" prefWidth="213.0" promptText="Búsqueda ..." />
-                           </children>
-                        </AnchorPane>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="529.0" prefWidth="658.0">
-                           <children>
-                              <TableView fx:id="griListaPacientes" disable="true" layoutX="27.0" layoutY="25.0" prefHeight="145.0" prefWidth="608.0">
-                                <columns>
-                                  <TableColumn fx:id="clTipoDoc" prefWidth="75.0" text="Tipo Doc" />
-                                    <TableColumn fx:id="clNumeroDoc" prefWidth="184.0" text="Numero Doc" />
-                                  <TableColumn fx:id="clNombre" prefWidth="176.0" text="Nombre" />
-                                    <TableColumn fx:id="clApellido" prefWidth="172.0" text="Apellido" />
-                                </columns>                                 
-                              </TableView>
-                              <Pane layoutX="101.0" layoutY="177.0" prefHeight="284.0" prefWidth="501.0">
-                                 <children>
-                                    <ComboBox fx:id="cbTipoDoc" disable="true" layoutX="136.0" layoutY="33.0" prefHeight="25.0" prefWidth="149.0" stylesheets="@../../MyStyle.css" />
-                                    <TextField fx:id="txtNumeroDoc" editable="false" layoutX="136.0" layoutY="67.0" />
-                                    <TextField fx:id="txtNombre" editable="false" layoutX="136.0" layoutY="105.0" />
-                                    <TextField fx:id="txtApellido" editable="false" layoutX="136.0" layoutY="140.0" />
-                                    <DatePicker fx:id="txtFechaNacimiento" disable="true" editable="false" layoutX="136.0" layoutY="176.0" prefHeight="25.0" prefWidth="149.0" promptText="dd/mm/aaaa" stylesheets="@../../MyStyle.css" />
-                                    <ComboBox fx:id="cbSexo" disable="true" layoutX="136.0" layoutY="208.0" prefHeight="25.0" prefWidth="149.0" stylesheets="@../../MyStyle.css" />
-                                    <Label layoutX="27.0" layoutY="144.0" text="Apellido:" />
-                                    <Label layoutX="27.0" layoutY="109.0" text="Nombre:" />
-                                    <Label layoutX="27.0" layoutY="37.0" text="Tipo Documento:" />
-                                    <Label layoutX="27.0" layoutY="71.0" text="N° Documento:" />
-                                    <Label layoutX="26.0" layoutY="180.0" text="Fecha Nacimiento:" />
-                                    <Button fx:id="btnContacto" disable="true" layoutX="345.0" layoutY="34.0" mnemonicParsing="false" onAction="#btnContacto_click" prefHeight="25.0" prefWidth="133.0" text="Contacto" />
-                                    <Button fx:id="btnHistorialSEDIRA" disable="true" layoutX="345.0" layoutY="69.0" mnemonicParsing="false" onAction="#btnHistorialSEDIRA_click" prefHeight="25.0" prefWidth="133.0" text="Historial SEDIRA" />
-                                    <CheckBox fx:id="chkTratamiento" allowIndeterminate="true" layoutX="437.0" layoutY="250.0" mnemonicParsing="false" visible="false" />
-                                    <Label layoutX="333.0" layoutY="250.0" text="En tratamiento" visible="false" />
-                                    <Button fx:id="btnMediciones" layoutX="333.0" layoutY="214.0" mnemonicParsing="false" onAction="#btnMediciones_click" prefHeight="25.0" prefWidth="133.0" text="Mediciones" visible="false" />
-                                    <Label layoutX="26.0" layoutY="212.0" text="Sexo:" />
-                                    <Label fx:id="lblModo" focusTraversable="false" layoutX="219.0" layoutY="7.0" text="Modo lectura" />
-                                 </children>
-                              </Pane>
-                              <Pane fx:id="grbBotones" layoutX="123.0" layoutY="443.0" prefHeight="72.0" prefWidth="524.0">
-                                 <children>
-                                    <Button fx:id="btnNuevo" layoutX="7.0" layoutY="24.0" mnemonicParsing="false" onAction="#btnNuevo_click" text="Nuevo" />
-                                    <Button fx:id="btnEditar" layoutX="68.0" layoutY="24.0" mnemonicParsing="false" onAction="#btnEditar_click" text="Editar" />
-                                    <Button fx:id="btnAceptar" defaultButton="true" layoutX="327.0" layoutY="25.0" mnemonicParsing="false" onAction="#btnAceptar_click" text="Aceptar" />
-                                    <Button fx:id="btnCancelar" layoutX="390.0" layoutY="25.0" mnemonicParsing="false" onAction="#btnCancelar_click" onMouseEntered="#IgnorarValidacion" onMouseExited="#RetornarValidacion" text="Cancelar" />
-                                    <Button fx:id="btnCerrar" cancelButton="true" layoutX="463.0" layoutY="25.0" mnemonicParsing="false" onAction="#btnCerrar_click" onMouseEntered="#IgnorarValidacion" onMouseExited="#RetornarValidacion" text="Cerrar" />
-                                 </children>
-                              </Pane>
-                           </children>
-                        </AnchorPane>
-                    </items>
-                  </SplitPane>
-               </children>
-            </AnchorPane>
-        </items>
-      </SplitPane>
-   </children>
+    <children>
+        <SplitPane layoutX="252.0" layoutY="100.0" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <items>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="542.0" prefWidth="617.0">
+                    <children>
+                        <SplitPane dividerPositions="0.1618181818181818" layoutX="13.0" layoutY="26.0" maxHeight="552.0" maxWidth="617.0" minHeight="552.0" minWidth="617.0" orientation="VERTICAL" prefHeight="552.0" prefWidth="617.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                            <items>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                    <children>
+                                        <TextField fx:id="txtCampoBusqueda" layoutX="251.0" layoutY="38.0" onKeyTyped="#btnBuscar_click" prefHeight="33.0" prefWidth="213.0" promptText="Búsqueda ..." />
+                                    </children>
+                                </AnchorPane>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="529.0" prefWidth="658.0">
+                                    <children>
+                                        <TableView fx:id="griListaPacientes" disable="true" layoutX="27.0" layoutY="25.0" prefHeight="145.0" prefWidth="608.0">
+                                            <columns>
+                                                <TableColumn fx:id="clTipoDoc" prefWidth="75.0" text="Tipo Doc" />
+                                                <TableColumn fx:id="clNumeroDoc" prefWidth="184.0" text="Numero Doc" />
+                                                <TableColumn fx:id="clNombre" prefWidth="176.0" text="Nombre" />
+                                                <TableColumn fx:id="clApellido" prefWidth="172.0" text="Apellido" />
+                                            </columns>                                 
+                                        </TableView>
+                                        <Pane layoutX="101.0" layoutY="177.0" prefHeight="284.0" prefWidth="501.0">
+                                            <children>
+                                                <ComboBox fx:id="cbTipoDoc" disable="true" layoutX="136.0" layoutY="33.0" prefHeight="25.0" prefWidth="149.0" stylesheets="@../../MyStyle.css" />
+                                                <TextField fx:id="txtNumeroDoc" editable="false" layoutX="136.0" layoutY="67.0" />
+                                                <TextField fx:id="txtNombre" editable="false" layoutX="136.0" layoutY="105.0" />
+                                                <TextField fx:id="txtApellido" editable="false" layoutX="136.0" layoutY="140.0" />
+                                                <DatePicker fx:id="txtFechaNacimiento" disable="true" editable="false" layoutX="136.0" layoutY="176.0" prefHeight="25.0" prefWidth="149.0" promptText="dd/mm/aaaa" stylesheets="@../../MyStyle.css" />
+                                                <ComboBox fx:id="cbSexo" disable="true" layoutX="136.0" layoutY="208.0" prefHeight="25.0" prefWidth="149.0" stylesheets="@../../MyStyle.css" />
+                                                <Label layoutX="27.0" layoutY="144.0" text="Apellido:" />
+                                                <Label layoutX="27.0" layoutY="109.0" text="Nombre:" />
+                                                <Label layoutX="27.0" layoutY="37.0" text="Tipo Documento:" />
+                                                <Label layoutX="27.0" layoutY="71.0" text="N° Documento:" />
+                                                <Label layoutX="26.0" layoutY="180.0" text="Fecha Nacimiento:" />
+                                                <Button fx:id="btnContacto" disable="true" layoutX="345.0" layoutY="34.0" mnemonicParsing="false" onAction="#btnContacto_click" prefHeight="25.0" prefWidth="133.0" text="Contacto" />
+                                                <Button fx:id="btnHistorialSEDIRA" disable="true" layoutX="345.0" layoutY="69.0" mnemonicParsing="false" onAction="#btnHistorialSEDIRA_click" prefHeight="25.0" prefWidth="133.0" text="Historial SEDIRA" />
+                                                <CheckBox fx:id="chkTratamiento" allowIndeterminate="true" layoutX="437.0" layoutY="250.0" mnemonicParsing="false" visible="false" />
+                                                <Label layoutX="333.0" layoutY="250.0" text="En tratamiento" visible="false" />
+                                                <Button fx:id="btnMediciones" layoutX="333.0" layoutY="214.0" mnemonicParsing="false" onAction="#btnMediciones_click" prefHeight="25.0" prefWidth="133.0" text="Mediciones" visible="false" />
+                                                <Label layoutX="26.0" layoutY="212.0" text="Sexo:" />
+                                                <Label fx:id="lblModo" focusTraversable="false" layoutX="219.0" layoutY="7.0" text="Modo lectura" />
+                                            </children>
+                                        </Pane>
+                                        <Pane fx:id="grbBotones" layoutX="123.0" layoutY="443.0" prefHeight="72.0" prefWidth="524.0">
+                                            <children>
+                                                <Button fx:id="btnNuevo" layoutX="7.0" layoutY="24.0" mnemonicParsing="false" onAction="#btnNuevo_click" text="Nuevo" />
+                                                <Button fx:id="btnEditar" layoutX="68.0" layoutY="24.0" mnemonicParsing="false" onAction="#btnEditar_click" text="Editar" />
+                                                <Button fx:id="btnAceptar" defaultButton="true" layoutX="327.0" layoutY="25.0" mnemonicParsing="false" onAction="#btnAceptar_click" text="Aceptar" />
+                                                <Button fx:id="btnCancelar" layoutX="390.0" layoutY="25.0" mnemonicParsing="false" onAction="#btnCancelar_click" onMouseEntered="#IgnorarValidacion" onMouseExited="#RetornarValidacion" text="Cancelar" />
+                                                <Button fx:id="btnCerrar" cancelButton="true" layoutX="463.0" layoutY="25.0" mnemonicParsing="false" onAction="#btnCerrar_click" onMouseEntered="#IgnorarValidacion" onMouseExited="#RetornarValidacion" text="Cerrar" />
+                                            </children>
+                                        </Pane>
+                                    </children>
+                                </AnchorPane>
+                            </items>
+                        </SplitPane>
+                    </children>
+                </AnchorPane>
+            </items>
+        </SplitPane>
+    </children>
 </AnchorPane>

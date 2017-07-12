@@ -58,6 +58,7 @@ public class MenuPrincipalController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         AdministrarMenu(TipoUsuario);
+        
 
         try {
             math = new MathJS();

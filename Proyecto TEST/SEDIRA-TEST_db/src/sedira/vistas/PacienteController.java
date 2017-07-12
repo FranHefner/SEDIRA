@@ -19,9 +19,6 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -92,17 +89,6 @@ public class PacienteController implements Initializable {
     private DatePicker txtFechaNacimiento;
     @FXML
     private Label lblModo;
-
-    boolean editarClicked = false;
-
-    //Instancia de objeto tipo IPacienteDAO. Se inicializa como PacienteDAOsql.  
-    private IPacienteDAO pac = new PacienteDAOsql();
-
-    /**
-     * Inicializacion de la clase Controlador.
-     */
-    private ObservableList<Paciente> pacienteData = FXCollections.observableArrayList();
-    private ObservableList<String> DocumentosData = FXCollections.observableArrayList();
     @FXML
     private Pane grbBotones;
     @FXML
@@ -111,7 +97,6 @@ public class PacienteController implements Initializable {
     private Button btnEditar;
     @FXML
     private Button btnAceptar;
-
     @FXML
     private Button btnCerrar;
     @FXML
@@ -123,13 +108,17 @@ public class PacienteController implements Initializable {
     @FXML
     private Button btnMediciones;
 
+    boolean editarClicked = false;
+    //Instancia de objeto tipo IPacienteDAO. Se inicializa como PacienteDAOsql.  
+    private IPacienteDAO pac = new PacienteDAOsql();
+    private ObservableList<Paciente> pacienteData = FXCollections.observableArrayList();
+    private ObservableList<String> DocumentosData = FXCollections.observableArrayList();
+    
+
     public ObservableList<Paciente> getPacienteData() {
         return pacienteData;
     }
-    // public ObservableList<TipoDocumento> getDocumentosData() {
-    //    return DocumentosData;
-    // }
-
+    
     boolean IgnorarValidacion = false;
     @FXML
     public void IgnorarValidacion() {

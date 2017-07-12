@@ -27,11 +27,7 @@ import sedira.model.ConexionDB;
  */
 public class AplicacionPrincipal extends Application {
 
-    private Object stage;
-    private Stage primaryStage;
-    private AnchorPane menuPrincipal;
-
-    /**
+     /**
      * Método Start para el inicio del Scene.
      *
      * @param primaryStage

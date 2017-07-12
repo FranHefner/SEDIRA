@@ -8,7 +8,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="260.0" prefWidth="574.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sedira.vistas.AbmPhantomController">
+<AnchorPane id="AnchorPane" onMouseEntered="#RetornarValidacion" onMouseExited="#IgnorarValidacion" prefHeight="260.0" prefWidth="574.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sedira.vistas.AbmPhantomController">
    <children>
       <TextField fx:id="txtNombrePhantom" editable="false" layoutX="145.0" layoutY="16.0" prefHeight="25.0" prefWidth="301.0" />
       <TitledPane fx:id="titledEdicion" animated="false" collapsible="false" focusTraversable="false" layoutX="13.0" layoutY="54.0" prefHeight="192.0" prefWidth="549.0" text="Edición de phantom">
@@ -22,7 +22,7 @@
                   <VBox alignment="TOP_CENTER" layoutX="421.0" layoutY="50.0" spacing="20.0">
                      <children>
                         <Button fx:id="btnGuardarCambios" defaultButton="true" layoutX="372.0" layoutY="59.0" mnemonicParsing="false" onAction="#btnGuardarDatos" prefHeight="25.0" prefWidth="112.0" text="Guardar cambios" />
-                        <Button fx:id="btnCancelar" cancelButton="true" layoutX="372.0" layoutY="97.0" mnemonicParsing="false" onAction="#btnCancel_click" prefHeight="25.0" prefWidth="110.0" text="Cancelar" textAlignment="CENTER" />
+                        <Button fx:id="btnCancelar" cancelButton="true" layoutX="372.0" layoutY="97.0" mnemonicParsing="false" onAction="#btnCancel_click" onMouseEntered="#RetornarValidacion" onMouseExited="#IgnorarValidacion" prefHeight="25.0" prefWidth="110.0" text="Cancelar" textAlignment="CENTER" />
                      </children>
                   </VBox>
                   <Label layoutX="23.0" layoutY="23.0" text="Propiedad:" />

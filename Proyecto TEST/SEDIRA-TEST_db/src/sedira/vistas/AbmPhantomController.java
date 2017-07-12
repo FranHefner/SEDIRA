@@ -9,6 +9,8 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -78,25 +80,30 @@ public class AbmPhantomController implements Initializable {
     private IPhantomDAO ph = new PhantomDAOsql();
 
     private IValorDescripcionDAO vd = new ValorDescripcionDAOsql();
-    private static int LIMIT_NOMBRE = 45;
-    private static int LIMIT_NOMBREPHANTOM = 45;
-    private static int LIMIT_VALOR = 14;
-    private static int LIMIT_UNIDAD = 255;
+    private static final int LIMIT_NOMBRE = 45;
+    private static final int LIMIT_NOMBREPHANTOM = 45;
+    private static final int LIMIT_VALOR = 14;
+    private static final int LIMIT_UNIDAD = 255;
+    private static final String CREACION = "Crear un Phantom";
+    private static final String MODIFICACION = "Modificar nombre del Phantom";
+    private static final String CREACION_ITEM = "Agregar ítems";
+    private static final String MODIFICACION_ITEM = "Modificar ítems";
 
     ObservableList<String> data;
     ListView listaSugerida = new ListView();
     FilteredList<String> filteredData;
     ObservableList<String> dataFiltrada = FXCollections.observableArrayList();
     boolean bandera = false;
+    private boolean IgnorarValidacion = false;
+    private int UltimoFoco;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-//Listener para la cantidad de caracteres en el nombre del phantom
+        //Listener para la cantidad de caracteres en el nombre del phantom
         txtNombrePhantom.lengthProperty().addListener(new ChangeListener<Number>() {
-
             @Override
             public void changed(ObservableValue<? extends Number> observable,
                     Number oldValue, Number newValue) {
@@ -109,13 +116,24 @@ public class AbmPhantomController implements Initializable {
                 }
             }
         });
-/**
- * TODO - Listeners para el tab. 
- * 
- */
-//Listener para la cantidad de caracteres en el nombre en las propiedades
-        txtPropiedad.lengthProperty().addListener(new ChangeListener<Number>() {
+        //Listener para LostFocus txtNombrePhantom
+        txtNombrePhantom.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue) {
+                UltimoFoco = 1;
+                if (!newPropertyValue && txtNombrePhantom.getText().length() > 0 && IgnorarValidacion == false) {
+                    if (!validarNombrePhantom()) {
+                        txtNombrePhantom.requestFocus();
+                    } else {
+                        // System.out.println("entro a validacion");
+                    }
 
+                }
+
+            }
+        });
+        //Listener para la cantidad de caracteres en el nombre en las propiedades
+        txtPropiedad.lengthProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable,
                     Number oldValue, Number newValue) {
@@ -128,10 +146,24 @@ public class AbmPhantomController implements Initializable {
                 }
             }
         });
+        //Validacion al perder el Focus. 
+        txtPropiedad.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue) {
+                UltimoFoco = 2;
+                if (!newPropertyValue && txtPropiedad.getText().length() > 0 && IgnorarValidacion == false) {
+                    if (validarPropiedad()) {
+                        //validacion correcta
+                        System.out.println("Entro a validar propiedad");
+                    } else {
+                        txtPropiedad.requestFocus();
+                    }
 
+                }
+            }
+        });
         //Listener para la cantidad de caracteres en el nombre en el valor 
         txtValor.lengthProperty().addListener(new ChangeListener<Number>() {
-
             @Override
             public void changed(ObservableValue<? extends Number> observable,
                     Number oldValue, Number newValue) {
@@ -144,10 +176,28 @@ public class AbmPhantomController implements Initializable {
                 }
             }
         });
+        //Listener Validacion LostFocus Valor 
+        txtValor.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue) {
+                UltimoFoco = 3;
+                if (!newPropertyValue && txtValor.getText().length() > 0 && IgnorarValidacion == false) {
+                    try {
+                        if (validarValor()) {
+                            System.out.println("Entro a validar valor");
+                        } else {
+                            txtValor.requestFocus();
 
+                        }
+                    } catch (SQLException ex) {
+                        Logger.getLogger(AbmRadionuclidoController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                }
+            }
+        });
         //Listener para la cantidad de caracteres en el nombre en el campo unidad 
         txtUnidad.lengthProperty().addListener(new ChangeListener<Number>() {
-
             @Override
             public void changed(ObservableValue<? extends Number> observable,
                     Number oldValue, Number newValue) {
@@ -160,6 +210,25 @@ public class AbmPhantomController implements Initializable {
                 }
             }
         });
+        //Listener Validacion LostFocus Unidad 
+        txtUnidad.focusedProperty().addListener(new ChangeListener<Boolean>() {
+                    @Override
+                    public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue) {
+                        UltimoFoco=4;
+                        if (!newPropertyValue && txtUnidad.getText().length() > 0 && IgnorarValidacion == false) {
+                                try {
+                                    if (validarUnidad()) {
+                                      System.out.println("Entro a validar unidad");
+                                    } else {
+                                        txtUnidad.requestFocus();
+                                    }
+                                } catch (SQLException ex) {
+                                    Logger.getLogger(AbmRadionuclidoController.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+                            
+                        }
+                    }
+                });
 
     }
 
@@ -204,7 +273,6 @@ public class AbmPhantomController implements Initializable {
 
     public void seleccionarItem(String itemSeleccionado) {
         txtPropiedad.setText(itemSeleccionado);
-
     }
 
     /**
@@ -261,7 +329,7 @@ public class AbmPhantomController implements Initializable {
              * phantom.fxml
              */
             //Atributos de nombre y id. 
-            dialogStage.setTitle("Modificar nombre del Phantom");
+            dialogStage.setTitle(MODIFICACION);
             txtNombrePhantom.setEditable(true);
             txtNombrePhantom.setText(phantom.getPhantomNombre());
             listaSugerida.setDisable(true);
@@ -274,7 +342,7 @@ public class AbmPhantomController implements Initializable {
         } else {
 
             //Cambio Nombre en el formulario. 
-            this.dialogStage.setTitle("Crear un Phantom");
+            this.dialogStage.setTitle(CREACION);
             listaSugerida.setDisable(true);
             listaSugerida.setVisible(false);
 
@@ -298,7 +366,7 @@ public class AbmPhantomController implements Initializable {
         this.itemPhantom = itemPhantom;
         if (itemPhantom.getId() != -1) {
 
-            this.dialogStage.setTitle("Modificar ítems");
+            this.dialogStage.setTitle(CREACION_ITEM);
             txtNombrePhantom.setFocusTraversable(false);
             txtNombrePhantom.setEditable(false);
             txtNombrePhantom.setText(phantomActual.getPhantomNombre());
@@ -306,7 +374,7 @@ public class AbmPhantomController implements Initializable {
             txtValor.setText(String.valueOf(this.itemPhantom.getValor()));
             txtUnidad.setText(this.itemPhantom.getUnidad());
         } else {
-            this.dialogStage.setTitle("Agregar ítems");
+            this.dialogStage.setTitle(MODIFICACION_ITEM);
             txtNombrePhantom.setFocusTraversable(false);
             txtNombrePhantom.setEditable(false);
             txtNombrePhantom.setText(phantomActual.getPhantomNombre());
@@ -338,19 +406,19 @@ public class AbmPhantomController implements Initializable {
         if (validarDatosEntrada()) {
             //Validacion preguntando si esta seguro guardar cambios.
             switch (dialogStage.getTitle()) {
-                case "Crear un Phantom":
+                case CREACION:
                     phantom.setPhantomNombre(txtNombrePhantom.getText());
                     phantom.setPropiedades(listaAtributoPhantom);
                     break;
-                case "Modificar nombre del Phantom":
+                case MODIFICACION:
                     phantom.setPhantomNombre(txtNombrePhantom.getText());
                     break;
-                case "Agregar ítems":
+                case CREACION_ITEM:
                     itemPhantom.setDescripcion(NombrePropiedad);
                     itemPhantom.setUnidad(txtUnidad.getText());
                     itemPhantom.setValor(txtValor.getText());
                     break;
-                case "Modificar ítems":
+                case MODIFICACION_ITEM:
                     itemPhantom.setDescripcion(NombrePropiedad);
                     itemPhantom.setUnidad(txtUnidad.getText());
                     itemPhantom.setValor(txtValor.getText());
@@ -380,28 +448,44 @@ public class AbmPhantomController implements Initializable {
     public void btnCancel_click() {
         Alert alert = new Alert(AlertType.CONFIRMATION);
         switch (dialogStage.getTitle()) {
-            case "Crear un Phantom":
-
+            case CREACION:
                 alert.setTitle("Cancelar creación");
                 alert.setHeaderText("Atención!");
                 alert.setContentText("Está seguro de cancelar la creación del phantom ? ");
                 break;
-            case "Modificar nombre del Phantom":
-
+            case MODIFICACION:
                 alert.setTitle("Cancelar modificación");
                 alert.setHeaderText("Atención!");
                 alert.setContentText("Está seguro de cancelar la modificación del phantom? ");
                 break;
-            case "Modificar Items":
+            case MODIFICACION_ITEM:
                 alert.setTitle("Cancelar modificación");
                 alert.setHeaderText("Atención!");
                 alert.setContentText("Está seguro de cancelar la modificación del phantom?");
                 break;
+            case CREACION_ITEM:
+                alert.setTitle("Cancelar creación del phantom");
+                alert.setHeaderText("Atención!");
+                alert.setContentText("Está seguro de cancelar la modificación del phantom? ");
+                break;
         }
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK) {
+            IgnorarValidacion = true;
             dialogStage.close();
         } else {
+            if (UltimoFoco == 1) {
+                txtNombrePhantom.requestFocus();
+            }
+            if (UltimoFoco == 2) {
+                txtPropiedad.requestFocus();
+            }
+            if (UltimoFoco == 3) {
+                txtValor.requestFocus();
+            }
+            if (UltimoFoco == 4) {
+                txtUnidad.requestFocus();
+            }
 
         }
     }
@@ -414,13 +498,13 @@ public class AbmPhantomController implements Initializable {
     public void btnLimpiarValores_click() {
 
         switch (dialogStage.getTitle()) {
-            case "Crear un Phantom":
+            case CREACION:
                 txtNombrePhantom.setText("");
                 break;
-            case "Modificar nombre del Phantom":
+            case MODIFICACION:
                 txtNombrePhantom.setText("");
                 break;
-            case "Modificar Items":
+            case MODIFICACION_ITEM:
                 txtUnidad.setText("");
                 txtPropiedad.setText("");
                 txtValor.setText("");
@@ -428,6 +512,185 @@ public class AbmPhantomController implements Initializable {
                 listaSugerida.setVisible(false);
                 break;
         }
+    }
+
+    /**
+     * Método que valida que el nombre del phantom sea correcto.
+     *
+     * @return
+     * @throws SQLException
+     */
+    private boolean validarNombrePhantom() {
+        String mensajeError = "";
+        String nombrePhantom = txtNombrePhantom.getText();
+
+        if (CREACION.equals((this.dialogStage.getTitle()))) {
+            try {
+                if (!ph.buscaNombre(nombrePhantom) == true) {
+                    mensajeError = "\nEl nombre del phantom ingresado ya existe!\n";
+
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(AbmRadionuclidoController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            if (!ValidacionesGenerales.ValidarNombrePhantom(nombrePhantom)) {
+                mensajeError = "\nNombre del phantom inválido \n Ejemplo: Yodo-131";
+            }
+            if (!ValidacionesGenerales.validarCaracteresRepetidos(nombrePhantom)) {
+                mensajeError += "\nExisten caracteres repetidos.\n";
+            }
+        }
+
+        if (MODIFICACION.equals(this.dialogStage.getTitle())) {
+            if (!nombrePhantom.equals(phantomActual.getPhantomNombre())) {
+                try {
+                    // verifico que si es modo edicion no entre en error por el nombre que no cambiara
+                    if (!ph.buscaNombre(nombrePhantom) == true) { //separacion modo edicion
+                        mensajeError += "El nombre del phantom ingresado ya existe!\n";
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(AbmRadionuclidoController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+
+            if (!ValidacionesGenerales.ValidarNombrePhantom(nombrePhantom)) {
+                mensajeError = "\nNombre del phantom inválido \n Ejemplo: Yodo-131";
+            }
+            if (!ValidacionesGenerales.validarCaracteresRepetidos(nombrePhantom)) {
+                mensajeError += "\nExisten caracteres repetidos.\n";
+            }
+        }
+        if (mensajeError.length() == 0) {
+            return true;
+        } else {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Error!");
+            alert.setHeaderText("Existe un error en los siguientes campos:");
+            alert.setContentText(mensajeError);
+            //  txtRadNuclidoNombre.requestFocus();
+            alert.showAndWait();
+
+            return false;
+        }
+    }
+
+    /**
+     * Método que valida el campo propiedad
+     *
+     * @return
+     * @throws SQLException
+     */
+    private boolean validarPropiedad() {
+        String mensajeError = "";
+        String propiedad = txtPropiedad.getText();
+
+        if (CREACION_ITEM.equals(this.dialogStage.getTitle()) || MODIFICACION_ITEM.equals(this.dialogStage.getTitle())) {
+            // Validacion propiedad
+            if (propiedad == null || !ValidacionesGenerales.ValidarPropPhantom(propiedad)) {
+                mensajeError += "\nEl nombre de la propiedad debe contener como minimo 4 caracteres: Se aceptan letras mayúsculas, minúsculas, números, puntos y guiones. \n";
+            }
+            if (!propiedad.equals(this.itemPhantom.getDescripcion())) {
+                try {
+                    if (vd.buscaNombre(propiedad, "phantoms", phantomActual.getIdPhantom())) {
+                        mensajeError += "El nombre de la propiedad ya existe en el phantom: " + phantomActual.getPhantomNombre();
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(AbmPhantomController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            if (!ValidacionesGenerales.validarCaracteresRepetidos(propiedad)) {
+                mensajeError += "\nExisten caracteres repetidos.\n";
+            }
+
+        }
+
+        if (mensajeError.length() == 0) {
+            return true;
+        } else {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Error!");
+            alert.setHeaderText("Existe un error en los siguientes campos:");
+            alert.setContentText(mensajeError);
+            //txtPropiedad.requestFocus();
+            alert.showAndWait();
+            return false;
+        }
+
+    }
+
+    /**
+     * Método que valida el campo Valor
+     *
+     * @return
+     * @throws SQLException
+     */
+    private boolean validarValor() throws SQLException {
+        String mensajeError = "";
+        String valor = txtValor.getText();
+        if (CREACION_ITEM.equals(this.dialogStage.getTitle()) || MODIFICACION_ITEM.equals(this.dialogStage.getTitle())) {
+            // Validacion valor
+            if (valor == null || valor.length() == 0) {
+                mensajeError += "El campo Valor no puede estar vacio. \n";
+            } else {
+                try {
+                    int i = Integer.parseInt(valor);
+                    //int routine
+                    //Si puede se pasa el entero a Double. 
+                } catch (NumberFormatException e) {
+                    if (ValidacionesGenerales.ValidarNumericoFloat(valor)) {
+                        double d = Double.parseDouble(valor);
+                        if (d == 0.0) {
+                            mensajeError += "El campo Valor no debe ser 0.0 \n";
+                        }
+                        //Double routine 
+                    } else {
+                        mensajeError += "El campo Valor debe ser de tipo númerico separado por . (punto) "
+                                + "  Ej: 12.30, por favor no utilize , (coma) \n";
+                    }
+                }
+            }
+        }
+        if (mensajeError.length() == 0) {
+            return true;
+        } else {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Error!");
+            alert.setHeaderText("Existe un error en los siguientes campos:");
+            alert.setContentText(mensajeError);
+            //txtValor.requestFocus();
+            alert.showAndWait();
+            return false;
+        }
+
+    }
+
+    /**
+     * Método para validar el campo unidad.
+     *
+     * @return
+     * @throws SQLException
+     */
+    private boolean validarUnidad() throws SQLException {
+        String mensajeError = "";
+        String unidad = txtUnidad.getText();
+        if (CREACION_ITEM.equals(this.dialogStage.getTitle()) || MODIFICACION_ITEM.equals(this.dialogStage.getTitle())) {
+            // Validacion valor
+            if (unidad == null || unidad.length() == 0) {
+                mensajeError += "El campo Unidad es inválido. \n";
+            }
+        }
+        if (mensajeError.length() == 0) {
+            return true;
+        } else {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Error!");
+            alert.setHeaderText("Existe un error en los siguientes campos:");
+            alert.setContentText(mensajeError);
+            //  txtUnidad.requestFocus();
+            alert.showAndWait();
+            return false;
+        }
+
     }
 
     /**
@@ -444,23 +707,25 @@ public class AbmPhantomController implements Initializable {
         String unidad = txtUnidad.getText();
         String nombrePhantom = txtNombrePhantom.getText();
 
-        if ("Crear un Phantom".equals(this.dialogStage.getTitle()) || "Modificar nombre del Phantom".equals(this.dialogStage.getTitle())) {
-            if (!nombrePhantom.equals(phantomActual.getPhantomNombre())) { //Si es modo edicion, verifico que haya cambiado el nombre 
+        if (CREACION.equals(this.dialogStage.getTitle()) || MODIFICACION.equals(this.dialogStage.getTitle())) {
+            if (!nombrePhantom.equals(phantomActual.getPhantomNombre())) { //Al entrar al modo edicion. Si el nombre no cambia no valida
                 if (ph.buscaNombre(nombrePhantom) == false) {
                     mensajeError += "\nEl nombre ingresado para el phantom ya existe!\n";
                 }
-                if (!ValidacionesGenerales.ValidarNombrePhantom(nombrePhantom)) {
-                    mensajeError = "\nNombre de Phantom invalido";
-                }
-                if (!ValidacionesGenerales.validarCaracteresRepetidos(nombrePhantom)) {
-                    mensajeError += "\nExisten caracteres repetidos.\n";
-                }
             }
+            if (!ValidacionesGenerales.ValidarNombrePhantom(nombrePhantom)) {
+                mensajeError = "\nNombre de phantom inválido";
+            }
+            if (!ValidacionesGenerales.validarCaracteresRepetidos(nombrePhantom)) {
+                mensajeError += "\nExisten caracteres repetidos.\n";
+            }
+
         }
+
         if ("Agregar ítems".equals(this.dialogStage.getTitle()) || "Modificar ítems".equals(this.dialogStage.getTitle())) {
             if (!propiedad.equals(this.itemPhantom.getDescripcion())) {
-                if (vd.buscaNombre(propiedad, "radionuclidos", phantomActual.getIdPhantom())) {
-                    mensajeError += "El nombre de la propiedad ya existe en este Phantom. ";
+                if (vd.buscaNombre(propiedad, "phantoms", phantomActual.getIdPhantom())) {
+                    mensajeError += "El nombre de la propiedad ya existe en el phantom. ";
                 }
             }
             if (propiedad == null || !ValidacionesGenerales.ValidarPropPhantom(propiedad)) {
@@ -487,6 +752,14 @@ public class AbmPhantomController implements Initializable {
 
                     }
                 }
+
+            }
+
+            //Validacion Unidad. 
+            // Al no saber con ciencia cierta lo que el usuario seleccionara como unidad. Este campo solo valida que el 
+            // no este vacio o sin caracteres. 
+            if (unidad == null || unidad.length() == 0) {
+                mensajeError += "El campo Unidad es inválido. \n";
             }
         }
 
@@ -501,5 +774,17 @@ public class AbmPhantomController implements Initializable {
             return false;
         }
 
+    }
+
+    @FXML
+    public void IgnorarValidacion() {
+        //  System.out.println("IgnoraValidacion");
+        IgnorarValidacion = true;
+    }
+
+    @FXML
+    public void RetornarValidacion() {
+        // System.out.println("RetornaValidacion");
+        IgnorarValidacion = false;
     }
 }
