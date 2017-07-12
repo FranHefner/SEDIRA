@@ -541,6 +541,8 @@ public class PacienteController implements Initializable {
         txtFechaNacimiento.setEditable(false);
         griListaPacientes.setDisable(false);
 
+         btnCerrar.setDisable(false);
+         
         if (FuncionesGenerales.pacienteActual != null) {
             btnMediciones.setDisable(false);
             btnHistorialSEDIRA.setDisable(false);
@@ -583,6 +585,8 @@ public class PacienteController implements Initializable {
         //btnMediciones.setDisable(true);
         btnHistorialSEDIRA.setDisable(true);
         btnNuevo.setDisable(true);
+        
+        btnCerrar.setDisable(true);
 
     }
 
