@@ -122,22 +122,17 @@ public class AbmRadionuclidoController implements Initializable {
         });
 
         //Validacion al perder el Focus. 
-        txtRadNuclidoNombre.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue) {
-                UltimoFoco = 1;
-                if (!newPropertyValue && txtRadNuclidoNombre.getText().length() > 0 && IgnorarValidacion == false) {
-                    if (!validarNombreRadNuclido()) {
-                        txtRadNuclidoNombre.requestFocus();
-                    } else {
-                        // System.out.println("entro a validacion");
-                    }
-
+        txtRadNuclidoNombre.focusedProperty().addListener((ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue) -> {
+            UltimoFoco = 1;
+            if (!newPropertyValue && txtRadNuclidoNombre.getText().length() > 0 && IgnorarValidacion == false) {
+                if (!validarNombreRadNuclido()) {
+                    txtRadNuclidoNombre.requestFocus();
+                } else {
+                    // System.out.println("entro a validacion");
                 }
 
             }
-        }
-        );
+        });
 
         //Listener para la cantidad de caracteres en el nombre en las propiedades
         txtPropiedad.lengthProperty().addListener(new ChangeListener<Number>() {

@@ -140,7 +140,6 @@ public class AbmPhantomController implements Initializable {
                 if (newValue.intValue() > oldValue.intValue()) {
                     // Check if the new character is greater than LIMIT
                     if (txtPropiedad.getText().length() >= LIMIT_NOMBRE) {
-
                         txtPropiedad.setText(txtPropiedad.getText().substring(0, LIMIT_NOMBRE));
                     }
                 }
@@ -154,7 +153,7 @@ public class AbmPhantomController implements Initializable {
                 if (!newPropertyValue && txtPropiedad.getText().length() > 0 && IgnorarValidacion == false) {
                     if (validarPropiedad()) {
                         //validacion correcta
-                        System.out.println("Entro a validar propiedad");
+                      //  System.out.println("Entro a validar propiedad");
                     } else {
                         txtPropiedad.requestFocus();
                     }
@@ -184,7 +183,7 @@ public class AbmPhantomController implements Initializable {
                 if (!newPropertyValue && txtValor.getText().length() > 0 && IgnorarValidacion == false) {
                     try {
                         if (validarValor()) {
-                            System.out.println("Entro a validar valor");
+                        //    System.out.println("Entro a validar valor");
                         } else {
                             txtValor.requestFocus();
 
@@ -212,23 +211,23 @@ public class AbmPhantomController implements Initializable {
         });
         //Listener Validacion LostFocus Unidad 
         txtUnidad.focusedProperty().addListener(new ChangeListener<Boolean>() {
-                    @Override
-                    public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue) {
-                        UltimoFoco=4;
-                        if (!newPropertyValue && txtUnidad.getText().length() > 0 && IgnorarValidacion == false) {
-                                try {
-                                    if (validarUnidad()) {
-                                      System.out.println("Entro a validar unidad");
-                                    } else {
-                                        txtUnidad.requestFocus();
-                                    }
-                                } catch (SQLException ex) {
-                                    Logger.getLogger(AbmRadionuclidoController.class.getName()).log(Level.SEVERE, null, ex);
-                                }
-                            
+            @Override
+            public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue) {
+                UltimoFoco = 4;
+                if (!newPropertyValue &&IgnorarValidacion == false) {
+                    try {
+                        if (validarUnidad()) {
+                          //  System.out.println("Entro a validar unidad");
+                        } else {
+                            txtUnidad.requestFocus();
                         }
+                    } catch (SQLException ex) {
+                        Logger.getLogger(AbmRadionuclidoController.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                });
+
+                }
+            }
+        });
 
     }
 
@@ -528,16 +527,19 @@ public class AbmPhantomController implements Initializable {
             try {
                 if (!ph.buscaNombre(nombrePhantom) == true) {
                     mensajeError = "\nEl nombre del phantom ingresado ya existe!\n";
+                    
 
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(AbmRadionuclidoController.class.getName()).log(Level.SEVERE, null, ex);
             }
             if (!ValidacionesGenerales.ValidarNombrePhantom(nombrePhantom)) {
-                mensajeError = "\nNombre del phantom inválido \n Ejemplo: Yodo-131";
+                mensajeError = "\nNombre del phantom inválido.\n";
+                
             }
             if (!ValidacionesGenerales.validarCaracteresRepetidos(nombrePhantom)) {
                 mensajeError += "\nExisten caracteres repetidos.\n";
+                
             }
         }
 
@@ -554,7 +556,7 @@ public class AbmPhantomController implements Initializable {
             }
 
             if (!ValidacionesGenerales.ValidarNombrePhantom(nombrePhantom)) {
-                mensajeError = "\nNombre del phantom inválido \n Ejemplo: Yodo-131";
+                mensajeError = "\nNombre del phantom inválido.\n";
             }
             if (!ValidacionesGenerales.validarCaracteresRepetidos(nombrePhantom)) {
                 mensajeError += "\nExisten caracteres repetidos.\n";
@@ -708,11 +710,18 @@ public class AbmPhantomController implements Initializable {
         String nombrePhantom = txtNombrePhantom.getText();
 
         if (CREACION.equals(this.dialogStage.getTitle()) || MODIFICACION.equals(this.dialogStage.getTitle())) {
-            if (!nombrePhantom.equals(phantomActual.getPhantomNombre())) { //Al entrar al modo edicion. Si el nombre no cambia no valida
+            if (phantomActual != null) {
+                if (!nombrePhantom.equals(phantomActual.getPhantomNombre())) { //Al entrar al modo edicion. Si el nombre no cambia no valida
+                    if (ph.buscaNombre(nombrePhantom) == false) {
+                        mensajeError += "\nEl nombre ingresado para el phantom ya existe!\n";
+                    }
+                }
+            } else {
                 if (ph.buscaNombre(nombrePhantom) == false) {
                     mensajeError += "\nEl nombre ingresado para el phantom ya existe!\n";
                 }
             }
+
             if (!ValidacionesGenerales.ValidarNombrePhantom(nombrePhantom)) {
                 mensajeError = "\nNombre de phantom inválido";
             }
