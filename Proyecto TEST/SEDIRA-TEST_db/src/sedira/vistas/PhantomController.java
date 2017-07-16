@@ -291,7 +291,6 @@ public class PhantomController implements Initializable {
 
             // Creo el Stage para el Dialogo Editar. 
             Stage dialogStage = new Stage();
-            dialogStage.setTitle("Agregar Organo");
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.initOwner(primaryStage);
             Scene scene = new Scene(page);

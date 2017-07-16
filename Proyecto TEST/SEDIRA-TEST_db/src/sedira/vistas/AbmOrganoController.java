@@ -9,6 +9,8 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -65,13 +67,16 @@ public class AbmOrganoController implements Initializable {
     private IOrganoDAO org = new OrganoDAOsql();
     final private int LIMIT_NOMBRE = 45;
     final private int LIMIT_MASA = 14;
-
+    private static final String CREACION = "Agregar Órgano";
+    private static final String MODIFICACION = "Modificar Órgano";
+    private int UltimoFoco;
     ObservableList<String> data = FXCollections.observableArrayList();
     ListView<String> listaSugerida = new ListView<String>();
     FilteredList<String> filteredData;
     ObservableList<String> dataFiltrada = FXCollections.observableArrayList();
 
     boolean bandera = false;
+    private boolean IgnorarValidacion = false;
 
     /**
      * Initializes the controller class.
@@ -96,7 +101,22 @@ public class AbmOrganoController implements Initializable {
                 }
             }
         });
+        //Validacion perder el Focus. 
+      /*  txtOrganoNombre.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue) {
+                UltimoFoco = 1;
+                if (!newPropertyValue && txtOrganoNombre.getText().length() > 0 && IgnorarValidacion == false) {
+                    if (!validarNombreOrgano()) {
+                        txtOrganoNombre.requestFocus();
+                    } else {
+                        // System.out.println("entro a validacion");
+                    }
 
+                }
+
+            }
+        });*/
         //Listener para la cantidad de caracteres en el valor 
         txtOrganoMasa.lengthProperty().addListener(new ChangeListener<Number>() {
 
@@ -126,15 +146,14 @@ public class AbmOrganoController implements Initializable {
         this.dialogStage = dialogStage;
         dialogStage.initModality(Modality.APPLICATION_MODAL);
         dialogStage.setResizable(false);
-        
-        
+
         data = org.listadoOrganos();
         //Comportamiento de la lista sugerida. 
-        if (data.size()!=0){
-        listaSugerida.setItems(data);
-        }else{
-                listaSugerida.setItems(data);
-                listaSugerida.setVisible(false);
+        if (data.size() != 0) {
+            listaSugerida.setItems(data);
+        } else {
+            listaSugerida.setItems(data);
+            listaSugerida.setVisible(false);
         }
 
         txtOrganoNombre.textProperty().addListener(
@@ -146,11 +165,20 @@ public class AbmOrganoController implements Initializable {
                 (observable, oldValue, newValue) -> seleccionarItem(newValue));
     }
 
+    /**
+     * Método que controla la seleccion de un item.
+     *
+     * @param itemSeleccionado
+     */
     public void seleccionarItem(String itemSeleccionado) {
-            txtOrganoNombre.setText(itemSeleccionado);
-        
+        txtOrganoNombre.setText(itemSeleccionado);
     }
 
+    /**
+     * Método que controla la lista de sugerencias de nombres para los órganos.
+     *
+     * @param filtro
+     */
     private void actualizarListaSugerida(String filtro) {
         listaSugerida.getSelectionModel().clearSelection();
         //Comportamiento de la lista sugerida. 
@@ -165,10 +193,10 @@ public class AbmOrganoController implements Initializable {
 
         if (bandera == false) {
             if (filtro == null || filtro.length() == 0) {
-                if (data.size()!=0){
-                listaSugerida.setItems(data);
-                listaSugerida.setVisible(true);
-                }else{
+                if (data.size() != 0) {
+                    listaSugerida.setItems(data);
+                    listaSugerida.setVisible(true);
+                } else {
                     listaSugerida.setVisible(false);
                 }
             } else {
@@ -207,8 +235,27 @@ public class AbmOrganoController implements Initializable {
     public void setOrgano(Organo organo) {
         this.organo = organo;
         // lblOrganoId.setText("Id: " + String.valueOf(ConsultasDB.getNewIdOrgano()));
-        txtOrganoNombre.setText(this.organo.getNombreOrgano());
-        txtOrganoMasa.setText(String.valueOf(this.organo.getOrganMass()));
+        if (organo.getIdOrgano() != -1) {
+            /**
+             * Obtiene el organo seleccionado de la lista de organos.
+             */
+            dialogStage.setTitle(MODIFICACION);
+            txtOrganoNombre.setText(this.organo.getNombreOrgano());
+            txtOrganoMasa.setText(String.valueOf(this.organo.getOrganMass()));
+            //listaSugerida.setDisable(true);
+            //listaSugerida.setVisible(false);
+        } else {
+            /**
+             * Si el id==-1 se trata de un nuevo órgano.
+             */
+            dialogStage.setTitle(CREACION);
+            txtOrganoNombre.setText("");
+            txtOrganoMasa.setText("");
+            //listaSugerida.setDisable(true);
+            //listaSugerida.setVisible(false);
+
+        }
+
     }
 
     /**
@@ -255,7 +302,7 @@ public class AbmOrganoController implements Initializable {
         // La llamada a la base de datos se realiza desde PhantomController. Editar/Nuevo
         if (validarDatosEntrada()) {
 
-            if ("Agregar Organo".equals(this.dialogStage.getTitle())) {
+            if (CREACION.equals(this.dialogStage.getTitle())) {
 
                 organo.setNombreOrgano(NombreOrgano);
                 organo.setOrganMass(Double.valueOf(txtOrganoMasa.getText()));
@@ -287,15 +334,33 @@ public class AbmOrganoController implements Initializable {
     @FXML
     public void btnCancel_click() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Cancelar edición");
+        switch (dialogStage.getTitle()) {
+            case CREACION:
+                alert.setTitle("Cancelar creación");
+                alert.setHeaderText("Atención!");
+                alert.setContentText("Está seguro de cancelar la creación del órgano? ");
+                break;
+            case MODIFICACION:
+                alert.setTitle("Cancelar modificación");
+                alert.setHeaderText("Atención!");
+                alert.setContentText("Está seguro de cancelar la modificación del órgano? ");
+                break;
+        }
+
         alert.setHeaderText("Atención!");
         alert.setContentText("Esta seguro de cancelar la edición del órgano? ");
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK) {
+            IgnorarValidacion = true;
             dialogStage.close();
         } else {
-
+            if (UltimoFoco == 1) {
+                txtOrganoNombre.requestFocus();
+            }
+            if (UltimoFoco == 2) {
+                txtOrganoMasa.requestFocus();
+            }
         }
     }
 
@@ -319,22 +384,32 @@ public class AbmOrganoController implements Initializable {
     public boolean validarDatosEntrada() throws SQLException {
         String mensajeError = "";
         int idPhantom = phantom.getIdPhantom();
-        String nombre = txtOrganoNombre.getText();
+        String nombreOrgano = txtOrganoNombre.getText();
         String masa = txtOrganoMasa.getText();
 
-        // TODO. Validar los datos de entrada 
-        if (nombre == null || nombre.length() == 0) {
-            mensajeError += "Nombre del órgano invalido!\n";
+        if (CREACION.equals(this.dialogStage.getTitle()) || (MODIFICACION.equals(this.dialogStage.getTitle()))) {
+            if (!nombreOrgano.equals(organo.getNombreOrgano())) {
+                try {
+                    // verifico que si es modo edicion no entre en error por el nombre que no cambiara
+                    if (org.buscarReferenciaOrgano(organo.getIdOrgano()) == true) { //separacion modo edicion
+                        mensajeError += "El nombre del órgano ingresado ya existe en el phantom!\n";
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(AbmOrganoController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            if (!ValidacionesGenerales.ValidarNombreOrgano(nombreOrgano)) {
+                mensajeError = "\nNombre del órgano inválido.\n";
+
+            }
+            if (!ValidacionesGenerales.validarCaracteresRepetidos(nombreOrgano)) {
+                mensajeError += "\nExisten caracteres repetidos.\n";
+
+            }
         }
 
-        /*if (!"Editar Organo".equals(this.dialogStage.getTitle())) {
-
-            if (org.buscaNombre(nombre, idPhantom) == false) {
-                mensajeError += "El órgano que desea agregar ya existe! \n";
-            }
-        }*/
         if (masa == null || masa.length() == 0) {
-            mensajeError += "Valor inválido! \n";
+            mensajeError += "El campo peso no puede estar vacio. \n";
         } else {
             try {
                 int i = Integer.parseInt(masa);
@@ -345,12 +420,12 @@ public class AbmOrganoController implements Initializable {
                     double d = Double.parseDouble(masa);
                     if (d == 0.0) {
                         mensajeError += "El campo peso no debe ser 0.0 !\n"
-                                + "Por favor agrege un valor de peso correcto.";
+                                + "Por favor agrege un valor correcto.";
                     }
                     //double routine
 
                 } else {
-                    mensajeError += "El campo Masa debe ser númerico separado por . "
+                    mensajeError += "El campo peso debe ser númerico separado por . "
                             + "  Ej: 12.30 \n";
                     //throw new IllegalArgumentException();
                 }
@@ -372,4 +447,53 @@ public class AbmOrganoController implements Initializable {
 
     }
 
+    private boolean validarNombreOrgano() {
+        String mensajeError = "";
+        String nombreOrgano = txtOrganoNombre.getText();
+
+        if (CREACION.equals(this.dialogStage.getTitle()) || (MODIFICACION.equals(this.dialogStage.getTitle()))) {
+            if (!nombreOrgano.equals(organo.getNombreOrgano())) {
+                try {
+                    // verifico que si es modo edicion no entre en error por el nombre que no cambiara
+                    if (!org.buscarReferenciaOrgano(organo.getIdOrgano()) == true) { //separacion modo edicion
+                        mensajeError += "El nombre del órgano ingresado ya existe!\n";
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(AbmOrganoController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            if (!ValidacionesGenerales.ValidarNombreOrgano(nombreOrgano)) {
+                mensajeError = "\nNombre del órgano inválido.\n";
+
+            }
+            if (!ValidacionesGenerales.validarCaracteresRepetidos(nombreOrgano)) {
+                mensajeError += "\nExisten caracteres repetidos.\n";
+
+            }
+        }
+
+        if (mensajeError.length() == 0) {
+            return true;
+        } else {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Error!");
+            alert.setHeaderText("Existe un error en los siguientes campos:");
+            alert.setContentText(mensajeError);
+            alert.showAndWait();
+
+            return false;
+        }
+    }
+
+    @FXML
+    public void IgnorarValidacion() {
+        //  System.out.println("IgnoraValidacion");
+        IgnorarValidacion = true;
+    }
+
+    @FXML
+    public void RetornarValidacion() {
+        // System.out.println("RetornaValidacion");
+        IgnorarValidacion = false;
+    }
 }

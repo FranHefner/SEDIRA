@@ -251,10 +251,10 @@ public class OrganoDAOsql implements IOrganoDAO {
                 consulta.close();
                 //JOptionPane.showMessageDialog(null, "El radionúclido que desea insertar ya existe","Información",JOptionPane.INFORMATION_MESSAGE);
                 //System.out.println();
-                return true;
+                return false;
             } else {
                 //Si no hay coincidencias. o sea, la cantidad de tuplas es 0 entonces EL nombre no existe
-                return false;
+                return true;
             }
 
         } catch (SQLException e) {

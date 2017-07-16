@@ -351,7 +351,7 @@ public class AbmRadionuclidoController implements Initializable {
             listaSugerida.setDisable(true);
             listaSugerida.setVisible(false);
 
-            //apago los textFields.
+            //prendo los textFields.
             txtRadNuclidoNombre.setEditable(true);
             txtRadNuclidoNombre.setFocusTraversable(true);
 
