@@ -391,7 +391,7 @@ public class AbmOrganoController implements Initializable {
             if (!nombreOrgano.equals(organo.getNombreOrgano())) {
                 try {
                     // verifico que si es modo edicion no entre en error por el nombre que no cambiara
-                    if (org.buscarReferenciaOrgano(organo.getIdOrgano()) == true) { //separacion modo edicion
+                    if (org.buscarOrganoPhantom(idPhantom, nombreOrgano) == true) { //separacion modo edicion
                         mensajeError += "El nombre del órgano ingresado ya existe en el phantom!\n";
                     }
                 } catch (SQLException ex) {

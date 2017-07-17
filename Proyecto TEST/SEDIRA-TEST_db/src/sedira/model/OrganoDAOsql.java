@@ -39,15 +39,15 @@ public class OrganoDAOsql implements IOrganoDAO {
 
         try {
             conexion.getConnection().setAutoCommit(false);
-
+            //Prepara la consulta para insertar el organo en la tabla "Organos" 
             PreparedStatement sqlOrgano = conexion.getConnection().prepareStatement(
                     "  INSERT INTO organos ( id_organo, nombre ) "
                     + "  VALUES ( ?,? )");
-
+            //Si el Organo es nuevo, debe generar un nuevo ID 
             if (buscaNombre(nombreOrgano) == false) {
 
                 nuevoOrgano = true;
-
+                //GetLastId
                 PreparedStatement consultaObtenerIdOrgano = conexion.getConnection().prepareStatement(
                         "SELECT IFNULL(MAX(id_organo) + 1,1) AS SIGUIENTE FROM organos");
 
@@ -62,6 +62,8 @@ public class OrganoDAOsql implements IOrganoDAO {
                 sqlOrgano.setString(2, organo.getNombreOrgano());
 
                 sqlOrgano.executeUpdate();
+                
+            //Si el organo a existe en la tabla organos, se reutiliza. 
             } else {
                 PreparedStatement buscarId = conexion.getConnection().prepareStatement(
                         " SELECT id_organo FROM organos "
@@ -78,9 +80,9 @@ public class OrganoDAOsql implements IOrganoDAO {
 
             }
 
-            // JOptionPane.showMessageDialog(null, "La propiedad "+vd.getDescripcion()+ " fué agregada con éxito!","Información",JOptionPane.INFORMATION_MESSAGE);
+           //Una vez creado o reutilizado el organo se realiza la escritura de la relacion Organos-Phantoms 
             PreparedStatement sqlOrganoPhantom = conexion.getConnection().prepareStatement(
-                    " INSERT INTO organos_phantoms ( "                  
+                    " INSERT INTO organos_phantoms ( "
                     + " id_organo "
                     + " ,id_phantom "
                     + "  ,masa_organo "
@@ -215,10 +217,10 @@ public class OrganoDAOsql implements IOrganoDAO {
 
             // Mensaje de confirmacion
             /*Alert alerta = new Alert(Alert.AlertType.INFORMATION);
-            alerta.setTitle("Confirmación");
-            alerta.setHeaderText(null);
-            alerta.setContentText("El órgano fué eliminado. ");
-            alerta.showAndWait();*/
+             alerta.setTitle("Confirmación");
+             alerta.setHeaderText(null);
+             alerta.setContentText("El órgano fué eliminado. ");
+             alerta.showAndWait();*/
         } catch (SQLException e) {
             CodigosErrorSQL.analizarExepcion(e);
             //System.out.println("Ocurrió un error al eliminar el órgano \n" + e.getMessage());
@@ -251,10 +253,10 @@ public class OrganoDAOsql implements IOrganoDAO {
                 consulta.close();
                 //JOptionPane.showMessageDialog(null, "El radionúclido que desea insertar ya existe","Información",JOptionPane.INFORMATION_MESSAGE);
                 //System.out.println();
-                return false;
+                return true;
             } else {
                 //Si no hay coincidencias. o sea, la cantidad de tuplas es 0 entonces EL nombre no existe
-                return true;
+                return false;
             }
 
         } catch (SQLException e) {
@@ -297,6 +299,39 @@ public class OrganoDAOsql implements IOrganoDAO {
     }
 
     @Override
+    public boolean buscarOrganoPhantom(int idPhantom, String nombreOrgano) throws SQLException {
+        //Instancia de conexion
+        ConexionDB conexion = new ConexionDB();
+
+        try {
+            PreparedStatement consulta = conexion.getConnection().prepareStatement(
+                    " SELECT * FROM organos_phantoms  "
+                    + " INNER JOIN organos ON organos.id_organo = organos_phantoms.id_organo "
+                            + "WHERE organos_phantoms.id_phantom = ? "
+                            + "AND nombre = ?");
+
+            consulta.setInt(1, idPhantom);
+            consulta.setString(2,nombreOrgano);
+
+            ResultSet resultado = consulta.executeQuery();
+            if (resultado.next()) {
+                consulta.close();
+                //JOptionPane.showMessageDialog(null, "El radionúclido que desea insertar ya existe","Información",JOptionPane.INFORMATION_MESSAGE);
+                //System.out.println();
+                return true;
+            } else {
+                //Si no hay coincidencias. o sea, la cantidad de tuplas es 0 entonces EL nombre no existe
+                return false;
+            }
+
+        } catch (SQLException e) {
+            CodigosErrorSQL.analizarExepcion(e);
+            //System.out.println(e.getMessage());
+            //JOptionPane.showMessageDialog(null, "Ocurrio un error! " + e);
+            return false;
+        }
+    }
+    @Override
     public ObservableList listadoOrganos() {
 
         //Instancia de conexion
@@ -323,11 +358,11 @@ public class OrganoDAOsql implements IOrganoDAO {
             //JOptionPane.showMessageDialog(null, "Ocurrio un error! " + e);
 
         }
-        
+
         return listado;
-         
+
     }
-    
+
     @Override
     public ObservableList<ValorDescripcion> obtenerInfoOrgano(Organo organoSeleccionado, int Id_Phantom) {
         //Creo una lista auxiliar
@@ -338,19 +373,19 @@ public class OrganoDAOsql implements IOrganoDAO {
         int idOrgano = organoSeleccionado.getIdOrgano();
         try {
             PreparedStatement consulta = conexion.getConnection().prepareStatement(
-                     "   SELECT  "
-                     + "    VD.id_valordescripcion, "
-                     + "    VD.descripcion,"
-                     + "    VD.valor,"
-                     + "    VD.unidad"
-                     + " FROM "
-                     + "    organos_phantoms OP"
-                     + " JOIN organos_valordescripcion OVD"
-                     + "   ON OP.id_organo_phantom = OVD.id_organo_phantom "
-                     + " JOIN valordescripcion VD "
-                     + "   ON VD.id_valordescripcion = OVD.id_valordescripcion "
-                     + " WHERE OP.id_organo = " + idOrgano + "  AND OP.id_phantom ="+ Id_Phantom +";"     );           
-        
+                    "   SELECT  "
+                    + "    VD.id_valordescripcion, "
+                    + "    VD.descripcion,"
+                    + "    VD.valor,"
+                    + "    VD.unidad"
+                    + " FROM "
+                    + "    organos_phantoms OP"
+                    + " JOIN organos_valordescripcion OVD"
+                    + "   ON OP.id_organo_phantom = OVD.id_organo_phantom "
+                    + " JOIN valordescripcion VD "
+                    + "   ON VD.id_valordescripcion = OVD.id_valordescripcion "
+                    + " WHERE OP.id_organo = " + idOrgano + "  AND OP.id_phantom =" + Id_Phantom + ";");
+
             ResultSet resultado = consulta.executeQuery();
             while (resultado.next()) {
                 //Ojeto Aux de tipo ValorDescripcion.
@@ -379,10 +414,12 @@ public class OrganoDAOsql implements IOrganoDAO {
 
         return infoOrganoData;
     }
+
     /**
      * Método que obtiene el id de un organo en la relacion organos_phantoms.
+     *
      * @param idOrgano
-     * @return 
+     * @return
      */
     @Override
     public int obtenerIdOrganoPhantom(int idOrgano) {
@@ -393,15 +430,14 @@ public class OrganoDAOsql implements IOrganoDAO {
         int id = -1;
         try {
             PreparedStatement consulta = conexion.getConnection().prepareStatement(
-                     "SELECT id_organo_phantom FROM organos_phantoms "
-                             + "WHERE organos_phantoms.id_organo = ?");           
+                    "SELECT id_organo_phantom FROM organos_phantoms "
+                    + "WHERE organos_phantoms.id_organo = ?");
             consulta.setInt(1, idOrgano);
-            
+
             ResultSet resultado = consulta.executeQuery();
             while (resultado.next()) {
                 id = resultado.getInt("id_organo_phantom");
-                
-                
+
             }
             resultado.close();
             consulta.close();
@@ -417,5 +453,3 @@ public class OrganoDAOsql implements IOrganoDAO {
     }
 
 }
-        
-
