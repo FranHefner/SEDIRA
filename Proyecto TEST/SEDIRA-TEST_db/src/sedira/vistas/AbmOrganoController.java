@@ -77,7 +77,22 @@ public class AbmOrganoController implements Initializable {
 
     boolean bandera = false;
     private boolean IgnorarValidacion = false;
+  
 
+ 
+    @FXML
+    public void IgnorarValidacion() {
+
+        System.out.println("IgnoraValidacion");
+         IgnorarValidacion = true;
+    }
+    @FXML
+    public void RetornarValidacion() {
+
+       System.out.println("RetornaValidacion");
+        IgnorarValidacion = false;
+    }
+    
     /**
      * Initializes the controller class.
      *
@@ -86,6 +101,8 @@ public class AbmOrganoController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        
+        
         //Listener para la cantidad de caracteres en el nombre 
         txtOrganoNombre.lengthProperty().addListener(new ChangeListener<Number>() {
 
@@ -98,25 +115,84 @@ public class AbmOrganoController implements Initializable {
 
                         txtOrganoNombre.setText(txtOrganoNombre.getText().substring(0, LIMIT_NOMBRE));
                     }
+                    
                 }
             }
         });
-        //Validacion perder el Focus. 
-      /*  txtOrganoNombre.focusedProperty().addListener(new ChangeListener<Boolean>() {
+             txtOrganoNombre.textProperty().addListener(new ChangeListener<String>() {
             @Override
-            public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue) {
-                UltimoFoco = 1;
-                if (!newPropertyValue && txtOrganoNombre.getText().length() > 0 && IgnorarValidacion == false) {
-                    if (!validarNombreOrgano()) {
-                        txtOrganoNombre.requestFocus();
-                    } else {
-                        // System.out.println("entro a validacion");
-                    }
-
-                }
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {          
+                
+                  if (newValue.length() == 0)
+                    {
+                            actualizarListaSugerida(newValue);
+                    }                
 
             }
-        });*/
+        });
+            
+        
+    txtOrganoMasa.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue) {
+                UltimoFoco  = 2;
+                     String mensajeError = "";
+                  String masa = txtOrganoMasa.getText();
+                  
+                   
+                if (   !newPropertyValue && txtOrganoMasa.getText().length() > 0 && IgnorarValidacion == false) {
+                   System.out.println("ENTRO A LA VALIDACION");
+                    boolean ValidacionOK = true;
+                    String Error = "";
+
+                    
+                    if (masa == null || masa.length() == 0) {
+                        mensajeError += "El campo peso no puede estar vacio. \n";
+                    } else {
+                        try {
+                            int i = Integer.parseInt(masa);
+                            //int routine
+                            //Si puede se pasa el entero a Double. 
+                        } catch (NumberFormatException e) {
+                       
+                            if (ValidacionesGenerales.ValidarNumericoFloat(masa)) {
+                                double d = Double.parseDouble(masa);
+                                if (d == 0.0) {
+                                    mensajeError += "El campo peso no debe ser 0.0 !\n"
+                                            + "Por favor agrege un valor correcto.";
+                                            ValidacionOK = false;
+                                }
+                            
+
+                            } else {
+                                mensajeError += "El campo peso debe ser númerico separado por . "
+                                        + "  Ej: 12.30 \n";
+                                  ValidacionOK = false;
+                                //throw new IllegalArgumentException();
+                            }
+                        }
+
+                    }
+
+                   
+
+                    if (ValidacionOK == false) {
+                     
+                        Alert alert = new Alert(Alert.AlertType.WARNING);
+                        alert.setTitle("Validación");
+                        alert.setHeaderText(mensajeError);
+                        alert.setContentText(Error);
+                        alert.showAndWait();
+                      txtOrganoMasa.requestFocus();
+                    }
+                }else
+                {
+                      System.out.println(" NO   ENTRO A LA VALIDACION");
+                }
+            }
+        });
+  
+        
         //Listener para la cantidad de caracteres en el valor 
         txtOrganoMasa.lengthProperty().addListener(new ChangeListener<Number>() {
 
@@ -130,7 +206,18 @@ public class AbmOrganoController implements Initializable {
                         // if it's 11th character then just setText to previous
                         // one
                         txtOrganoMasa.setText(txtOrganoMasa.getText().substring(0, LIMIT_MASA));
-                    }
+                        /*
+                   IgnorarValidacion = true;
+                        Alert alert = new Alert(Alert.AlertType.WARNING);
+                        alert.setTitle("Validación");
+                        alert.setHeaderText("Se exedio en la cantidad de caracteres permitidos, el último caracter ingreso fué borrado");
+                        alert.setContentText("");
+                        alert.showAndWait();
+                              IgnorarValidacion = false;*/
+                        
+                    }                 
+                  
+                  
                 }
             }
         });
@@ -171,7 +258,13 @@ public class AbmOrganoController implements Initializable {
      * @param itemSeleccionado
      */
     public void seleccionarItem(String itemSeleccionado) {
-        txtOrganoNombre.setText(itemSeleccionado);
+        if ( itemSeleccionado !=null) {
+            txtOrganoNombre.setText(itemSeleccionado);
+            txtOrganoNombre.requestFocus();
+            txtOrganoNombre.positionCaret(txtOrganoNombre.getText().length());
+            System.out.print(txtOrganoNombre.getText() );
+        } 
+     
     }
 
     /**
@@ -485,15 +578,5 @@ public class AbmOrganoController implements Initializable {
         }
     }
 
-    @FXML
-    public void IgnorarValidacion() {
-        //  System.out.println("IgnoraValidacion");
-        IgnorarValidacion = true;
-    }
-
-    @FXML
-    public void RetornarValidacion() {
-        // System.out.println("RetornaValidacion");
-        IgnorarValidacion = false;
-    }
+    
 }
