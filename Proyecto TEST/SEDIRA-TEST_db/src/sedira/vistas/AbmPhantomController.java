@@ -270,9 +270,19 @@ public class AbmPhantomController implements Initializable {
         });
     }
 
+   
+    
     public void seleccionarItem(String itemSeleccionado) {
-        txtPropiedad.setText(itemSeleccionado);
+        if ( itemSeleccionado !=null) {
+            txtPropiedad.setText(itemSeleccionado);
+            txtPropiedad.requestFocus();
+            txtPropiedad.positionCaret(txtPropiedad.getText().length());
+         
+        } 
+     
     }
+
+    
 
     /**
      * Método que actualiza la lista de propiedades al completar el textField
