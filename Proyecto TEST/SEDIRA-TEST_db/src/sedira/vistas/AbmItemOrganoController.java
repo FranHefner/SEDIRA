@@ -97,6 +97,7 @@ public class AbmItemOrganoController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        
         btnLimpiarValores.setDisable(false);
         //Listener para la cantidad de caracteres en el nombre en las propiedades
         txtPropiedad.lengthProperty().addListener(new ChangeListener<Number>() {
@@ -116,7 +117,6 @@ public class AbmItemOrganoController implements Initializable {
 
         //Listener para la cantidad de caracteres en el nombre en el valor 
         txtValor.lengthProperty().addListener(new ChangeListener<Number>() {
-
             @Override
             public void changed(ObservableValue<? extends Number> observable,
                     Number oldValue, Number newValue) {

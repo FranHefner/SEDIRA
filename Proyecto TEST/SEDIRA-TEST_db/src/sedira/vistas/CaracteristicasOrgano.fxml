@@ -20,7 +20,7 @@
       </TableView>
       <HBox alignment="CENTER" layoutX="75.0" layoutY="451.0" prefHeight="25.0" prefWidth="337.0" spacing="20.0">
          <children>
-            <Button fx:id="btnAgregarItem" defaultButton="true" disable="true" mnemonicParsing="false" onAction="#btnAgregarItem" text="Agregar Item" />
+            <Button fx:id="btnAgregarItem" disable="true" mnemonicParsing="false" onAction="#btnAgregarItem" text="Agregar Item" />
             <Button fx:id="btnModificarItem" disable="true" mnemonicParsing="false" onAction="#btnModificarItem" text="Modificar Item" />
             <Button fx:id="btnEliminarItem" disable="true" mnemonicParsing="false" onAction="#btnEliminarItem" text="Eliminar Item" />
          </children>

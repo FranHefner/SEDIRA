@@ -54,8 +54,8 @@ public class AyudaController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
 
         lblInfoTitulo.setText("Sistema para estimar la dosis interna de radiación absorbida en tratamientos de medicina nuclear");
-        lblVersion.setText("Versión 5.0");
-        lblActualizacion.setText("Última actualización: 28/05/2017");
+        lblVersion.setText("Versión 5.1");
+        lblActualizacion.setText("Última actualización: 11/08/2017");
 
       
 

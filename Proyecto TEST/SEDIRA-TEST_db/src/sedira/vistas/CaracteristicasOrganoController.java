@@ -215,15 +215,14 @@ public class CaracteristicasOrganoController implements Initializable {
 
         // cargo el nuevo FXML para crear un ventana tipo PopUp
         try {
-
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(CaracteristicasOrganoController.class.getResource("AbmItemOrgano.fxml"));
             AnchorPane page = (AnchorPane) loader.load();
-
+            
             // Creo el Stage para el Dialogo Editar. 
             Stage dialogStage = new Stage();
             //dialogStage.setTitle("Modificar Items");
-            dialogStage.initModality(Modality.APPLICATION_MODAL);
+            dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.initOwner(primaryStage);
             Scene scene = new Scene(page);
             dialogStage.setScene(scene);
@@ -239,7 +238,6 @@ public class CaracteristicasOrganoController implements Initializable {
             //Return
             return controladorAbmItemOrgano.isGuardarDatosClicked();
         } catch (IOException e) {
-            
             return false;
         }
 
