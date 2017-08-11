@@ -198,7 +198,7 @@ public class ValidacionesGenerales {
      * @return
      */
     public static boolean ValidarNombreOrgano(String nombreOrgano) {
-        return nombreOrgano.matches("^[a-zA-Z0-9._-]{4,}$");
+        return nombreOrgano.matches("^[a-zA-Z0-9._-[ ]]{4,}$");
         //Caracteres A-Z, a-z, 0-9, . _ - Longitud mayor a 4 caracteres. 
 
     }

@@ -375,7 +375,7 @@ public class AbmPhantomController implements Initializable {
         this.itemPhantom = itemPhantom;
         if (itemPhantom.getId() != -1) {
 
-            this.dialogStage.setTitle(CREACION_ITEM);
+            this.dialogStage.setTitle(MODIFICACION_ITEM);
             txtNombrePhantom.setFocusTraversable(false);
             txtNombrePhantom.setEditable(false);
             txtNombrePhantom.setText(phantomActual.getPhantomNombre());
@@ -383,7 +383,7 @@ public class AbmPhantomController implements Initializable {
             txtValor.setText(String.valueOf(this.itemPhantom.getValor()));
             txtUnidad.setText(this.itemPhantom.getUnidad());
         } else {
-            this.dialogStage.setTitle(MODIFICACION_ITEM);
+            this.dialogStage.setTitle(CREACION_ITEM);
             txtNombrePhantom.setFocusTraversable(false);
             txtNombrePhantom.setEditable(false);
             txtNombrePhantom.setText(phantomActual.getPhantomNombre());

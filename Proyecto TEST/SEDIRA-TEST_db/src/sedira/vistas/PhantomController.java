@@ -251,7 +251,7 @@ public class PhantomController implements Initializable {
 
             // Creo el Stage para el Dialogo Editar. 
             Stage dialogStage = new Stage();
-            dialogStage.setTitle("Modificar ítems");
+            //dialogStage.setTitle("Modificar ítems");
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.initOwner(primaryStage);
             Scene scene = new Scene(page);
@@ -779,7 +779,7 @@ public class PhantomController implements Initializable {
         Parent root = FXMLLoader.load(getClass().getResource("CaracteristicasOrgano.fxml"));
         Scene scene = new Scene(root);
         stage.setScene(scene);
-        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initModality(Modality.APPLICATION_MODAL);
         stage.setTitle("Administrar caracteristicas del órgano");
         stage.setResizable(false);
         stage.show();

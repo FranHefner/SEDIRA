@@ -186,7 +186,7 @@ public class CaracteristicasOrganoController implements Initializable {
     @FXML
     public void btnEliminarItem() {
         
-              ValorDescripcion selectedItem = griValorDescripcion.getSelectionModel().getSelectedItem();
+        ValorDescripcion selectedItem = griValorDescripcion.getSelectionModel().getSelectedItem();
         int idItem = selectedItem.getId();
         vd.eliminarItem(idItem );
         
@@ -217,13 +217,13 @@ public class CaracteristicasOrganoController implements Initializable {
         try {
 
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(PhantomController.class.getResource("AbmItemOrgano.fxml"));
+            loader.setLocation(CaracteristicasOrganoController.class.getResource("AbmItemOrgano.fxml"));
             AnchorPane page = (AnchorPane) loader.load();
 
             // Creo el Stage para el Dialogo Editar. 
             Stage dialogStage = new Stage();
-            dialogStage.setTitle("Modificar Items");
-            dialogStage.initModality(Modality.WINDOW_MODAL);
+            //dialogStage.setTitle("Modificar Items");
+            dialogStage.initModality(Modality.APPLICATION_MODAL);
             dialogStage.initOwner(primaryStage);
             Scene scene = new Scene(page);
             dialogStage.setScene(scene);
@@ -239,6 +239,7 @@ public class CaracteristicasOrganoController implements Initializable {
             //Return
             return controladorAbmItemOrgano.isGuardarDatosClicked();
         } catch (IOException e) {
+            
             return false;
         }
 

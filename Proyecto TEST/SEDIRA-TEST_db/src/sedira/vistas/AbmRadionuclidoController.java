@@ -85,11 +85,11 @@ public class AbmRadionuclidoController implements Initializable {
     private IValorDescripcionDAO vd = new ValorDescripcionDAOsql();
 
     private static final int LIMIT_NOMBRE = 45;
-    private static final int LIMIT_NOMBREPHANTOM = 45;
+    private static final int LIMIT_NOMBRERADIONUCLIDO = 45;
     private static final int LIMIT_VALOR = 14;
     private static final int LIMIT_UNIDAD = 255;
-    private static final String CREACION = "Crear un Phantom";
-    private static final String MODIFICACION = "Modificar nombre del Phantom";
+    private static final String CREACION = "Crear un Radionúclido";
+    private static final String MODIFICACION = "Modificar nombre del Radionúclido";
     private static final String CREACION_ITEM = "Agregar ítems";
     private static final String MODIFICACION_ITEM = "Modificar ítems";
     

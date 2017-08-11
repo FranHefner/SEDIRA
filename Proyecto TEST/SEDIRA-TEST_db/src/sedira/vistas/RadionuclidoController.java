@@ -238,7 +238,7 @@ public class RadionuclidoController implements Initializable {
         // cargo el nuevo FXML para crear un ventana tipo PopUp
         try {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(PhantomController.class.getResource("AbmRadionuclido.fxml"));
+            loader.setLocation(RadionuclidoController.class.getResource("AbmRadionuclido.fxml"));
             AnchorPane page = (AnchorPane) loader.load();
 
             // Creo el Stage para el Dialogo Editar.

@@ -130,7 +130,21 @@ public class AbmOrganoController implements Initializable {
 
             }
         });
-            
+             
+             //Validacion al perder el Focus. 
+        txtOrganoNombre.focusedProperty().addListener((ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue) -> {
+            UltimoFoco = 1;
+            if (!newPropertyValue && txtOrganoNombre.getText().length() > 0 && IgnorarValidacion == false) {
+                if (!validarNombreOrgano()) {
+                    txtOrganoNombre.requestFocus();
+                } else {
+                    // System.out.println("entro a validacion");
+                }
+
+            }
+        });
+        
+                  
         
     txtOrganoMasa.focusedProperty().addListener(new ChangeListener<Boolean>() {
             @Override

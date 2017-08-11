@@ -9,6 +9,8 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -80,7 +82,9 @@ public class AbmItemOrganoController implements Initializable {
     private static int LIMIT_NOMBRE = 45;
     private static int LIMIT_VALOR = 14;
     private static int LIMIT_UNIDAD = 255;
-    
+
+    private static final String CREACION_ITEM = "Agregar ítems";
+    private static final String MODIFICACION_ITEM = "Modificar ítems";
 
     ObservableList<String> data;
     ListView listaSugerida = new ListView();
@@ -156,11 +160,11 @@ public class AbmItemOrganoController implements Initializable {
 
         data = vd.listadoPropiedades("organos");
         //Comportamiento de la lista sugerida. 
-        if (data.size()!=0){
-        listaSugerida.setItems(data);
-        }else{
-                listaSugerida.setItems(data);
-                listaSugerida.setVisible(false);
+        if (data.size() != 0) {
+            listaSugerida.setItems(data);
+        } else {
+            listaSugerida.setItems(data);
+            listaSugerida.setVisible(false);
         }
 
         txtPropiedad.textProperty().addListener(
@@ -207,10 +211,10 @@ public class AbmItemOrganoController implements Initializable {
 
         if (bandera == false) {
             if (filtro == null || filtro.length() == 0) {
-                if (data.size()!=0){
-                listaSugerida.setItems(data);
-                listaSugerida.setVisible(true);
-                }else{
+                if (data.size() != 0) {
+                    listaSugerida.setItems(data);
+                    listaSugerida.setVisible(true);
+                } else {
                     listaSugerida.setVisible(false);
                 }
             } else {
@@ -233,14 +237,27 @@ public class AbmItemOrganoController implements Initializable {
      * @param itemOrgano
      */
     public void setItemOrgano(ValorDescripcion itemOrgano) {
-        Organo organoActual = FuncionesGenerales.getOrganoActual();
+        organoActual = FuncionesGenerales.getOrganoActual();
         this.itemOrgano = itemOrgano;
-        txtNombreOrgano.setFocusTraversable(false);
-        txtNombreOrgano.setEditable(false);
-        txtNombreOrgano.setText(organoActual.getNombreOrgano());
-        txtPropiedad.setText(this.itemOrgano.getDescripcion());
-        txtValor.setText(String.valueOf(this.itemOrgano.getValor()));
-        txtUnidad.setText(this.itemOrgano.getUnidad());
+        if (itemOrgano.getId() != -1) {
+            this.dialogStage.setTitle(MODIFICACION_ITEM);
+            txtNombreOrgano.setFocusTraversable(false);
+            txtNombreOrgano.setEditable(false);
+            txtNombreOrgano.setText(organoActual.getNombreOrgano());
+            txtPropiedad.setText(this.itemOrgano.getDescripcion());
+            txtValor.setText(String.valueOf(this.itemOrgano.getValor()));
+            txtUnidad.setText(this.itemOrgano.getUnidad());
+        } else {
+
+            this.dialogStage.setTitle(CREACION_ITEM);
+            txtNombreOrgano.setFocusTraversable(false);
+            txtNombreOrgano.setEditable(false);
+            txtNombreOrgano.setText(organoActual.getNombreOrgano());
+            txtPropiedad.setText(this.itemOrgano.getDescripcion());
+            txtValor.setText(String.valueOf(this.itemOrgano.getValor()));
+            txtUnidad.setText(this.itemOrgano.getUnidad());
+
+        }
     }
 
     /**
@@ -266,7 +283,7 @@ public class AbmItemOrganoController implements Initializable {
             //Validacion preguntando si esta seguro guardar cambios.
             switch (dialogStage.getTitle()) {
 
-                case "Modificar Items":
+                case MODIFICACION_ITEM:
                     itemOrgano.setDescripcion(NombrePropiedad);
                     itemOrgano.setUnidad(txtUnidad.getText());
                     itemOrgano.setValor(txtValor.getText());
@@ -340,18 +357,125 @@ public class AbmItemOrganoController implements Initializable {
         String valor = txtValor.getText();
         String propiedad = txtPropiedad.getText();
         String unidad = txtUnidad.getText();
-        
-            
-            // Validacion propiedad
-            if (propiedad == null || propiedad.length() == 0) {
-                mensajeError += "El campo Propiedad no puede estar vacio. \n";
-            } else {
-                    if (vd.buscaNombre(propiedad, "organos",organoActual.getIdOrgano())){
-                    mensajeError += "La nombre de la propiedad ya existe. \n";
-                    } 
+
+        // Validacion propiedad
+        if (propiedad == null || propiedad.length() == 0) {
+            mensajeError += "El campo Propiedad no puede estar vacio. \n";
+        } else {
+            if (vd.buscaNombre(propiedad, "organos", organoActual.getIdOrgano())) {
+                mensajeError += "La nombre de la propiedad ya existe. \n";
+            }
+        }
+
+        //Validacion Valor
+        if (valor == null || valor.length() == 0) {
+            mensajeError += "El campo Valor no puede estar vacio. \n";
+        } else {
+            try {
+                int i = Integer.parseInt(valor);
+                //int routine
+                //Si puede se pasa el entero a Double. 
+            } catch (NumberFormatException e) {
+                if (ValidacionesGenerales.ValidarNumericoFloat(valor)) {
+                    double d = Double.parseDouble(valor);
+                    if (d == 0.0) {
+                        mensajeError += "El campo Valor no debe ser 0.0 \n";
+                    }
+                    //double routine
+
+                } else {
+                    mensajeError += "El campo Valor debe ser númerico separado por . (punto) "
+                            + "  Ej: 12.30 \n";
+                    //throw new IllegalArgumentException();
                 }
-            
-            //Validacion Valor
+            }
+
+        } //fin else valor
+
+        //Validacion Unidad. 
+        // Al no saber con ciencia cierta lo que el usuario seleccionara como unidad. Este campo solo valida que el 
+        // no este vacio o sin caracteres. 
+        if (unidad == null || unidad.length() == 0) {
+            mensajeError += "El campo Unidad es inválido! \n";
+        }
+
+        if (mensajeError.length() == 0) {
+            return true;
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error!");
+            alert.setHeaderText("Existe un error en los siguientes campos:");
+            alert.setContentText(mensajeError);
+            alert.showAndWait();
+            return false;
+        }
+
+    }
+
+    private boolean validarPropiedad() {
+        String mensajeError = "";
+        String propiedad = txtPropiedad.getText();
+        //Utilizacion de las mismas validaciones que radionuclido. 
+        if (CREACION_ITEM.equals(this.dialogStage.getTitle())) {
+            // Validacion propiedad
+            if (propiedad == null || !ValidacionesGenerales.ValidarPropRadNuclido(propiedad)) {
+                mensajeError += "\nEl nombre de la propiedad debe contener como minimo 4 caracteres: Se aceptan letras mayúsculas, minúsculas, números, puntos y guiones. \n";
+            }
+            if (!propiedad.equals(this.itemOrgano.getDescripcion())) {
+                try {
+                    if (vd.buscaNombre(propiedad, "organos", organoActual.getIdOrgano())) {
+                        mensajeError += "El nombre de la propiedad ya existe en el radionúclido: " + organoActual.getNombreOrgano();
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(AbmRadionuclidoController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+
+        }
+        if (MODIFICACION_ITEM.equals(this.dialogStage.getTitle())) {
+            // Validacion propiedad
+            if (propiedad == null || !ValidacionesGenerales.ValidarPropRadNuclido(propiedad)) {
+                mensajeError += "\nEl nombre de la propiedad debe contener como minimo 4 caracteres: Se aceptan letras mayúsculas, minúsculas, números, puntos y guiones. \n";
+            } else {
+                //Si el nombre no cambia en modo edicion
+                if (!propiedad.equals(this.itemOrgano.getDescripcion())) {
+                    try {
+                        if (vd.buscaNombre(propiedad, "organos", organoActual.getIdOrgano())) {
+                            mensajeError += "El nombre de la propiedad ya existe en el radionúclido: " + organoActual.getNombreOrgano();
+                        }
+                    } catch (SQLException ex) {
+                        Logger.getLogger(AbmRadionuclidoController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+
+            }
+        }
+        if (mensajeError.length() == 0) {
+            return true;
+        } else {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Error!");
+            alert.setHeaderText("Existe un error en los siguientes campos:");
+            alert.setContentText(mensajeError);
+            //txtPropiedad.requestFocus();
+            alert.showAndWait();
+
+            return false;
+        }
+
+    }
+
+    /**
+     * Método que valida el campo Valor
+     *
+     * @return
+     * @throws SQLException
+     */
+    private boolean validarValor() throws SQLException {
+        String mensajeError = "";
+        String valor = txtValor.getText();
+        if (CREACION_ITEM.equals(this.dialogStage.getTitle()) || MODIFICACION_ITEM.equals(this.dialogStage.getTitle())) {
+            // Validacion valor
             if (valor == null || valor.length() == 0) {
                 mensajeError += "El campo Valor no puede estar vacio. \n";
             } else {
@@ -365,32 +489,51 @@ public class AbmItemOrganoController implements Initializable {
                         if (d == 0.0) {
                             mensajeError += "El campo Valor no debe ser 0.0 \n";
                         }
-                        //double routine
-
+                        //Double routine 
                     } else {
-                        mensajeError += "El campo Valor debe ser númerico separado por . (punto) "
-                                + "  Ej: 12.30 \n";
-                        //throw new IllegalArgumentException();
+                        mensajeError += "El campo Valor debe ser de tipo númerico separado por . (punto) "
+                                + "  Ej: 12.30, por favor no utilize , (coma) \n";
                     }
                 }
-
-            } //fin else valor
-
-            //Validacion Unidad. 
-            // Al no saber con ciencia cierta lo que el usuario seleccionara como unidad. Este campo solo valida que el 
-            // no este vacio o sin caracteres. 
-            if (unidad == null || unidad.length() == 0) {
-                mensajeError += "El campo Unidad es inválido! \n";
             }
-        
-
+        }
         if (mensajeError.length() == 0) {
             return true;
         } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
+            Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Error!");
             alert.setHeaderText("Existe un error en los siguientes campos:");
             alert.setContentText(mensajeError);
+            //txtValor.requestFocus();
+            alert.showAndWait();
+            return false;
+        }
+
+    }
+
+    /**
+     * Método para validar el campo unidad.
+     *
+     * @return
+     * @throws SQLException
+     */
+    private boolean validarUnidad() throws SQLException {
+        String mensajeError = "";
+        String unidad = txtUnidad.getText();
+        if (CREACION_ITEM.equals(this.dialogStage.getTitle()) || MODIFICACION_ITEM.equals(this.dialogStage.getTitle())) {
+            // Validacion valor
+            if (unidad == null || unidad.length() == 0) {
+                mensajeError += "El campo Unidad es inválido. \n";
+            }
+        }
+        if (mensajeError.length() == 0) {
+            return true;
+        } else {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Error!");
+            alert.setHeaderText("Existe un error en los siguientes campos:");
+            alert.setContentText(mensajeError);
+            //  txtUnidad.requestFocus();
             alert.showAndWait();
             return false;
         }
