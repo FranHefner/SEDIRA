@@ -91,6 +91,8 @@ public class AbmItemOrganoController implements Initializable {
     FilteredList<String> filteredData;
     ObservableList<String> dataFiltrada = FXCollections.observableArrayList();
     boolean bandera = false;
+     private boolean IgnorarValidacion = false;
+      private int UltimoFoco;
 
     /**
      * Initializes the controller class.
@@ -98,23 +100,37 @@ public class AbmItemOrganoController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
-        btnLimpiarValores.setDisable(false);
+   //     btnLimpiarValores.setDisable(false);
         //Listener para la cantidad de caracteres en el nombre en las propiedades
+         //Listener para la cantidad de caracteres en el nombre en las propiedades
         txtPropiedad.lengthProperty().addListener(new ChangeListener<Number>() {
-
             @Override
             public void changed(ObservableValue<? extends Number> observable,
                     Number oldValue, Number newValue) {
                 if (newValue.intValue() > oldValue.intValue()) {
                     // Check if the new character is greater than LIMIT
                     if (txtPropiedad.getText().length() >= LIMIT_NOMBRE) {
-
                         txtPropiedad.setText(txtPropiedad.getText().substring(0, LIMIT_NOMBRE));
                     }
                 }
             }
         });
+        //Validacion al perder el Focus. 
+        txtPropiedad.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue) {
+                UltimoFoco = 2;
+                if (!newPropertyValue && txtPropiedad.getText().length() > 0 && IgnorarValidacion == false) {
+                    if (validarPropiedad()) {
+                        //validacion correcta
+                      //  System.out.println("Entro a validar propiedad");
+                    } else {
+                        txtPropiedad.requestFocus();
+                    }
 
+                }
+            }
+        });
         //Listener para la cantidad de caracteres en el nombre en el valor 
         txtValor.lengthProperty().addListener(new ChangeListener<Number>() {
             @Override
@@ -129,10 +145,28 @@ public class AbmItemOrganoController implements Initializable {
                 }
             }
         });
+        //Listener Validacion LostFocus Valor 
+        txtValor.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue) {
+                UltimoFoco = 3;
+                if (!newPropertyValue && txtValor.getText().length() > 0 && IgnorarValidacion == false) {
+                    try {
+                        if (validarValor()) {
+                        //    System.out.println("Entro a validar valor");
+                        } else {                          
+                           txtValor.requestFocus();
 
+                        }
+                    } catch (SQLException ex) {
+                        Logger.getLogger(AbmRadionuclidoController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                }
+            }
+        });
         //Listener para la cantidad de caracteres en el nombre en el campo unidad 
         txtUnidad.lengthProperty().addListener(new ChangeListener<Number>() {
-
             @Override
             public void changed(ObservableValue<? extends Number> observable,
                     Number oldValue, Number newValue) {
@@ -145,9 +179,40 @@ public class AbmItemOrganoController implements Initializable {
                 }
             }
         });
+        //Listener Validacion LostFocus Unidad 
+        txtUnidad.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue) {
+                UltimoFoco = 4;
+                if (!newPropertyValue && txtUnidad.getText().length() > 0&&IgnorarValidacion == false) {
+                    try {
+                        if (validarUnidad()) {
+                          //  System.out.println("Entro a validar unidad");
+                        } else {
+                            txtUnidad.requestFocus();
+                        }
+                    } catch (SQLException ex) {
+                        Logger.getLogger(AbmRadionuclidoController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                }
+            }
+        });
 
     }
 
+   @FXML
+    public void IgnorarValidacion() {
+
+        System.out.println("IgnoraValidacion");
+         IgnorarValidacion = true;
+    }
+    @FXML
+    public void RetornarValidacion() {
+
+       System.out.println("RetornaValidacion");
+        IgnorarValidacion = false;
+    }
     /**
      * Setea el Stage para este Formulario o Dialog.
      *
@@ -281,14 +346,14 @@ public class AbmItemOrganoController implements Initializable {
         // La llamada a la base de datos se realiza desde PhantomController. Editar/Nuevo
         if (validarDatosEntrada()) {
             //Validacion preguntando si esta seguro guardar cambios.
-            switch (dialogStage.getTitle()) {
+          //  switch (dialogStage.getTitle()) {
 
-                case MODIFICACION_ITEM:
+               // case MODIFICACION_ITEM:
                     itemOrgano.setDescripcion(NombrePropiedad);
                     itemOrgano.setUnidad(txtUnidad.getText());
                     itemOrgano.setValor(txtValor.getText());
-                    break;
-            }
+                //    break;
+          //  }
             // Si las validaciones son correctas se guardan los datos. 
 
             guardarDatos = true;
@@ -319,11 +384,22 @@ public class AbmItemOrganoController implements Initializable {
                 alert.setHeaderText("Atención!");
                 alert.setContentText("Está seguro de cancelar la modificación del órgano?");
                 break;
-        }
-        Optional<ButtonType> result = alert.showAndWait();
+        }      
+           Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK) {
+            IgnorarValidacion = true;
             dialogStage.close();
         } else {
+          
+            if (UltimoFoco == 2) {
+                txtPropiedad.requestFocus();
+            }
+            if (UltimoFoco == 3) {
+                txtValor.requestFocus();
+            }
+            if (UltimoFoco == 4) {
+                txtUnidad.requestFocus();
+            }
 
         }
     }
@@ -539,5 +615,6 @@ public class AbmItemOrganoController implements Initializable {
         }
 
     }
+ 
 
 }

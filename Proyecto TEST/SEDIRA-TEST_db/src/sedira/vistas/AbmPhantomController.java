@@ -214,7 +214,7 @@ public class AbmPhantomController implements Initializable {
             @Override
             public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue) {
                 UltimoFoco = 4;
-                if (!newPropertyValue &&IgnorarValidacion == false) {
+                if (!newPropertyValue && txtUnidad.getText().length() > 0  &&IgnorarValidacion == false) {
                     try {
                         if (validarUnidad()) {
                           //  System.out.println("Entro a validar unidad");

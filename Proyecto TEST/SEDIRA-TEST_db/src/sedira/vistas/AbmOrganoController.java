@@ -135,12 +135,30 @@ public class AbmOrganoController implements Initializable {
         txtOrganoNombre.focusedProperty().addListener((ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue) -> {
             UltimoFoco = 1;
             if (!newPropertyValue && txtOrganoNombre.getText().length() > 0 && IgnorarValidacion == false) {
-                if (!validarNombreOrgano()) {
-                    txtOrganoNombre.requestFocus();
-                } else {
-                    // System.out.println("entro a validacion");
+             
+                try {
+                    if (!org.buscarOrganoPhantom(phantom.getIdPhantom(), txtOrganoNombre.getText())) {
+                       
+                    } else {
+                        
+                        Alert alert = new Alert(Alert.AlertType.WARNING);
+                        alert.setTitle("Validación");
+                        alert.setHeaderText("El nombre del órgano ingresado ya existe en el phantom!\n");
+                        alert.setContentText("");
+                        alert.showAndWait();
+                         txtOrganoNombre.requestFocus();
+                     
+                    }   
+                } catch (SQLException ex) {
+                    
+                        Alert alert = new Alert(Alert.AlertType.WARNING);
+                        alert.setTitle("Validación");
+                        alert.setHeaderText("Ocurrío un error al realizar la validación\n");
+                        alert.setContentText("");
+                        alert.showAndWait();
+                        
+                    Logger.getLogger(AbmOrganoController.class.getName()).log(Level.SEVERE, null, ex);
                 }
-
             }
         });
         
