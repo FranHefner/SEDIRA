@@ -88,7 +88,7 @@ public class AbmPhantomController implements Initializable {
     private static final String MODIFICACION = "Modificar nombre del Phantom";
     private static final String CREACION_ITEM = "Agregar ítems";
     private static final String MODIFICACION_ITEM = "Modificar ítems";
-
+    
     ObservableList<String> data;
     ListView listaSugerida = new ListView();
     FilteredList<String> filteredData;
@@ -102,6 +102,7 @@ public class AbmPhantomController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        txtValor.setText("");
         //Listener para la cantidad de caracteres en el nombre del phantom
         txtNombrePhantom.lengthProperty().addListener(new ChangeListener<Number>() {
             @Override
@@ -109,9 +110,8 @@ public class AbmPhantomController implements Initializable {
                     Number oldValue, Number newValue) {
                 if (newValue.intValue() > oldValue.intValue()) {
                     // Check if the new character is greater than LIMIT
-                    if (txtPropiedad.getText().length() >= LIMIT_NOMBREPHANTOM) {
-
-                        txtPropiedad.setText(txtPropiedad.getText().substring(0, LIMIT_NOMBREPHANTOM));
+                    if (txtNombrePhantom.getText().length() >= LIMIT_NOMBREPHANTOM) {
+                        txtNombrePhantom.setText(txtNombrePhantom.getText().substring(0, LIMIT_NOMBREPHANTOM));
                     }
                 }
             }
@@ -153,7 +153,7 @@ public class AbmPhantomController implements Initializable {
                 if (!newPropertyValue && txtPropiedad.getText().length() > 0 && IgnorarValidacion == false) {
                     if (validarPropiedad()) {
                         //validacion correcta
-                      //  System.out.println("Entro a validar propiedad");
+                        //  System.out.println("Entro a validar propiedad");
                     } else {
                         txtPropiedad.requestFocus();
                     }
@@ -183,7 +183,7 @@ public class AbmPhantomController implements Initializable {
                 if (!newPropertyValue && txtValor.getText().length() > 0 && IgnorarValidacion == false) {
                     try {
                         if (validarValor()) {
-                        //    System.out.println("Entro a validar valor");
+                            //    System.out.println("Entro a validar valor");
                         } else {
                             txtValor.requestFocus();
 
@@ -214,10 +214,10 @@ public class AbmPhantomController implements Initializable {
             @Override
             public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue) {
                 UltimoFoco = 4;
-                if (!newPropertyValue && txtUnidad.getText().length() > 0  &&IgnorarValidacion == false) {
+                if (!newPropertyValue && txtUnidad.getText().length() > 0 && IgnorarValidacion == false) {
                     try {
                         if (validarUnidad()) {
-                          //  System.out.println("Entro a validar unidad");
+                            //  System.out.println("Entro a validar unidad");
                         } else {
                             txtUnidad.requestFocus();
                         }
@@ -270,19 +270,15 @@ public class AbmPhantomController implements Initializable {
         });
     }
 
-   
-    
     public void seleccionarItem(String itemSeleccionado) {
-        if ( itemSeleccionado !=null) {
+        if (itemSeleccionado != null) {
             txtPropiedad.setText(itemSeleccionado);
             txtPropiedad.requestFocus();
             txtPropiedad.positionCaret(txtPropiedad.getText().length());
-         
-        } 
-     
-    }
 
-    
+        }
+
+    }
 
     /**
      * Método que actualiza la lista de propiedades al completar el textField
@@ -388,7 +384,7 @@ public class AbmPhantomController implements Initializable {
             txtNombrePhantom.setEditable(false);
             txtNombrePhantom.setText(phantomActual.getPhantomNombre());
             txtPropiedad.setText(this.itemPhantom.getDescripcion());
-            txtValor.setText(String.valueOf(this.itemPhantom.getValor()));
+            txtValor.setText("");
             txtUnidad.setText(this.itemPhantom.getUnidad());
         }
     }
@@ -470,12 +466,12 @@ public class AbmPhantomController implements Initializable {
             case MODIFICACION_ITEM:
                 alert.setTitle("Cancelar modificación");
                 alert.setHeaderText("Atención!");
-                alert.setContentText("Está seguro de cancelar la modificación del phantom?");
+                alert.setContentText("Está seguro de cancelar la modificación de la propiedad?");
                 break;
             case CREACION_ITEM:
-                alert.setTitle("Cancelar creación del phantom");
+                alert.setTitle("Cancelar creación de la propiedad");
                 alert.setHeaderText("Atención!");
-                alert.setContentText("Está seguro de cancelar la modificación del phantom? ");
+                alert.setContentText("Está seguro de cancelar la creación de la propiedad? ");
                 break;
         }
         Optional<ButtonType> result = alert.showAndWait();
@@ -536,20 +532,18 @@ public class AbmPhantomController implements Initializable {
         if (CREACION.equals((this.dialogStage.getTitle()))) {
             try {
                 if (!ph.buscaNombre(nombrePhantom) == true) {
-                    mensajeError = "\nEl nombre del phantom ingresado ya existe!\n";
-                    
-
+                    mensajeError += "\nEl nombre del phantom ingresado ya existe!\n";
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(AbmRadionuclidoController.class.getName()).log(Level.SEVERE, null, ex);
             }
             if (!ValidacionesGenerales.ValidarNombrePhantom(nombrePhantom)) {
-                mensajeError = "\nNombre del phantom inválido.\n";
-                
+                mensajeError += "\nNombre del phantom inválido. Debe tener mas de 3 caracteres\n";
+
             }
-            if (!ValidacionesGenerales.validarCaracteresRepetidos(nombrePhantom)) {
+            if (ValidacionesGenerales.validarCaracteresRepetidos(nombrePhantom)) {
                 mensajeError += "\nExisten caracteres repetidos.\n";
-                
+
             }
         }
 
@@ -566,9 +560,9 @@ public class AbmPhantomController implements Initializable {
             }
 
             if (!ValidacionesGenerales.ValidarNombrePhantom(nombrePhantom)) {
-                mensajeError = "\nNombre del phantom inválido.\n";
+                mensajeError += "\nNombre del phantom inválido. Debe tener mas de 3 caracteres\n";
             }
-            if (!ValidacionesGenerales.validarCaracteresRepetidos(nombrePhantom)) {
+            if (ValidacionesGenerales.validarCaracteresRepetidos(nombrePhantom)) {
                 mensajeError += "\nExisten caracteres repetidos.\n";
             }
         }
@@ -598,20 +592,24 @@ public class AbmPhantomController implements Initializable {
 
         if (CREACION_ITEM.equals(this.dialogStage.getTitle()) || MODIFICACION_ITEM.equals(this.dialogStage.getTitle())) {
             // Validacion propiedad
-            if (propiedad == null || !ValidacionesGenerales.ValidarPropPhantom(propiedad)) {
-                mensajeError += "\nEl nombre de la propiedad debe contener como minimo 4 caracteres: Se aceptan letras mayúsculas, minúsculas, números, puntos y guiones. \n";
-            }
-            if (!propiedad.equals(this.itemPhantom.getDescripcion())) {
-                try {
-                    if (vd.buscaNombre(propiedad, "phantoms", phantomActual.getIdPhantom())) {
-                        mensajeError += "El nombre de la propiedad ya existe en el phantom: " + phantomActual.getPhantomNombre();
-                    }
-                } catch (SQLException ex) {
-                    Logger.getLogger(AbmPhantomController.class.getName()).log(Level.SEVERE, null, ex);
+            if (propiedad == null || propiedad.length() == 0) {
+                mensajeError += "El campo propiedad no puede estar vacio. \n";
+            } else {
+                if (!ValidacionesGenerales.ValidarPropPhantom(propiedad)) {
+                    mensajeError += "\nEl nombre de la propiedad debe contener como minimo 4 caracteres: Se aceptan letras mayúsculas, minúsculas, números, puntos y guiones. \n";
                 }
-            }
-            if (!ValidacionesGenerales.validarCaracteresRepetidos(propiedad)) {
-                mensajeError += "\nExisten caracteres repetidos.\n";
+                if (!propiedad.equals(this.itemPhantom.getDescripcion())) {
+                    try {
+                        if (vd.buscaNombre(propiedad, "phantoms", phantomActual.getIdPhantom())) {
+                            mensajeError += "El nombre de la propiedad ya existe en el phantom: " + phantomActual.getPhantomNombre();
+                        }
+                    } catch (SQLException ex) {
+                        Logger.getLogger(AbmPhantomController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                if (ValidacionesGenerales.validarCaracteresRepetidos(propiedad)) {
+                    mensajeError += "\nExisten caracteres repetidos.\n";
+                }
             }
 
         }
@@ -733,22 +731,29 @@ public class AbmPhantomController implements Initializable {
             }
 
             if (!ValidacionesGenerales.ValidarNombrePhantom(nombrePhantom)) {
-                mensajeError = "\nNombre de phantom inválido";
+                mensajeError += "Nombre del phantom inválido. Debe tener mas de 3 caracteres";
             }
-            if (!ValidacionesGenerales.validarCaracteresRepetidos(nombrePhantom)) {
+            if (ValidacionesGenerales.validarCaracteresRepetidos(nombrePhantom)) {
                 mensajeError += "\nExisten caracteres repetidos.\n";
             }
 
         }
 
-        if ("Agregar ítems".equals(this.dialogStage.getTitle()) || "Modificar ítems".equals(this.dialogStage.getTitle())) {
-            if (!propiedad.equals(this.itemPhantom.getDescripcion())) {
-                if (vd.buscaNombre(propiedad, "phantoms", phantomActual.getIdPhantom())) {
-                    mensajeError += "El nombre de la propiedad ya existe en el phantom. ";
+        if (CREACION_ITEM.equals(this.dialogStage.getTitle()) || MODIFICACION_ITEM.equals(this.dialogStage.getTitle())) {
+            if (propiedad == null || propiedad.length() == 0) {
+                mensajeError += "El campo propiedad no puede estar vacio. \n";
+            } else {
+                if (!propiedad.equals(this.itemPhantom.getDescripcion())) {
+                    if (vd.buscaNombre(propiedad, "phantoms", phantomActual.getIdPhantom())) {
+                        mensajeError += "El nombre de la propiedad ya existe en el phantom. ";
+                    }
                 }
-            }
-            if (propiedad == null || !ValidacionesGenerales.ValidarPropPhantom(propiedad)) {
-                mensajeError += "\nEl nombre de la propiedad debe contener como minimo 4 caracteres: Se aceptan letras mayúsculas, minúsculas, números, puntos y guiones. \n";
+                if (propiedad == null || !ValidacionesGenerales.ValidarPropPhantom(propiedad)) {
+                    mensajeError += "\nEl nombre de la propiedad debe contener como minimo 4 caracteres: Se aceptan letras mayúsculas, minúsculas, números, puntos y guiones. \n";
+                }
+                if (ValidacionesGenerales.validarCaracteresRepetidos(propiedad)) {
+                    mensajeError += "\nExisten caracteres repetidos.\n";
+                }
             }
             //Validacion Valor
             if (valor == null || valor.length() == 0) {
