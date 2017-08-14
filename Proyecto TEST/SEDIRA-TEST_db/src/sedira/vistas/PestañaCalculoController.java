@@ -556,10 +556,11 @@ public class PestañaCalculoController implements Initializable {
                 if (VariableRepetida){
                     
                       Alert alert = new Alert(Alert.AlertType.WARNING);
-                      alert.setTitle("Propiedad Utilizada");
+                      alert.setTitle("Propiedad utilizada");
                       alert.setHeaderText("Atención!");
-                      alert.setContentText("La variable seleccionada ya se encuentra en la lista de variables del calculo");
+                      alert.setContentText("La variable seleccionada ya se encuentra en la lista de variables del cálculo");
                       alert.show();
+                      
                 }                    
                 else
                 {
