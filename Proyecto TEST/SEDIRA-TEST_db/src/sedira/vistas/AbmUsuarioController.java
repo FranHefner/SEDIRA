@@ -358,7 +358,7 @@ public class AbmUsuarioController implements Initializable {
             }
 
         }
-        if (!ValidacionesGenerales.validarCaracteresRepetidos(nombreUsuario)) {
+        if (ValidacionesGenerales.validarCaracteresRepetidos(nombreUsuario)) {
             mensajeError += "\nExisten caracteres repetidos.\n";
         }
         if (mensajeError.length() == 0) {

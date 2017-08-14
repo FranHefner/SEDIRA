@@ -543,7 +543,7 @@ public class AbmRadionuclidoController implements Initializable {
             if (!ValidacionesGenerales.ValidarNombreRadNuclido(nombreRadNuclido)) {
                 mensajeError = "\nNombre del radionúclido inválido \n Ejemplo: Yodo-131";
             }
-            if (!ValidacionesGenerales.validarCaracteresRepetidos(nombreRadNuclido)) {
+            if (ValidacionesGenerales.validarCaracteresRepetidos(nombreRadNuclido)) {
                 mensajeError += "\nExisten caracteres repetidos.\n";
             }
         }
@@ -553,7 +553,7 @@ public class AbmRadionuclidoController implements Initializable {
                     mensajeError += "El nombre de radionúclido ingresado ya existe!\n";
                 }
             }
-            if (!ValidacionesGenerales.validarCaracteresRepetidos(nombreRadNuclido)) {
+            if (ValidacionesGenerales.validarCaracteresRepetidos(nombreRadNuclido)) {
                 mensajeError += "\nExisten caracteres repetidos.\n";
             }
         }
@@ -694,7 +694,7 @@ public class AbmRadionuclidoController implements Initializable {
             if (!ValidacionesGenerales.ValidarNombreRadNuclido(nombreRadNuclido)) {
                 mensajeError = "\nNombre del radionúclido inválido \n Ejemplo: Yodo-131";
             }
-            if (!ValidacionesGenerales.validarCaracteresRepetidos(nombreRadNuclido)) {
+            if (ValidacionesGenerales.validarCaracteresRepetidos(nombreRadNuclido)) {
                 mensajeError += "\nExisten caracteres repetidos.\n";
             }
         }
@@ -714,7 +714,7 @@ public class AbmRadionuclidoController implements Initializable {
             if (!ValidacionesGenerales.ValidarNombreRadNuclido(nombreRadNuclido)) {
                 mensajeError = "\nNombre del radionúclido inválido \n Ejemplo: Yodo-131";
             }
-            if (!ValidacionesGenerales.validarCaracteresRepetidos(nombreRadNuclido)) {
+            if (ValidacionesGenerales.validarCaracteresRepetidos(nombreRadNuclido)) {
                 mensajeError += "\nExisten caracteres repetidos.\n";
             }
         }
