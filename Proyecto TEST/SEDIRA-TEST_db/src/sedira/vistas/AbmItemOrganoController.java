@@ -500,7 +500,7 @@ public class AbmItemOrganoController implements Initializable {
             if (!propiedad.equals(this.itemOrgano.getDescripcion())) {
                 try {
                     if (vd.buscaNombre(propiedad, "organos", organoActual.getIdOrgano())) {
-                        mensajeError += "El nombre de la propiedad ya existe en el radionúclido: " + organoActual.getNombreOrgano();
+                        mensajeError += "El nombre de la propiedad ya existe en el órgano: " + organoActual.getNombreOrgano();
                     }
                 } catch (SQLException ex) {
                     Logger.getLogger(AbmRadionuclidoController.class.getName()).log(Level.SEVERE, null, ex);
@@ -517,7 +517,7 @@ public class AbmItemOrganoController implements Initializable {
                 if (!propiedad.equals(this.itemOrgano.getDescripcion())) {
                     try {
                         if (vd.buscaNombre(propiedad, "organos", organoActual.getIdOrgano())) {
-                            mensajeError += "El nombre de la propiedad ya existe en el radionúclido: " + organoActual.getNombreOrgano();
+                            mensajeError += "El nombre de la propiedad ya existe en el órgano: " + organoActual.getNombreOrgano();
                         }
                     } catch (SQLException ex) {
                         Logger.getLogger(AbmRadionuclidoController.class.getName()).log(Level.SEVERE, null, ex);
