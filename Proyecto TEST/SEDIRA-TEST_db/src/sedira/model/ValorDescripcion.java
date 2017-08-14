@@ -21,6 +21,7 @@ public class ValorDescripcion {
        StringProperty unidad;
      
      
+     
        
     /**
      * 
@@ -59,6 +60,7 @@ public class ValorDescripcion {
     public StringProperty  descripcionProperty (){
         return descripcion;
     }
+    
     public String getValor() {
         return valor.get();
     }
