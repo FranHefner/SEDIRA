@@ -83,13 +83,13 @@ public class AbmOrganoController implements Initializable {
     @FXML
     public void IgnorarValidacion() {
 
-        System.out.println("IgnoraValidacion");
+        //System.out.println("IgnoraValidacion");
          IgnorarValidacion = true;
     }
     @FXML
     public void RetornarValidacion() {
 
-       System.out.println("RetornaValidacion");
+       //System.out.println("RetornaValidacion");
         IgnorarValidacion = false;
     }
     
@@ -137,6 +137,7 @@ public class AbmOrganoController implements Initializable {
             if (!newPropertyValue && txtOrganoNombre.getText().length() > 0 && IgnorarValidacion == false) {
              
                 try {
+                    //usar la funcion buscaNombre
                     if (!org.buscarOrganoPhantom(phantom.getIdPhantom(), txtOrganoNombre.getText())) {
                        
                     } else {
@@ -173,7 +174,7 @@ public class AbmOrganoController implements Initializable {
                   
                    
                 if (   !newPropertyValue && txtOrganoMasa.getText().length() > 0 && IgnorarValidacion == false) {
-                   System.out.println("ENTRO A LA VALIDACION");
+                   //System.out.println("ENTRO A LA VALIDACION");
                     boolean ValidacionOK = true;
                     String Error = "";
 
@@ -219,7 +220,7 @@ public class AbmOrganoController implements Initializable {
                     }
                 }else
                 {
-                      System.out.println(" NO   ENTRO A LA VALIDACION");
+                      //System.out.println(" NO   ENTRO A LA VALIDACION");
                 }
             }
         });
@@ -294,7 +295,7 @@ public class AbmOrganoController implements Initializable {
             txtOrganoNombre.setText(itemSeleccionado);
             txtOrganoNombre.requestFocus();
             txtOrganoNombre.positionCaret(txtOrganoNombre.getText().length());
-            System.out.print(txtOrganoNombre.getText() );
+            //System.out.print(txtOrganoNombre.getText() );
         } 
      
     }
@@ -472,9 +473,6 @@ public class AbmOrganoController implements Initializable {
                 break;
         }
 
-        alert.setHeaderText("Atención!");
-        alert.setContentText("Esta seguro de cancelar la edición del órgano? ");
-
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK) {
             IgnorarValidacion = true;
@@ -524,10 +522,10 @@ public class AbmOrganoController implements Initializable {
                 }
             }
             if (!ValidacionesGenerales.ValidarNombreOrgano(nombreOrgano)) {
-                mensajeError = "\nNombre del órgano inválido.\n";
+                mensajeError += "\nNombre del órgano inválido.\n";
 
             }
-            if (!ValidacionesGenerales.validarCaracteresRepetidos(nombreOrgano)) {
+            if (ValidacionesGenerales.validarCaracteresRepetidos(nombreOrgano)) {
                 mensajeError += "\nExisten caracteres repetidos.\n";
 
             }
@@ -575,12 +573,13 @@ public class AbmOrganoController implements Initializable {
     private boolean validarNombreOrgano() {
         String mensajeError = "";
         String nombreOrgano = txtOrganoNombre.getText();
+         int idPhantom = phantom.getIdPhantom();
 
         if (CREACION.equals(this.dialogStage.getTitle()) || (MODIFICACION.equals(this.dialogStage.getTitle()))) {
             if (!nombreOrgano.equals(organo.getNombreOrgano())) {
                 try {
                     // verifico que si es modo edicion no entre en error por el nombre que no cambiara
-                    if (!org.buscarReferenciaOrgano(organo.getIdOrgano()) == true) { //separacion modo edicion
+                    if (org.buscarOrganoPhantom(idPhantom, nombreOrgano) == true) { 
                         mensajeError += "El nombre del órgano ingresado ya existe!\n";
                     }
                 } catch (SQLException ex) {
@@ -588,7 +587,7 @@ public class AbmOrganoController implements Initializable {
                 }
             }
             if (!ValidacionesGenerales.ValidarNombreOrgano(nombreOrgano)) {
-                mensajeError = "\nNombre del órgano inválido.\n";
+                mensajeError += "\nNombre del órgano inválido.\n";
 
             }
             if (!ValidacionesGenerales.validarCaracteresRepetidos(nombreOrgano)) {

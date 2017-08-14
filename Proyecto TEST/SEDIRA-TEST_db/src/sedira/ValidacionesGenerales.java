@@ -144,7 +144,7 @@ public class ValidacionesGenerales {
      * @return
      */
     public static boolean ValidarPropRadNuclido(String propiedad) {
-        return propiedad.matches("^[a-zA-Z0-9._-]{4,}$");
+        return propiedad.matches("^[a-zA-Z0-9._-ñÑáéíóúÁÉÍÓÚ[ ][ ]]{4,}$");
         //Caracteres A-Z, a-z, 0-9, . _ - Longitud mayor a 4 caracteres. 
 
     }
@@ -155,7 +155,7 @@ public class ValidacionesGenerales {
      * @return
      */
     public static boolean ValidarPropPhantom(String propiedad) {
-        return propiedad.matches("^[a-zA-Z0-9._-]{4,}$");
+        return propiedad.matches("^[a-zA-Z0-9._-ñÑáéíóúÁÉÍÓÚ[ ][ ]]{4,}$");
         //Caracteres A-Z, a-z, 0-9, . _ - Longitud mayor a 4 caracteres. 
 
     }
@@ -187,8 +187,8 @@ public class ValidacionesGenerales {
      * @return
      */
     public static boolean ValidarNombrePhantom(String nombrePhantom) {
-        return nombrePhantom.matches("^[a-zA-Z0-9._-]{4,}$");
-        //Caracteres A-Z, a-z, 0-9, . _ - Longitud mayor a 4 caracteres. 
+        return nombrePhantom.matches("^[a-zA-Z0-9._-ñÑáéíóúÁÉÍÓÚ[ ]]{3,}$");
+        //Caracteres A-Z, a-z, 0-9, . _ - Longitud mayor a 3 caracteres. 
 
     }
      /**
@@ -198,8 +198,8 @@ public class ValidacionesGenerales {
      * @return
      */
     public static boolean ValidarNombreOrgano(String nombreOrgano) {
-        return nombreOrgano.matches("^[a-zA-Z0-9._-[ ]]{4,}$");
-        //Caracteres A-Z, a-z, 0-9, . _ - Longitud mayor a 4 caracteres. 
+        return nombreOrgano.matches("^[a-zA-Z0-9._-ñÑáéíóúÁÉÍÓÚ[ ][ ]]{3,}$");
+        //Caracteres A-Z, a-z, 0-9, . _ - Longitud mayor a 3 caracteres. 
 
     }
     /**
@@ -233,12 +233,12 @@ public class ValidacionesGenerales {
                 variableAnterior = palabra.charAt(x);
                 contadorCharRepetido = 0;
             }
-            if (contadorCharRepetido > 3) {
-                return false;
+            if (contadorCharRepetido >= 2) {
+                return true;
 
             }
         }
-        return true;
+        return false;
     }
 
     }
