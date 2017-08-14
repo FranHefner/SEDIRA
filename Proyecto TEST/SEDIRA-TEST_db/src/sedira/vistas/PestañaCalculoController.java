@@ -244,7 +244,7 @@ public class PestañaCalculoController implements Initializable {
                 public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                     if (txtActividad.getText().length() > 0) {
 
-                        ValorDescripcion Actividad = new ValorDescripcion(1, "Actividad", txtActividad.getText(), "Bq");
+                        ValorDescripcion Actividad = new ValorDescripcion(1, "AP_Actividad", txtActividad.getText(), "Bq");
                         variableSeleccionada = Actividad;
                     } else {
                         variableSeleccionada = null;
@@ -256,19 +256,25 @@ public class PestañaCalculoController implements Initializable {
     @FXML
     public void seleccionPropiedadPhantom(ValorDescripcion datoSeleccionado) {
 
+      
         variableSeleccionada = datoSeleccionado;
 
     }
 
     @FXML
     public void seleccionPropiedadRadionuclido(ValorDescripcion datoSeleccionado) {
+        
+         
 
         variableSeleccionada = datoSeleccionado;
+        
+       // variableSeleccionada.setDescripcion( "R_"+ variableSeleccionada );
 
     }
     
     @FXML
     public void seleccionPropiedadOrgano(ValorDescripcion datoSeleccionado) {
+         
 
         variableSeleccionada = datoSeleccionado;
 
@@ -519,7 +525,7 @@ public class PestañaCalculoController implements Initializable {
 
     @FXML
     public void agregarVariables() {
-
+            Boolean VariableRepetida= false;
         encontrarVariableLibre();
 
         if (variableSeleccionada == null) {
@@ -536,20 +542,47 @@ public class PestañaCalculoController implements Initializable {
             alert.setHeaderText("Atención!");
             alert.setContentText("No es posible agregar más variables al cálculo");
             alert.show();
-        } else {
+        } 
+        else {
 
-            VariableCalculo nuevaVariable = new VariableCalculo(variableSeleccionada.getId(), variableSeleccionada.getDescripcion(), variableSeleccionada.getValor(), String.valueOf(letra++));
+                    
+                for (VariableCalculo Variable : listaVariables) {
 
-            listaVariables.add(nuevaVariable);
+                    if (Variable.getId() == variableSeleccionada.getId()) {
 
-            //griVariables.refresh();
-            griVariables.setItems(listaVariables);
+                       VariableRepetida = true;
+                    }
+                }
+                if (VariableRepetida){
+                    
+                      Alert alert = new Alert(Alert.AlertType.WARNING);
+                      alert.setTitle("Propiedad Utilizada");
+                      alert.setHeaderText("Atención!");
+                      alert.setContentText("La variable seleccionada ya se encuentra en la lista de variables del calculo");
+                      alert.show();
+                }                    
+                else
+                {
+                    
+                    VariableCalculo nuevaVariable = new VariableCalculo(variableSeleccionada.getId(), variableSeleccionada.getDescripcion(), variableSeleccionada.getValor(), String.valueOf(letra++));
 
-            griValorDescripcionRadionuclido.getSelectionModel().clearSelection();
-            griValorDescripcionPhantom.getSelectionModel().clearSelection();
-            griValorDescripcionOrgano.getSelectionModel().clearSelection();
-            variableSeleccionada = null;
-            ReiniciarTextoEntrada();
+                    listaVariables.add(nuevaVariable);              
+
+                    //griVariables.refresh();
+                    griVariables.setItems(listaVariables);
+
+                    griValorDescripcionRadionuclido.getSelectionModel().clearSelection();
+                    griValorDescripcionPhantom.getSelectionModel().clearSelection();
+                    griValorDescripcionOrgano.getSelectionModel().clearSelection();
+                    variableSeleccionada = null;
+                    ReiniciarTextoEntrada();
+
+                }
+                      
+                    
+              
+                
+
         }
 
     }
