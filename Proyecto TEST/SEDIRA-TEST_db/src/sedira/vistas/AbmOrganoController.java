@@ -334,6 +334,7 @@ public class AbmOrganoController implements Initializable {
      * Método llamado al momento de que el usuario presiona Guardar datos .
      * Guarda los datos cargados por el usuario en el phantom correspondiente.
      * Antes, valida que los datos sean correctos.
+     * @throws java.sql.SQLException
      */
     @FXML
     public void btnGuardarDatos() throws SQLException {
@@ -460,6 +461,10 @@ public class AbmOrganoController implements Initializable {
         } else {
             try {
                 int i = Integer.parseInt(masa);
+                if (i == 0) {
+                        mensajeError += "El campo peso no debe ser 0 !\n"
+                                + "Por favor agrege un valor correcto.";
+                    }
                 //int routine
                 //Si puede se pasa el entero a Double. 
             } catch (NumberFormatException e) {

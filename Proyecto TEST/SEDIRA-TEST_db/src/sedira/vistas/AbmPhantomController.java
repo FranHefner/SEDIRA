@@ -748,7 +748,7 @@ public class AbmPhantomController implements Initializable {
                         mensajeError += "El nombre de la propiedad ya existe en el phantom. ";
                     }
                 }
-                if (propiedad == null || !ValidacionesGenerales.ValidarPropPhantom(propiedad)) {
+                if (!ValidacionesGenerales.ValidarPropPhantom(propiedad)) {
                     mensajeError += "\nEl nombre de la propiedad debe contener como minimo 4 caracteres: Se aceptan letras mayúsculas, minúsculas, números, puntos y guiones. \n";
                 }
                 if (ValidacionesGenerales.validarCaracteresRepetidos(propiedad)) {
