@@ -112,7 +112,6 @@ public class ValidacionesGenerales {
         }
         return true;
     }
-
     /**
      * Método para validar nombres de usuario.
      *
@@ -124,7 +123,6 @@ public class ValidacionesGenerales {
         //Caracteres A-Z, a-z, 0-9, . _ - Longitud mayor a 5 caracteres. 
 
     }
-
     /**
      * Método para validar contraseñas.
      *
@@ -136,7 +134,6 @@ public class ValidacionesGenerales {
         //Caracteres A-Z, a-z, 0-9, . _ - Longitud mayor a 5 caracteres. 
 
     }
-
     /**
      * Método para validar propiedades radionúclidos.
      *
@@ -159,7 +156,6 @@ public class ValidacionesGenerales {
         //Caracteres A-Z, a-z, 0-9, . _ - Longitud mayor a 4 caracteres. 
 
     }
-
     /**
      * Método que controla si un nombre es aceptado. En este caso acepta
      * espacios entre caracteres. Utiliza expresiones regulares.
@@ -171,21 +167,23 @@ public class ValidacionesGenerales {
         return Nombre.matches("^[\\p{L} '-]+$");
 
     }
-
     public static boolean ValidarNumericoFloat(String Numero) {
         return Numero.matches("-?\\d+(\\.\\d+)?");
     }
-
+    /**
+     * Método de validación para los nombres de los radionúclidos. 
+     * @param Numero
+     * @return 
+     */
     public static boolean ValidarNombreRadNuclido(String Numero) {
         return Numero.matches("[a-z,A-Z]*-[0-9]*{4,}");
     }
-    
-     /**
-     * Método para validar nombres de Phantoms .
-     *
-     * @param nombrePhantom
-     * @return
-     */
+    /**
+    * Método para validar nombres de Phantoms .
+    *
+    * @param nombrePhantom
+    * @return
+    */
     public static boolean ValidarNombrePhantom(String nombrePhantom) {
         return nombrePhantom.matches("^[a-zA-Z0-9._-ñÑáéíóúÁÉÍÓÚ[ ]]{3,}$");
         //Caracteres A-Z, a-z, 0-9, . _ - Longitud mayor a 3 caracteres. 
@@ -216,7 +214,7 @@ public class ValidacionesGenerales {
             return false;
         }
     }
-/**
+    /**
  * Método que valida si hay mas de 3 caracteres repetidos. 
  * 
  * @param palabra
@@ -240,8 +238,9 @@ public class ValidacionesGenerales {
         }
         return false;
     }
+    
+  }
 
-    }
 
     // regex para email 
     // ^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$  

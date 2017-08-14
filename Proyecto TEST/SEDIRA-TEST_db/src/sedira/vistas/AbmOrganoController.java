@@ -124,80 +124,46 @@ public class AbmOrganoController implements Initializable {
                 }
             }
         });
-
         //Validacion al perder el Focus en el nombre de organo. 
-        txtOrganoNombre.focusedProperty().addListener((ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue) -> {
-            UltimoFoco = 1;
-            if (!newPropertyValue && txtOrganoNombre.getText().length() > 0 && IgnorarValidacion == false) {
-                if (validarNombreOrgano()) {
+        txtOrganoNombre.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue) {
+                UltimoFoco = 1;
+                if (!newPropertyValue && txtOrganoNombre.getText().length() > 0 && IgnorarValidacion == false) {
+                    if (validarNombreOrgano()) {
                         //validacion correcta
                         //  System.out.println("Entro a validar el organo");
                     } else {
                         txtOrganoNombre.requestFocus();
                     }
+                }
             }
         });
-
+        //Validacion perder focus en campo campo masa
         txtOrganoMasa.focusedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue) {
                 UltimoFoco = 2;
-                String mensajeError = "";
-                String masa = txtOrganoMasa.getText();
-
                 if (!newPropertyValue && txtOrganoMasa.getText().length() > 0 && IgnorarValidacion == false) {
-                    //System.out.println("ENTRO A LA VALIDACION");
-                    boolean ValidacionOK = true;
-                    String Error = "";
+                    try {
+                        if (validarMasa()) {
 
-                    if (masa == null || masa.length() == 0) {
-                        mensajeError += "El campo peso no puede estar vacio. \n";
-                    } else {
-                        try {
-                            int i = Integer.parseInt(masa);
-                            //int routine
-                            //Si puede se pasa el entero a Double. 
-                        } catch (NumberFormatException e) {
-
-                            if (ValidacionesGenerales.ValidarNumericoFloat(masa)) {
-                                double d = Double.parseDouble(masa);
-                                if (d == 0.0) {
-                                    mensajeError += "El campo peso no debe ser 0.0 !\n"
-                                            + "Por favor agrege un valor correcto.";
-                                    ValidacionOK = false;
-                                }
-
-                            } else {
-                                mensajeError += "El campo peso debe ser númerico separado por . "
-                                        + "  Ej: 12.30 \n";
-                                ValidacionOK = false;
-                                //throw new IllegalArgumentException();
-                            }
+                        } else {
+                            txtOrganoMasa.requestFocus();
                         }
-
+                    } catch (SQLException ex) {
+                        Logger.getLogger(AbmOrganoController.class.getName()).log(Level.SEVERE, null, ex);
                     }
 
-                    if (ValidacionOK == false) {
-
-                        Alert alert = new Alert(Alert.AlertType.WARNING);
-                        alert.setTitle("Validación");
-                        alert.setHeaderText(mensajeError);
-                        alert.setContentText(Error);
-                        alert.showAndWait();
-                        txtOrganoMasa.requestFocus();
-                    }
-                } else {
-                    //System.out.println(" NO   ENTRO A LA VALIDACION");
                 }
             }
-        });
 
-        //Listener para la cantidad de caracteres en el valor 
+        });
+        //Listener para la cantidad de caracteres en el masa 
         txtOrganoMasa.lengthProperty().addListener(new ChangeListener<Number>() {
 
             @Override
-            public void changed(ObservableValue<? extends Number> observable,
-                    Number oldValue, Number newValue) {
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                 if (newValue.intValue() > oldValue.intValue()) {
                     // Check if the new character is greater than LIMIT
                     if (txtOrganoMasa.getText().length() >= LIMIT_MASA) {
@@ -205,14 +171,6 @@ public class AbmOrganoController implements Initializable {
                         // if it's 11th character then just setText to previous
                         // one
                         txtOrganoMasa.setText(txtOrganoMasa.getText().substring(0, LIMIT_MASA));
-                        /*
-                         IgnorarValidacion = true;
-                         Alert alert = new Alert(Alert.AlertType.WARNING);
-                         alert.setTitle("Validación");
-                         alert.setHeaderText("Se exedio en la cantidad de caracteres permitidos, el último caracter ingreso fué borrado");
-                         alert.setContentText("");
-                         alert.showAndWait();
-                         IgnorarValidacion = false;*/
 
                     }
 
@@ -481,6 +439,7 @@ public class AbmOrganoController implements Initializable {
                     // verifico que si es modo edicion no entre en error por el nombre que no cambiara
                     if (org.buscarOrganoPhantom(idPhantom, nombreOrgano) == true) { //separacion modo edicion
                         mensajeError += "El nombre del órgano ingresado ya existe en el phantom!\n";
+                        txtOrganoNombre.requestFocus();
                     }
                 } catch (SQLException ex) {
                     Logger.getLogger(AbmOrganoController.class.getName()).log(Level.SEVERE, null, ex);
@@ -488,11 +447,11 @@ public class AbmOrganoController implements Initializable {
             }
             if (!ValidacionesGenerales.ValidarNombreOrgano(nombreOrgano)) {
                 mensajeError += "\nNombre del órgano inválido. Debe tener mas de 3 caracteres\n";
-
+                txtOrganoNombre.requestFocus();
             }
             if (ValidacionesGenerales.validarCaracteresRepetidos(nombreOrgano)) {
                 mensajeError += "\nExisten caracteres repetidos.\n";
-
+                txtOrganoNombre.requestFocus();
             }
         }
 
@@ -513,8 +472,8 @@ public class AbmOrganoController implements Initializable {
                     //double routine
 
                 } else {
-                    mensajeError += "El campo peso debe ser númerico separado por . "
-                            + "  Ej: 12.30 \n";
+                    mensajeError += "El campo Peso debe ser de tipo númerico separado por . (punto) "
+                            + "  Ej: 12.30, por favor no utilize , (coma) \n";
                     //throw new IllegalArgumentException();
                 }
             }
@@ -524,7 +483,7 @@ public class AbmOrganoController implements Initializable {
         if (mensajeError.length() == 0) {
             return true;
         } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
+            Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Error!");
             alert.setHeaderText("Existe un error en los siguientes campos:");
             alert.setContentText(mensajeError);
@@ -535,6 +494,11 @@ public class AbmOrganoController implements Initializable {
 
     }
 
+    /**
+     * Método que valida el nombre de un órgano. Es utilizado en el LostFocus.
+     *
+     * @return
+     */
     private boolean validarNombreOrgano() {
         String mensajeError = "";
         String nombreOrgano = txtOrganoNombre.getText();
@@ -546,6 +510,7 @@ public class AbmOrganoController implements Initializable {
                     // verifico que si es modo edicion no entre en error por el nombre que no cambiara
                     if (org.buscarOrganoPhantom(idPhantom, nombreOrgano) == true) {
                         mensajeError += "El nombre del órgano ingresado ya existe!\n";
+
                     }
                 } catch (SQLException ex) {
                     Logger.getLogger(AbmOrganoController.class.getName()).log(Level.SEVERE, null, ex);
@@ -572,6 +537,58 @@ public class AbmOrganoController implements Initializable {
 
             return false;
         }
+    }
+
+    /**
+     * Método que valida el campo masa de un organo. Es utilizado en el
+     * LostFocus
+     *
+     * @return
+     * @throws SQLException
+     */
+    private boolean validarMasa() throws SQLException {
+        String mensajeError = "";
+        String masa = txtOrganoMasa.getText();
+        if (CREACION.equals(this.dialogStage.getTitle()) || MODIFICACION.equals(this.dialogStage.getTitle())) {
+            // Validacion valor
+            if (masa == null || masa.length() == 0) {
+                mensajeError += "El campo Peso no puede estar vacio. \n";
+            } else {
+                try {
+                    int i = Integer.parseInt(masa);
+                    //int routine
+                    //Si puede se pasa el entero a Double. 
+                    if (i == 0) {
+                        mensajeError += "El campo peso no debe ser 0 !\n"
+                                + "Por favor agrege un valor correcto.";
+                    }
+                } catch (NumberFormatException e) {
+                    if (ValidacionesGenerales.ValidarNumericoFloat(masa)) {
+                        double d = Double.parseDouble(masa);
+                        if (d == 0.0) {
+                            mensajeError += "El campo peso no debe ser 0 !\n"
+                                    + "Por favor agrege un valor correcto.";
+                        }
+                        //Double routine 
+                    } else {
+                        mensajeError += "El campo Peso debe ser de tipo númerico separado por . (punto) "
+                                + "  Ej: 12.30, por favor no utilize , (coma) \n";
+                    }
+                }
+            }
+        }
+        if (mensajeError.length() == 0) {
+            return true;
+        } else {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Error!");
+            alert.setHeaderText("Existe un error en los siguientes campos:");
+            alert.setContentText(mensajeError);
+            //txtValor.requestFocus();
+            alert.showAndWait();
+            return false;
+        }
+
     }
 
 }
