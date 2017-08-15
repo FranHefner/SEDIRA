@@ -646,6 +646,10 @@ public class AbmPhantomController implements Initializable {
                     int i = Integer.parseInt(valor);
                     //int routine
                     //Si puede se pasa el entero a Double. 
+                    if (i == 0) {
+                        mensajeError += "El campo peso no debe ser 0 !\n"
+                                + "Por favor agrege un valor correcto.";
+                    }
                 } catch (NumberFormatException e) {
                     if (ValidacionesGenerales.ValidarNumericoFloat(valor)) {
                         double d = Double.parseDouble(valor);
@@ -790,7 +794,7 @@ public class AbmPhantomController implements Initializable {
         if (mensajeError.length() == 0) {
             return true;
         } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
+            Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Error!");
             alert.setHeaderText("Existe un error en los siguientes campos:");
             alert.setContentText(mensajeError);
