@@ -244,7 +244,7 @@ public class PestañaCalculoController implements Initializable {
                 public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                     if (txtActividad.getText().length() > 0) {
 
-                        ValorDescripcion Actividad = new ValorDescripcion(1, "Actividad", txtActividad.getText(), "Bq");
+                        ValorDescripcion Actividad = new ValorDescripcion(1, "AP_Actividad", txtActividad.getText(), "Bq");
                         variableSeleccionada = Actividad;
                     } else {
                         variableSeleccionada = null;
@@ -257,16 +257,37 @@ public class PestañaCalculoController implements Initializable {
     public void seleccionPropiedadPhantom(ValorDescripcion datoSeleccionado) {
 
       
-        variableSeleccionada = datoSeleccionado;       
+      //  variableSeleccionada = datoSeleccionado;       
+          if (datoSeleccionado != null)
+         {
+             
+          variableSeleccionada = new ValorDescripcion(datoSeleccionado.getId(),"P_"+ datoSeleccionado.getDescripcion(),datoSeleccionado.getValor(),datoSeleccionado.getUnidad());
+          
+         }
 
     }
 
     @FXML
     public void seleccionPropiedadRadionuclido(ValorDescripcion datoSeleccionado) {
         
-         
-
-        variableSeleccionada = datoSeleccionado;
+        // String Descripcion = "R_"+ datoSeleccionado.getDescripcion();
+        
+         if (datoSeleccionado != null)
+         {
+             
+          variableSeleccionada = new ValorDescripcion(datoSeleccionado.getId(),"R_"+ datoSeleccionado.getDescripcion(),datoSeleccionado.getValor(),datoSeleccionado.getUnidad());
+          
+         }
+                    
+              /*       public ValorDescripcion(int id, String descripcion, String valor, String unidad)
+              variableSeleccionada.setUnidad(datoSeleccionado.getUnidad());
+        variableSeleccionada.setDescripcion("R_"+ datoSeleccionado.getDescripcion());
+         variableSeleccionada.setId(datoSeleccionado.getId());
+        
+           variableSeleccionada.setValor(datoSeleccionado.getValor());
+        */
+        
+   //     variableSeleccionada = datoSeleccionado;
         
        // variableSeleccionada.setDescripcion( "R_"+ variableSeleccionada );
 
@@ -275,8 +296,13 @@ public class PestañaCalculoController implements Initializable {
     @FXML
     public void seleccionPropiedadOrgano(ValorDescripcion datoSeleccionado) {
          
-
-        variableSeleccionada = datoSeleccionado;
+         if (datoSeleccionado != null)
+         {
+             
+          variableSeleccionada = new ValorDescripcion(datoSeleccionado.getId(),"O_"+ datoSeleccionado.getDescripcion(),datoSeleccionado.getValor(),datoSeleccionado.getUnidad());
+          
+         }
+     //   variableSeleccionada = datoSeleccionado;
 
     }
      
@@ -287,7 +313,7 @@ public class PestañaCalculoController implements Initializable {
       
         if (txtActividad.getText().length() > 0) {
 
-            ValorDescripcion Actividad = new ValorDescripcion(1, "Actividad", txtActividad.getText(), "Act");
+            ValorDescripcion Actividad = new ValorDescripcion(1, "AP_Actividad", txtActividad.getText(), "Act");
 
             variableSeleccionada = Actividad;
         }
@@ -329,23 +355,33 @@ public class PestañaCalculoController implements Initializable {
                 indexVariables++;
                 ListaValores.clear();
                 for (ValorDescripcion variablePhantom : dValidaciones.getPhantomActual().getPropiedades()) {
-                    if (vc.getDescripcion().equals(variablePhantom.getDescripcion())) {
+                    if (vc.getDescripcion().equals( "P_"+ variablePhantom.getDescripcion())) {
 
                         ListaValores.add(variablePhantom.getValor());
                     }
                 }
                 for (ValorDescripcion variableRadionuclido : dValidaciones.getRadionuClidoActual().getPropiedades()) {
-                    if (vc.getDescripcion().equals(variableRadionuclido.getDescripcion())) {
+                    if (vc.getDescripcion().equals("R_"+ variableRadionuclido.getDescripcion())) {
 
                         ListaValores.add(variableRadionuclido.getValor());
                     }
                 }
                 for (ValorDescripcion variableOrgano : dValidaciones.getOrganoActual().getPropiedades()) {
-                    if (vc.getDescripcion().equals(variableOrgano.getDescripcion())) {
+                    if (vc.getDescripcion().equals("O_"+variableOrgano.getDescripcion())) {
 
                         ListaValores.add(variableOrgano.getValor());
                     }
                 }
+                
+                  if (vc.getDescripcion().equals("AP_Actividad")) {
+                      
+                   ///   if (txtActividad.getText().length() > 0)
+                     // {
+                        ListaValores.add(txtActividad.getText());
+                      //}
+                      
+                    }
+                  
 
                 if (ListaValores.size() > 1) {
 

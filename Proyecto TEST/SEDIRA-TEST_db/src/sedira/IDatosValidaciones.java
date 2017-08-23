@@ -33,8 +33,11 @@ public interface IDatosValidaciones {
       Radionuclido getRadionuClidoActual();   
       int getIdCalgulo();
       String getEstadoActual(boolean adelante, String pestañaActual);
-      boolean getProcesoCompleto();      
+      boolean getProcesoCompleto();   
+      String getActividad();
       
+     
+      boolean setActividad(String actividad);
       boolean setPaciente(Paciente miPaciente);      
       boolean setPhantom(Phantom miPhantom);  
       boolean setOrgano(Organo miOrgano);

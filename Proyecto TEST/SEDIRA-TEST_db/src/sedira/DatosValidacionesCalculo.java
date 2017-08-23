@@ -42,6 +42,7 @@ public class DatosValidacionesCalculo implements IDatosValidaciones {
     private static Boolean ProcesoCompleto;
     private static String Formula;
     private static String FormulaTex;
+    private static String ActividadPaciente;
     private static List<VariableCalculo> VariablesCalculo;
     private static int IdCalculo;
  
@@ -51,7 +52,8 @@ public class DatosValidacionesCalculo implements IDatosValidaciones {
         PacienteActual = null;
         PhantomActual = null;
         OrganoActual = null;
-        RadionuclidoActual = null;      
+        RadionuclidoActual = null; 
+        ActividadPaciente =null;
     }
 
     //Implementación de la interface ICalculo. En este caso, utiliza el lenguaje de base de datos MySql. 
@@ -263,6 +265,16 @@ public class DatosValidacionesCalculo implements IDatosValidaciones {
 
         return validaRadionuclidoActual();
     }
+    
+    @Override
+    public boolean setActividad(String Actividad) {
+
+        if (ActividadPaciente != null) {
+            ActividadPaciente = Actividad;
+        }
+
+        return true;
+    }
 
     @Override
     public String getResultado() {
@@ -270,6 +282,8 @@ public class DatosValidacionesCalculo implements IDatosValidaciones {
             return Resultado;
       
     }
+    
+    
 
     @Override
     public Phantom getPhantomActual() {
@@ -290,6 +304,14 @@ public class DatosValidacionesCalculo implements IDatosValidaciones {
     public Paciente getPacienteActual() {
         if (PacienteActual != null) {
             return PacienteActual;
+        } else {
+            return null;
+        }
+    }
+    @Override
+    public String getActividad() {
+        if (ActividadPaciente != null) {
+            return ActividadPaciente;
         } else {
             return null;
         }

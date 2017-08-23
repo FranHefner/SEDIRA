@@ -35,6 +35,7 @@ public class DatosValidacionesCalculoBasico implements IDatosValidaciones {
     private static Boolean ProcesoCompleto;
     private static String Formula;
     private static String FormulaTex;
+     private static String ActividadPaciente;
     private static int IdCalculo;
     private static List<VariableCalculo> VariablesCalculo;
 
@@ -117,6 +118,25 @@ public class DatosValidacionesCalculoBasico implements IDatosValidaciones {
     public  boolean setPaciente(Paciente miPaciente) {
         PacienteActual = miPaciente;
         return validarPaciente();
+    }
+    
+     @Override
+    public boolean setActividad(String Actividad) {
+
+        if (ActividadPaciente != null) {
+            ActividadPaciente = Actividad;
+        }
+
+        return true;
+    }
+
+   @Override
+    public String getActividad() {
+        if (ActividadPaciente != null) {
+            return ActividadPaciente;
+        } else {
+            return null;
+        }
     }
 
     @Override
