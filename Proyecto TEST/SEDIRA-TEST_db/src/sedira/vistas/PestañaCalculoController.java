@@ -244,7 +244,7 @@ public class PestañaCalculoController implements Initializable {
                 public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                     if (txtActividad.getText().length() > 0) {
 
-                        ValorDescripcion Actividad = new ValorDescripcion(1, "AP_Actividad", txtActividad.getText(), "Bq");
+                        ValorDescripcion Actividad = new ValorDescripcion(1, "Actividad", txtActividad.getText(), "Bq");
                         variableSeleccionada = Actividad;
                     } else {
                         variableSeleccionada = null;
@@ -257,7 +257,7 @@ public class PestañaCalculoController implements Initializable {
     public void seleccionPropiedadPhantom(ValorDescripcion datoSeleccionado) {
 
       
-        variableSeleccionada = datoSeleccionado;
+        variableSeleccionada = datoSeleccionado;       
 
     }
 

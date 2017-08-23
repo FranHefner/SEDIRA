@@ -21,8 +21,7 @@ public class VariableCalculo {
       IntegerProperty vdId; 
       StringProperty descripcion;
       StringProperty valor;
-      StringProperty variable;
-       
+      StringProperty variable;          
     /**
      * 
      * @param id identidicador para el uso en la base de datos. 

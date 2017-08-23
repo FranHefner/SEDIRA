@@ -130,7 +130,7 @@ public class Organo {
 
         int IndexPropiedad;
 
-        IndexPropiedad = propiedades.size() + 1;
+        IndexPropiedad = propiedades.size() + 2;
 
         ValorDescripcion MasaPropiedad = new ValorDescripcion(IndexPropiedad, "Masa", organMass.getValue().toString(), "g");
 
