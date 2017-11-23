@@ -164,7 +164,7 @@ public class CalculoController implements Initializable {
         if (EstadoActual.equals("Organo")) {
             tabOrganoTejido.setDisable(false);
             listaTABS.select(tabOrganoTejido);
-            pestañaActual = "Organo";
+            pestañaActual = "Órgano";
 
             tabPaciente.setDisable(true);
             tabPhantom.setDisable(true);

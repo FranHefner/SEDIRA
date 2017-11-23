@@ -36,7 +36,7 @@
                   <Label layoutX="341.0" layoutY="8.0" text="Información del phantom:" />
                   <TableView fx:id="griOrgano" focusTraversable="false" layoutX="24.0" layoutY="34.0" pickOnBounds="false" prefHeight="348.0" prefWidth="290.0">
                     <columns>
-                      <TableColumn fx:id="clOrganoNombre" prefWidth="75.0" text="Organo" />
+                      <TableColumn fx:id="clOrganoNombre" prefWidth="75.0" text="Órgano" />
                       <TableColumn fx:id="clOrganoMasa" prefWidth="92.0" text="Masa (g)" />
                     </columns>
                      <columnResizePolicy>
